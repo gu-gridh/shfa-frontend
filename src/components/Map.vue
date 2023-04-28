@@ -231,16 +231,17 @@ async fetchDataByBbox() {
       zoom: 13 // Default zoom level of the map
     })
   });
-      // Initialize the map marker style
-      this.iconStyle = new Style({
-        image: new Icon({
-          src: '/interface/assets/marker-gold.svg',
-          scale: 1,
-          anchor: [0.5, 1],
-          anchorXUnits: 'fraction',
-          anchorYUnits: 'fraction'
-        })
-      });
+
+  // Initialize the map marker style
+  this.iconStyle = new Style({
+    image: new Icon({
+      src: '/interface/assets/marker-gold.svg',
+      scale: 1,
+      anchor: [0.5, 1],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'fraction'
+    })
+  });
 
   // Check if coordinates are defined before creating the features
   const features = this.results.length ? this.results.map(result => {
@@ -360,6 +361,5 @@ createClusterStyle(feature) {
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5)!important;
   filter:contrast(130%) grayscale(80%) brightness(0.9);
 }
-
 
 </style>
