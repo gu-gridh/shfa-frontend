@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body 
+{
+ /*  background-color: #989898;
+  color: rgba(255, 255, 255, 0.87); */
+}
+
+
+
+div.split-container > div > div:nth-child(2)
+{
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+  cursor: col-resize;
+  background-color: rgba(165,165,165, 0);
+  background-repeat: no-repeat;
+  background-position: 50%;
+} 
+
+div.split-container > div > div:nth-child(4)
+{
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+  cursor: col-resize;
+  background-color: rgba(165,165,165, 0);
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+/*Border Radius for Map*/
+#map > div >  div.ol-unselectable.ol-layers > div > canvas
+{
+  border-radius:20px;
+  z-index: 40; /* Fixes border-radius in Safari. */
+ box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.8)!important;
+
+}
+
