@@ -38,7 +38,8 @@
     <MasonryGrid 
       :siteId="selectedId" 
       :siteRaaId="selectedRaaId"
-      @items-updated="onItemsUpdated">
+      @items-updated="onItemsUpdated"
+      @image-clicked="onImageClicked">
     </MasonryGrid>
 
     <div style="display:flex;  align-items: center; justify-content: center;">
@@ -59,11 +60,11 @@
 <transition name="slide">
 <div id="split-2" class="flex-grow main-color"
       :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }" v-show="showThreePanels">
-    <button @click="toggleThreePanels" class="btn btn-circle m-2">
+    <button @click="closeThreePanels" class="btn btn-circle m-2">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 
-    <ImageViewer/>
+    <ImageViewer :iiifFile="selectedIiifFile" />
 
 </div>
 </transition>
@@ -104,6 +105,7 @@ export default defineComponent({
       showThreePanels: false,
       selectedId: null,
       selectedRaaId: null,
+      selectedIiifFile: null,
       bbox: [],
       showMap: true,
       itemsCount: 0,
@@ -134,11 +136,18 @@ export default defineComponent({
     },
     toggleThreePanels() 
     {
-      this.showThreePanels = !this.showThreePanels;
+      this.showThreePanels = true;
+    },
+    closeThreePanels() 
+    {
+      this.showThreePanels = false;
     },
     onItemsUpdated(itemsLength) {
       this.itemsCount = itemsLength;
-    }
+    },
+    onImageClicked(iiifFile) {
+      this.selectedIiifFile = iiifFile;
+    },
   },
 })
 </script>

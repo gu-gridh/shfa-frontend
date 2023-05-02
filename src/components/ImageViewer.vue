@@ -1,13 +1,52 @@
+<!-- ImageViewer.vue -->
 <template>
-    <h1>THIS IS THE IMAGE VIEWER</h1>
+  <div ref="imageViewer" class="image-viewer"></div>
 </template>
 
 <script>
-export default {
+import OpenSeadragon from 'openseadragon';
 
-}
+export default {
+  props: {
+    iiifFile: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+  mounted() {
+    if (this.iiifFile) {
+      this.initOpenSeadragon(this.iiifFile);
+    }
+  },
+  methods: {
+    initOpenSeadragon(iiifFile) {
+      this.viewer = OpenSeadragon({
+        element: this.$refs.imageViewer,
+        prefixUrl: "/path/to/openseadragon/images/",
+        tileSources: `${iiifFile}/info.json`,
+
+      });
+    },
+  },
+// Update this in ImageViewer.vue
+watch: {
+    iiifFile(newIiifFile, oldIiifFile) {
+        if (newIiifFile !== oldIiifFile) {
+        if (this.viewer) {
+            this.viewer.destroy();
+            this.viewer = null;
+        }
+        this.initOpenSeadragon(newIiifFile);
+        }
+    },
+    },
+};
 </script>
 
-<style>
-
+<style scoped>
+.image-viewer {
+  width: 100%;
+  height: 100%;
+}
 </style>

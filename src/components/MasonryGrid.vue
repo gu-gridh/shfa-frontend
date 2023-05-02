@@ -1,8 +1,8 @@
 <template>
-  <MasonryWall :items="items" :ssr-columns="1" :column-width="600" :gap="2" :key="siteId">
+  <MasonryWall :items="items" :ssr-columns="1" :column-width="300" :gap="2" :key="siteId">
     <template #default="{ item, index }">
-      <div class="grid-image card flex items-center justify-center bg-slate-50 text-black">
-        <img :src="item" :alt="`Image ${index}`" />
+      <div class="grid-image card flex items-center justify-center bg-slate-50 text-black" @click="$emit('image-clicked', item.iiif_file)">
+        <img :src="item.file" :alt="`Image ${index}`" />
         <div class="grid-item-info">
           <div class="grid-item-info-meta">
             <h1>{{siteRaaId}}</h1>
@@ -52,7 +52,10 @@ export default {
           .then(response => response.json())
           .then(data => {
             // Update the items array with the image URLs
-            this.items = data.results.map(image => image.file);
+          this.items = data.results.map(image => ({
+            file: image.file,
+            iiif_file: image.iiif_file,
+          }));
             this.$emit('items-updated', this.itemsLength);
           })
           .catch(error => {
