@@ -303,7 +303,7 @@ updateCoordinates() {
   });
 
   const clusterSource = new Cluster({
-    distance: 100, // Adjust this value to control the clustering distance
+    distance: 20, // Adjust this value to control the clustering distance
     source: pointSource,
   });
 
@@ -329,7 +329,7 @@ createClusterStyle(feature) {
   } else {
     const style = new Style({
       image: new CircleStyle({
-        radius: 10 + Math.min(size, 50) * 0.1,
+        radius: 15 + Math.min(size, 50) * 0.1,
         fill: new Fill({ color: '#3399CC' }),
         stroke: new Stroke({
           color: '#fff',
@@ -355,6 +355,7 @@ createClusterStyle(feature) {
   z-index: 40; /* Fixes border-radius in Safari. */
   width: 100%;
   height: 100%;
+  margin-top:20px;
   padding:0px 0px 0px 0px;
   border-radius:10px;
   overflow:hidden!important;

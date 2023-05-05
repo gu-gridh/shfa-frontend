@@ -5,7 +5,7 @@
 </div>
   <!-- Start of Container -->
   <div class="split-container main-color">
-  <div class="flex" style="height:calc(100vh - 230px)">
+  <div class="flex" style="height:calc(100vh - 200px)">
   <!-- Panel 1 -->
   <div  id="split-0" class="flex-grow flex flex-col justify-between"
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
@@ -22,7 +22,7 @@
       <AdvancedSearch v-show="!showMap"/>
 
       <div style="display:flex;  align-items: center; justify-content: center;">
-      <div class="ui-map-info ui-overlay"  v-if="showMap">
+      <div class="ui-map-info ui-overlay ui-text-small"  v-if="showMap">
         Filter the archive by adjusting the view or select a site
       </div>
     </div>
@@ -45,6 +45,7 @@
     <div style="display:flex;  align-items: center; justify-content: center;">
     <div class="ui-mode ui-overlay">
         <div class="item selected">Gallery</div>
+        <div class="item">Catalogue</div>
         <div class="item">Data</div>
       </div>
       <div class="ui-numbers ui-overlay">
@@ -155,19 +156,23 @@ export default defineComponent({
 
 <style scoped>
 .title{
-  line-height:0.80;
+  font-family: 'Teko', sans-serif;
+  line-height:0.75;
+  letter-spacing:-1.2px;
   font-size:52px;
-  font-weight:600;
+  font-weight:400;
   padding:25px 40px;
+ color:rgb(140, 140, 140);
+ 
 }
 
 .title .emph{
   display:inline;
-  color:rgb(180, 0, 0);
+  color:rgb(140, 60, 60);
 }
 
 .top{
-  height:230px;
+  height:200px;
   z-index:1000;
 
 }
@@ -204,21 +209,7 @@ padding:0px 15px 0 15px;
   margin-bottom:10px;
  
 }
-#filter-interface{
-  min-height:100px;
-  padding:10px 0px 0px 0px;
-  color:white;
-  z-index:1000;
-  margin-left:-5px;
-}
 
-.filter-text{
-float:left;
- padding: 5px 10px;
- border-radius:5px;
- margin-left:3px;
- margin-bottom:5px;
-}
 
 .tag-example{
 float:left;
@@ -227,7 +218,7 @@ float:left;
  border-radius:5px;
  margin-left:10px;
  margin-bottom:5px;
-
+font-size:1.0em;
  cursor:pointer;
 }
 
@@ -311,7 +302,7 @@ h2 input:not(:placeholder-shown) {
 .ui-overlay {
 z-index: 100;
 position:absolute;
-border-radius: 10px;
+border-radius: 8px;
 font-size: 18px;
 font-weight: 500;
 color: white;
@@ -327,6 +318,7 @@ background-color: rgba(0, 0, 0, 0.4);
 .ui-mode .item {
 cursor: pointer;
 display: inline;
+font-weight: 300;
 padding: 0px 15px 0px 15px;
 }
 
@@ -347,6 +339,10 @@ padding: 2px 15px 6px 15px;
 text-align: center;
 bottom: 50px;
 margin-top: calc(100% - 100px);
+}
+
+.ui-text-small {
+font-size:95%;
 }
 
 .gutter {

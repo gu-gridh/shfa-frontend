@@ -1,5 +1,6 @@
 <template>
   <div class="search-container">
+    <div class="search-container-title">Advanced Search</div>
     <div class="search-grid">
       <div v-for="(query, index) in searchQuery" :key="index" class="search-item">
         <div class="field-title">
@@ -158,13 +159,19 @@ export default {
 
 <style scoped>
 .search-container {
-  width: 100%;  
+  width: 100%; 
+  margin-top:10px; 
 }
-
+.search-container-title {
+  width: 100%; 
+color:white;
+font-size: 1.3rem;
+margin-bottom:10px;
+}
 .search-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 15px;
 }
 
 .search-item {
@@ -176,25 +183,25 @@ export default {
   flex-wrap: nowrap;
   align-items: center;
   background-color: rgb(45, 45, 45);
-  border-radius: 8px;
+  border-radius: 6px;
   width: 100%;
   box-sizing: border-box;
   font-size: 1rem;
-  padding: 10px 15px;
-  height: 60px;
+  padding: 0px 10px;
+  height: 40px;
   gap: 5px;
 }
 
 .field-title {
-  font-size: 1.2em;
+  font-size: 0.95em;
   margin-bottom: 5px;
   color: white;
 }
 
 .tag-example-search {
   background-color: rgb(90, 90, 90);
-  padding: 0.5em 0.4em;
-  font-size: 1em;
+  padding: 0.1em 0.6em;
+  font-size: 1.0em;
   border-radius: 5px;
   cursor: pointer;
   display: inline-block; 
@@ -232,24 +239,14 @@ input[type="search"]:focus {
   padding: 10px;
 }
 
-.tag-example {
-  padding: 5px;
-  font-size: 1.25em;
-  cursor: pointer;
-  color: black;
-}
 
-.tag-example:hover {
-background-color: rgb(170, 70, 70);
-border-radius: 8px;
-color: white;
-}
 
 .search-button {
+  float:right;
 display: block;
 margin-top: 20px;
-font-size: 1rem;
-padding: 10px 20px;
+font-size: 1.1rem;
+padding: 5px 20px;
 background-color: rgb(90, 90, 90);
 color: white;
 border: none;

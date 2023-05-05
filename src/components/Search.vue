@@ -72,6 +72,8 @@ export default {
       { id: 3, text: 'Sample 3' },
       { id: 4, text: 'Sample 4' },
       { id: 5, text: 'Sample 5' },
+      { id: 6, text: 'Sample 6' },
+      { id: 6, text: 'Sample 7' },
     ];
   },
   methods: {
@@ -128,6 +130,8 @@ export default {
   color: white;
   z-index: 1000;
   margin-left: -5px;
+  height:45px;
+  overflow:hidden;
 }
 
 .filter-text {
@@ -141,8 +145,8 @@ export default {
 .tag-example {
   float: left;
   background-color: rgb(90, 90, 90);
-  padding: 5px 8px; /* Adjust padding for smaller text */
-  font-size: 12px; /* Make the text in the keywords smaller */
+  padding: 4px 10px; /* Adjust padding for smaller text */
+  font-size: 15px; /* Make the text in the keywords smaller */
   margin-bottom: 5px;
   border-radius: 5px;
   margin-left: 10px;
@@ -166,12 +170,13 @@ export default {
 
 #search {
   flex: 1;
+  font-size:1.5em;
   display: flex;
   flex-direction: column;
   margin-left: 0px;
   margin-right: 0px;
   border-radius: 8px;
-  padding: 10px 15px;
+  padding: 8px 15px;
   background-color: rgb(45, 45, 45);
 }
 

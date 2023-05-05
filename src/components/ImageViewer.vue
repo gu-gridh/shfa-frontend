@@ -46,7 +46,13 @@ watch: {
 
 <style scoped>
 .image-viewer {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  margin-left:15px;
+  margin-right:20px;
+  margin-top:10px;
+  height: 60%;
+  background-color:black;
+  border-radius:8px;
+  overflow:hidden;
 }
 </style>
