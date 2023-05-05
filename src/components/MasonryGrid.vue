@@ -1,5 +1,5 @@
 <template>
-  <MasonryWall :items="items" :ssr-columns="1" :column-width="250" :gap="2" :key="siteId">
+  <MasonryWall :items="items" :ssr-columns="1" :column-width="200" :gap="2" :key="siteId">
     <template #default="{ item, index }">
       <div class="grid-image card flex items-center justify-center bg-slate-50 text-black" @click="$emit('image-clicked', item.iiif_file)">
         <img :src="item.file" :alt="`Image ${index}`" />
