@@ -310,7 +310,7 @@ background-color: rgba(0, 0, 0, 0.4);
 backdrop-filter: blur(5px);
 }
 .ui-mode {
-top: 260px;
+top: 230px;
 padding: 4px 10px 4px 10px;
 background-color: rgba(0, 0, 0, 0.4);
 }
