@@ -10,7 +10,7 @@
               'Keywords',
               'Site',
               'Image Type',
-              'RAÄ-Number',
+              'Rock carving object',
               'Datings',
             ][index]
           }}
@@ -33,7 +33,7 @@
                 'Search image keywords...',
                 'Search sites...',
                 'Search image types...',
-                'Search raä number...',
+                'Search rock carving objects...',
                 'Search datings...'
             ][index]"
             class=""
