@@ -7,7 +7,7 @@
   <div class="split-container main-color">
   <div class="flex" style="height:calc(100vh - 200px)">
   <!-- Panel 1 -->
-  <div  id="split-0" class="flex-grow flex flex-col justify-between"
+  <div  id="split-0" class="flex-grow flex flex-col "
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
        
       <Search @toggle-map="toggleMap" />
