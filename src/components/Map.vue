@@ -355,7 +355,7 @@ createClusterStyle(feature) {
   z-index: 40; /* Fixes border-radius in Safari. */
   width: 100%;
   height: 100%;
-  margin-top:20px;
+  margin-top:30px;
   padding:0px 0px 0px 0px;
   border-radius:10px;
   overflow:hidden!important;
