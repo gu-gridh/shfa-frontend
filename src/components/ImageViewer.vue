@@ -49,10 +49,11 @@ watch: {
   width: auto;
   margin-left:15px;
   margin-right:20px;
-  margin-top:10px;
-  height: 60%;
+  margin-top:-40px;
+  height: 70%;
   background-color:black;
   border-radius:8px;
   overflow:hidden;
+  z-index:-1;
 }
 </style>

@@ -61,7 +61,7 @@
 <transition name="slide">
 <div id="split-2" class="flex-grow main-color"
       :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }" v-show="showThreePanels">
-    <button @click="closeThreePanels" class="btn btn-circle m-2">
+      <button @click="closeThreePanels" class="close-button">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 
@@ -354,6 +354,27 @@ font-size:95%;
   background-color: #999;
   cursor: ew-resize;
 }
+
+#split-2{
+  z-index:0;
+}
+
+.close-button{
+  color:white;
+  z-index:1000;
+  border-radius:50%;
+  height:35px;
+  width:35px;
+  background-color:black;
+  margin-left:20px;
+  margin-top:20px;
+  opacity:0.9;
+  padding:5px;
+  }
+
+  .close-button:hover{
+    background-color:rgb(170,100,100);
+  }
 </style>
 
 
