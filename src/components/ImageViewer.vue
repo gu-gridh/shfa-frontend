@@ -106,7 +106,7 @@ watch: {
   z-index:-1;
 }
 
-#navigator-div{
+#navigatorDiv{
 
 position:absolute;
   width:80px;
