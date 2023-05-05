@@ -368,12 +368,13 @@ font-size:95%;
   background-color:black;
   margin-left:20px;
   margin-top:35px;
-  opacity:0.9;
+  opacity:0.6;
   padding:5px;
   }
 
   .close-button:hover{
     background-color:rgb(170,100,100);
+    opacity:0.9;
   }
 </style>
 
