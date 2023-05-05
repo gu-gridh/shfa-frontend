@@ -367,7 +367,7 @@ font-size:95%;
   width:35px;
   background-color:black;
   margin-left:20px;
-  margin-top:20px;
+  margin-top:35px;
   opacity:0.9;
   padding:5px;
   }
