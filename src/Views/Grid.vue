@@ -365,10 +365,10 @@ font-size:95%;
   border-radius:50%;
   height:35px;
   width:35px;
-  background-color:black;
-  margin-left:20px;
-  margin-top:35px;
-  opacity:0.6;
+  background-color:rgb(35,35,35);
+  margin-left:25px;
+  margin-top:45px;
+  opacity:0.7;
   padding:5px;
   }
 
