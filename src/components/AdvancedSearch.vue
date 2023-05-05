@@ -6,12 +6,12 @@
         <div class="field-title">
           {{
             [
+            'Site',
+            'Rock carving object',
+            'Image Type',
+            'Keywords',
+            'Datings',
               'Institution',
-              'Keywords',
-              'Site',
-              'Image Type',
-              'Rock carving object',
-              'Datings',
             ][index]
           }}
         </div>
@@ -29,12 +29,12 @@
             :id="'search' + index"
             :name="'search' + index"
             :placeholder="selectedKeywords[index].length ? '' : [
-                'Search institutions...',
-                'Search image keywords...',
-                'Search sites...',
-                'Search image types...',
-                'Search rock carving objects...',
-                'Search datings...'
+               'Search sites...',
+               'Search rock carving objects...',
+               'Search image types...',
+               'Search keywords...',
+               'Search datings...',
+               'Search institutions...',
             ][index]"
             class=""
             :value="query"
