@@ -188,7 +188,7 @@ export default defineComponent({
 }
 
 .split-container-top{
-  height:calc(100% - 230px) ;
+  height:calc(100% - 200px) ;
   width:100%;
   position:absolute;
   box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.4)!important;

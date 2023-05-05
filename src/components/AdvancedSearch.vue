@@ -232,11 +232,13 @@ input[type="search"]:focus {
 .suggestions {
   position: absolute;
   width: 100%;
-  background-color: white;
+  color:white;
+  background-color: rgb(45,45,45);
   z-index: 1;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  border-radius: 0px 0px 5px 5px;
   padding: 10px;
+  margin-top:-5px;
 }
 
 
