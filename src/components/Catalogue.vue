@@ -123,7 +123,7 @@ height: 200px;
 }
 
 .grid-item-info-meta h1 {
-  margin-left: 10px;
+  margin-left: 15px;
   width:100%;
   float:left;
   top: 10px;
