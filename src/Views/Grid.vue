@@ -30,23 +30,47 @@
   <!-- Panel 2 -->
   <div id="split-1" class="flex-grow overflow-auto main-color" 
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }"
-       @click="toggleThreePanels">
+       >
 
   <div class="">
   <div class="">
-  
-    <MasonryGrid 
+
+   
+    <div v-if="showGallery" @click="toggleThreePanels">
+    <Gallery 
       :siteId="selectedId" 
       :siteRaaId="selectedRaaId"
       @items-updated="onItemsUpdated"
       @image-clicked="onImageClicked">
-    </MasonryGrid>
+  </Gallery>
+</div>
+
+<div v-if="showCatalogue" @click="toggleThreePanels">
+    <Catalogue 
+      :siteId="selectedId" 
+      :siteRaaId="selectedRaaId"
+      @items-updated="onItemsUpdated"
+      @image-clicked="onImageClicked">
+    </Catalogue>
+  </div>
+
+  <div v-if="showDatareport">
+    <Datareport>
+    </Datareport>
+  </div>
+
 
     <div style="display:flex;  align-items: center; justify-content: center;">
     <div class="ui-mode ui-overlay">
-        <div class="item selected">Gallery</div>
-        <div class="item">Catalogue</div>
-        <div class="item">Data</div>
+        <button class="item" v-bind:class="{ selected: showGallery}" v-on:click="showGallery = true; showCatalogue = false; showDatareport = false; ">
+         Gallery
+        </button>
+        <button class="item" v-bind:class="{ selected: showCatalogue}" v-on:click="showCatalogue = true; showGallery = false; showDatareport = false; ">
+          Catalogue
+        </button>
+        <button class="item" v-bind:class="{ selected: showDatareport}" v-on:click="showDatareport = true; showCatalogue = false; showGallery = false; ">
+          Datareport
+        </button>
       </div>
       <div class="ui-numbers ui-overlay">
         {{ itemsCount }} objects
@@ -79,17 +103,22 @@
 </template>
 
 <script lang="ts">
-import Map from '../components/Map.vue'
-import { defineComponent } from 'vue'
+
+import Map from '../components/Map.vue';
+import { defineComponent } from 'vue';
 import Split from 'split.js';
-import MasonryGrid from '../components/MasonryGrid.vue'
-import Search from "../components/Search.vue"
+import Gallery from '../components/Gallery.vue';
+import Catalogue from '../components/Catalogue.vue';
+import Datareport from '../components/Datareport.vue';
+import Search from "../components/Search.vue";
 import AdvancedSearch from "../components/AdvancedSearch.vue";
-import ImageViewer from "../components/ImageViewer.vue"
+import ImageViewer from "../components/ImageViewer.vue";
+
+
 
 export default defineComponent({
   components: {
-    Map, MasonryGrid, Search, AdvancedSearch, ImageViewer
+    Map, Gallery, Catalogue, Datareport, Search, AdvancedSearch, ImageViewer
   },
   watch: {
   showThreePanels(newValue) {
@@ -110,10 +139,16 @@ export default defineComponent({
       bbox: [],
       showMap: true,
       itemsCount: 0,
+      showGallery: true,
+      showCatalogue: false,
+      showDatareport: false,
     }
   },
+
+  
+  
   mounted() {
-  const vm = this;
+    const vm = this;
   Split(['#split-0', '#split-1', '#split-2'], {
     minSize: [500, 300],
     dragInterval: 1,
@@ -130,7 +165,10 @@ export default defineComponent({
       return gutter;
     },
   });
+
 },
+
+
   methods: {
     toggleMap() {
       this.showMap = !this.showMap;
@@ -150,7 +188,10 @@ export default defineComponent({
       this.selectedIiifFile = iiifFile;
     },
   },
-})
+});
+
+  
+
 </script>
 
 
@@ -300,6 +341,7 @@ h2 input:not(:placeholder-shown) {
 }
 
 .ui-overlay {
+pointer-events:auto;
 z-index: 100;
 position:absolute;
 border-radius: 8px;
@@ -318,12 +360,16 @@ background-color: rgba(0, 0, 0, 0.4);
 .ui-mode .item {
 cursor: pointer;
 display: inline;
-font-weight: 300;
+font-weight: 400;
 padding: 0px 15px 0px 15px;
 }
 
+.ui-mode .item:hover {
+  color: rgb(150,200,255);
+}
+
 .ui-mode .selected{
-font-weight: 500;
+font-weight: 400;
 color: rgb(150,200,255);
 }
 
