@@ -69,7 +69,7 @@
           Catalogue
         </button>
         <button class="item" v-bind:class="{ selected: showDatareport}" v-on:click="showDatareport = true; showCatalogue = false; showGallery = false; ">
-          Datareport
+          Data
         </button>
       </div>
       <div class="ui-numbers ui-overlay">
