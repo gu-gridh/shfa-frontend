@@ -242,7 +242,7 @@ padding:30px 15px 35px 40px;
 }
 
 #split-1{
-padding:0px 15px 0 15px;
+padding:0px 0px 0 15px;
 
 }
 

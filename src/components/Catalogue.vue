@@ -1,4 +1,5 @@
 <template>
+  <div class="background">
   <MasonryWall :items="items" :ssr-columns="1" :column-width="200" :gap="0" :key="siteId">
     <template #default="{ item, index }">
       <div class="grid-image card flex items-center text-black" @click="$emit('image-clicked', item.iiif_file)">
@@ -12,6 +13,7 @@
       </div>
     </template>
   </MasonryWall>
+</div>
 </template>
 
 <script>
@@ -74,6 +76,11 @@ export default {
 </script>
 
 <style scoped>
+.background{
+  width:100%;
+  height:100%;
+  background-color:white;
+}
 .card{
   border-radius:0px;
   overflow:hidden;
