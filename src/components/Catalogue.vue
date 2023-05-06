@@ -91,7 +91,7 @@ export default {
 
 .card img{
 
-  padding:15px;
+  padding:15px 15px 5px 15px;
   object-fit: cover;
 width: 100%;
 height: 180px;
@@ -130,7 +130,7 @@ height: 180px;
 }
 
 .grid-item-info-meta h2 {
-  margin-left: 30px;
+  margin-left: 15px;
 }
 </style>
 
