@@ -1,12 +1,11 @@
 <template>
   <div class="background">
-  <MasonryWall :items="items" :ssr-columns="1" :column-width="200" :gap="0" :key="siteId">
+  <MasonryWall :items="items" :ssr-columns="1" :column-width="150" :gap="0" :key="siteId">
     <template #default="{ item, index }">
-      <div class="grid-image card flex items-center text-black" @click="$emit('image-clicked', item.iiif_file)">
+      <div class="grid-image card flex text-black" @click="$emit('image-clicked', item.iiif_file)">
         <img :src="item.file" :alt="`Image ${index}`" />
         <div class="grid-item-info">
           <div class="grid-item-info-meta">
-            <h1>{{siteRaaId}}</h1>
             <h1>{{siteRaaId}}</h1>
           </div>
         </div>
@@ -78,21 +77,21 @@ export default {
 <style scoped>
 .background{
   width:100%;
-  height:100%;
-  background-color:white;
+  min-height:calc(100vh - 200px);
+  padding:80px 0px 0px 0px;
 }
 .card{
   border-radius:0px;
   overflow:hidden;
   height:auto;
-  padding:0px 0px 20px 0px;
-  background-color:white;
+  color:white;
+  padding:0px 0px 30px 0px;
+
 }
 
 .card img{
-  margin-top:00px;
-  width:100%;
-  padding:20px 30px 0px 30px;; 
+  width:150px;
+  padding:10px;
   height:150px;
   transition: all 0.2s ease-in-out;
   transform:scale(1.02);
@@ -109,7 +108,6 @@ export default {
 .grid-item-info {
   width: 100%;
   font-size:1em;
-  color: black;
   float:left;
   position: relative;
   cursor:pointer;
@@ -118,12 +116,12 @@ export default {
 
 
 .grid-item-info-meta {
-  margin-top: 10px;
+  margin-top: 0px;
   float:left;
 }
 
 .grid-item-info-meta h1 {
-  margin-left: 30px;
+  margin-left: 10px;
   width:100%;
   float:left;
   top: 10px;

@@ -360,7 +360,7 @@ background-color: rgba(0, 0, 0, 0.4);
 .ui-mode .item {
 cursor: pointer;
 display: inline;
-font-weight: 400;
+font-weight: 500;
 padding: 0px 15px 0px 15px;
 }
 
@@ -369,7 +369,6 @@ padding: 0px 15px 0px 15px;
 }
 
 .ui-mode .selected{
-font-weight: 400;
 color: rgb(150,200,255);
 }
 
