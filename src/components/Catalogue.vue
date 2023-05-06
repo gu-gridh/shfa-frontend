@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-  <MasonryWall :items="items" :ssr-columns="1" :column-width="150" :gap="0" :key="siteId">
+  <MasonryWall :items="items" :ssr-columns="1" :column-width="160" :gap="0" :key="siteId">
     <template #default="{ item, index }">
       <div class="grid-image card flex text-black" @click="$emit('image-clicked', item.iiif_file)">
         <img :src="item.file" :alt="`Image ${index}`" />
@@ -90,9 +90,11 @@ export default {
 }
 
 .card img{
-  width:150px;
-  padding:10px;
-  height:150px;
+
+  padding:15px;
+  object-fit: cover;
+width: 100%;
+height: 200px;
   transition: all 0.2s ease-in-out;
   transform:scale(1.02);
 
