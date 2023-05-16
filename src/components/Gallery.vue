@@ -84,7 +84,6 @@ export default {
 
 }
 .card:hover img{
-  
   filter:brightness(90%);
   cursor:pointer;
   transform:scale(1.05);
