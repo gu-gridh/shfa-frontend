@@ -10,7 +10,7 @@
   <div  id="split-0" class="flex-grow flex flex-col "
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
        
-      <Search @toggle-map="toggleMap" />
+      <Search @toggle-map="toggleMap" @search-completed="updateItems" />
       <Map
         v-show="showMap"
         :coordinates="results"
@@ -36,12 +36,13 @@
   <div class="">
 
    
-    <div v-if="showGallery" @click="toggleThreePanels">
+    <div v-if="showGallery" > <!-- @click="toggleThreePanels" -->
     <Gallery 
       :siteId="selectedId" 
       :siteRaaId="selectedRaaId"
       @items-updated="onItemsUpdated"
-      @image-clicked="onImageClicked">
+      @image-clicked="onImageClicked"
+      :searchItems="searchItems">
   </Gallery>
 </div>
 
@@ -132,6 +133,7 @@ export default defineComponent({
     return {
       items: [],
       results: [],
+      searchItems: [],
       showThreePanels: false,
       selectedId: null,
       selectedRaaId: null,
@@ -170,6 +172,9 @@ export default defineComponent({
 
 
   methods: {
+     updateItems(newItems) {
+      this.searchItems = newItems;
+    },
     toggleMap() {
       this.showMap = !this.showMap;
     },

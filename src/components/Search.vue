@@ -11,18 +11,21 @@
           >
             {{ keyword.text }}
           </div>
-           <input
-              type="search"
-              id="search"
-              name="search"
-              placeholder="Search Archive..."
-              class=""
-              :value="searchQuery"
-              @input="updateSearchQuery($event.target.value)"
-              @keydown="handleBackspace($event)"
+          <input
+            type="search"
+            id="search"
+            name="search"
+            :placeholder="selectedKeywords.length > 0 ? '' : 'Search Archive...'"
+            class=""
+            :value="searchQuery"
+            @input="updateSearchQuery($event.target.value)"
+            @keydown="handleBackspace($event)"
           />
           <button class="toggle-map-btn" @click="$emit('toggle-map')">
             Advanced Search
+          </button>
+          <button class="toggle-map-btn" @click="triggerSearch">
+            Search
           </button>
         </div>
       </h2>
@@ -30,7 +33,7 @@
     <div id="filter-interface">
       <div class="filter-text">Filter suggestions:</div>
       <div
-        v-for="result in searchResults"
+        v-for="result in defaultSearchResults"
         :key="result.id"
         class="tag-example"
         @click="selectResult(result)"
@@ -48,8 +51,8 @@ export default {
     return {
       searchQuery: '',
       searchResults: [],
-      debouncedSearch: null,
       selectedKeywords: [],
+      defaultSearchResults: [], 
     };
   },
   computed: {
@@ -57,17 +60,9 @@ export default {
       return this.selectedKeywords.length > 0 ? this.selectedKeywords[0].text : '';
     },
   },
-  watch: {
-    searchQuery: {
-      handler: function (newValue) {
-        this.debouncedSearch(newValue);
-      },
-    },
-  },
   created() {
-    this.debouncedSearch = this.debounce(this.searchKeywordTags, 300);
-    this.searchResults = [
-      { id: 1, text: 'Sample 1' },
+    this.defaultSearchResults = [
+      { id: 1, text: 'Järrestad' },
       { id: 2, text: 'Sample 2' },
       { id: 3, text: 'Sample 3' },
       { id: 4, text: 'Sample 4' },
@@ -77,36 +72,65 @@ export default {
     ];
   },
   methods: {
-    debounce(fn, delay) {
-      let timer;
-      return function () {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          fn.apply(this, arguments);
-        }, delay);
-      };
+   triggerSearch() {
+      const query = this.selectedKeywords.length > 0 
+        ? this.selectedKeywords[0].text 
+        : this.searchQuery;
+      this.searchKeywordTags(query);
     },
-    async searchKeywordTags(query) {
+   
+   async searchKeywordTags(query) {
+      this.searchResults = []; // clear previous results
+
       if (!query) {
-        this.searchResults = [];
         return;
       }
 
-      try {
-        const response = await fetch(`https://diana.dh.gu.se/api/shfa/keywordtag/?q=${query}`);
-        const data = await response.json();
-        this.searchResults = data.results.slice(0, 5);
-      } catch (error) {
-        console.error(error);
+      const fetchResults = async (url) => {
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+          // Extract the file data from the results
+          const fileData = data.results.map(result => ({
+            id: result.id,
+            file: result.file,
+          }));
+          this.searchResults = [...this.searchResults, ...fileData];
+
+          this.$emit('search-completed', this.searchResults);
+
+
+      /*     if (data.next) { //if there is a "next" URL, recursively fetch the next set of data
+            let fixedNextUrl = data.next.replace('http://', 'https://');
+            fixedNextUrl = decodeURIComponent(fixedNextUrl);
+            await fetchResults(fixedNextUrl);
+          } else { // after all data is loaded, log the contents of searchResults
+            console.log(this.searchResults)
+            this.$emit('search-completed', this.searchResults);
+          } */
+
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      await fetchResults(`https://diana.dh.gu.se/api/shfa/search/?q=${query}`);
+    },
+
+     selectResult(result) {
+      this.selectedKeywords.push(result);
+      this.searchQuery = ''; // Empty the search box
+      const index = this.defaultSearchResults.findIndex(item => item.id === result.id);
+      if (index !== -1) {
+        this.defaultSearchResults.splice(index, 1); // Remove from suggestions
       }
     },
-    selectResult(result) {
-      this.selectedKeywords = [result]; // Replace the entire array with the new keyword
-      this.searchResults = this.searchResults.filter(item => item.id !== result.id);
-      this.searchQuery = '';
-    },
-    deselectKeyword(keyword) {
-      this.selectedKeywords = this.selectedKeywords.filter(item => item.id !== keyword.id);
+      deselectKeyword(keyword) {
+      const index = this.selectedKeywords.findIndex(item => item.id === keyword.id);
+      if (index !== -1) {
+        this.selectedKeywords.splice(index, 1); // Remove from selected
+        this.defaultSearchResults.splice(keyword.id - 1, 0, keyword); // Add back to suggestions at original position
+      }
     },
     updateSearchQuery(value) {
       this.searchQuery = value;

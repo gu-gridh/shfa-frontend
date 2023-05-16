@@ -81,12 +81,12 @@ export default {
   computed: {
     apiUrls() {
       return [
-        'https://diana.dh.gu.se/api/shfa/keywordtag/',
-        'https://diana.dh.gu.se/api/shfa/keywordtag/',
-        'https://diana.dh.gu.se/api/shfa/keywordtag/',
-        'https://diana.dh.gu.se/api/shfa/keywordtag/',
-        'https://diana.dh.gu.se/api/shfa/keywordtag/',
-        'https://diana.dh.gu.se/api/shfa/keywordtag/',
+        'https://diana.dh.gu.se/api/search/site/',
+        'https://diana.dh.gu.se/api/shfa/search/carving/',
+        'https://diana.dh.gu.se/api/shfa/search/carving/',
+        'https://diana.dh.gu.se/api/shfa/search/keywords/',
+        'https://diana.dh.gu.se/api/shfa/search/dating',
+        'https://diana.dh.gu.se/api/shfa/search/institution/',
       ];
     },
   },

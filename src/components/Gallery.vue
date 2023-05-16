@@ -1,16 +1,19 @@
 <template>
-  <MasonryWall :items="items" :ssr-columns="1" :column-width="200" :gap="2" :key="siteId">
-    <template #default="{ item, index }">
-      <div class="grid-image card flex items-center justify-center bg-slate-50 text-black"  @click="$emit('image-clicked', item.iiif_file);">
-        <img :src="item.file" :alt="`Image ${index}`" />
-        <div class="grid-item-info">
-          <div class="grid-item-info-meta">
-            <h1>{{siteRaaId}}</h1>
+  <div>
+    <MasonryWall :items="items" :ssr-columns="1" :column-width="200" :gap="2">
+      <template #default="{ item, index }">
+        <div :key="itemKey(item, index)" class="grid-image card flex items-center justify-center bg-slate-50 text-black"  @click="$emit('image-clicked', item.iiif_file);">
+          <img :src="item.file" :alt="`Image ${index}`" />
+          <div class="grid-item-info">
+            <div class="grid-item-info-meta">
+              <h1>{{siteRaaId}}</h1>
+            </div>
           </div>
         </div>
-      </div>
-    </template>
-  </MasonryWall>
+      </template>
+    </MasonryWall>
+    <button v-if="nextPageUrl" @click="fetchData">Load More</button>
+  </div>
 </template>
 
 <script>
@@ -31,59 +34,99 @@ export default {
       required: false,
       default: null,
     },
+    searchItems: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
   data() {
     return {
       items: [],
+      nextPageUrl: null,
+      loading: false, 
     }
   },
   computed: {
     itemsLength() {
       return this.items.length;
+    },
+    key() {
+      return `${this.siteId}-${this.itemsLength}`;
     }
   },
   mounted() {
-    this.fetchData();
+    this.loadInitialData();
   },
   methods: {
-    fetchData() {
+
+     itemKey(item, index) {
+      return `${item.file}-${index}`;
+    },
+
+    async loadInitialData() {
       if (this.siteId) {
-        fetch(`https://diana.dh.gu.se/api/shfa/image/?site=${this.siteId}`)
-          .then(response => response.json())
-          .then(data => {
-            // Update the items array with the image URLs
-          this.items = data.results.map(image => ({
-            file: image.file,
-            iiif_file: image.iiif_file,
-          }));
-            this.$emit('items-updated', this.itemsLength);
-          })
-          .catch(error => {
-            console.error('Error fetching images:', error);
-          });
+        this.loading = true;
+        this.items = [];
+        this.nextPageUrl = `https://diana.dh.gu.se/api/shfa/image/?site=${this.siteId}`;
+        await this.fetchData();
+        this.loading = false;
+      }
+    },
+   async fetchData() {
+      if (this.nextPageUrl) {
+
+        let response = await fetch(this.nextPageUrl)
+        if (!response.ok) {
+          // handle error, maybe emit an event
+          this.$emit('error', 'Could not fetch data');
+          return;
+        }
+
+        let data = await response.json()
+
+        if (!data.results) {
+          // handle error, maybe emit an event
+          this.$emit('error', 'No results in data');
+          return;
+        }
+
+        let newItems = data.results.map(image => ({
+          file: image.file,
+          iiif_file: image.iiif_file,
+        }));
+
+        // Create a new array by spreading the existing items and the new items
+        this.items = [...this.items, ...newItems];
+
+        this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
+        this.$emit('items-updated', this.items.length);
       }
     },
   },
   watch: {
     siteId() {
-      this.fetchData();
+      this.loadInitialData();
+    },
+    searchItems(newItems) {
+      this.items = newItems;
     },
   },
 }
 </script>
 
 <style scoped>
-.card{
+.card {
   border-radius:0px;
   overflow:hidden;
 }
 
-.card img{
+.card img {
   transition: all 0.2s ease-in-out;
   transform:scale(1.02);
 
 }
-.card:hover img{
+.card:hover img {
   filter:brightness(90%);
   cursor:pointer;
   transform:scale(1.05);
