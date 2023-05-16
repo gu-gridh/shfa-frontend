@@ -36,7 +36,7 @@
   <div class="">
 
    
-    <div v-if="showGallery" > <!-- @click="toggleThreePanels" -->
+    <div v-if="showGallery" @click="toggleThreePanels"> 
     <Gallery 
       :siteId="selectedId" 
       :siteRaaId="selectedRaaId"
