@@ -10,7 +10,7 @@
   <div  id="split-0" class="flex-grow flex flex-col "
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
        
-      <Search @toggle-map="toggleMap" @search-completed="updateItems" />
+      <Search @toggle-map="toggleMap" @search-completed="updateItems" :updateNextPageUrl="updateNextPageUrl" ref="searchRef" />
       <Map
         v-show="showMap"
         :coordinates="results"
@@ -18,6 +18,7 @@
         @id-selected="selectedId = $event"
         @raaId-selected="selectedRaaId = $event"
         @update-bbox="bbox = $event"
+        @map-clicked="forceRefresh++"
       ></Map>
       <AdvancedSearch v-show="!showMap"/>
 
@@ -34,15 +35,17 @@
 
   <div class="">
   <div class="">
-
    
-    <div v-if="showGallery" @click="toggleThreePanels"> 
-    <Gallery 
-      :siteId="selectedId" 
-      :siteRaaId="selectedRaaId"
-      @items-updated="onItemsUpdated"
-      @image-clicked="onImageClicked"
-      :searchItems="searchItems">
+  <div v-if="showGallery"> 
+  <Gallery 
+    :siteId="selectedId" 
+    :siteRaaId="selectedRaaId"
+    :forceRefresh="forceRefresh"
+    @items-updated="onItemsUpdated"
+    @image-clicked="onImageClicked"
+    :searchItems="searchItems"
+    :fetchNextPage="fetchNextPage"
+    :searchNextPageUrl="nextPageUrl">
   </Gallery>
 </div>
 
@@ -74,7 +77,7 @@
         </button>
       </div>
       <div class="ui-numbers ui-overlay">
-        {{ itemsCount }} objects
+        <!-- {{ itemsCount }} objects -->
       </div>
     </div>
   </div>
@@ -144,6 +147,8 @@ export default defineComponent({
       showGallery: true,
       showCatalogue: false,
       showDatareport: false,
+      nextPageUrl: null,
+      forceRefresh: 0,
     }
   },
 
@@ -172,7 +177,7 @@ export default defineComponent({
 
 
   methods: {
-     updateItems(newItems) {
+    updateItems(newItems) {
       this.searchItems = newItems;
     },
     toggleMap() {
@@ -191,6 +196,14 @@ export default defineComponent({
     },
     onImageClicked(iiifFile) {
       this.selectedIiifFile = iiifFile;
+      this.toggleThreePanels();
+    },
+    fetchNextPage() {
+      this.$refs.searchRef.fetchNextPage();
+    },
+    updateNextPageUrl(newUrl) {
+      this.nextPageUrl = newUrl;
+      console.log(this.nextPageUrl)
     },
   },
 });
@@ -378,10 +391,10 @@ color: rgb(150,200,255);
 }
 
 .ui-numbers {
-padding: 2px 15px 6px 15px;
-text-align: center;
-bottom: 30px;
-margin-top: calc(100% - 100px);
+/*   padding: 2px 15px 6px 15px;
+  text-align: center;
+  bottom: 30px;
+  margin-top: calc(100% - 100px); */
 }
 
 .ui-map-info {

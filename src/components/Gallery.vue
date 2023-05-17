@@ -6,13 +6,14 @@
           <img :src="item.file" :alt="`Image ${index}`" />
           <div class="grid-item-info">
             <div class="grid-item-info-meta">
-              <h1>{{siteRaaId}}</h1>
+              <h1>{{ mapGallery ? siteRaaId : item.id }}</h1>
             </div>
           </div>
         </div>
       </template>
     </MasonryWall>
-    <button v-if="nextPageUrl" @click="fetchData">Load More</button>
+    <button class="loadMore" v-if="mapGallery && nextPageUrl" @click="fetchData">Load More</button>
+    <button class="loadMore" v-if="!mapGallery && searchNextPageUrl" @click="loadMore">Load More</button>
   </div>
 </template>
 
@@ -39,10 +40,24 @@ export default {
       required: false,
       default: () => [],
     },
+    fetchNextPage: {
+      type: Function,
+      required: true,
+    },
+    searchNextPageUrl: {
+      type: String,
+      required: true,
+    },
+    forceRefresh: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
   },
   data() {
     return {
       items: [],
+      mapGallery: false,
       nextPageUrl: null,
       loading: false, 
     }
@@ -59,9 +74,12 @@ export default {
     this.loadInitialData();
   },
   methods: {
-
-     itemKey(item, index) {
+    itemKey(item, index) {
       return `${item.file}-${index}`;
+    },
+
+    async loadMore() {
+      this.fetchNextPage();
     },
 
     async loadInitialData() {
@@ -78,7 +96,6 @@ export default {
 
         let response = await fetch(this.nextPageUrl)
         if (!response.ok) {
-          // handle error, maybe emit an event
           this.$emit('error', 'Could not fetch data');
           return;
         }
@@ -86,7 +103,6 @@ export default {
         let data = await response.json()
 
         if (!data.results) {
-          // handle error, maybe emit an event
           this.$emit('error', 'No results in data');
           return;
         }
@@ -101,6 +117,7 @@ export default {
 
         this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
         this.$emit('items-updated', this.items.length);
+        this.mapGallery = true;
       }
     },
   },
@@ -108,8 +125,12 @@ export default {
     siteId() {
       this.loadInitialData();
     },
+    forceRefresh(newVal, oldVal) {
+      this.loadInitialData();
+    },
     searchItems(newItems) {
       this.items = newItems;
+      this.mapGallery = false;
     },
   },
 }
@@ -164,5 +185,22 @@ export default {
   font-size: 18px;
   margin-left: 30px;
 }
+
+.loadMore {
+  display: block;
+  margin: 20px auto; 
+  background-color: rgb(90, 90, 90);
+  padding: 0.5em 0.4em;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+}
+
+.loadMore:hover {
+  background-color: rgb(170, 70, 70);
+}
+
 </style>
 

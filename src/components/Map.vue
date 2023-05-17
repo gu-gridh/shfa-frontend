@@ -272,6 +272,7 @@ async fetchDataByBbox() {
         console.log('Clicked id:', id, 'Clicked raa_id:', raa_id);
         this.clickedId = id;
         this.clickedRaaId = raa_id;
+        this.$emit('map-clicked');
         this.$emit('id-selected', id);
         this.$emit('raaId-selected', raa_id);
       } else {
