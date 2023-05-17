@@ -20,6 +20,7 @@
             :value="searchQuery"
             @input="updateSearchQuery($event.target.value)"
             @keydown="handleBackspace($event)"
+            @keydown.enter="triggerSearch"
           />
           <button class="toggle-map-btn" @click="$emit('toggle-map')">
             Advanced Search

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <MasonryWall :items="items" :ssr-columns="1" :column-width="200" :gap="2">
+    <MasonryWall :key="layoutKey" :items="items" :ssr-columns="1" :column-width="200" :gap="2">
       <template #default="{ item, index }">
         <div :key="itemKey(item, index)" class="grid-image card flex items-center justify-center bg-slate-50 text-black"  @click="$emit('image-clicked', item.iiif_file);">
-          <img :src="item.file" :alt="`Image ${index}`" />
+          <img :src="item.file" :alt="`Image ${index}`" @load="imageLoaded" />
           <div class="grid-item-info">
             <div class="grid-item-info-meta">
               <h1>{{ mapGallery ? siteRaaId : item.id }}</h1>
@@ -60,6 +60,8 @@ export default {
       mapGallery: false,
       nextPageUrl: null,
       loading: false, 
+      layoutKey: 0,
+      loadedImagesCount: 0,
     }
   },
   computed: {
@@ -74,6 +76,16 @@ export default {
     this.loadInitialData();
   },
   methods: {
+    imageLoaded() {
+      this.loadedImagesCount++;
+      if (this.loadedImagesCount === this.items.length) {
+        this.refreshMasonry();
+      }
+    },
+    refreshMasonry() {
+      this.layoutKey++;
+    },
+
     itemKey(item, index) {
       return `${item.file}-${index}`;
     },
@@ -93,6 +105,8 @@ export default {
     },
    async fetchData() {
       if (this.nextPageUrl) {
+
+        this.loadedImagesCount = 0;
 
         let response = await fetch(this.nextPageUrl)
         if (!response.ok) {
@@ -131,6 +145,7 @@ export default {
     searchItems(newItems) {
       this.items = newItems;
       this.mapGallery = false;
+      this.loadedImagesCount = 0;
     },
   },
 }
