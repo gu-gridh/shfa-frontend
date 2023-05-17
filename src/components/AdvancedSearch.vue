@@ -81,12 +81,12 @@ export default {
   computed: {
     apiUrls() {
       return [
-        'https://diana.dh.gu.se/api/search/site/',
-        'https://diana.dh.gu.se/api/shfa/search/carving/',
-        'https://diana.dh.gu.se/api/shfa/search/carving/',
-        'https://diana.dh.gu.se/api/shfa/search/keywords/',
-        'https://diana.dh.gu.se/api/shfa/search/dating',
-        'https://diana.dh.gu.se/api/shfa/search/institution/',
+        'https://diana.dh.gu.se/api/shfa/search/site/?site_name=',
+        'https://diana.dh.gu.se/api/shfa/search/carving/?carving_tag=',
+        'https://diana.dh.gu.se/api/shfa/search/type/?image_type=',
+        'https://diana.dh.gu.se/api/shfa/search/keywords/?keyword=',
+        'https://diana.dh.gu.se/api/shfa/search/dating/?dating_tag=',
+        'https://diana.dh.gu.se/api/shfa/search/institution/?institution_name=',
       ];
     },
   },
@@ -109,9 +109,48 @@ export default {
       const apiUrl = this.apiUrls[index]; // Use the corresponding API URL
 
       try {
-        const response = await fetch(`${apiUrl}?q=${query}`);
+        const response = await fetch(`${apiUrl}${query}`);
         const data = await response.json();
-        this.searchResults[index] = data.results.slice(0, 5);
+        switch(index) {
+          case 0: // Site name: use "raa_id"
+            this.searchResults[index] = data.features.map(feature => ({
+              id: feature.id,
+              text: feature.properties.raa_id
+            }));
+            break;
+          case 1: // Carving type: use "name"
+            this.searchResults[index] = data.results.map(result => ({
+              id: result.id,
+              text: result.name
+            }));
+            break;
+          case 2: // Image type: use "type"
+            this.searchResults[index] = data.results.map(result => ({
+              id: result.id,
+              text: result.type
+            }));
+            break;
+          case 3: // Keywords: use "text"
+            this.searchResults[index] = data.results.map(result => ({
+              id: result.id,
+              text: result.text
+            }));
+            break;
+          case 4: // Dating: use "text"
+            this.searchResults[index] = data.results.map(result => ({
+              id: result.id,
+              text: result.text
+            }));
+            break;
+          case 5: // Institution name: use "name"
+            this.searchResults[index] = data.results.map(result => ({
+              id: result.id,
+              text: result.name
+            }));
+            break;
+          default: // For the other cases, use the existing structure
+            this.searchResults[index] = data.results.slice(0, 5);
+        }
       } catch (error) {
         console.error(error);
       }

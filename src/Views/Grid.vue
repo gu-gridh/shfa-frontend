@@ -203,7 +203,6 @@ export default defineComponent({
     },
     updateNextPageUrl(newUrl) {
       this.nextPageUrl = newUrl;
-      console.log(this.nextPageUrl)
     },
   },
 });

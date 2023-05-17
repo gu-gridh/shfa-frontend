@@ -32,7 +32,7 @@
       </h2>
     </div>
     <div id="filter-interface">
-      <div class="filter-text">Filter suggestions:</div>
+      <div class="filter-text">Search suggestions:</div>
       <div
         v-for="result in defaultSearchResults"
         :key="result.id"
@@ -127,7 +127,6 @@ export default {
     async fetchNextPage() {
       if (this.nextPageUrl) {
         await this.fetchResults(this.nextPageUrl);
-        console.log('fetching next page...')
       } else {
         console.log("No more pages to fetch.");
       }
