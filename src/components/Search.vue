@@ -38,6 +38,8 @@
         :key="result.id"
         class="tag-example"
         @click="selectResult(result)"
+        v-on:click="triggerSearch"
+      
       >
         {{ result.text }}
       </div>
@@ -155,15 +157,15 @@ export default {
     selectResult(result) {
       if (this.selectedKeywords.length > 0) {
         // Add the currently selected keyword back to the defaultSearchResults
-        const currentKeyword = this.selectedKeywords[0];
-        this.defaultSearchResults.splice(currentKeyword.position, 0, currentKeyword);
+        //const currentKeyword = this.selectedKeywords[0];
+       // this.defaultSearchResults.splice(currentKeyword.position, 0, currentKeyword);
       }
       // Replace the currently selected keyword with the new one
       this.selectedKeywords = [result];
       this.searchQuery = ''; // Empty the search box
       const index = this.defaultSearchResults.findIndex(item => item.id === result.id);
       if (index !== -1) {
-        this.defaultSearchResults.splice(index, 1); // Remove from suggestions
+        //this.defaultSearchResults.splice(index, 1); // Remove from suggestions
       }
     },
     deselectKeyword(keyword) {

@@ -236,7 +236,7 @@ async fetchDataByBbox() {
   this.iconStyle = new Style({
     image: new Icon({
       src: '/interface/assets/marker-red.svg',
-      scale: 1,
+      scale: 1.2,
       anchor: [0.5, 1],
       anchorXUnits: 'fraction',
       anchorYUnits: 'fraction'
