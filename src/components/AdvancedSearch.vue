@@ -293,6 +293,8 @@ input[type="search"]:focus {
   border-radius: 0px 0px 5px 5px;
   padding: 10px;
   margin-top:-5px;
+  overflow-y:auto;
+  max-height:180px;
 }
 
 .search-button {
