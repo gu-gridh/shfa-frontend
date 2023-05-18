@@ -170,7 +170,7 @@ export default {
     },
     deselectKeyword(keyword) {
       // Add the deselected keyword back to its original position in the defaultSearchResults
-      this.defaultSearchResults.splice(keyword.position, 0, keyword);
+      //this.defaultSearchResults.splice(keyword.position, 0, keyword);
       this.selectedKeywords = []; // Remove from selected
     },
     updateSearchQuery(value) {
@@ -277,7 +277,7 @@ background-color:#6666;
 
 .input-wrapper:hover {
 
-  background-color: rgba(45, 45, 45, 0.5);
+  background-color: rgba(45, 45, 45, 0.8);
 
 }
 
