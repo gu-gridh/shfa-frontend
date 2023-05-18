@@ -224,12 +224,13 @@ background-color:#6666;
 
 .tag-example-search {
   float: left;
-  background-color: rgb(90, 90, 90);
-  padding: 0.5em 0.4em; 
+  background-color: rgb(170, 70, 70);
+  padding: 0.4em 0.5em; 
   font-size: 1.25em;
   border-radius: 5px;
   margin-left: 10px;
   cursor: pointer;
+  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
 
 .tag-example:hover {
@@ -246,18 +247,24 @@ background-color:#6666;
   margin-right: 0px;
   border-radius: 8px;
   padding: 8px 15px;
-  background-color: rgb(45, 45, 45);
+  background-color: transparent;
 }
 
 .input-wrapper {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  background-color: rgb(45, 45, 45);
+  background-color: rgba(45, 45, 45, 0.2);
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
   font-size: 1rem; 
+}
+
+.input-wrapper:hover {
+
+  background-color: rgba(45, 45, 45, 0.5);
+
 }
 
 input[type="search"] {

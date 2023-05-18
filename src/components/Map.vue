@@ -351,7 +351,7 @@ createClusterStyle(feature) {
 }
 </script>
 
-<style scoped>
+<style>
 #map {
   z-index: 40; /* Fixes border-radius in Safari. */
   width: 100%;
@@ -362,6 +362,161 @@ createClusterStyle(feature) {
   overflow:hidden!important;
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5)!important;
   filter:contrast(130%) grayscale(80%) brightness(0.9);
+}
+
+#app .ol-control{
+position:absolute;
+right:20px;
+box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
+}
+
+
+#app .ol-control button {
+  font-family: "Barlow Condensed", sans-serif;
+  border-radius: 50% !important;
+  background-color: rgb(40, 40, 40) !important;
+  color: white !important;
+}
+
+#app .ol-control button:active,
+#app .ol-control button:hover,
+#app .ol-control button:focus {
+  background: #ff9900 !important;
+  border-width: 0px !important;
+}
+
+.ol-scaleline-control {
+  right: 20px !important;
+  display:none!important;
+}
+
+.ol-full-screen {
+  display:none!important;
+  right: 25px !important;
+  top: 20px !important;
+  position: fixed !important;
+  font-size: 30px !important;
+  color: black;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0px !important;
+  box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important;
+  opacity: 0.9 !important;
+}
+
+.ol-compass {
+  display:none!important;
+}
+
+
+#app .ol-attribution {
+  display:none!important;
+}
+
+
+.ol-zoom {
+  font-size: 30px !important;
+  color: white !important;
+  width: 40px;
+  height: 40px;
+  padding: 0px !important;
+  box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important;
+  opacity: 0.9 !important;
+  right: 20px !important;
+  position: absolute !important;
+}
+
+.ol-zoom-in {
+  right: 20px !important;
+  top: 20px !important;
+  position: fixed;
+}
+.ol-zoom-in:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.ol-zoom-out {
+  right: 20px;
+  top: 68px;
+  position: fixed;
+  margin-top: 3px;
+}
+.ol-zoom-out:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.ol-control {
+  position: fixed;
+}
+#app .ol-zoomslider {
+  top: 1rem !important;
+  border-radius: 5px !important;
+  background: rgba(255, 255, 255, 0.4) !important;
+  border: 0px solid rgba(0, 60, 136, 0) !important;
+  right: 60px !important;
+  height: 200px !important;
+  width: 25px !important;
+  position: fixed !important;
+}
+
+.ol-zoomslider-thumb {
+  width: 60px !important;
+}
+
+.overlay-content {
+  background: #ff0000;
+  box-shadow: 0 5px 10px rgb(2 2 2 / 20%);
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.ol-popup {
+  text-align: center;
+  position: absolute;
+  color: white;
+  background-color: rgb(40, 40, 40) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+  bottom: 12px;
+  left: -50px;
+  min-width: 150px;
+}
+
+.ol-popup:after,
+.ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.ol-popup:after {
+  border-top-color: rgb(40, 40, 40) !important;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+
+.ol-popup:before {
+  border-top-color: rgb(40, 40, 40) !important;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+
+.ol-popup-closer {
+  text-decoration: none;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+}
+
+.ol-popup-closer:after {
+  content: "✖";
 }
 
 </style>
