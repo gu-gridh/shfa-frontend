@@ -254,7 +254,7 @@ background-color:#6666;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  background-color: rgba(45, 45, 45, 0.2);
+  background-color: rgba(45, 45, 45, 0.3);
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
