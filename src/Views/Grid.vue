@@ -22,11 +22,7 @@
       ></Map>
       <AdvancedSearch v-show="!showMap"/>
      
-      <div style="display:flex;  align-items: center; justify-content: center;">
-      <div class="ui-map-info ui-overlay ui-text-small"  v-if="showMap">
-        Filter the archive by adjusting the view or select a site
-      </div>
-    </div>
+    
   </div>
   <!-- Panel 2 -->
   <div id="split-1" class="flex-grow overflow-auto main-color" 
