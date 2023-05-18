@@ -274,6 +274,7 @@ input[type="search"] {
   margin-top: 5px;
   margin-bottom: 5px;
   flex: 1;
+  width:1px!important;
 }
 
 input[type="search"]::placeholder {

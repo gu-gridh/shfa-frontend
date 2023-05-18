@@ -229,6 +229,7 @@ margin-bottom:10px;
   padding: 0px 10px;
   height: 40px;
   gap: 5px;
+  overflow:hidden;
 }
 
 .field-title {
@@ -237,18 +238,31 @@ margin-bottom:10px;
   color: white;
 }
 
-.tag-example-search {
+.tag-example {
+  float: left;
   background-color: rgb(90, 90, 90);
+  padding: 3px 8px; 
+  font-size: 15px; 
+  margin-bottom: 5px;
+  border-radius: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+
+.tag-example-search {
+  background-color: rgb(170, 70, 70);
   padding: 0.1em 0.6em;
   font-size: 1.0em;
   border-radius: 5px;
   cursor: pointer;
   display: inline-block; 
-  max-width: 70%; 
+  max-width:100%; 
   white-space: nowrap; 
   overflow: hidden; 
   text-overflow: ellipsis;
   color: white;
+  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
 
 input[type="search"] {
@@ -258,6 +272,7 @@ input[type="search"] {
   margin-top: 5px;
   margin-bottom: 5px;
   flex: 1;
+  width:1px!important;
 }
 
 input[type="search"]::placeholder {
@@ -279,8 +294,6 @@ input[type="search"]:focus {
   padding: 10px;
   margin-top:-5px;
 }
-
-
 
 .search-button {
   float:right;
