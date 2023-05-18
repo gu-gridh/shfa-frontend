@@ -44,7 +44,7 @@
     </div>
   </div>
   <div style="display:flex;  align-items: center; justify-content: center;">
-    <div class="ui-mode ui-overlay" style="margin-top:160px; font-size:1.0em">
+    <div class="ui-mode ui-overlay" style="margin-top:175px; font-size:1.0em">
         <button class="item" @click="$emit('toggle-map')">
          Map interface
         </button>
@@ -89,8 +89,8 @@ export default {
     { id: 6, text: 'Lur', position: 6 },
     { id: 7, text: 'Krigare', position: 7 },
     { id: 8, text: 'Frottage', position: 8 },
-    { id: 9, text: 'nattfotografering', position: 9 },
-    { id: 10, text: '3d-visualisering', position: 10 },
+    { id: 9, text: 'Nattfotografering', position: 9 },
+    { id: 10, text: '3d', position: 10 },
   /*     { id: 1, text: 'Järrestad', position: 0 },
       { id: 2, text: 'ingot', position: 1 },
       { id: 3, text: 'djurfigur orm', position: 2 },
@@ -205,11 +205,11 @@ background-color:#6666;
   flex-wrap: wrap;
   align-items: center;
   gap: 0px;
-  padding: 10px 0px 10px 0px;
+  padding: 0px 0px 10px 0px;
   color: white;
   z-index: 1000;
   margin-left: -5px;
-  height:45px;
+  height:38px;
   overflow:hidden;
 }
 

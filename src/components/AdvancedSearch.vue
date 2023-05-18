@@ -199,7 +199,7 @@ export default {
 <style scoped>
 .search-container {
   width: 100%; 
-  margin-top:110px; 
+  margin-top:125px; 
 }
 .search-container-title {
   width: 100%; 
