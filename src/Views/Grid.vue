@@ -21,7 +21,7 @@
         @map-clicked="forceRefresh++"
       ></Map>
       <AdvancedSearch v-show="!showMap"/>
-
+     
       <div style="display:flex;  align-items: center; justify-content: center;">
       <div class="ui-map-info ui-overlay ui-text-small"  v-if="showMap">
         Filter the archive by adjusting the view or select a site
@@ -212,7 +212,7 @@ export default defineComponent({
 </script>
 
 
-<style scoped>
+<style>
 .title{
   font-family: 'Teko', sans-serif;
   line-height:0.75;
@@ -365,12 +365,12 @@ border-radius: 8px;
 font-size: 18px;
 font-weight: 500;
 color: white;
-background-color: rgba(0, 0, 0, 0.4);
+background-color: rgba(0, 0, 0, 0.5);
 backdrop-filter: blur(5px);
 }
 .ui-mode {
 top: 230px;
-padding: 4px 10px 4px 10px;
+padding: 4px 0px 4px 0px;
 background-color: rgba(0, 0, 0, 0.4);
 }
 

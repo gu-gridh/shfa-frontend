@@ -1,6 +1,6 @@
 <template>
   <div class="search-container">
-    <div class="search-container-title">Advanced Search</div>
+    <!-- <div class="search-container-title">Advanced Search</div> -->
     <div class="search-grid">
       <div v-for="(query, index) in searchQuery" :key="index" class="search-item">
         <div class="field-title">
@@ -199,7 +199,7 @@ export default {
 <style scoped>
 .search-container {
   width: 100%; 
-  margin-top:40px; 
+  margin-top:110px; 
 }
 .search-container-title {
   width: 100%; 

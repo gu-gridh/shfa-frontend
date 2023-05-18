@@ -22,11 +22,11 @@
             @keydown="handleBackspace($event)"
             @keydown.enter="triggerSearch"
           />
-          <button class="toggle-map-btn" @click="$emit('toggle-map')">
+        <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
             Advanced Search
-          </button>
-          <button class="toggle-map-btn" @click="triggerSearch">
-            Search
+          </button> -->
+          <button class="search-button-round" @click="triggerSearch">
+         
           </button>
         </div>
       </h2>
@@ -43,6 +43,17 @@
       </div>
     </div>
   </div>
+  <div style="display:flex;  align-items: center; justify-content: center;">
+    <div class="ui-mode ui-overlay" style="margin-top:160px;">
+        <button class="item" @click="$emit('toggle-map')">
+         Map interface
+        </button>
+        <button class="item" @click="$emit('toggle-map')">
+          Advanved Search
+        </button>
+       
+      </div>
+    </div>
 </template>
 
 <script>
@@ -163,6 +174,22 @@ export default {
 </script>
 
 <style scoped>
+.search-button-round{
+background-color:#6666;
+border-radius:50%;
+height:40px;
+width:40px;
+margin-right:10px;
+background:url(../../interface/searchbuttonwhite.png) no-repeat 50% 50%;
+background-size: contain;
+background-color:#6666;
+}
+
+.search-button-round:hover{
+  background-color: rgb(170, 70, 70);
+
+}
+
 #filter-interface {
   display: flex;
   flex-wrap: wrap;
