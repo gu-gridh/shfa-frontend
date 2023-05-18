@@ -205,7 +205,7 @@ export default {
   display: block;
   margin: 20px auto; 
   background-color: rgb(90, 90, 90);
-  padding: 0.5em 0.4em;
+  padding: 0.4em 0.6em;
   font-size: 1em;
   border-radius: 5px;
   cursor: pointer;
