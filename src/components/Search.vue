@@ -81,12 +81,22 @@ export default {
   },
   created() {
     this.defaultSearchResults = [
-      { id: 1, text: 'Järrestad', position: 0 },
+    { id: 1, text: 'Skepp', position: 1 },
+    { id: 2, text: 'Djur', position: 2 },
+    { id: 3, text: 'Vapen', position: 3 },
+    { id: 4, text: 'Vagn', position: 4 },
+    { id: 5, text: 'Vitlycke', position: 5 },
+    { id: 6, text: 'Lur', position: 6 },
+    { id: 7, text: 'Krigare', position: 7 },
+    { id: 8, text: 'Frottage', position: 8 },
+    { id: 9, text: 'nattfotografering', position: 9 },
+    { id: 10, text: '3d-visualisering', position: 10 },
+  /*     { id: 1, text: 'Järrestad', position: 0 },
       { id: 2, text: 'ingot', position: 1 },
       { id: 3, text: 'djurfigur orm', position: 2 },
       { id: 4, text: 'Lyse', position: 3 },
       { id: 5, text: 'bronsålder', position: 4 },
-      { id: 6, text: 'Uddevalla museum', position: 5 },
+      { id: 6, text: 'Uddevalla museum', position: 5 }, */
     ];
   },  
   methods: {
@@ -231,6 +241,8 @@ background-color:#6666;
   margin-left: 10px;
   cursor: pointer;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
+  overflow:hidden;
+  max-height:32px;
 }
 
 .tag-example:hover {
