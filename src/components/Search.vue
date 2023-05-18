@@ -193,7 +193,7 @@ height:40px;
 width:40px;
 margin-right:10px;
 background:url(../../interface/searchbuttonwhite.png) no-repeat 50% 50%;
-background-size: contain;
+background-size: 30px 30px;
 background-color:#6666;
 }
 
