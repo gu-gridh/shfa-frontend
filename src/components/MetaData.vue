@@ -85,7 +85,7 @@ h2{
 
 .metadata-column-group {
   float:left;
- width:100%;
+ width:95%;
 }
 
 .metadata-column {
