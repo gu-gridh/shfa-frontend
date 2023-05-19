@@ -1,23 +1,37 @@
 <template>
-  <div class="styled-container">
-    <h1>Meta Data:</h1>
-    <p v-if="data.site && data.site.raa_id">Site RAA ID: {{ data.site.raa_id }}</p>
-    <p v-if="data.collection && data.collection.name">Collection: {{ data.collection.name }}</p>
-    <p v-if="data.author && data.author.name">Author: {{ data.author.name }}</p>
-    <p v-if="data.institution && data.institution.name">Institution: {{ data.institution.name }}</p>
-    <p v-if="data.reference">Reference: {{ data.reference }}</p>
-    <p v-if="data.year">Year: {{ data.year }}</p>
-    <p v-if="data.date_note">Date Note: {{ data.date_note }}</p>
-    <p v-if="data.rock_carving_object && data.rock_carving_object.name">Rock Carving Object: {{ data.rock_carving_object.name }}</p>
-    <p v-if="data.type && data.type.text">Type: {{ data.type.text }}</p>
+  
+  <div class="metadata-column-group">
+    <h1 v-if="data.site && data.site.raa_id"> {{ data.site.raa_id }} </h1>
+  <div class="metadata-column">
+    <table>
+   
+      <tr><td class="label" v-if="data.type && data.type.text">Type:</td><td class="data" v-if="data.type && data.type.text"> {{ data.type.text }}</td></tr>
+      <tr><td class="label" v-if="data.collection && data.collection.name">Collection:</td><td class="data" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
+   <tr><td class="label" v-if="data.author && data.author.name">Author:</td><td class="data" v-if="data.author && data.author.name">  {{ data.author.name }}</td></tr>
+   <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="data" v-if="data.institution && data.institution.name">  {{ data.institution.name }}</td></tr>
+   <tr><td class="label" v-if="data.reference">Reference:</td><td class="data" v-if="data.reference">  {{ data.reference }}</td></tr>
+  
+  </table>
+  </div>
+   <div class="metadata-column">
+    <table>
+      <tr><td class="label" v-if="data.year">Year:</td><td class="data" v-if="data.year"> {{ data.year }}</td></tr>
+   <tr><td class="label" v-if="data.date_note">Date Note:</td><td class="data" v-if="data.date_note">  {{ data.date_note }}</td></tr>
+   <tr><td class="label" v-if="data.rock_carving_object && data.rock_carving_object.name">Carving:</td><td class="data" v-if="data.rock_carving_object && data.rock_carving_object.name">  {{ data.rock_carving_object.name }}</td></tr>
+   
+    </table>
+  </div>
+</div>
+  <div class="metadata-wide">
      <div v-if="data.keywords && data.keywords.length > 0">
-      <span>Keywords:</span>
-      <div class="keywords-margin"></div> <!-- Empty div for margin -->
+      <h2>Keywords:</h2>
+      <div class="keywords"> <!-- Empty div for margin -->
       <ul>
         <li v-for="(keyword, index) in data.keywords" :key="index">{{ keyword.text }}</li>
       </ul>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -48,35 +62,84 @@ export default {
 };
 </script>
 <style scoped>
-.styled-container {
-  background-color: rgb(45, 45, 45);
-  border-radius: 10px;
-  padding: 20px;
-  margin: 15px;
+
+h1{
+  width:100%;
+  font-size:1.8em;
+  text-align:left;
+  color:white;
+  padding-left:25px;
+  margin-top:20px;
+  margin-bottom:10px;
+}
+
+h2{
+  width:100%;
+  font-size:1.3em;
+  text-align:left;
+  color:white;
+  padding-left:0px;
+  margin-top:20px;
+  margin-bottom:10px;
+}
+
+.metadata-column-group {
+  float:left;
+ width:100%;
+}
+
+.metadata-column {
+  float:left;
+  columns:1;
+  padding-left: 25px;
   color: white;
   line-height: 1;
 }
-h1 {
-  text-align: center;
+
+
+.label {
+  width:80px;
+  color:white;
+  font-weight:600;
 }
-h1, p {
-  margin-bottom: 1rem; 
+
+.data {
+ color:rgb(170,218,250);
+max-width:180px;
 }
+
+table, th, td {
+}
+
+.metadata-wide {
+  float:left;
+ padding-left:25px;;
+  color: white;
+  width:100%;
+  margin-top:10px;
+}
+
+
 ul {
+  float:left;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   padding: 0;
   margin: 0;
 }
-.keywords-margin {
-  margin-bottom: 10px;
+
+.keywords {
+  float:left;
+  margin-bottom: 30px;
+  width:100%;
 }
+
 ul li {
+  float:left;
   list-style-type: none;
-  padding: 5px;
+  padding: 2px 8px;
   border-radius: 5px;
-  background-color: rgb(65, 65, 65); 
+  background-color: rgb(100, 100, 100); 
 }
 </style>
-
