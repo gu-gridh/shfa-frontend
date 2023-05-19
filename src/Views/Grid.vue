@@ -251,6 +251,7 @@ export default defineComponent({
 
 #split-0{
 padding:30px 15px 35px 40px;
+min-width:550px;
 
 }
 
