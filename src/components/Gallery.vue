@@ -2,7 +2,7 @@
   <div>
     <MasonryWall :key="layoutKey" :items="items" :ssr-columns="1" :column-width="200" :gap="2">
       <template #default="{ item, index }">
-        <div :key="itemKey(item, index)" class="grid-image card flex items-center justify-center bg-slate-50 text-black"  @click="$emit('image-clicked', item.iiif_file);">
+        <div :key="itemKey(item, index)" class="grid-image card flex items-center justify-center bg-slate-50 text-black"  @click="$emit('image-clicked', item.iiif_file, item.id);">
           <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`" @load="imageLoaded" />
           <div class="grid-item-info">
             <div class="grid-item-info-meta">
@@ -122,6 +122,7 @@ export default {
         }
 
         let newItems = data.results.map(image => ({
+          id: image.id,
           file: image.file,
           iiif_file: image.iiif_file,
         }));

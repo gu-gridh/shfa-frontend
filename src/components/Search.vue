@@ -22,7 +22,9 @@
             @keydown="handleBackspace($event)"
             @keydown.enter="triggerSearch"
           />
-      
+        <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
+            Advanced Search
+          </button> -->
           <button class="search-button-round" @click="triggerSearch">
          
           </button>
@@ -170,8 +172,10 @@ export default {
       this.searchQuery = value;
     },
     togglePanel(panelName) {
-      this.activePanel = panelName;
-      this.$emit('toggle-map');
+        if (this.activePanel !== panelName) {
+            this.activePanel = panelName;
+            this.$emit('toggle-map');
+        }
     },
     handleBackspace(event) {
       if (event.key === 'Backspace' && this.searchQuery === '') {
