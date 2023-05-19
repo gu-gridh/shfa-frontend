@@ -48,7 +48,7 @@
   <div style="display:flex;  align-items: center; justify-content: center;">
     <div class="ui-mode ui-overlay" style="margin-top:175px; font-size:1.0em">
         <button class="item" @click="$emit('toggle-map')">
-         Map interface
+         Map Interface
         </button>
         <button class="item" @click="$emit('toggle-map')">
           Advanced Search
