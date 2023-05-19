@@ -5,8 +5,8 @@
   <div class="metadata-column">
     <table>
    
-      <tr><td class="label" v-if="data.type && data.type.text">Type:</td><td class="data" v-if="data.type && data.type.text"> {{ data.type.text }}</td></tr>
-      <tr><td class="label" v-if="data.collection && data.collection.name">Collection:</td><td class="data" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
+   <tr><td class="label" v-if="data.type && data.type.text">Type:</td><td class="data" v-if="data.type && data.type.text"> {{ data.type.text }}</td></tr>
+   <tr><td class="label" v-if="data.collection && data.collection.name">Collection:</td><td class="data" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
    <tr><td class="label" v-if="data.author && data.author.name">Author:</td><td class="data" v-if="data.author && data.author.name">  {{ data.author.name }}</td></tr>
    <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="data" v-if="data.institution && data.institution.name">  {{ data.institution.name }}</td></tr>
    <tr><td class="label" v-if="data.reference">Reference:</td><td class="data" v-if="data.reference">  {{ data.reference }}</td></tr>
@@ -83,7 +83,7 @@ h2{
   color:white;
   padding-left:0px;
   margin-top:20px;
-  margin-bottom:10px;
+  margin-bottom:15px;
 }
 
 .metadata-column-group {
