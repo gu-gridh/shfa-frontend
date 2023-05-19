@@ -38,8 +38,6 @@
         :key="result.id"
         class="tag-example"
         @click="selectResult(result)"
-        v-on:click="triggerSearch"
-      
       >
         {{ result.text }}
       </div>
@@ -47,10 +45,10 @@
   </div>
   <div style="display:flex;  align-items: center; justify-content: center;">
     <div class="ui-mode ui-overlay" style="margin-top:175px; font-size:1.0em">
-        <button class="item" @click="$emit('toggle-map')">
+        <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
          Map Interface
         </button>
-        <button class="item" @click="$emit('toggle-map')">
+        <button class="item" :class="{ 'active': activePanel === 'Advanced Search' }" @click="togglePanel('Advanced Search')">
           Advanced Search
         </button>
        
@@ -61,6 +59,7 @@
 <script>
 export default {
   name: 'Search',
+  emits: ['toggle-map', 'search-completed'],
   data() {
     return {
       searchQuery: '',
@@ -68,6 +67,7 @@ export default {
       selectedKeywords: [],
       defaultSearchResults: [],
       nextPageUrl: null,
+      activePanel: 'Map Interface', 
     };
   },
   props: {
@@ -83,22 +83,16 @@ export default {
   },
   created() {
     this.defaultSearchResults = [
-    { id: 1, text: 'Skepp', position: 1 },
-    { id: 2, text: 'Djur', position: 2 },
-    { id: 3, text: 'Vapen', position: 3 },
-    { id: 4, text: 'Vagn', position: 4 },
-    { id: 5, text: 'Vitlycke', position: 5 },
-    { id: 6, text: 'Lur', position: 6 },
-    { id: 7, text: 'Krigare', position: 7 },
-    { id: 8, text: 'Frottage', position: 8 },
-    { id: 9, text: 'Nattfotografering', position: 9 },
-    { id: 10, text: '3d', position: 10 },
-  /*     { id: 1, text: 'Järrestad', position: 0 },
-      { id: 2, text: 'ingot', position: 1 },
-      { id: 3, text: 'djurfigur orm', position: 2 },
-      { id: 4, text: 'Lyse', position: 3 },
-      { id: 5, text: 'bronsålder', position: 4 },
-      { id: 6, text: 'Uddevalla museum', position: 5 }, */
+    { id: 1, text: 'Skepp'},
+    { id: 2, text: 'Djur'},
+    { id: 3, text: 'Vapen'},
+    { id: 4, text: 'Vagn'},
+    { id: 5, text: 'Vitlycke'},
+    { id: 6, text: 'Lur'},
+    { id: 7, text: 'Krigare'},
+    { id: 8, text: 'Frottage'},
+    { id: 9, text: 'Nattfotografering'},
+    { id: 10, text: '3d'},
     ];
   },  
   methods: {
@@ -167,6 +161,7 @@ export default {
       if (index !== -1) {
         //this.defaultSearchResults.splice(index, 1); // Remove from suggestions
       }
+      this.triggerSearch();
     },
     deselectKeyword(keyword) {
       // Add the deselected keyword back to its original position in the defaultSearchResults
@@ -175,6 +170,10 @@ export default {
     },
     updateSearchQuery(value) {
       this.searchQuery = value;
+    },
+    togglePanel(panelName) {
+      this.activePanel = panelName;
+      this.$emit('toggle-map');
     },
     handleBackspace(event) {
       if (event.key === 'Backspace' && this.searchQuery === '') {
@@ -344,6 +343,10 @@ input:focus {
 
 .toggle-map-btn:hover {
   background-color: rgb(170, 70, 70);
+}
+
+.item.active {
+  color: rgb(150,200,255);
 }
 </style>
 
