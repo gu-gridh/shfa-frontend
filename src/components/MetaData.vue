@@ -1,7 +1,7 @@
 <template>
   
   <div class="metadata-column-group">
-    <h1> {{ data.site.raa_id }} </h1>
+    <h1> <span v-if="data.site && data.site.raa_id"> {{ data.site.raa_id }} </span> </h1>
   <div class="metadata-column">
     <table>
    
