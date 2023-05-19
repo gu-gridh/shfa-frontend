@@ -2,6 +2,7 @@
 
 <template>
  
+  <div ref="imageViewer" class="image-viewer">
     <div id="ToolbarVertical">
       <a id="full-page" href="#full-page">
         <div id="FullPage" class="NavButton"></div>
@@ -13,11 +14,7 @@
         <div id="ZoomOut" class="NavButton"></div>
       </a>
     </div>
-
-   
-   
-  <div ref="imageViewer" class="image-viewer"></div>
-
+  </div>
 
   <div id="navigator-div"></div>
  
@@ -81,14 +78,15 @@ export default {
 watch: {
     iiifFile(newIiifFile, oldIiifFile) {
         if (newIiifFile !== oldIiifFile) {
-        if (this.viewer) {
-            this.viewer.destroy();
-            this.viewer = null;
-        }
-        this.initOpenSeadragon(newIiifFile);
+            if (this.viewer) {
+                this.viewer.close();
+                this.viewer.open(`${newIiifFile}/info.json`);
+            } else {
+                this.initOpenSeadragon(newIiifFile);
+            }
         }
     },
-    },
+},
 };
 </script>
 
@@ -140,9 +138,9 @@ position:absolute;
 
 #ToolbarVertical {
   position: absolute;
-  margin-top: 10px;
+  margin-top: 60px;
   width: 60px;
-  margin-left: 25px;
+  margin-left: 12px;
   z-index: 1000;
 }
 
