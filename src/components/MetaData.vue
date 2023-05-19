@@ -90,7 +90,6 @@ h2{
 
 .metadata-column {
   float:left;
-  columns:1;
   padding-left: 25px;
   color: white;
   line-height: 1;
