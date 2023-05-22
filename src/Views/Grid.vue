@@ -5,7 +5,7 @@
 </div>
   <!-- Start of Container -->
   <div class="split-container main-color">
-  <div class="flex" style="height:calc(100vh - 200px)">
+  <div class="flex height">
   <!-- Panel 1 -->
   <div  id="split-0" class="flex-grow flex flex-col "
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
@@ -214,6 +214,11 @@ export default defineComponent({
 
 
 <style>
+
+.height{
+  height:calc(100vh - 200px)
+}
+
 .title{
   font-family: 'Teko', sans-serif;
   line-height:0.75;
@@ -363,7 +368,7 @@ pointer-events:auto;
 z-index: 100;
 position:absolute;
 border-radius: 8px;
-font-size: 18px;
+font-size: 1.0em;
 font-weight: 500;
 color: white;
 background-color: rgba(0, 0, 0, 0.5);
@@ -438,6 +443,155 @@ font-size:95%;
   .close-button:hover{
     background-color:rgb(170,100,100);
     opacity:0.9;
+  }
+
+
+/*   Adaptation for medium-sized monitors */
+
+  @media screen and (min-height: 950px) {
+    .height{
+  height:calc(100vh - 300px)
+}
+
+
+    .title{
+    padding:50px 40px;
+  font-size:72px;
+}
+
+.top{
+  height:300px;
+  z-index:1000;
+}
+
+.split-container-top{
+  height:calc(100% - 300px) ;
+  width:100%;
+}
+
+.ui-mode {
+top: 330px;
+}
+
+.ui-overlay {
+font-size: 1.3em;
+}
+
+#app .map-switch-margin{
+  font-size:1.3em
+}
+
+#app #filter-interface{
+  font-size:110% !important;
+  height:40px;
+}
+
+#app .tag-example{
+  font-size:110% !important;
+}
+
+#app #search-interface .tag-example-search{
+  font-size:1.5em !important;
+  max-height:42px;
+}
+
+
+
+#app .field-title {
+  font-size: 1.3em;
+  margin-bottom: 5px;
+  color: white;
+}
+
+#app .search-container .input-wrapper {
+  font-size: 1.3em;
+  
+  margin-bottom: 5px;
+  color: white;
+}
+
+#app .search-button {
+
+font-size: 1.5rem !important;
+padding: 5px 20px;
+
+}
+
+#app .search-container .tag-example-search {
+  background-color: rgb(170, 70, 70);
+  padding: 0px 10px;
+  font-size: 1.0em;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block; 
+  max-width:100%; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  color: white;
+  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+#app .search-container .input-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  background-color: rgb(45, 45, 45);
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+
+  font-weight:200;
+  padding: 0px 10px;
+  height: 50px !important;
+  gap: 5px;
+  overflow:hidden;
+}
+
+/* Metadata settings */
+
+#metadata-container{
+font-size:120%;
+}
+
+h2{
+  width:100%;
+  font-size:1.3em;
+  text-align:left;
+  color:white;
+  padding-left:0px;
+  margin-top:20px;
+  margin-bottom:15px;
+}
+
+
+#metadata-container .label {
+  width:100px;
+  color:white;
+  font-weight:600;
+}
+
+#metadata-container .data {
+max-width:200px;
+}
+
+
+#metadata-container .metadata-wide {
+  float:left;
+ padding-left:25px;;
+  color: white;
+  width:100%;
+  margin-top:20px;
+}
+
+
+#metadata-container ul li {
+  float:left;
+  list-style-type: none;
+  padding: 2px 12px;
+  border-radius: 5px;
+  background-color: rgb(100, 100, 100); 
+}
   }
 </style>
 

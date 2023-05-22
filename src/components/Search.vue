@@ -44,7 +44,7 @@
     </div>
   </div>
   <div style="display:flex;  align-items: center; justify-content: center;">
-    <div class="ui-mode ui-overlay" style="margin-top:175px; font-size:1.0em">
+    <div class="ui-mode ui-overlay map-switch-margin">
         <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
          Map Interface
         </button>
@@ -187,6 +187,14 @@ export default {
 </script>
 
 <style scoped>
+#search-interface{
+  font-size:100%;
+}
+
+.map-switch-margin{
+  margin-top:175px; 
+  font-size:1.0em
+}
 .search-button-round{
 background-color:#6666;
 border-radius:50%;

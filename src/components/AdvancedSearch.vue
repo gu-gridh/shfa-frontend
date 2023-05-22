@@ -288,6 +288,7 @@ export default {
   width: 100%;
   box-sizing: border-box;
   font-size: 1rem;
+  font-weight:200;
   padding: 0px 10px;
   height: 40px;
   gap: 5px;
