@@ -470,7 +470,7 @@ font-size:95%;
 }
 
 .ui-mode {
-top: 330px;
+top: 350px;
 }
 
 .ui-overlay {
@@ -591,6 +591,11 @@ max-width:200px;
   padding: 2px 12px;
   border-radius: 5px;
   background-color: rgb(100, 100, 100); 
+}
+
+#app .datareportcard{
+
+  padding:110px 30px 30px 30px;;
 }
   }
 </style>
