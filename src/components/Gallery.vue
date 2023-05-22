@@ -53,6 +53,10 @@ export default {
       required: false,
       default: 0,
     },
+    advancedSearchResults: {
+      type: Array,
+      required: true,
+    }
   },
   data() {
     return {
@@ -105,7 +109,6 @@ export default {
     },
    async fetchData() {
       if (this.nextPageUrl) {
-
         this.loadedImagesCount = 0;
 
         let response = await fetch(this.nextPageUrl)
@@ -144,6 +147,11 @@ export default {
       this.loadInitialData();
     },
     searchItems(newItems) {
+      this.items = newItems;
+      this.mapGallery = false;
+      this.loadedImagesCount = 0;
+    },
+    advancedSearchResults(newItems) {
       this.items = newItems;
       this.mapGallery = false;
       this.loadedImagesCount = 0;

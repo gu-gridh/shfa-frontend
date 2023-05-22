@@ -82,7 +82,7 @@ export default {
     apiUrls() {
       return [
         'https://diana.dh.gu.se/api/shfa/search/site/?site_name=',
-        'https://diana.dh.gu.se/api/shfa/search/carving/?carving_tag=',
+        'https://diana.dh.gu.se/api/shfa/search/carving/?carving_object=',
         'https://diana.dh.gu.se/api/shfa/search/type/?image_type=',
         'https://diana.dh.gu.se/api/shfa/search/keywords/?keyword=',
         'https://diana.dh.gu.se/api/shfa/search/dating/?dating_tag=',
@@ -91,6 +91,44 @@ export default {
     },
   },
   methods: {
+    async fetchResults() {
+      const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
+      const searchParams = new URLSearchParams();
+
+      const fieldNames = [
+        'site_name',
+        'carving_object',
+        'image_type',
+        'keyword',
+        'dating_tag',
+        'institution_name'
+      ];
+
+      this.selectedKeywords.forEach((keywords, index) => {
+        if (keywords.length > 0) {
+          searchParams.append(fieldNames[index], keywords[0].text);
+        }
+      });
+
+      const fetchURL = baseURL + searchParams.toString();
+
+      try {
+        const response = await fetch(fetchURL);
+        const data = await response.json();
+
+        const advancedResults = data.results.map(result => ({
+          id: result.id,
+          iiif_file: result.iiif_file,
+        }));
+
+        this.$emit('advanced-search-results', advancedResults);
+        
+        console.log(data)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     debounce(fn, delay) {
       let timer;
       return function () {
@@ -124,11 +162,35 @@ export default {
               text: result.name
             }));
             break;
-          case 2: // Image type: use "type"
-            this.searchResults[index] = data.results.map(result => ({
-              id: result.id,
-              text: result.type
-            }));
+          case 2: // Image type: use local list
+          const imageTypes = [
+            'ortofoto (sfm)',
+            'foto',
+            '3d-laserskanning',
+            '3d-visualisering',
+            '3d-sfm',
+            'foto av sfm bild',
+            'diabild',
+            'kalkering plast',
+            'grafik',
+            'negativ, svart/vit',
+            'negativ, färg',
+            'natt foto',
+            'kalkering papper',
+            'frottage',
+            'printscreen av lasermodel',
+            'dstretch-visualisering',
+            'ritning',
+            'avgjutning',
+            'karta',
+            'dokument',
+            'tidningsartikel',
+            'miljöbild',
+            'arbetsbild'
+          ];
+          this.searchResults[index] = imageTypes
+            .filter(type => type.toLowerCase().includes(query.toLowerCase())) // Filter based on the search query
+            .map((type, i) => ({ id: i, text: type })); // Map to desired result format
             break;
           case 3: // Keywords: use "text"
             this.searchResults[index] = data.results.map(result => ({
@@ -190,7 +252,7 @@ export default {
       }
     },
     handleSearchButtonClick() {
-      console.log('Search button clicked');
+      this.fetchResults();
     },
   },
 };
@@ -203,9 +265,9 @@ export default {
 }
 .search-container-title {
   width: 100%; 
-color:white;
-font-size: 1.3rem;
-margin-bottom:10px;
+  color:white;
+  font-size: 1.3rem;
+  margin-bottom:10px;
 }
 .search-grid {
   display: grid;

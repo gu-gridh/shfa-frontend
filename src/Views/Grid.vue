@@ -20,7 +20,7 @@
         @update-bbox="bbox = $event"
         @map-clicked="forceRefresh++"
       ></Map>
-      <AdvancedSearch v-show="!showMap"/>
+      <AdvancedSearch v-show="!showMap" @advanced-search-results="handleAdvancedSearchResults"/>
      
     
   </div>
@@ -41,7 +41,9 @@
     @image-clicked="onImageClicked"
     :searchItems="searchItems"
     :fetchNextPage="fetchNextPage"
-    :searchNextPageUrl="nextPageUrl">
+    :searchNextPageUrl="nextPageUrl"
+    :advancedSearchResults="advancedSearchResults"
+    >
   </Gallery>
 </div>
 
@@ -133,6 +135,7 @@ export default defineComponent({
       items: [],
       results: [],
       searchItems: [],
+      advancedSearchResults: [],
       showThreePanels: false,
       selectedId: null,
       selectedRaaId: null,
@@ -149,8 +152,6 @@ export default defineComponent({
     }
   },
 
-  
-  
   mounted() {
     const vm = this;
   Split(['#split-0', '#split-1', '#split-2'], {
@@ -203,6 +204,10 @@ export default defineComponent({
     updateNextPageUrl(newUrl) {
       this.nextPageUrl = newUrl;
     },
+    handleAdvancedSearchResults(results) {
+      this.advancedSearchResults = results;
+      console.log('la');
+    },
   },
 });
 </script>
@@ -216,8 +221,7 @@ export default defineComponent({
   font-size:52px;
   font-weight:400;
   padding:25px 40px;
- color:rgb(140, 140, 140);
- 
+  color:rgb(140, 140, 140);
 }
 
 .title .emph{
