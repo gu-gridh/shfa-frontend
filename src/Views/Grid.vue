@@ -368,7 +368,7 @@ pointer-events:auto;
 z-index: 100;
 position:absolute;
 border-radius: 8px;
-font-size: 1.0em;
+font-size: 1.1em;
 font-weight: 500;
 color: white;
 background-color: rgba(0, 0, 0, 0.5);
@@ -467,6 +467,10 @@ font-size:95%;
 .split-container-top{
   height:calc(100% - 300px) ;
   width:100%;
+}
+
+.filter-text{
+  font-size:1.2em;
 }
 
 .ui-mode {

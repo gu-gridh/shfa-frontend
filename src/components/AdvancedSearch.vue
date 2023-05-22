@@ -317,6 +317,7 @@ export default {
   background-color: rgb(170, 70, 70);
   padding: 0.1em 0.6em;
   font-size: 1.0em;
+  font-weight:300;
   border-radius: 5px;
   cursor: pointer;
   display: inline-block; 
