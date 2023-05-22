@@ -416,6 +416,7 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
 
 
 .ol-zoom {
+  display:none;
   font-size: 30px !important;
   color: white !important;
   width: 40px;

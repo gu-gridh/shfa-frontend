@@ -91,8 +91,8 @@ export default {
     { id: 6, text: 'Lur'},
     { id: 7, text: 'Krigare'},
     { id: 8, text: 'Frottage'},
-    { id: 9, text: 'Nattfotografering'},
-    { id: 10, text: '3d'},
+    { id: 9, text: '3d'},
+    { id: 10, text: 'Nattfotografering'},
     ];
   },  
   methods: {
