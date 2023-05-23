@@ -20,9 +20,11 @@
         @update-bbox="bbox = $event"
         @map-clicked="forceRefresh++"
       ></Map>
-      <AdvancedSearch v-show="!showMap" @advanced-search-results="handleAdvancedSearchResults"/>
+      <AdvancedSearch v-show="!showMap" 
+        @advanced-search-results="handleAdvancedSearchResults" 
+        :updateNextPageUrlAdvanced="updateNextPageUrlAdvanced" 
+        ref="advancedSearchRef" />
      
-    
   </div>
   <!-- Panel 2 -->
   <div id="split-1" class="flex-grow overflow-auto main-color" 
@@ -43,6 +45,8 @@
     :fetchNextPage="fetchNextPage"
     :searchNextPageUrl="nextPageUrl"
     :advancedSearchResults="advancedSearchResults"
+    :fetchNextPageAdvanced="fetchNextPageAdvanced"
+    :searchNextPageUrlAdvanced="nextPageUrlAdvanced"
     >
   </Gallery>
 </div>
@@ -148,6 +152,7 @@ export default defineComponent({
       showCatalogue: false,
       showDatareport: false,
       nextPageUrl: null,
+      nextPageUrlAdvanced: null,
       forceRefresh: 0,
     }
   },
@@ -201,12 +206,17 @@ export default defineComponent({
     fetchNextPage() {
       this.$refs.searchRef.fetchNextPage();
     },
+    fetchNextPageAdvanced() {
+      this.$refs.advancedSearchRef.fetchNextPage();
+    },
     updateNextPageUrl(newUrl) {
       this.nextPageUrl = newUrl;
     },
+    updateNextPageUrlAdvanced(newUrl) {
+      this.nextPageUrlAdvanced = newUrl;
+    },
     handleAdvancedSearchResults(results) {
       this.advancedSearchResults = results;
-      console.log('la');
     },
   },
 });

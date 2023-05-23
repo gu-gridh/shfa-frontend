@@ -66,10 +66,18 @@ export default {
     return {
       searchQuery: ['', '', '', '', '', ''],
       searchResults: [[], [], [], [], [], []],
+      advancedResults: [],
       debouncedSearch: [null, null, null, null, null, null],
       selectedKeywords: [[], [], [], [], [], []],
       hoveredResultIndex: -1,
+      nextPageUrl: null,
     };
+  },
+  props: {
+  updateNextPageUrlAdvanced: {
+    type: Function,
+    required: true,
+    },
   },
   created() {
     this.debouncedSearch = this.searchQuery.map(() => {
@@ -91,43 +99,64 @@ export default {
     },
   },
   methods: {
-    async fetchResults() {
-      const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
-      const searchParams = new URLSearchParams();
+  async fetchResults(fetchURL = null) {
+    const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
+    const searchParams = new URLSearchParams();
 
-      const fieldNames = [
-        'site_name',
-        'carving_object',
-        'image_type',
-        'keyword',
-        'dating_tag',
-        'institution_name'
-      ];
+    const fieldNames = [
+      'site_name',
+      'carving_object',
+      'image_type',
+      'keyword',
+      'dating_tag',
+      'institution_name'
+    ];
 
-      this.selectedKeywords.forEach((keywords, index) => {
-        if (keywords.length > 0) {
-          searchParams.append(fieldNames[index], keywords[0].text);
-        }
-      });
-
-      const fetchURL = baseURL + searchParams.toString();
-
-      try {
-        const response = await fetch(fetchURL);
-        const data = await response.json();
-
-        const advancedResults = data.results.map(result => ({
-          id: result.id,
-          iiif_file: result.iiif_file,
-        }));
-
-        this.$emit('advanced-search-results', advancedResults);
-        
-        console.log(data)
-      } catch (error) {
-        console.error(error);
+    this.selectedKeywords.forEach((keywords, index) => {
+      if (keywords.length > 0) {
+        searchParams.append(fieldNames[index], keywords[0].text);
       }
-    },
+    });
+
+    fetchURL = fetchURL ? fetchURL : baseURL + searchParams.toString();
+
+    try {
+      const response = await fetch(fetchURL);
+      const data = await response.json();
+
+      const newResults = data.results.map(result => ({
+        id: result.id,
+        iiif_file: result.iiif_file,
+      }));
+
+      // Append new results to existing ones
+      this.advancedResults = [...this.advancedResults, ...newResults];
+
+      // Handle next page URL
+      if (data.next) {
+        this.nextPageUrl = data.next.replace('http://', 'https://');
+        this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
+        this.updateNextPageUrlAdvanced(this.nextPageUrl);  // Update the parent's nextPageUrl state
+      } else {
+        this.nextPageUrl = null;
+        this.updateNextPageUrlAdvanced(null);  // Update the parent's nextPageUrl state
+      }
+
+      this.$emit('advanced-search-results', this.advancedResults);
+
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+   async fetchNextPage() {
+    if (this.nextPageUrl) {
+      await this.fetchResults(this.nextPageUrl);
+    } else {
+      console.log("No more pages to fetch.");
+    }
+  },
+
 
     debounce(fn, delay) {
       let timer;
@@ -252,6 +281,7 @@ export default {
       }
     },
     handleSearchButtonClick() {
+      this.advancedResults = []; // Reset the advancedResults array
       this.fetchResults();
     },
   },

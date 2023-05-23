@@ -3,7 +3,7 @@
     <MasonryWall :key="layoutKey" :items="items" :ssr-columns="1" :column-width="200" :gap="2">
       <template #default="{ item, index }">
         <div :key="itemKey(item, index)" class="grid-image card flex items-center justify-center bg-slate-50 text-black"  @click="$emit('image-clicked', item.iiif_file, item.id);">
-          <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`" @load="imageLoaded" />
+          <img :src="`${item.iiif_file}/full/250,/0/default.jpg`" :alt="`Image ${index}`" @load="imageLoaded" />
           <div class="grid-item-info">
             <div class="grid-item-info-meta">
               <h1>{{ mapGallery ? siteRaaId : item.id }}</h1>
@@ -13,7 +13,8 @@
       </template>
     </MasonryWall>
     <button class="loadMore" v-if="mapGallery && nextPageUrl" @click="fetchData">Load More</button>
-    <button class="loadMore" v-if="!mapGallery && searchNextPageUrl" @click="loadMore">Load More</button>
+    <button class="loadMore" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore">Load More</button>
+    <button class="loadMore" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced">Load More</button>
   </div>
 </template>
 
@@ -47,6 +48,7 @@ export default {
     searchNextPageUrl: {
       type: String,
       required: true,
+      default: '',
     },
     forceRefresh: {
       type: Number,
@@ -56,12 +58,22 @@ export default {
     advancedSearchResults: {
       type: Array,
       required: true,
-    }
+    },
+    fetchNextPageAdvanced: {
+      type: Function,
+      required: true,
+    },
+    searchNextPageUrlAdvanced: {
+      type: String,
+      required: true,
+      default: '',
+    },
   },
   data() {
     return {
       items: [],
       mapGallery: false,
+      advancedSearch: false,
       nextPageUrl: null,
       loading: false, 
       layoutKey: 0,
@@ -77,7 +89,7 @@ export default {
     }
   },
   mounted() {
-    this.loadInitialData();
+    // this.loadInitialData();
   },
   methods: {
     imageLoaded() {
@@ -98,7 +110,14 @@ export default {
       this.fetchNextPage();
     },
 
-    async loadInitialData() {
+    async loadMoreAdvanced() {
+      this.fetchNextPageAdvanced();
+    },
+
+   async loadInitialData() {
+      if (this.loading) {
+        return;
+      }
       if (this.siteId) {
         this.loading = true;
         this.items = [];
@@ -107,6 +126,7 @@ export default {
         this.loading = false;
       }
     },
+
    async fetchData() {
       if (this.nextPageUrl) {
         this.loadedImagesCount = 0;
@@ -149,11 +169,13 @@ export default {
     searchItems(newItems) {
       this.items = newItems;
       this.mapGallery = false;
+      this.advancedSearch = false;
       this.loadedImagesCount = 0;
     },
     advancedSearchResults(newItems) {
       this.items = newItems;
       this.mapGallery = false;
+      this.advancedSearch = true;
       this.loadedImagesCount = 0;
     },
   },
