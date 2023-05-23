@@ -611,7 +611,16 @@ max-width:200px;
 
   padding:110px 30px 30px 30px;;
 }
-  }
+
+.flex-grow.overflow-auto.main-color::-webkit-scrollbar {
+  display: none;
+}
+
+.flex-grow.overflow-auto.main-color {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+}
 </style>
 
 

@@ -13,11 +13,15 @@
       <a id="zoom-out" href="#zoom-out">
         <div id="ZoomOut" class="NavButton"></div>
       </a>
-    </div>
+     <a id="download" :href="`${iiifFile}/full/full/0/default.jpg`" target="_blank">
+        <div id="Download" class="NavButton"></div>
+      </a>
+    </div> 
   </div>
 
   <div id="navigator-div"></div>
- 
+
+
 <!--   <div id="ToolbarHorizontal" v-show="src.length > 1">
       <div id="CenterNav">
         <a id="previous" href="#previous-page">
@@ -52,7 +56,6 @@ export default {
 
   },
   methods: {
-
     initOpenSeadragon(iiifFile) {
       this.viewer = OpenSeadragon({
         element: this.$refs.imageViewer,
@@ -104,8 +107,7 @@ watch: {
 }
 
 #navigatorDiv{
-
-position:absolute;
+  position:absolute;
   width:80px;
   height:80px;
   margin-top:10px;
@@ -201,6 +203,19 @@ position:absolute;
   width: 35px;
   height: 35px;
 
+  overflow: hidden;
+}
+
+#Download {
+  background: url(../assets/openseadragon/downbuttonwhite.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgba(35, 35, 35, 0.9);
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
   overflow: hidden;
 }
 .NavButton {
