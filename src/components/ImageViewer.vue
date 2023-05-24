@@ -141,9 +141,10 @@ watch: {
 #ToolbarVertical {
   position: absolute;
   margin-top: 60px;
-  width: 60px;
+  width: 40px;
   margin-left: 12px;
   z-index: 1000;
+
 }
 
 #FullPage {
@@ -153,10 +154,6 @@ watch: {
   background-repeat: no-repeat;
   background-position: center;
   background-color: rgba(35, 35, 35, 0.9);
-  border-radius: 10%;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
   overflow: hidden;
 }
 
@@ -186,9 +183,8 @@ watch: {
   background-repeat: no-repeat;
   background-position: center;
   background-color: rgba(35, 35, 35, 0.9);
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
+
+
   margin-top: 0px;
 
   overflow: hidden;
@@ -200,10 +196,6 @@ watch: {
   background-repeat: no-repeat;
   background-position: center;
   background-color: rgba(35, 35, 35, 0.9);
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-
   overflow: hidden;
 }
 
@@ -214,18 +206,15 @@ watch: {
   background-repeat: no-repeat;
   background-position: center;
   background-color: rgba(35, 35, 35, 0.9);
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
   cursor: pointer;
   overflow: hidden;
 }
 .NavButton {
+  border-radius: 50%;
   width: 35px;
   height: 35px;
-  border-radius: 50%;
   color: white;
-  opacity: 0.9;
+  opacity: 0.8;
   margin-bottom: 3px;
 }
 .NavButton:hover {
