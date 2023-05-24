@@ -147,6 +147,7 @@ watch: {
 }
 
 #FullPage {
+  margin-top: 10px;
   background: url(../assets/openseadragon/expand.svg);
   background-size: 100%;
   background-repeat: no-repeat;
@@ -188,7 +189,7 @@ watch: {
   border-radius: 50%;
   width: 35px;
   height: 35px;
-  margin-top: 10px;
+  margin-top: 0px;
 
   overflow: hidden;
 }
@@ -207,7 +208,8 @@ watch: {
 }
 
 #Download {
-  background: url(../assets/openseadragon/downbuttonwhite.png);
+  margin-top: 20px;
+  background: url(../../public/interface/downloadwhite.png);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
