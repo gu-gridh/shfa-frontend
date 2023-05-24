@@ -186,11 +186,13 @@ export default {
 .card {
   border-radius:0px;
   overflow:hidden;
+  background-color:transparent;
 }
 
 .card img {
   transition: all 0.2s ease-in-out;
   transform:scale(1.02);
+
 
 }
 .card:hover img {
