@@ -274,10 +274,22 @@ min-width:550px;
 
 }
 
+#split-0::-webkit-scrollbar {
+    width: 0px !important;
+    }
+
 #split-1{
 padding:0px 15px 0px 15px;
 
 }
+
+#split-1::-webkit-scrollbar {
+    width: 0px !important;
+    }
+
+    #split-2::-webkit-scrollbar {
+    width: 0px !important;
+    }
 
 #search-interface{
   margin-bottom:10px;
