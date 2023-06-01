@@ -34,7 +34,7 @@
   <div class="">
   <div class="">
    
-  <div v-if="showGallery"> 
+  <div v-show="showGallery"> 
   <Gallery 
     :siteId="selectedId" 
     :siteRaaId="selectedRaaId"

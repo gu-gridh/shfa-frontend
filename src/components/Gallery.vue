@@ -89,9 +89,35 @@ export default {
     }
   },
   mounted() {
-    // this.loadInitialData();
+    this.loadStartPage();
   },
   methods: {
+    async loadStartPage()
+    {
+      console.log('what')
+        let response = await fetch('https://diana.dh.gu.se/api/shfa/image/?collection=5534')
+        if (!response.ok) {
+          this.$emit('error', 'Could not fetch data');
+          return;
+        }
+
+        let data = await response.json()
+
+        if (!data.results) {
+          this.$emit('error', 'No results in data');
+          return;
+        }
+
+        let newItems = data.results.map(image => ({
+          id: image.id,
+          file: image.file,
+          iiif_file: image.iiif_file,
+        }));
+
+        // Create a new array by spreading the existing items and the new items
+        this.items = [...this.items, ...newItems];
+    },
+
     imageLoaded() {
       this.loadedImagesCount++;
       if (this.loadedImagesCount === this.items.length) {
