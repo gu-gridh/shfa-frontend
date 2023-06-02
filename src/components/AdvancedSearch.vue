@@ -124,13 +124,54 @@ export default {
       const response = await fetch(fetchURL);
       const data = await response.json();
 
-      const newResults = data.results.map(result => ({
-        id: result.id,
-        iiif_file: result.iiif_file,
+      const specificOrder = [
+        { type: 957, text: 'Ortofoto (sfm)', order: 1 },
+        { type: 943, text: '3d-visualisering', order: 2 },
+        { type: 958, text: '3d-sfm', order: 3 },
+        { type: 959, text: '3d-laserskanning', order: 4 },
+        { type: 961, text: 'Miljöbild', order: 5 },
+        { type: 964, text: 'Natt foto', order: 6 },
+        { type: 942, text: 'Foto', order: 7 },
+        { type: 949, text: 'Diabild', order: 8 },
+        { type: 947, text: 'Negativ, färg', order: 9 },
+        { type: 948, text: 'Negativ, svart/vit', order: 10 },
+        { type: 960, text: 'Printscreen av lasermodel', order: 11 },
+        { type: 956, text: 'Foto av sfm bild', order: 12 },
+        { type: 954, text: 'Dstretch-visualisering', order: 13 },
+        { type: 941, text: 'Frottage', order: 14 },
+        { type: 946, text: 'Grafik', order: 15 },
+        { type: 944, text: 'Kalkering plast', order: 16 },
+        { type: 951, text: 'Ritning', order: 17 },
+        { type: 955, text: 'Kalkering papper', order: 18 },
+        { type: 945, text: 'Avgjutning', order: 19 },
+        { type: 952, text: 'Dokument', order: 20 },
+        { type: 953, text: 'Karta', order: 21 },
+        { type: 950, text: 'Tidningsartikel', order: 22 },
+        { type: 962, text: 'Arbetsbild', order: 23 },
+      ];
+
+      // Map the specificOrder array to an object where the keys are the types
+      let typeMap = specificOrder.map(order => ({
+        ...order,
+        items: [],
       }));
 
-      // Append new results to existing ones
-      this.advancedResults = [...this.advancedResults, ...newResults];
+       // Iterate over the results and map them into the correct groups
+      for (let image of data.results) {
+        let type = image.type;
+        let item = {
+          id: image.id,
+          iiif_file: image.iiif_file,
+        };
+
+        let typeIndex = typeMap.findIndex(x => x.type === type);
+        if (typeIndex !== -1) {
+          typeMap[typeIndex].items.push(item);
+        }
+      }
+
+      // Filter out the groups with no items and sort the image groups by the specified order
+      this.advancedResults = typeMap.filter(group => group.items.length > 0).sort((a, b) => a.order - b.order);
 
       // Handle next page URL
       if (data.next) {

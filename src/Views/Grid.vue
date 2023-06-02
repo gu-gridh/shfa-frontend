@@ -30,7 +30,6 @@
         @id-selected="selectedId = $event"
         @raaId-selected="selectedRaaId = $event"
         @update-bbox="bbox = $event"
-        @map-clicked="forceRefresh++"
       ></Map>
       <AdvancedSearch v-show="!showMap" 
         @advanced-search-results="handleAdvancedSearchResults" 
@@ -50,7 +49,6 @@
   <Gallery 
     :siteId="selectedId" 
     :siteRaaId="selectedRaaId"
-    :forceRefresh="forceRefresh"
     @items-updated="onItemsUpdated"
     @image-clicked="onImageClicked"
     :searchItems="searchItems"
@@ -91,7 +89,7 @@
         </button>
       </div>
       <!-- <div class="ui-numbers ui-overlay">
-       {{ itemsCount }} objects 
+      {{ itemsCount }} objects 
       </div> -->
     </div>
   </div>
@@ -159,13 +157,11 @@ export default defineComponent({
       idForMetaData: null,
       bbox: [],
       showMap: true,
-      itemsCount: 0,
       showGallery: true,
       showCatalogue: false,
       showDatareport: false,
       nextPageUrl: null,
       nextPageUrlAdvanced: null,
-      forceRefresh: 0,
     }
   },
 
@@ -205,9 +201,6 @@ export default defineComponent({
     closeThreePanels() 
     {
       this.showThreePanels = false;
-    },
-    onItemsUpdated(itemsLength) {
-      this.itemsCount = itemsLength;
     },
     onImageClicked(iiifFile, id) {
       this.selectedIiifFile = iiifFile;
@@ -262,7 +255,6 @@ export default defineComponent({
   z-index:1000;
 background-color:rgb(210,210,210)
 }
-
 .languages{
 right:0px;
 font-size:1.3em;
@@ -271,7 +263,6 @@ color:black;
 position:absolute;
 padding-top:20px;
 padding-right:20px;
-
 }
 
 
@@ -281,23 +272,9 @@ padding-right:20px;
   margin-top:140px;
   height:auto;
   right:00px;
-color:black;
+  color:black;
   position:absolute;
-
   padding-right:20px;
-
-}
-
-
-.top-link-button{
-  float:left;
-text-align:left;
-  margin-left:10px;
-  padding:3px 10px;
-  border-radius:8px;
-}
-.top-link-button:hover{
-  background-color:rgb(250,250,250);
 }
 
 .button-image{
@@ -309,10 +286,19 @@ text-align:left;
   border-radius:50%;
   border-width:1.5px;
   border-color:black;
- background-size:contain;
+  background-size:contain;
 }
 
-
+.top-link-button{
+  float:left;
+  text-align:left;
+  margin-left:10px;
+  padding:3px 10px;
+  border-radius:8px;
+}
+.top-link-button:hover{
+  background-color:rgb(250,250,250);
+}
 .main-color{
   background-color:rgb(65,65,65);
 
@@ -545,7 +531,6 @@ font-size:95%;
   color: white;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
-
 #app .search-container .input-wrapper {
   display: flex;
   flex-wrap: nowrap;
@@ -554,23 +539,19 @@ font-size:95%;
   border-radius: 6px;
   width: 100%;
   box-sizing: border-box;
-
   font-weight:200;
   padding: 0px 10px;
   height: 50px !important;
   gap: 5px;
   overflow:hidden;
 }
-
 .flex-grow.overflow-auto.main-color::-webkit-scrollbar {
   display: none;
 }
-
 .flex-grow.overflow-auto.main-color {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-
 /*   Adaptation for plus-sized monitors */
 
   @media screen and (min-height: 950px) {
@@ -578,26 +559,23 @@ font-size:95%;
   height:calc(100vh - 240px)
 }
 
-.top{
-  height:240px;
-  z-index:1000;
-}
+.split-container-top{
+  height:calc(100% - 240px) ;
+  width:100%;
+  }
 
 .top-links{
   margin-top:180px;
-
-
-
 }
 
-    .title{
+.title{
     padding:35px 40px;
   font-size:60px;
 }
 
-.split-container-top{
-  height:calc(100% - 240px) ;
-  width:100%;
+.top{
+  height:240px;
+  z-index:1000;
 }
 
 h2{
@@ -650,23 +628,23 @@ font-size: 1.3em;
 
 #app .search-container .input-wrapper {
   font-size: 1.3em;
+  
   margin-bottom: 5px;
   color: white;
 }
 
 #app .search-button {
+
 font-size: 1.5rem !important;
 padding: 3px 15px;
-}
 
+}
 
 /* Metadata settings */
 
 #metadata-container{
 font-size:120%;
 }
-
-
 
 
 #metadata-container .label {
@@ -701,7 +679,6 @@ max-width:200px;
 
   padding:110px 30px 30px 30px;;
 }
-
 }
 </style>
 

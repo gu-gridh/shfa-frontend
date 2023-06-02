@@ -271,7 +271,6 @@ async fetchDataByBbox() {
         console.log('Clicked id:', id, 'Clicked raa_id:', raa_id);
         this.clickedId = id;
         this.clickedRaaId = raa_id;
-        this.$emit('map-clicked');
         this.$emit('id-selected', id);
         this.$emit('raaId-selected', raa_id);
       } else {
@@ -362,13 +361,6 @@ createClusterStyle(feature) {
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5)!important;
   filter:contrast(130%) grayscale(80%) brightness(0.9);
 }
-
-@media screen and (min-height: 1150px) {
-/* #map {
-  margin-top:125px!important;
-} */
-}
-
 
 #app .ol-control{
 position:absolute;

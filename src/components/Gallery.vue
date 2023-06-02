@@ -1,17 +1,20 @@
 <template>
   <div>
-    <MasonryWall :key="layoutKey" :items="items" :ssr-columns="1" :column-width="200" :gap="2">
-      <template #default="{ item, index }">
-        <div :key="itemKey(item, index)" class="grid-image card flex items-center justify-center bg-slate-50 text-black"  @click="$emit('image-clicked', item.iiif_file, item.id);">
-          <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`" @load="imageLoaded" />
-          <div class="grid-item-info">
-            <div class="grid-item-info-meta">
-              <h1>{{ mapGallery ? siteRaaId : item.id }}</h1>
+    <div v-for="group in imageGroups" :key="group.type">
+     <h1 v-if="group.items.length > 0">{{ group.text }}</h1>     
+      <MasonryWall :key="group.layoutKey" :items="group.items" :ssr-columns="1" :column-width="300" :gap="2">
+        <template #default="{ item, index }">
+          <div class="grid-image card flex items-center justify-center bg-slate-50 text-black" @click="$emit('image-clicked', item.iiif_file, item.id);">
+            <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`" @load="imageLoaded" />
+            <div class="grid-item-info">
+              <div class="grid-item-info-meta">
+                <h1>{{ mapGallery ? siteRaaId : item.id }}</h1>
+              </div>
             </div>
           </div>
-        </div>
-      </template>
-    </MasonryWall>
+        </template>
+      </MasonryWall>
+    </div>
     <button class="loadMore" v-if="mapGallery && nextPageUrl" @click="fetchData">Load More</button>
     <button class="loadMore" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore">Load More</button>
     <button class="loadMore" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced">Load More</button>
@@ -50,11 +53,6 @@ export default {
       required: true,
       default: '',
     },
-    forceRefresh: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
     advancedSearchResults: {
       type: Array,
       required: true,
@@ -71,72 +69,88 @@ export default {
   },
   data() {
     return {
-      items: [],
       mapGallery: false,
       advancedSearch: false,
       nextPageUrl: null,
       loading: false, 
       layoutKey: 0,
       loadedImagesCount: 0,
-    }
-  },
-  computed: {
-    itemsLength() {
-      return this.items.length;
-    },
-    key() {
-      return `${this.siteId}-${this.itemsLength}`;
+      imageGroups: [],
+      specificOrder: [
+        { type: 957, text: 'Ortofoto (sfm)', order: 1 },
+        { type: 943, text: '3d-visualisering', order: 2 },
+        { type: 958, text: '3d-sfm', order: 3 },
+        { type: 959, text: '3d-laserskanning', order: 4 },
+        { type: 961, text: 'Miljöbild', order: 5 },
+        { type: 964, text: 'Natt foto', order: 6 },
+        { type: 942, text: 'Foto', order: 7 },
+        { type: 949, text: 'Diabild', order: 8 },
+        { type: 947, text: 'Negativ, färg', order: 9 },
+        { type: 948, text: 'Negativ, svart/vit', order: 10 },
+        { type: 960, text: 'Printscreen av lasermodel', order: 11 },
+        { type: 956, text: 'Foto av sfm bild', order: 12 },
+        { type: 954, text: 'Dstretch-visualisering', order: 13 },
+        { type: 941, text: 'Frottage', order: 14 },
+        { type: 946, text: 'Grafik', order: 15 },
+        { type: 944, text: 'Kalkering plast', order: 16 },
+        { type: 951, text: 'Ritning', order: 17 },
+        { type: 955, text: 'Kalkering papper', order: 18 },
+        { type: 945, text: 'Avgjutning', order: 19 },
+        { type: 952, text: 'Dokument', order: 20 },
+        { type: 953, text: 'Karta', order: 21 },
+        { type: 950, text: 'Tidningsartikel', order: 22 },
+        { type: 962, text: 'Arbetsbild', order: 23 },
+        ]
     }
   },
   mounted() {
     this.loadStartPage();
   },
   methods: {
-    async loadStartPage()
-    {
-      console.log('what')
-        let response = await fetch('https://diana.dh.gu.se/api/shfa/image/?collection=5534')
-        if (!response.ok) {
-          this.$emit('error', 'Could not fetch data');
-          return;
-        }
+  async loadStartPage() {
+      let response = await fetch('https://diana.dh.gu.se/api/shfa/image/?collection=5534');
+      if (!response.ok) {
+        this.$emit('error', 'Could not fetch data');
+        return;
+      }
 
-        let data = await response.json()
+      let data = await response.json();
 
-        if (!data.results) {
-          this.$emit('error', 'No results in data');
-          return;
-        }
+      if (!data.results) {
+        this.$emit('error', 'No results in data');
+        return;
+      }
 
-        let newItems = data.results.map(image => ({
+      // Prepare the image groups.
+      let typeMap = this.specificOrder.map(order => ({
+        ...order,
+        items: [],
+      }));
+
+      for (let image of data.results) {
+        let type = image.type;
+        let item = {
           id: image.id,
           file: image.file,
+          type: image.type,
           iiif_file: image.iiif_file,
-        }));
+        };
 
-        // Create a new array by spreading the existing items and the new items
-        this.items = [...this.items, ...newItems];
-    },
-
-    imageLoaded() {
-      this.loadedImagesCount++;
-      if (this.loadedImagesCount === this.items.length) {
-        this.refreshMasonry();
+        let typeIndex = typeMap.findIndex(x => x.type === type);
+        if (typeIndex !== -1) {
+          typeMap[typeIndex].items.push(item);
+        }
       }
-    },
-    refreshMasonry() {
-      this.layoutKey++;
-    },
 
-    itemKey(item, index) {
-      return `${item.file}-${index}`;
-    },
+      // Filter out the groups with no items and sort the image groups by the specified order.
+      this.imageGroups = typeMap.filter(group => group.items.length > 0).sort((a, b) => a.order - b.order);
+  },
 
-    async loadMore() {
+    loadMore() {
       this.fetchNextPage();
     },
 
-    async loadMoreAdvanced() {
+    loadMoreAdvanced() {
       this.fetchNextPageAdvanced();
     },
 
@@ -170,17 +184,34 @@ export default {
           return;
         }
 
-        let newItems = data.results.map(image => ({
-          id: image.id,
-          file: image.file,
-          iiif_file: image.iiif_file,
+        let typeMap = this.specificOrder.map(order => ({
+          ...order,
+          items: [],
         }));
 
-        // Create a new array by spreading the existing items and the new items
-        this.items = [...this.items, ...newItems];
+      for (let image of data.results) {
+        let type = image.type;
+        let item = {
+          id: image.id,
+          file: image.file,
+          type: image.type,
+          iiif_file: image.iiif_file,
+        };
+
+      let typeIndex = typeMap.findIndex(x => x.type === type);
+      if (typeIndex !== -1) {
+      typeMap[typeIndex].items.push(item);
+      }
+  
+      // Filter out the groups with no items and sort the image groups by the specified order
+      this.imageGroups = typeMap.filter(group => group.items.length > 0).sort((a, b) => a.order - b.order);
+
+      }
+
+    // Convert map to array for use in template
+    this.imageGroups = Array.from(typeMap.values());
 
         this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
-        this.$emit('items-updated', this.items.length);
         this.mapGallery = true;
       }
     },
@@ -193,13 +224,13 @@ export default {
       this.loadInitialData();
     },
     searchItems(newItems) {
-      this.items = newItems;
+      this.imageGroups = newItems;
       this.mapGallery = false;
       this.advancedSearch = false;
       this.loadedImagesCount = 0;
     },
     advancedSearchResults(newItems) {
-      this.items = newItems;
+      this.imageGroups = newItems;
       this.mapGallery = false;
       this.advancedSearch = true;
       this.loadedImagesCount = 0;
@@ -209,6 +240,12 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  font-size: 20px;
+  color: white;
+  margin: 20px 20px 10px 5px;
+}
+
 .card {
   border-radius:0px;
   overflow:hidden;
