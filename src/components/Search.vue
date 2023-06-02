@@ -6,7 +6,7 @@
           <div
             v-for="keyword in selectedKeywords"
             :key="keyword.id"
-            class="tag-example-search"
+            class="tag-example-search accent-bg-selected"
             @click="deselectKeyword(keyword)"
           >
             {{ keyword.text }}
@@ -25,7 +25,7 @@
         <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
             Advanced Search
           </button> -->
-          <button class="search-button-round" @click="triggerSearch">
+          <button class="search-button-round accent-bg" @click="triggerSearch">
          
           </button>
         </div>
@@ -36,7 +36,7 @@
       <div
         v-for="result in defaultSearchResults"
         :key="result.id"
-        class="tag-example"
+        class="tag-example accent-bg"
         @click="selectResult(result)"
       >
         {{ result.text }}
@@ -44,11 +44,11 @@
     </div>
   </div>
   <div style="display:flex;  align-items: center; justify-content: center;">
-    <div class="ui-mode ui-overlay map-switch-margin">
-        <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
+    <div class="ui-mode ui-overlay map-switch-margin" style="background-color:rgba(0,0,0,0.6)">
+        <button class="item accent-text" :class="{ 'accent': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
          Map Interface
         </button>
-        <button class="item" :class="{ 'active': activePanel === 'Advanced Search' }" @click="togglePanel('Advanced Search')">
+        <button class="item accent-text" :class="{ 'accent': activePanel === 'Advanced Search' }" @click="togglePanel('Advanced Search')">
           Advanced Search
         </button>
        
@@ -92,8 +92,11 @@ export default {
     { id: 7, text: 'Krigare'},
     { id: 8, text: 'Frottage'},
     { id: 9, text: '3d'},
-    { id: 10, text: 'Nattfotografering'},
+    { id: 10, text: 'Yxa'},
     { id: 11, text: 'Älg'},
+    { id: 12, text: 'Nattfoto'},
+    { id: 13, text: 'Vatten'},
+
     ];
   },  
   methods: {
@@ -207,10 +210,6 @@ background-size: 30px 30px;
 background-color:#6666;
 }
 
-.search-button-round:hover{
-  background-color: rgb(170, 70, 70);
-
-}
 
 #filter-interface {
   display: flex;
@@ -248,9 +247,10 @@ background-color:#6666;
 
 .tag-example-search {
   float: left;
-  background-color: rgb(170, 70, 70);
+  color:white;
   padding: 0.4em 0.5em; 
   font-size: 1.25em;
+  font-weight:400;
   border-radius: 5px;
   margin-left: 10px;
   cursor: pointer;
@@ -260,8 +260,8 @@ background-color:#6666;
 }
 
 .tag-example:hover {
-  background-color: rgb(170, 70, 70);
   cursor: pointer;
+  font-weight:500;
 }
 
 #search {
@@ -288,9 +288,7 @@ background-color:#6666;
 }
 
 .input-wrapper:hover {
-
   background-color: rgba(45, 45, 45, 1.0);
-
 }
 
 input[type="search"] {
@@ -353,11 +351,8 @@ input:focus {
 }
 
 .toggle-map-btn:hover {
-  background-color: rgb(170, 70, 70);
+  
 }
 
-.item.active {
-  color: rgb(150,200,255);
-}
 </style>
 

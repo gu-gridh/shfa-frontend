@@ -10,9 +10,9 @@
   </div>
 
   <div class="top-links">
-    <div class="top-link-button"><div class="button-image" style="background-image:url(../../public/interface/infobuttonbold.png)"></div>About the archive</div>
-    <div class="top-link-button"><div class="button-image" style="background-image:url(../../public/interface/linkbuttonbold.png)"></div>About SHFA</div>
-    <div class="top-link-button"><div class="button-image" style="background-image:url(../../public/interface/linkbuttonbold.png)"></div>Updates</div>
+    <div class="top-link-button">About the archive<div class="button-image" style="background-image:url(../../public/interface/infobuttonbold.png)"></div></div>
+    <div class="top-link-button">About SHFA<div class="button-image" style="background-image:url(../../public/interface/linkbuttonbold.png)"></div></div>
+    <div class="top-link-button">Updates<div class="button-image" style="background-image:url(../../public/interface/linkbuttonbold.png)"></div></div>
   </div>
 </div>
   <!-- Start of Container -->
@@ -80,13 +80,13 @@
 
     <div style="display:flex;  align-items: center; justify-content: center;">
     <div class="ui-mode ui-overlay">
-        <button class="item" v-bind:class="{ selected: showGallery}" v-on:click="showGallery = true; showCatalogue = false; showDatareport = false; ">
+        <button class="item accent-text" v-bind:class="{ accent: showGallery}" v-on:click="showGallery = true; showCatalogue = false; showDatareport = false; ">
          Gallery
         </button>
-        <button class="item" v-bind:class="{ selected: showCatalogue}" v-on:click="showCatalogue = true; showGallery = false; showDatareport = false; ">
+        <button class="item accent-text" v-bind:class="{ accent: showCatalogue}" v-on:click="showCatalogue = true; showGallery = false; showDatareport = false; ">
           Catalogue
         </button>
-        <button class="item" v-bind:class="{ selected: showDatareport}" v-on:click="showDatareport = true; showCatalogue = false; showGallery = false; ">
+        <button class="item accent-text" v-bind:class="{ accent: showDatareport}" v-on:click="showDatareport = true; showCatalogue = false; showGallery = false; ">
           Data
         </button>
       </div>
@@ -103,7 +103,7 @@
 <transition name="slide">
 <div id="split-2" class="flex-grow main-color overflow-auto"
       :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }" v-show="showThreePanels">
-      <button @click="closeThreePanels" class="close-button">
+      <button @click="closeThreePanels" class="close-button accent-bg">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 
@@ -241,6 +241,12 @@ export default defineComponent({
   height:calc(100vh - 200px)
 }
 
+.top{
+  height:200px;
+  z-index:1000;
+background-color:rgb(210,210,210)
+}
+
 .title{
   position:absolute;
   font-family: 'Teko', sans-serif;
@@ -257,11 +263,81 @@ export default defineComponent({
   color:rgb(90, 90, 90);
 }
 
-.top{
-  height:200px;
-  z-index:1000;
-background-color:rgb(210,210,210)
+/* Theme colors --- keep it all here */
+
+.accent-bg:hover{
+  background-color: rgb(180,100,90);
+  cursor:pointer;
 }
+
+.accent-bg-selected{
+  background-color: rgb(180,100,90);
+}
+
+.accent-text:hover{
+  color: rgb(300,350,350);
+  cursor:pointer;
+}
+
+.accent{
+ color: rgb(355,355,355);
+}
+
+.meta-accent{
+  font-weight:600;
+ color: rgb(350,350,350);
+}
+
+.meta-accent:hover{
+ color: rgb(350,350,350);
+ cursor:pointer;
+}
+
+/* End Theme colors */
+
+.ui-overlay {
+pointer-events:auto;
+z-index: 100;
+position:absolute;
+border-radius: 8px;
+font-size: 1.1em;
+font-weight: 500;
+color: rgb(180,180,180);
+background-color: rgba(0, 0, 0, 0.5);
+backdrop-filter: blur(5px);
+}
+
+.ui-mode {
+top: 230px;
+padding: 4px 0px 4px 0px;
+background-color: rgba(0, 0, 0, 0.5);
+}
+
+.ui-mode .item {
+cursor: pointer;
+display: inline;
+font-weight: 500;
+padding: 0px 15px 0px 15px;
+}
+
+.ui-numbers {
+  padding: 2px 15px 6px 15px;
+  text-align: center;
+  bottom: 30px;
+  margin-top: calc(100% - 100px); 
+}
+
+.ui-map-info {
+padding: 2px 15px 6px 15px;
+text-align: center;
+bottom: 50px;
+margin-top: calc(100% - 100px);
+}
+
+.ui-text-small {
+font-size:95%;
+}
+
 
 .languages{
 right:0px;
@@ -298,6 +374,7 @@ text-align:left;
 }
 .top-link-button:hover{
   background-color:rgb(250,250,250);
+  cursor:pointer;
 }
 
 .button-image{
@@ -371,13 +448,6 @@ font-size:1.0em;
  cursor:pointer;
 }
 
-.tag-example:hover{
-
-  background-color: rgb(170,70,70);
-
- cursor:pointer;
-}
-
 #search {
   flex: 1;
   display: flex;
@@ -448,55 +518,7 @@ h2 input:not(:placeholder-shown) {
   transform: translateX(0);
 }
 
-.ui-overlay {
-pointer-events:auto;
-z-index: 100;
-position:absolute;
-border-radius: 8px;
-font-size: 1.1em;
-font-weight: 500;
-color: white;
-background-color: rgba(0, 0, 0, 0.5);
-backdrop-filter: blur(5px);
-}
-.ui-mode {
-top: 230px;
-padding: 4px 0px 4px 0px;
-background-color: rgba(0, 0, 0, 0.5);
-}
 
-.ui-mode .item {
-cursor: pointer;
-display: inline;
-font-weight: 500;
-padding: 0px 15px 0px 15px;
-}
-
-.ui-mode .item:hover {
-  color: rgb(150,200,255);
-}
-
-.ui-mode .selected{
-color: rgb(150,200,255);
-}
-
-.ui-numbers {
-  padding: 2px 15px 6px 15px;
-  text-align: center;
-  bottom: 30px;
-  margin-top: calc(100% - 100px); 
-}
-
-.ui-map-info {
-padding: 2px 15px 6px 15px;
-text-align: center;
-bottom: 50px;
-margin-top: calc(100% - 100px);
-}
-
-.ui-text-small {
-font-size:95%;
-}
 
 .gutter {
   background-color: #999;
@@ -526,15 +548,14 @@ font-size:95%;
   }
 
   .close-button:hover{
-    background-color:rgb(170,100,100);
     opacity:0.9;
   }
 
 
 #app .search-container .tag-example-search {
-  background-color: rgb(170, 70, 70);
-  padding: 0px 10px;
-  font-size: 1.0em;
+  padding: 2px 10px;
+  font-size: 1.1em;
+  font-weight:400;
   border-radius: 5px;
   cursor: pointer;
   display: inline-block; 
@@ -554,7 +575,6 @@ font-size:95%;
   border-radius: 6px;
   width: 100%;
   box-sizing: border-box;
-
   font-weight:200;
   padding: 0px 10px;
   height: 50px !important;
@@ -573,7 +593,7 @@ font-size:95%;
 
 /*   Adaptation for plus-sized monitors */
 
-  @media screen and (min-height: 950px) {
+  @media screen and (min-height: 1050px) {
     .height{
   height:calc(100vh - 240px)
 }

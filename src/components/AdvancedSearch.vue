@@ -7,7 +7,7 @@
           {{
             [
             'Site',
-            'Rock carving object',
+            'Area',
             'Image Type',
             'Keywords',
             'Datings',
@@ -19,7 +19,7 @@
           <div
             v-for="keyword in selectedKeywords[index]"
             :key="keyword.id"
-            class="tag-example-search"
+            class="tag-example-search accent-bg-selected"
             @click="deselectKeyword(keyword, index)"
           >
             {{ keyword.text }}
@@ -30,7 +30,7 @@
             :name="'search' + index"
             :placeholder="selectedKeywords[index].length ? '' : [
                'Search sites...',
-               'Search rock carving objects...',
+               'Search area...',
                'Search image types...',
                'Search keywords...',
                'Search datings...',
@@ -46,7 +46,7 @@
           <div
             v-for="result in searchResults[index]"
             :key="result.id"
-            class="tag-example"
+            class="tag-example accent-bg"
             @click="selectResult(result, index)"
             @mouseover="hoverResult(index)"
             @mouseout="unhoverResult(index)"
@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-    <button class="search-button" @click="handleSearchButtonClick">Search</button>
+    <button class="search-button accent-bg" @click="handleSearchButtonClick">Search</button>
   </div>
 </template>
 
@@ -344,10 +344,9 @@ export default {
 
 
 .tag-example-search {
-  background-color: rgb(170, 70, 70);
   padding: 0.1em 0.6em;
   font-size: 1.0em;
-  font-weight:300;
+  font-weight:500;
   border-radius: 5px;
   cursor: pointer;
   display: inline-block; 
@@ -405,7 +404,7 @@ cursor: pointer;
 }
 
 .search-button:hover {
-background-color: rgb(170, 70, 70);
+font-weight:400;
 }
 
 input[type="search"]::-webkit-search-cancel-button {

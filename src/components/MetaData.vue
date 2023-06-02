@@ -5,19 +5,19 @@
   <div class="metadata-column">
     <table>
    
-   <tr><td class="label" v-if="data.type && data.type.text">Type:</td><td class="data" v-if="data.type && data.type.text"> {{ data.type.text }}</td></tr>
-   <tr><td class="label" v-if="data.collection && data.collection.name">Collection:</td><td class="data" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
-   <tr><td class="label" v-if="data.author && data.author.name">Author:</td><td class="data" v-if="data.author && data.author.name">  {{ data.author.name }}</td></tr>
-   <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="data" v-if="data.institution && data.institution.name">  {{ data.institution.name }}</td></tr>
-   <tr><td class="label" v-if="data.reference">Reference:</td><td class="data" v-if="data.reference">  {{ data.reference }}</td></tr>
+   <tr><td class="label" v-if="data.type && data.type.text">Type:</td><td class="data meta-accent" v-if="data.type && data.type.text"> {{ data.type.text }}</td></tr>
+   <tr><td class="label" v-if="data.collection && data.collection.name">Collection:</td><td class="data meta-accent" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
+   <tr><td class="label" v-if="data.author && data.author.name">Author:</td><td class="data meta-accent" v-if="data.author && data.author.name">  {{ data.author.name }}</td></tr>
+   <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="data meta-accent" v-if="data.institution && data.institution.name">  {{ data.institution.name }}</td></tr>
+   <tr><td class="label" v-if="data.reference">Reference:</td><td class="data meta-accent" v-if="data.reference">  {{ data.reference }}</td></tr>
   
   </table>
   </div>
    <div class="metadata-column">
     <table>
-      <tr><td class="label" v-if="data.year">Year:</td><td class="data" v-if="data.year"> {{ data.year }}</td></tr>
-   <tr><td class="label" v-if="data.date_note">Date Note:</td><td class="data" v-if="data.date_note">  {{ data.date_note }}</td></tr>
-   <tr><td class="label" v-if="data.rock_carving_object && data.rock_carving_object.name">Carving:</td><td class="data" v-if="data.rock_carving_object && data.rock_carving_object.name">  {{ data.rock_carving_object.name }}</td></tr>
+      <tr><td class="label" v-if="data.year">Year:</td><td class="data meta-accent" v-if="data.year"> {{ data.year }}</td></tr>
+   <tr><td class="label" v-if="data.date_note">Date Note:</td><td class="data meta-accent" v-if="data.date_note">  {{ data.date_note }}</td></tr>
+   <tr><td class="label" v-if="data.rock_carving_object && data.rock_carving_object.name">Carving:</td><td class="data meta-accent" v-if="data.rock_carving_object && data.rock_carving_object.name">  {{ data.rock_carving_object.name }}</td></tr>
    
     </table>
   </div>
@@ -27,7 +27,7 @@
       <h2>Keywords:</h2>
       <div class="keywords"> <!-- Empty div for margin -->
       <ul>
-        <li v-for="(keyword, index) in data.keywords" :key="index">{{ keyword.text }}</li>
+        <li class="accent-bg" v-for="(keyword, index) in data.keywords" :key="index">{{ keyword.text }}</li>
       </ul>
     </div>
   </div>
@@ -102,12 +102,11 @@ h2{
 
 .label {
   width:80px;
-  color:white;
+  color:rgb(200,200,200);
   font-weight:600;
 }
 
 .data {
- color:rgb(170,218,250);
 max-width:180px;
 }
 
@@ -136,6 +135,7 @@ ul {
   float:left;
   margin-bottom: 30px;
   width:100%;
+  padding-right:20px;
 }
 
 ul li {
