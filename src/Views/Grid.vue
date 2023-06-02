@@ -2,6 +2,18 @@
 <div>
 <div class="top">  
   <h1 class="title">Swedish <br><div class="emph">Rock Art </div><br>Research<br> Archive</h1>
+
+  <div class="languages">
+    <div class="top-link-button">Swedish</div>
+    <div class="top-link-button">|</div>
+    <div class="top-link-button">English</div>
+  </div>
+
+  <div class="top-links">
+    <div class="top-link-button"><div class="button-image" style="background-image:url(../../public/interface/infobuttonbold.png)"></div>About the archive</div>
+    <div class="top-link-button"><div class="button-image" style="background-image:url(../../public/interface/linkbuttonbold.png)"></div>About SHFA</div>
+    <div class="top-link-button"><div class="button-image" style="background-image:url(../../public/interface/linkbuttonbold.png)"></div>Updates</div>
+  </div>
 </div>
   <!-- Start of Container -->
   <div class="split-container main-color">
@@ -78,9 +90,9 @@
           Data
         </button>
       </div>
-      <div class="ui-numbers ui-overlay">
-        <!-- {{ itemsCount }} objects -->
-      </div>
+      <!-- <div class="ui-numbers ui-overlay">
+       {{ itemsCount }} objects 
+      </div> -->
     </div>
   </div>
  
@@ -230,25 +242,76 @@ export default defineComponent({
 }
 
 .title{
+  position:absolute;
   font-family: 'Teko', sans-serif;
   line-height:0.75;
   letter-spacing:-1.2px;
   font-size:52px;
   font-weight:400;
   padding:25px 40px;
-  color:rgb(140, 140, 140);
+  color:rgb(150, 150, 150);
 }
 
 .title .emph{
   display:inline;
-  color:rgb(140, 60, 60);
+  color:rgb(90, 90, 90);
 }
 
 .top{
   height:200px;
   z-index:1000;
+background-color:rgb(210,210,210)
+}
+
+.languages{
+right:0px;
+font-size:1.3em;
+font-weight:400;
+color:black;
+position:absolute;
+padding-top:20px;
+padding-right:20px;
 
 }
+
+
+.top-links{
+  font-size:1.3em;
+  font-weight:400;
+  margin-top:140px;
+  height:auto;
+  right:00px;
+color:black;
+  position:absolute;
+
+  padding-right:20px;
+
+}
+
+
+.top-link-button{
+  float:left;
+text-align:left;
+  margin-left:10px;
+  padding:3px 10px;
+  border-radius:8px;
+}
+.top-link-button:hover{
+  background-color:rgb(250,250,250);
+}
+
+.button-image{
+  float:left;
+  margin-right:10px;
+  margin-top:4px;
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  border-width:1.5px;
+  border-color:black;
+ background-size:contain;
+}
+
 
 .main-color{
   background-color:rgb(65,65,65);
@@ -264,7 +327,7 @@ export default defineComponent({
   height:calc(100% - 200px) ;
   width:100%;
   position:absolute;
-  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.4)!important;
+  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.3)!important;
   pointer-events:none;
 }
 
@@ -399,7 +462,7 @@ backdrop-filter: blur(5px);
 .ui-mode {
 top: 230px;
 padding: 4px 0px 4px 0px;
-background-color: rgba(0, 0, 0, 0.4);
+background-color: rgba(0, 0, 0, 0.5);
 }
 
 .ui-mode .item {
@@ -418,10 +481,10 @@ color: rgb(150,200,255);
 }
 
 .ui-numbers {
-/*   padding: 2px 15px 6px 15px;
+  padding: 2px 15px 6px 15px;
   text-align: center;
   bottom: 30px;
-  margin-top: calc(100% - 100px); */
+  margin-top: calc(100% - 100px); 
 }
 
 .ui-map-info {
@@ -468,81 +531,6 @@ font-size:95%;
   }
 
 
-/*   Adaptation for medium-sized monitors */
-
-  @media screen and (min-height: 950px) {
-    .height{
-  height:calc(100vh - 300px)
-}
-
-
-    .title{
-    padding:50px 40px;
-  font-size:72px;
-}
-
-.top{
-  height:300px;
-  z-index:1000;
-}
-
-.split-container-top{
-  height:calc(100% - 300px) ;
-  width:100%;
-}
-
-.filter-text{
-  font-size:1.2em;
-}
-
-.ui-mode {
-top: 350px;
-}
-
-.ui-overlay {
-font-size: 1.3em;
-}
-
-#app .map-switch-margin{
-  font-size:1.3em
-}
-
-#app #filter-interface{
-  font-size:110% !important;
-  height:40px;
-}
-
-#app .tag-example{
-  font-size:110% !important;
-}
-
-#app #search-interface .tag-example-search{
-  font-size:1.5em !important;
-  max-height:42px;
-}
-
-
-
-#app .field-title {
-  font-size: 1.3em;
-  margin-bottom: 5px;
-  color: white;
-}
-
-#app .search-container .input-wrapper {
-  font-size: 1.3em;
-  
-  margin-bottom: 5px;
-  color: white;
-}
-
-#app .search-button {
-
-font-size: 1.5rem !important;
-padding: 5px 20px;
-
-}
-
 #app .search-container .tag-example-search {
   background-color: rgb(170, 70, 70);
   padding: 0px 10px;
@@ -574,10 +562,42 @@ padding: 5px 20px;
   overflow:hidden;
 }
 
-/* Metadata settings */
+.flex-grow.overflow-auto.main-color::-webkit-scrollbar {
+  display: none;
+}
 
-#metadata-container{
-font-size:120%;
+.flex-grow.overflow-auto.main-color {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/*   Adaptation for plus-sized monitors */
+
+  @media screen and (min-height: 950px) {
+    .height{
+  height:calc(100vh - 240px)
+}
+
+.top{
+  height:240px;
+  z-index:1000;
+}
+
+.top-links{
+  margin-top:180px;
+
+
+
+}
+
+    .title{
+    padding:35px 40px;
+  font-size:60px;
+}
+
+.split-container-top{
+  height:calc(100% - 240px) ;
+  width:100%;
 }
 
 h2{
@@ -586,9 +606,67 @@ h2{
   text-align:left;
   color:white;
   padding-left:0px;
-  margin-top:20px;
-  margin-bottom:15px;
+  margin-top:5px;
+  margin-bottom:25px;
 }
+
+.filter-text{
+  font-size:1.2em;
+}
+
+.ui-mode {
+top: 275px;
+}
+
+.ui-overlay {
+font-size: 1.3em;
+}
+
+#app .map-switch-margin{
+  font-size:1.2em
+}
+
+#app #filter-interface{
+  font-size:110% !important;
+  height:40px;
+}
+
+#app .tag-example{
+  font-size:110% !important;
+}
+
+#app #search-interface .tag-example-search{
+  font-size:1.5em !important;
+  max-height:42px;
+}
+
+
+
+#app .field-title {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  color: white;
+}
+
+#app .search-container .input-wrapper {
+  font-size: 1.3em;
+  margin-bottom: 5px;
+  color: white;
+}
+
+#app .search-button {
+font-size: 1.5rem !important;
+padding: 3px 15px;
+}
+
+
+/* Metadata settings */
+
+#metadata-container{
+font-size:120%;
+}
+
+
 
 
 #metadata-container .label {
@@ -624,14 +702,6 @@ max-width:200px;
   padding:110px 30px 30px 30px;;
 }
 
-.flex-grow.overflow-auto.main-color::-webkit-scrollbar {
-  display: none;
-}
-
-.flex-grow.overflow-auto.main-color {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
 }
 </style>
 

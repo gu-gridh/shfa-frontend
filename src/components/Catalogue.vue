@@ -3,7 +3,7 @@
   <MasonryWall :items="items" :ssr-columns="1" :column-width="160" :gap="0" :key="siteId">
     <template #default="{ item, index }">
       <div class="grid-image card flex text-black" @click="$emit('image-clicked', item.iiif_file)">
-        <img :src="item.file" :alt="`Image ${index}`" />
+        <img :src="`${item.iiif_file}/full/200,/0/default.jpg`" :alt="`Image ${index}`" @load="imageLoaded" />
         <div class="grid-item-info">
           <div class="grid-item-info-meta">
             <h1>{{siteRaaId}}</h1>
@@ -78,7 +78,7 @@ export default {
 .background{
   width:100%;
   min-height:calc(100vh - 200px);
-  padding:87px 0px 0px 0px;
+  padding:110px 0px 0px 0px;
 }
 .card{
   border-radius:0px;

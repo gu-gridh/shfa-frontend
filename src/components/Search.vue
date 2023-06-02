@@ -93,6 +93,7 @@ export default {
     { id: 8, text: 'Frottage'},
     { id: 9, text: '3d'},
     { id: 10, text: 'Nattfotografering'},
+    { id: 11, text: 'Älg'},
     ];
   },  
   methods: {
@@ -279,7 +280,7 @@ background-color:#6666;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  background-color: rgba(45, 45, 45, 0.3);
+  background-color: rgba(45, 45, 45, 0.8);
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
@@ -288,7 +289,7 @@ background-color:#6666;
 
 .input-wrapper:hover {
 
-  background-color: rgba(45, 45, 45, 0.8);
+  background-color: rgba(45, 45, 45, 1.0);
 
 }
 

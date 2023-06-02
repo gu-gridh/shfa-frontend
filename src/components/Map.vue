@@ -1,5 +1,4 @@
 <template>
-
  <div id="map">
 </div>
 
@@ -363,6 +362,13 @@ createClusterStyle(feature) {
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5)!important;
   filter:contrast(130%) grayscale(80%) brightness(0.9);
 }
+
+@media screen and (min-height: 1150px) {
+/* #map {
+  margin-top:125px!important;
+} */
+}
+
 
 #app .ol-control{
 position:absolute;
