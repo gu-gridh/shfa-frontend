@@ -63,7 +63,7 @@ export default {
       required: true,
     },
     searchNextPageUrl: {
-      type: String,
+      type: [String, null],
       required: true,
       default: '',
     },
@@ -76,7 +76,7 @@ export default {
       required: true,
     },
     searchNextPageUrlAdvanced: {
-      type: String,
+      type: [String, null],
       required: true,
       default: '',
     },
@@ -85,7 +85,7 @@ export default {
       required: true,
     },
     searchPreviousPageUrl: {
-      type: String,
+      type: [String, null],
       required: true,
       default: '',
     },
@@ -94,9 +94,14 @@ export default {
       required: true,
     },
     advancedPreviousPageUrl: {
-      type: String,
+      type: [String, null],
       required: true,
       default: '',
+    },
+    forceRefresh: {
+      type: Number,
+      required: false,
+      default: 0,
     },
   },
   data() {
@@ -314,10 +319,11 @@ export default {
   watch: {
     siteId() {
       this.loadInitialData();
-      console.log('ha')
     },
     forceRefresh(newVal, oldVal) {
-      this.loadInitialData();
+      if (newVal !== oldVal) {
+        this.loadInitialData();
+      }
     },
     searchItems(newItems) {
       this.imageGroups = newItems;

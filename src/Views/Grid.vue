@@ -31,6 +31,7 @@
         @id-selected="selectedId = $event"
         @raaId-selected="selectedRaaId = $event"
         @update-bbox="bbox = $event"
+        @map-clicked="forceRefresh++"
       ></Map>
       <AdvancedSearch v-show="!showMap" 
         @advanced-search-results="handleAdvancedSearchResults" 
@@ -51,9 +52,9 @@
   <Gallery 
     :siteId="selectedId" 
     :siteRaaId="selectedRaaId"
-    @items-updated="onItemsUpdated"
     @image-clicked="onImageClicked"
     :searchItems="searchItems"
+    :forceRefresh="forceRefresh"
 
     :fetchNextPage="fetchNextPage"
     :searchNextPageUrl="nextPageUrl"
@@ -174,6 +175,7 @@ export default defineComponent({
       nextPageUrlAdvanced: null,
       previousPageUrl: null,
       previousPageUrlAdvanced: null,
+      forceRefresh: 0,
     }
   },
 
