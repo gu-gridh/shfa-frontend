@@ -181,24 +181,24 @@ export default {
     this.searchResults = Array.from(typeMap.values());
 
 
-        // Store the next URL for future use
-        if (data.next) {
-          this.nextPageUrl = data.next.replace('http://', 'https://');
-          this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
-          this.updateNextPageUrl(this.nextPageUrl);  // Update the parent's nextPageUrl state
-        } else {
-          this.nextPageUrl = null;
-          this.updateNextPageUrl(null);  // Update the parent's nextPageUrl state
-        }
+      // Store the next URL for future use
+      if (data.next) {
+        this.nextPageUrl = data.next.replace('http://', 'https://');
+        this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
+        this.updateNextPageUrl(this.nextPageUrl);  // Update the parent's nextPageUrl state
+      } else {
+        this.nextPageUrl = null;
+        this.updateNextPageUrl(null);  // Update the parent's nextPageUrl state
+      }
 
-        if (data.previous) {
-  this.previousPageUrl = data.previous.replace('http://', 'https://');
-  this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
-  this.updatePreviousPageUrl(this.previousPageUrl);  // Update the parent's previousPageUrl state
-} else {
-  this.previousPageUrl = null;
-  this.updatePreviousPageUrl(null);  // Update the parent's previousPageUrl state
-}
+      if (data.previous) {
+        this.previousPageUrl = data.previous.replace('http://', 'https://');
+        this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
+        this.updatePreviousPageUrl(this.previousPageUrl);  // Update the parent's previousPageUrl state
+      } else {
+        this.previousPageUrl = null;
+        this.updatePreviousPageUrl(null);  // Update the parent's previousPageUrl state
+      }
 
 
       } catch (error) {

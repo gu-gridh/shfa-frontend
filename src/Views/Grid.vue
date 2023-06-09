@@ -62,11 +62,11 @@
     :fetchNextPageAdvanced="fetchNextPageAdvanced"
     :searchNextPageUrlAdvanced="nextPageUrlAdvanced"
 
-    :fetchPreviousPage="fetchPreviousPage"
-    :previousPageUrl="previousPageUrl"
+    :searchFetchPreviousPage="fetchPreviousPage"
+    :searchPreviousPageUrl="previousPageUrl"
 
-    :fetchPreviousPageAdvanced="fetchPreviousPageAdvanced"
-    :previousPageUrlAdvanced="previousPageUrlAdvanced"
+    :advancedFetchPreviousPage="fetchPreviousPageAdvanced"
+    :advancedPreviousPageUrl="previousPageUrlAdvanced"
     >
   </Gallery>
 </div>

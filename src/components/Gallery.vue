@@ -22,8 +22,9 @@
     <button class="loadMore" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced">Load More</button>
 
     <!-- Previous buttons -->
-    <button class="loadMore" v-if="!mapGallery && previousPageUrl" @click="fetchPreviousPage">Load Previous</button>
-    <button class="loadMore" v-if="!mapGallery && previousPageUrlAdvanced" @click="fetchPreviousPageAdvanced">Load Previous</button>
+    <button class="loadMore" v-if="mapGallery && previousPageUrl" @click="fetchPreviousData">Load Previous map</button>
+    <button class="loadMore" v-if="!mapGallery && searchPreviousPageUrl && !advancedSearch" @click="searchFetchPreviousPage">Load Previous search</button>
+    <button class="loadMore" v-if="!mapGallery && advancedPreviousPageUrl && advancedSearch" @click="advancedFetchPreviousPage">Load Previous advanced</button>
 
   </div>
 </template>
@@ -73,20 +74,20 @@ export default {
       required: true,
       default: '',
     },
-    fetchPreviousPage: {
+    searchFetchPreviousPage: {
       type: Function,
       required: true,
     },
-    previousPageUrl: {
+    searchPreviousPageUrl: {
       type: String,
       required: true,
       default: '',
     },
-    fetchPreviousPageAdvanced: {
+    advancedFetchPreviousPage: {
       type: Function,
       required: true,
     },
-    previousPageUrlAdvanced: {
+    advancedPreviousPageUrl: {
       type: String,
       required: true,
       default: '',
@@ -97,6 +98,7 @@ export default {
       mapGallery: false,
       advancedSearch: false,
       nextPageUrl: null,
+      previousPageUrl: null,
       loading: false, 
       layoutKey: 0,
       loadedImagesCount: 0,
@@ -180,11 +182,11 @@ export default {
     },
 
     loadPrevious() {
-      this.fetchPreviousPage();
+      this.searchFetchPreviousPage();
     },
 
     loadPreviousAdvanced() {
-      this.fetchPreviousPageAdvanced();
+      this.advancedFetchPreviousPage();
     },
 
    async loadInitialData() {
@@ -241,13 +243,67 @@ export default {
 
       }
 
-    // Convert map to array for use in template
-    this.imageGroups = Array.from(typeMap.values());
+      // Convert map to array for use in template
+      this.imageGroups = Array.from(typeMap.values());
 
-        this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
-        this.mapGallery = true;
+      this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
+      this.previousPageUrl = data.previous ? data.previous.replace('http://', 'https://') : null;
+
+      this.mapGallery = true;
       }
     },
+
+    async fetchPreviousData() {
+    if (this.previousPageUrl) {
+      this.loadedImagesCount = 0;
+
+      let response = await fetch(this.previousPageUrl)
+      if (!response.ok) {
+        this.$emit('error', 'Could not fetch data');
+        return;
+      }
+
+      let data = await response.json()
+
+      if (!data.results) {
+        this.$emit('error', 'No results in data');
+        return;
+      }
+
+      let typeMap = this.specificOrder.map(order => ({
+        ...order,
+        items: [],
+      }));
+
+      for (let image of data.results) {
+        let type = image.type;
+        let item = {
+          id: image.id,
+          file: image.file,
+          type: image.type,
+          iiif_file: image.iiif_file,
+        };
+
+        let typeIndex = typeMap.findIndex(x => x.type === type);
+        if (typeIndex !== -1) {
+        typeMap[typeIndex].items.push(item);
+        }
+
+      // Filter out the groups with no items and sort the image groups by the specified order
+      this.imageGroups = typeMap.filter(group => group.items.length > 0).sort((a, b) => a.order - b.order);
+
+      }
+
+      // Convert map to array for use in template
+      this.imageGroups = Array.from(typeMap.values());
+
+      this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
+      this.previousPageUrl = data.previous ? data.previous.replace('http://', 'https://') : null;
+
+      this.mapGallery = true;
+    }
+    },
+
   },
   watch: {
     siteId() {
