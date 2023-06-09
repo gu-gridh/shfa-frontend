@@ -15,10 +15,15 @@
         </template>
       </MasonryWall>
     </div>
+
+    <!-- Next buttons -->
     <button class="loadMore" v-if="mapGallery && nextPageUrl" @click="fetchData">Load More</button>
     <button class="loadMore" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore">Load More</button>
     <button class="loadMore" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced">Load More</button>
-    <button class="loadMore" v-if="previousPageUrl" @click="fetchPreviousPage">Load Previous</button>
+
+    <!-- Previous buttons -->
+    <button class="loadMore" v-if="!mapGallery && previousPageUrl" @click="fetchPreviousPage">Load Previous</button>
+    <button class="loadMore" v-if="!mapGallery && previousPageUrlAdvanced" @click="fetchPreviousPageAdvanced">Load Previous</button>
 
   </div>
 </template>
@@ -69,10 +74,19 @@ export default {
       default: '',
     },
     fetchPreviousPage: {
-  type: Function,
-  required: true,
-},
-  previousPageUrl: {
+      type: Function,
+      required: true,
+    },
+    previousPageUrl: {
+      type: String,
+      required: true,
+      default: '',
+    },
+    fetchPreviousPageAdvanced: {
+      type: Function,
+      required: true,
+    },
+    previousPageUrlAdvanced: {
       type: String,
       required: true,
       default: '',
@@ -165,9 +179,13 @@ export default {
       this.fetchNextPageAdvanced();
     },
 
-        loadPrevious() {
-  this.fetchPreviousPage();
-},
+    loadPrevious() {
+      this.fetchPreviousPage();
+    },
+
+    loadPreviousAdvanced() {
+      this.fetchPreviousPageAdvanced();
+    },
 
    async loadInitialData() {
       if (this.loading) {

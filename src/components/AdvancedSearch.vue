@@ -71,10 +71,15 @@ export default {
       selectedKeywords: [[], [], [], [], [], []],
       hoveredResultIndex: -1,
       nextPageUrl: null,
+      previousPageUrl: null,
     };
   },
   props: {
   updateNextPageUrlAdvanced: {
+    type: Function,
+    required: true,
+    },
+  updatePreviousPageUrlAdvanced: {
     type: Function,
     required: true,
     },
@@ -183,6 +188,15 @@ export default {
         this.updateNextPageUrlAdvanced(null);  // Update the parent's nextPageUrl state
       }
 
+      if (data.previous) {
+        this.previousPageUrl = data.previous.replace('http://', 'https://');
+        this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
+        this.updatePreviousPageUrlAdvanced(this.previousPageUrl);  // Update the parent's previousPageUrl state
+      } else {
+        this.previousPageUrl = null;
+        this.updatePreviousPageUrlAdvanced(null);  // Update the parent's previousPageUrl state
+      }
+
       this.$emit('advanced-search-results', this.advancedResults);
 
     } catch (error) {
@@ -195,6 +209,14 @@ export default {
       await this.fetchResults(this.nextPageUrl);
     } else {
       console.log("No more pages to fetch.");
+    }
+  },
+
+  async fetchPreviousPage() {
+    if (this.previousPageUrl) {
+      await this.fetchResults(this.previousPageUrl);
+    } else {
+      console.log("No previous pages to fetch.");
     }
   },
 

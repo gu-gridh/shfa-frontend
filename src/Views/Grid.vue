@@ -34,7 +34,8 @@
       ></Map>
       <AdvancedSearch v-show="!showMap" 
         @advanced-search-results="handleAdvancedSearchResults" 
-        :updateNextPageUrlAdvanced="updateNextPageUrlAdvanced" 
+        :updateNextPageUrlAdvanced="updateNextPageUrlAdvanced"
+        :updatePreviousPageUrlAdvanced="updatePreviousPageUrlAdvanced" 
         ref="advancedSearchRef" />
      
   </div>
@@ -63,6 +64,9 @@
 
     :fetchPreviousPage="fetchPreviousPage"
     :previousPageUrl="previousPageUrl"
+
+    :fetchPreviousPageAdvanced="fetchPreviousPageAdvanced"
+    :previousPageUrlAdvanced="previousPageUrlAdvanced"
     >
   </Gallery>
 </div>
@@ -169,6 +173,7 @@ export default defineComponent({
       nextPageUrl: null,
       nextPageUrlAdvanced: null,
       previousPageUrl: null,
+      previousPageUrlAdvanced: null,
     }
   },
 
@@ -234,10 +239,14 @@ export default defineComponent({
       this.$refs.searchRef.fetchPreviousPage();
     },
     updatePreviousPageUrl(url) {
-  this.previousPageUrl = url;
-},
-
-
+      this.previousPageUrl = url;
+    },
+    fetchPreviousPageAdvanced() {
+      this.$refs.advancedSearchRef.fetchPreviousPage();
+    },
+    updatePreviousPageUrlAdvanced(url) {
+      this.previousPageUrlAdvanced = url;
+    },
   },
 });
 </script>
