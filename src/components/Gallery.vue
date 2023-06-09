@@ -16,15 +16,21 @@
       </MasonryWall>
     </div>
 
-    <!-- Next buttons -->
-    <button class="loadMore" v-if="mapGallery && nextPageUrl" @click="fetchData">Load More</button>
-    <button class="loadMore" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore">Load More</button>
-    <button class="loadMore" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced">Load More</button>
+      <div class="button-container">
+      <!-- Previous buttons -->
+      <div class="button-group left">
+        <button class="loadMore" v-if="mapGallery && previousPageUrl" @click="fetchPreviousData">Last Page</button>
+        <button class="loadMore" v-if="!mapGallery && searchPreviousPageUrl && !advancedSearch" @click="searchFetchPreviousPage">Last Page</button>
+        <button class="loadMore" v-if="!mapGallery && advancedPreviousPageUrl && advancedSearch" @click="advancedFetchPreviousPage">Last Page</button>
+      </div>
 
-    <!-- Previous buttons -->
-    <button class="loadMore" v-if="mapGallery && previousPageUrl" @click="fetchPreviousData">Load Previous map</button>
-    <button class="loadMore" v-if="!mapGallery && searchPreviousPageUrl && !advancedSearch" @click="searchFetchPreviousPage">Load Previous search</button>
-    <button class="loadMore" v-if="!mapGallery && advancedPreviousPageUrl && advancedSearch" @click="advancedFetchPreviousPage">Load Previous advanced</button>
+      <!-- Next buttons -->
+      <div class="button-group right">
+        <button class="loadMore" v-if="mapGallery && nextPageUrl" @click="fetchData">Next Page</button>
+        <button class="loadMore" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore">Next Page</button>
+        <button class="loadMore" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced">Next Page</button>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -308,6 +314,7 @@ export default {
   watch: {
     siteId() {
       this.loadInitialData();
+      console.log('ha')
     },
     forceRefresh(newVal, oldVal) {
       this.loadInitialData();
@@ -403,6 +410,27 @@ h1 {
 .loadMore:hover {
   background-color: rgb(170, 70, 70);
 }
+
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  /* Button groups */
+  .button-group {
+    display: flex;
+  }
+
+  /* Align "Load Previous" buttons to the left */
+  .left {
+    justify-content: flex-start;
+  }
+
+  /* Align "Load More" buttons to the right */
+  .right {
+    justify-content: flex-end;
+  }
 
 </style>
 
