@@ -22,7 +22,8 @@
   <div  id="split-0" class="flex-grow flex flex-col "
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
        
-      <Search @toggle-map="toggleMap" @search-completed="updateItems" :updateNextPageUrl="updateNextPageUrl" ref="searchRef" />
+      <Search @toggle-map="toggleMap" @search-completed="updateItems" :updateNextPageUrl="updateNextPageUrl" :updatePreviousPageUrl="updatePreviousPageUrl"
+ ref="searchRef" />
       <Map
         v-show="showMap"
         :coordinates="results"
@@ -52,11 +53,16 @@
     @items-updated="onItemsUpdated"
     @image-clicked="onImageClicked"
     :searchItems="searchItems"
+
     :fetchNextPage="fetchNextPage"
     :searchNextPageUrl="nextPageUrl"
+
     :advancedSearchResults="advancedSearchResults"
     :fetchNextPageAdvanced="fetchNextPageAdvanced"
     :searchNextPageUrlAdvanced="nextPageUrlAdvanced"
+
+    :fetchPreviousPage="fetchPreviousPage"
+    :previousPageUrl="previousPageUrl"
     >
   </Gallery>
 </div>
@@ -162,6 +168,7 @@ export default defineComponent({
       showDatareport: false,
       nextPageUrl: null,
       nextPageUrlAdvanced: null,
+      previousPageUrl: null,
     }
   },
 
@@ -223,6 +230,14 @@ export default defineComponent({
     handleAdvancedSearchResults(results) {
       this.advancedSearchResults = results;
     },
+    fetchPreviousPage() {
+      this.$refs.searchRef.fetchPreviousPage();
+    },
+    updatePreviousPageUrl(url) {
+  this.previousPageUrl = url;
+},
+
+
   },
 });
 </script>

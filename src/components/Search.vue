@@ -66,6 +66,7 @@ export default {
       searchResults: [],
       selectedKeywords: [],
       defaultSearchResults: [],
+      previousPageUrl: null,
       nextPageUrl: null,
       activePanel: 'Map Interface', 
     };
@@ -75,6 +76,12 @@ export default {
     type: Function,
     required: true,
     },
+  updatePreviousPageUrl: {
+    type: Function,
+    required: true,
+    },
+
+
   },
   computed: {
     currentKeywordName() {
@@ -184,6 +191,16 @@ export default {
           this.updateNextPageUrl(null);  // Update the parent's nextPageUrl state
         }
 
+        if (data.previous) {
+  this.previousPageUrl = data.previous.replace('http://', 'https://');
+  this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
+  this.updatePreviousPageUrl(this.previousPageUrl);  // Update the parent's previousPageUrl state
+} else {
+  this.previousPageUrl = null;
+  this.updatePreviousPageUrl(null);  // Update the parent's previousPageUrl state
+}
+
+
       } catch (error) {
         console.error(error);
       } finally {
@@ -198,6 +215,14 @@ export default {
         console.log("No more pages to fetch.");
       }
     },
+    async fetchPreviousPage() {
+  if (this.previousPageUrl) {
+    await this.fetchResults(this.previousPageUrl);
+  } else {
+    console.log("No previous pages to fetch.");
+  }
+},
+
     selectResult(result) {
       if (this.selectedKeywords.length > 0) {
         // Add the currently selected keyword back to the defaultSearchResults

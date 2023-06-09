@@ -18,6 +18,8 @@
     <button class="loadMore" v-if="mapGallery && nextPageUrl" @click="fetchData">Load More</button>
     <button class="loadMore" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore">Load More</button>
     <button class="loadMore" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced">Load More</button>
+    <button class="loadMore" v-if="previousPageUrl" @click="fetchPreviousPage">Load Previous</button>
+
   </div>
 </template>
 
@@ -62,6 +64,15 @@ export default {
       required: true,
     },
     searchNextPageUrlAdvanced: {
+      type: String,
+      required: true,
+      default: '',
+    },
+    fetchPreviousPage: {
+  type: Function,
+  required: true,
+},
+  previousPageUrl: {
       type: String,
       required: true,
       default: '',
@@ -154,6 +165,10 @@ export default {
       this.fetchNextPageAdvanced();
     },
 
+        loadPrevious() {
+  this.fetchPreviousPage();
+},
+
    async loadInitialData() {
       if (this.loading) {
         return;
@@ -235,6 +250,8 @@ export default {
       this.advancedSearch = true;
       this.loadedImagesCount = 0;
     },
+
+
   },
 }
 </script>
