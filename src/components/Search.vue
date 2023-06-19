@@ -68,6 +68,7 @@ export default {
       defaultSearchResults: [],
       previousPageUrl: null,
       nextPageUrl: null,
+      count: 0,
       activePanel: 'Map Interface', 
     };
   },
@@ -87,6 +88,23 @@ export default {
     currentKeywordName() {
       return this.selectedKeywords.length > 0 ? this.selectedKeywords[0].text : '';
     },
+    totalPages() {
+      return Math.ceil(this.count / 25);
+    },
+    currentPage() {
+      if (this.nextPageUrl) {
+        const url = new URL(this.nextPageUrl);
+        const offset = url.searchParams.get("offset");
+        return (offset / 25);
+      } else if (this.previousPageUrl) {
+        const url = new URL(this.previousPageUrl);
+        const offset = url.searchParams.get("offset");
+        return (offset / 25) + 2;
+      } else {
+        // Default to 1 if no next or previous page
+        return 1;
+      }
+    }
   },
   created() {
     this.defaultSearchResults = [
@@ -104,6 +122,9 @@ export default {
     ];
   },  
   methods: {
+    updatePageDetails() {
+      this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages });
+    },
     triggerSearch() {
       const query = this.selectedKeywords.length > 0 
         ? this.selectedKeywords[0].text 
@@ -124,7 +145,7 @@ export default {
       try {
         const response = await fetch(url);
         const data = await response.json();
-
+        this.count = data.count; // Update the total count
 
         // Define the specific order of the image types
         const specificOrder = [
@@ -206,6 +227,7 @@ export default {
       } finally {
         // After all data is loaded, emit the contents of searchResults
         this.$emit('search-completed', this.searchResults);
+        this.updatePageDetails();
       }
     },
     async fetchNextPage() {

@@ -22,8 +22,14 @@
   <div  id="split-0" class="flex-grow flex flex-col "
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
        
-      <Search @toggle-map="toggleMap" @search-completed="updateItems" :updateNextPageUrl="updateNextPageUrl" :updatePreviousPageUrl="updatePreviousPageUrl"
- ref="searchRef" />
+      <Search 
+      @toggle-map="toggleMap" 
+      @search-completed="updateItems"
+      @page-details-updated="updatePageDetails" 
+      :updateNextPageUrl="updateNextPageUrl" 
+      :updatePreviousPageUrl="updatePreviousPageUrl"
+      ref="searchRef" />
+
       <Map
         v-show="showMap"
         :coordinates="results"
@@ -34,7 +40,8 @@
         @map-clicked="forceRefresh++"
       ></Map>
       <AdvancedSearch v-show="!showMap" 
-        @advanced-search-results="handleAdvancedSearchResults" 
+        @advanced-search-results="handleAdvancedSearchResults"
+        @page-details-updated="updatePageDetails" 
         :updateNextPageUrlAdvanced="updateNextPageUrlAdvanced"
         :updatePreviousPageUrlAdvanced="updatePreviousPageUrlAdvanced" 
         ref="advancedSearchRef" />
@@ -53,6 +60,7 @@
     :siteId="selectedId" 
     :siteRaaId="selectedRaaId"
     @image-clicked="onImageClicked"
+    @page-details-updated="updatePageDetails"
     :searchItems="searchItems"
     :forceRefresh="forceRefresh"
 
@@ -99,9 +107,9 @@
           Data
         </button>
       </div>
-      <!-- <div class="ui-numbers ui-overlay">
-      {{ itemsCount }} objects 
-      </div> -->
+      <div class="ui-numbers ui-overlay">
+      Page {{ currentPage }} of {{ totalPages }} 
+      </div> 
     </div>
   </div>
  
@@ -166,6 +174,8 @@ export default defineComponent({
       selectedRaaId: null,
       selectedIiifFile: null,
       idForMetaData: null,
+      currentPage: 1,
+      totalPages: 1,
       bbox: [],
       showMap: true,
       showGallery: true,
@@ -249,6 +259,10 @@ export default defineComponent({
     updatePreviousPageUrlAdvanced(url) {
       this.previousPageUrlAdvanced = url;
     },
+    updatePageDetails({ currentPage, totalPages }) {
+      this.currentPage = currentPage;
+      this.totalPages = totalPages;
+    }
   },
 });
 </script>

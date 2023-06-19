@@ -19,19 +19,18 @@
       <div class="button-container">
       <!-- Previous buttons -->
       <div class="button-group left">
-        <button class="loadMore" v-if="mapGallery && previousPageUrl" @click="fetchPreviousData">Last Page</button>
-        <button class="loadMore" v-if="!mapGallery && searchPreviousPageUrl && !advancedSearch" @click="searchFetchPreviousPage">Last Page</button>
-        <button class="loadMore" v-if="!mapGallery && advancedPreviousPageUrl && advancedSearch" @click="advancedFetchPreviousPage">Last Page</button>
+        <button class="loadMore" v-if="mapGallery && previousPageUrl" @click="fetchPreviousData">Previous</button>
+        <button class="loadMore" v-if="!mapGallery && searchPreviousPageUrl && !advancedSearch" @click="searchFetchPreviousPage">Previous</button>
+        <button class="loadMore" v-if="!mapGallery && advancedPreviousPageUrl && advancedSearch" @click="advancedFetchPreviousPage">Previous</button>
       </div>
 
       <!-- Next buttons -->
       <div class="button-group right">
-        <button class="loadMore" v-if="mapGallery && nextPageUrl" @click="fetchData">Next Page</button>
-        <button class="loadMore" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore">Next Page</button>
-        <button class="loadMore" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced">Next Page</button>
+        <button class="loadMore" v-if="mapGallery && nextPageUrl" @click="fetchData">Next</button>
+        <button class="loadMore" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore">Next</button>
+        <button class="loadMore" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced">Next</button>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -104,6 +103,25 @@ export default {
       default: 0,
     },
   },
+  computed: {
+  totalPages() {
+    return Math.ceil(this.count / 25);
+  },
+  currentPage() {
+    if (this.nextPageUrl) {
+      const url = new URL(this.nextPageUrl);
+      const offset = url.searchParams.get("offset");
+      return (offset / 25);
+    } else if (this.previousPageUrl) {
+      const url = new URL(this.previousPageUrl);
+      const offset = url.searchParams.get("offset");
+      return (offset / 25) + 2;
+    } else {
+      // Default to 1 if no next or previous page
+      return 1;
+    }
+  }
+},
   data() {
     return {
       mapGallery: false,
@@ -113,6 +131,7 @@ export default {
       loading: false, 
       layoutKey: 0,
       loadedImagesCount: 0,
+      count: 0, 
       imageGroups: [],
       specificOrder: [
         { type: 957, text: 'Ortofoto (sfm)', order: 1 },
@@ -145,6 +164,9 @@ export default {
     this.loadStartPage();
   },
   methods: {
+  updatePageDetails() {
+    this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages });
+  },
   async loadStartPage() {
       let response = await fetch('https://diana.dh.gu.se/api/shfa/image/?collection=5534');
       if (!response.ok) {
@@ -224,6 +246,7 @@ export default {
         }
 
         let data = await response.json()
+        this.count = data.count; // Update the total count
 
         if (!data.results) {
           this.$emit('error', 'No results in data');
@@ -259,6 +282,8 @@ export default {
 
       this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
       this.previousPageUrl = data.previous ? data.previous.replace('http://', 'https://') : null;
+
+      this.updatePageDetails();
 
       this.mapGallery = true;
       }
@@ -310,6 +335,8 @@ export default {
 
       this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
       this.previousPageUrl = data.previous ? data.previous.replace('http://', 'https://') : null;
+
+      this.updatePageDetails();
 
       this.mapGallery = true;
     }
@@ -406,7 +433,7 @@ h1 {
   margin: 20px auto; 
   background-color: rgb(90, 90, 90);
   padding: 0.4em 0.6em;
-  font-size: 1em;
+  font-size: 1.3em;
   border-radius: 5px;
   cursor: pointer;
   color: white;

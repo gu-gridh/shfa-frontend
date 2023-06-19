@@ -72,6 +72,7 @@ export default {
       hoveredResultIndex: -1,
       nextPageUrl: null,
       previousPageUrl: null,
+      count: 0,
     };
   },
   props: {
@@ -102,8 +103,28 @@ export default {
         'https://diana.dh.gu.se/api/shfa/search/institution/?institution_name=',
       ];
     },
+    totalPages() {
+      return Math.ceil(this.count / 25);
+    },
+    currentPage() {
+      if (this.nextPageUrl) {
+        const url = new URL(this.nextPageUrl);
+        const offset = url.searchParams.get("offset");
+        return (offset / 25);
+      } else if (this.previousPageUrl) {
+        const url = new URL(this.previousPageUrl);
+        const offset = url.searchParams.get("offset");
+        return (offset / 25) + 2;
+      } else {
+        // Default to 1 if no next or previous page
+        return 1;
+      }
+    }
   },
   methods: {
+  updatePageDetails() {
+    this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages });
+  },
   async fetchResults(fetchURL = null) {
     const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
     const searchParams = new URLSearchParams();
@@ -128,6 +149,7 @@ export default {
     try {
       const response = await fetch(fetchURL);
       const data = await response.json();
+      this.count = data.count; // Update the total count
 
       const specificOrder = [
         { type: 957, text: 'Ortofoto (sfm)', order: 1 },
@@ -198,6 +220,7 @@ export default {
       }
 
       this.$emit('advanced-search-results', this.advancedResults);
+      this.updatePageDetails();
 
     } catch (error) {
       console.error(error);
