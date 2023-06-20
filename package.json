@@ -15,7 +15,8 @@
     "ol": "^7.3.0",
     "openseadragon": "^4.0.0",
     "split.js": "^1.6.5",
-    "vue": "^3.2.47"
+    "vue": "^3.2.47",
+    "vue-router": "^4.0.13"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.1.0",

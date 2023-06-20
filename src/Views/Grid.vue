@@ -156,12 +156,23 @@ export default defineComponent({
     Map, Gallery, Catalogue, Datareport, Search, AdvancedSearch, ImageViewer, MetaData
   },
   watch: {
-  showThreePanels(newValue) {
-    const gutter = document.querySelector('.gutter:not(.gutter-2)') as HTMLElement;
-    if (gutter) {
-      gutter.style.display = newValue ? 'block' : 'none';
+    $route(to, from) {
+      // react to route changes...
+      const newSiteId = to.params.siteId;
+      if (newSiteId) {
+          this.selectedId = newSiteId;
+      }
+    },
+    selectedId(newId, oldId) {
+      // Only change the URL, but not the history
+      this.$router.replace({ name: 'Site', params: { siteId: newId } });
+    },
+    showThreePanels(newValue) {
+      const gutter = document.querySelector('.gutter:not(.gutter-2)') as HTMLElement;
+      if (gutter) {
+        gutter.style.display = newValue ? 'block' : 'none';
+      }
     }
-  },
   },
   data() {
     return {
@@ -188,10 +199,19 @@ export default defineComponent({
       forceRefresh: 0,
     }
   },
-
+  beforeRouteEnter(to, from, next) {
+    const siteId = to.params.siteId;
+    console.log(siteId);
+    next(vm => {
+      if (siteId) {
+        vm.selectedId = siteId;
+        console.log(vm.selectedId);
+      }
+    });
+  },
   mounted() {
     const vm = this;
-  Split(['#split-0', '#split-1', '#split-2'], {
+    Split(['#split-0', '#split-1', '#split-2'], {
     minSize: [500, 300],
     dragInterval: 1,
     gutterSize: 10,
@@ -207,7 +227,6 @@ export default defineComponent({
       return gutter;
     },
   });
-
 },
 
 
