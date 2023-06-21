@@ -89,7 +89,14 @@ watch: {
   },
 },
 methods: {
-
+focusOnCoordinates(lon, lat) {
+  if (this.map) {
+    const coordinates = fromLonLat([lon, lat]);
+    console.log(coordinates)
+    this.map.getView().setCenter(coordinates);
+    this.map.getView().setZoom(12); 
+  }
+},
 async fetchAdditionalData(url, pagesToFetch = 10) {
   if (!url) {
     url = 'https://diana.dh.gu.se/api/shfa/geojson/site/';

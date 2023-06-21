@@ -31,6 +31,7 @@
       ref="searchRef" />
 
       <Map
+        ref="mapComponent"
         v-show="showMap"
         :coordinates="results"
         :bbox="bbox"
@@ -166,6 +167,22 @@ export default defineComponent({
     selectedId(newId, oldId) {
       // Only change the URL, but not the history
       this.$router.replace({ name: 'Site', params: { siteId: newId } });
+      
+      // Fetch the new site's coordinates
+      fetch(`https://diana.dh.gu.se/api/shfa/geojson/site/?id=${newId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const coordinates = data.features[0].geometry.coordinates;
+          this.$refs.mapComponent.focusOnCoordinates(...coordinates);
+        })
+        .catch(e => {
+          console.error('Failed to fetch new site coordinates:', e);
+        });
     },
     showThreePanels(newValue) {
       const gutter = document.querySelector('.gutter:not(.gutter-2)') as HTMLElement;
