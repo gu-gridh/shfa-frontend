@@ -92,7 +92,6 @@ methods: {
 focusOnCoordinates(lon, lat) {
   if (this.map) {
     const coordinates = fromLonLat([lon, lat]);
-    console.log(coordinates)
     this.map.getView().setCenter(coordinates);
     this.map.getView().setZoom(12); 
   }

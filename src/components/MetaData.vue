@@ -31,6 +31,15 @@
       </ul>
     </div>
   </div>
+  <h2>Description:</h2>
+  <div class="description">
+    {{ data.description }}
+  </div>
+<div class="metadata-wide">
+  <div v-if="getFornsokUrl()" class="button-container">
+    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Fornsok</a>
+  </div>
+</div>
 </div>
 </div>
 </template>
@@ -49,6 +58,24 @@ export default {
       data: {},
     };
   },
+   methods: {
+    fetchDescription() {
+      fetch(`https://kulturarvsdata.se/raa/lamning/xml/${this.data.site.ksamsok_id}`)
+        .then(response => response.text())
+        .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
+        .then(data => {
+          let descriptionNode = data.getElementsByTagName('pres:description')[0];
+          this.data.description = descriptionNode ? descriptionNode.textContent : null;
+        });
+    },
+    getFornsokUrl() {
+      if (this.data.site && this.data.site.ksamsok_id) {
+        return `https://app.raa.se/open/fornsok/lamning/${this.data.site.ksamsok_id}`;
+      } else {
+        return '';
+      }
+    }
+  },
   watch: {
     Id(newId, oldId) {
       if(newId){
@@ -56,6 +83,7 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results[0];
+          this.fetchDescription(); 
         });
       }
     }
@@ -136,6 +164,31 @@ ul {
   float:left;
   margin-bottom: 30px;
   width:100%;
+}
+
+.description {
+  width:90%;
+  margin-bottom: 30px;
+}
+
+.visit-button {
+  display: inline-block;
+  padding: 10px 10px;
+  color: white;
+  background-color: rgb(100, 100, 100);
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+.visit-button:hover {
+  background-color: rgb(170, 70, 70);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
 }
 
 ul li {
