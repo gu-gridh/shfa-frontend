@@ -158,10 +158,15 @@ export default defineComponent({
   },
   watch: {
     $route(to, from) {
-      // react to route changes...
       const newSiteId = to.params.siteId;
+      const newIiifFile = to.params.iiifFile;
       if (newSiteId) {
-          this.selectedId = newSiteId;
+        this.selectedId = newSiteId;
+      }
+
+      if (newIiifFile) {
+        this.selectedIiifFile = newIiifFile;
+        this.showThreePanels = true;
       }
     },
     selectedId(newId, oldId) {
@@ -183,6 +188,17 @@ export default defineComponent({
         .catch(e => {
           console.error('Failed to fetch new site coordinates:', e);
         });
+    },
+      selectedIiifFile(newIiifFile, oldIiifFile) {
+      // Only change the URL, but not the history
+      this.$router.replace({ 
+        name: 'SiteWithIiifFile', 
+        params: { 
+          siteId: this.selectedId, 
+          iiifFile: newIiifFile, 
+          showThreePanels: this.showThreePanels.toString() 
+        } 
+      });
     },
     showThreePanels(newValue) {
       const gutter = document.querySelector('.gutter:not(.gutter-2)') as HTMLElement;
@@ -216,14 +232,20 @@ export default defineComponent({
       forceRefresh: 0,
     }
   },
-  beforeRouteEnter(to, from, next) {
-    const siteId = to.params.siteId;
-    next(vm => {
-      if (siteId) {
-        vm.selectedId = siteId;
-      }
-    });
-  },
+ beforeRouteEnter(to, from, next) {
+  const siteId = to.params.siteId;
+  const iiifFile = to.params.iiifFile;
+  next(vm => {
+    if (siteId) {
+      vm.selectedId = siteId;
+    }
+    if (iiifFile) {
+      // convert the URL-encoded iiifFile back to a string
+      vm.selectedIiifFile = decodeURIComponent(iiifFile);
+      vm.showThreePanels = true;
+    }
+  });
+},
   mounted() {
     const vm = this;
     Split(['#split-0', '#split-1', '#split-2'], {
