@@ -160,6 +160,7 @@ export default defineComponent({
     $route(to, from) {
       const newSiteId = to.params.siteId;
       const newIiifFile = to.params.iiifFile;
+      const idForMetaData = to.params.idForMetaData;
       if (newSiteId) {
         this.selectedId = newSiteId;
       }
@@ -167,6 +168,10 @@ export default defineComponent({
       if (newIiifFile) {
         this.selectedIiifFile = newIiifFile;
         this.showThreePanels = true;
+      }
+
+       if (idForMetaData) {
+        this.idForMetaData = idForMetaData;
       }
     },
     selectedId(newId, oldId) {
@@ -189,14 +194,25 @@ export default defineComponent({
           console.error('Failed to fetch new site coordinates:', e);
         });
     },
-      selectedIiifFile(newIiifFile, oldIiifFile) {
+    selectedIiifFile(newIiifFile, oldIiifFile) {
       // Only change the URL, but not the history
       this.$router.replace({ 
         name: 'SiteWithIiifFile', 
         params: { 
           siteId: this.selectedId, 
           iiifFile: newIiifFile, 
-          showThreePanels: this.showThreePanels.toString() 
+          // showThreePanels: this.showThreePanels.toString() 
+        } 
+      });
+    },
+    idForMetaData(newMeta, oldMeta) {
+      // Only change the URL, but not the history
+      this.$router.replace({ 
+        name: 'SiteWithIiifFileMetaData', 
+        params: { 
+          siteId: this.selectedId,
+          iiifFile: this.selectedIiifFile,
+          idForMetaData: newMeta, 
         } 
       });
     },
@@ -232,9 +248,10 @@ export default defineComponent({
       forceRefresh: 0,
     }
   },
- beforeRouteEnter(to, from, next) {
+beforeRouteEnter(to, from, next) {
   const siteId = to.params.siteId;
   const iiifFile = to.params.iiifFile;
+  const idForMetaData = to.params.idForMetaData; 
   next(vm => {
     if (siteId) {
       vm.selectedId = siteId;
@@ -243,6 +260,9 @@ export default defineComponent({
       // convert the URL-encoded iiifFile back to a string
       vm.selectedIiifFile = decodeURIComponent(iiifFile);
       vm.showThreePanels = true;
+    }
+    if (idForMetaData ) {
+      vm.idForMetaData = idForMetaData;
     }
   });
 },
@@ -285,7 +305,6 @@ export default defineComponent({
     onImageClicked(iiifFile, id) {
       this.selectedIiifFile = iiifFile;
       this.idForMetaData = id;
-      console.log(this.idForMetaData)
       this.toggleThreePanels();
     },
     fetchNextPage() {

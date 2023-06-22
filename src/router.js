@@ -11,7 +11,12 @@ const routes = [
     path: '/siteId/:siteId',
     name: 'Site',
     component: Grid,
-  }
+  },
+  {
+    path: '/siteId/:siteId/iiifFile/:iiifFile/idForMetaData/:idForMetaData/',
+    name: 'SiteWithIiifFileMetaData',
+    component: Grid,
+  },
 ]
 
 const router = createRouter({
