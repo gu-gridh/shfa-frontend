@@ -175,7 +175,8 @@ export default defineComponent({
       }
     },
     selectedId(newId, oldId) {
-      // Only change the URL, but not the history
+      if (newId) {
+         // Only change the URL, but not the history
       this.$router.replace({ name: 'Site', params: { siteId: newId } });
 
       // Fetch the new site's coordinates
@@ -193,28 +194,48 @@ export default defineComponent({
         .catch(e => {
           console.error('Failed to fetch new site coordinates:', e);
         });
+      }
     },
     selectedIiifFile(newIiifFile, oldIiifFile) {
-      // Only change the URL, but not the history
-      this.$router.replace({ 
-        name: 'SiteWithIiifFile', 
-        params: { 
-          siteId: this.selectedId, 
-          iiifFile: newIiifFile, 
-          // showThreePanels: this.showThreePanels.toString() 
-        } 
-      });
-    },
+      if(this.selectedId === null) {  // When there's no site id
+        // Only change the URL, but not the history
+        this.$router.replace({ 
+          name: 'IiifFileMetaDataWithoutSite', 
+          params: { 
+            iiifFile: newIiifFile, 
+            idForMetaData: this.idForMetaData,
+          } 
+        });
+      } else {
+        this.$router.replace({ 
+            name: 'SiteWithIiifFile', 
+            params: { 
+              siteId: this.selectedId, 
+              iiifFile: newIiifFile, 
+              // showThreePanels: this.showThreePanels.toString() 
+            } 
+          });  }
+   },
     idForMetaData(newMeta, oldMeta) {
+      if(this.selectedId === null) {  // When there's no site id
+        // Only change the URL, but not the history
+        this.$router.replace({ 
+          name: 'IiifFileMetaDataWithoutSite', 
+          params: { 
+            iiifFile: this.selectedIiifFile,
+            idForMetaData: newMeta, 
+          } 
+        });
+      } else {
       // Only change the URL, but not the history
-      this.$router.replace({ 
-        name: 'SiteWithIiifFileMetaData', 
-        params: { 
-          siteId: this.selectedId,
-          iiifFile: this.selectedIiifFile,
-          idForMetaData: newMeta, 
-        } 
-      });
+        this.$router.replace({ 
+          name: 'SiteWithIiifFileMetaData', 
+          params: { 
+            siteId: this.selectedId,
+            iiifFile: this.selectedIiifFile,
+            idForMetaData: newMeta, 
+          } 
+        });  }
     },
     showThreePanels(newValue) {
       const gutter = document.querySelector('.gutter:not(.gutter-2)') as HTMLElement;

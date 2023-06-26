@@ -3,20 +3,29 @@ import Grid from './Views/Grid.vue';
 
 const routes = [
   {
-    path: '/siteId/:siteId/iiifFile/:iiifFile/',
+    path: '/site/:siteId/iiif/:iiifFile',
     name: 'SiteWithIiifFile',
     component: Grid,
   },
   {
-    path: '/siteId/:siteId',
+    path: '/site/:siteId',
     name: 'Site',
     component: Grid,
   },
   {
-    path: '/siteId/:siteId/iiifFile/:iiifFile/idForMetaData/:idForMetaData/',
+    path: '/site/:siteId/iiif/:iiifFile/meta/:idForMetaData',
     name: 'SiteWithIiifFileMetaData',
     component: Grid,
   },
+  {
+    path: '/iiif/:iiifFile/meta/:idForMetaData',
+    name: 'IiifFileMetaDataWithoutSite',
+    component: Grid,
+  },
+/*   {
+    path: '/:catchAll(.*)',
+    component: Grid, 
+  }, */
 ]
 
 const router = createRouter({
@@ -24,6 +33,5 @@ const router = createRouter({
   routes
 })
 
-
-
 export default router
+
