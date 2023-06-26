@@ -1,5 +1,5 @@
 <template>
-  <div style="padding-top: 35px;">
+  <div style="padding-top: 35px; padding-bottom: 35px;">
     <div v-for="group in imageGroups" :key="group.type">
      <h1 v-if="group.items.length > 0">{{ group.text }}</h1>     
       <MasonryWall :key="group.layoutKey" :items="group.items" :ssr-columns="1" :column-width="200" :gap="2">
@@ -374,7 +374,7 @@ export default {
 h1 {
   font-size: 20px;
   color: white;
-  margin: 20px 20px 10px 5px;
+  margin: 20px 20px 10px 0px;
 }
 
 .card {
