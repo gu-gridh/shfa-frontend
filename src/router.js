@@ -3,6 +3,11 @@ import Grid from './Views/Grid.vue';
 
 const routes = [
   {
+    path: '/',
+    name: 'Home',
+    component: Grid,
+  },
+  {
     path: '/site/:siteId/iiif/:iiifFile',
     name: 'SiteWithIiifFile',
     component: Grid,
@@ -22,10 +27,10 @@ const routes = [
     name: 'IiifFileMetaDataWithoutSite',
     component: Grid,
   },
-/*   {
+  {
     path: '/:catchAll(.*)',
     component: Grid, 
-  }, */
+  }
 ]
 
 const router = createRouter({

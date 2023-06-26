@@ -310,7 +310,12 @@ beforeRouteEnter(to, from, next) {
 
   methods: {
     updateItems(newItems) {
-      this.searchItems = newItems;
+    this.searchItems = newItems;
+    this.selectedId = null; // Reset selectedId
+   
+    this.$router.push({ 
+      name: 'Home', 
+    });
     },
     toggleMap() {
       this.showMap = !this.showMap;
@@ -342,6 +347,11 @@ beforeRouteEnter(to, from, next) {
     },
     handleAdvancedSearchResults(results) {
       this.advancedSearchResults = results;
+      this.selectedId = null; // Reset selectedId
+   
+      this.$router.push({ 
+        name: 'Home', 
+      });
     },
     fetchPreviousPage() {
       this.$refs.searchRef.fetchPreviousPage();
