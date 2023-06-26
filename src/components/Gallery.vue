@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding-top: 35px;">
     <div v-for="group in imageGroups" :key="group.type">
      <h1 v-if="group.items.length > 0">{{ group.text }}</h1>     
       <MasonryWall :key="group.layoutKey" :items="group.items" :ssr-columns="1" :column-width="200" :gap="2">
@@ -18,17 +18,17 @@
 
       <div class="button-container">
       <!-- Previous buttons -->
-      <div class="button-group left">
-        <button class="loadMore" v-if="mapGallery && previousPageUrl" @click="fetchPreviousData">Previous</button>
-        <button class="loadMore" v-if="!mapGallery && searchPreviousPageUrl && !advancedSearch" @click="searchFetchPreviousPage">Previous</button>
-        <button class="loadMore" v-if="!mapGallery && advancedPreviousPageUrl && advancedSearch" @click="advancedFetchPreviousPage">Previous</button>
+      <div class="button-group">
+        <button class="loadMore left" v-if="mapGallery && previousPageUrl" @click="fetchPreviousData"></button>
+        <button class="loadMore left" v-if="!mapGallery && searchPreviousPageUrl && !advancedSearch" @click="searchFetchPreviousPage"></button>
+        <button class="loadMore left" v-if="!mapGallery && advancedPreviousPageUrl && advancedSearch" @click="advancedFetchPreviousPage"></button>
       </div>
 
       <!-- Next buttons -->
-      <div class="button-group right">
-        <button class="loadMore" v-if="mapGallery && nextPageUrl" @click="fetchData">Next</button>
-        <button class="loadMore" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore">Next</button>
-        <button class="loadMore" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced">Next</button>
+      <div class="button-group">
+        <button class="loadMore right" v-if="mapGallery && nextPageUrl" @click="fetchData"></button>
+        <button class="loadMore right" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore"></button>
+        <button class="loadMore right" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced"></button>
       </div>
     </div>
   </div>
@@ -430,14 +430,17 @@ h1 {
 
 .loadMore {
   display: block;
-  margin: 20px auto; 
-  background-color: rgb(90, 90, 90);
-  padding: 0.4em 0.6em;
-  font-size: 1.3em;
-  border-radius: 5px;
+  padding: 0.2em 0.5em;
+  font-size: 1.2em;
+  border-radius: 50%;
   cursor: pointer;
   color: white;
   text-align: center;
+  width:35px;
+    height:35px;
+    overflow:hidden;
+  
+  
 }
 
 .loadMore:hover {
@@ -446,23 +449,34 @@ h1 {
 
   .button-container {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    justify-content: center;
+  
   }
 
   /* Button groups */
   .button-group {
-    display: flex;
+    position:fixed;
+    bottom:31px;
+   
+    pointer-events:none;
   }
 
   /* Align "Load Previous" buttons to the left */
   .left {
-    justify-content: flex-start;
+    margin-left:-120px;
+    background:url(../../public/interface/backbuttonwhite.png);
+    background-size:35px;
+    background-color: rgba(40, 40, 40, 0.9);
+    pointer-events:auto;
   }
 
   /* Align "Load More" buttons to the right */
   .right {
-    justify-content: flex-end;
+    margin-left:200px;
+    background:url(../../public/interface/nextbuttonwhite.png);
+    background-size:35px;
+    background-color: rgba(40, 40, 40, 0.9);
+    pointer-events:auto;
   }
 
 </style>

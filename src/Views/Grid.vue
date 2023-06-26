@@ -586,7 +586,9 @@ color: rgb(150,200,255);
   text-align: center;
   bottom: 30px;
   margin-top: calc(100% - 100px); 
+  pointer-events:none;
 }
+
 
 .ui-map-info {
 padding: 2px 15px 6px 15px;
@@ -714,6 +716,8 @@ top: 275px;
 .ui-overlay {
 font-size: 1.3em;
 }
+
+
 
 #app .map-switch-margin{
   font-size:1.2em
