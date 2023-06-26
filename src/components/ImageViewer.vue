@@ -39,7 +39,7 @@
 
 
 <script>
-import OpenSeadragon from "openseadragon";
+import OpenSeadragon from '../external/bookmark-url.js';
 
 export default {
   props: {
@@ -74,6 +74,10 @@ export default {
         fullPageButton: "full-page",
         zoomInButton: "zoom-in",
         zoomOutButton: "zoom-out",
+      });
+
+      this.viewer.bookmarkUrl({
+        trackPage: true,
       });
     },
   },
