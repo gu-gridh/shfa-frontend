@@ -1,18 +1,19 @@
 <template>
 <div>
 <div class="top">  
+  <div id="logo"></div>
   <h1 class="title">Swedish <br><div class="emph">Rock Art </div><br>Research<br> Archive</h1>
 
   <div class="languages">
-    <div class="top-link-button">Swedish</div>
-    <div class="top-link-button">|</div>
-    <div class="top-link-button">English</div>
+    <div class="top-button">Swedish</div>
+    <div class="top-button">|</div>
+    <div class="top-button">English</div>
   </div>
 
   <div class="top-links">
-    <div class="top-link-button"><div class="button-image" style="background-image:url(../../public/interface/infobuttonbold.png)"></div>About the archive</div>
-    <div class="top-link-button"><div class="button-image" style="background-image:url(../../public/interface/linkbuttonbold.png)"></div>About SHFA</div>
-    <div class="top-link-button"><div class="button-image" style="background-image:url(../../public/interface/linkbuttonbold.png)"></div>Updates</div>
+    <div class="top-link-button">About the archive</div>
+    <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv"><div class="top-link-button">About SHFA</div></a>
+    <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv"><div class="top-link-button">News</div></a>
   </div>
 </div>
   <!-- Start of Container -->
@@ -375,7 +376,14 @@ beforeRouteEnter(to, from, next) {
 
 
 <style>
-
+#logo{
+  width:180px;
+  height:180px;
+  background-color:grey;
+  float:left;
+  margin-top:30px;
+  margin-left:30px;
+}
 .height{
   height:calc(100vh - 200px)
 }
@@ -387,6 +395,7 @@ beforeRouteEnter(to, from, next) {
   letter-spacing:-1.2px;
   font-size:52px;
   font-weight:400;
+  margin-left:180px;
   padding:25px 40px;
   color:rgb(150, 150, 150);
 }
@@ -435,12 +444,28 @@ padding-right:20px;
   background-size:contain;
 }
 
+.top-button{
+  float:left;
+  text-align:left;
+  margin-left:10px;
+  padding:3px 10px 3px 10px;
+  border-radius:8px;
+}
+
+.top-button:hover{
+  background-color:rgb(250,250,250);
+}
+
 .top-link-button{
   float:left;
   text-align:left;
   margin-left:10px;
-  padding:3px 10px;
+  padding:3px 15px 3px 43px;
   border-radius:8px;
+  background-image:url(../../public/interface/linkbutton.png);
+  background-size:30px;
+  background-position:5px 4px;
+  background-repeat:no-repeat;
 }
 .top-link-button:hover{
   background-color:rgb(250,250,250);
