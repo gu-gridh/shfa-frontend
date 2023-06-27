@@ -430,7 +430,7 @@ export default {
 
 
 .tag-example-search {
-  background-color: rgb(150,180,215);
+  background-color: rgb(80,90,100);
   padding: 0.1em 0.6em;
   font-size: 1.0em;
   font-weight:300;
@@ -492,8 +492,8 @@ font-weight:500;
 }
 
 .search-button:hover {
-  background-color: rgb(150,180,215);
-  color:black;
+  background-color: rgb(80,90,100);
+  color:white;
 }
 
 input[type="search"]::-webkit-search-cancel-button {

@@ -135,7 +135,7 @@ h2{
 }
 
 .data {
- color:rgb(170,218,250);
+  color: rgb(200,225,250);
 max-width:180px;
 }
 
@@ -189,9 +189,8 @@ ul {
 }
 
 .visit-button:hover {
-  background-image:url(../../public/interface/linkbutton.png);
-  background-color: rgb(150,180,215);
-  color:black;
+  background-color: rgb(80,80,100);
+  color:white;
 }
 
 .button-container {

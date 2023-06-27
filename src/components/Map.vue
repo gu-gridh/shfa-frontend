@@ -342,7 +342,7 @@ createClusterStyle(feature) {
     const style = new Style({
       image: new CircleStyle({
         radius: 15 + Math.min(size, 50) * 0.1,
-        fill: new Fill({ color: 'rgba(150,180,215, 0.8)' }),
+        fill: new Fill({ color: 'rgba(120,135,150, 0.8)' }),
         stroke: new Stroke({
           color: '#fff',
           width: 2,
@@ -350,7 +350,7 @@ createClusterStyle(feature) {
       }),
       text: new Text({
         text: size.toString(),
-        fill: new Fill({ color: '#000' }),
+        fill: new Fill({ color: '#fff' }),
       }),
     });
 

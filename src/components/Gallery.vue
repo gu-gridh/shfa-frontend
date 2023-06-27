@@ -444,7 +444,7 @@ h1 {
 }
 
 .loadMore:hover {
-  background-color: rgb(150,180,215);
+  background-color: rgb(80,90,100);
 }
 
   .button-container {

@@ -422,7 +422,7 @@ beforeRouteEnter(to, from, next) {
 
 .title .emph:hover{
   display:inline;
-  color: darkorange;
+  color: rgb(120,135,150);
 
 }
 
@@ -550,8 +550,8 @@ font-size:1.0em;
 }
 
 .tag-example:hover{
-  background-color: rgb(150,180,215);
-  color:black;
+  background-color: rgb(80,90,100);
+  color:white;
  cursor:pointer;
 }
 
@@ -650,11 +650,11 @@ padding: 0px 15px 0px 15px;
 }
 
 .ui-mode .item:hover {
-  color: rgb(150,200,255);
+  color: rgb(200,225,250);
 }
 
 .ui-mode .selected{
-color: rgb(150,200,255);
+  color: rgb(200,225,250);
 }
 
 .ui-numbers {
@@ -705,16 +705,16 @@ font-size:95%;
   }
 
   .close-button:hover{
-    background-color: rgb(150,180,215);
+    background-color: rgb(80,90,100);
     opacity:0.9;
   }
 
 
 #app .search-container .tag-example-search {
-  background-color: rgb(150,180,215);
+  background-color: rgb(80,90,100);
   padding: 0px 10px;
   font-size: 1.0em;
-  font-weight:500;
+  font-weight:400;
   border-radius: 5px;
   cursor: pointer;
   display: inline-block; 
@@ -722,7 +722,7 @@ font-size:95%;
   white-space: nowrap; 
   overflow: hidden; 
   text-overflow: ellipsis;
-  color: black;
+  color: white;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
 #app .search-container .input-wrapper {
