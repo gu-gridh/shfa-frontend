@@ -377,32 +377,53 @@ beforeRouteEnter(to, from, next) {
 
 <style>
 #logo{
-  width:150px;
+  width:160px;
   height:150px;
   background-color:grey;
   float:left;
   margin-top:25px;
   margin-left:25px;
+  background:url("../assets/shfa_logo_downscale.png");
+  background-repeat:no-repeat;
+  background-size:contain;
+  opacity:0.3;
+  transition: all 0.8s ease-in-out;
 }
+
+#logo:hover{
+ 
+  opacity:0.5;
+}
+
 .height{
   height:calc(100vh - 200px)
 }
 
 .title{
   position:absolute;
+  pointer-events:none;
   font-family: 'Teko', sans-serif;
   line-height:0.75;
   letter-spacing:-1.2px;
   font-size:52px;
   font-weight:400;
-  margin-left:150px;
+  margin-left:170px;
   padding:25px 40px;
   color:rgb(150, 150, 150);
 }
 
 .title .emph{
+  cursor:pointer;
+  pointer-events:auto;
   display:inline;
   color:rgb(90, 90, 90);
+  transition: all 0.8s ease-in-out;
+}
+
+.title .emph:hover{
+  display:inline;
+  color:rgb(150, 90, 90);
+
 }
 
 .top{
@@ -529,9 +550,7 @@ font-size:1.0em;
 }
 
 .tag-example:hover{
-
   background-color: rgb(170,70,70);
-
  cursor:pointer;
 }
 
@@ -733,7 +752,7 @@ font-size:95%;
 }
 
 #logo{
-  width:180px;
+  width:200px;
   height:180px;
   margin-top:30px;
   margin-left:30px;
@@ -751,7 +770,7 @@ font-size:95%;
 .title{
     padding:35px 40px;
   font-size:60px;
-  margin-left:180px;
+  margin-left:210px;
 }
 
 .top{
