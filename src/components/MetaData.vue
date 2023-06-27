@@ -37,7 +37,7 @@
   </div>
 <div class="metadata">
   <div v-if="getFornsokUrl()" class="button-container">
-    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Fornsok</a>
+    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Fornsök</a>
   </div>
 </div>
 </div>
@@ -173,13 +173,19 @@ ul {
 
 .visit-button {
   display: inline-block;
-  padding: 5px 10px;
+  padding: 4px 15px 6px 50px;
   color: white;
   background-color: rgb(100, 100, 100);
   border-radius: 5px;
+  font-size:1.3em;
   text-decoration: none;
   cursor: pointer;
   margin-bottom: 30px;
+  background-image:url(../../public/interface/linkbuttonwhite.png);
+  background-size:30px;
+  background-position:10px 8px;
+  background-repeat:no-repeat;
+  box-shadow:0px 0px 20px rgba(0,0,0,0.2);
 }
 
 .visit-button:hover {
