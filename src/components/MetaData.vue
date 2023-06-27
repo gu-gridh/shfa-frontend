@@ -173,7 +173,7 @@ ul {
 
 .visit-button {
   display: inline-block;
-  padding: 4px 15px 6px 50px;
+  padding: 4px 10px 6px 43px;
   color: white;
   background-color: rgb(100, 100, 100);
   border-radius: 8px;
@@ -182,14 +182,14 @@ ul {
   cursor: pointer;
   margin-bottom: 30px;
   background-image:url(../../public/interface/linkbuttonwhite.png);
-  background-size:30px;
+  background-size:25px;
   background-position:10px 8px;
   background-repeat:no-repeat;
   box-shadow:0px 0px 20px rgba(0,0,0,0.2);
 }
 
 .visit-button:hover {
-  background-color: rgb(80,80,100);
+  background-color: rgb(80,90,100);
   color:white;
 }
 
@@ -204,5 +204,12 @@ ul li {
   padding: 2px 8px;
   border-radius: 5px;
   background-color: rgb(100, 100, 100); 
+}
+
+@media screen and (min-height: 950px) {
+  .visit-button {
+    padding: 4px 15px 6px 50px;
+  background-size:30px;
+}
 }
 </style>
