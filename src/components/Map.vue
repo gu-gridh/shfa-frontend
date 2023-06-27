@@ -246,7 +246,7 @@ async fetchDataByBbox() {
   // Initialize the map marker style
   this.iconStyle = new Style({
     image: new Icon({
-      src: '/interface/assets/marker-black.svg',
+      src: '/interface/assets/marker-darkred.svg',
       scale: 1.2,
       anchor: [0.5, 1],
       anchorXUnits: 'fraction',
