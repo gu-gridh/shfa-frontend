@@ -22,6 +22,7 @@ import { Cluster } from 'ol/source';
 import { Circle as CircleStyle, Fill, Stroke, Text } from 'ol/style';
 import { debounce } from 'lodash';
 
+
 export default {
   name: 'MapComponent',
   props: {
@@ -224,12 +225,15 @@ async fetchDataByBbox() {
 },
 
    initMap() {
+
     this.map = new Map({
     target: 'map',
     layers: [
-      new TileLayer({
-        source: new OSM()
-      })
+        new TileLayer({
+          className: 'grey',
+          source: new OSM()
+        })
+
     ],
     view: new View({
       center: fromLonLat([11.35, 58.73]), //Default center of the map
@@ -237,10 +241,12 @@ async fetchDataByBbox() {
     })
   });
 
+
+
   // Initialize the map marker style
   this.iconStyle = new Style({
     image: new Icon({
-      src: '/interface/assets/marker-red.svg',
+      src: '/interface/assets/marker-black.svg',
       scale: 1.2,
       anchor: [0.5, 1],
       anchorXUnits: 'fraction',
@@ -336,7 +342,7 @@ createClusterStyle(feature) {
     const style = new Style({
       image: new CircleStyle({
         radius: 15 + Math.min(size, 50) * 0.1,
-        fill: new Fill({ color: '#3399CC' }),
+        fill: new Fill({ color: '#0D538D' }),
         stroke: new Stroke({
           color: '#fff',
           width: 2,
@@ -366,7 +372,7 @@ createClusterStyle(feature) {
   border-radius:10px;
   overflow:hidden!important;
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5)!important;
-  filter:contrast(130%) grayscale(80%) brightness(0.9);
+ /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
 
 #app .ol-control{
@@ -414,9 +420,23 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
   display:none!important;
 }
 
+.ol-attribution {
+  display: flex;
+  bottom: 2%;
+  font-size: x-small;
+  font-weight: bold;
+}
+.ol-attribution-expand {
+  display: none;
+}
 
-#app .ol-attribution {
-  display:none!important;
+.ol-attribution-collapse {
+  display: none;
+}
+
+
+#map .grey {
+  filter: grayscale(100%) contrast(110%)
 }
 
 
