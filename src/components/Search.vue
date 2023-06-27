@@ -303,7 +303,7 @@ background-color:#6666;
 }
 
 .search-button-round:hover{
-  background-color: rgb(170, 70, 70);
+  background-color: rgb(150,180,215);
 }
 
 #filter-interface {
@@ -342,7 +342,7 @@ background-color:#6666;
 
 .tag-example-search {
   float: left;
-  background-color: rgb(170, 70, 70);
+  background-color: rgb(150,180,215);
   padding: 0.4em 0.5em; 
   font-size: 1.25em;
   border-radius: 5px;
@@ -351,11 +351,15 @@ background-color:#6666;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
   overflow:hidden;
   max-height:32px;
+  color:black;
+  font-weight:400;
 }
 
 .tag-example:hover {
-  background-color: rgb(170, 70, 70);
+  background-color: rgb(150,180,215);
   cursor: pointer;
+  color:black;
+ 
 }
 
 #search {
@@ -445,7 +449,7 @@ input:focus {
 }
 
 .toggle-map-btn:hover {
-  background-color: rgb(170, 70, 70);
+  background-color: rgb(150,180,215);
 }
 
 .item.active {

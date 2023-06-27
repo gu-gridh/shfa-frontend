@@ -430,7 +430,7 @@ export default {
 
 
 .tag-example-search {
-  background-color: rgb(170, 70, 70);
+  background-color: rgb(150,180,215);
   padding: 0.1em 0.6em;
   font-size: 1.0em;
   font-weight:300;
@@ -474,7 +474,7 @@ input[type="search"]:focus {
   padding: 10px;
   margin-top:-5px;
   overflow-y:auto;
-  max-height:180px;
+  max-height:260px;
 }
 
 .search-button {
@@ -488,10 +488,12 @@ color: white;
 border: none;
 border-radius: 5px;
 cursor: pointer;
+font-weight:500;
 }
 
 .search-button:hover {
-background-color: rgb(170, 70, 70);
+  background-color: rgb(150,180,215);
+  color:black;
 }
 
 input[type="search"]::-webkit-search-cancel-button {

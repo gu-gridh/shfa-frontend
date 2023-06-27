@@ -422,7 +422,7 @@ beforeRouteEnter(to, from, next) {
 
 .title .emph:hover{
   display:inline;
-  color:rgb(150, 90, 90);
+  color: darkorange;
 
 }
 
@@ -550,7 +550,8 @@ font-size:1.0em;
 }
 
 .tag-example:hover{
-  background-color: rgb(170,70,70);
+  background-color: rgb(150,180,215);
+  color:black;
  cursor:pointer;
 }
 
@@ -704,15 +705,16 @@ font-size:95%;
   }
 
   .close-button:hover{
-    background-color:rgb(170,100,100);
+    background-color: rgb(150,180,215);
     opacity:0.9;
   }
 
 
 #app .search-container .tag-example-search {
-  background-color: rgb(170, 70, 70);
+  background-color: rgb(150,180,215);
   padding: 0px 10px;
   font-size: 1.0em;
+  font-weight:500;
   border-radius: 5px;
   cursor: pointer;
   display: inline-block; 
@@ -720,7 +722,7 @@ font-size:95%;
   white-space: nowrap; 
   overflow: hidden; 
   text-overflow: ellipsis;
-  color: white;
+  color: black;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
 #app .search-container .input-wrapper {

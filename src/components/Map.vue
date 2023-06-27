@@ -246,7 +246,7 @@ async fetchDataByBbox() {
   // Initialize the map marker style
   this.iconStyle = new Style({
     image: new Icon({
-      src: '/interface/assets/marker-darkred.svg',
+      src: '/interface/assets/marker-gold.svg',
       scale: 1.2,
       anchor: [0.5, 1],
       anchorXUnits: 'fraction',
@@ -342,7 +342,7 @@ createClusterStyle(feature) {
     const style = new Style({
       image: new CircleStyle({
         radius: 15 + Math.min(size, 50) * 0.1,
-        fill: new Fill({ color: '#0D538D' }),
+        fill: new Fill({ color: 'rgba(150,180,215, 0.8)' }),
         stroke: new Stroke({
           color: '#fff',
           width: 2,
@@ -350,7 +350,7 @@ createClusterStyle(feature) {
       }),
       text: new Text({
         text: size.toString(),
-        fill: new Fill({ color: '#fff' }),
+        fill: new Fill({ color: '#000' }),
       }),
     });
 

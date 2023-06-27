@@ -176,7 +176,7 @@ ul {
   padding: 4px 15px 6px 50px;
   color: white;
   background-color: rgb(100, 100, 100);
-  border-radius: 5px;
+  border-radius: 8px;
   font-size:1.3em;
   text-decoration: none;
   cursor: pointer;
@@ -189,7 +189,9 @@ ul {
 }
 
 .visit-button:hover {
-  background-color: rgb(170, 70, 70);
+  background-image:url(../../public/interface/linkbutton.png);
+  background-color: rgb(150,180,215);
+  color:black;
 }
 
 .button-container {
