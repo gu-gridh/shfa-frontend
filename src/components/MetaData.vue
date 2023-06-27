@@ -35,7 +35,7 @@
   <div class="description">
     {{ data.description }}
   </div>
-<div class="metadata-wide">
+<div class="metadata">
   <div v-if="getFornsokUrl()" class="button-container">
     <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Fornsok</a>
   </div>
@@ -144,7 +144,7 @@ table, th, td {
 
 .metadata-wide {
   float:left;
- padding-left:25px;;
+ padding-left:25px;
   color: white;
   width:100%;
   margin-top:10px;
@@ -173,7 +173,7 @@ ul {
 
 .visit-button {
   display: inline-block;
-  padding: 10px 10px;
+  padding: 5px 10px;
   color: white;
   background-color: rgb(100, 100, 100);
   border-radius: 5px;
@@ -188,7 +188,7 @@ ul {
 
 .button-container {
   display: flex;
-  justify-content: center;
+  justify-content: left;
 }
 
 ul li {
