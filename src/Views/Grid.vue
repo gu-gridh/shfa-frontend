@@ -377,12 +377,12 @@ beforeRouteEnter(to, from, next) {
 
 <style>
 #logo{
-  width:180px;
-  height:180px;
+  width:150px;
+  height:150px;
   background-color:grey;
   float:left;
-  margin-top:30px;
-  margin-left:30px;
+  margin-top:25px;
+  margin-left:25px;
 }
 .height{
   height:calc(100vh - 200px)
@@ -395,7 +395,7 @@ beforeRouteEnter(to, from, next) {
   letter-spacing:-1.2px;
   font-size:52px;
   font-weight:400;
-  margin-left:180px;
+  margin-left:150px;
   padding:25px 40px;
   color:rgb(150, 150, 150);
 }
@@ -732,6 +732,13 @@ font-size:95%;
   height:calc(100vh - 240px)
 }
 
+#logo{
+  width:180px;
+  height:180px;
+  margin-top:30px;
+  margin-left:30px;
+}
+
 .split-container-top{
   height:calc(100% - 240px) ;
   width:100%;
@@ -744,6 +751,7 @@ font-size:95%;
 .title{
     padding:35px 40px;
   font-size:60px;
+  margin-left:180px;
 }
 
 .top{
