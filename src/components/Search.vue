@@ -26,7 +26,6 @@
             Advanced Search
           </button> -->
           <button class="search-button-round" @click="triggerSearch">
-         
           </button>
         </div>
       </h2>
@@ -298,7 +297,7 @@ border-radius:50%;
 height:40px;
 width:40px;
 margin-right:10px;
-background:url(../../interface/searchbuttonwhite.png) no-repeat 50% 50%;
+background:url(../../public/interface/searchbuttonwhite.png) no-repeat 50% 50%;
 background-size: 30px 30px;
 background-color:#6666;
 }
