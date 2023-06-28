@@ -161,9 +161,19 @@ export default {
     }
   },
   mounted() {
-    // this.loadStartPage();
+    this.loadStartPage();
   },
   methods: {
+  imageLoaded() {
+  this.loadedImagesCount += 1;
+  // Check if all images are loaded
+  if (this.loadedImagesCount === this.imageGroups.reduce((count, group) => count + group.items.length, 0)) {
+    // All images are loaded, so we can update the masonry layout
+    this.$nextTick(() => {
+      this.layoutKey += 1;
+    }); 
+  }
+  },
   updatePageDetails() {
     this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages });
   },
