@@ -175,7 +175,7 @@ export default {
     }
   },
   mounted() {
-    this.loadStartPage();
+    // this.loadStartPage();
   },
   methods: {
   imageLoaded() {
