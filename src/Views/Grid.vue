@@ -695,12 +695,12 @@ font-size:95%;
   color:white;
   z-index:1000;
   border-radius:50%;
-  height:35px;
-  width:35px;
-  background-color:rgb(35,35,35);
+  height:36px;
+  width:36px;
+  background-color:rgba(35,35,35, 0.8);
   margin-left:25px;
   margin-top:45px;
-  opacity:0.7;
+  opacity:1.0;
   padding:5px;
   }
 

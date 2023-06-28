@@ -152,18 +152,18 @@ export default {
       this.count = data.count; // Update the total count
 
       const specificOrder = [
-        { type: 957, text: 'Ortofoto (sfm)', order: 1 },
+        { type: 957, text: 'Ortofotografi (sfm)', order: 1 },
         { type: 943, text: '3d-visualisering', order: 2 },
         { type: 958, text: '3d-sfm', order: 3 },
         { type: 959, text: '3d-laserskanning', order: 4 },
         { type: 961, text: 'Miljöbild', order: 5 },
-        { type: 964, text: 'Natt foto', order: 6 },
-        { type: 942, text: 'Foto', order: 7 },
+        { type: 964, text: 'Nattfotografi', order: 6 },
+        { type: 942, text: 'Fotografi', order: 7 },
         { type: 949, text: 'Diabild', order: 8 },
         { type: 947, text: 'Negativ, färg', order: 9 },
         { type: 948, text: 'Negativ, svart/vit', order: 10 },
         { type: 960, text: 'Printscreen av lasermodel', order: 11 },
-        { type: 956, text: 'Foto av sfm bild', order: 12 },
+        { type: 956, text: 'Fotografi av sfm bild', order: 12 },
         { type: 954, text: 'Dstretch-visualisering', order: 13 },
         { type: 941, text: 'Frottage', order: 14 },
         { type: 946, text: 'Grafik', order: 15 },
