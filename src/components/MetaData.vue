@@ -185,7 +185,7 @@ ul {
   background-size:25px;
   background-position:10px 8px;
   background-repeat:no-repeat;
-  box-shadow:0px 0px 20px rgba(0,0,0,0.2);
+  box-shadow:5px 5px 10px rgba(0,0,0,0.1);
 }
 
 .visit-button:hover {
