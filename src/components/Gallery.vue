@@ -2,7 +2,7 @@
   <div style="padding-top: 35px; padding-bottom: 35px;">
     <div v-for="group in imageGroups" :key="group.type">
      <h1 v-if="group.items.length > 0">{{ group.text }}</h1>     
-      <MasonryWall :key="group.layoutKey" :items="group.items" :ssr-columns="1" :column-width="200" :gap="2">
+      <MasonryWall :key="group.layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="2">
         <template #default="{ item, index }">
           <div class="grid-image card flex items-center justify-center bg-slate-50 text-black" @click="$emit('image-clicked', item.iiif_file, item.id);">
             <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`" @load="imageLoaded" />
@@ -104,6 +104,20 @@ export default {
     },
   },
   computed: {
+  columnWidth() {
+    const screenWidth = window.innerWidth;
+    let columnWidth;
+
+    if (screenWidth < 768) {
+      columnWidth = 100; // Set the column width for small screens
+    } else if (screenWidth < 1024) {
+      columnWidth = 200; // Set the column width for medium screens
+    } else {
+      columnWidth = 200; // Set the column width for large screens
+    }
+
+    return columnWidth;
+  },
   totalPages() {
     return Math.ceil(this.count / 25);
   },
