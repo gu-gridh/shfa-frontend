@@ -695,13 +695,16 @@ font-size:95%;
   color:white;
   z-index:1000;
   border-radius:50%;
-  height:36px;
-  width:36px;
+  height:35px;
+  width:35px;
   background-color:rgba(35,35,35, 0.8);
   margin-left:25px;
   margin-top:45px;
   opacity:1.0;
   padding:5px;
+  border-width:1px;
+  border-style:solid;
+  border-color:grey;
   }
 
   .close-button:hover{
