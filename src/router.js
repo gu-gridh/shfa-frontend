@@ -28,6 +28,16 @@ const routes = [
     component: Grid,
   },
   {
+    path: '/search/',
+    name: 'Search',
+    component: Grid, 
+  },
+  {
+    path: '/advanced/',
+    name: 'AdvancedSearch',
+    component: Grid, 
+  },
+  {
     path: '/:catchAll(.*)',
     component: Grid, 
   }

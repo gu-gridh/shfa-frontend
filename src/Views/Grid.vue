@@ -59,6 +59,7 @@
    
   <div v-show="showGallery"> 
   <Gallery 
+    ref="galleryRef"
     :siteId="selectedId" 
     :siteRaaId="selectedRaaId"
     @image-clicked="onImageClicked"
@@ -165,14 +166,15 @@ export default defineComponent({
       if (newSiteId) {
         this.selectedId = newSiteId;
       }
-
       if (newIiifFile) {
         this.selectedIiifFile = newIiifFile;
         this.showThreePanels = true;
       }
-
-       if (idForMetaData) {
+      if (idForMetaData) {
         this.idForMetaData = idForMetaData;
+      }
+      if (to.name === 'Home' && !newSiteId && !newIiifFile && !idForMetaData) {
+        this.$refs.galleryRef.loadStartPage();
       }
     },
     selectedId(newId, oldId) {
@@ -315,7 +317,7 @@ beforeRouteEnter(to, from, next) {
     this.selectedId = null; // Reset selectedId
    
     this.$router.push({ 
-      name: 'Home', 
+      name: 'Search', 
     });
     },
     toggleMap() {
@@ -351,7 +353,7 @@ beforeRouteEnter(to, from, next) {
       this.selectedId = null; // Reset selectedId
    
       this.$router.push({ 
-        name: 'Home', 
+        name: 'AdvancedSearch', 
       });
     },
     fetchPreviousPage() {
