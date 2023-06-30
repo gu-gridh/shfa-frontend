@@ -138,7 +138,7 @@ export default {
         return;
       }
 
-      const url = `https://diana.dh.gu.se/api/shfa/search/?q=${query}`;
+      const url = `https://diana.dh.gu.se/api/shfa/search/?q=${query}&depth=1`;
       await this.fetchResults(url);
     },
     async fetchResults(url) {
@@ -184,13 +184,13 @@ export default {
     for (let image of data.results) {
       let type = image.type;
       let item = {
-        id: image.id,
-        file: image.file,
-        type: image.type,
+        id: image.id,   
+        lamning_id: image.site.lamning_id,
+        type: image.type.id,
         iiif_file: image.iiif_file,
       };
 
-      let typeIndex = typeMap.findIndex(x => x.type === type);
+    let typeIndex = typeMap.findIndex(x => x.type === type.id); 
       if (typeIndex !== -1) {
         typeMap[typeIndex].items.push(item);
       }

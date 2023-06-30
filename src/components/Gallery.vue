@@ -8,7 +8,7 @@
             <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`" @load="imageLoaded" />
             <div class="grid-item-info">
               <div class="grid-item-info-meta">
-                <h1>{{ mapGallery ? siteRaaId : item.id }}</h1>
+                <h1>{{ mapGallery ? siteLamningId : item.lamning_id }}</h1>
               </div>
             </div>
           </div>
@@ -47,7 +47,7 @@ export default {
       required: false,
       default: null,
     },
-    siteRaaId: {
+    siteLamningId: {
       type: String,
       required: false,
       default: null,
@@ -192,7 +192,7 @@ export default {
     this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages });
   },
   async loadStartPage() {
-      let response = await fetch('https://diana.dh.gu.se/api/shfa/image/?collection=5534');
+      let response = await fetch('https://diana.dh.gu.se/api/shfa/image/?collection=5534&depth=1');
       if (!response.ok) {
         this.$emit('error', 'Could not fetch data');
         return;
@@ -215,12 +215,12 @@ export default {
         let type = image.type;
         let item = {
           id: image.id,
-          file: image.file,
-          type: image.type,
+          lamning_id: image.site.lamning_id,
+          type: image.type.id,
           iiif_file: image.iiif_file,
         };
 
-        let typeIndex = typeMap.findIndex(x => x.type === type);
+      let typeIndex = typeMap.findIndex(x => x.type === type.id); 
         if (typeIndex !== -1) {
           typeMap[typeIndex].items.push(item);
         }

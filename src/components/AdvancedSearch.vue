@@ -144,6 +144,7 @@ export default {
       }
     });
 
+    searchParams.append('depth', '1');
     fetchURL = fetchURL ? fetchURL : baseURL + searchParams.toString();
 
     try {
@@ -188,10 +189,12 @@ export default {
         let type = image.type;
         let item = {
           id: image.id,
+          lamning_id: image.site.lamning_id,
+          type: image.type.id,
           iiif_file: image.iiif_file,
         };
 
-        let typeIndex = typeMap.findIndex(x => x.type === type);
+      let typeIndex = typeMap.findIndex(x => x.type === type.id); 
         if (typeIndex !== -1) {
           typeMap[typeIndex].items.push(item);
         }

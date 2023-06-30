@@ -115,7 +115,7 @@ async fetchAdditionalData(url, pagesToFetch = 10) {
         const additionalResults = data.features.map((feature) => ({
           coordinates: feature.geometry.coordinates,
           id: feature.id,
-          raa_id: feature.properties.raa_id,
+          lamning_id: feature.properties.lamning_id,
         }));
 
         // Filter the additionalResults to only include points outside the current bounding box
@@ -202,16 +202,16 @@ async fetchDataByBbox() {
     this.cachedResults.push(...allFeatures.map((feature) => ({
       coordinates: feature.geometry.coordinates,
       id: feature.id,
-      raa_id: feature.properties.raa_id,
+      lamning_id: feature.properties.lamning_id,
     })));
 
     // Deduplicate the cachedResults array
     const uniqueResults = [];
     const seenRaaIds = new Set();
     for (const result of this.cachedResults) {
-      if (!seenRaaIds.has(result.raa_id)) {
+      if (!seenRaaIds.has(result.lamning_id)) {
         uniqueResults.push(result);
-        seenRaaIds.add(result.raa_id);
+        seenRaaIds.add(result.lamning_id);
       }
     }
     this.cachedResults = uniqueResults;
@@ -278,14 +278,13 @@ async fetchDataByBbox() {
       this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
       const featuresInCluster = feature.get('features');
       if (featuresInCluster.length === 1) {
-        const raa_id = featuresInCluster[0].get('raa_id');
+        const lamning_id = featuresInCluster[0].get('lamning_id');
         const id = featuresInCluster[0].get('id');
-        console.log('Clicked id:', id, 'Clicked raa_id:', raa_id);
         this.clickedId = id;
-        this.clickedRaaId = raa_id;
+        this.clickedLamningId = lamning_id;
         this.$emit('map-clicked');
         this.$emit('id-selected', id);
-        this.$emit('raaId-selected', raa_id);
+        this.$emit('lamning-selected', lamning_id);
       } else {
         const coordinates = feature.getGeometry().getCoordinates();
         this.map.getView().setCenter(coordinates);
@@ -307,7 +306,7 @@ updateCoordinates() {
       const feature = new Feature({
         geometry: new Point(fromLonLat([coord[0], coord[1]]))
       });
-      feature.set('raa_id', result.raa_id); 
+      feature.set('lamning_id', result.lamning_id); 
       feature.set('id', result.id)
       feature.setStyle(this.iconStyle);
       return feature;

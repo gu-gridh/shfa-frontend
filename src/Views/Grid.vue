@@ -37,7 +37,7 @@
         :coordinates="results"
         :bbox="bbox"
         @id-selected="selectedId = $event"
-        @raaId-selected="selectedRaaId = $event"
+        @lamning-selected="selectedLamningId = $event"
         @update-bbox="bbox = $event"
         @map-clicked="forceRefresh++"
       ></Map>
@@ -61,7 +61,7 @@
   <Gallery 
     ref="galleryRef"
     :siteId="selectedId" 
-    :siteRaaId="selectedRaaId"
+    :siteLamningId="selectedLamningId"
     @image-clicked="onImageClicked"
     @page-details-updated="updatePageDetails"
     :searchItems="searchItems"
@@ -86,7 +86,7 @@
 <div v-if="showCatalogue" @click="toggleThreePanels">
     <Catalogue 
       :siteId="selectedId" 
-      :siteRaaId="selectedRaaId"
+      :siteLamningId="selectedLamningId"
       @items-updated="onItemsUpdated"
       @image-clicked="onImageClicked">
     </Catalogue>
@@ -255,7 +255,7 @@ export default defineComponent({
       advancedSearchResults: [],
       showThreePanels: false,
       selectedId: null,
-      selectedRaaId: null,
+      selectedLamningId: null,
       selectedIiifFile: null,
       idForMetaData: null,
       currentPage: 1,
