@@ -1,11 +1,14 @@
 <template>
   <div style="padding-top: 35px; padding-bottom: 35px;">
-    <div v-for="group in imageGroups" :key="group.type">
-     <h1 v-if="group.items.length > 0">{{ group.text }}</h1>     
-      <MasonryWall :key="group.layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="2">
+    <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
+      <h1 v-if="group.items.length > 0">{{ group.text }}</h1>
+      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="2">
         <template #default="{ item, index }">
           <div class="grid-image card flex items-center justify-center bg-slate-50 text-black" @click="$emit('image-clicked', item.iiif_file, item.id);">
-            <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`" @load="imageLoaded" />
+          <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" 
+              :alt="`Image ${index}`" 
+              @load="item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)"
+              v-on:load.once="item.loaded = true" />
             <div class="grid-item-info">
               <div class="grid-item-info-meta">
                 <h1>{{ mapGallery ? siteLamningId : item.lamning_id }}</h1>
@@ -178,15 +181,20 @@ export default {
     // this.loadStartPage();
   },
   methods: {
-  imageLoaded() {
-  this.loadedImagesCount += 1;
-  // Check if all images are loaded
-  if (this.loadedImagesCount === this.imageGroups.reduce((count, group) => count + group.items.length, 0)) {
-    // All images are loaded, so we can update the masonry layout
-    this.$nextTick(() => {
-      this.layoutKey += 1;
-    }); 
-  }
+  imageLoadLog(imageIndex, groupIndex, image) {
+    // console.log(`Loading image ${imageIndex} in group ${groupIndex}`);
+    if (!image.loaded) {
+        this.imageLoaded(image);
+    }
+  },
+  imageLoaded(event) {
+    this.loadedImagesCount += 1;
+    // Check if all images are loaded
+    if (this.loadedImagesCount === this.imageGroups.reduce((count, group) => count + group.items.length, 0)) {
+      this.$nextTick(() => {
+        this.layoutKey += 1;
+      });   
+    }
   },
   updatePageDetails() {
     this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages });
