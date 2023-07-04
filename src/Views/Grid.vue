@@ -378,12 +378,13 @@ beforeRouteEnter(to, from, next) {
 
 
 <style>
+
 #logo{
-  width:160px;
-  height:150px;
+  width:140px;
+  height:130px;
   background-color:grey;
   float:left;
-  margin-top:25px;
+  margin-top:35px;
   margin-left:25px;
   background:url("../assets/shfa_logo_downscale.png");
   background-repeat:no-repeat;
@@ -407,10 +408,10 @@ beforeRouteEnter(to, from, next) {
   font-family: 'Teko', sans-serif;
   line-height:0.75;
   letter-spacing:-1.2px;
-  font-size:52px;
+  font-size:50px;
   font-weight:400;
-  margin-left:170px;
-  padding:25px 40px;
+  margin-left:150px;
+  padding:30px 40px;
   color:rgb(150, 150, 150);
 }
 
@@ -435,7 +436,7 @@ background-color:rgb(210,210,210)
 }
 .languages{
 right:0px;
-font-size:1.3em;
+font-size:1.2em;
 font-weight:400;
 color:black;
 position:absolute;
@@ -445,7 +446,7 @@ padding-right:20px;
 
 
 .top-links{
-  font-size:1.3em;
+  font-size:1.2em;
   font-weight:400;
   margin-top:140px;
   height:auto;
@@ -483,10 +484,10 @@ padding-right:20px;
   float:left;
   text-align:left;
   margin-left:10px;
-  padding:3px 15px 3px 43px;
+  padding:3px 15px 3px 38px;
   border-radius:8px;
   background-image:url(../../public/interface/linkbutton.png);
-  background-size:30px;
+  background-size:27px;
   background-position:5px 4px;
   background-repeat:no-repeat;
 }
@@ -759,9 +760,9 @@ font-size:95%;
 }
 
 #logo{
-  width:200px;
-  height:180px;
-  margin-top:30px;
+  width:160px;
+  height:150px;
+  margin-top:45px;
   margin-left:30px;
 }
 
@@ -775,9 +776,9 @@ font-size:95%;
 }
 
 .title{
-    padding:35px 40px;
-  font-size:60px;
-  margin-left:210px;
+    padding:45px 40px;
+  font-size:55px;
+  margin-left:180px;
 }
 
 .top{

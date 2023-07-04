@@ -2,7 +2,7 @@
   <div style="padding-top: 35px; padding-bottom: 35px;">
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
       <h1 v-if="group.items.length > 0">{{ group.text }}</h1>
-      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="2">
+      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="2" class="gallery-group">
         <template #default="{ item, index }">
           <div class="grid-image card flex items-center justify-center bg-slate-50 text-black" @click="$emit('image-clicked', item.iiif_file, item.id);">
           <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" 
@@ -408,6 +408,7 @@ h1 {
   color: white;
   margin: 20px 20px 10px 0px;
 }
+
 
 .card {
   border-radius:0px;

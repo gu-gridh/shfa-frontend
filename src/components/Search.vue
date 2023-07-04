@@ -345,7 +345,7 @@ background-color:#6666;
   float: left;
   background-color: rgb(80,90,100);
   padding: 0.4em 0.5em; 
-  font-size: 1.25em;
+  font-size: 1.2em;
   border-radius: 5px;
   margin-left: 10px;
   cursor: pointer;
@@ -371,7 +371,7 @@ background-color:#6666;
   margin-left: 0px;
   margin-right: 0px;
   border-radius: 8px;
-  padding: 8px 15px;
+  padding: 4px 15px;
   background-color: transparent;
 }
 
@@ -395,7 +395,7 @@ input[type="search"] {
   border: none;
   color: white;
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   flex: 1;
   width:1px!important;
 }
