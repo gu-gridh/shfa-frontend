@@ -124,7 +124,7 @@
 <div id="split-2" class="flex-grow main-color overflow-auto"
       :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }" v-show="showThreePanels">
       <button @click="closeThreePanels" class="close-button">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 
     <ImageViewer :iiifFile="selectedIiifFile"/>
@@ -699,19 +699,19 @@ font-size:95%;
   border-radius:50%;
   height:35px;
   width:35px;
-  background-color:rgba(35,35,35, 0.8);
-  margin-left:25px;
+  background-color:rgba(65,65,65, 0.9);
+  margin-left:27px;
   margin-top:45px;
   opacity:1.0;
   padding:5px;
-  border-width:1px;
+ border-width:1px;
   border-style:solid;
-  border-color:grey;
+  border-color:rgb(45,45,45);
   }
 
   .close-button:hover{
     background-color: rgb(80,90,100);
-    opacity:0.9;
+    opacity:1.0;
   }
 
 

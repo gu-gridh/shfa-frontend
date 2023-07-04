@@ -157,14 +157,14 @@ watch: {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
   overflow: hidden;
 }
 
 #Prev {
   background: url(../assets/openseadragon/prev.png);
   background-size: 35px 35px;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -174,7 +174,7 @@ watch: {
 #Next {
   background: url(../assets/openseadragon/next.png);
   background-size: 35px 35px;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -186,7 +186,7 @@ watch: {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
 
 
   margin-top: 0px;
@@ -199,17 +199,17 @@ watch: {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
   overflow: hidden;
 }
 
 #Download {
   margin-top: 20px;
   background: url(../../public/interface/downloadwhite.png);
-  background-size: 100%;
+  background-size: 90%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
   cursor: pointer;
   overflow: hidden;
 }
@@ -218,10 +218,12 @@ watch: {
   width: 35px;
   height: 35px;
   color: white;
-  opacity: 0.8;
-  margin-bottom: 3px;
+  opacity: 0.95;
+  border-width:1px;
+  border-style:solid;
+  border-color:rgb(45,45,45);
 }
 .NavButton:hover {
-  opacity: 1;
+  opacity: 0.8;
 }
 </style>
