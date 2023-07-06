@@ -12,8 +12,12 @@
 
   <div class="top-links">
     <div class="top-link-button" @click="toggleAboutVisibility">About the archive</div>
-    <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv"><div class="top-link-button">About SHFA</div></a>
-    <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv"><div class="top-link-button">News</div></a>
+    <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv" target="_blank">
+      <div class="top-link-button">About SHFA</div>
+    </a>
+    <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv" target="_blank">
+      <div class="top-link-button">News</div>
+    </a>
   </div>
 </div>
   <!-- Start of Container -->
