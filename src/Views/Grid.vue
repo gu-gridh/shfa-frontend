@@ -11,7 +11,7 @@
   </div>
 
   <div class="top-links">
-    <div class="top-link-button">About the archive</div>
+    <div class="top-link-button" @click="toggleAboutVisibility">About the archive</div>
     <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv"><div class="top-link-button">About SHFA</div></a>
     <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv"><div class="top-link-button">News</div></a>
   </div>
@@ -138,6 +138,7 @@
 </div>
 <!-- End of Container -->
 
+<About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
 </div>
 </template>
 
@@ -153,10 +154,11 @@ import Search from "../components/Search.vue";
 import AdvancedSearch from "../components/AdvancedSearch.vue";
 import ImageViewer from "../components/ImageViewer.vue";
 import MetaData from "../components/MetaData.vue"
+import About from "../components/About.vue"
 
 export default defineComponent({
   components: {
-    Map, Gallery, Catalogue, Datareport, Search, AdvancedSearch, ImageViewer, MetaData
+    Map, Gallery, Catalogue, Datareport, Search, AdvancedSearch, ImageViewer, MetaData, About
   },
   watch: {
     $route(to, from) {
@@ -270,6 +272,7 @@ export default defineComponent({
       previousPageUrl: null,
       previousPageUrlAdvanced: null,
       forceRefresh: 0,
+      visibleAbout: false,
     }
   },
 beforeRouteEnter(to, from, next) {
@@ -312,6 +315,9 @@ beforeRouteEnter(to, from, next) {
 
 
   methods: {
+    toggleAboutVisibility() {
+      this.visibleAbout = !this.visibleAbout;
+    },
     updateItems(newItems) {
     this.searchItems = newItems;
     this.selectedId = null; // Reset selectedId
