@@ -13,9 +13,9 @@
       <a id="zoom-out" href="#zoom-out">
         <div id="ZoomOut" class="NavButton"></div>
       </a>
-     <a id="download" :href="`${iiifFile}/full/full/0/default.jpg`" target="_blank">
-        <div id="Download" class="NavButton"></div>
-      </a>
+     <a id="download" :href="`${completeUrl}/full/full/0/default.jpg`" target="_blank">
+      <div id="Download" class="NavButton"></div>
+    </a>
     </div> 
   </div>
 
@@ -49,9 +49,14 @@ export default {
       default: null,
     },
   },
+  computed: {
+    completeUrl() {
+      return `https://img.dh.gu.se/diana/static/shfa/iiif/${this.iiifFile}`;
+    },
+  },
   mounted() {
     if (this.iiifFile) {
-      this.initOpenSeadragon(this.iiifFile);
+      this.initOpenSeadragon(this.completeUrl);
     }
 
   },
@@ -87,9 +92,9 @@ watch: {
         if (newIiifFile !== oldIiifFile) {
             if (this.viewer) {
                 this.viewer.close();
-                this.viewer.open(`${newIiifFile}/info.json`);
+                this.viewer.open(`${this.completeUrl}/info.json`);
             } else {
-                this.initOpenSeadragon(newIiifFile);
+                this.initOpenSeadragon(this.completeUrl);
             }
         }
     },

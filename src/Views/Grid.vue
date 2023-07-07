@@ -342,7 +342,12 @@ beforeRouteEnter(to, from, next) {
       this.showThreePanels = false;
     },
     onImageClicked(iiifFile, id) {
-      this.selectedIiifFile = iiifFile;
+      const fileSegment = iiifFile.split('iiif/')[1]; 
+      if(fileSegment){
+          this.selectedIiifFile = fileSegment; 
+      } else {
+          console.error('Invalid IIIF File URL');
+      }
       this.idForMetaData = id;
       this.toggleThreePanels();
     },
