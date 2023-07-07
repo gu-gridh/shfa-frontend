@@ -43,7 +43,7 @@
         @id-selected="selectedId = $event"
         @lamning-selected="selectedLamningId = $event"
         @update-bbox="bbox = $event"
-        @map-clicked="forceRefresh++"
+        @map-clicked="handleMapClicked"
       ></Map>
       <AdvancedSearch v-show="!showMap" 
         @advanced-search-results="handleAdvancedSearchResults"
@@ -184,9 +184,8 @@ export default defineComponent({
       }
     },
     selectedId(newId, oldId) {
-      if (newId && this.isFirstLoad) {
+    if (newId && this.isFirstLoad && !this.mapClicked) {
         this.$router.replace({ name: 'Site', params: { siteId: newId } });
-
         // Fetch the new site's coordinates
         fetch(`https://diana.dh.gu.se/api/shfa/geojson/site/?id=${newId}`)
           .then(response => {
@@ -279,6 +278,7 @@ export default defineComponent({
       forceRefresh: 0,
       visibleAbout: false,
       isFirstLoad: true,
+      mapClicked: false,
     }
   },
 beforeRouteEnter(to, from, next) {
@@ -321,6 +321,10 @@ beforeRouteEnter(to, from, next) {
 
 
   methods: {
+    handleMapClicked() {
+      this.forceRefresh++;
+      this.mapClicked = true;
+    },
     toggleAboutVisibility() {
       this.visibleAbout = !this.visibleAbout;
     },
