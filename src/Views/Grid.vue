@@ -200,7 +200,10 @@ export default defineComponent({
         })
         .then(data => {
           const coordinates = data.features[0].geometry.coordinates;
-          this.$refs.mapComponent.focusOnCoordinates(...coordinates);
+          if (!this.mapClicked)
+          {
+            this.$refs.mapComponent.focusOnCoordinates(...coordinates);
+          }
         })
         .catch(e => {
           console.error('Failed to fetch new site coordinates:', e);
@@ -279,7 +282,7 @@ export default defineComponent({
       previousPageUrlAdvanced: null,
       forceRefresh: 0,
       visibleAbout: false,
-      isFirstLoad: true,
+      mapClicked: false,
     }
   },
 beforeRouteEnter(to, from, next) {
@@ -325,6 +328,7 @@ beforeRouteEnter(to, from, next) {
     handleMapClicked(siteId) {
       this.forceRefresh++;
       this.selectedId = siteId; // update the selectedId with the new siteId
+      this.mapClicked = true;
     },
     toggleAboutVisibility() {
       this.visibleAbout = !this.visibleAbout;
