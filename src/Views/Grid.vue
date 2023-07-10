@@ -375,7 +375,7 @@ beforeRouteEnter(to, from, next) {
       this.selectedId = null; // Reset selectedId
    
       this.$router.push({ 
-        name: 'AdvancedSearch', 
+        name: 'Search', 
       });
     },
     fetchPreviousPage() {
