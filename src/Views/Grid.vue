@@ -185,12 +185,8 @@ export default defineComponent({
     },
     selectedId(newId, oldId) {
     if (newId) {
-      if (this.isFirstLoad) {
-          this.$router.push({ name: 'Site', params: { siteId: newId } });
-          this.isFirstLoad = false;
-      } else {
-          this.$router.push({ name: 'Site', params: { siteId: newId } });
-      }
+      this.$router.push({ name: 'Site', params: { siteId: newId } });
+      
       fetch(`https://diana.dh.gu.se/api/shfa/geojson/site/?id=${newId}`)
         .then(response => {
           if (!response.ok) {
