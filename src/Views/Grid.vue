@@ -184,27 +184,29 @@ export default defineComponent({
       }
     },
     selectedId(newId, oldId) {
-    if (newId && this.isFirstLoad && !this.mapClicked) {
-        this.$router.replace({ name: 'Site', params: { siteId: newId } });
-        // Fetch the new site's coordinates
-        fetch(`https://diana.dh.gu.se/api/shfa/geojson/site/?id=${newId}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(data => {
-            const coordinates = data.features[0].geometry.coordinates;
-            this.$refs.mapComponent.focusOnCoordinates(...coordinates);
-          })
-          .catch(e => {
-            console.error('Failed to fetch new site coordinates:', e);
-          });
-
-        this.isFirstLoad = false;
+    if (newId) {
+      if (this.isFirstLoad) {
+          this.$router.push({ name: 'Site', params: { siteId: newId } });
+          this.isFirstLoad = false;
+      } else {
+          this.$router.push({ name: 'Site', params: { siteId: newId } });
       }
-    },
+      fetch(`https://diana.dh.gu.se/api/shfa/geojson/site/?id=${newId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const coordinates = data.features[0].geometry.coordinates;
+          this.$refs.mapComponent.focusOnCoordinates(...coordinates);
+        })
+        .catch(e => {
+          console.error('Failed to fetch new site coordinates:', e);
+        });
+    }
+  },
     selectedIiifFile(newIiifFile, oldIiifFile) {
       if(this.selectedId === null) {  // When there's no site id
         // Only change the URL, but not the history
@@ -278,7 +280,6 @@ export default defineComponent({
       forceRefresh: 0,
       visibleAbout: false,
       isFirstLoad: true,
-      mapClicked: false,
     }
   },
 beforeRouteEnter(to, from, next) {
@@ -321,9 +322,9 @@ beforeRouteEnter(to, from, next) {
 
 
   methods: {
-    handleMapClicked() {
+    handleMapClicked(siteId) {
       this.forceRefresh++;
-      this.mapClicked = true;
+      this.selectedId = siteId; // update the selectedId with the new siteId
     },
     toggleAboutVisibility() {
       this.visibleAbout = !this.visibleAbout;
