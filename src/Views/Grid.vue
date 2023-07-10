@@ -321,9 +321,8 @@ beforeRouteEnter(to, from, next) {
 
 
   methods: {
-    handleMapClicked(siteId) {
+    handleMapClicked() {
       this.forceRefresh++;
-      this.selectedId = siteId; // update the selectedId with the new siteId
       this.mapClicked = true;
     },
     toggleAboutVisibility() {
