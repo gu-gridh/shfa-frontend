@@ -11,12 +11,14 @@
   </div>
 
   <div class="top-links">
-    <div class="top-link-button" @click="toggleAboutVisibility">About the archive</div>
-    <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv" target="_blank">
-      <div class="top-link-button">About SHFA</div>
-    </a>
     <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv" target="_blank">
       <div class="top-link-button">News</div>
+    </a>
+      <div class="top-link-button">About SHFA</div>
+   
+
+    <div class="top-link-button" @click="toggleAboutVisibility">About the archive</div>
+    <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv" target="_blank">
     </a>
   </div>
 </div>
@@ -475,6 +477,7 @@ padding-right:20px;
   color:black;
   position:absolute;
   padding-right:20px;
+  width:500px;
 }
 
 .button-image{
@@ -490,7 +493,7 @@ padding-right:20px;
 }
 
 .top-button{
-  float:left;
+  float:right;
   text-align:left;
   margin-left:10px;
   padding:3px 10px 3px 10px;
@@ -502,7 +505,7 @@ padding-right:20px;
 }
 
 .top-link-button{
-  float:left;
+  float:right;
   text-align:left;
   margin-left:10px;
   padding:3px 15px 3px 38px;
