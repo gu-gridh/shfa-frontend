@@ -5,12 +5,14 @@
   <h1 class="title">Swedish <br><div class="emph">Rock Art </div><br>Research<br> Archive</h1>
 
   <div class="languages">
-    <div class="top-button">Swedish</div>
+    <div class="version" style="font-size:15px; text-align:right; margin-right:9px;">Version 1.0</div>
+    <div class="top-button">Svenska</div>
     <div class="top-button">|</div>
     <div class="top-button">English</div>
   </div>
 
   <div class="top-links">
+   
     <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv" target="_blank">
       <div class="top-link-button">News</div>
     </a>
@@ -464,7 +466,7 @@ font-size:1.2em;
 font-weight:400;
 color:black;
 position:absolute;
-padding-top:20px;
+padding-top:10px;
 padding-right:20px;
 }
 
@@ -496,7 +498,7 @@ padding-right:20px;
 .top-button{
   float:right;
   text-align:left;
-  margin-left:10px;
+  margin-left:0px;
   padding:3px 10px 3px 10px;
   border-radius:8px;
 }
