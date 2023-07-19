@@ -768,8 +768,8 @@ font-size:95%;
   box-sizing: border-box;
   font-weight:200;
   padding: 0px 10px;
-  height: 50px !important;
-  gap: 5px;
+  height: 40px !important;
+  gap: 3px!important;
   overflow:hidden;
 }
 .flex-grow.overflow-auto.main-color::-webkit-scrollbar {
@@ -875,6 +875,11 @@ font-size: 1.3em;
 font-size: 1.5rem !important;
 padding: 3px 15px;
 
+}
+
+#app .search-container .input-wrapper {
+  height: 50px !important;
+  gap: 5px!important;
 }
 
 /* Metadata settings */

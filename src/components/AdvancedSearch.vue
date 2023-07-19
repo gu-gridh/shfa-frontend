@@ -398,22 +398,6 @@ export default {
   position: relative;
 }
 
-.input-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  background-color: rgb(45, 45, 45);
-  border-radius: 6px;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 1rem;
-  font-weight:200;
-  padding: 0px 10px;
-  height: 40px;
-  gap: 5px;
-  overflow:hidden;
-}
-
 .field-title {
   font-size: 0.95em;
   margin-bottom: 5px;
