@@ -1,36 +1,43 @@
 <template>
-  <div class="about-container" v-bind:class="{abouthidden: !visibleAbout}">
-    <div class="flex-machine"  v-bind:class="{abouthiddenui: !visibleAbout}">
-      <div class="red-content" >
-    <div class="about-main-title" >Swedish Rock Art <br>Research Archive</div>
+  <div class="about-container" v-bind:class="{fullopacity: visibleAbout}">
+    <div class="flex-machine">
+      <div class="rows">
+    <div class="about-main-title" v-bind:class="{fullopacityui: visibleAbout}">Svenskt HällristningsForskningsArkivs - SHFA</div>
 
-    <div class="about-article-main">
-        Extended Rephotography is a transdisciplinary project focused on the glacial environment in northwest Svalbard. The core of the project is using Extended Reality (XR) technologies for field based visualizations and research analysis, documentation and communication of research results.
-        The works aimed for the public is focused on storytelling and visualization using a wide range of historical data and on going research as a collaboration between several disciplines and institutions.
-    </div>
+      <div class="about-article-sub"  v-bind:class="{fullopacityui: visibleAbout}">
+          <h2>Database Overview</h2>
+<p>SHFA's image database includes more than 24,000 digitized images that are the result of ongoing work describing and documenting rock carvings since 1627.  
+  These data are primarily from Sweden but also from Denmark, Norway, Italy, Spain and elsewhere around the world. The database includes images of the documentation 
+  results as well as the documentation process, from historic documentation to current digital methods.  More information on the documentation process can be found at 
+  <a href='https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv'>About SHFA</a>.</p><br>
+<h2>Web Portal Migration</h2> 
+<p>This platform for the SHFA database has been developed by Göteborgs infrastruktur för digital humaniora (GRIDH) and aims to offer enhanced methods to search the database and 
+  display digital documentation.  The migration from SHFA's previous web portal (developed by Miljödata AB) is currently on-going.  To date, the images 
+  of rock carving sites in Sweden have been transferred.  3D documentation and data from international sites will be made available as the migration continues.</p><br>
+
+  <h2>Searching the Database</h2>
+<p >Using the suggested keyword search, you can access images of common documentation methods and motifs.  With the map or advanced search options, you can retrieve results for detailed searches.  
+  Each search returns a gallery of images which can be viewed in more detail by clicking on the thumbnail.  In the detailed view, the metadata, external information, and download link are available.</p><br>
+
+<h2>Citing the Images</h2>
+<p>Images in the database are freely available for printing and downloading for private or non-profit use. The suggested citation for each image is provided in the detailed view, but you may reformat this to your preferred style using the image metadata. 
+  Please notify us at <a href=mailto:shfa@gu.se>shfa@gu.se</a> and provide a link to <a href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> when you publish images from the database.
+  The copyright applies to established principles that include, among other things, the photographer's voluntary right. The images are protected by a creative commons license (CC BY 4.0). For more information, please visit creative common's own website at:
+<a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a></p><br>
+<h2>Citing the Platform</h2>
+<p>Westin, Jonathan, Bridge, Tristan & Karimi, Aram "gu-gridh/shfa-frontend: v.1.0 Initial public release" Github, 24 August 2023. https://github.com/gu-gridh/shfa-frontend</p>
 
 
-
-
-      <div class="about-article-sub">
-      The project is led by Tyrone Martinsson and is a collaboration between University of Gothenburg, Norwegian Polar Institute, Visual Arena Lindholmen, Universeum, and University of Plymouth. Infravis, the national infrastructure for resaearch visualisation, has developed this tool to explore the data. The site is hosted and maintained by Gothenburg Research Infrastructure in Digital Humanities (GRIDH).
-      </div>
-  
-    
-    
-      
-        <button @click="$emit('close')">
+</div>
+<button @click="$emit('close')">
             <div
               class="p-1 px-2 clickable category-button"
-              style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;"  v-bind:class="{abouthiddenui: !visibleAbout}">Explore</div>
-          </button>
-        </div>
-        <div class="about-lower-border" v-bind:class="{abouthiddenui: !visibleAbout}"> </div>
-        <div class="about-logo-top-right"> </div>
-      </div>
-       
-       
+              style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;"  v-bind:class="{fullopacityui: visibleAbout}">Close</div>
+          </button>    
 
+        </div>
+        <div class="about-logo-top-right"> </div>
+    </div>
   </div>
   
 
@@ -49,151 +56,184 @@ export default {
 </script>
 
 <style scoped>
+body{
+  border:opx;
+  
+
+}
+a{
+  color:rgb(156, 201, 247);
+  font-weight: 400;
+}
+h2{
+  font-size:115%;
+  font-style:bold;
+  margin-top: -10px;
+  margin-bottom:5px;
+  color: rgb(200,225,250);
+  font-weight: 500;
+  line-height: 1.5;
+}
 .about-container {
   position:fixed;
   color: white;
   line-height: 1;
-  height: 100%;
   width: 100%;
   font-size: 12px;
-  z-index: 1000;
+  z-index: 2000;
   backdrop-filter:blur(0px);
-  pointer-events:auto;
-    transform: scale(1.0) translate(0px, -100vh);
-  transition: all 0.0s ease-in-out;
-  opacity:1.0;
+  pointer-events:none;
+  transform:scale(1.5);
+  translate: 0px 100px;
+  transition: all 0.5s ease-in-out;
+  opacity:0.0;
+  height: calc(100% - 80px);
   overflow-y:auto;
-  background: linear-gradient(90deg, rgba(250, 250, 250,1) 0%, rgba(250, 250, 250,0.9) 100%);
+  max-height:max-content;
+  /*background: linear-gradient(120deg, rgb(205, 210, 214) 0%, rgba(177, 189, 202, 0.856) 30%)*/;
+  background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 30%);
+
+}
+
+.fullopacity{
+  backdrop-filter:blur(5px);
+  opacity:1.0;
+  pointer-events:auto;
+  transform:scale(1.0);
+  translate: 0px 0px;
+  background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 80%);
+  height: 100%;
 }
 
 .flex-machine{
-  opacity:1.0; 
   height:100%;
   display:flex;
   flex-direction:column;
 }
 
-.abouthidden{
-  transition: all 1.5s ease-in-out;
-  backdrop-filter:blur(5px);
-  opacity:0.0;
-  pointer-events:none;
-  transform:scale(1.5);
-  translate: 0px 100px;
-  background: linear-gradient(90deg, rgba(250, 250, 250,1) 0%, rgba(250, 250, 250,0.5) 30%);
-}
-
-.abouthiddenui{
-  transition: all 1.5s ease-in-out;
-  opacity:0.0; 
-}
-
-.red-content{
+.rows{
   display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content: start;
-  width:auto;
-}
+    flex-direction:column;
+    align-items:center;
+    justify-content: start;
+    width:auto;
+  
+  }
 
 .about-main-title {
-  margin-top:100px;
-  flex-basis:auto;
-  width:100%;
-  font-size: 7rem;
-  line-height: 0.9;
-  font-weight: 100;
-  letter-spacing: -0.2rem;
-  text-align: center;
-  color:black;
-  margin-bottom:40px;
+    font-family: 'Teko', sans-serif;
+    margin-top:10px;
+    flex-basis:auto;
+    width:100%;
+    font-size: 4em;
+    line-height: 0.85;
+    font-weight: 100;
+    letter-spacing:-0.2px;
+    text-align: center;
+    color:rgba(245,245,245,0.8);
+    margin-bottom:15px;
+    transition: all 0.4s ease-in-out;
+  }
+
+.about-sub-title {
   font-family: 'Teko', sans-serif;
-}
+    margin-top: 2px;
+    flex-basis:auto;
+    width:100%;
+    font-size: 2.5em;
+    line-height: 0.9;
+    font-weight: 100;
+    letter-spacing: -0.2rem;
+    text-align: center;
+    color:whitesmoke;
+    opacity:0.0;
+    margin-bottom:20px;
+    transition: all 0.4s ease-in-out;
+  }
 
 .about-article-main{
-  position:relative;
-text-align:center;
- color:black;
- font-weight: 100;
-columns:1;
-column-gap:30px;
-width:70%;
-font-size:1.8em;
-padding:00px 30px;
-transition: all 0.4s ease-in-out;
+ position:relative;
+ float:left;
+ text-align:center;
+ color:white;
+ width:100%;
+ columns:1;
+ column-gap:30px;
+ max-width:1600px;
+ font-size:2.0em;
+ opacity:0.0;
+ padding:0px 100px;
+ transition: all 0.4s ease-in-out;
+
 }
 
 .about-article-sub{
   position:relative;
-text-align:justify;
- color:black;
-columns:2;
-column-gap:30px;
-width:70%;
-font-size:1.4em;
-font-weight: 200;
-padding:30px;
-transition: all 0.4s ease-in-out;
+  float:left;
+  text-align:justify;
+  color:white;
+  columns:1;
+  width:100%;
+  padding:30px 100px;
+  column-gap:30px;
+  max-width:1600px;
+  font-size:1.9em;
+  font-weight: 300;
+  opacity:0.0;
+  transition: all 0.4s ease-in-out;
+  line-height: 1.5;
 }
 
-@media screen and (max-width: 900px) {
-  .about-main-title {
-    font-size: 3.5rem;
-  }
-
-  .about-article-main {
-    width: 90%;
-    font-size: 1.3rem;
-  }
-
-  .about-article-sub {
-    width: 90%;
-    font-size: 1.2rem;
-  }
-}
-
-.category-button {
+.category-button{
   position:relative;
+  float:left;
   font-size:2em;
   font-weight:400;
   transition: all 0.4s ease-in-out;
-  background-color:rgb(230,230,230);
+  background-color:rgb(80,90,100);
   padding:8px 20px !important;
   z-index:1000;
+  opacity:1.0;
   margin-bottom:50px;
+  border-radius: 5px;
+  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.fullopacityui{
+  opacity:1.0;
 }
 
 a {
-  font-weight: bold;
+  font-weight: normal;
 }
 
-.about-lower-border{
-  flex-grow: 1;
-  margin-top:0px;
-  pointer-events:none;
-  width:100%;
-  height:300px;
-  position:relative;
-  /* background:url(./images/about-mountains.png); */
-  background-repeat: no-repeat;
-  background-size: cover;
-  opacity:0.7;
-  transition: all 0.4s ease-in-out;
+
+
+
+@media screen and (max-width: 900px) {
+
+.about-article-sub{
+  font-size:1.25em;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
 }
 
 .about-logo-top-right{
   z-index:1000;
-  display:block;
+  display:flex;
   pointer-events:none;
   width:200px;
   height:90px;
   position:absolute;
-  /* background:url(./images/logo-Infravis-516.png); */
+  /*background:url("../assets/shfa_logo_downscale.png");*/
   background-repeat: no-repeat;
   background-size: contain;
   top:30px;
   right:60px;
-  opacity:1.0;
+  opacity:0.6;
+  color: whitesmoke;
   transition: all 0.4s ease-in-out;
 }
 

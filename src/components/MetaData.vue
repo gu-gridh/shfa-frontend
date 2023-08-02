@@ -1,24 +1,25 @@
 <template>
   <div id="metadata-container">
   <div class="metadata-column-group">
-    <h1> <span v-if="data.site && data.site.raa_id"> {{ data.site.raa_id }} </span> </h1>
+    <h1> <span v-if="data.site && data.site.lamning_id"> {{ data.site.lamning_id }} </span> </h1>
   <div class="metadata-column">
     <table>
-   
-   <tr><td class="label" v-if="data.type && data.type.text">Type:</td><td class="data" v-if="data.type && data.type.text"> {{ data.type.text }}</td></tr>
-   <tr><td class="label" v-if="data.collection && data.collection.name">Collection:</td><td class="data" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
+   <tr><td class="label" v-if="data.site && data.site.raa_id">RAÄ Number:</td><td class="data" v-if="data.site && data.site.raa_id">  {{ data.site.raa_id }}</td></tr>
+   <tr><td class="label" v-if="data.type && data.type.text">Type:</td><td class="data" style="text-transform: capitalize;" v-if="data.type && data.type.text">  {{ data.type.text }}</td></tr>
    <tr><td class="label" v-if="data.author && data.author.name">Author:</td><td class="data" v-if="data.author && data.author.name">  {{ data.author.name }}</td></tr>
-   <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="data" v-if="data.institution && data.institution.name">  {{ data.institution.name }}</td></tr>
-   <tr><td class="label" v-if="data.reference">Reference:</td><td class="data" v-if="data.reference">  {{ data.reference }}</td></tr>
-  
+   <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="ref" v-if="data.institution && data.institution.name">  {{ data.institution.name }}</td></tr>
   </table>
   </div>
    <div class="metadata-column">
     <table>
-      <tr><td class="label" v-if="data.year">Year:</td><td class="data" v-if="data.year"> {{ data.year }}</td></tr>
-   <tr><td class="label" v-if="data.date_note">Date Note:</td><td class="data" v-if="data.date_note">  {{ data.date_note }}</td></tr>
+      <tr><td class="label" v-if="data.year">Year:</td><td class="data" v-if="data.year">  {{ data.year }}</td></tr>
    <tr><td class="label" v-if="data.rock_carving_object && data.rock_carving_object.name">Carving:</td><td class="data" v-if="data.rock_carving_object && data.rock_carving_object.name">  {{ data.rock_carving_object.name }}</td></tr>
-   
+   <tr><td class="label" v-if="data.collection && data.collection.name">Collection:</td><td class="data" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
+    
+  </table></div>
+   <div class="metadata-wide">
+   <table>
+   <tr><td class="label" v-if="data.site">Reference:</td><td class="ref" v-if="data.site">  {{ data.author.name }}, {{ data.year }}. <span style="text-transform: capitalize;">{{ data.type.text }}</span> Image of {{ data.site.lamning_id }}, SHFA, accesssed {{ acc_date }} at {{ data.iiif_file }}</td></tr>
     </table>
   </div>
 </div>
@@ -32,12 +33,13 @@
     </div>
   </div>
   <h2>Description:</h2>
+  <div class="disclaimer">Note:  Description is retrieved from Fornsök and is not quality checked; there may be inaccuracies.</div>
   <div class="description">
     {{ data.description }}
   </div>
 <div class="metadata">
   <div v-if="getFornsokUrl()" class="button-container">
-    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Fornsök</a>
+    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button">View in Fornsök</a>
   </div>
 </div>
 </div>
@@ -56,6 +58,7 @@ export default {
   data() {
     return {
       data: {},
+      acc_date
     };
   },
    methods: {
@@ -91,6 +94,15 @@ export default {
 };
 
 
+const date = new Date();
+const options = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+let acc_date = date.toLocaleString("en-GB",options);
+
+  
 </script>
 <style scoped>
 
@@ -137,6 +149,13 @@ h2{
 .data {
   color: rgb(200,225,250);
 max-width:180px;
+
+}
+
+.ref {
+  color: rgb(200,225,250);
+max-width:100%;
+margin-top: 0px;
 }
 
 table, th, td {
@@ -169,6 +188,13 @@ ul {
 .description {
   width:90%;
   margin-bottom: 30px;
+}
+
+.disclaimer{
+  width:90%;
+  margin-bottom: 10px;
+  color:rgb(200,225,250);
+  font-weight: 500;
 }
 
 .visit-button {

@@ -11,20 +11,23 @@
     <div class="top-button">English</div>
   </div>
 
+  <About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
   <div class="top-links">
-   
-    <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv" target="_blank">
-      <div class="top-link-button">News</div>
-    </a>
+    
+    <button class="item" @click="visibleAbout=true">
+      <div class="top-link-button"
+          >About the archive</div></button>
 
-    <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv" target="_blank">
-      <div class="top-link-button">About SHFA</div>
-    </a>
-     
-    <div class="top-link-button" @click="toggleAboutVisibility">About the archive</div>
-  
-  </div>
+    <button class="item" @click="">
+      <div class="top-link-button" >
+          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">About SHFA</a></div></button>
+
+    <button class="item" @click="">
+      <div class="top-link-button">
+          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">News</a></div></button>
 </div>
+</div>
+
   <!-- Start of Container -->
   <div class="split-container main-color">
   <div class="flex height">
@@ -147,7 +150,7 @@
 </div>
 <!-- End of Container -->
 
-<About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
+
 </div>
 </template>
 
@@ -162,8 +165,8 @@ import Datareport from '../components/Datareport.vue';
 import Search from "../components/Search.vue";
 import AdvancedSearch from "../components/AdvancedSearch.vue";
 import ImageViewer from "../components/ImageViewer.vue";
-import MetaData from "../components/MetaData.vue"
-import About from "../components/About.vue"
+import MetaData from "../components/MetaData.vue";
+import About from "../components/About.vue";
 
 export default defineComponent({
   components: {
@@ -330,9 +333,7 @@ beforeRouteEnter(to, from, next) {
       this.forceRefresh++;
       this.mapClicked = true;
     },
-    toggleAboutVisibility() {
-      this.visibleAbout = !this.visibleAbout;
-    },
+
     updateItems(newItems) {
     this.searchItems = newItems;
     this.selectedId = null; // Reset selectedId
