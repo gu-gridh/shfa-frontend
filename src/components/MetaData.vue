@@ -33,7 +33,7 @@
     </div>
   </div>
   <h2>Description:</h2>
-  <div class="disclaimer">Note:  Description is retrieved from Fornsök and is not quality checked; there may be inaccuracies.</div>
+  <div class="disclaimer">Note:  Description is retrieved from Fornsök and is not quality checked.</div>
   <div class="description">
     {{ data.description }}
   </div>
