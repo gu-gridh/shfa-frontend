@@ -61,6 +61,8 @@
 </template>
 
 <script>
+import useSearchTracking from '../composables/useSearchTracking.js'
+
 export default {
   data() {
     return {
@@ -372,6 +374,27 @@ export default {
     handleSearchButtonClick() {
       this.advancedResults = []; // Reset the advancedResults array
       this.fetchResults();
+
+      const { trackSearch } = useSearchTracking();
+
+      const searchParams = new URLSearchParams();
+
+      const fieldNames = [
+        'site_name',
+        'carving_object',
+        'image_type',
+        'keyword',
+        'dating_tag',
+        'institution_name'
+      ];
+
+      this.selectedKeywords.forEach((keywords, index) => {
+        if (keywords.length > 0) {
+          searchParams.append(fieldNames[index], keywords[0].text);
+        }
+      });
+      
+      trackSearch(decodeURIComponent(searchParams.toString()));
     },
   },
 };

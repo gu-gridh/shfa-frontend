@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import useSearchTracking from '../composables/useSearchTracking.js'
+
 export default {
   name: 'Search',
   emits: ['toggle-map', 'search-completed'],
@@ -80,8 +82,6 @@ export default {
     type: Function,
     required: true,
     },
-
-
   },
   computed: {
     currentKeywordName() {
@@ -130,6 +130,8 @@ export default {
         ? this.selectedKeywords[0].text 
         : this.searchQuery;
       this.searchKeywordTags(query);
+      const { trackSearch } = useSearchTracking();
+      trackSearch(query);
     },
     async searchKeywordTags(query) {
       this.searchResults = []; // clear previous results
