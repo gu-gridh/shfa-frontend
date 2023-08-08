@@ -309,8 +309,11 @@ beforeRouteEnter(to, from, next) {
 },
   mounted() {
     const vm = this;
+    const direction = window.innerWidth < 768 ? 'vertical' : 'horizontal';
+
     Split(['#split-0', '#split-1', '#split-2'], {
     minSize: [500, 300],
+    direction: direction,
     dragInterval: 1,
     gutterSize: 10,
     gutterAlign: 'start',
@@ -471,7 +474,6 @@ padding-top:10px;
 padding-right:20px;
 }
 
-
 .top-links{
   font-size:1.2em;
   font-weight:400;
@@ -527,9 +529,22 @@ padding-right:20px;
 
 }
 
+@media (max-width: 1024px) {
+  .flex.height {
+    flex-direction: column;
+    height: auto;
+  }
+}
+
 .split-container{
   overflow:hidden !important;
-  
+}
+
+@media (max-width: 1024px) {
+  .split-container{
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .split-container-top{
@@ -543,7 +558,12 @@ padding-right:20px;
 #split-0{
 padding:30px 15px 35px 40px;
 min-width:550px;
+}
 
+@media (max-width: 1024px) {
+  #split-0{
+    min-width: 100% !important;
+  }
 }
 
 #split-0::-webkit-scrollbar {
@@ -551,8 +571,13 @@ min-width:550px;
     }
 
 #split-1{
-padding:0px 15px 0px 15px;
+  padding:0px 15px 0px 15px;
+}
 
+@media (max-width: 1024px) {
+  #split-1{
+    width: 100% !important;
+  }
 }
 
 #split-1::-webkit-scrollbar {
@@ -562,6 +587,25 @@ padding:0px 15px 0px 15px;
     #split-2::-webkit-scrollbar {
     width: 0px !important;
     }
+
+@media (max-width: 1024px) {
+  #split-2{
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  #map{
+    height: 50vw;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1024px) {
+#split-2 > div.image-viewer {
+    height: 400px;
+  }
+}
 
 #search-interface{
   margin-bottom:10px;
@@ -667,6 +711,7 @@ color: white;
 background-color: rgba(0, 0, 0, 0.5);
 backdrop-filter: blur(5px);
 }
+
 .ui-mode {
 top: 230px;
 padding: 4px 0px 4px 0px;
