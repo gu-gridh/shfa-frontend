@@ -561,6 +561,15 @@ min-width:550px;
 }
 
 @media (max-width: 1024px) {
+  #split-1 > div > div > div:nth-child(2) > div.ui-mode.ui-overlay {
+    position: absolute;
+    top: 0.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 1024px) {
   #split-0{
     min-width: 100% !important;
   }
@@ -577,6 +586,8 @@ min-width:550px;
 @media (max-width: 1024px) {
   #split-1{
     width: 100% !important;
+    position: relative;
+    overflow: visible;
   }
 }
 
