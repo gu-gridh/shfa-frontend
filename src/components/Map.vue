@@ -73,7 +73,6 @@ watch: {
       ) {
         this.debouncedFetchDataByBbox(); // Fetch data by bounding box
       } else {
-          console.log('Using cached data');
         // Update the results array with the data within the current bounding box
         this.results = this.cachedResults.filter(result => {
           const [x, y] = result.coordinates;

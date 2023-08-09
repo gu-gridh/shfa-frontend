@@ -1,7 +1,7 @@
 <template>
   <div style="padding-top: 35px; padding-bottom: 35px;">
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
-      <h1 v-if="group.items.length > 0">{{ group.text }}</h1>
+      <h1 v-if="group.items.length > 0">{{ $t('message.' + group.text) }}</h1>
       <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="2" class="gallery-group">
         <template #default="{ item, index }">
           <div class="grid-image card flex items-center justify-center bg-slate-50 text-black" @click="$emit('image-clicked', item.iiif_file, item.id);">
@@ -46,7 +46,7 @@ export default {
   },
   props: {
     siteId: {
-      type: Number,
+      type: [Number, String],
       required: false,
       default: null,
     },
@@ -151,29 +151,29 @@ export default {
       count: 0, 
       imageGroups: [],
       specificOrder: [
-        { type: 957, text: 'Ortofotografi (sfm)', order: 1 },
-        { type: 943, text: '3d-visualisering', order: 2 },
-        { type: 958, text: '3d-sfm', order: 3 },
-        { type: 959, text: '3d-laserskanning', order: 4 },
-        { type: 961, text: 'Miljöbild', order: 5 },
-        { type: 964, text: 'Nattfotografi', order: 6 },
-        { type: 942, text: 'Fotografi', order: 7 },
-        { type: 949, text: 'Diabild', order: 8 },
-        { type: 947, text: 'Negativ, färg', order: 9 },
-        { type: 948, text: 'Negativ, svart/vit', order: 10 },
-        { type: 960, text: 'Printscreen av lasermodel', order: 11 },
-        { type: 956, text: 'Fotografi av sfm bild', order: 12 },
-        { type: 954, text: 'Dstretch-visualisering', order: 13 },
-        { type: 941, text: 'Frottage', order: 14 },
-        { type: 946, text: 'Grafik', order: 15 },
-        { type: 944, text: 'Kalkering plast', order: 16 },
-        { type: 951, text: 'Ritning', order: 17 },
-        { type: 955, text: 'Kalkering papper', order: 18 },
-        { type: 945, text: 'Avgjutning', order: 19 },
-        { type: 952, text: 'Dokument', order: 20 },
-        { type: 953, text: 'Karta', order: 21 },
-        { type: 950, text: 'Tidningsartikel', order: 22 },
-        { type: 962, text: 'Arbetsbild', order: 23 },
+        { type: 957, text: 'ortofotografi', order: 1 },
+        { type: 943, text: 'threedvisualization', order: 2 },
+        { type: 958, text: 'threedsm', order: 3 },
+        { type: 959, text: 'threedlaserscanning', order: 4 },
+        { type: 961, text: 'miljöbild', order: 5 },
+        { type: 964, text: 'nattfotografi', order: 6 },
+        { type: 942, text: 'fotografi', order: 7 },
+        { type: 949, text: 'diabild', order: 8 },
+        { type: 947, text: 'negativfärg', order: 9 },
+        { type: 948, text: 'negativsvart', order: 10 },
+        { type: 960, text: 'printscreen', order: 11 },
+        { type: 956, text: 'photosfm', order: 12 },
+        { type: 954, text: 'dstretch', order: 13 },
+        { type: 941, text: 'frottage', order: 14 },
+        { type: 946, text: 'grafik', order: 15 },
+        { type: 944, text: 'kalkering', order: 16 },
+        { type: 951, text: 'ritning', order: 17 },
+        { type: 955, text: 'kalkeringpapper', order: 18 },
+        { type: 945, text: 'avgjutning', order: 19 },
+        { type: 952, text: 'dokument', order: 20 },
+        { type: 953, text: 'karta', order: 21 },
+        { type: 950, text: 'tidnings', order: 22 },
+        { type: 962, text: 'arbetsbild', order: 23 },
         ]
     }
   },

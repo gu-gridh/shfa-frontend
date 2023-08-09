@@ -2,29 +2,29 @@
 <div>
 <div class="top">  
   <div id="logo"></div>
-  <h1 class="title">Swedish <br><div class="emph">Rock Art </div><br>Research<br> Archive</h1>
+  <h1 class="title"><div v-html="$t('message.title')"></div></h1>
 
   <div class="languages">
     <div class="version" style="font-size:15px; text-align:right; margin-right:9px;">Version 1.0</div>
-    <div class="top-button">Svenska</div>
+    <div class="top-button" @click="toggleLanguageEn">Svenska</div>
     <div class="top-button">|</div>
-    <div class="top-button">English</div>
+    <div class="top-button" @click="toggleLanguageSv">English</div>
   </div>
-
+  
   <About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
   <div class="top-links">
     
     <button class="item" @click="visibleAbout=true">
       <div class="top-link-button"
-          >About the archive</div></button>
+          >{{ $t('message.aboutArchive') }}</div></button>
 
     <button class="item" @click="">
       <div class="top-link-button" >
-          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">About SHFA</a></div></button>
+          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">{{ $t('message.aboutSHFA') }}</a></div></button>
 
     <button class="item" @click="">
       <div class="top-link-button">
-          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">News</a></div></button>
+          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">{{ $t('message.news') }}</a></div></button>
 </div>
 </div>
 
@@ -332,6 +332,12 @@ beforeRouteEnter(to, from, next) {
 
 
   methods: {
+    toggleLanguageEn() {
+      this.$i18n.locale = 'sv';
+    },
+    toggleLanguageSv() {
+      this.$i18n.locale = 'en';
+    },
     handleMapClicked() {
       this.forceRefresh++;
       this.mapClicked = true;
