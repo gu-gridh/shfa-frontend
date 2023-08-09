@@ -423,6 +423,13 @@ beforeRouteEnter(to, from, next) {
   transition: all 0.8s ease-in-out;
 }
 
+@media (max-width:480px) {
+  #logo{
+    width: 30%;
+    height: 30%;
+  }
+}
+
 #logo:hover{
  
   opacity:0.5;
@@ -438,11 +445,18 @@ beforeRouteEnter(to, from, next) {
   font-family: 'Teko', sans-serif;
   line-height:0.75;
   letter-spacing:-1.2px;
-  font-size:50px;
+  font-size:45px;
   font-weight:400;
   margin-left:150px;
   padding:30px 40px;
   color:rgb(150, 150, 150);
+}
+
+@media (max-width:480px) {
+  .title{
+    margin-left: 20%;
+    font-size: 30px;
+  }
 }
 
 .title .emph{
@@ -462,8 +476,15 @@ beforeRouteEnter(to, from, next) {
 .top{
   height:200px;
   z-index:1000;
-background-color:rgb(210,210,210)
+  background-color:rgb(210,210,210)
 }
+
+@media (max-width: 1024px) {
+  .top{
+    position: relative;
+  }
+}
+
 .languages{
 right:0px;
 font-size:1.2em;
@@ -484,6 +505,13 @@ padding-right:20px;
   position:absolute;
   padding-right:20px;
   width:500px;
+}
+
+@media (max-width: 1024px) {
+  .top-links{
+    bottom: 0;
+    width: auto;
+  }
 }
 
 .button-image{
