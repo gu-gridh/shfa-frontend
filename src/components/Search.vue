@@ -38,7 +38,7 @@
         class="tag-example"
         @click="selectResult(result)"
       >
-        {{ result.text }}
+        {{ $t('message.' + result.text) }}
       </div>
     </div>
   </div>
@@ -107,18 +107,18 @@ export default {
   },
   created() {
     this.defaultSearchResults = [
-    { id: 1, text: 'Skepp'},
-    { id: 2, text: 'Djur'},
-    { id: 3, text: 'Människofigur'},
-    { id: 4, text: 'Vagn'},
-    { id: 5, text: 'Vapen'},
-    { id: 6, text: 'Krigare'},
-    { id: 7, text: 'Vitlycke'},
-    { id: 8, text: 'Skee'},
-    { id: 9, text: '3d'},
-    { id: 10, text: 'Kalkering plast'},
-    { id: 11, text: 'Frottage'},
-    { id: 12, text: 'Nattfotografering'},
+    { id: 1, text: 'skepp'},
+    { id: 2, text: 'djur'},
+    { id: 3, text: 'människofigur'},
+    { id: 4, text: 'vagn'},
+    { id: 5, text: 'vapen'},
+    { id: 6, text: 'krigare'},
+    { id: 7, text: 'vitlycke'},
+    { id: 8, text: 'skee'},
+    { id: 9, text: 'threed'},
+    { id: 10, text: 'kalkering'},
+    { id: 11, text: 'frottage'},
+    { id: 12, text: 'nattfotografi'},
     ];
   },  
   methods: {

@@ -4,12 +4,22 @@
   <div id="logo"></div>
   <h1 class="title"><div v-html="$t('message.title')"></div></h1>
 
-  <div class="languages">
+ <div class="languages">
     <div class="version" style="font-size:15px; text-align:right; margin-right:9px;">Version 1.0</div>
-    <div class="top-button" @click="toggleLanguageEn">Svenska</div>
-    <div class="top-button">|</div>
-    <div class="top-button" @click="toggleLanguageSv">English</div>
-  </div>
+    
+ <transition name="flip-fade" mode="out-in">
+    <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage">
+        English 
+        
+    </div>
+    <div v-else class="top-button" key="svenska" @click="toggleLanguage">
+        Svenska 
+    
+    </div>
+</transition>
+
+    <!-- <div class="top-button">|</div> -->
+</div>
   
   <About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
   <div class="top-links">
@@ -264,6 +274,7 @@ export default defineComponent({
   },
   data() {
     return {
+      currentLanguage: 'en',
       items: [],
       results: [],
       searchItems: [],
@@ -332,11 +343,9 @@ beforeRouteEnter(to, from, next) {
 
 
   methods: {
-    toggleLanguageEn() {
-      this.$i18n.locale = 'sv';
-    },
-    toggleLanguageSv() {
-      this.$i18n.locale = 'en';
+     toggleLanguage() {
+        this.currentLanguage = (this.$i18n.locale === 'en') ? 'sv' : 'en';
+        this.$i18n.locale = this.currentLanguage;
     },
     handleMapClicked() {
       this.forceRefresh++;
@@ -414,6 +423,17 @@ beforeRouteEnter(to, from, next) {
 
 
 <style>
+.flip-fade-enter-active, .flip-fade-leave-active {
+    transition: transform 0.15s, opacity 0.15s;
+}
+.flip-fade-enter, .flip-fade-leave-to {
+    transform: rotateY(90deg);
+    opacity: 0;
+}
+.flip-fade-leave, .flip-fade-enter-to {
+    transform: rotateY(0deg);
+    opacity: 1;
+}
 
 #logo{
   width:140px;
@@ -517,6 +537,7 @@ padding-right:20px;
   .top-links{
     bottom: 0;
     width: auto;
+    padding-right: 0px;
   }
 }
 
