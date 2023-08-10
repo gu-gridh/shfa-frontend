@@ -57,10 +57,9 @@ export default {
 
 <style scoped>
 body{
-  border:opx;
-  
-
+  /* border:opx; */
 }
+
 a{
   color:rgb(156, 201, 247);
   font-weight: 400;
@@ -96,7 +95,7 @@ h2{
 }
 
 .fullopacity{
-  backdrop-filter:blur(5px);
+  /* backdrop-filter:blur(5px); */
   opacity:1.0;
   pointer-events:auto;
   transform:scale(1.0);
