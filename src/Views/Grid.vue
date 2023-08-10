@@ -113,17 +113,17 @@
     <div style="display:flex; align-items: center; justify-content: center;">
     <div class="ui-mode ui-overlay" style="min-width:240px; display:flex; align-items: center; justify-content: center;">
         <button class="item" v-bind:class="{ selected: showGallery}" v-on:click="showGallery = true; showCatalogue = false; showDatareport = false; ">
-         Gallery
+        {{ $t('message.galleri') }}
         </button>
         <button class="item" v-bind:class="{ selected: showCatalogue}" v-on:click="showCatalogue = true; showGallery = false; showDatareport = false; ">
-          Catalogue
+        {{ $t('message.katalog') }}
         </button>
         <button class="item" v-bind:class="{ selected: showDatareport}" v-on:click="showDatareport = true; showCatalogue = false; showGallery = false; ">
           Data
         </button>
       </div>
       <div class="ui-numbers ui-overlay">
-      Page {{ currentPage }} of {{ totalPages }} 
+        {{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }} 
       </div> 
     </div>
   </div>

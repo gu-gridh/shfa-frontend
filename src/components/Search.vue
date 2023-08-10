@@ -15,7 +15,7 @@
             type="search"
             id="search"
             name="search"
-            :placeholder="selectedKeywords.length > 0 ? '' : 'Search Archive...'"
+            :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'"
             class=""
             :value="searchQuery"
             @input="updateSearchQuery($event.target.value)"
@@ -31,7 +31,7 @@
       </h2>
     </div>
     <div id="filter-interface">
-      <div class="filter-text">Search suggestions:</div>
+      <div class="filter-text">{{ $t('message.sökförslag') }}</div>
       <div
         v-for="result in defaultSearchResults"
         :key="result.id"
@@ -45,10 +45,10 @@
   <div style="display:flex;  align-items: center; justify-content: center;">
     <div class="ui-mode ui-overlay map-switch-margin">
         <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
-         Map Interface
+          {{ $t('message.karta') }}
         </button>
         <button class="item" :class="{ 'active': activePanel === 'Advanced Search' }" @click="togglePanel('Advanced Search')">
-          Advanced Search
+          {{ $t('message.avanceradsökning') }}
         </button>
        
       </div>
@@ -60,7 +60,7 @@ import useSearchTracking from '../composables/useSearchTracking.js'
 
 export default {
   name: 'Search',
-  emits: ['toggle-map', 'search-completed'],
+  emits: ['toggle-map', 'search-completed', 'page-details-updated'],
   data() {
     return {
       searchQuery: '',
@@ -151,30 +151,30 @@ export default {
 
         // Define the specific order of the image types
         const specificOrder = [
-        { type: 957, text: 'Ortofotografi (sfm)', order: 1 },
-        { type: 943, text: '3d-visualisering', order: 2 },
-        { type: 958, text: '3d-sfm', order: 3 },
-        { type: 959, text: '3d-laserskanning', order: 4 },
-        { type: 961, text: 'Miljöbild', order: 5 },
-        { type: 964, text: 'Nattfotografi', order: 6 },
-        { type: 942, text: 'Fotografi', order: 7 },
-        { type: 949, text: 'Diabild', order: 8 },
-        { type: 947, text: 'Negativ, färg', order: 9 },
-        { type: 948, text: 'Negativ, svart/vit', order: 10 },
-        { type: 960, text: 'Printscreen av lasermodel', order: 11 },
-        { type: 956, text: 'Foto av sfm bild', order: 12 },
-        { type: 954, text: 'Dstretch-visualisering', order: 13 },
-        { type: 941, text: 'Frottage', order: 14 },
-        { type: 946, text: 'Grafik', order: 15 },
-        { type: 944, text: 'Kalkering plast', order: 16 },
-        { type: 951, text: 'Ritning', order: 17 },
-        { type: 955, text: 'Kalkering papper', order: 18 },
-        { type: 945, text: 'Avgjutning', order: 19 },
-        { type: 952, text: 'Dokument', order: 20 },
-        { type: 953, text: 'Karta', order: 21 },
-        { type: 950, text: 'Tidningsartikel', order: 22 },
-        { type: 962, text: 'Arbetsbild', order: 23 },
-        ];
+        { type: 957, text: 'ortofotografi', order: 1 },
+        { type: 943, text: 'threedvisualization', order: 2 },
+        { type: 958, text: 'threedsm', order: 3 },
+        { type: 959, text: 'threedlaserscanning', order: 4 },
+        { type: 961, text: 'miljöbild', order: 5 },
+        { type: 964, text: 'nattfotografi', order: 6 },
+        { type: 942, text: 'fotografi', order: 7 },
+        { type: 949, text: 'diabild', order: 8 },
+        { type: 947, text: 'negativfärg', order: 9 },
+        { type: 948, text: 'negativsvart', order: 10 },
+        { type: 960, text: 'printscreen', order: 11 },
+        { type: 956, text: 'photosfm', order: 12 },
+        { type: 954, text: 'dstretch', order: 13 },
+        { type: 941, text: 'frottage', order: 14 },
+        { type: 946, text: 'grafik', order: 15 },
+        { type: 944, text: 'kalkering', order: 16 },
+        { type: 951, text: 'ritning', order: 17 },
+        { type: 955, text: 'kalkeringpapper', order: 18 },
+        { type: 945, text: 'avgjutning', order: 19 },
+        { type: 952, text: 'dokument', order: 20 },
+        { type: 953, text: 'karta', order: 21 },
+        { type: 950, text: 'tidnings', order: 22 },
+        { type: 962, text: 'arbetsbild', order: 23 },
+        ]
 
     // Map the specificOrder array to an object where the keys are the types
     let typeMap = specificOrder.map(order => ({
