@@ -4,42 +4,42 @@
     <h1> <span v-if="data.site && data.site.lamning_id"> {{ data.site.lamning_id }} </span> </h1>
   <div class="metadata-column">
     <table>
-   <tr><td class="label" v-if="data.site && data.site.raa_id">RAÄ Number:</td><td class="data" v-if="data.site && data.site.raa_id">  {{ data.site.raa_id }}</td></tr>
-   <tr><td class="label" v-if="data.type && data.type.text">Type:</td><td class="data" style="text-transform: capitalize;" v-if="data.type && data.type.text">  {{ data.type.text }}</td></tr>
-   <tr><td class="label" v-if="data.author && data.author.name">Author:</td><td class="data" v-if="data.author && data.author.name">  {{ data.author.name }}</td></tr>
+   <tr><td class="label" v-if="data.site && data.site.raa_id">{{ $t('message.raanumber') }}</td><td class="data" v-if="data.site && data.site.raa_id">  {{ data.site.raa_id }}</td></tr>
+   <tr><td class="label" v-if="data.type && data.type.text">{{ $t('message.typ') }}</td><td class="data" style="text-transform: capitalize;" v-if="data.type && data.type.text">  {{ data.type.text }}</td></tr>
+   <tr><td class="label" v-if="data.author && data.author.name">{{ $t('message.author') }}</td><td class="data" v-if="data.author && data.author.name">  {{ data.author.name }}</td></tr>
    <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="ref" v-if="data.institution && data.institution.name">  {{ data.institution.name }}</td></tr>
   </table>
   </div>
    <div class="metadata-column">
     <table>
-      <tr><td class="label" v-if="data.year">Year:</td><td class="data" v-if="data.year">  {{ data.year }}</td></tr>
-   <tr><td class="label" v-if="data.rock_carving_object && data.rock_carving_object.name">Carving:</td><td class="data" v-if="data.rock_carving_object && data.rock_carving_object.name">  {{ data.rock_carving_object.name }}</td></tr>
-   <tr><td class="label" v-if="data.collection && data.collection.name">Collection:</td><td class="data" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
+      <tr><td class="label" v-if="data.year">{{ $t('message.år') }}</td><td class="data" v-if="data.year">  {{ data.year }}</td></tr>
+   <tr><td class="label" v-if="data.rock_carving_object && data.rock_carving_object.name">{{ $t('message.ristning') }}</td><td class="data" v-if="data.rock_carving_object && data.rock_carving_object.name">  {{ data.rock_carving_object.name }}</td></tr>
+   <tr><td class="label" v-if="data.collection && data.collection.name">{{ $t('message.collection') }}</td><td class="data" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
     
   </table></div>
    <div class="metadata-wide">
    <table>
-   <tr><td class="label" v-if="data.site">Reference:</td><td class="ref" v-if="data.site">  {{ data.author.name }}, {{ data.year }}. <span style="text-transform: capitalize;">{{ data.type.text }}</span> Image of {{ data.site.lamning_id }}, SHFA, accesssed {{ acc_date }} at {{ data.iiif_file }}</td></tr>
+   <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site">  {{ data.author.name }}, {{ data.year }}. <span style="text-transform: capitalize;">{{ data.type.text }}</span> Image of {{ data.site.lamning_id }}, SHFA, accesssed {{ acc_date }} at {{ data.iiif_file }}</td></tr>
     </table>
   </div>
 </div>
   <div class="metadata-wide">
      <div v-if="data.keywords && data.keywords.length > 0">
-      <h2>Keywords:</h2>
+      <h2>{{ $t('message.keywords') }}</h2>
       <div class="keywords"> <!-- Empty div for margin -->
       <ul>
         <li v-for="(keyword, index) in data.keywords" :key="index">{{ keyword.text }}</li>
       </ul>
     </div>
   </div>
-  <h2>Description:</h2>
-  <div class="disclaimer">Note:  Description is retrieved from Fornsök and is not quality checked.</div>
+  <h2>{{ $t('message.description') }}</h2>
+  <div class="disclaimer">{{ $t('message.descriptiontext') }}</div>
   <div class="description">
     {{ data.description }}
   </div>
 <div class="metadata">
   <div v-if="getFornsokUrl()" class="button-container">
-    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button">View in Fornsök</a>
+    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button">{{ $t('message.checkfornsök') }}</a>
   </div>
 </div>
 </div>
