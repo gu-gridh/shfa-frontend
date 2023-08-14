@@ -552,6 +552,12 @@ margin-top:10px;
 
 .top-links .item{
 margin-right:20px;
+border-radius:8px;
+padding:5px 0px 0px 10px;;
+}
+
+.top-links .item:hover{
+background-color:white;
 }
 
 
@@ -592,9 +598,7 @@ margin-right:20px;
   background-position:0px 0px;
   background-repeat:no-repeat;
 }
-.top-link-button:hover{
-  background-color:rgb(250,250,250);
-}
+
 .main-color{
   background-color:rgb(65,65,65);
 
@@ -602,7 +606,7 @@ margin-right:20px;
 
 /* This controls the menu look on small screens */
 
-@media (max-width: 1024px) {
+@media (max-width: 700px) {
 
   .menu-show-button{
     display:block;
