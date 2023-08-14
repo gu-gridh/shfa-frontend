@@ -652,9 +652,10 @@ font-size:20px;
     display:block;
     width:100%;
     position:absolute;
-    background-color:rgb(240,240,240);
+    background-color:rgba(240,240,240,0.9);
     height:390px;
     box-shadow: 0rem 2rem 2rem rgba(0, 0, 0, 0.3)!important;
+    backdrop-filter:blur(8px);
   }
   
   .languages{
