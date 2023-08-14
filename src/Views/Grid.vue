@@ -144,6 +144,9 @@
       <div class="ui-numbers ui-overlay">
         {{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }} 
       </div> 
+       <div class="ui-numbers ui-overlay" style="bottom: 80px;">
+        Results: {{ totalResults }}
+      </div> 
     </div>
   </div>
  
@@ -295,6 +298,7 @@ export default defineComponent({
       idForMetaData: null,
       currentPage: 1,
       totalPages: 1,
+      totalResults: 0,
       bbox: [],
       showMap: true,
       showGallery: true,
@@ -422,9 +426,10 @@ beforeRouteEnter(to, from, next) {
     updatePreviousPageUrlAdvanced(url) {
       this.previousPageUrlAdvanced = url;
     },
-    updatePageDetails({ currentPage, totalPages }) {
+    updatePageDetails({ currentPage, totalPages, totalResults }) {
       this.currentPage = currentPage;
       this.totalPages = totalPages;
+      this.totalResults = totalResults;
     }
   },
 });

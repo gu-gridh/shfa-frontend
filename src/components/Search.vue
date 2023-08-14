@@ -115,7 +115,7 @@ export default {
     { id: 6, text: 'krigare'},
     { id: 7, text: 'vitlycke'},
     { id: 8, text: 'skee'},
-    { id: 9, text: 'threed'},
+    // { id: 9, text: 'threed'},
     { id: 10, text: 'kalkering'},
     { id: 11, text: 'frottage'},
     { id: 12, text: 'nattfotografi'},
@@ -123,7 +123,7 @@ export default {
   },  
   methods: {
     updatePageDetails() {
-      this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages });
+      this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
     },
     triggerSearch() {
       const query = this.selectedKeywords.length > 0 

@@ -197,7 +197,7 @@ export default {
     }
   },
   updatePageDetails() {
-    this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages });
+    this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
   },
   async loadStartPage() {
       let response = await fetch('https://diana.dh.gu.se/api/shfa/image/?collection=5534&depth=1');

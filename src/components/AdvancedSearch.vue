@@ -125,7 +125,7 @@ export default {
   },
   methods: {
   updatePageDetails() {
-    this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages });
+    this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
   },
   async fetchResults(fetchURL = null) {
     const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
