@@ -4,8 +4,15 @@
   <div id="logo"></div>
   <h1 class="title"><div v-html="$t('message.title')"></div></h1>
 
+  <button @click="showMenu" class="menu-show-button">
+      Menu  </button> 
+<!-- This controls the menu on small screens -->
+  <div class="main-menu">  
+    <button @click="closeMenu" class="menu-close-button">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-15 w-15" fill="none" viewBox="0 0 25 30" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+    </button> 
   <div class="languages">
-    <div class="version" style="font-size:15px; text-align:right; margin-right:9px;">Version 1.0</div>
+    <div class="version">Version 1.0</div>
     
  <transition name="flip-fade" mode="out-in">
     <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage">
@@ -25,17 +32,19 @@
   <div class="top-links">
     
     <button class="item" @click="visibleAbout=true">
-      <div class="top-link-button"
-          >{{ $t('message.aboutArchive') }}</div></button>
+
+          {{ $t('message.aboutArchive') }}<div class="top-link-button" ></div></button>
 
     <button class="item" @click="">
-      <div class="top-link-button" >
-          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">{{ $t('message.aboutSHFA') }}</a></div></button>
+    
+          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
 
     <button class="item" @click="">
-      <div class="top-link-button">
-          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">{{ $t('message.news') }}</a></div></button>
+   
+          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">{{ $t('message.news') }}<div class="top-link-button" ></div></a></button>
 </div>
+</div> 
+<!-- End of main-menu -->
 </div>
 
   <!-- Start of Container -->
@@ -436,17 +445,25 @@ beforeRouteEnter(to, from, next) {
 }
 
 #logo{
-  width:140px;
-  height:130px;
+  width:110px;
+  height:100px;
   background-color:grey;
   float:left;
-  margin-top:35px;
+  margin-top:30px;
   margin-left:25px;
   background:url("../assets/shfa_logo_downscale.png");
   background-repeat:no-repeat;
   background-size:contain;
   opacity:0.3;
   transition: all 0.8s ease-in-out;
+}
+
+.menu-show-button{
+  display:none;
+}
+
+.menu-close-button{
+  display:none;
 }
 
 @media (max-width:480px) {
@@ -457,12 +474,11 @@ beforeRouteEnter(to, from, next) {
 }
 
 #logo:hover{
- 
   opacity:0.5;
 }
 
 .height{
-  height:calc(100vh - 200px)
+  height:calc(100vh - 160px)
 }
 
 .title{
@@ -471,9 +487,9 @@ beforeRouteEnter(to, from, next) {
   font-family: 'Teko', sans-serif;
   line-height:0.75;
   letter-spacing:-1.2px;
-  font-size:45px;
+  font-size:35px;
   font-weight:400;
-  margin-left:150px;
+  margin-left:120px;
   padding:30px 40px;
   color:rgb(150, 150, 150);
 }
@@ -500,15 +516,9 @@ beforeRouteEnter(to, from, next) {
 }
 
 .top{
-  height:200px;
+  height:160px;
   z-index:1000;
   background-color:rgb(210,210,210)
-}
-
-@media (max-width: 1024px) {
-  .top{
-    position: relative;
-  }
 }
 
 .languages{
@@ -517,29 +527,34 @@ font-size:1.2em;
 font-weight:400;
 color:black;
 position:absolute;
-padding-top:10px;
 padding-right:20px;
+margin-top:0px;
+}
+
+.version{
+font-size:15px; 
+text-align:right; 
+margin-right:9px;
+margin-top:10px;
 }
 
 .top-links{
   font-size:1.2em;
   font-weight:400;
-  margin-top:140px;
+  margin-top:110px;
   height:auto;
-  right:00px;
+  right:0px;
   color:black;
   position:absolute;
-  padding-right:20px;
+  padding-right:0px;
   width:auto;
 }
 
-@media (max-width: 1024px) {
-  .top-links{
-    bottom: 0;
-    width: auto;
-    padding-right: 0px;
-  }
+.top-links .item{
+margin-right:20px;
 }
+
+
 
 .button-image{
   float:left;
@@ -569,11 +584,12 @@ padding-right:20px;
   float:right;
   text-align:left;
   margin-left:10px;
-  padding:3px 15px 3px 38px;
+  padding:3px 35px 3px 0px;
+  height:32px;
   border-radius:8px;
   background-image:url(../../public/interface/linkbutton.png);
   background-size:27px;
-  background-position:5px 4px;
+  background-position:0px 0px;
   background-repeat:no-repeat;
 }
 .top-link-button:hover{
@@ -584,18 +600,116 @@ padding-right:20px;
 
 }
 
+/* This controls the menu look on small screens */
+
 @media (max-width: 1024px) {
-  .flex.height {
-    flex-direction: column;
-    height: auto;
+
+  .menu-show-button{
+    display:block;
+  color:black;
+  float:right;
+  margin-right:27px;
+  margin-top:15px;
+font-size:20px;
+  }
+
+  .menu-show-button:hover{
+    background-color: rgb(80,90,100);
+    opacity:1.0;
+  }
+
+.menu-close-button{
+  display:block;
+  color:black;
+  float:right;
+  border-radius:50%;
+  height:45px;
+  width:45px;
+  background-color:none;
+  margin-right:35px;
+  margin-top:15px;
+  opacity:1.0;
+  padding:4px;
+ 
+  
+  }
+
+  .menu-close-button:hover{
+    background-color: white;
+    opacity:1.0;
+  }
+
+  .main-menu{
+    display:block;
+    width:100%;
+    position:absolute;
+    background-color:rgb(240,240,240);
+    height:390px;
+    box-shadow: 0rem 2rem 2rem rgba(0, 0, 0, 0.3)!important;
+  }
+  
+  .languages{
+right:20px;
+font-size:1.5em;
+margin-top:60px;
+padding-top:10px;
+padding-right:20px;
+
+}
+
+.version{
+font-size:18px; 
+text-align:right; 
+margin-right:9px;
+
+}
+
+  .top-links{
+    width: 400px;
+   top:70px;
+    padding-right:0px;
+    float:left;
+    padding-left:50px;
+    font-size:1.8em;
+  }
+
+  .item{
+    text-align:right;
+    float:right;
+    display:block;
+    padding-bottom:10px;
+  }
+
+  .top-link-button{
+  float:right;
+  text-align:right;
+  margin-left:10px;
+  height:50px;
+  padding:3px 15px 3px 58px;
+  border-radius:8px;
+  background-image:url(../../public/interface/linkbutton.png);
+  background-size:37px;
+  background-position:8px 4px;
+  background-repeat:no-repeat;
+}
+
+  .top{
+    position: relative;
   }
 }
+
+/* End of menu style */
 
 .split-container{
   overflow:hidden !important;
 }
 
 @media (max-width: 1024px) {
+  .flex.height {
+    flex-direction: column;
+    height: auto;
+  }
+
   .split-container{
     display: flex;
     flex-direction: column;
@@ -779,7 +893,7 @@ backdrop-filter: blur(5px);
 }
 
 .ui-mode {
-top: 230px;
+top: 190px;
 padding: 4px 0px 4px 0px;
 background-color: rgba(0, 0, 0, 0.5);
 }
@@ -891,39 +1005,19 @@ font-size:95%;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
 /*   Adaptation for plus-sized monitors */
 
   @media screen and (min-height: 950px) {
-    .height{
-  height:calc(100vh - 240px)
-}
 
-#logo{
-  width:160px;
-  height:150px;
-  margin-top:45px;
-  margin-left:30px;
-}
+
+
 
 .split-container-top{
-  height:calc(100% - 240px) ;
+  height:calc(100% - 160px) ;
   width:100%;
   }
 
-.top-links{
-  margin-top:180px;
-}
-
-.title{
-    padding:45px 40px;
-  font-size:55px;
-  margin-left:180px;
-}
-
-.top{
-  height:240px;
-  z-index:1000;
-}
 
 h2{
   width:100%;
@@ -937,10 +1031,6 @@ h2{
 
 .filter-text{
   font-size:1.2em;
-}
-
-.ui-mode {
-top: 275px;
 }
 
 .ui-overlay {
