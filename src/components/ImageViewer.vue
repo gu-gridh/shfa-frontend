@@ -81,9 +81,9 @@ export default {
         zoomOutButton: "zoom-out",
       });
 
-      this.viewer.bookmarkUrl({
+      /* this.viewer.bookmarkUrl({
         trackPage: true,
-      });
+      }); */
     },
   },
 // Update this in ImageViewer.vue
