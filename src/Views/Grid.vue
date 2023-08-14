@@ -4,7 +4,7 @@
   <div id="logo"></div>
   <h1 class="title"><div v-html="$t('message.title')"></div></h1>
 
- <div class="languages">
+  <div class="languages">
     <div class="version" style="font-size:15px; text-align:right; margin-right:9px;">Version 1.0</div>
     
  <transition name="flip-fade" mode="out-in">
@@ -530,7 +530,7 @@ padding-right:20px;
   color:black;
   position:absolute;
   padding-right:20px;
-  width:500px;
+  width:auto;
 }
 
 @media (max-width: 1024px) {
