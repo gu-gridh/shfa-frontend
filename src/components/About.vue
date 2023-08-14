@@ -75,6 +75,7 @@ h2{
 }
 .about-container {
   position:fixed;
+  height: 100vh !important; /* Safari Fix */
   color: white;
   line-height: 1;
   width: 100%;
