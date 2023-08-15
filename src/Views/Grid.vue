@@ -4,11 +4,13 @@
   <div id="logo"></div>
   <h1 class="title"><div v-html="$t('message.title')"></div></h1>
 
-  <button @click="showMenu" class="menu-show-button">
-      Menu  </button> 
+  <button @click="toggleMenu" class="menu-show-button">
+      Menu  
+  </button> 
+
 <!-- This controls the menu on small screens -->
-  <div class="main-menu">  
-    <button @click="closeMenu" class="menu-close-button">
+  <div class="main-menu" v-show="isMenuOpen">
+    <button @click="toggleMenu" class="menu-close-button">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-15 w-15" fill="none" viewBox="0 0 25 30" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button> 
   <div class="languages">
@@ -291,6 +293,7 @@ export default defineComponent({
       results: [],
       searchItems: [],
       advancedSearchResults: [],
+      isMenuOpen: false,
       showThreePanels: false,
       selectedId: null,
       selectedLamningId: null,
@@ -356,6 +359,9 @@ beforeRouteEnter(to, from, next) {
 
 
   methods: {
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen; // Toggle the menu state
+    },
      toggleLanguage() {
         this.currentLanguage = (this.$i18n.locale === 'en') ? 'sv' : 'en';
         this.$i18n.locale = this.currentLanguage;
@@ -648,8 +654,8 @@ font-size:20px;
     opacity:1.0;
   }
 
-  .main-menu{
-    display:block;
+  .main-menu{ 
+    display: block;
     width:100%;
     position:absolute;
     background-color:rgba(240,240,240,0.9);
