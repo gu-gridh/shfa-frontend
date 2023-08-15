@@ -152,6 +152,7 @@ export default {
         // Define the specific order of the image types
         const specificOrder = [
         { type: 957, text: 'ortofotografi', order: 1 },
+        { type: 965, text: 'översiktsbild', order: 1},
         { type: 943, text: 'threedvisualization', order: 2 },
         { type: 958, text: 'threedsm', order: 3 },
         { type: 959, text: 'threedlaserscanning', order: 4 },
