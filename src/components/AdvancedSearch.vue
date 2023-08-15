@@ -30,7 +30,7 @@
             :name="'search' + index"
             :placeholder="selectedKeywords[index].length ? '' : [
                $t('message.searchsite'),
-               $t('message.sökhällristnings'),
+               $t('message.sökauthor'),
                $t('message.sökbildtyp'),
                $t('message.söknyckelord'),
                $t('message.sökdatering'),
@@ -95,10 +95,10 @@ export default {
     });
   },
   computed: {
-    apiUrls() {
+    apiUrls() { //For Autocomplete
       return [
         'https://diana.dh.gu.se/api/shfa/search/site/?site_name=',
-        'https://diana.dh.gu.se/api/shfa/search/carving/?carving_object=',
+        'https://diana.dh.gu.se/api/shfa/search/author/?auhtor_name=',
         'https://diana.dh.gu.se/api/shfa/search/type/?image_type=',
         'https://diana.dh.gu.se/api/shfa/search/keywords/?keyword=',
         'https://diana.dh.gu.se/api/shfa/search/dating/?dating_tag=',
@@ -133,7 +133,7 @@ export default {
 
     const fieldNames = [
       'site_name',
-      'carving_object',
+      'author_name',
       'image_type',
       'keyword',
       'dating_tag',
@@ -276,7 +276,7 @@ export default {
               text: feature.properties.raa_id
             }));
             break;
-          case 1: // Carving type: use "name"
+          case 1:
             this.searchResults[index] = data.results.map(result => ({
               id: result.id,
               text: result.name
@@ -381,7 +381,7 @@ export default {
 
       const fieldNames = [
         'site_name',
-        'carving_object',
+        'author_name',
         'image_type',
         'keyword',
         'dating_tag',
