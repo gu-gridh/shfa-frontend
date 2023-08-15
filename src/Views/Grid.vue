@@ -464,7 +464,7 @@ beforeRouteEnter(to, from, next) {
   background-color:grey;
   float:left;
   margin-top:30px;
-  margin-left:25px;
+  margin-left:40px;
   background:url("../assets/shfa_logo_downscale.png");
   background-repeat:no-repeat;
   background-size:contain;
