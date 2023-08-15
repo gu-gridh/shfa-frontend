@@ -523,6 +523,13 @@ beforeRouteEnter(to, from, next) {
   transition: all 0.8s ease-in-out;
 }
 
+.title .aboutemph{
+  cursor:pointer;
+  pointer-events:auto;
+  display:inline;
+  color:rgb(120, 135, 150)!important;
+}
+
 .title .emph:hover{
   display:inline;
   color: rgb(120,135,150);

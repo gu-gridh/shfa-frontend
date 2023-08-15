@@ -9,7 +9,7 @@
         <div class="logo-area">
         <div id="logo"></div>
   <h1 class="title">
-    <div v-html="$t('message.title')"></div>
+    <div v-html="$t('message.abouttitle')"></div>
   </h1>
 </div>
 
@@ -146,19 +146,10 @@ h2{
   color:rgb(190, 190, 190);
 }
 
-.title .emph{
-  cursor:pointer;
-  pointer-events:auto;
-  display:inline;
-  color:rgb(120, 135, 150)!important;
-}
-
-
 .title .emph:hover{
   display:inline;
   color: rgb(120,135,150);
 }
-
 
 .fullopacity{
   /* backdrop-filter:blur(5px); */
