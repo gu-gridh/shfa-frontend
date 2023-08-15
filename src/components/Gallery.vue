@@ -156,7 +156,7 @@ export default {
         { type: 958, text: 'threedsm', order: 3 },
         { type: 959, text: 'threedlaserscanning', order: 4 },
         { type: 961, text: 'miljöbild', order: 5 },
-        { type: 964, text: 'nattfotografi', order: 6 },
+        { type: 964, text: 'nattfotografering', order: 6 },
         { type: 942, text: 'fotografi', order: 7 },
         { type: 949, text: 'diabild', order: 8 },
         { type: 947, text: 'negativfärg', order: 9 },
@@ -492,13 +492,13 @@ h1 {
   .button-group {
     position:fixed;
     bottom:31px;
-    z-index:30000;
+    z-index:1000;
     pointer-events:none;
   }
 
   /* Align "Load Previous" buttons to the left */
   .left {
-    margin-left:-105px;
+    margin-left:-100px;
     background:url(../../public/interface/backbuttonwhite.png);
     background-size:35px;
   
@@ -507,7 +507,7 @@ h1 {
 
   /* Align "Load More" buttons to the right */
   .right {
-    margin-left:175px;
+    margin-left:170px;
     background:url(../../public/interface/nextbuttonwhite.png);
     background-size:35px;
    
