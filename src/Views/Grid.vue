@@ -294,7 +294,7 @@ export default defineComponent({
       results: [],
       searchItems: [],
       advancedSearchResults: [],
-      isMenuOpen: true,
+      isMenuOpen: false,
       showThreePanels: false,
       selectedId: null,
       selectedLamningId: null,
@@ -361,9 +361,11 @@ beforeRouteEnter(to, from, next) {
 
   methods: {
     toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen; // Toggle the menu state
+        if (window.innerWidth <= 700) { // Only toggle if on smaller screens
+            this.isMenuOpen = !this.isMenuOpen;
+        }
     },
-     toggleLanguage() {
+    toggleLanguage() {
         this.currentLanguage = (this.$i18n.locale === 'en') ? 'sv' : 'en';
         this.$i18n.locale = this.currentLanguage;
     },
@@ -683,9 +685,18 @@ padding: 2px 15px 6px 15px;
 backdrop-filter: blur(5px);
   }
 
+@media (min-width: 701px) {
+    .menu-show-button, .menu-close-button {
+        display: none;
+    }
+
+    .main-menu {
+        display: block !important; 
+    }
+}
+
 
 /* This controls the menu look on small screens */
-
 @media (max-width: 700px) {
 
   .menu-show-button{
