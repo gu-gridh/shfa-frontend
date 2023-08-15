@@ -7,7 +7,7 @@
           {{
             [
             $t('message.site'),
-            $t('message.hällristnings'),
+            $t('message.hällristningsauthor'),
             $t('message.bildtyp'),
             $t('message.nyckelord'),
             $t('message.datering'),
