@@ -1,8 +1,18 @@
 <template>
   <div class="about-container" v-bind:class="{fullopacity: visibleAbout}">
     <div class="flex-machine">
+
       <div class="rows">
-    <div class="about-main-title" v-bind:class="{fullopacityui: visibleAbout}">Svenskt HällristningsForskningsArkivs - SHFA</div>
+
+        <div class="content">
+
+        <div class="logo-area">
+        <div id="logo"></div>
+  <h1 class="title">
+    <div v-html="$t('message.title')"></div>
+  </h1>
+</div>
+
 
       <div class="about-article-sub"  v-bind:class="{fullopacityui: visibleAbout}">
           <h2>Database Overview</h2>
@@ -29,16 +39,24 @@
 
 
 </div>
-<button @click="$emit('close')">
-            <div
-              class="p-1 px-2 clickable category-button"
-              style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;"  v-bind:class="{fullopacityui: visibleAbout}">Close</div>
-          </button>    
 
-        </div>
-        <div class="about-logo-top-right"> </div>
+
+  
+
+    
+ 
+     
     </div>
+    <button @click="$emit('close')" style="padding:30px;">
+            <div class="p-1 px-2 clickable category-button" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;"  v-bind:class="{fullopacityui: visibleAbout}">Close</div>
+          </button>    
+     
+    </div>
+
   </div>
+  
+</div>
+  <div class="about-logo-top-right"> </div>
   
 
 </template>
@@ -81,7 +99,7 @@ h2{
   width: 100%;
   font-size: 12px;
   z-index: 2000;
-  backdrop-filter:blur(0px);
+  backdrop-filter:blur(5px);
   pointer-events:none;
   transform:scale(1.5);
   translate: 0px 100px;
@@ -94,6 +112,53 @@ h2{
   background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 30%);
 
 }
+
+.logo-area{
+  margin-top:80px;
+}
+
+#logo{
+  position:relative;
+  width:210px;
+  height:200px;
+  background-color:white;
+  float:left;
+  margin-left:80px;
+  background:url("../assets/shfa_logo_downscale_light.png");
+  background-repeat:no-repeat;
+  background-size:contain;
+  opacity:0.7;
+  transition: all 0.8s ease-in-out;
+}
+
+.title{
+  float:left;
+  position:relative;
+  pointer-events:none;
+  font-family: 'Teko', sans-serif;
+  line-height:0.75;
+  letter-spacing:-1.2px;
+  margin-top:10px;
+  font-size:65px;
+  font-weight:400;
+  margin-left:0px;
+  padding-left:30px;
+  color:rgb(190, 190, 190);
+}
+
+.title .emph{
+  cursor:pointer;
+  pointer-events:auto;
+  display:inline;
+  color:rgb(120, 135, 150)!important;
+}
+
+
+.title .emph:hover{
+  display:inline;
+  color: rgb(120,135,150);
+}
+
 
 .fullopacity{
   /* backdrop-filter:blur(5px); */
@@ -111,14 +176,18 @@ h2{
   flex-direction:column;
 }
 
+
+
+
 .rows{
   display:flex;
     flex-direction:column;
     align-items:center;
     justify-content: start;
-    width:auto;
-  
+    width:auto;  
   }
+
+
 
 .about-main-title {
     font-family: 'Teko', sans-serif;
