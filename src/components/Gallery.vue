@@ -235,7 +235,8 @@ export default {
       }
 
       // Filter out the groups with no items and sort the image groups by the specified order.
-      this.imageGroups = typeMap.filter(group => group.items.length > 0).sort((a, b) => a.order - b.order);
+      this.imageGroups = typeMap.filter(group => group.items.length > 0)
+      //.sort((a, b) => a.order - b.order);
   },
 
     loadMore() {
@@ -305,7 +306,8 @@ export default {
       }
   
       // Filter out the groups with no items and sort the image groups by the specified order
-      this.imageGroups = typeMap.filter(group => group.items.length > 0).sort((a, b) => a.order - b.order);
+      this.imageGroups = typeMap.filter(group => group.items.length > 0)
+      //.sort((a, b) => a.order - b.order);
 
       }
 
@@ -358,7 +360,8 @@ export default {
         }
 
       // Filter out the groups with no items and sort the image groups by the specified order
-      this.imageGroups = typeMap.filter(group => group.items.length > 0).sort((a, b) => a.order - b.order);
+      this.imageGroups = typeMap.filter(group => group.items.length > 0)
+      //.sort((a, b) => a.order - b.order);
 
       }
 

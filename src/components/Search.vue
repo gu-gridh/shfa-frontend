@@ -199,7 +199,8 @@ export default {
     }
 
     // Filter out the groups with no items and sort the image groups by the specified order
-    this.searchResults = typeMap.filter(group => group.items.length > 0).sort((a, b) => a.order - b.order);
+    this.searchResults = typeMap.filter(group => group.items.length > 0)
+    //.sort((a, b) => a.order - b.order);
 
     this.searchResults = Array.from(typeMap.values());
 

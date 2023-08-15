@@ -203,7 +203,8 @@ export default {
       }
 
       // Filter out the groups with no items and sort the image groups by the specified order
-      this.advancedResults = typeMap.filter(group => group.items.length > 0).sort((a, b) => a.order - b.order);
+      this.advancedResults = typeMap.filter(group => group.items.length > 0);
+      // .sort((a, b) => a.order - b.order);
 
       // Handle next page URL
       if (data.next) {
