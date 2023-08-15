@@ -143,7 +143,7 @@
           Data
         </button>
       </div> -->
-      <div class="ui-numbers ui-overlay" style="bottom:23px; width:220px; font-size:0.9em; padding:5px 5px;">
+      <div class="ui-results" style="width:220px; font-size:0.9em; padding:5px 5px;">
         <p style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}: <p style="color:rgb(200,225,250); display:inline;"> {{ totalResults }}</p></p>
          ({{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }}) 
       </div> 
@@ -615,6 +615,74 @@ background-color:white;
   background-color:rgb(65,65,65);
 
 }
+.ui-overlay {
+pointer-events:auto;
+z-index: 100;
+position:absolute;
+border-radius: 8px;
+font-size: 1.1em;
+font-weight: 500;
+color: white;
+background-color: rgba(0, 0, 0, 0.5);
+backdrop-filter: blur(5px);
+}
+
+.ui-mode {
+top: 190px;
+padding: 4px 0px 4px 0px;
+background-color: rgba(0, 0, 0, 0.5);
+}
+
+.ui-mode .item {
+cursor: pointer;
+display: inline;
+font-weight: 500;
+padding: 0px 15px 0px 15px;
+}
+
+.ui-mode .item:hover {
+  color: rgb(200,225,250);
+}
+
+.ui-mode .selected{
+  color: rgb(200,225,250);
+}
+
+.ui-numbers {
+  padding: 2px 15px 6px 15px;
+  text-align: center;
+  bottom: 30px;
+  margin-top: calc(100% - 100px); 
+  pointer-events:none;
+}
+
+
+.ui-map-info {
+padding: 2px 15px 6px 15px;
+text-align: center;
+bottom: 50px;
+margin-top: calc(100% - 100px);
+}
+
+.ui-text-small {
+font-size:95%;
+}
+
+.ui-results{
+  position:absolute;
+  pointer-events:none;
+    bottom:23px;
+z-index: 100;
+border-radius: 8px;
+font-size: 1.1em;
+font-weight: 500;
+color: white;
+padding: 2px 15px 6px 15px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+backdrop-filter: blur(5px);
+  }
+
 
 /* This controls the menu look on small screens */
 
@@ -713,6 +781,7 @@ margin-right:9px;
   .top{
     position: relative;
   }
+
 }
 
 /* End of menu style */
@@ -730,6 +799,11 @@ margin-right:9px;
   .split-container{
     display: flex;
     flex-direction: column;
+  }
+
+  .ui-results{
+    position:fixed;
+    bottom:23px;
   }
 }
 
@@ -897,58 +971,7 @@ h2 input:not(:placeholder-shown) {
   transform: translateX(0);
 }
 
-.ui-overlay {
-pointer-events:auto;
-z-index: 100;
-position:absolute;
-border-radius: 8px;
-font-size: 1.1em;
-font-weight: 500;
-color: white;
-background-color: rgba(0, 0, 0, 0.5);
-backdrop-filter: blur(5px);
-}
 
-.ui-mode {
-top: 190px;
-padding: 4px 0px 4px 0px;
-background-color: rgba(0, 0, 0, 0.5);
-}
-
-.ui-mode .item {
-cursor: pointer;
-display: inline;
-font-weight: 500;
-padding: 0px 15px 0px 15px;
-}
-
-.ui-mode .item:hover {
-  color: rgb(200,225,250);
-}
-
-.ui-mode .selected{
-  color: rgb(200,225,250);
-}
-
-.ui-numbers {
-  padding: 2px 15px 6px 15px;
-  text-align: center;
-  bottom: 30px;
-  margin-top: calc(100% - 100px); 
-  pointer-events:none;
-}
-
-
-.ui-map-info {
-padding: 2px 15px 6px 15px;
-text-align: center;
-bottom: 50px;
-margin-top: calc(100% - 100px);
-}
-
-.ui-text-small {
-font-size:95%;
-}
 
 .gutter {
   background-color: #999;
