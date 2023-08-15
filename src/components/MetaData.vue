@@ -19,7 +19,7 @@
   </table></div>
    <div class="metadata-wide">
    <table>
-   <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site">  {{ data.author.name }}, {{ data.year }}. <span style="text-transform: capitalize;">{{ data.type.text }}</span> Image of {{ data.site.lamning_id }}, SHFA, accesssed {{ acc_date }} at {{ data.iiif_file }}</td></tr>
+   <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site">  {{ data.author.name }}, {{ data.year }}. {{ data.type.text }} of {{ data.site.lamning_id }}, SHFA, accesssed {{ acc_date }} at {{ data.iiif_file }}</td></tr>
     </table>
   </div>
 </div>
