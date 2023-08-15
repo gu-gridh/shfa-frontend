@@ -483,6 +483,8 @@ h1 {
   .button-container {
     display: flex;
     justify-content: center;
+ 
+
   
   }
 
@@ -490,25 +492,25 @@ h1 {
   .button-group {
     position:fixed;
     bottom:31px;
-   
+    z-index:30000;
     pointer-events:none;
   }
 
   /* Align "Load Previous" buttons to the left */
   .left {
-    margin-left:-120px;
+    margin-left:-105px;
     background:url(../../public/interface/backbuttonwhite.png);
     background-size:35px;
-    background-color: rgba(40, 40, 40, 0.9);
+  
     pointer-events:auto;
   }
 
   /* Align "Load More" buttons to the right */
   .right {
-    margin-left:200px;
+    margin-left:175px;
     background:url(../../public/interface/nextbuttonwhite.png);
     background-size:35px;
-    background-color: rgba(40, 40, 40, 0.9);
+   
     pointer-events:auto;
   }
 

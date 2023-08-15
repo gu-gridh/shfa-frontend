@@ -143,12 +143,13 @@
           Data
         </button>
       </div> -->
-      <div class="ui-numbers ui-overlay">
-        {{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }} 
+      <div class="ui-numbers ui-overlay" style="bottom:23px; width:220px; font-size:0.9em; padding:5px 5px;">
+        <p style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}: <p style="color:rgb(200,225,250); display:inline;"> {{ totalResults }}</p></p>
+         ({{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }}) 
       </div> 
-       <div class="ui-numbers ui-overlay" style="bottom: 80px;">
-        Results: {{ totalResults }}
-      </div> 
+
+      
+     
     </div>
   </div>
  
@@ -293,7 +294,7 @@ export default defineComponent({
       results: [],
       searchItems: [],
       advancedSearchResults: [],
-      isMenuOpen: false,
+      isMenuOpen: true,
       showThreePanels: false,
       selectedId: null,
       selectedLamningId: null,
