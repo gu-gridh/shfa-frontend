@@ -270,11 +270,17 @@ export default {
         const response = await fetch(`${apiUrl}${query}`);
         const data = await response.json();
         switch(index) {
-          case 0: // Site name: use "raa_id"
-            this.searchResults[index] = data.features.map(feature => ({
-              id: feature.id,
-              text: feature.properties.raa_id
-            }));
+          case 0: // Site name: use "raa_id or lamning_id"
+            this.searchResults[index] = data.features.flatMap(feature => [
+              {
+                id: feature.id + "-raa",
+                text: feature.properties.raa_id
+              },
+              {
+                id: feature.id + "-lamning",
+                text: feature.properties.lamning_id
+              }
+            ]);
             break;
           case 1:
             this.searchResults[index] = data.results.map(result => ({
