@@ -340,7 +340,8 @@ beforeRouteEnter(to, from, next) {
     const direction = window.innerWidth < 768 ? 'vertical' : 'horizontal';
 
     Split(['#split-0', '#split-1', '#split-2'], {
-    minSize: [200, 600],
+    sizes: [30, 70, 50],
+    minSize: [500, 300],
     direction: direction,
     dragInterval: 1,
     gutterSize: 10,

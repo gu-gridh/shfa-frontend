@@ -201,7 +201,7 @@ export default {
     this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
   },
   async loadStartPage() {
-      let response = await fetch('https://diana.dh.gu.se/api/shfa/image/?collection=5534&depth=1');
+      let response = await fetch('https://diana.dh.gu.se/api/shfa/compilation/1/?depth=2');
       if (!response.ok) {
         this.$emit('error', 'Could not fetch data');
         return;
@@ -209,7 +209,7 @@ export default {
 
       let data = await response.json();
 
-      if (!data.results) {
+      if (!data.images) {
         this.$emit('error', 'No results in data');
         return;
       }
@@ -220,7 +220,7 @@ export default {
         items: [],
       }));
 
-      for (let image of data.results) {
+      for (let image of data.images) {
         let type = image.type;
         let item = {
           id: image.id,
