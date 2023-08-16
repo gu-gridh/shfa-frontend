@@ -1174,7 +1174,7 @@ font-size:120%;
 
 
 #metadata-container .label {
-  width:100px;
+  width:120px;
   color:white;
   font-weight:600;
 }

@@ -141,7 +141,7 @@ h2{
 
 
 .label {
-  width:80px;
+  width:120px;
   color:white;
   font-weight:600;
 }
