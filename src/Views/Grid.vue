@@ -84,6 +84,7 @@
   </div>
   <!-- Panel 2 -->
   <div id="split-1" class="flex-grow overflow-auto main-color" 
+       v-show="shouldShowPanel1"
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }"
        >
 
@@ -285,11 +286,18 @@ export default defineComponent({
       if (gutter) {
         gutter.style.display = newValue ? 'block' : 'none';
       }
+      if (newValue && !this.shouldShowPanel1) { // Check if on mobile
+        const panel = document.getElementById('split-1');
+            if (panel) {
+              window.scrollTo(0, 400);
+            }        
+      }
     }
   },
   data() {
     return {
       currentLanguage: 'en',
+      windowWidth: window.innerWidth,
       items: [],
       results: [],
       searchItems: [],
@@ -336,8 +344,10 @@ beforeRouteEnter(to, from, next) {
   });
 },
   mounted() {
+    window.addEventListener('resize', this.updateWindowWidth);
+
     const vm = this;
-    const direction = window.innerWidth < 768 ? 'vertical' : 'horizontal';
+    const direction = window.innerWidth <= 1024 ? 'vertical' : 'horizontal';
 
     Split(['#split-0', '#split-1', '#split-2'], {
     sizes: [30, 70, 50],
@@ -358,9 +368,22 @@ beforeRouteEnter(to, from, next) {
     },
   });
 },
-
+computed: {
+  shouldShowPanel1() {
+    if (this.windowWidth <= 1024) {
+      return !this.showThreePanels;
+    }
+    return true; // always show on larger screens
+  }
+},
+beforeDestroy() {
+  window.removeEventListener('resize', this.updateWindowWidth);
+},
 
   methods: {
+    updateWindowWidth() {
+      this.windowWidth = window.innerWidth;
+    },
     toggleMenu() {
         if (window.innerWidth <= 700) { // Only toggle if on smaller screens
             this.isMenuOpen = !this.isMenuOpen;
