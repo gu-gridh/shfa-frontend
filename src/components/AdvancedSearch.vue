@@ -423,7 +423,7 @@ export default {
 }
 .search-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 47% 47%;
   gap: 15px;
 }
 
