@@ -5,7 +5,7 @@
   <h1 class="title"><div v-html="$t('message.title')"></div></h1>
 
   <button @click="toggleMenu" class="menu-show-button">
-      Menu  
+      Menu
   </button> 
 
 <!-- This controls the menu on small screens -->
@@ -71,6 +71,7 @@
         :bbox="bbox"
         @id-selected="selectedId = $event"
         @lamning-selected="selectedLamningId = $event"
+        @raa-selected="selectedRaaId = $event"
         @update-bbox="bbox = $event"
         @map-clicked="handleMapClicked"
       ></Map>
@@ -96,6 +97,7 @@
     ref="galleryRef"
     :siteId="selectedId" 
     :siteLamningId="selectedLamningId"
+    :siteRaaId="selectedRaaId"
     @image-clicked="onImageClicked"
     @page-details-updated="updatePageDetails"
     :searchItems="searchItems"
@@ -306,6 +308,7 @@ export default defineComponent({
       showThreePanels: false,
       selectedId: null,
       selectedLamningId: null,
+      selectedRaaId: null,
       selectedIiifFile: null,
       idForMetaData: null,
       currentPage: 1,

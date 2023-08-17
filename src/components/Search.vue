@@ -187,10 +187,11 @@ export default {
     for (let image of data.results) {
       let type = image.type;
       let item = {
-        id: image.id,   
-        lamning_id: image.site.lamning_id,
-        type: image.type.id,
-        iiif_file: image.iiif_file,
+        id: image.id ?? null, 
+        lamning_id: image?.site?.lamning_id ?? null, 
+        raa_id: image?.site?.raa_id ?? null,
+        type: image?.type?.id ?? null,
+        iiif_file: image.iiif_file ?? null, 
       };
 
     let typeIndex = typeMap.findIndex(x => x.type === type.id); 

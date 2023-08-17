@@ -113,8 +113,9 @@ async fetchAdditionalData(url, pagesToFetch = 10) {
       if (data && data.features) {
         const additionalResults = data.features.map((feature) => ({
           coordinates: feature.geometry.coordinates,
-          id: feature.id,
-          lamning_id: feature.properties.lamning_id,
+          id: feature.id ?? null,
+          lamning_id: feature.properties.lamning_id ?? null,
+          raa_id: feature.properties.raa_id ?? null,
         }));
 
         // Filter the additionalResults to only include points outside the current bounding box
@@ -200,20 +201,24 @@ async fetchDataByBbox() {
     // Save the fetched data in the cachedResults array
     this.cachedResults.push(...allFeatures.map((feature) => ({
       coordinates: feature.geometry.coordinates,
-      id: feature.id,
-      lamning_id: feature.properties.lamning_id,
+      id: feature.id ?? null,
+      lamning_id: feature.properties.lamning_id ?? null,
+      raa_id: feature.properties.raa_id ?? null,
     })));
+
 
     // Deduplicate the cachedResults array
     const uniqueResults = [];
-    const seenRaaIds = new Set();
+    const seenIds = new Set();
     for (const result of this.cachedResults) {
-      if (!seenRaaIds.has(result.lamning_id)) {
+      const combinedId = `${result.lamning_id}-${result.raa_id}`; // Combine both IDs
+      if (!seenIds.has(combinedId)) {
         uniqueResults.push(result);
-        seenRaaIds.add(result.lamning_id);
+        seenIds.add(combinedId);
       }
     }
     this.cachedResults = uniqueResults;
+
 
     // Update the results array with the data within the current bounding box
     this.results = this.cachedResults.filter(result => {
@@ -278,12 +283,15 @@ async fetchDataByBbox() {
       const featuresInCluster = feature.get('features');
       if (featuresInCluster.length === 1) {
         const lamning_id = featuresInCluster[0].get('lamning_id');
+        const raa_id = featuresInCluster[0].get('raa_id');
         const id = featuresInCluster[0].get('id');
         this.clickedId = id;
         this.clickedLamningId = lamning_id;
+        this.clickedRaaId = raa_id;
         this.$emit('map-clicked');
         this.$emit('id-selected', id);
         this.$emit('lamning-selected', lamning_id);
+        this.$emit('raa-selected', raa_id);
       } else {
         const coordinates = feature.getGeometry().getCoordinates();
         this.map.getView().setCenter(coordinates);
@@ -306,6 +314,7 @@ updateCoordinates() {
         geometry: new Point(fromLonLat([coord[0], coord[1]]))
       });
       feature.set('lamning_id', result.lamning_id); 
+      feature.set('raa_id', result.raa_id); // Set the raa_id for the feature
       feature.set('id', result.id)
       feature.setStyle(this.iconStyle);
       return feature;

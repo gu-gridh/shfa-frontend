@@ -12,6 +12,7 @@
             <div class="grid-item-info">
               <div class="grid-item-info-meta">
                 <h1>{{ mapGallery ? siteLamningId : item.lamning_id }}</h1>
+                <h2>{{ mapGallery ? siteRaaId : item.raa_id }}</h2>
               </div>
             </div>
           </div>
@@ -51,6 +52,11 @@ export default {
       default: null,
     },
     siteLamningId: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    siteRaaId: {
       type: String,
       required: false,
       default: null,
@@ -223,10 +229,11 @@ export default {
       for (let image of data.images) {
         let type = image.type;
         let item = {
-          id: image.id,
-          lamning_id: image.site.lamning_id,
-          type: image.type.id,
-          iiif_file: image.iiif_file,
+          id: image.id ?? null, 
+          lamning_id: image?.site?.lamning_id ?? null, 
+          raa_id: image?.site?.raa_id ?? null,
+          type: image?.type?.id ?? null,
+          iiif_file: image.iiif_file ?? null, 
         };
 
       let typeIndex = typeMap.findIndex(x => x.type === type.id); 
@@ -462,7 +469,7 @@ h1 {
 
 .grid-item-info-meta h2 {
   font-size: 18px;
-  margin-left: 30px;
+  margin-left: 20px;
 }
 
 .loadMore {
