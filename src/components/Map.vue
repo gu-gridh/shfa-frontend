@@ -11,17 +11,12 @@ import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import { fromLonLat } from 'ol/proj';
-import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import Icon from 'ol/style/Icon';
-import Style from 'ol/style/Style';
 import {toLonLat} from 'ol/proj';
-import { Cluster } from 'ol/source';
-import { Circle as CircleStyle, Fill, Stroke, Text } from 'ol/style';
 import { debounce } from 'lodash';
-
+import WebGLPointsLayer from 'ol/layer/WebGLPoints';
 
 export default {
   name: 'MapComponent',
@@ -40,7 +35,6 @@ export default {
     return {
     map: null,
     vectorLayer: null,
-    iconStyle: null,
     clickedRaaId: null,
     results: [], 
     cachedResults: [],
@@ -50,15 +44,20 @@ mounted() {
   try {
     this.initMap(); // Initialize the map on component mount
     this.$nextTick(() => {
-      this.updateCoordinates(); // Update the map markers on component mount
+    this.updateCoordinates(); // Update the map markers on component mount
       this.fetchAdditionalData(); // Fetch additional data from the provided API endpoint
     });
   } catch (error) {
     console.error('Error in mounted hook:', error);
   }
 },
+beforeDestroy() {
+  if (this.map) {
+    this.map.un('moveend', this.updateBbox);
+  }
+},
 created() {
-  this.debouncedFetchDataByBbox = debounce(this.fetchDataByBbox, 100);
+  this.debouncedFetchDataByBbox = debounce(this.fetchDataByBbox, 1000);
 },
 watch: {
  bbox: {
@@ -228,127 +227,98 @@ async fetchDataByBbox() {
   }
 },
 
-   initMap() {
-
-    this.map = new Map({
+initMap() {
+  this.map = new Map({
     target: 'map',
     layers: [
-        new TileLayer({
-          className: 'grey',
-          source: new OSM()
-        })
-
+      new TileLayer({
+        className: 'grey',
+        source: new OSM()
+      })
     ],
     view: new View({
-      center: fromLonLat([11.35, 58.73]), //Default center of the map
+      center: fromLonLat([11.35, 58.73]), // Default center of the map
       zoom: 13 // Default zoom level of the map
     })
   });
 
-
-
-  // Initialize the map marker style
-  this.iconStyle = new Style({
-    image: new Icon({
+  // Initialize the WebGL map marker style
+  const webGLStyle = {
+    symbol: {
+      symbolType: 'image',
+      size: [16.56, 24.17], 
+      color: [255, 160, 110],
+      offset: [0, 0], 
       src: '/interface/assets/marker-gold.svg',
-      scale: 1.2,
-      anchor: [0.5, 1],
-      anchorXUnits: 'fraction',
-      anchorYUnits: 'fraction'
-    })
-  });
+    },
+  };
 
-  // Check if coordinates are defined before creating the features
-  const features = this.results.length ? this.results.map(result => {
-    const coord = result.coordinates;
-    return new Feature({
-      geometry: new Point(fromLonLat([coord[0], coord[1]]))
-    });
-  }) : [];
-
-  // Creates the new layer for the pins
-  const vectorSource = new VectorSource({
-    features: features
-  });
-
-  this.vectorLayer = new VectorLayer({
-    source: vectorSource
+  const pointSource = new VectorSource();
+  this.vectorLayer = new WebGLPointsLayer({
+    source: pointSource,
+    style: webGLStyle,
   });
 
   this.map.addLayer(this.vectorLayer);
 
-    // Add 'click' event listener
-      this.map.on('click', (event) => {
-      this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
-      const featuresInCluster = feature.get('features');
-      if (featuresInCluster.length === 1) {
-        const lamning_id = featuresInCluster[0].get('lamning_id');
-        const raa_id = featuresInCluster[0].get('raa_id');
-        const id = featuresInCluster[0].get('id');
+  // Add 'click' event listener
+this.map.on('click', (event) => {
+    // Use the hit detection mechanism
+    this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
+        // Get the properties of the feature (in this case, we're extracting 'lamning_id', 'raa_id', and 'id')
+        const lamning_id = feature.get('lamning_id');
+        const raa_id = feature.get('raa_id');
+        const id = feature.get('id');
+
         this.clickedId = id;
         this.clickedLamningId = lamning_id;
         this.clickedRaaId = raa_id;
+
         this.$emit('map-clicked');
         this.$emit('id-selected', id);
         this.$emit('lamning-selected', lamning_id);
         this.$emit('raa-selected', raa_id);
-      } else {
-        const coordinates = feature.getGeometry().getCoordinates();
-        this.map.getView().setCenter(coordinates);
-        this.map.getView().setZoom(this.map.getView().getZoom() + 1);
-      }
+    }, {
+        layerFilter: (layer) => layer === this.vectorLayer, // Ensure we're only checking features in our WebGLPointsLayer
+        hitTolerance: 10 // Increase or decrease this value for a larger or smaller hit detection area
     });
-  });
+});
 
   // Add 'moveend' event listener to the map to update the bounding box
   this.map.on('moveend', debounce(() => {
     this.updateBbox();
-  }, 2000)); // Adjust the delay in milliseconds as needed
+  }, 1000)); // Adjust the delay in milliseconds as needed
 },
+
 
 updateCoordinates() {
-  const pointSource = new VectorSource({
-    features: this.cachedResults.map(result => { 
-      const coord = result.coordinates;
-      const feature = new Feature({
-        geometry: new Point(fromLonLat([coord[0], coord[1]]))
-      });
-      feature.set('lamning_id', result.lamning_id); 
-      feature.set('raa_id', result.raa_id); // Set the raa_id for the feature
-      feature.set('id', result.id)
-      feature.setStyle(this.iconStyle);
-      return feature;
-    })
-  });
+    const newFeatures = this.cachedResults.map(result => {
+        const coord = result.coordinates;
+        const feature = new Feature({
+            geometry: new Point(fromLonLat([coord[0], coord[1]]))
+        });
+        feature.set('lamning_id', result.lamning_id);
+        feature.set('raa_id', result.raa_id);
+        feature.set('id', result.id);
+        return feature;
+    });
 
-  const clusterSource = new Cluster({
-    distance: 20, // Adjust this value to control the clustering distance
-    source: pointSource,
-  });
-
-  const clusterLayer = new VectorLayer({
-    source: clusterSource,
-    style: this.createClusterStyle,
-  });
-
-  // Remove the previous vectorLayer
-  if (this.vectorLayer) {
-    this.map.removeLayer(this.vectorLayer);
-  }
-
-  // Set the new vectorLayer to the clusterLayer and add it to the map
-  this.vectorLayer = clusterLayer;
-  this.map.addLayer(this.vectorLayer);
+    const pointSource = this.vectorLayer.getSource();
+    pointSource.clear();
+    pointSource.addFeatures(newFeatures);
 },
 
-createClusterStyle(feature) {
+/* createClusterStyle(feature) {
   const size = feature.get('features').length;
+
   if (size === 1) {
     return this.iconStyle; // Return the individual pin style when cluster size is 1
   } else {
+    const baseRadius = 20; // Increase the base radius for larger visual representation
+    const scalingFactor = 0.2; // Adjust this value to control how much the radius grows with the cluster size
     const style = new Style({
       image: new CircleStyle({
-        radius: 15 + Math.min(size, 50) * 0.1,
+        radius: baseRadius + Math.min(size, 100) * scalingFactor,
         fill: new Fill({ color: 'rgba(120,135,150, 0.8)' }),
         stroke: new Stroke({
           color: '#fff',
@@ -358,12 +328,14 @@ createClusterStyle(feature) {
       text: new Text({
         text: size.toString(),
         fill: new Fill({ color: '#fff' }),
+        scale: 1.5, // Adjust the scale to make the text larger and more readable on mobile
       }),
     });
 
     return style;
   }
-},
+} */
+
 
   },
 }
