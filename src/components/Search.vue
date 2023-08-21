@@ -57,6 +57,7 @@
 
 <script>
 import useSearchTracking from '../composables/useSearchTracking.js'
+import searches from '../i18n/searches.js';
 
 export default {
   name: 'Search',
@@ -115,20 +116,34 @@ export default {
     { id: 6, text: 'krigare'},
     { id: 7, text: 'vitlycke'},
     { id: 8, text: 'skee'},
-    // { id: 9, text: 'threed'},
-    { id: 10, text: 'kalkering'},
-    { id: 11, text: 'frottage'},
-    { id: 12, text: 'nattfotografering'},
+    { id: 9, text: 'kalkering'},
+    { id: 10, text: 'frottage'},
+    { id: 11, text: 'nattfotografering'},
     ];
   },  
   methods: {
+    getKeyByValue(object, value) {
+      return Object.keys(object).find(key => object[key].toLowerCase() === value.toLowerCase());
+    },
     updatePageDetails() {
       this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
     },
     triggerSearch() {
-      const query = this.selectedKeywords.length > 0 
-        ? this.selectedKeywords[0].text 
-        : this.searchQuery;
+      let query = '';
+      
+      // Get the key from the English translations using the inputted text
+      let englishKey = this.getKeyByValue(searches.en.message, this.searchQuery);
+
+      // If the key exists in the English translations, get the Swedish translation
+      if (englishKey && searches.sv.message[englishKey]) {
+          query = searches.sv.message[englishKey];
+      } else {
+          // If not, use the inputted text or selected keyword
+          query = this.selectedKeywords.length > 0 
+              ? this.selectedKeywords[0].text 
+              : this.searchQuery;
+      }
+
       this.searchKeywordTags(query);
       const { trackSearch } = useSearchTracking();
       trackSearch(query);
@@ -157,7 +172,7 @@ export default {
         { type: 958, text: 'threedsm', order: 3 },
         { type: 959, text: 'threedlaserscanning', order: 4 },
         { type: 961, text: 'miljöbild', order: 5 },
-        { type: 964, text: 'nattfotografering', order: 6 },
+        { type: 964, text: 'nattfoto', order: 6 },
         { type: 942, text: 'fotografi', order: 7 },
         { type: 949, text: 'diabild', order: 8 },
         { type: 947, text: 'negativfärg', order: 9 },

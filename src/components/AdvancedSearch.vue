@@ -161,7 +161,7 @@ export default {
         { type: 958, text: 'threedsm', order: 3 },
         { type: 959, text: 'threedlaserscanning', order: 4 },
         { type: 961, text: 'miljöbild', order: 5 },
-        { type: 964, text: 'nattfotografi', order: 6 },
+        { type: 964, text: 'nattfoto', order: 6 },
         { type: 942, text: 'fotografi', order: 7 },
         { type: 949, text: 'diabild', order: 8 },
         { type: 947, text: 'negativfärg', order: 9 },
