@@ -43,11 +43,11 @@
 
     <button class="item" @click="">
     
-          <a href="https://www.gu.se/en/research/shfa-swedish-rock-art-research-archives">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
+          <a href="https://www.gu.se/en/research/shfa-swedish-rock-art-research-archives" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
 
     <button class="item" @click="">
    
-          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">{{ $t('message.news') }}<div class="top-link-button" ></div></a></button>
+          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv" target="_blank">{{ $t('message.news') }}<div class="top-link-button" ></div></a></button>
 </div>
 </div> 
 <!-- End of main-menu -->
