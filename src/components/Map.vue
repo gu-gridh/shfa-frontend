@@ -246,12 +246,13 @@ initMap() {
   const webGLStyle = {
     symbol: {
       symbolType: 'image',
-      size: [16.56, 24.17], 
-      color: [255, 160, 110],
+      color: [252, 246, 116,0.8],
+      size: [16.56, 24.17],
       offset: [0, 0], 
-      src: '/interface/assets/marker-gold.svg',
+      src: '/interface/assets/marker-white.svg'
     },
   };
+
 
   const pointSource = new VectorSource();
   this.vectorLayer = new WebGLPointsLayer({
@@ -260,6 +261,7 @@ initMap() {
   });
 
   this.map.addLayer(this.vectorLayer);
+
 
   // Add 'click' event listener
 this.map.on('click', (event) => {
@@ -273,6 +275,7 @@ this.map.on('click', (event) => {
         this.clickedId = id;
         this.clickedLamningId = lamning_id;
         this.clickedRaaId = raa_id;
+
 
         this.$emit('map-clicked');
         this.$emit('id-selected', id);
@@ -351,6 +354,7 @@ updateCoordinates() {
   border-radius:10px;
   overflow:hidden!important;
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5)!important;
+  cursor: pointer;
  /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
 
@@ -371,7 +375,7 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
 #app .ol-control button:active,
 #app .ol-control button:hover,
 #app .ol-control button:focus {
-  background: #ff9900 !important;
+  background: rgb(255, 230, 0) !important;
   border-width: 0px !important;
 }
 

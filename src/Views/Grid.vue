@@ -18,11 +18,11 @@
     
  <transition name="flip-fade" mode="out-in">
     <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage">
-        English 
+        Svenska 
         
     </div>
     <div v-else class="top-button" key="svenska" @click="toggleLanguage">
-        Svenska 
+        English 
     
     </div>
 </transition>
@@ -30,16 +30,20 @@
     <!-- <div class="top-button">|</div> -->
 </div>
   
-  <About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
+<About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
+  <Guide :visibleGuide="visibleGuide" @close="visibleGuide = false" />
   <div class="top-links">
-    
+    <button class="item" @click="visibleGuide=true">
+
+          {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div></button>
+
     <button class="item" @click="visibleAbout=true">
 
           {{ $t('message.aboutArchive') }}<div class="top-link-button" ></div></button>
 
     <button class="item" @click="">
     
-          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
+          <a href="https://www.gu.se/en/research/shfa-swedish-rock-art-research-archives">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
 
     <button class="item" @click="">
    
@@ -195,10 +199,11 @@ import AdvancedSearch from "../components/AdvancedSearch.vue";
 import ImageViewer from "../components/ImageViewer.vue";
 import MetaData from "../components/MetaData.vue";
 import About from "../components/About.vue";
+import Guide from "../components/Guide.vue";
 
 export default defineComponent({
   components: {
-    Map, Gallery, Catalogue, Datareport, Search, AdvancedSearch, ImageViewer, MetaData, About
+    Map, Gallery, Catalogue, Datareport, Search, AdvancedSearch, ImageViewer, MetaData, About, Guide
   },
   watch: {
     $route(to, from) {
@@ -325,6 +330,7 @@ export default defineComponent({
       previousPageUrlAdvanced: null,
       forceRefresh: 0,
       visibleAbout: false,
+      visibleGuide: false,
       mapClicked: false,
     }
   },
@@ -647,6 +653,19 @@ background-color:white;
   background-repeat:no-repeat;
 }
 
+.top-link-infobutton{
+  float:right;
+  text-align:left;
+  margin-left:10px;
+  padding:3px 35px 3px 0px;
+  height:32px;
+  border-radius:8px;
+  background-image:url(../../public/interface/infobutton.png);
+  background-size:27px;
+  background-position:0px 0px;
+  background-repeat:no-repeat;
+}
+
 .main-color{
   background-color:rgb(65,65,65);
 
@@ -818,6 +837,19 @@ margin-right:9px;
   padding:3px 15px 3px 58px;
   border-radius:8px;
   background-image:url(../../public/interface/linkbutton.png);
+  background-size:37px;
+  background-position:8px 4px;
+  background-repeat:no-repeat;
+}
+
+.top-link-infobutton{
+  float:right;
+  text-align:right;
+  margin-left:10px;
+  height:50px;
+  padding:3px 15px 3px 58px;
+  border-radius:8px;
+  background-image:url(../../public/interface/infobutton.png);
   background-size:37px;
   background-position:8px 4px;
   background-repeat:no-repeat;

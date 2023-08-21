@@ -5,7 +5,7 @@
   <div class="metadata-column">
     <table>
    <tr><td class="label" v-if="data.site && data.site.raa_id">{{ $t('message.raanumber') }}</td><td class="data" v-if="data.site && data.site.raa_id">  {{ data.site.raa_id }}</td></tr>
-   <tr><td class="label" v-if="data.type && data.type.text">{{ $t('message.typ') }}</td><td class="data" v-if="data.type && data.type.text">  {{ data.type.text }}</td></tr>
+   <tr><td class="label" v-if="data.type && data.type.text">{{ $t('message.typ') }}</td><td class="data" v-if="data.type && data.type.text">  {{ $t('keywords.'+data.type.text) }}</td></tr>
    <tr><td class="label" v-if="data.author && data.author.name">{{ $t('message.author') }}</td><td class="data" v-if="data.author && data.author.name">  {{ data.author.name }}</td></tr>
    <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="ref" v-if="data.institution && data.institution.name">  {{ data.institution.name }}</td></tr>
   </table>
@@ -19,7 +19,7 @@
   </table></div>
    <div class="metadata-wide">
    <table>
-   <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site">  {{ data.author.name }}, {{ data.year }}. {{ data.type.text }} of {{ data.site.lamning_id }}, SHFA, accesssed {{ acc_date }} at {{ data.iiif_file }}</td></tr>
+    <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site">  {{ data.author.name }}, {{ data.year }}. {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} {{ ref_url }}</td></tr>
     </table>
   </div>
 </div>
@@ -28,7 +28,7 @@
       <h2>{{ $t('message.keywords') }}</h2>
       <div class="keywords"> <!-- Empty div for margin -->
       <ul>
-        <li v-for="(keyword, index) in data.keywords" :key="index">{{ keyword.text }}</li>
+        <li v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index">{{ $t('keywords.'+keyword.text) }}</li>
       </ul>
     </div>
   </div>
@@ -58,7 +58,8 @@ export default {
   data() {
     return {
       data: {},
-      acc_date
+      acc_date,
+      ref_url,
     };
   },
    methods: {
@@ -101,6 +102,8 @@ const options = {
   day: "numeric",
 };
 let acc_date = date.toLocaleString("en-GB",options);
+
+let ref_url = window.location.href;
 
   
 </script>

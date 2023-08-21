@@ -22,7 +22,7 @@
             class="tag-example-search"
             @click="deselectKeyword(keyword, index)"
           >
-            {{ keyword.text }}
+          {{$t('keywords.'+keyword.text)}}
           </div>
           <input
             type="search"

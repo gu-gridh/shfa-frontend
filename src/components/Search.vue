@@ -9,7 +9,7 @@
             class="tag-example-search"
             @click="deselectKeyword(keyword)"
           >
-            {{ keyword.text }}
+          {{ $t('message.'+keyword.text) }}
           </div>
           <input
             type="search"
