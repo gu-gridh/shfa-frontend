@@ -1,4 +1,5 @@
 <template>
+<template v-if="$i18n.locale === 'en'" >
   <div class="about-container" v-bind:class="{fullopacity: visibleAbout}">
     <div class="flex-machine">
 
@@ -59,6 +60,74 @@
   <div class="about-logo-top-right"> </div>
   
 
+</template>
+
+  <template v-else>
+  <div class="about-container" v-bind:class="{fullopacity: visibleAbout}">
+    <div class="flex-machine">
+
+      <div class="rows">
+
+        <div class="content">
+
+        <div class="logo-area">
+        <div id="logo"></div>
+  <h1 class="title">
+    <div v-html="$t('message.abouttitle')"></div>
+  </h1>
+</div>
+
+
+      <div class="about-article-sub"  v-bind:class="{fullopacityui: visibleAbout}">
+          <h2>Databasöversikt</h2>
+<p>Svenskt Hällristnings Forsknings Arkivs bilddatabas omfattar mer än 24 000 digitaliserade bilder som är resultatet av pågående arbete 
+  med att beskriva och dokumentera hällristningar sedan 1627. Dessa data kommer i första hand från Sverige men även från Danmark, Norge, 
+  Italien, Spanien och andra delar av världen. Databasen innehåller bilder av dokumentationsresultaten samt dokumentationsprocessen, från 
+  historisk dokumentation till aktuella digitala metoder. Mer information om dokumentationsprocessen finns på 
+  <a href='https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv'>Om SHFA</a>.</p><br>
+<h2>Webbportalmigrering</h2> 
+<p>Denna plattform för SHFA-databasen har utvecklats av Göteborgs infrastruktur för digital humaniora (GRIDH) och syftar till att erbjuda 
+  förbättrade metoder för att söka i databasen och visa digital dokumentation. Migreringen från SHFAs tidigare webbportal (utvecklad av 
+  Miljödata AB) pågår för närvarande. Hittills har bilderna av hällristningsplatser i Sverige överförts. 3D-dokumentation och data från 
+  internationella webbplatser kommer att göras tillgängliga allt eftersom migreringen fortsätter.</p><br>
+
+  <h2>Sökning i databasen</h2>
+<p>Genom att använda den föreslagna nyckelordssökningen kan du komma åt bilder av vanliga dokumentationsmetoder och motiv. Med kartan eller 
+  avancerade sökalternativ kan du hämta resultat för detaljerade sökningar. Varje sökning visar ett galleri med bilder som kan ses mer 
+  detaljerat genom att klicka på miniatyrbilden. I den detaljerade vyn är metadata, extern information och nedladdningslänk tillgängliga.</p><br>
+
+<h2>Att referera bilderna</h2>
+<p>Bilder i databasen är fritt tillgängliga för utskrift och nedladdning för privat eller ideellt bruk. Den föreslagna referensen för 
+  varje bild finns i den detaljerade vyn, men du kan formatera om den till din föredragna stil med hjälp av bildens metadata. Meddela 
+  oss på <a href=mailto:shfa@gu.se>shfa@gu.se</a> och ange en länk till <a href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> när du 
+  publicerar bilder från databasen. Upphovsrätten gäller etablerade principer som bland annat innefattar fotografens frivilliga rätt. 
+  Bilderna är skyddade av en creative commons-licens (CC BY 4.0). För mer information, besök creative commons egen webbplats på: 
+  <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a></p><br>
+
+<h2>Att referera till plattformen</h2>
+<p>Westin, Jonathan, Bridge, Tristan & Karimi, Aram "gu-gridh/shfa-frontend: v.1.0 Initial public release" Github, 24 August 2023. https://github.com/gu-gridh/shfa-frontend</p>
+
+
+</div>
+
+
+  
+
+    
+ 
+     
+    </div>
+    <button @click="$emit('close')" style="padding:30px;">
+            <div class="p-1 px-2 clickable category-button" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;"  v-bind:class="{fullopacityui: visibleAbout}">Utforska</div>
+          </button>    
+     
+    </div>
+
+  </div>
+  
+</div>
+  <div class="about-logo-top-right"> </div>
+  </template>
 </template>
 
 <script lang="ts">
