@@ -4,7 +4,9 @@
   <div id="logo"></div>
   <h1 class="title"><div v-html="$t('message.title')"></div></h1>
   <div id="gu-logo-bg">
-      <div id="gu-logo"></div>
+      <div v-if="currentLanguage === 'sv'" id="gu-logo-sv"></div>
+      <div v-else id="gu-logo-en"></div>
+      
     </div>
   <button @click="toggleMenu" class="menu-show-button">
    <!--  {{ $t('message.menuButton') }} -->
@@ -523,7 +525,7 @@ beforeDestroy() {
   border-radius: 0px 0px 5px 5px;
 }
 
-#gu-logo {
+#gu-logo-sv {
   width: 165px;
   height: 145px;
   background: url(../assets/gu_logo_sv.png);
@@ -531,6 +533,16 @@ beforeDestroy() {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+#gu-logo-en {
+  width: 165px;
+  height: 145px;
+  background: url(../assets/gu_logo.png);
+  background-size: 125px 95px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 
 .menu-show-button{
   display:none;
