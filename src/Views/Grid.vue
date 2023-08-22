@@ -642,7 +642,7 @@ margin-top:10px;
   font-weight:400;
   margin-top:110px;
   height:auto;
-  right:185px;
+  right:200px;
   color:black;
   position:absolute;
   padding-right:0px;
@@ -650,7 +650,7 @@ margin-top:10px;
 }
 
 .top-links .item{
-margin-right:20px;
+margin-right:5px;
 border-radius:8px;
 padding:5px 0px 0px 10px;;
 }
@@ -688,26 +688,27 @@ background-color:white;
 .top-link-button{
   float:right;
   text-align:left;
-  margin-left:10px;
-  padding:3px 35px 3px 0px;
-  height:32px;
+  margin-left:7px;
+  padding:0px 30px 10px 0px;
+  height:30px;
   border-radius:8px;
+  margin-top:3px;
   background-image:url(../../public/interface/linkbutton.png);
-  background-size:27px;
-  background-position:0px 0px;
+  background-size:22px;
+  background-position:0px px;
   background-repeat:no-repeat;
 }
 
 .top-link-infobutton{
   float:right;
   text-align:left;
-  margin-left:10px;
-  padding:3px 35px 3px 0px;
-  height:32px;
+  margin-left:7px;
+  padding:3px 30px 3px 0px;
+  height:30px;
   border-radius:8px;
   background-image:url(../../public/interface/infobutton.png);
-  background-size:27px;
-  background-position:0px 0px;
+  background-size:22px;
+  background-position:0px 3px;
   background-repeat:no-repeat;
 }
 
@@ -799,7 +800,7 @@ backdrop-filter: blur(5px);
 
   .top-links{
 
-  right:0px;
+  right:15px;
 
 }
 

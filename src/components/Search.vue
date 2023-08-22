@@ -57,7 +57,6 @@
 
 <script>
 import useSearchTracking from '../composables/useSearchTracking.js'
-import searches from '../i18n/searches.js';
 
 export default {
   name: 'Search',
@@ -126,27 +125,13 @@ export default {
       this.searchQuery = '';
       this.selectedKeywords = [];
     },
-    getKeyByValue(object, value) {
-      return Object.keys(object).find(key => object[key].toLowerCase() === value.toLowerCase());
-    },
     updatePageDetails() {
       this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
     },
     triggerSearch() {
-      let query = '';
-      
-      // Get the key from the English translations using the inputted text
-      let englishKey = this.getKeyByValue(searches.en.message, this.searchQuery);
-
-      // If the key exists in the English translations, get the Swedish translation
-      if (englishKey && searches.sv.message[englishKey]) {
-          query = searches.sv.message[englishKey];
-      } else {
-          // If not, use the inputted text or selected keyword
-          query = this.selectedKeywords.length > 0 
-              ? this.selectedKeywords[0].text 
-              : this.searchQuery;
-      }
+      const query = this.selectedKeywords.length > 0 
+        ? this.selectedKeywords[0].text 
+        : this.searchQuery;
 
       this.searchKeywordTags(query);
       const { trackSearch } = useSearchTracking();
