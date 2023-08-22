@@ -56,8 +56,8 @@
         </div>
       </div>
     </div>
-    <button class="search-button" @click="handleSearchButtonClick">Search</button>
-    <button class="clear-button" @click="clearAdvancedSearchFields">Clear</button>
+    <button class="search-button" @click="handleSearchButtonClick"> {{ $t('message.searchbutton') }}</button>
+    <button class="clear-button" @click="clearAdvancedSearchFields">{{ $t('message.clearbutton') }}</button>
   </div>
 </template>
 
