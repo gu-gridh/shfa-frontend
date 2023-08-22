@@ -417,7 +417,7 @@ export default {
 h1 {
   font-size: 20px;
   color: white;
-  margin: 20px 20px 10px 0px;
+  margin: 20px 20px 2px 0px;
 }
 
 
