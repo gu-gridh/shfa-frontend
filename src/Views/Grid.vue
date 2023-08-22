@@ -981,6 +981,8 @@ min-width:550px;
 @media (max-width: 1024px) {
   #split-2{
     width: 100% !important;
+    padding-right:15px;
+    padding-left:25px;
   }
 }
 
