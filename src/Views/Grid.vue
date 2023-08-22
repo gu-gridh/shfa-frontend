@@ -524,6 +524,11 @@ beforeDestroy() {
   );
   border-radius: 0px 0px 5px 5px;
 }
+@media (max-width: 1024px) {
+  #gu-logo-bg {
+    display: none;
+  }
+}
 
 #gu-logo-sv {
   width: 165px;
@@ -799,15 +804,15 @@ backdrop-filter: blur(5px);
 }
 
   .menu-show-button{
-    display:block;
+  display:block;
   color:black;
   float:right;
-  margin-right:200px;
+  margin-right:20px;
   margin-top:10px;
-font-size:20px;
-padding:25px;
-border-radius:50%;
-height:35px;
+  font-size:20px;
+  padding:25px;
+  border-radius:50%;
+  height:35px;
   width:35px;
   background-image:url(../../public/interface/menu.png);
   background-size: 30px 30px;
