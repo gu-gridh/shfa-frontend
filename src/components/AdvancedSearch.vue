@@ -57,6 +57,7 @@
       </div>
     </div>
     <button class="search-button" @click="handleSearchButtonClick">Search</button>
+    <button class="clear-button" @click="clearAdvancedSearchFields">Clear</button>
   </div>
 </template>
 
@@ -124,6 +125,10 @@ export default {
     }
   },
   methods: {
+  clearAdvancedSearchFields() {
+    this.searchQuery = ['', '', '', '', '', ''];
+    this.selectedKeywords = [[], [], [], [], [], []];
+  },
   updatePageDetails() {
     this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
   },
@@ -515,6 +520,25 @@ font-weight:500;
 }
 
 .search-button:hover {
+  background-color: rgb(80,90,100);
+  color:white;
+}
+
+.clear-button {
+  float:left;
+  display: block;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  padding: 5px 20px;
+  background-color: rgb(90, 90, 90);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight:500;
+}
+
+.clear-button:hover {
   background-color: rgb(80,90,100);
   color:white;
 }

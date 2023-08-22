@@ -122,6 +122,10 @@ export default {
     ];
   },  
   methods: {
+    clearSearchField() {
+      this.searchQuery = '';
+      this.selectedKeywords = [];
+    },
     getKeyByValue(object, value) {
       return Object.keys(object).find(key => object[key].toLowerCase() === value.toLowerCase());
     },

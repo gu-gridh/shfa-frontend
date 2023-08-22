@@ -407,11 +407,14 @@ beforeDestroy() {
     handleMapClicked() {
       this.forceRefresh++;
       this.mapClicked = true;
+      this.$refs.searchRef.clearSearchField();
+      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
     },
 
     updateItems(newItems) {
     this.searchItems = newItems;
     this.selectedId = null; // Reset selectedId
+    this.$refs.advancedSearchRef.clearAdvancedSearchFields();
    
     this.$router.push({ 
       name: 'Search', 
@@ -453,7 +456,7 @@ beforeDestroy() {
     handleAdvancedSearchResults(results) {
       this.advancedSearchResults = results;
       this.selectedId = null; // Reset selectedId
-   
+      this.$refs.searchRef.clearSearchField();
       this.$router.push({ 
         name: 'Search', 
       });
