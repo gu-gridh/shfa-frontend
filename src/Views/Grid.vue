@@ -552,7 +552,6 @@ beforeDestroy() {
 
 .menu-show-button{
   display:none;
-  right:185px;
 }
 
 .menu-close-button{
@@ -809,15 +808,14 @@ backdrop-filter: blur(5px);
   display:block;
   color:black;
   float:right;
-  margin-right:20px;
-  margin-top:10px;
-  font-size:20px;
-  padding:25px;
+  margin-right:35px;
+  margin-top:16px;
+  padding:23px;
   border-radius:50%;
-  height:35px;
-  width:35px;
+  height:30px;
+  width:30px;
   background-image:url(../../public/interface/menu.png);
-  background-size: 30px 30px;
+  background-size: 25px 25px;
   background-position:center;
   background-repeat:no-repeat;
   }
