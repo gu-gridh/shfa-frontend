@@ -597,8 +597,8 @@ beforeDestroy() {
 }
 
 .title .aboutemph{
-  cursor:pointer;
-  pointer-events:auto;
+  /* cursor:pointer;
+  pointer-events:auto; */
   display:inline;
   color:rgb(120, 135, 150)!important;
 }
