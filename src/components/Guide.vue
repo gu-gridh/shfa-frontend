@@ -13,17 +13,13 @@
       </h1>
     </div>
 
-    <div class="guide-article-main" style="margin-bottom: 10px; margin-top:30px;"  v-bind:class="{fullopacityui: visibleGuide}"> 
+    <div class="guide-article-main" style="margin-bottom: 0px; margin-top:30px;"  v-bind:class="{fullopacityui: visibleGuide}"> 
       <h2>{{ $t('message.sökguide') }}</h2>
     </div>
 
-    <div class="guide-article-main" style="padding-top:0px;"  v-bind:class="{fullopacityui: visibleGuide}"  >{{ $t('search.searchintro') }}</div>
- 
-    <div class="guide-article-main"  v-bind:class="{fullopacityui: visibleGuide}"  >{{ $t('search.searchhelp') }}</div>
-    
-          <div class="guide-article-sub"  v-bind:class="{fullopacityui: visibleGuide}"  >
-              
-      
+    <div class="guide-article-main" style="padding-top:0px;"  v-bind:class="{fullopacityui: visibleGuide}"  >{{ $t('search.searchintro') }} {{ $t('search.searchhelp') }}</div>
+   
+    <div class="guide-article-sub"  v-bind:class="{fullopacityui: visibleGuide}"  >
       <div class="sections"> <!-- Empty div for margin -->
         <h2>{{ $t('message.nyckelord') }}</h2>
         <div class="first">
@@ -106,8 +102,15 @@
   body{
     /* border:opx; */
   }
+  table{
+
+  }
+  th{
+    padding-top:20px;
+  }
+
   td{
-    padding-left:20px;
+    padding-left:15px;
     padding-right:5px;
     width:fit-content;
   }
@@ -116,7 +119,7 @@
     font-weight: 400;
   }
   h2{
-    font-size:115%;
+    font-size:125%;
     font-style:bold;
     margin-top: -10px;
     margin-bottom:5px;
@@ -124,6 +127,14 @@
     font-weight: 500;
     line-height: 1.5;
   }
+
+  .guide-article-sub h2{
+    font-size:115%;
+  }
+
+
+
+
 
   .guide-container {
     position:fixed;
@@ -266,7 +277,7 @@
    columns:1;
    column-gap:30px;
    max-width:1800px;
-   font-size:1.9em;
+   font-size:1.7em;
    font-weight: 300;
    line-height: 1.2;
    opacity:0.0;
@@ -283,12 +294,13 @@
     color:white;
     width:100%;
     padding:30px 100px;
-    column-gap:30px;
-    font-size:1.8em;
+    columns:1;
+    column-gap:20px;
+    font-size:1.6em;
     font-weight: 300;
     opacity:0.0;
     transition: all 0.4s ease-in-out;
-    line-height: 1.5;
+    line-height: 1.4;
   }
   
   .category-button{

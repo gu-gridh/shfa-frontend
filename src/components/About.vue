@@ -307,11 +307,11 @@ h2{
   padding:30px 100px;
   column-gap:30px;
   max-width:1600px;
-  font-size:1.9em;
+  font-size:1.7em;
   font-weight: 300;
   opacity:0.0;
   transition: all 0.4s ease-in-out;
-  line-height: 1.5;
+  line-height: 1.2;
 }
 
 .category-button{
