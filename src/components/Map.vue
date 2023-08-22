@@ -1,6 +1,10 @@
 <template>
  <div id="map">
-</div>
+
+<div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content"></div>
+    </div></div>
 
 
 </template>
@@ -17,6 +21,7 @@ import Point from 'ol/geom/Point';
 import {toLonLat} from 'ol/proj';
 import { debounce } from 'lodash';
 import WebGLPointsLayer from 'ol/layer/WebGLPoints';
+import Overlay from 'ol/Overlay';
 
 export default {
   name: 'MapComponent',
@@ -228,6 +233,30 @@ async fetchDataByBbox() {
 },
 
 initMap() {
+
+//Based on the OpenLayers example
+const container = document.getElementById('popup');
+const content = document.getElementById('popup-content');
+const closebutton = document.getElementById('popup-closer');
+
+//Overlay that anchors the popups
+const overlay = new Overlay({
+  element: container,
+  positioning: 'center-center',
+  autoPan: {
+    animation: {
+      duration: 10000,
+    },
+  },
+});
+
+//Button to make popup invisible
+closebutton.onclick = function () {
+  container.style.visibility ='collapse';
+  closebutton.blur();
+  return false;
+};
+
   this.map = new Map({
     target: 'map',
     layers: [
@@ -239,7 +268,8 @@ initMap() {
     view: new View({
       center: fromLonLat([11.35, 58.73]), // Default center of the map
       zoom: 13 // Default zoom level of the map
-    })
+    }),
+    overlays: [overlay]
   });
 
   // Initialize the WebGL map marker style
@@ -265,6 +295,7 @@ initMap() {
 
 
 
+
   // Add 'click' event listener
 this.map.on('click', (event) => {
     // Use the hit detection mechanism
@@ -284,10 +315,16 @@ this.map.on('click', (event) => {
         this.$emit('lamning-selected', lamning_id);
         this.$emit('raa-selected', raa_id);
 
+        //Zoom to the clicked point and make sure basemap is still visible
         const extent = feature.getGeometry().getExtent();
         const view = this.map.getView();
         view.fit(extent, {duration: 500, padding: [1, 1, 1, 1], minResolution: 0.25});
 
+
+        //Display popup for clicked point
+        container.style.visibility='visible'
+        content.innerHTML = '<p><strong>Lämningsnummer: </strong>'+lamning_id+'</p><p><strong>RAÄ-nummer: </strong>'+raa_id+'</p>';
+        overlay.setPosition(extent);
       
     }, {
         layerFilter: (layer) => layer === this.vectorLayer, // Ensure we're only checking features in our WebGLPointsLayer
@@ -481,23 +518,27 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
 }
 
 .overlay-content {
-  background: #ff0000;
   box-shadow: 0 5px 10px rgb(2 2 2 / 20%);
   padding: 10px 20px;
   font-size: 16px;
 }
 
 .ol-popup {
-  text-align: center;
+  text-align: justify;
   position: absolute;
   color: white;
-  background-color: rgb(40, 40, 40) !important;
+  background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 30%);
+  opacity: 70%;
+  backdrop-filter:blur(10px);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   padding: 15px;
   border-radius: 10px;
   bottom: 12px;
   left: -50px;
-  min-width: 150px;
+  min-width:max-content;
+  block-size: fit-content;
+  font-family: "Barlow Condensed", sans-serif !important;
+  max-width: max-content;
 }
 
 .ol-popup:after,
