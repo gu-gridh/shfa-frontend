@@ -8,11 +8,17 @@
     
             <div class="logo-area">
             <div id="logo"></div>
-      <h1 class="title">
+            <h1 class="title">
         <div v-html="$t('message.abouttitle')"></div>
       </h1>
     </div>
-    <div class="guide-article-main"  v-bind:class="{fullopacityui: visibleGuide}"  >{{ $t('search.searchintro') }}</div>
+
+    <div class="guide-article-main" style="margin-bottom: 10px; margin-top:30px;"  v-bind:class="{fullopacityui: visibleGuide}"> 
+      <h2>{{ $t('message.sökguide') }}</h2>
+    </div>
+
+    <div class="guide-article-main" style="padding-top:0px;"  v-bind:class="{fullopacityui: visibleGuide}"  >{{ $t('search.searchintro') }}</div>
+ 
     <div class="guide-article-main"  v-bind:class="{fullopacityui: visibleGuide}"  >{{ $t('search.searchhelp') }}</div>
     
           <div class="guide-article-sub"  v-bind:class="{fullopacityui: visibleGuide}"  >
@@ -114,10 +120,11 @@
     font-style:bold;
     margin-top: -10px;
     margin-bottom:5px;
-    color: rgb(200,225,250);
+    color: rgb(200,225,250)!important;
     font-weight: 500;
     line-height: 1.5;
   }
+
   .guide-container {
     position:fixed;
     height: 100vh !important; /* Safari Fix */
@@ -259,7 +266,9 @@
    columns:1;
    column-gap:30px;
    max-width:1800px;
-   font-size:2.0em;
+   font-size:1.9em;
+   font-weight: 300;
+   line-height: 1.2;
    opacity:0.0;
    padding:0px 100px;
    transition: all 0.4s ease-in-out;
