@@ -79,6 +79,10 @@ export default {
     };
   },
   props: {
+  currentLang:
+  {
+    type: String,
+  },
   updateNextPageUrlAdvanced: {
     type: Function,
     required: true,
@@ -97,12 +101,13 @@ export default {
   },
   computed: {
     apiUrls() { //For Autocomplete
+      const langParam = `?language=${this.currentLang}&`;
       return [
         'https://diana.dh.gu.se/api/shfa/search/site/?site_name=',
-        'https://diana.dh.gu.se/api/shfa/search/author/?auhtor_name=',
-        'https://diana.dh.gu.se/api/shfa/search/type/?image_type=',
-        'https://diana.dh.gu.se/api/shfa/search/keywords/?keyword=',
-        'https://diana.dh.gu.se/api/shfa/search/dating/?dating_tag=',
+        `https://diana.dh.gu.se/api/shfa/search/author/${langParam}auhtor_name=`,
+        `https://diana.dh.gu.se/api/shfa/search/type/${langParam}image_type=`,
+        `https://diana.dh.gu.se/api/shfa/search/keywords/${langParam}keyword=`,
+        `https://diana.dh.gu.se/api/shfa/search/dating/${langParam}dating_tag=`,
         'https://diana.dh.gu.se/api/shfa/search/institution/?institution_name=',
       ];
     },
@@ -291,10 +296,10 @@ export default {
             ]);
             break;
           case 1:
-            this.searchResults[index] = data.results.map(result => ({
-              id: result.id,
-              text: result.name
-            }));
+             this.searchResults[index] = data.results.map(result => ({
+                  id: result.id,
+                  text: this.currentLang === 'sv' ? result.name : result.english_translation
+              }));
             break;
           case 2: // Image type: use local list
           const imageTypes = [
@@ -325,19 +330,19 @@ export default {
           ];
           this.searchResults[index] = imageTypes
             .filter(type => type.toLowerCase().includes(query.toLowerCase())) // Filter based on the search query
-            .map((type, i) => ({ id: i, text: type })); // Map to desired result format
+            .map((type, i) => ({ id: i, text: type })); // Map to desired result format 
             break;
           case 3: // Keywords: use "text"
             this.searchResults[index] = data.results.map(result => ({
-              id: result.id,
-              text: result.text
-            }));
+                  id: result.id,
+                  text: this.currentLang === 'sv' ? result.text : result.english_translation
+              }));
             break;
           case 4: // Dating: use "text"
             this.searchResults[index] = data.results.map(result => ({
-              id: result.id,
-              text: result.text
-            }));
+                  id: result.id,
+                  text: this.currentLang === 'sv' ? result.text : result.english_translation
+              }));
             break;
           case 5: // Institution name: use "name"
             this.searchResults[index] = data.results.map(result => ({
