@@ -300,7 +300,7 @@ export default {
       "nätfigur":"Nätfigur","obestämbar figur":"Obestämbar figur","plöjare åderfigur":"Plöjare åderfigur","prickhuggning":"Prickhuggning","ramfigur":"Ramfigur","runristning":"Runristning",
       "sentida ristning":"Sentida Ristning","sicksackfigur":"Sicksackfigur","skålgropar älvkvarnar":"Skålgropar älvkvarnar","solstativ":"Solstativ","spiral":"Spiral",
       "spiral dubbel":"Spiral dubbel","spiral triskel":"Spiral triskel","stele":"Stele","trädfigur":"Trädfigur","vågmönster":"Vågmönster","vagnsfigur":"Vagnsfigur","vävstol":"Vävstol",
-      "vulva":"Vulva", "3d-laserskanning":"3D-Laserskanning","3d-sfm":"3D-Sfm","3d-visualisering":"3D-Visualisering","arbetsbild":"Arbetsbild","avgjutning":"Avgjutning","diabild":"Diabild",
+      "vulva":"Vulva", "3d-laserskanning":"3D-laserskanning","3d-sfm":"3D-Sfm","3d-visualisering":"3D-visualisering","arbetsbild":"Arbetsbild","avgjutning":"Avgjutning","diabild":"Diabild",
       "dokument":"Dokument","dstretch-visualisering":"Dstretch-Visualisering","foto":"Foto","foto av sfm bild":"Foto Av SfM bild","frottage":"Frottage","grafik":"Grafik",
       "kalkering papper":"Kalkering papper","kalkering plast":"Kalkering plast","karta":"Karta","miljöbild":"Miljöbild","natt foto":"Natt foto","negativ, färg":"Negativ, färg",
       "negativ, svart/vit":"Negativ, svart/vit","ortofoto (sfm)":"Ortofoto (SfM)","översiktsbild":"Översiktsbild","printscreen av lasermodel":"Printscreen av lasermodel",

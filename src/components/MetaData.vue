@@ -5,8 +5,8 @@
   <div class="metadata-column">
     <table>
    <tr><td class="label" v-if="data.site && data.site.raa_id">{{ $t('message.raanumber') }}</td><td class="data" v-if="data.site && data.site.raa_id">  {{ data.site.raa_id }}</td></tr>
-   <tr><td class="label" v-if="data.type && data.type.text">{{ $t('message.typ') }}</td><td class="data" v-if="data.type && data.type.text">  {{ $t('keywords.'+data.type.text) }}</td></tr>
-   <tr><td class="label" v-if="data.author && data.author.name">{{ $t('message.author') }}</td><td class="data" v-if="data.author && data.author.name">  {{ data.author.name }}</td></tr>
+   <tr><td class="label" v-if="data.type && data.type.text">{{ $t('message.typ') }}</td><td class="data" v-if="data.type && data.type.text && $i18n.locale==='sv'">  {{ $t('keywords.'+data.type.text) }}</td><td class="data" v-else-if="data.type && data.type.text && $i18n.locale==='en'">{{ data.type.english_translation }}</td></tr>
+   <tr><td class="label" v-if="data.author && data.author.name">{{ $t('message.author') }}</td><td class="data" v-if="data.author && data.author.name && $i18n.locale==='sv'">  {{ data.author.name }}</td><td class="data" v-else-if="data.author && data.author.name && $i18n.locale==='en'">{{ data.author.english_translation }}</td></tr>
    <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="ref" v-if="data.institution && data.institution.name">  {{ data.institution.name }}</td></tr>
   </table>
   </div>
@@ -19,7 +19,7 @@
   </table></div>
    <div class="metadata-wide">
    <table>
-    <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site">  {{ data.author.name }}, {{ data.year }}. {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} {{ ref_url }}</td></tr>
+    <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site">  {{ data.author.english_translation }}, {{ data.year }}. {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} {{ ref_url }}</td></tr>
     </table>
   </div>
 </div>
