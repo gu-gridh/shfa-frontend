@@ -254,6 +254,7 @@ initMap() {
   };
 
 
+
   const pointSource = new VectorSource();
   this.vectorLayer = new WebGLPointsLayer({
     source: pointSource,
@@ -261,6 +262,7 @@ initMap() {
   });
 
   this.map.addLayer(this.vectorLayer);
+
 
 
   // Add 'click' event listener
@@ -281,6 +283,12 @@ this.map.on('click', (event) => {
         this.$emit('id-selected', id);
         this.$emit('lamning-selected', lamning_id);
         this.$emit('raa-selected', raa_id);
+
+        const extent = feature.getGeometry().getExtent();
+        const view = this.map.getView();
+        view.fit(extent, {duration: 500, padding: [1, 1, 1, 1], minResolution: 0.25});
+
+      
     }, {
         layerFilter: (layer) => layer === this.vectorLayer, // Ensure we're only checking features in our WebGLPointsLayer
         hitTolerance: 10 // Increase or decrease this value for a larger or smaller hit detection area
