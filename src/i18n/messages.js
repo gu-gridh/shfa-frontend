@@ -3,6 +3,7 @@ export default {
   en: {
     message: {
       hello: "Hello",
+      menuButton: "Menu",
       aboutArchive: "About the Archive",
       aboutSHFA: "About SHFA",
       news: "News",
@@ -177,6 +178,7 @@ export default {
   sv: {
     message: {
       hello: "Hej",
+      menuButton: "Meny",
       aboutArchive: "Om arkivet",
       aboutSHFA: "Om SHFA",
       news: "Nyheter",

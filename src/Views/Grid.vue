@@ -7,7 +7,7 @@
       <div id="gu-logo"></div>
     </div>
   <button @click="toggleMenu" class="menu-show-button">
-      Menu
+   <!--  {{ $t('message.menuButton') }} -->
   </button> 
 
 <!-- This controls the menu on small screens -->
@@ -788,10 +788,16 @@ backdrop-filter: blur(5px);
   color:black;
   float:right;
   margin-right:205px;
-  margin-top:10px;
+  margin-top:15px;
 font-size:20px;
-padding:5px 10px;
-border-radius:8px;
+padding:20px;
+border-radius:50%;
+height:35px;
+  width:35px;
+  background-image:url(../../public/interface/menu.png);
+  background-size: 30px 30px;
+  background-position:center;
+  background-repeat:no-repeat;
   }
 
   .menu-show-button:hover{
