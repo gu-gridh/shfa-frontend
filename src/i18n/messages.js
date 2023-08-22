@@ -84,7 +84,7 @@ export default {
       
       search: {
         searchintro: 'Below are the available search terms for keyword, dating and image type searches.',
-        searchhelp: `To perform a simple search, click on one of the suggested keywords below the main search field or type one keyword, site, author, etc. (in Swedish) in 
+        searchhelp: `To perform a simple search, click on one of the suggested keywords below the main search field or type one keyword, site, author, etc. in 
         the search field and click the search icon.  For more advanced searches with multiple parameters, click on the 'Advanced Search' menu.  In this menu, you can begin typing a keyword in each field and the suggested available keywords will be displayed below the search box.  You can only select one keyword in each search field, adding a 
         new keyword or clicking on the existing keyword will remove it from the search box.`,
         documentation: 'Documentation Process',
@@ -127,7 +127,7 @@ export default {
       "3d-laserskanning":"3d laser scan",
       "3d-sfm":"3d SfM",
       "3d-visualisering": "3d visualisation",
-      "arbetsbild":"Working shot",
+      "arbetsbild":"Working photo",
       "avgjutning":"Plaster cast",
       "diabild":"Slide",
       "dokument":"Document",
@@ -164,8 +164,8 @@ export default {
     "foto av sfm bild":["Photo of SfM model","Printscreen of an SfM model displayed in processing software"],
     "frottage":["Rubbing","Documentation of a rock art surface created by rubbing graphite on paper fixed to the rock surface"],
     "grafik":["Graphic","Indian ink drawings of rock panels"],
-    "kalkering papper":["Tracing (Paper)","Digitised results of the tracing documentation process"],
-    "kalkering plast":["Tracing (Plastic)","Digitised results of the tracing documentation process"],
+    "kalkering papper":["Tracing (Paper)","Digitised results of the tracing documentation process on paper"],
+    "kalkering plast":["Tracing (Plastic)","Digitised results of the tracing documentation process on plastic"],
     "karta":["Map","Map, often from the early-mid 20th century"],
     "miljöbild":["Environment image","Photo of the area surrounding a panel"],
     "natt foto":["Night photo","Photo taken at night with lighting source"],
@@ -260,20 +260,20 @@ export default {
         },
       search: {
           searchintro: 'Nedan finns tillgängliga söktermer för sökningar med nyckelord, datering och bildtyper.',
-          searchhelp: `För att göra en enkel sökning, klicka på ett av de föreslagna sökorden under huvudsökfältet eller skriv ett nyckelord, webbplats, författare etc. (på svenska) i sökfältet och klicka på sökikonen. För mer avancerade sökningar 
+          searchhelp: `För att göra en enkel sökning, klicka på ett av de föreslagna sökorden under huvudsökfältet eller skriv ett nyckelord, webbplats, författare etc. i sökfältet och klicka på sökikonen. För mer avancerade sökningar 
           med flera parametrar, klicka på menyn "Avancerad sökning". I den här menyn kan du börja skriva ett nyckelord i varje fält och de föreslagna tillgängliga nyckelorden visas under sökrutan. Du kan bara välja ett nyckelord i varje sökfält, 
           om du lägger till ett nytt nyckelord eller klickar på det befintliga sökordet tas det bort från sökrutan.`,
-          documentation: 'Documentation Process',
-          environment: 'Environment',
-          description: 'Panel Description',
-          type: 'Image Type',
+          documentation: 'Dokumentationsprocess',
+          environment: 'Miljö',
+          description: 'Beskrivning',
+          type: 'Bildtyp',
           natural: 'Natural Features',
-          humans: 'Human Figures',
-          animals: 'Animal Figures',
-          ships: 'Ship Figures',
-          weapons: 'Weapon and Tool Figures',
-          other: 'Other Figures',
-          dating: 'Datings',
+          humans: 'Människofigurer',
+          animals: 'Djurfigurer',
+          ships: 'Skeppfigurer',
+          weapons: 'Vapen och redskapsfigurer',
+          other: 'Andra figurer',
+          dating: 'Datering',
       },
       keywords:{"arbetsbild":"Arbetsbild","arkeologisk undersökning":"Arkeologisk undersökning","experter":"Experter","forskningscenter":"Forskningscenter","informationsskylt":"Informationsskylt",
       "övertäckningsmaterial":"Övertäckningsmaterial","hällmålningsmiljö":"Hällmålningsmiljö","hällristningsmiljö":"Hällristningsmiljö","landskapet":"Landskapet",

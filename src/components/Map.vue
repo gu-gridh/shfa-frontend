@@ -245,7 +245,7 @@ const overlay = new Overlay({
   positioning: 'center-center',
   autoPan: {
     animation: {
-      duration: 10000,
+      duration: 200,
     },
   },
 });
@@ -318,7 +318,7 @@ this.map.on('click', (event) => {
         //Zoom to the clicked point and make sure basemap is still visible
         const extent = feature.getGeometry().getExtent();
         const view = this.map.getView();
-        view.fit(extent, {duration: 500, padding: [1, 1, 1, 1], minResolution: 0.25});
+        view.fit(extent, {duration: 1000, padding: [1, 1, 1, 1], minResolution: 0.25});
 
 
         //Display popup for clicked point
