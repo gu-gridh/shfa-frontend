@@ -83,6 +83,7 @@
 <script lang="ts">
   export default {
     name: "guideview",
+    emits: ['close'],
     props: {
       visibleGuide: {
         type: Boolean,

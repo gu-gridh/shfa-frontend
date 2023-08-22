@@ -64,6 +64,7 @@
 <script lang="ts">
 export default {
   name: "aboutview",
+  emits: ['close'],
   props: {
     visibleAbout: {
       type: Boolean,
