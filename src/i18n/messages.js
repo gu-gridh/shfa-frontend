@@ -177,7 +177,7 @@ export default {
   sv: {
     message: {
       hello: "Hej",
-      aboutArchive: "Om arkiven",
+      aboutArchive: "Om arkivet",
       aboutSHFA: "Om SHFA",
       news: "Nyheter",
       title: "Svenskt <br><div class=\"emph\">Hällristnings</div><br>Forsknings<br>Arkiv",

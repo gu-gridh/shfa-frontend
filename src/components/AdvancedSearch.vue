@@ -414,6 +414,7 @@ export default {
 .search-container {
   width: 100%; 
   margin-top:125px; 
+ 
 }
 .search-container-title {
   width: 100%; 
@@ -423,12 +424,14 @@ export default {
 }
 .search-grid {
   display: grid;
-  grid-template-columns: 47% 47%;
+  grid-template-columns: 48.7% 48.7%;
   gap: 15px;
+ 
 }
 
 .search-item {
   position: relative;
+  
 }
 
 .field-title {

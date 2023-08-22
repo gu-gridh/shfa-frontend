@@ -246,7 +246,7 @@ initMap() {
   const webGLStyle = {
     symbol: {
       symbolType: 'image',
-      color: [252, 246, 116,0.8],
+      color: [255, 200, 116,0.8],
       size: [16.56, 24.17],
       offset: [0, 0], 
       src: '/interface/assets/marker-white.svg'

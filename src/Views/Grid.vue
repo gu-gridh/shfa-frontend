@@ -3,7 +3,9 @@
 <div class="top">  
   <div id="logo"></div>
   <h1 class="title"><div v-html="$t('message.title')"></div></h1>
-
+  <div id="gu-logo-bg">
+      <div id="gu-logo"></div>
+    </div>
   <button @click="toggleMenu" class="menu-show-button">
       Menu
   </button> 
@@ -394,7 +396,7 @@ beforeDestroy() {
       this.windowWidth = window.innerWidth;
     },
     toggleMenu() {
-        if (window.innerWidth <= 700) { // Only toggle if on smaller screens
+        if (window.innerWidth <= 1024) { // Only toggle if on smaller screens
             this.isMenuOpen = !this.isMenuOpen;
         }
     },
@@ -505,8 +507,31 @@ beforeDestroy() {
   transition: all 0.8s ease-in-out;
 }
 
+#gu-logo-bg {
+  position:absolute;
+  right:20px;
+  height: 145px;
+  width: 165px;
+  background: linear-gradient(
+    to bottom,
+    rgba(40, 40, 40, 1) 0%,
+    rgba(40, 40, 40, 0.8) 100%
+  );
+  border-radius: 0px 0px 5px 5px;
+}
+
+#gu-logo {
+  width: 165px;
+  height: 145px;
+  background: url(../assets/gu_logo.png);
+  background-size: 125px 95px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .menu-show-button{
   display:none;
+  right:185px;
 }
 
 .menu-close-button{
@@ -520,9 +545,9 @@ beforeDestroy() {
   }
 }
 
-#logo:hover{
+/* #logo:hover{
   opacity:0.5;
-}
+} */
 
 .height{
   height:calc(100vh - 160px)
@@ -563,11 +588,11 @@ beforeDestroy() {
   color:rgb(120, 135, 150)!important;
 }
 
-.title .emph:hover{
+/* .title .emph:hover{
   display:inline;
-  color: rgb(120,135,150);
+ color: rgb(120,135,150);
 
-}
+} */
 
 .top{
   height:160px;
@@ -576,7 +601,7 @@ beforeDestroy() {
 }
 
 .languages{
-right:0px;
+right:185px;
 font-size:1.2em;
 font-weight:400;
 color:black;
@@ -597,7 +622,7 @@ margin-top:10px;
   font-weight:400;
   margin-top:110px;
   height:auto;
-  right:0px;
+  right:185px;
   color:black;
   position:absolute;
   padding-right:0px;
@@ -738,7 +763,7 @@ padding: 2px 15px 6px 15px;
 backdrop-filter: blur(5px);
   }
 
-@media (min-width: 701px) {
+@media (min-width: 1025px) {
     .menu-show-button, .menu-close-button {
         display: none;
     }
@@ -750,19 +775,27 @@ backdrop-filter: blur(5px);
 
 
 /* This controls the menu look on small screens */
-@media (max-width: 700px) {
+@media (max-width: 1024px) {
+
+  .top-links{
+
+  right:0px;
+
+}
 
   .menu-show-button{
     display:block;
   color:black;
   float:right;
-  margin-right:27px;
-  margin-top:15px;
+  margin-right:205px;
+  margin-top:10px;
 font-size:20px;
+padding:5px 10px;
+border-radius:8px;
   }
 
   .menu-show-button:hover{
-    background-color: rgb(80,90,100);
+    background-color: white;
     opacity:1.0;
   }
 
@@ -792,7 +825,7 @@ font-size:20px;
     width:100%;
     position:absolute;
     background-color:rgba(240,240,240,0.9);
-    height:390px;
+    height:430px;
     box-shadow: 0rem 2rem 2rem rgba(0, 0, 0, 0.3)!important;
     backdrop-filter:blur(8px);
   }
@@ -903,12 +936,14 @@ min-width:550px;
     top: 0.5%;
     left: 50%;
     transform: translate(-50%, -50%);
+    
   }
 }
 
 @media (max-width: 1024px) {
   #split-0{
     min-width: 100% !important;
+    padding-right:40px;
   }
 }
 
@@ -925,6 +960,7 @@ min-width:550px;
     width: 100% !important;
     position: relative;
     overflow: visible;
+    padding:0px 35px 0px 35px;
   }
 }
 
@@ -957,7 +993,6 @@ min-width:550px;
 
 #search-interface{
   margin-bottom:10px;
- 
 }
 
 
