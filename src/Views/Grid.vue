@@ -86,6 +86,7 @@
       <AdvancedSearch v-show="!showMap" 
         @advanced-search-results="handleAdvancedSearchResults"
         @page-details-updated="updatePageDetails" 
+        :currentLang="currentLanguage"
         :updateNextPageUrlAdvanced="updateNextPageUrlAdvanced"
         :updatePreviousPageUrlAdvanced="updatePreviousPageUrlAdvanced" 
         ref="advancedSearchRef" />
