@@ -195,7 +195,7 @@ export default {
       fotografi: 'Fotografi',
       diabild: 'Diabild',
       negativfärg: 'Negativ, färg',
-      negativsvart: 'Negative, svart/vit',
+      negativsvart: 'Negativ, svart/vit',
       printscreen: 'Printscreen av lasermodel',
       photosfm: 'Fotografi av sfm bild',
       dstretch: 'Dstretch-visualisering',

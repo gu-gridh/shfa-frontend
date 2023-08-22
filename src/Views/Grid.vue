@@ -526,7 +526,7 @@ beforeDestroy() {
 #gu-logo {
   width: 165px;
   height: 145px;
-  background: url(../assets/gu_logo.png);
+  background: url(../assets/gu_logo_sv.png);
   background-size: 125px 95px;
   background-repeat: no-repeat;
   background-position: center;
