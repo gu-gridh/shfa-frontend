@@ -45,13 +45,21 @@
 
           {{ $t('message.aboutArchive') }}<div class="top-link-button" ></div></button>
 
-    <button class="item" @click="">
+    <button class="item" @click="" v-if="currentLanguage === 'en'"> 
     
-          <a href="https://www.gu.se/en/research/shfa-swedish-rock-art-research-archives" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
+          <a href="https://www.gu.se/en/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
 
-    <button class="item" @click="">
+          <button class="item" @click="" v-else> 
+    
+    <a href="https://www.gu.se/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
+
+    <button class="item" @click="" v-if="currentLanguage === 'en'">
    
-          <a href="https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv" target="_blank">{{ $t('message.news') }}<div class="top-link-button" ></div></a></button>
+          <a href="https://www.gu.se/en/shfa/research" target="_blank">{{ $t('message.news') }}<div class="top-link-button" ></div></a></button>
+
+          <button class="item" @click="" v-else>
+   
+   <a href="https://www.gu.se/shfa/forskning" target="_blank">{{ $t('message.news') }}<div class="top-link-button" ></div></a></button>
 </div>
 </div> 
 <!-- End of main-menu -->
