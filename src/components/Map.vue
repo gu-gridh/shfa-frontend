@@ -294,7 +294,25 @@ closebutton.onclick = function () {
   this.map.addLayer(this.vectorLayer);
 
 
+this.map.on('pointermove', (event) => {
+  if (event.dragging) {return;}
+  this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
+        // Get the properties of the feature (in this case, we're extracting 'lamning_id', 'raa_id', and 'id')
+        const lamning_id = feature.get('lamning_id');
+        const raa_id = feature.get('raa_id');
+        const id = feature.get('id');
 
+        const extent = feature.getGeometry().getExtent();
+
+
+  var popup_text = 0
+  if (raa_id === null) {popup_text = '<p>'+lamning_id+'</p>'} else {popup_text = '<p>'+lamning_id+'</p><p>'+raa_id+'</p>'}
+
+  container.style.visibility='visible'
+  content.innerHTML = popup_text;
+  overlay.setPosition(extent);});
+
+})
 
   // Add 'click' event listener
 this.map.on('click', (event) => {
@@ -320,10 +338,11 @@ this.map.on('click', (event) => {
         const view = this.map.getView();
         view.fit(extent, {duration: 1000, padding: [1, 1, 1, 1], minResolution: 5.0});
 
-
+        var popup_text = 0
+        if (raa_id === null) {popup_text = '<p>'+lamning_id+'</p>'} else {popup_text = '<p>'+lamning_id+'</p><p>'+raa_id+'</p>'}
         //Display popup for clicked point
         container.style.visibility='visible'
-        content.innerHTML = '<p><strong></strong>'+lamning_id+'</p><p><strong></strong>'+raa_id+'</p>';
+        content.innerHTML = popup_text;
         overlay.setPosition(extent);
       
     }, {
@@ -573,7 +592,7 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
 .ol-popup-closer {
   text-decoration: none;
   position: absolute;
-  top: 18px;
+  top: 25%;
   left: 12px;
 }
 
