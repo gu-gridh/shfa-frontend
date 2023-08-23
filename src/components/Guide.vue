@@ -25,48 +25,49 @@
         <div class="first">
         
       <table><th scope="rowgroup">{{ $t('search.documentation') }}</th>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(0,6))" :key="key"><td>{{ key }}</td><td v-if="value.length ===2">{{ value[0] }}</td> <td v-else> {{ value }}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(0,6))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
       </table>
       <table><th scope="rowgroup">{{ $t('search.environment') }}</th>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(6,10))" :key="key"><td>{{ key }}</td><td>{{ value }}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(6,10))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
         </table>
 
         <table><th scope="rowgroup">{{ $t('search.description') }}</th>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(10,19))" :key="key"><td>{{ key }}</td><td>{{ value }}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(10,19))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
       </table>
       <table><th scope="rowgroup">{{ $t('search.type') }}</th>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(19,25))" :key="key"><td>{{ key }}</td><td>{{ value}}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(19,25))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
         </table>
         <table><th scope="rowgroup">{{ $t('search.natural') }}</th>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(25,29))" :key="key"><td>{{ key }}</td><td>{{ value }}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(25,29))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
       </table>
       <table><th scope="rowgroup">{{ $t('search.humans') }}</th>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(29,49))" :key="key"><td>{{ key }}</td><td>{{ value }}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(29,49))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
         </table>
 
         <table><th scope="rowgroup">{{ $t('search.animals') }}</th>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(49,63))" :key="key"><td>{{ key }}</td><td>{{ value }}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(49,63))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
       </table>
       <table><th scope="rowgroup">{{ $t('search.ships') }}</th>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(63,73))" :key="key"><td>{{ key }}</td><td>{{ value }}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(63,73))" :key="key"><td>{{ $t('keywords.'+key.replace('.','_')) }}</td></tr>
         </table>
         <table><th scope="rowgroup">{{ $t('search.weapons') }}</th>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(73,82))" :key="key"><td>{{ key }}</td><td>{{ value }}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(73,82))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
       </table>
       <table><th scope="rowgroup">{{ $t('search.other') }}</th>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(82,117))" :key="key"><td>{{ key }}</td><td>{{ value }}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(82,117))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
         </table>
     </div>
     <div class="second">
         <h2>{{ $t('message.bildtyp') }}</h2>
       <table>
-        <tr v-for="(value,key) in this.$i18n.messages.en.imgdescription" :key="key"><td>{{ key }}</td><td>{{ value[1] }}</td></tr>
+        <tr v-if="$i18n.locale === 'en'" v-for="(value,key) in this.$i18n.messages.en.imgdescription" :key="key"><td>{{ value[0]}}</td><td>{{ value[1] }}</td></tr>
+        <tr v-else v-for="(value,key_sv) in this.$i18n.messages.sv.imgdescription" :key="key_sv"><td>{{ value[0]}}</td><td>{{ value[1] }}</td></tr>
         </table></div>
 
         <div class="second">
         <h2>{{ $t('message.datering') }}</h2>
       <table>
-        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(137))" :key="key"><td>{{ key }}</td><td>{{ value }}</td></tr>
+        <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(137))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
         </table></div>
 
   </div>
@@ -218,7 +219,7 @@
   }
   .first{
     width: 100%;
-    columns: 3;
+    columns: 5;
     column-gap: 50px;
     margin-bottom: 30px;
   }
@@ -277,9 +278,9 @@
    columns:1;
    column-gap:30px;
    max-width:1800px;
-   font-size:1.7em;
+   font-size:1.8em;
    font-weight: 300;
-   line-height: 1.2;
+   line-height: 1.4;
    opacity:0.0;
    padding:0px 100px;
    transition: all 0.4s ease-in-out;
