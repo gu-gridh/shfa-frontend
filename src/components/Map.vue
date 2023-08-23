@@ -521,13 +521,14 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
   box-shadow: 0 5px 10px rgb(2 2 2 / 20%);
   padding: 10px 20px;
   font-size: 16px;
+ 
 }
 
 .ol-popup {
   text-align: justify;
   position: absolute;
   color: white;
-  
+  line-height:1.2;
   background-color:rgba(80,80,80, 1.0);
   opacity: 100%;
   
@@ -572,7 +573,7 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
 .ol-popup-closer {
   text-decoration: none;
   position: absolute;
-  top: 20px;
+  top: 18px;
   left: 12px;
 }
 
