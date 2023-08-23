@@ -267,7 +267,7 @@ export default {
           environment: 'Miljö',
           description: 'Beskrivning',
           type: 'Bildtyp',
-          natural: 'Natural Features',
+          natural: 'Naturliga olikheter',
           humans: 'Människofigurer',
           animals: 'Djurfigurer',
           ships: 'Skeppfigurer',
