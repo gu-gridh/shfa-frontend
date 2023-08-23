@@ -22,6 +22,7 @@ import {toLonLat} from 'ol/proj';
 import { debounce } from 'lodash';
 import WebGLPointsLayer from 'ol/layer/WebGLPoints';
 import Overlay from 'ol/Overlay';
+import Zoom from 'ol/control/Zoom';
 
 export default {
   name: 'MapComponent',
@@ -271,6 +272,7 @@ closebutton.onclick = function () {
     }),
     overlays: [overlay]
   });
+  this.map.addControl(new Zoom());
 
   // Initialize the WebGL map marker style
   const webGLStyle = {
@@ -419,28 +421,28 @@ updateCoordinates() {
   overflow:hidden!important;
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5)!important;
   cursor: pointer;
+  position: relative;
  /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
 
 #app .ol-control{
 position:absolute;
 right:20px;
-box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
+/* box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important; */
 }
 
 
 #app .ol-control button {
   font-family: "Barlow Condensed", sans-serif;
   border-radius: 50% !important;
-  background-color: rgb(40, 40, 40) !important;
+  background-color: rgba(65, 65, 65, 0.9);
   color: white !important;
 }
 
 #app .ol-control button:active,
 #app .ol-control button:hover,
 #app .ol-control button:focus {
-  background: rgb(255, 230, 0) !important;
-  border-width: 0px !important;
+    opacity: 0.5;
 }
 
 .ol-scaleline-control {
@@ -488,32 +490,53 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
 
 
 .ol-zoom {
-  display:none;
+  /* display:none; */
   font-size: 30px !important;
   color: white !important;
   width: 40px;
   height: 40px;
   padding: 0px !important;
-  box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important;
+  /* box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important; */
   opacity: 0.9 !important;
-  right: 20px !important;
+  left: 20px !important;
   position: absolute !important;
 }
 
-.ol-zoom-in {
-  right: 20px !important;
-  top: 20px !important;
-  position: fixed;
+.ol-zoom-in, .ol-zoom-out {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    opacity: 0.95;
+    border-width: 1px;
+    border: 1px solid black;
+    width: 33px;
+    height: 33px;
+    position: absolute;
+    font-size: 0;
 }
+
+.ol-zoom-in {
+   background: url(../assets/openseadragon/plus.svg) no-repeat center center;
+    background-size: contain; 
+    top: 20px;
+}
+
+.ol-zoom-out {
+  background: url(../assets/openseadragon/minus.svg) no-repeat center center;
+    background-size: contain; 
+    top: 60px;
+}
+
+@media (max-width:480px) {
+  .ol-zoom {
+    bottom: 35%;
+  }
+}
+
 .ol-zoom-in:hover {
   background-color: rgba(0, 0, 0, 0.7);
 }
-.ol-zoom-out {
-  right: 20px;
-  top: 68px;
-  position: fixed;
-  margin-top: 3px;
-}
+
 .ol-zoom-out:hover {
   background-color: rgba(0, 0, 0, 0.7);
 }
@@ -550,7 +573,6 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
   line-height:1.2;
   background-color:rgba(80,80,80, 1.0);
   opacity: 100%;
-  
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   padding: 8px 18px 8px 38px;
   border-radius: 8px;
