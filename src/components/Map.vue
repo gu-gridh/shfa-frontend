@@ -276,7 +276,7 @@ closebutton.onclick = function () {
   const webGLStyle = {
     symbol: {
       symbolType: 'image',
-      color: '#eddc1fe6',
+      color: '#f0c02e',
       size: [16.56, 24.17],
       offset: [0, 0], 
       src: '/interface/assets/marker-white.svg',
@@ -318,12 +318,12 @@ this.map.on('click', (event) => {
         //Zoom to the clicked point and make sure basemap is still visible
         const extent = feature.getGeometry().getExtent();
         const view = this.map.getView();
-        view.fit(extent, {duration: 1000, padding: [1, 1, 1, 1], minResolution: 0.25});
+        view.fit(extent, {duration: 1000, padding: [1, 1, 1, 1], minResolution: 8.0});
 
 
         //Display popup for clicked point
         container.style.visibility='visible'
-        content.innerHTML = '<p><strong>Lämningsnummer: </strong>'+lamning_id+'</p><p><strong>RAÄ-nummer: </strong>'+raa_id+'</p>';
+        content.innerHTML = '<p><strong></strong>'+lamning_id+'</p><p><strong></strong>'+raa_id+'</p>';
         overlay.setPosition(extent);
       
     }, {
@@ -527,14 +527,15 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
   text-align: justify;
   position: absolute;
   color: white;
-  background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 30%);
-  opacity: 70%;
-  backdrop-filter:blur(10px);
+  
+  background-color:rgba(80,80,80, 1.0);
+  opacity: 100%;
+  
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  border-radius: 10px;
-  bottom: 12px;
-  left: -50px;
+  padding: 8px 18px 8px 38px;
+  border-radius: 8px;
+  bottom: 25px;
+  left: -48px;
   min-width:max-content;
   block-size: fit-content;
   font-family: "Barlow Condensed", sans-serif !important;
@@ -553,24 +554,26 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
 }
 
 .ol-popup:after {
-  border-top-color: rgb(40, 40, 40) !important;
+  border-top-color: rgb(80, 80, 80) !important;
   border-width: 10px;
   left: 48px;
   margin-left: -10px;
+
 }
 
 .ol-popup:before {
-  border-top-color: rgb(40, 40, 40) !important;
+  border-top-color: rgb(80, 80, 80) !important;
   border-width: 11px;
   left: 48px;
   margin-left: -11px;
+  
 }
 
 .ol-popup-closer {
   text-decoration: none;
   position: absolute;
-  top: 2px;
-  right: 8px;
+  top: 20px;
+  left: 12px;
 }
 
 .ol-popup-closer:after {
