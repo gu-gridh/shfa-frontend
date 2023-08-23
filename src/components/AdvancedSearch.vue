@@ -277,10 +277,17 @@ export default {
         return;
       }
 
-      const apiUrl = this.apiUrls[index]; // Use the corresponding API URL
+      let apiUrl = this.apiUrls[index]; // Use the corresponding API URL
+
+      // Check if the index corresponds to the image_type and append &depth=1 accordingly
+      if (index === 2) {
+        apiUrl += `${query}&depth=1`;
+      } else {
+        apiUrl += query;
+      }
 
       try {
-        const response = await fetch(`${apiUrl}${query}`);
+        const response = await fetch(apiUrl);
         const data = await response.json();
         switch(index) {
           case 0: // Site name: use "raa_id or lamning_id"
@@ -296,41 +303,27 @@ export default {
             ]);
             break;
           case 1:
-             this.searchResults[index] = data.results.map(result => ({
+            this.searchResults[index] = data.results.map(result => ({
                   id: result.id,
                   text: this.currentLang === 'sv' ? result.name : result.english_translation
               }));
             break;
-          case 2: // Image type: use local list
-          const imageTypes = [
-            'ortofoto (sfm)',
-            'översiktsbild',
-            'foto',
-            '3d-laserskanning',
-            '3d-visualisering',
-            '3d-sfm',
-            'foto av sfm bild',
-            'diabild',
-            'kalkering plast',
-            'grafik',
-            'negativ, svart/vit',
-            'negativ, färg',
-            'natt foto',
-            'kalkering papper',
-            'frottage',
-            'printscreen av lasermodel',
-            'dstretch-visualisering',
-            'ritning',
-            'avgjutning',
-            'karta',
-            'dokument',
-            'tidningsartikel',
-            'miljöbild',
-            'arbetsbild'
-          ];
-          this.searchResults[index] = imageTypes
-            .filter(type => type.toLowerCase().includes(query.toLowerCase())) // Filter based on the search query
-            .map((type, i) => ({ id: i, text: type })); // Map to desired result format 
+          case 2:
+            // Use a set to track unique image types
+            const uniqueTypes = new Set();
+            this.searchResults[index] = data.results
+              .filter(result => {
+                const text = this.currentLang === 'sv' ? result.type.text : result.type.english_translation;
+                if (!uniqueTypes.has(text)) {
+                  uniqueTypes.add(text);
+                  return true;
+                }
+                return false;
+              })
+              .map(result => ({
+                id: result.id,
+                text: this.currentLang === 'sv' ? result.type.text : result.type.english_translation
+              }));
             break;
           case 3: // Keywords: use "text"
             this.searchResults[index] = data.results.map(result => ({
