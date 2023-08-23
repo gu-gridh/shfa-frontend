@@ -36,7 +36,7 @@
   The copyright applies to established principles that include, among other things, the photographer's voluntary right. The images are protected by a creative commons license (CC BY 4.0). For more information, please visit creative common's own website at:
 <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a></p><br>
 <h2>Citing the Platform</h2>
-<p>Westin, Jonathan, Bridge, Tristan & Karimi, Aram "gu-gridh/shfa-frontend: v.1.0 Initial public release" Github, 24 August 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
+<p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, & Humlesjö, Siska "gu-gridh/shfa-frontend: v.1.0 Initial public release" Github, 24 August 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
 <h2>Privacy Information</h2>
 <p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user experience.  The tracked data includes device specification, time spent on the website, first visit to the website, subsequent visits to the website, and an approximate location.  This user data is anonymised and no other data is recorded. </p><br>
 <h2>Accessibility Statement</h2>
@@ -48,7 +48,7 @@
 <p>GRIDH assessed the accessibility of the SHFA webportal by self-evaluation.</p>
 <p>This statement was created on 23 August 2023 using the <a href="https://www.w3.org/WAI/planning/statements/">W3C Accessibility Statement Generator Tool</a>.</p><br>
 <h2>Contact Information</h2>
-<p>Email GRIDH at <a href=mailto:gridh@gu.se>gridh@gu.se</a> to report any technical or accessiblity issues.</p>
+<p>Email GRIDH at <a href=mailto:gridh@gu.se>gridh@gu.se</a> to report any technical or accessibility issues.</p>
 <p>Email SHFA at <a href=mailto:shfa@gu.se>shfa@gu.se</a> to report any data issues or request to add your data to our database.</p>
 <p>Physical Location:  Humanisten, University of Gothenburg, Renströmsgatan 6, 412 55 Gothenburg</p>
 
@@ -118,7 +118,23 @@
   <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a></p><br>
 
 <h2>Att referera till plattformen</h2>
-<p>Westin, Jonathan, Bridge, Tristan & Karimi, Aram "gu-gridh/shfa-frontend: v.1.0 Initial public release" Github, 24 August 2023. https://github.com/gu-gridh/shfa-frontend</p>
+<p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, & Humlesjö, Siska "gu-gridh/shfa-frontend: v.1.0 Initial public release" Github, 24 August 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
+
+<h2>Privacy Information</h2>
+<p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user experience.  The tracked data includes device specification, time spent on the website, first visit to the website, subsequent visits to the website, and an approximate location.  This user data is anonymised and no other data is recorded. </p><br>
+<h2>Accessibility Statement</h2>
+<p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>.  GRIDH aim to include accessibility as part of our mission statement.</p>
+<p>The <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines (WCAG)</a> defines requirements for designers and developers to improve accessibility for people with disabilities. It defines three levels of conformance: Level A, Level AA, and Level AAA.  The SHFA webportal is partially conformant with WCAG 2.1 level AA.  Partially conformant means that some parts of the content do not fully conform to the accessibility standard.</p>
+<p>Accessibility of the SHFA webportal relies on the following technologies to work with the particular combination of web browser and any assistive technologies or plugins installed on your computer:</p>
+<ul><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+<p>These technologies are relied upon for conformance with the accessibility standards used.</p>
+<p>GRIDH assessed the accessibility of the SHFA webportal by self-evaluation.</p>
+<p>This statement was created on 23 August 2023 using the <a href="https://www.w3.org/WAI/planning/statements/">W3C Accessibility Statement Generator Tool</a>.</p><br>
+<h2>Contact Information</h2>
+<p>Email GRIDH at <a href=mailto:gridh@gu.se>gridh@gu.se</a> to report any technical or accessibility issues.</p>
+<p>Email SHFA at <a href=mailto:shfa@gu.se>shfa@gu.se</a> to report any data issues or request to add your data to our database.</p>
+<p>Physical Location:  Humanisten, University of Gothenburg, Renströmsgatan 6, 412 55 Gothenburg</p>
+
 
 
 </div>
