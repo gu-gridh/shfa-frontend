@@ -43,7 +43,7 @@
 
     <button class="item" @click="visibleAbout=true">
 
-          {{ $t('message.aboutArchive') }}<div class="top-link-button" ></div></button>
+          {{ $t('message.aboutArchive') }}<div class="top-link-infobutton" ></div></button>
 
     <button class="item" @click="" v-if="currentLanguage === 'en'"> 
     
