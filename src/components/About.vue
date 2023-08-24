@@ -20,7 +20,7 @@
 <p>SHFA's image database includes more than 24,000 digitized images that are the result of ongoing work describing and documenting rock carvings since 1627.  
   These data are primarily from Sweden but also from Denmark, Norway, Italy, Spain and elsewhere around the world. The database includes images of the documentation 
   results as well as the documentation process, from historic documentation to current digital methods.  More information on the documentation process can be found at 
-  <a href='https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv'>About SHFA</a>.</p><br>
+  <a href='https://www.gu.se/en/shfa'>About SHFA</a>.</p><br>
 <h2>Web Portal Migration</h2> 
 <p>This platform for the SHFA database has been developed by Göteborgs infrastruktur för digital humaniora (GRIDH) and aims to offer enhanced methods to search the database and 
   display digital documentation.  The migration from SHFA's previous web portal (developed by Miljödata AB) is currently on-going.  To date, the images 
@@ -97,7 +97,7 @@
   med att beskriva och dokumentera hällristningar sedan 1627. Dessa data kommer i första hand från Sverige men även från Danmark, Norge, 
   Italien, Spanien och andra delar av världen. Databasen innehåller bilder av dokumentationsresultaten samt dokumentationsprocessen, från 
   historisk dokumentation till aktuella digitala metoder. Mer information om dokumentationsprocessen finns på 
-  <a href='https://www.gu.se/forskning/shfa-svenskt-hallristningsforskningsarkiv'>Om SHFA</a>.</p><br>
+  <a href='https://www.gu.se/shfa'>Om SHFA</a>.</p><br>
 <h2>Webbportalmigrering</h2> 
 <p>Denna plattform för SHFA-databasen har utvecklats av Göteborgs infrastruktur för digital humaniora (GRIDH) och syftar till att erbjuda 
   förbättrade metoder för att söka i databasen och visa digital dokumentation. Migreringen från SHFAs tidigare webbportal (utvecklad av 
