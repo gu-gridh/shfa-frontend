@@ -135,8 +135,6 @@
 
 
 
-
-
   .guide-container {
     position:fixed;
     height: 100vh !important; /* Safari Fix */
@@ -144,7 +142,7 @@
     line-height: 1;
     width: 100%;
     font-size: 12px;
-    z-index: 2000;
+    z-index: 4000;
     backdrop-filter:blur(5px);
     pointer-events:none;
     transform:scale(1.5);
@@ -197,16 +195,7 @@
     color: rgb(120,135,150);
   }
   
-  .fullopacity{
-    /* backdrop-filter:blur(5px); */
-    opacity:1.0;
-    pointer-events:auto;
-    transform:scale(1.0);
-    translate: 0px 0px;
-    background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 80%);
-    height: 100%;
-  }
-  
+
   .flex-machine{
     height:100%;
     display:flex;
@@ -318,15 +307,7 @@
     border-radius: 5px;
     box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
   }
-  
-  .fullopacityui{
-    opacity:1.0;
-  }
-  
-  a {
-    font-weight: normal;
-  }
-  
+
 
   
   
@@ -342,23 +323,68 @@
   }
   }
   
-  .guide-logo-top-right{
-    z-index:1000;
-    display:flex;
-    pointer-events:none;
-    width:200px;
-    height:90px;
-    position:absolute;
-    /*background:url("../assets/shfa_logo_downscale.png");*/
-    background-repeat: no-repeat;
-    background-size: contain;
-    top:30px;
-    right:60px;
-    opacity:0.6;
-    color: whitesmoke;
-    transition: all 0.4s ease-in-out;
-  }
-
  
+
+  @media (max-width:480px) {
+
+.logo-area{
+margin-top:20px;
+}
+
+#logo{
+width:120px;
+height:100px;
+margin-left:30px; 
+}
+
+.title{
+margin-top:0px;
+font-size:35px;
+padding-left:10px;
+}
+
+.guide-article-main{
+width:100%;
+columns:1;
+column-gap:0px;
+font-size:2.0em;
+opacity:0.0;
+padding:30px;
+transition: all 0.4s ease-in-out;
+
+}
+
+.guide-article-sub{
+text-align:justify;
+columns:1;
+width:100%;
+padding:30px;
+font-size:1.2em;
+font-weight: 300;
+transition: all 0.4s ease-in-out;
+line-height: 1.2;
+}
+
+}
+
+.fullopacity{
+    /* backdrop-filter:blur(5px); */
+    opacity:1.0;
+    pointer-events:auto;
+    transform:scale(1.0);
+    translate: 0px 0px;
+    background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 80%);
+    height: 100%;
+  }
+  
+   
+.fullopacityui{
+    opacity:1.0;
+  }
+  
+  a {
+    font-weight: normal;
+  }
+  
   
   </style>
