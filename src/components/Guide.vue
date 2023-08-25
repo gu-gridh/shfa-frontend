@@ -74,10 +74,11 @@
   </div>
     </div>
 </div>
-      <button @click="$emit('close')" style="padding:30px;">
-              <div class="p-1 px-2 clickable category-button" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;"  v-bind:class="{fullopacityui: visibleGuide}">{{$t('message.close')}}</div>
-            </button>    
-       
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <button @click="$emit('close')" style="padding:30px;">
+            <div class="p-1 px-2 clickable category-button" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;" v-bind:class="{fullopacityui: visibleGuide}">{{$t('message.close')}}</div>
+        </button>
+      </div>
   </div>
   </div>
   </div>

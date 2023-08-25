@@ -517,7 +517,7 @@ h1 {
   .button-group {
     position:fixed;
     bottom:31px;
-    z-index:1000;
+    z-index:999;
     pointer-events:none;
   }
 
