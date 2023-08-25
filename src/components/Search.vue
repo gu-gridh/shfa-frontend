@@ -339,6 +339,16 @@ background-color:#6666;
   margin-bottom: 5px;
 }
 
+@media (max-width:480px) {
+  .filter-text {
+  width:100%;
+}
+#filter-interface {
+  height:70px;
+  justify-content:left;
+}
+}
+
 .tag-example {
   float: left;
   background-color: rgb(90, 90, 90);

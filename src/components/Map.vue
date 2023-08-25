@@ -415,6 +415,7 @@ updateCoordinates() {
   z-index: 40; /* Fixes border-radius in Safari. */
   width: 100%;
   height: 100%;
+  min-height: 270px;
   margin-top:45px!important;
   padding:0px 0px 0px 0px;
   border-radius:10px;
