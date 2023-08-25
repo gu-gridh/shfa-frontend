@@ -403,7 +403,7 @@ h2{
 #logo{
   width:120px;
   height:100px;
-  margin-left:30px; 
+  margin-left:0px; 
 }
 
 .title{

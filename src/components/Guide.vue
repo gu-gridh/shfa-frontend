@@ -1,12 +1,13 @@
 <template>
       <div class="guide-container" v-bind:class="{fullopacity: visibleGuide}">
-        <div class="flex-machine">
-    
+        
+
+  
           <div class="rows">
-    
             <div class="content">
     
-            <div class="logo-area">
+              <div class="flex-machine">
+          <div class="logo-area">
             <div id="logo"></div>
             <h1 class="title">
         <div v-html="$t('message.abouttitle')"></div>
@@ -157,43 +158,35 @@
   
   }
   
-  .logo-area{
-    margin-top:80px;
-  }
-  
   #logo{
-    position:relative;
-    width:210px;
-    height:200px;
-    background-color:white;
-    float:left;
-    margin-left:80px;
-    background:url("../assets/shfa_logo_downscale_light.png");
-    background-repeat:no-repeat;
-    background-size:contain;
-    opacity:0.7;
-    transition: all 0.8s ease-in-out;
-  }
-  
-  .title{
-    float:left;
-    position:relative;
-    pointer-events:none;
-    font-family: 'Teko', sans-serif;
-    line-height:0.75;
-    letter-spacing:-1.2px;
-    margin-top:10px;
-    font-size:65px;
-    font-weight:400;
-    margin-left:0px;
-    padding-left:30px;
-    color:rgb(190, 190, 190);
-  }
-  
-  .title .emph:hover{
-    display:inline;
-    color: rgb(120,135,150);
-  }
+  position:relative;
+  width:210px;
+  height:200px;
+  background-color:white;
+  float:left;
+  margin-left:80px;
+  background:url("../assets/shfa_logo_downscale_light.png");
+  background-repeat:no-repeat;
+  background-size:contain;
+  opacity:0.7;
+  transition: all 0.8s ease-in-out;
+}
+
+.title{
+  float:left;
+  position:relative;
+  pointer-events:none;
+  font-family: 'Teko', sans-serif;
+  line-height:0.75;
+  letter-spacing:-1.2px;
+  margin-top:10px;
+  font-size:65px;
+  font-weight:400;
+  margin-left:0px;
+  padding-left:30px;
+  color:rgb(190, 190, 190);
+}
+
   
 
   .flex-machine{
@@ -395,19 +388,19 @@
 }
 
 .logo-area{
-margin-top:20px;
+  margin-top:20px;
 }
 
 #logo{
-width:120px;
-height:100px;
-margin-left:30px; 
+  width:120px;
+  height:100px;
+  margin-left:10px; 
 }
 
 .title{
-margin-top:0px;
-font-size:35px;
-padding-left:10px;
+  margin-top:0px;
+  font-size:35px;
+  padding-left:10px;
 }
 
 .guide-article-main{
