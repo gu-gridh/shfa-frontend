@@ -4,7 +4,7 @@
     
           <div class="rows">
     
-            <div class="content">
+            <div class="content" style="width: 80%">
     
             <div class="logo-area">
             <div id="logo"></div>
@@ -64,7 +64,7 @@
         <tr v-else v-for="(value,key_sv) in this.$i18n.messages.sv.imgdescription" :key="key_sv"><td>{{ value[0]}}</td><td>{{ value[1] }}</td></tr>
         </table></div>
 
-        <div class="second">
+        <div class="third">
         <h2>{{ $t('message.datering') }}</h2>
       <table>
         <tr v-for="(value,key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(137))" :key="key"><td>{{ $t('keywords.'+key) }}</td></tr>
@@ -216,6 +216,10 @@
     width:100%;
     margin-bottom: 30px;
   }
+  .third{
+    width:100%;
+    margin-bottom: 30px;
+  }
   
   .rows{
     display:flex;
@@ -322,10 +326,67 @@
     hyphens: auto;
   }
   }
-  
- 
 
   @media (max-width:480px) {
+  .logo-area{
+    display: flex; /* Enables flexbox */
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; /* Centers items vertically */
+    margin-top: 80px;
+  }
+
+  .guide-container.fullopacity
+  {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  #logo {
+    margin-left: 0px;
+    margin-top: 0px;
+  }
+
+   .second tr {
+    display: flex; /* Make table rows a flex container */
+    justify-content: space-between; /* Space between the cells */
+  }
+
+  .second td {
+    flex: 1; /* Equal width for both cells */
+    line-height: 1.4; /* Adjust line height for consistent text spacing */
+    padding: 5px; /* Adjust padding for more space */
+    box-sizing: border-box; /* Include padding in width calculation */
+  }
+
+  .second table {
+    border-collapse: separate; /* Ensure spacing between rows */
+    border-spacing: 0 15px; /* Add vertical spacing between rows */
+  }
+
+.guide-article-main,
+  .guide-article-sub,
+  .first,
+  .second {
+    width: 100%; /* Full width */
+    columns: 1; /* Set columns to 1 */
+  }
+
+  .sections {
+    float: none; /* Disable float */
+  }
+
+  table {
+    width: 100%; /* Full width for tables */
+    overflow-x: auto; /* Allow horizontal scrolling if necessary */
+    display: block; /* Allow tables to scroll horizontally */
+  }
+
+.guide-search {
+    margin-top: 10px; /* Reduce top margin */
+    font-size: 1em; /* Adjust font size if necessary */
+    overflow-x: hidden; /* Hide horizontal overflow */
+    word-wrap: break-word; /* Break words if needed */
+}
 
 .logo-area{
 margin-top:20px;
@@ -347,10 +408,13 @@ padding-left:10px;
 width:100%;
 columns:1;
 column-gap:0px;
-font-size:2.0em;
 opacity:0.0;
 padding:30px;
 transition: all 0.4s ease-in-out;
+font-size: 115%;
+margin-top: -10px;
+margin-bottom: 5px;
+line-height: 1.5;
 
 }
 
