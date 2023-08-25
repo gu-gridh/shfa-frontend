@@ -28,7 +28,7 @@
       <h2>{{ $t('message.keywords') }}</h2>
       <div class="keywords"> <!-- Empty div for margin -->
       <ul>
-        <li v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index">{{ $t('keywords.'+keyword.text.replace('.','_')) }}</li>
+        <li v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index">{{ $t('keywords.'+keyword.text.replaceAll('.','_')) }}</li>
       </ul>
     </div>
   </div>
