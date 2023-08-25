@@ -439,6 +439,12 @@ export default {
  
 }
 
+@media (max-width:480px) {
+  .search-grid {
+    grid-template-columns: 100%;
+}
+}
+
 .search-item {
   position: relative;
   
