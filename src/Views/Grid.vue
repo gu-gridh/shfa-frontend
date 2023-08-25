@@ -665,7 +665,7 @@ margin-top:10px;
 .top-links .item{
 margin-right:5px;
 border-radius:8px;
-padding:5px 0px 0px 10px;;
+padding:5px 5px 5px 15px;
 }
 
 .top-links .item:hover{
@@ -688,7 +688,7 @@ background-color:white;
   float:right;
   text-align:left;
   margin-left:0px;
-  padding:3px 10px 3px 10px;
+  padding:3px 10px 3px 1px;
   border-radius:8px;
   cursor: pointer;
 }
@@ -701,27 +701,34 @@ background-color:white;
   float:right;
   text-align:left;
   margin-left:7px;
-  padding:0px 30px 10px 0px;
-  height:30px;
-  border-radius:8px;
   margin-top:3px;
-  background-image:url(../../public/interface/linkbutton.png);
+  height:23px;
+  width:23px;
+  border-radius:8px;
+  background-image:url(../../public/interface/linkbuttonbold.png);
   background-size:22px;
-  background-position:0px px;
+  background-position:center;
   background-repeat:no-repeat;
+  border-width:1.5px;
+  border-color:black;
+  border-radius:50%;
 }
 
 .top-link-infobutton{
   float:right;
   text-align:left;
   margin-left:7px;
-  padding:3px 30px 3px 0px;
-  height:30px;
+  margin-top:3px;
+  height:23px;
+  width:23px;
   border-radius:8px;
-  background-image:url(../../public/interface/infobutton.png);
+  background-image:url(../../public/interface/infobuttonbold.png);
   background-size:22px;
-  background-position:0px 3px;
+  background-position:center;
   background-repeat:no-repeat;
+  border-width:1.5px;
+  border-color:black;
+  border-radius:50%;
 }
 
 .main-color{
