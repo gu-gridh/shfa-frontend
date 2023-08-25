@@ -1067,6 +1067,7 @@ min-width:550px;
 }
 #split-2{
     padding:0px;
+    padding-left:5px;
 }
 }
 
