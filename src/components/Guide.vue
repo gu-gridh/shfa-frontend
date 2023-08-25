@@ -259,7 +259,8 @@
     }
   
   .guide-article-main{
-   position:relative;
+
+    position:relative;
    float:left;
    text-align:justify;
    color:white;
@@ -274,7 +275,6 @@
    padding:0px 100px;
    transition: all 0.4s ease-in-out;
    margin-bottom: 30px;
-  
   }
   
   .guide-article-sub{
