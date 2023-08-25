@@ -608,11 +608,11 @@ beforeDestroy() {
 
 @media (max-width:350px) {
   #logo{
-    margin-left:20px;
+    margin-left:10px;
   }
 
   .title{
-    margin-left:100px;
+    margin-left:90px;
   }
 }
 
@@ -973,6 +973,40 @@ margin-bottom:5px;
 
 /* End of menu style */
 
+@media (max-width:350px) {
+
+
+  .menu-show-button{
+    margin-right:15px;
+}
+.menu-close-button{
+
+  margin-right:15px;
+ 
+ 
+  
+  }
+.languages{
+right:10px;
+font-size:1.5em;
+margin-top:60px;
+padding-top:10px;
+padding-right:10px;
+
+}
+
+
+  .top-links{
+    width: 350px;
+   top:70px;
+    padding-right:0px;
+  
+    float:left;
+    padding-left:50px;
+    font-size:1.8em;
+  }
+}
+
 .split-container{
   overflow:hidden !important;
 }
@@ -1061,6 +1095,7 @@ min-width:550px;
   #map{
     height: 50vw;
     width: 100%;
+    min-height: 450px;
   }
 }
 

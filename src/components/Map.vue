@@ -432,6 +432,7 @@ margin-top:35px!important;
   }
 }
 
+
 #app .ol-control{
 position:absolute;
 right:20px;
@@ -534,9 +535,9 @@ right:20px;
     top: 60px;
 }
 
-@media (max-width:480px) {
+@media (max-width:350px) {
   .ol-zoom {
-    bottom: 35%;
+    bottom: 18%;
   }
 }
 

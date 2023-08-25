@@ -113,7 +113,7 @@
   td{
     padding-left:15px;
     padding-right:5px;
-    width:fit-content;
+    
   }
   a{
     color:rgb(156, 201, 247);
@@ -315,7 +315,7 @@
 
   
   
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 1025px) {
   .columns{
     width:100%;
   }
@@ -330,7 +330,7 @@
   @media (max-width:480px) {
   .content
   {
-    width: 80%;
+    width: 100%;
   }
   
   .logo-area{
@@ -414,12 +414,12 @@ width:100%;
 columns:1;
 column-gap:0px;
 opacity:0.0;
-padding:30px;
+padding:10px 30px;
 transition: all 0.4s ease-in-out;
 font-size: 115%;
 margin-top: -10px;
 margin-bottom: 5px;
-line-height: 1.5;
+line-height: 1.3;
 
 }
 

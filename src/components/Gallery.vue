@@ -1,5 +1,5 @@
 <template>
-  <div style="padding-top: 35px; padding-bottom: 35px;">
+  <div class="gallery-container">
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
       <h1 v-if="group.items.length > 0">{{ $t('message.' + group.text) }}</h1>
       <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="2" class="gallery-group">
@@ -414,11 +414,25 @@ export default {
 </script>
 
 <style scoped>
+.gallery-container{
+padding-top: 35px; 
+  padding-bottom: 35px;
+}
+
+@media (max-width: 1024px) {
+  .gallery-container{
+  padding-top: 0px; 
+  padding-bottom: 35px;
+}
+}
+
 h1 {
   font-size: 20px;
   color: white;
   margin: 20px 20px 2px 0px;
 }
+
+
 
 
 .card {
