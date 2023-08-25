@@ -137,7 +137,7 @@ export default {
   updatePageDetails() {
     this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
   },
-  async fetchResults(fetchURL = null) {
+  async fetchResults(combinedQueries = null, fetchURL = null) {
     const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
     const searchParams = new URLSearchParams();
 
@@ -150,11 +150,13 @@ export default {
       'institution_name'
     ];
 
-    this.selectedKeywords.forEach((keywords, index) => {
-      if (keywords.length > 0) {
-        searchParams.append(fieldNames[index], keywords[0].text);
-      }
-    });
+    if (combinedQueries) {
+      combinedQueries.forEach((query, index) => {
+        if (query) {
+          searchParams.append(fieldNames[index], query);
+        }
+      });
+    }
 
     searchParams.append('depth', '1');
     fetchURL = fetchURL ? fetchURL : baseURL + searchParams.toString();
@@ -247,7 +249,7 @@ export default {
 
    async fetchNextPage() {
     if (this.nextPageUrl) {
-      await this.fetchResults(this.nextPageUrl);
+      await this.fetchResults(null, this.nextPageUrl);
     } else {
       console.log("No more pages to fetch.");
     }
@@ -255,12 +257,11 @@ export default {
 
   async fetchPreviousPage() {
     if (this.previousPageUrl) {
-      await this.fetchResults(this.previousPageUrl);
+      await this.fetchResults(null, this.previousPageUrl);
     } else {
       console.log("No previous pages to fetch.");
     }
   },
-
 
     debounce(fn, delay) {
       let timer;
@@ -386,7 +387,13 @@ export default {
     },
     handleSearchButtonClick() {
       this.advancedResults = []; // Reset the advancedResults array
-      this.fetchResults();
+
+      // Combine the selected keywords with the typed-in search queries
+      const combinedQueries = this.searchQuery.map((query, index) => {
+        return query || (this.selectedKeywords[index][0] && this.selectedKeywords[index][0].text) || '';
+      });
+
+      this.fetchResults(combinedQueries);
 
       const { trackSearch } = useSearchTracking();
 
@@ -401,14 +408,14 @@ export default {
         'institution_name'
       ];
 
-      this.selectedKeywords.forEach((keywords, index) => {
-        if (keywords.length > 0) {
-          searchParams.append(fieldNames[index], keywords[0].text);
+      combinedQueries.forEach((query, index) => {
+        if (query) {
+          searchParams.append(fieldNames[index], query);
         }
       });
-      
+
       trackSearch(decodeURIComponent(searchParams.toString()));
-    },
+    }
   },
 };
 </script>
