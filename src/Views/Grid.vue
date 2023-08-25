@@ -655,7 +655,7 @@ margin-top:10px;
   font-weight:400;
   margin-top:110px;
   height:auto;
-  right:205px;
+  right:201px;
   color:black;
   position:absolute;
   padding-right:0px;
@@ -665,7 +665,7 @@ margin-top:10px;
 .top-links .item{
 margin-right:5px;
 border-radius:8px;
-padding:5px 5px 5px 8px;
+padding:5px 8px 5px 8px;
 }
 
 .top-links .item:hover{
