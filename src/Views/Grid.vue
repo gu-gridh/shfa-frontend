@@ -636,6 +636,7 @@ color:black;
 position:absolute;
 padding-right:20px;
 margin-top:0px;
+cursor: default;
 }
 
 .version{
@@ -687,6 +688,7 @@ background-color:white;
   margin-left:0px;
   padding:3px 10px 3px 10px;
   border-radius:8px;
+  cursor: pointer;
 }
 
 .top-button:hover{
