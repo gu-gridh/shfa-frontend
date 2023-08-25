@@ -870,7 +870,7 @@ font-size:95%;
     width:100%;
     position:absolute;
     background-color:rgba(240,240,240,0.9);
-    height:430px;
+    height:440px;
     box-shadow: 0rem 2rem 2rem rgba(0, 0, 0, 0.3)!important;
     backdrop-filter:blur(8px);
   }
@@ -894,7 +894,8 @@ margin-right:9px;
   .top-links{
     width: 350px;
    top:70px;
-    padding-right:20px;
+    padding-right:18px;
+  
     float:left;
     padding-left:50px;
     font-size:1.8em;
@@ -906,6 +907,14 @@ margin-right:9px;
     display:block;
     padding-bottom:10px;
   }
+
+  .top-links .item{
+margin-right:5px;
+border-radius:8px;
+padding:5px 8px 5px 18px;
+margin-bottom:5px;
+}
+
 
 
 
