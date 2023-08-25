@@ -1,8 +1,12 @@
 <template>
 <div>
 <div class="top">  
-  <div id="logo"></div>
-  <h1 class="title"><div v-html="$t('message.title')"></div></h1>
+  <a href="https://shfa.dh.gu.se/" target="_blank">
+    <div id="logo"></div>
+    <h1 class="title">
+      <div v-html="$t('message.title')"></div>
+    </h1>
+  </a>
   <div id="gu-logo-bg">
       <div v-if="currentLanguage === 'sv'" id="gu-logo-sv"></div>
       <div v-else id="gu-logo-en"></div>
@@ -316,7 +320,7 @@ export default defineComponent({
   },
   data() {
     return {
-      currentLanguage: 'en',
+      currentLanguage: 'sv', //currentLanguage: this.detectUserLanguage(),
       windowWidth: window.innerWidth,
       items: [],
       results: [],
@@ -369,6 +373,8 @@ beforeRouteEnter(to, from, next) {
   mounted() {
     window.addEventListener('resize', this.updateWindowWidth);
 
+    this.$i18n.locale = this.currentLanguage; 
+
     const vm = this;
     const direction = window.innerWidth <= 1024 ? 'vertical' : 'horizontal';
 
@@ -404,6 +410,13 @@ beforeDestroy() {
 },
 
   methods: {
+   /*  detectUserLanguage() {
+      // Extract the first two characters of the browser language setting
+      const langCode = navigator.language.substr(0, 2);
+      
+      // Return 'sv' if the language code is 'sv', otherwise return 'en'
+      return langCode === 'sv' ? 'sv' : 'en';
+    }, */
     updateWindowWidth() {
       this.windowWidth = window.innerWidth;
     },
