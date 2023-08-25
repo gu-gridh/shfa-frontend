@@ -4,7 +4,7 @@
     
           <div class="rows">
     
-            <div class="content" style="width: 80%">
+            <div class="content">
     
             <div class="logo-area">
             <div id="logo"></div>
@@ -328,10 +328,15 @@
   }
 
   @media (max-width:480px) {
+  .content
+  {
+    width: 80%;
+  }
+  
   .logo-area{
-    display: flex; /* Enables flexbox */
-    justify-content: center; /* Centers items horizontally */
-    align-items: center; /* Centers items vertically */
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
     margin-top: 80px;
   }
 
@@ -347,45 +352,45 @@
   }
 
    .second tr {
-    display: flex; /* Make table rows a flex container */
-    justify-content: space-between; /* Space between the cells */
+    display: flex; 
+    justify-content: space-between; 
   }
 
   .second td {
-    flex: 1; /* Equal width for both cells */
-    line-height: 1.4; /* Adjust line height for consistent text spacing */
-    padding: 5px; /* Adjust padding for more space */
-    box-sizing: border-box; /* Include padding in width calculation */
+    flex: 1; 
+    line-height: 1.4; 
+    padding: 5px; 
+    box-sizing: border-box; 
   }
 
   .second table {
-    border-collapse: separate; /* Ensure spacing between rows */
-    border-spacing: 0 15px; /* Add vertical spacing between rows */
+    border-collapse: separate; 
+    border-spacing: 0 15px; 
   }
 
 .guide-article-main,
   .guide-article-sub,
   .first,
   .second {
-    width: 100%; /* Full width */
-    columns: 1; /* Set columns to 1 */
+    width: 100%; 
+    columns: 1; 
   }
 
   .sections {
-    float: none; /* Disable float */
+    float: none; 
   }
 
   table {
-    width: 100%; /* Full width for tables */
-    overflow-x: auto; /* Allow horizontal scrolling if necessary */
-    display: block; /* Allow tables to scroll horizontally */
+    width: 100%; 
+    overflow-x: auto; 
+    display: block; 
   }
 
 .guide-search {
-    margin-top: 10px; /* Reduce top margin */
-    font-size: 1em; /* Adjust font size if necessary */
-    overflow-x: hidden; /* Hide horizontal overflow */
-    word-wrap: break-word; /* Break words if needed */
+    margin-top: 10px; 
+    font-size: 1em; 
+    overflow-x: hidden; 
+    word-wrap: break-word; 
 }
 
 .logo-area{
