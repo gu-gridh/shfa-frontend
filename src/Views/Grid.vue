@@ -163,7 +163,7 @@
           Data
         </button>
       </div> -->
-      <div class="ui-results" style="width:220px; font-size:0.9em; padding:5px 5px;">
+      <div class="ui-results" v-show="showResults" style="width:220px; font-size:0.9em; padding:5px 5px;">
         <p style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}: <p style="color:rgb(200,225,250); display:inline;"> {{ totalResults }}</p></p>
          ({{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }}) 
       </div> 
@@ -333,6 +333,7 @@ export default defineComponent({
       totalPages: 1,
       totalResults: 0,
       bbox: [],
+      showResults: false,
       showMap: true,
       showGallery: true,
       showCatalogue: false,
@@ -418,6 +419,7 @@ beforeDestroy() {
     handleMapClicked() {
       this.forceRefresh++;
       this.mapClicked = true;
+      this.showResults = true;
       this.$refs.searchRef.clearSearchField();
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
     },
@@ -425,6 +427,7 @@ beforeDestroy() {
     updateItems(newItems) {
     this.searchItems = newItems;
     this.selectedId = null; // Reset selectedId
+    this.showResults = true;
     this.$refs.advancedSearchRef.clearAdvancedSearchFields();
    
     this.$router.push({ 
@@ -467,6 +470,7 @@ beforeDestroy() {
     handleAdvancedSearchResults(results) {
       this.advancedSearchResults = results;
       this.selectedId = null; // Reset selectedId
+      this.showResults = true;
       this.$refs.searchRef.clearSearchField();
       this.$router.push({ 
         name: 'Search', 
@@ -668,8 +672,6 @@ padding:5px 0px 0px 10px;;
 background-color:white;
 }
 
-
-
 .button-image{
   float:left;
   margin-right:10px;
@@ -782,17 +784,17 @@ font-size:95%;
 .ui-results{
   position:absolute;
   pointer-events:none;
-    bottom:23px;
-z-index: 100;
-border-radius: 8px;
-font-size: 1.1em;
-font-weight: 500;
-color: white;
-padding: 2px 15px 6px 15px;
+  bottom:23px;
+  z-index: 100;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 500;
+  color: white;
+  padding: 2px 15px 6px 15px;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.5);
-backdrop-filter: blur(5px);
-  }
+  backdrop-filter: blur(5px);
+}
 
 @media (min-width: 1025px) {
     .menu-show-button, .menu-close-button {
@@ -1148,7 +1150,7 @@ h2 input:not(:placeholder-shown) {
   margin-top:45px;
   opacity:1.0;
   padding:5px;
- border-width:1px;
+  border-width:1px;
   border-style:solid;
   border-color:rgb(45,45,45);
   }
@@ -1197,11 +1199,7 @@ h2 input:not(:placeholder-shown) {
 }
 
 /*   Adaptation for plus-sized monitors */
-
   @media screen and (min-height: 950px) {
-
-
-
 
 .split-container-top{
   height:calc(100% - 160px) ;
