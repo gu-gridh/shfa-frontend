@@ -259,10 +259,9 @@ export default {
       close: 'Utforska'
         },
       search: {
-          searchintro: 'Nedan finns tillgängliga söktermer för sökningar med nyckelord, datering och bildtyper.',
-          searchhelp: `För att göra en enkel sökning, klicka på ett av de föreslagna sökorden under huvudsökfältet eller skriv ett nyckelord, webbplats, författare etc. i sökfältet och klicka på sökikonen. För mer avancerade sökningar 
-          med flera parametrar, klicka på menyn "Avancerad sökning". I den här menyn kan du börja skriva ett nyckelord i varje fält och de föreslagna tillgängliga nyckelorden visas under sökrutan. Du kan bara välja ett nyckelord i varje sökfält, 
-          om du lägger till ett nytt nyckelord eller klickar på det befintliga sökordet tas det bort från sökrutan.`,
+          searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar.',
+          searchhelp: `För att genomföra en enkel sökning, klicka på ett av de föreslagna nyckelorden under sökfältet eller skriv in ett nyckelord, en plats, upphovsperson etc. i sökrutan och klicka på returknappen eller sökikonen. För att söka fram samtliga bilder från en plats, använd kartan och klicka på platsens punkt. Platsernas id syns när du för pekaren över punkten och kartan kommer zooma in på din valda punkt.
+          För mer avancerade sökningar med flera parametrar, klicka på ”Avancerad sökning” i kartan överdel. I den avancerade sökvyn kan du skriva sökord i de olika fälten och få förslag på tillgängliga sökord. I dagsläget kan du enbart välja ett sökord per fält. Väljer du ett nytt sökord eller klickar på ett existerande sökord så tas det bort ur sökrutan.`,
           documentation: 'Dokumentationsprocess',
           environment: 'Miljö',
           description: 'Beskrivning',
