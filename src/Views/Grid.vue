@@ -655,7 +655,7 @@ margin-top:10px;
   font-weight:400;
   margin-top:110px;
   height:auto;
-  right:200px;
+  right:205px;
   color:black;
   position:absolute;
   padding-right:0px;
@@ -892,9 +892,9 @@ margin-right:9px;
 }
 
   .top-links{
-    width: 400px;
+    width: 350px;
    top:70px;
-    padding-right:0px;
+    padding-right:20px;
     float:left;
     padding-left:50px;
     font-size:1.8em;
@@ -907,30 +907,42 @@ margin-right:9px;
     padding-bottom:10px;
   }
 
-  .top-link-button{
+
+
+
+
+.top-link-button{
   float:right;
-  text-align:right;
-  margin-left:10px;
-  height:50px;
-  padding:3px 15px 3px 58px;
+  text-align:left;
+  margin-left:15px;
+  margin-top:3px;
+  height:40px;
+  width:40px;
   border-radius:8px;
-  background-image:url(../../public/interface/linkbutton.png);
-  background-size:37px;
-  background-position:8px 4px;
+  background-image:url(../../public/interface/linkbuttonbold.png);
+  background-size:32px;
+  background-position:center;
   background-repeat:no-repeat;
+  border-width:1.5px;
+  border-color:black;
+  border-radius:50%;
 }
 
 .top-link-infobutton{
   float:right;
-  text-align:right;
-  margin-left:10px;
-  height:50px;
-  padding:3px 15px 3px 58px;
+  text-align:left;
+  margin-left:15px;
+  margin-top:3px;
+  height:40px;
+  width:40px;
   border-radius:8px;
-  background-image:url(../../public/interface/infobutton.png);
-  background-size:37px;
-  background-position:8px 4px;
+  background-image:url(../../public/interface/infobuttonbold.png);
+  background-size:32px;
+  background-position:center;
   background-repeat:no-repeat;
+  border-width:1.5px;
+  border-color:black;
+  border-radius:50%;
 }
 
   .top{
