@@ -665,7 +665,7 @@ margin-top:10px;
 .top-links .item{
 margin-right:5px;
 border-radius:8px;
-padding:5px 5px 5px 15px;
+padding:5px 5px 5px 8px;
 }
 
 .top-links .item:hover{
@@ -688,7 +688,7 @@ background-color:white;
   float:right;
   text-align:left;
   margin-left:0px;
-  padding:3px 10px 3px 1px;
+  padding:3px 10px 3px 10px;
   border-radius:8px;
   cursor: pointer;
 }
