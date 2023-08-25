@@ -426,6 +426,12 @@ updateCoordinates() {
  /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
 
+@media (max-width:480px) {
+  #map {
+margin-top:35px!important;
+  }
+}
+
 #app .ol-control{
 position:absolute;
 right:20px;

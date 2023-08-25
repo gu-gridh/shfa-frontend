@@ -346,6 +346,7 @@ background-color:#6666;
 #filter-interface {
   height:70px;
   justify-content:left;
+  padding: 0px 0px 0px 0px;
 }
 }
 
