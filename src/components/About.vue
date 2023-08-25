@@ -120,20 +120,20 @@
 <h2>Att referera till plattformen</h2>
 <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, & Humlesjö, Siska "gu-gridh/shfa-frontend: v.1.0 Initial public release" Github, 24 August 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
 
-<h2>Privacy Information</h2>
-<p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user experience.  The tracked data includes device specification, time spent on the website, first visit to the website, subsequent visits to the website, and an approximate location.  This user data is anonymised and no other data is recorded. </p><br>
-<h2>Accessibility Statement</h2>
-<p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>.  GRIDH aim to include accessibility as part of our mission statement.</p>
-<p>The <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines (WCAG)</a> defines requirements for designers and developers to improve accessibility for people with disabilities. It defines three levels of conformance: Level A, Level AA, and Level AAA.  The SHFA webportal is partially conformant with WCAG 2.1 level AA.  Partially conformant means that some parts of the content do not fully conform to the accessibility standard.</p>
-<p>Accessibility of the SHFA webportal relies on the following technologies to work with the particular combination of web browser and any assistive technologies or plugins installed on your computer:</p>
+<h2>Integritetspolicy</h2>
+<p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att användarupplevelsen.  Den spårade datan inkluderar information om vilken typ av enhet som använts, under hur lång tid besöket varat, förstagångsbesökare på webbplatsen, återkommande besök och en uppskattning om varifrån besöker kommer. Datat är anonymiserat och ingen annan data sparas. </p><br>
+<h2>Tillgänglighetsredogörelse</h2>
+<p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>.  GRIDH strävar efter att inkludera tillgänglighet som en del av vårt uppdrag</p>
+<p><a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines (WCAG)</a> definierar krav på designers och utvecklare för att förbättra tillgängligheten för personer med funktionsnedsättning. Den definierar tre nivåer av överensstämmelse: nivå A, nivå AA och nivå AAA. SHFAs webbportal överensstämmer delvis med WCAG 2.1 nivå AA. Det innebär att vissa delar av innehållet inte helt överensstämmer med tillgänglighetsstandarden.</p>
+<p> Tillgängligheten på SHFAs webbportal är beroende av följande tekniker för att fungera med speciella webbläsare och eventuella hjälpmedel eller plugins installerade på din dator:</p>
 <ul><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
-<p>These technologies are relied upon for conformance with the accessibility standards used.</p>
-<p>GRIDH assessed the accessibility of the SHFA webportal by self-evaluation.</p>
-<p>This statement was created on 23 August 2023 using the <a href="https://www.w3.org/WAI/planning/statements/">W3C Accessibility Statement Generator Tool</a>.</p><br>
-<h2>Contact Information</h2>
-<p>Email GRIDH at <a href=mailto:gridh@gu.se>gridh@gu.se</a> to report any technical or accessibility issues.</p>
-<p>Email SHFA at <a href=mailto:shfa@gu.se>shfa@gu.se</a> to report any data issues or request to add your data to our database.</p>
-<p>Physical Location:  Humanisten, University of Gothenburg, Renströmsgatan 6, 412 55 Gothenburg</p>
+<p>GRIDH har gjort en självskattning av SHFAs webbportal.</p>
+<p>Redogörelsen uppdaterades senast 2023-08-25 </p><br>
+<h2>Kontaktinformation</h2>
+<p>Vänligen kontakta GRIDH via <a href=mailto:gridh@gu.se>gridh@gu.se</a> för att rapportera tekniska frågor eller frågor om tillgängligheten.</p>
+<p>Vänligen kontakta SHFA via <a href=mailto:shfa@gu.se>shfa@gu.se</a> för frågor om informationen samt för förfrågningar om tillägg av information.</p>
+<p>Fysisk plats:  Humanisten, Göteborgs universitet, Renströmsgatan 6, 412 55 Göteborg</p>
+
 
 
 
