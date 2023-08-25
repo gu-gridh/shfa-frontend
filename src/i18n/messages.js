@@ -288,7 +288,7 @@ export default {
       "djurfigur älg":"Djurfigur älg","djurfigur björn":"Djurfigur björn","djurfigur fågel":"Djurfigur fågel","djurfigur fisk":"Djurfigur fisk","djurfigur get":"Djurfigur get",
       "djurfigur häst":"Djurfigur häst","djurfigur hjort":"Djurfigur hjort","djurfigur hund":"Djurfigur hund","djurfigur orm":"Djurfigur orm","djurfigur oxe":"Djurfigur oxe",
       "djurfigur svin":"Djurfigur svin","djurfigur varg":"Djurfigur varg","spårstämpel":"Spårstämpel","skeppsfig_ förromersk järnålder 500-0 fkr":"Skeppsfig förromersk järnålder 500-0 Fkr",
-      "skeppsfig_ p sn2 2000-1700 fkr":"Skeppsfig P Sn2 2000-1700 Fkr","skeppsfig_ per_ i 1700-1500 fkr ":"Skeppsfig Per. I 1700-1500 Fkr",
+      "skeppsfig_ p sn2 2000-1700 fkr":"Skeppsfig Sn2 2000-1700 Fkr","skeppsfig_ per_ i 1700-1500 fkr":"Skeppsfig Per. I 1700-1500 Fkr",
       "skeppsfig_ per_ ii 1500-1300 fkr":"Skeppsfig Per. II 1500-1300 Fkr","skeppsfig_ per_ iii 1300-1100 fkr":"Skeppsfig Per. III 1300-1100 Fkr",
       "skeppsfig_ per_ iv 1100-900 fkr":"Skeppsfig Per. IV 1100-900 Fkr","skeppsfig_ per_ v 900-700 fkr":"Skeppsfig Per. V 900-700 Fkr",
       "skeppsfig_ per_ vi 700-500 fkr":"Skeppsfig Per. VI 700-500 Fkr","skeppsfigur":"Skeppsfigur","solskepp":"Solskepp","redskapsfigur":"Redskapsfigur","spade":"Spade","vapenfigur":"Vapenfigur",
