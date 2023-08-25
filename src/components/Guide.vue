@@ -13,7 +13,7 @@
       </h1>
     </div>
 
-    <div class="guide-article-main" style="margin-bottom: 0px; margin-top:30px;"  v-bind:class="{fullopacityui: visibleGuide}"> 
+    <div class="guide-article-main" style="margin-bottom: 0px;"  v-bind:class="{fullopacityui: visibleGuide}"> 
       <h2>{{ $t('message.sökguide') }}</h2>
     </div>
 
@@ -354,6 +354,7 @@
    .second tr {
     display: flex; 
     justify-content: space-between; 
+    gap: 10%;
   }
 
   .second td {
