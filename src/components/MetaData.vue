@@ -19,7 +19,7 @@
   </table></div>
    <div class="metadata-wide">
    <table>
-    <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site && $i18n.locale==='en'">  {{ data.author.english_translation }}, {{ data.year }}. {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} {{ ref_url }}</td><td class="ref" v-if="data.site && $i18n.locale==='sv'">  {{ data.author.name}}, {{ data.year }}. {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} {{ ref_url }}</td></tr>
+    <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site && $i18n.locale==='en'">  {{ data.author.english_translation }}, {{ data.year }}. {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} {{ data.iiif_file }}/full/full/0/default.jpg</td><td class="ref" v-if="data.site && $i18n.locale==='sv'">  {{ data.author.name}}, {{ data.year }}. {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} {{ data.iiif_file }}/full/full/0/default.jpg</td></tr>
     </table>
   </div>
 </div>
@@ -59,7 +59,7 @@ export default {
     return {
       data: {},
       acc_date,
-      ref_url,
+      //ref_url,
     };
   },
    methods: {
@@ -103,7 +103,7 @@ const options = {
 };
 let acc_date = date.toLocaleString("en-GB",options);
 
-let ref_url = window.location.href;
+//let ref_url = location.href;
 
   
 </script>
