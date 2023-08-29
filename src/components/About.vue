@@ -31,7 +31,7 @@
   Each search returns a gallery of images which can be viewed in more detail by clicking on the thumbnail.  In the detailed view, the metadata, external information, and download link are available.</p><br>
 
 <h2>Citing the Images</h2>
-<p>Images in the database are freely available for printing and downloading for private or non-profit use. The suggested citation for each image is provided in the detailed view, but you may reformat this to your preferred style using the image metadata. 
+<p>Images in the database are freely available for printing and downloading. The suggested citation for each image is provided in the detailed view, but you may reformat this to your preferred style using the image metadata. 
   Please notify us at <a href=mailto:shfa@gu.se>shfa@gu.se</a> and provide a link to <a href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> when you publish images from the database.
   The copyright applies to established principles that include, among other things, the photographer's voluntary right. The images are protected by a creative commons license (CC BY 4.0). For more information, please visit creative common's own website at:
 <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a></p><br>
@@ -110,7 +110,7 @@
   detaljerat genom att klicka på miniatyrbilden. I den detaljerade vyn är metadata, extern information och nedladdningslänk tillgängliga.</p><br>
 
 <h2>Att referera bilderna</h2>
-<p>Bilder i databasen är fritt tillgängliga för utskrift och nedladdning för privat eller ideellt bruk. Den föreslagna referensen för 
+<p>Bilder i databasen är fritt tillgängliga för utskrift och nedladdning. Den föreslagna referensen för 
   varje bild finns i den detaljerade vyn, men du kan formatera om den till din föredragna stil med hjälp av bildens metadata. Meddela 
   oss på <a href=mailto:shfa@gu.se>shfa@gu.se</a> och ange en länk till <a href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> när du 
   publicerar bilder från databasen. Upphovsrätten gäller etablerade principer som bland annat innefattar fotografens frivilliga rätt. 
