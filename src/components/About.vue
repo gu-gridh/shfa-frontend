@@ -47,9 +47,12 @@
 <p>These technologies are relied upon for conformance with the accessibility standards used.</p>
 <p>GRIDH assessed the accessibility of the SHFA webportal by self-evaluation.</p>
 <p>This statement was created on 23 August 2023 using the <a href="https://www.w3.org/WAI/planning/statements/">W3C Accessibility Statement Generator Tool</a>.</p><br>
+
 <h2>Contact Information</h2>
-<p>Email GRIDH at <a href=mailto:gridh@gu.se>gridh@gu.se</a> to report any technical or accessibility issues.</p>
+
 <p>Email SHFA at <a href=mailto:shfa@gu.se>shfa@gu.se</a> to report any data issues or request to add your data to our database.</p>
+<p>Email GRIDH at <a href=mailto:gridh@gu.se>gridh@gu.se</a> to report any technical or accessibility issues.</p>
+
 <p>Physical Location:  Humanisten, University of Gothenburg, Renströmsgatan 6, 412 55 Gothenburg</p>
 
 </div>
@@ -130,8 +133,10 @@
 <p>GRIDH har gjort en självskattning av SHFAs webbportal.</p>
 <p>Redogörelsen uppdaterades senast 2023-08-25 </p><br>
 <h2>Kontaktinformation</h2>
-<p>Vänligen kontakta GRIDH via <a href=mailto:gridh@gu.se>gridh@gu.se</a> för att rapportera tekniska frågor eller frågor om tillgängligheten.</p>
+
 <p>Vänligen kontakta SHFA via <a href=mailto:shfa@gu.se>shfa@gu.se</a> för frågor om informationen samt för förfrågningar om tillägg av information.</p>
+<p>Vänligen kontakta GRIDH via <a href=mailto:gridh@gu.se>gridh@gu.se</a> för att rapportera tekniska frågor eller frågor om tillgängligheten.</p>
+
 <p>Fysisk plats:  Humanisten, Göteborgs universitet, Renströmsgatan 6, 412 55 Göteborg</p>
 
 
