@@ -2,7 +2,7 @@
   <div id="metadata-container">
   <div class="metadata-column-group">
     <h1> <span v-if="data.site && data.site.lamning_id"> {{ data.site.lamning_id }} </span> </h1>
-  <div class="metadata-column">
+  <div class="metadata-column" :class="{light:isLight}">
     <table>
    <tr><td class="label" v-if="data.site && data.site.raa_id">{{ $t('message.raanumber') }}</td><td class="data" v-if="data.site && data.site.raa_id">  {{ data.site.raa_id }}</td></tr>
    <tr><td class="label" v-if="data.type && data.type.text">{{ $t('message.typ') }}</td><td class="data" v-if="data.type && data.type.text && $i18n.locale==='sv'">  {{ $t('keywords.'+data.type.text) }}</td><td class="data" v-else-if="data.type && data.type.text && $i18n.locale==='en'">{{ data.type.english_translation }}</td></tr>
@@ -17,29 +17,29 @@
    <tr><td class="label" v-if="data.collection && data.collection.name">{{ $t('message.collection') }}</td><td class="data" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
     
   </table></div>
-   <div class="metadata-wide">
+   <div class="metadata-wide" :class="{light:isLight}">
    <table>
     <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site && $i18n.locale==='en'">  {{ data.author.english_translation }}, {{ data.year }}. {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/search/iiif/{{ data.uuid }}.tif/meta/{{ data.id }}</td><td class="ref" v-if="data.site && $i18n.locale==='sv'">  {{ data.author.name}}, {{ data.year }}. {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/search/iiif/{{ data.uuid }}.tif/meta/{{ data.id }}</td></tr>
     </table>
   </div>
 </div>
-  <div class="metadata-wide">
+  <div class="metadata-wide" >
      <div v-if="data.keywords && data.keywords.length > 0">
       <h2>{{ $t('message.keywords') }}</h2>
       <div class="keywords"> <!-- Empty div for margin -->
       <ul>
-        <li v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index">{{ $t('keywords.'+keyword.text.replaceAll('.','_')) }}</li>
+        <li id="search-suggestion" v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index">{{ $t('keywords.'+keyword.text.replaceAll('.','_')) }}</li>
       </ul>
     </div>
   </div>
   <h2>{{ $t('message.description') }}</h2>
-  <div class="disclaimer">{{ $t('message.descriptiontext') }}</div>
-  <div class="description">
+  <div class="disclaimer" :class="{light:isLight}" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
+  <div class="description" :class="{light:isLight}" id="description">
     {{ data.description }}
   </div>
-<div class="metadata">
+<div class="metadata" >
   <div v-if="getFornsokUrl()" class="button-container">
-    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button">{{ $t('message.checkfornsök') }}</a>
+    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit">{{ $t('message.checkfornsök') }}</a>
   </div>
 </div>
 </div>

@@ -6,7 +6,6 @@
       <div id="popup-content"></div>
     </div></div>
 
-
 </template>
 
 <script>
@@ -283,15 +282,18 @@ closebutton.onclick = function () {
       offset: [0, 0], 
       src: '/interface/assets/marker-white.svg',
     },
+
   };
 
-
+ 
 
   const pointSource = new VectorSource();
   this.vectorLayer = new WebGLPointsLayer({
     source: pointSource,
     style: webGLStyle,
+    className: 'markers',
   });
+
 
   this.map.addLayer(this.vectorLayer);
 
@@ -496,6 +498,10 @@ right:20px;
   filter: grayscale(100%) contrast(110%)
 }
 
+#map .markers {
+  filter:contrast(100%) 
+}
+
 
 .ol-zoom {
   /* display:none; */
@@ -628,6 +634,7 @@ right:20px;
 
 .ol-popup-closer:after {
   content: "✖";
+  /* color:white */
 }
 
 </style>

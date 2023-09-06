@@ -1,5 +1,5 @@
 <template>
-  <div class="gallery-container">
+  <div class="gallery-container" :class="{light:isLight}">
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
       <h1 v-if="group.items.length > 0">{{ $t('message.' + group.text) }}</h1>
       <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="2" class="gallery-group">
@@ -9,7 +9,7 @@
               :alt="`Image ${index}`" 
               @load="item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)"
               v-on:load.once="item.loaded = true" />
-            <div class="grid-item-info">
+            <div class="grid-item-info" id="gallery">
               <div class="grid-item-info-meta">
                 <h1>{{ mapGallery ? siteLamningId : item.lamning_id }}</h1>
                 <h2>{{ mapGallery ? siteRaaId : item.raa_id }}</h2>
@@ -20,7 +20,7 @@
       </MasonryWall>
     </div>
 
-      <div class="button-container">
+      <div class="button-container" >
       <!-- Previous buttons -->
       <div class="button-group">
         <button class="loadMore left" v-if="mapGallery && previousPageUrl" @click="fetchPreviousData"></button>
@@ -428,7 +428,7 @@ padding-top: 35px;
 
 h1 {
   font-size: 20px;
-  color: white;
+  color: white !important;
   margin: 20px 20px 2px 0px;
 }
 
@@ -456,7 +456,7 @@ h1 {
 .grid-item-info {
   height: 100%;
   width: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
+  background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%); 
   color: white;
   position: absolute;
   opacity: 0;
@@ -480,6 +480,7 @@ h1 {
   bottom: 20px;
   font-weight: 800;
 }
+
 
 .grid-item-info-meta h2 {
   font-size: 18px;

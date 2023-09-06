@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div id="search-interface" class="">
-      <h2 class="input-unpad mb-0">
-        <div class="input-wrapper">
+    <div id="search-interface" class="" >
+      <h2 class="input-unpad mb-0" id="search">
+        <div class="input-wrapper" id="search-wrapper">
           <div
             v-for="keyword in selectedKeywords"
             :key="keyword.id"
             class="tag-example-search"
+            id="search-selected"
             @click="deselectKeyword(keyword)"
           >
           {{ $t('message.'+keyword.text) }}
@@ -25,17 +26,18 @@
         <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
             Advanced Search
           </button> -->
-          <button class="search-button-round" @click="triggerSearch">
+          <button class="search-button-round" id="search-button" @click="triggerSearch">
           </button>
         </div>
       </h2>
     </div>
     <div id="filter-interface">
-      <div class="filter-text">{{ $t('message.sökförslag') }}</div>
+      <div class="filter-text" :class="{light:isLight}">{{ $t('message.sökförslag') }}</div>
       <div
         v-for="result in defaultSearchResults"
         :key="result.id"
         class="tag-example"
+        id="search-suggestion"
         @click="selectResult(result)"
       >
         {{ $t('message.' + result.text) }}
@@ -43,7 +45,7 @@
     </div>
   </div>
   <div style="display:flex;  align-items: center; justify-content: center;">
-    <div class="ui-mode ui-overlay map-switch-margin">
+    <div class="ui-mode ui-overlay map-switch-margin" id="map-toggle">
         <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
           {{ $t('message.karta') }}
         </button>
@@ -293,6 +295,15 @@ export default {
 </script>
 
 <style scoped>
+
+.light{
+  background-color:rgb(255, 255, 255);
+  color:black;
+
+}
+
+
+
 #search-interface{
   font-size:100%;
 }
@@ -405,6 +416,7 @@ background-color:#6666;
   box-sizing: border-box;
   font-size: 1rem; 
 }
+
 
 .input-wrapper:hover {
   background-color: rgba(45, 45, 45, 1.0);

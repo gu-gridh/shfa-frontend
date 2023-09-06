@@ -35,17 +35,26 @@
     </div>
 </transition>
 
+<transition name="flip-fade" mode="out-in">
+    <div v-if="currentColour === 'dark'" class="top-button" id='dark-mode' key="dark" @click="toggleColour">
+        
+    </div>
+    <div v-else class="top-button" id='light-mode' key="light" @click="toggleColour">
+
+    </div>
+</transition>
+
     <!-- <div class="top-button">|</div> -->
 </div>
   
-<About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
-  <Guide :visibleGuide="visibleGuide" @close="visibleGuide = false" />
+<About :visibleAbout="visibleAbout" :isLight="isLight" @close="visibleAbout = false" />
+  <Guide :visibleGuide="visibleGuide" :isLight="isLight" @close="visibleGuide = false" />
   <div class="top-links">
-    <button class="item" @click="visibleGuide=true">
+    <button class="item" @click="visibleGuide=true, isLight=isLight">
 
           {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div></button>
 
-    <button class="item" @click="visibleAbout=true">
+    <button class="item" @click="visibleAbout=true, isLight=isLight">
 
           {{ $t('message.aboutArchive') }}<div class="top-link-infobutton" ></div></button>
 
@@ -70,7 +79,7 @@
 </div>
 
   <!-- Start of Container -->
-  <div class="split-container main-color">
+  <div class="split-container main-color" :class="{light: isLight}">
   <div class="flex height">
   <!-- Panel 1 -->
   <div  id="split-0" class="flex-grow flex flex-col "
@@ -82,6 +91,7 @@
       @page-details-updated="updatePageDetails" 
       :updateNextPageUrl="updateNextPageUrl" 
       :updatePreviousPageUrl="updatePreviousPageUrl"
+      :class="{light: isLight}"
       ref="searchRef" />
 
       <Map
@@ -89,6 +99,7 @@
         v-show="showMap"
         :coordinates="results"
         :bbox="bbox"
+        :class="{light: isLight}"
         @id-selected="selectedId = $event"
         @lamning-selected="selectedLamningId = $event"
         @raa-selected="selectedRaaId = $event"
@@ -101,21 +112,23 @@
         :currentLang="currentLanguage"
         :updateNextPageUrlAdvanced="updateNextPageUrlAdvanced"
         :updatePreviousPageUrlAdvanced="updatePreviousPageUrlAdvanced" 
+        :class="{light: isLight}"
         ref="advancedSearchRef" />
      
   </div>
   <!-- Panel 2 -->
-  <div id="split-1" class="flex-grow overflow-auto main-color" 
+  <div id="split-1" class="flex-grow overflow-auto main-color " 
        v-show="shouldShowPanel1"
-       :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }"
+       :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels, 'light':isLight}"
        >
 
   <div class="">
   <div class="">
    
-  <div v-show="showGallery"> 
+  <div v-show="showGallery" :class="{light: isLight}"> 
   <Gallery 
     ref="galleryRef"
+    :class="{light: isLight}"
     :siteId="selectedId" 
     :siteLamningId="selectedLamningId"
     :siteRaaId="selectedRaaId"
@@ -183,8 +196,8 @@
 <!-- Panel 3 -->
 <transition name="slide">
 <div id="split-2" class="flex-grow main-color overflow-auto"
-      :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }" v-show="showThreePanels">
-      <button @click="closeThreePanels" class="close-button">
+      :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels, 'light':isLight}" v-show="showThreePanels">
+      <button @click="closeThreePanels" class="close-button" :class="{light: isLight}">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 
@@ -350,6 +363,8 @@ export default defineComponent({
       visibleAbout: false,
       visibleGuide: false,
       mapClicked: false,
+      currentColour: 'dark',
+      isLight: false,
     }
   },
 beforeRouteEnter(to, from, next) {
@@ -373,7 +388,11 @@ beforeRouteEnter(to, from, next) {
   mounted() {
     window.addEventListener('resize', this.updateWindowWidth);
 
-    this.$i18n.locale = this.currentLanguage; 
+    this.$i18n.locale = this.currentLanguage;
+    
+    this.currentColour = this.currentColour;
+
+    this.isLight = this.isLight;
 
     const vm = this;
     const direction = window.innerWidth <= 1024 ? 'vertical' : 'horizontal';
@@ -429,6 +448,15 @@ beforeDestroy() {
         this.currentLanguage = (this.$i18n.locale === 'en') ? 'sv' : 'en';
         this.$i18n.locale = this.currentLanguage;
     },
+
+    toggleColour(){
+      this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
+      this.isLight=false;
+      if (this.currentColour === 'light') {return this.isLight=true};
+      
+      
+    },
+
     handleMapClicked() {
       this.forceRefresh++;
       this.mapClicked = true;
@@ -574,6 +602,40 @@ beforeDestroy() {
   background-position: center;
 }
 
+
+#dark-mode{
+  float:right;
+  text-align:left;
+  margin-left:7px;
+  margin-top:3px;
+  height:24px;
+  width:24px;
+  border-radius:8px;
+  background-image:url(../../public/interface/lightmode.png);
+  background-size:22px;
+  background-position:center;
+  background-repeat:no-repeat;
+  border-width:1.5px;
+  border-color:transparent;
+  border-radius:50%;
+}
+
+#light-mode{
+  float:right;
+  text-align:left;
+  margin-left:7px;
+  margin-top:3px;
+  height:24px;
+  width:24px;
+  border-radius:8px;
+  background-image:url(../../public/interface/darkmode.png);
+  background-size:22px;
+  background-position:center;
+  background-repeat:no-repeat;
+  border-width:1.5px;
+  border-color:transparent;
+  border-radius:50%;
+}
 
 .menu-show-button{
   display:none;
@@ -746,6 +808,10 @@ background-color:white;
   background-color:rgb(65,65,65);
 
 }
+
+
+
+
 .ui-overlay {
 pointer-events:auto;
 z-index: 100;
@@ -1411,6 +1477,171 @@ max-width:200px;
 
   padding:110px 30px 30px 30px;;
 }
+}
+
+/* light mode styles */
+
+.light{
+background: white;
+color:black !important
+}
+
+.light h1{
+  color:black !important;
+}
+
+.light h2{
+  color:rgb(0, 32, 73) !important;
+}
+
+.light a{
+  color: black;
+}
+
+.light td{
+  color:black !important;
+}
+
+
+.light #popup{
+  background-color: white;
+  color: black;
+}
+
+.light #popup-content{
+  background-color: white;
+  color: black;
+}
+
+.light #popup-closer{
+  color: black;
+}
+
+ .light #map {
+  filter: hue-rotate(160deg) grayscale(30%);
+
+}
+
+
+
+.light #metadata-container{
+  color: black;
+}
+
+.light #search-interface{
+  color:black;
+  border-color:black;
+}
+
+.light #search-button{
+  background-color: black;
+  border-color: black;
+}
+
+.light #search-suggestion{
+  background-color: rgb(247, 244, 244);
+  border-color: black !important;
+  color:black;
+}
+
+
+.light #search-suggestion:hover{
+  background-color: rgb(110, 148, 185);
+  border-color: black;
+  color:black !important;
+}
+
+
+.light #search-selected{
+  background-color: rgb(110, 148, 185);
+  border-color: black !important;
+  color:black;
+}
+.light #visit{
+  background-color: rgb(37, 35, 35);
+filter:invert(1)
+}
+
+.light #visit:hover{
+  background-color: rgb(110, 148, 185);
+  filter: invert(0);
+  border-color: black;
+  color:black !important;
+}
+
+.light #search{
+  background-color: rgb(247, 244, 244);
+  color: black !important;
+}
+
+
+.light input{
+  color: black !important;
+  background-color: rgb(247, 244, 244);
+}
+
+.light #search-wrapper{
+  background-color: transparent;
+  color: black !important;
+}
+
+
+.light #filter-interface{
+  color: black !important;
+}
+
+.light input[type="search"]::placeholder {
+  color: black;
+  background-color: rgb(247, 244, 244);
+}
+.light input[type="search"]{
+  color: black;
+  background-color: rgb(247, 244, 244);
+}
+
+.light #app{
+  background-color: rgb(247, 244, 244);
+}
+
+
+.light #gallery{
+  background:linear-gradient(rgba(255, 255, 255, 0.25) 30%, rgba(255, 254, 254, 0.7) 100%)
+}
+
+.light #text-wrapper{
+  background:linear-gradient(rgb(247, 244, 244) 0%, rgb(247, 244, 244) 100%)
+}
+
+
+.light #disclaimer{
+  color:rgb(110, 148, 185);
+}
+
+.light #description{
+  color:black;
+}
+
+.light #block-text{
+  color:black;
+  background-color: linear-gradient(120deg, #ffffff 10%, rgba(255, 255, 255, 0.95) 30%);
+}
+
+.light #search-text{
+  color:black;
+  background-color: linear-gradient(120deg, #ffffff 10%, rgba(255, 255, 255, 0.95) 30%);
+}
+
+.light #logo{
+  position:relative;
+  width:210px;
+  height:200px;
+  float:left;
+  margin-left:80px;
+  background-repeat:no-repeat;
+  background-size:contain;
+  opacity:0.7;
+  transition: all 0.8s ease-in-out;
+  filter: invert(1)
 }
 </style>
 

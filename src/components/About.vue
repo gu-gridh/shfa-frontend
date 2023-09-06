@@ -1,21 +1,21 @@
 <template>
 <template v-if="$i18n.locale === 'en'" >
-  <div class="about-container" v-bind:class="{fullopacity: visibleAbout}">
-    <div class="flex-machine">
+  <div class="about-container" :class="{fullopacity: visibleAbout, light:isLight}" id='block-text'>
+    <div class="flex-machine" :class="{light:isLight}" id="block-text">
 
-      <div class="rows">
+      <div class="rows" :class="{light:isLight}" id="block-text">
 
-        <div class="content">
+        <div class="content" >
 
         <div class="logo-area">
         <div id="logo"></div>
-  <h1 class="title">
+  <h1 class="title" >
     <div v-html="$t('message.abouttitle')"></div>
   </h1>
 </div>
 
 
-      <div class="about-article-sub"  v-bind:class="{fullopacityui: visibleAbout}">
+      <div class="about-article-sub" :class="{fullopacityui: visibleAbout, light:isLight}" id="block-text">
           <h2>Database Overview</h2>
 <p>SHFA's image database includes more than 24,000 digitized images that are the result of ongoing work describing and documenting rock carvings since 1627.  
   These data are primarily from Sweden but also from Denmark, Norway, Italy, Spain and elsewhere around the world. The database includes images of the documentation 
@@ -65,7 +65,7 @@
      
     </div>
     <button @click="$emit('close')" style="padding:30px;">
-            <div class="p-1 px-2 clickable category-button" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;"  v-bind:class="{fullopacityui: visibleAbout}">Close</div>
+            <div class="p-1 px-2 clickable category-button" :class="{fullopacityui: visibleAbout, isLight:isLight}" id="search-suggestion" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;"  >Close</div>
           </button>    
      
     </div>
@@ -73,18 +73,18 @@
   </div>
   
 </div>
-  <div class="about-logo-top-right"> </div>
+  <div class="about-logo-top-right" id="block-text"> </div>
   
 
 </template>
 
   <template v-else>
-  <div class="about-container" v-bind:class="{fullopacity: visibleAbout}">
+  <div class="about-container" id='block-text' :class="{fullopacity: visibleAbout, light:isLight}">
     <div class="flex-machine">
 
-      <div class="rows">
+      <div class="rows" :class="{light:isLight}" id="block-text">
 
-        <div class="content">
+        <div class="content" id="block-text">
 
         <div class="logo-area">
         <div id="logo"></div>
@@ -94,7 +94,7 @@
 </div>
 
 
-      <div class="about-article-sub"  v-bind:class="{fullopacityui: visibleAbout}">
+      <div class="about-article-sub" id='block-text' :class="{fullopacityui: visibleAbout, light:isLight}">
           <h2>Databasöversikt</h2>
 <p>Svenskt Hällristnings Forsknings Arkivs bilddatabas omfattar mer än 24 000 digitaliserade bilder som är resultatet av pågående arbete 
   med att beskriva och dokumentera hällristningar sedan 1627. Dessa data kommer i första hand från Sverige men även från Danmark, Norge, 
@@ -152,7 +152,7 @@
      
     </div>
     <button @click="$emit('close')" style="padding:30px;">
-            <div class="p-1 px-2 clickable category-button" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;"  v-bind:class="{fullopacityui: visibleAbout}">Utforska</div>
+            <div class="p-1 px-2 clickable category-button" :class="{fullopacityui: visibleAbout, isLight:isLight}" id="search-suggestion" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">Utforska</div>
           </button>    
      
     </div>
@@ -160,11 +160,13 @@
   </div>
   
 </div>
-  <div class="about-logo-top-right"> </div>
+  <div class="about-logo-top-right" id="block-text"> </div>
   </template>
 </template>
 
 <script lang="ts">
+import Grid from '../Views/Grid.vue';
+
 export default {
   name: "aboutview",
   emits: ['close'],
@@ -173,7 +175,13 @@ export default {
       type: Boolean,
       required: true,
     },
+    isLight: {
+      type: Boolean,
+      required: true,
+    },
+    
   },
+
 };
 </script>
 
