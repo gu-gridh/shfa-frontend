@@ -607,9 +607,9 @@ beforeDestroy() {
   float:right;
   text-align:left;
   margin-right:10px;
-  margin-top:5px;
-  height:24px;
-  width:24px;
+  margin-top:2px;
+  height:29px;
+  width:29px;
   border-radius:8px;
   background-image:url(../../public/interface/lightmode.png);
   background-size:18px;
@@ -624,9 +624,9 @@ beforeDestroy() {
   float:right;
   text-align:left;
   margin-right:10px;
-  margin-top:5px;
-  height:24px;
-  width:24px;
+  margin-top:2px;
+  height:29px;
+  width:29px;
   border-radius:8px;
   background-image:url(../../public/interface/darkmode.png);
   background-size:16px;
@@ -742,7 +742,7 @@ padding:5px 8px 5px 8px;
 }
 
 .top-links .item:hover{
-background-color:white;
+  background-color:rgb(245,245,245);
 }
 
 .button-image{
@@ -767,7 +767,7 @@ background-color:white;
 }
 
 .top-button:hover{
-  background-color:rgb(250,250,250);
+  background-color:rgb(245,245,245);
 }
 
 .top-link-button{
@@ -1519,7 +1519,7 @@ color:black !important;
 }
 
  .light #map {
-  filter: hue-rotate(160deg) grayscale(30%);
+  /* filter: hue-rotate(160deg) grayscale(30%); */
 
 }
 
@@ -1683,6 +1683,28 @@ background-color: rgb(210,210,210)!important;
   background-color:rgb(235,235,235)!important;
   color:white!important;
 }
+
+.light .ui-overlay {
+font-weight: 600;
+color: black;
+background-color: rgba(255, 255, 255, 0.5);
+
+}
+
+.light .ui-mode .item:hover {
+  color: rgb(100,125,150);
+}
+
+.light .ui-overlay .selected{
+  color: rgb(100,125,150);
+}
+
+.light .item.active {
+  color: rgb(100,155,220);
+  font-weight: 600;
+}
+
+
 
 
 
