@@ -110,6 +110,12 @@ let acc_date = date.toLocaleString("en-GB",options);
 </script>
 <style scoped>
 
+#metadata-container{
+  max-width:100%;
+  padding:0px!important;
+  overflow:hidden;
+}
+
 h1{
   min-height:00px;
   width:100%;
@@ -163,13 +169,14 @@ margin-top: 0px;
 }
 
 table, th, td {
+  max-width:100%;
 }
 
 .metadata-wide {
   float:left;
  padding-left:25px;
   color: white;
-  width:100%;
+  max-width:100%;
   margin-top:10px;
 }
 
