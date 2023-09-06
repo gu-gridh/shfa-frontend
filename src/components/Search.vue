@@ -26,7 +26,7 @@
         <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
             Advanced Search
           </button> -->
-          <button class="search-button-round" id="search-button" @click="triggerSearch">
+          <button class="search-button-round" id="search-button" :class="{light:isLight}" @click="triggerSearch">
           </button>
         </div>
       </h2>
@@ -403,7 +403,7 @@ background-color:#6666;
   margin-left: 0px;
   margin-right: 0px;
   border-radius: 8px;
-  padding: 4px 15px;
+  padding: 4px 00px 0px 0px;
   background-color: transparent;
 }
 
@@ -424,10 +424,12 @@ background-color:#6666;
 }
 
 input[type="search"] {
-  background-color: transparent;
+  background-color: transparent!important;
   border: none;
   color: white;
   margin-top: 5px;
+  padding-left: 15px!important;
+  padding-right: 15px!important;
   margin-bottom: 10px;
   flex: 1;
   width:1px!important;

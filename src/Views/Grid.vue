@@ -1,9 +1,9 @@
 <template>
 <div>
-<div class="top">  
+<div class="top" :class="{light: isLight}">  
   <a href="https://shfa.dh.gu.se/" target="_blank">
     <div id="logo"></div>
-    <h1 class="title">
+    <h1 class="title" :class="{light: isLight}">
       <div v-html="$t('message.title')"></div>
     </h1>
   </a>
@@ -606,13 +606,13 @@ beforeDestroy() {
 #dark-mode{
   float:right;
   text-align:left;
-  margin-left:7px;
-  margin-top:3px;
+  margin-right:10px;
+  margin-top:5px;
   height:24px;
   width:24px;
   border-radius:8px;
   background-image:url(../../public/interface/lightmode.png);
-  background-size:22px;
+  background-size:18px;
   background-position:center;
   background-repeat:no-repeat;
   border-width:1.5px;
@@ -623,13 +623,13 @@ beforeDestroy() {
 #light-mode{
   float:right;
   text-align:left;
-  margin-left:7px;
-  margin-top:3px;
+  margin-right:10px;
+  margin-top:5px;
   height:24px;
   width:24px;
   border-radius:8px;
   background-image:url(../../public/interface/darkmode.png);
-  background-size:22px;
+  background-size:16px;
   background-position:center;
   background-repeat:no-repeat;
   border-width:1.5px;
@@ -699,7 +699,7 @@ beforeDestroy() {
 
 } */
 
-.top{
+.top {
   height:160px;
   z-index:1000;
   background-color:rgb(210,210,210)
@@ -1095,7 +1095,7 @@ padding-right:10px;
 }
 
 .split-container-top{
-  height:calc(100% - 200px) ;
+  height:calc(100% - 160px) ;
   width:100%;
   position:absolute;
   box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.3)!important;
@@ -1326,7 +1326,6 @@ h2 input:not(:placeholder-shown) {
     opacity:1.0;
   }
 
-
 #app .search-container .tag-example-search {
   background-color: rgb(80,90,100);
   padding: 0px 10px;
@@ -1342,6 +1341,7 @@ h2 input:not(:placeholder-shown) {
   color: white;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
+
 #app .search-container .input-wrapper {
   display: flex;
   flex-wrap: nowrap;
@@ -1483,8 +1483,9 @@ max-width:200px;
 
 .light{
 background: white;
-color:black !important
+color:black !important;
 }
+
 
 .light h1{
   color:black !important;
@@ -1523,7 +1524,6 @@ color:black !important
 }
 
 
-
 .light #metadata-container{
   color: black;
 }
@@ -1539,23 +1539,23 @@ color:black !important
 }
 
 .light #search-suggestion{
-  background-color: rgb(247, 244, 244);
+  background-color: rgb(237, 234, 234);
   border-color: black !important;
   color:black;
 }
 
 
 .light #search-suggestion:hover{
-  background-color: rgb(110, 148, 185);
+  background-color: rgb(80,90,100);
   border-color: black;
-  color:black !important;
+  color:white !important;
 }
 
 
 .light #search-selected{
-  background-color: rgb(110, 148, 185);
+  /* background-color: rgb(110, 148, 185);  */
   border-color: black !important;
-  color:black;
+  color:white;
 }
 .light #visit{
   background-color: rgb(37, 35, 35);
@@ -1570,18 +1570,19 @@ filter:invert(1)
 }
 
 .light #search{
-  background-color: rgb(247, 244, 244);
+  background:transparent;
   color: black !important;
 }
 
 
 .light input{
   color: black !important;
-  background-color: rgb(247, 244, 244);
+  font-weight:400;
+  background-color:transparent;
 }
 
 .light #search-wrapper{
-  background-color: transparent;
+  background:linear-gradient(rgb(227, 224, 224) 0%, rgb(247, 244, 244) 100%);
   color: black !important;
 }
 
@@ -1592,11 +1593,11 @@ filter:invert(1)
 
 .light input[type="search"]::placeholder {
   color: black;
-  background-color: rgb(247, 244, 244);
+  background-color: transparent;
 }
 .light input[type="search"]{
   color: black;
-  background-color: rgb(247, 244, 244);
+  background-color: transparent;
 }
 
 .light #app{
@@ -1609,7 +1610,8 @@ filter:invert(1)
 }
 
 .light #text-wrapper{
-  background:linear-gradient(rgb(247, 244, 244) 0%, rgb(247, 244, 244) 100%)
+  background:linear-gradient(rgb(237, 234, 234) 0%, rgb(247, 244, 244) 100%);
+
 }
 
 
@@ -1631,18 +1633,62 @@ filter:invert(1)
   background-color: linear-gradient(120deg, #ffffff 10%, rgba(255, 255, 255, 0.95) 30%);
 }
 
-.light #logo{
-  position:relative;
-  width:210px;
-  height:200px;
-  float:left;
-  margin-left:80px;
-  background-repeat:no-repeat;
-  background-size:contain;
-  opacity:0.7;
-  transition: all 0.8s ease-in-out;
-  filter: invert(1)
+
+.light .split-container-top{
+  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.2)!important;
+  height:calc(100% - 160px);
 }
+
+.light .search-container .tag-example-search {
+  background-color: rgb(80,90,100)!important;
+ 
+  border-radius: 2px!important;
+  cursor: pointer;
+  display: inline-block; 
+  max-width:100%; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  color: black!important;
+  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.light .title{
+  color:rgb(150, 150, 150)!important;
+  background-color:transparent;
+}
+
+.light .top{
+background-color: rgb(210,210,210)!important;
+}
+
+.light #label-wrapper{
+  color:black;
+}
+
+.light .search-button-round{
+  background-color:rgb(150, 150, 150)!important;
+}
+
+.light .search-button-round:hover{
+  background-color:rgb(120, 120, 120)!important;
+}
+
+.light .close-button{
+  background-color:rgb(65,65,65)!important;
+  color:white!important;
+}
+
+.light .suggestions{
+  background-color:rgb(235,235,235)!important;
+  color:white!important;
+}
+
+
+
+
+
+
 </style>
 
 

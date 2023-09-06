@@ -3,7 +3,7 @@
     <!-- <div class="search-container-title">Advanced Search</div> -->
     <div class="search-grid">
       <div v-for="(query, index) in searchQuery" :key="index" class="search-item">
-        <div class="field-title" id="search-wrapper">
+        <div class="field-title" id="label-wrapper">
           {{
             [
             $t('message.site'),
@@ -19,7 +19,8 @@
           <div
             v-for="keyword in selectedKeywords[index]"
             :key="keyword.id"
-            class="tag-example-search"
+            class="tag-example-search" 
+            :class="{light: isLight}"
             id="text-wrapper"
             @click="deselectKeyword(keyword, index)"
           >
@@ -468,23 +469,6 @@ export default {
   cursor: pointer;
 }
 
-
-.tag-example-search {
-  background-color: rgb(80,90,100);
-  padding: 0.1em 0.6em;
-  font-size: 1.0em;
-  font-weight:300;
-  border-radius: 5px;
-  cursor: pointer;
-  display: inline-block; 
-  max-width:100%; 
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis;
-  color: white;
-  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
-}
-
 input[type="search"] {
   background-color: transparent;
   border: none;
@@ -514,7 +498,7 @@ input[type="search"]:focus {
   padding: 10px;
   margin-top:-5px;
   overflow-y:auto;
-  max-height:260px;
+  max-height:170px;
 }
 
 .search-button {
@@ -571,4 +555,11 @@ input[type="search"]:focus::-webkit-search-cancel-button {
   pointer-events: all;
   filter: invert(1);
 }
+
+#label-wrapper{
+  color:white;
+}
+
+
+
 </style>
