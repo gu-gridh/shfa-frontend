@@ -59,6 +59,7 @@ export default {
     return {
       data: {},
       acc_date,
+      isLight: false,
       //ref_url,
     };
   },

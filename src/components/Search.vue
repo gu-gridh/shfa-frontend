@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-bind="$attrs">
     <div id="search-interface" class="" >
       <h2 class="input-unpad mb-0" id="search">
         <div class="input-wrapper" id="search-wrapper">
@@ -72,7 +72,8 @@ export default {
       previousPageUrl: null,
       nextPageUrl: null,
       count: 0,
-      activePanel: 'Map Interface', 
+      activePanel: 'Map Interface',
+      isLight: false,
     };
   },
   props: {

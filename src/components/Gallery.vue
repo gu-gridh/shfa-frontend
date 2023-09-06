@@ -148,6 +148,7 @@ export default {
   data() {
     return {
       mapGallery: false,
+      isLight: false,
       advancedSearch: false,
       nextPageUrl: null,
       previousPageUrl: null,
