@@ -742,7 +742,7 @@ padding:5px 8px 5px 8px;
 }
 
 .top-links .item:hover{
-  background-color:rgb(245,245,245);
+  background-color:rgb(235,235,235);
 }
 
 .button-image{
@@ -767,7 +767,7 @@ padding:5px 8px 5px 8px;
 }
 
 .top-button:hover{
-  background-color:rgb(245,245,245);
+  background-color:rgb(235,235,235);
 }
 
 .top-link-button{
