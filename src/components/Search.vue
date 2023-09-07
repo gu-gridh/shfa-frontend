@@ -153,6 +153,7 @@ export default {
     },
     async fetchResults(url) {
       try {
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
         const response = await fetch(url);
         const data = await response.json();
         this.count = data.count; // Update the total count
@@ -203,17 +204,21 @@ export default {
         coordinates: image?.site?.coordinates?.coordinates ?? null,
       };
 
-      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-      for (let image of data.results) {
-        const coords = image?.site?.coordinates?.coordinates;
-        if (coords) {
-          const [x, y] = coords;
-          minX = Math.min(minX, x);
-          maxX = Math.max(maxX, x);
-          minY = Math.min(minY, y);
-          maxY = Math.max(maxY, y);
-        }
+      const coords = image?.site?.coordinates?.coordinates;
+      if (coords) {
+        const [x, y] = coords;
+        minX = Math.min(minX, x);
+        maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y);
       }
+      
+
+    let typeIndex = typeMap.findIndex(x => x.type === type.id); 
+      if (typeIndex !== -1) {
+        typeMap[typeIndex].items.push(item);
+      }
+    }
 
       const boundingBox = {
         topLeft: [minX, maxY],
@@ -224,13 +229,6 @@ export default {
 
       const coordinateStore = useStore();
       coordinateStore.setBoundingBox(boundingBox);
-
-
-    let typeIndex = typeMap.findIndex(x => x.type === type.id); 
-      if (typeIndex !== -1) {
-        typeMap[typeIndex].items.push(item);
-      }
-    }
 
     // Filter out the groups with no items and sort the image groups by the specified order
     this.searchResults = typeMap.filter(group => group.items.length > 0)
