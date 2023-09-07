@@ -1217,7 +1217,12 @@ font-size:1.0em;
   border-radius:8px;
   margin-top:10px;
   padding:10px 15px;
-  background-color:rgb(45,45,45);
+  background:transparent;
+}
+
+#search-wrapper{
+  background:linear-gradient(rgb(35, 35, 35) 0%, rgb(50, 50, 50) 100%);
+  color: black !important;
 }
 
 input[type="search"]::-webkit-search-cancel-button {
