@@ -1711,6 +1711,18 @@ background-color: rgba(255, 255, 255, 0.5);
   font-weight: 600;
 }
 
+.light #logo{
+  background-color:grey;
+  float:left;
+  margin-top:30px;
+  margin-left:40px;
+  background:url("../assets/shfa_logo_downscale.png");
+  background-repeat:no-repeat;
+  background-size:contain;
+  opacity:0.3;
+  transition: all 0.8s ease-in-out;
+}
+
 
 
 
