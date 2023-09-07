@@ -65,6 +65,7 @@
 
 <script>
 import useSearchTracking from '../composables/useSearchTracking.js'
+import { useStore } from '../stores/store.js';
 
 export default {
   data() {
@@ -210,7 +211,8 @@ export default {
           lamning_id: image?.site?.lamning_id ?? null, 
           raa_id: image?.site?.raa_id ?? null,
           type: image?.type?.id ?? null,
-          iiif_file: image.iiif_file ?? null, 
+          iiif_file: image.iiif_file ?? null,
+          coordinates: image?.site?.coordinates?.coordinates ?? null,
         };
 
       let typeIndex = typeMap.findIndex(x => x.type === type.id); 

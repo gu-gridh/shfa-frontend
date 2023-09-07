@@ -59,6 +59,7 @@
 
 <script>
 import useSearchTracking from '../composables/useSearchTracking.js'
+import { useStore } from '../stores/store.js';
 
 export default {
   name: 'Search',
@@ -199,7 +200,31 @@ export default {
         raa_id: image?.site?.raa_id ?? null,
         type: image?.type?.id ?? null,
         iiif_file: image.iiif_file ?? null, 
+        coordinates: image?.site?.coordinates?.coordinates ?? null,
       };
+
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      for (let image of data.results) {
+        const coords = image?.site?.coordinates?.coordinates;
+        if (coords) {
+          const [x, y] = coords;
+          minX = Math.min(minX, x);
+          maxX = Math.max(maxX, x);
+          minY = Math.min(minY, y);
+          maxY = Math.max(maxY, y);
+        }
+      }
+
+      const boundingBox = {
+        topLeft: [minX, maxY],
+        topRight: [maxX, maxY],
+        bottomLeft: [minX, minY],
+        bottomRight: [maxX, minY],
+      };
+
+      const coordinateStore = useStore();
+      coordinateStore.setBoundingBox(boundingBox);
+
 
     let typeIndex = typeMap.findIndex(x => x.type === type.id); 
       if (typeIndex !== -1) {

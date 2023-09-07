@@ -22,6 +22,10 @@ import { debounce } from 'lodash';
 import WebGLPointsLayer from 'ol/layer/WebGLPoints';
 import Overlay from 'ol/Overlay';
 import Zoom from 'ol/control/Zoom';
+import { watch } from 'vue';
+import { useStore } from '../stores/store.js';
+import { transformExtent } from 'ol/proj';
+
 
 export default {
   name: 'MapComponent',
@@ -63,6 +67,15 @@ beforeDestroy() {
 },
 created() {
   this.debouncedFetchDataByBbox = debounce(this.fetchDataByBbox, 1000);
+
+  const coordinateStore = useStore();  // Initialize the store
+
+  // Watch the 'boundingBox' field in the store for changes
+  watch(() => coordinateStore.boundingBox, (newBoundingBox, oldBoundingBox) => {
+    if (newBoundingBox) {
+      this.focusOnBoundingBox(newBoundingBox);
+    }
+  });
 },
 watch: {
  bbox: {
@@ -93,6 +106,31 @@ watch: {
   },
 },
 methods: {
+focusOnBoundingBox(boundingBox) {
+  if (this.map && boundingBox) {
+    // Extract the bounding box coordinates in the format [minLon, minLat, maxLon, maxLat]
+    const extent = [
+      boundingBox.bottomLeft[0],
+      boundingBox.bottomLeft[1],
+      boundingBox.topRight[0],
+      boundingBox.topRight[1]
+    ];
+
+    // Transform the extent to the map's projection
+    const transformedExtent = transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
+
+    // Fit the map view to the extent
+    this.map.getView().fit(transformedExtent, {
+      size: this.map.getSize(),
+      padding: [10, 10, 10, 10],  // optional padding in pixels
+      constrainResolution: false  // allow intermediate zoom levels
+    });
+
+    // Trigger a manual map render
+    this.map.renderSync();
+  }
+},
+
 focusOnCoordinates(lon, lat) {
   if (this.map) {
     const coordinates = fromLonLat([lon, lat]);
