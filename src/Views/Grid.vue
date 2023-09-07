@@ -1489,7 +1489,7 @@ max-width:200px;
 /* light mode styles */
 
 .light{
-background: white;
+background: rgb(250,250,250);
 color:black !important;
 }
 
