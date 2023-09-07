@@ -78,6 +78,7 @@ export default {
       nextPageUrl: null,
       previousPageUrl: null,
       count: 0,
+      isLight: false,
     };
   },
   props: {
