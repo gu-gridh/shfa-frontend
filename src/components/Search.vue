@@ -220,15 +220,19 @@ export default {
       }
     }
 
-      const boundingBox = {
-        topLeft: [minX, maxY],
-        topRight: [maxX, maxY],
-        bottomLeft: [minX, minY],
-        bottomRight: [maxX, minY],
-      };
-
-      const coordinateStore = useStore();
-      coordinateStore.setBoundingBox(boundingBox);
+    if (minX !== Infinity && maxX !== -Infinity && minY !== Infinity && maxY !== -Infinity) {
+        const boundingBox = {
+          topLeft: [minX, maxY],
+          topRight: [maxX, maxY],
+          bottomLeft: [minX, minY],
+          bottomRight: [maxX, minY],
+        };
+        
+        const coordinateStore = useStore();
+        coordinateStore.setBoundingBox(boundingBox);
+    } else {
+      console.log('No valid coordinates found. Skipping setting the bounding box.');
+    }
 
     // Filter out the groups with no items and sort the image groups by the specified order
     this.searchResults = typeMap.filter(group => group.items.length > 0)

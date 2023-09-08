@@ -100,6 +100,7 @@
         :coordinates="results"
         :bbox="bbox"
         :class="{light: isLight}"
+        :showMap="showMap"
         @id-selected="selectedId = $event"
         @lamning-selected="selectedLamningId = $event"
         @raa-selected="selectedRaaId = $event"

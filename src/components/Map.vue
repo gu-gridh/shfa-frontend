@@ -30,6 +30,9 @@ import { transformExtent } from 'ol/proj';
 export default {
   name: 'MapComponent',
   props: {
+    showMap: {
+      type: Boolean
+    },
     coordinates: {
       type: Array,
       default: () => [],
@@ -47,6 +50,7 @@ export default {
     clickedRaaId: null,
     results: [], 
     cachedResults: [],
+    coordinateStore: useStore(), // Initialize the store here
     }
   },
 mounted() {
@@ -68,16 +72,28 @@ beforeDestroy() {
 created() {
   this.debouncedFetchDataByBbox = debounce(this.fetchDataByBbox, 1000);
 
-  const coordinateStore = useStore();  // Initialize the store
-
   // Watch the 'boundingBox' field in the store for changes
-  watch(() => coordinateStore.boundingBox, (newBoundingBox, oldBoundingBox) => {
+   watch(() => this.coordinateStore.boundingBox, (newBoundingBox, oldBoundingBox) => {
     if (newBoundingBox) {
       this.focusOnBoundingBox(newBoundingBox);
     }
   });
 },
 watch: {
+showMap: {
+    immediate: true,
+    handler(newVisibility) {
+      if (newVisibility && this.coordinateStore.boundingBox) {
+        this.$nextTick(() => {
+          if (this.map) {
+            // Update the map size
+            this.map.updateSize();
+          }
+          this.focusOnBoundingBox(this.coordinateStore.boundingBox);
+        });
+      }
+    },
+  },
  bbox: {
     deep: true,
     handler(newBbox, oldBbox) {
@@ -128,6 +144,9 @@ focusOnBoundingBox(boundingBox) {
 
     // Trigger a manual map render
     this.map.renderSync();
+  }
+  else {
+    console.warn('Invalid bounding box or map object.');
   }
 },
 

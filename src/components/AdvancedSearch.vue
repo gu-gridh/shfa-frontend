@@ -144,6 +144,7 @@ export default {
   async fetchResults(combinedQueries = null, fetchURL = null) {
     const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
     const searchParams = new URLSearchParams();
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
 
     const fieldNames = [
       'site_name',
@@ -215,10 +216,36 @@ export default {
           coordinates: image?.site?.coordinates?.coordinates ?? null,
         };
 
-      let typeIndex = typeMap.findIndex(x => x.type === type.id); 
+        // Block to calculate minimum and maximum coordinates
+        const coords = image?.site?.coordinates?.coordinates;
+        if (coords) {
+          const [x, y] = coords;
+          // console.log(`Coordinates for image ${item.id}: x = ${x}, y = ${y}`);  // Log the coordinates
+          minX = Math.min(minX, x);
+          maxX = Math.max(maxX, x);
+          minY = Math.min(minY, y);
+          maxY = Math.max(maxY, y);
+        }
+
+        // Block to group images by type
+        let typeIndex = typeMap.findIndex(x => x.type === type.id); 
         if (typeIndex !== -1) {
           typeMap[typeIndex].items.push(item);
         }
+      }
+
+      if (minX !== Infinity && maxX !== -Infinity && minY !== Infinity && maxY !== -Infinity) {
+        const boundingBox = {
+          topLeft: [minX, maxY],
+          topRight: [maxX, maxY],
+          bottomLeft: [minX, minY],
+          bottomRight: [maxX, minY],
+        };
+        
+        const coordinateStore = useStore();
+        coordinateStore.setBoundingBox(boundingBox);
+      } else {
+        console.log('No valid coordinates found. Skipping setting the bounding box.');
       }
 
       // Filter out the groups with no items and sort the image groups by the specified order
