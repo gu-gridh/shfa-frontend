@@ -138,8 +138,10 @@ focusOnBoundingBox(boundingBox) {
     // Fit the map view to the extent
     this.map.getView().fit(transformedExtent, {
       size: this.map.getSize(),
-      padding: [10, 10, 10, 10],  // optional padding in pixels
-      constrainResolution: false  // allow intermediate zoom levels
+      padding: [5, 5, 5, 5],  // optional padding in pixels
+      constrainResolution: false,  // allow intermediate zoom levels
+      duration: 1000, //slow zoom for better user experience
+      minResolution: 5.0 //limit resolution so landmarks in basemap are still visible 
     });
 
     // Trigger a manual map render
@@ -154,7 +156,7 @@ focusOnCoordinates(lon, lat) {
   if (this.map) {
     const coordinates = fromLonLat([lon, lat]);
     this.map.getView().setCenter(coordinates);
-    this.map.getView().setZoom(12); 
+    this.map.getView().setZoom(12);     
   }
 },
 async fetchAdditionalData(url, pagesToFetch = 10) {

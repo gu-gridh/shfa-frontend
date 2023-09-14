@@ -17,7 +17,7 @@
 
       <div class="about-article-sub" :class="{fullopacityui: visibleAbout, light:isLight}" id="block-text">
           <h2>Database Overview</h2>
-<p>SHFA's image database includes more than 24,000 digitized images that are the result of ongoing work describing and documenting rock carvings since 1627.  
+<p>SHFA's [Svenskt Hällristnings Forsknings Arkivs] image database includes more than 24,000 digitized images that are the result of ongoing work describing and documenting rock carvings since 1627.  
   These data are primarily from Sweden but also from Denmark, Norway, Italy, Spain and elsewhere around the world. The database includes images of the documentation 
   results as well as the documentation process, from historic documentation to current digital methods.  More information on the documentation process can be found at 
   <a href='https://www.gu.se/en/shfa'>About SHFA</a>.</p><br>
@@ -27,11 +27,11 @@
   of rock carving sites in Sweden have been transferred.  3D documentation and data from international sites will be made available as the migration continues.</p><br>
 
   <h2>Searching the Database</h2>
-<p >Using the suggested keyword search, you can access images of common documentation methods and motifs.  With the map or advanced search options, you can retrieve results for detailed searches.  
+<p >Using the suggested keyword search, you can access images of common documentation methods and motifs.  Any text can be entered in the search bar, but we recommend using a full or partial site name or one of the terms listed in the Search Guide.  With the map or advanced search options, you can retrieve results for detailed searches.  
   Each search returns a gallery of images which can be viewed in more detail by clicking on the thumbnail.  In the detailed view, the metadata, external information, and download link are available.</p><br>
 
 <h2>Citing the Images</h2>
-<p>Images in the database are freely available for printing and downloading. The suggested citation for each image is provided in the detailed view, but you may reformat this to your preferred style using the image metadata. 
+<p>Images in the database are freely available for printing and downloading. The suggested citation for each image is provided in the detailed view, but you may reformat this to your preferred style using the image metadata. If you have previously cited an image using the ID number from the previous website and are interested in knowing the current unique image identifier, please email us with the legacy id(s) for the image(s) you are interested in, and we will provide you with the current image ID.
   Please notify us at <a href=mailto:shfa@gu.se>shfa@gu.se</a> and provide a link to <a href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> when you publish images from the database.
   The copyright applies to established principles that include, among other things, the photographer's voluntary right. The images are protected by a creative commons license (CC BY 4.0). For more information, please visit creative common's own website at:
 <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a></p><br>

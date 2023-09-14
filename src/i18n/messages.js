@@ -7,8 +7,8 @@ export default {
       aboutArchive: "About the Archive",
       aboutSHFA: "About SHFA",
       news: "News",
-      title: "Swedish <br><div class=\"emph\">Rock Art </div><br>Research<br> Archive",
-      abouttitle: "Swedish <br><div class=\"aboutemph\">Rock Art </div><br>Research<br> Archive",
+      title: "Swedish <br><div class=\"emph\">Rock Art </div><br>Research<br> Archives",
+      abouttitle: "Swedish <br><div class=\"aboutemph\">Rock Art </div><br>Research<br> Archives",
       översiktsbild: "Overview photo",
       threedvisualization: "3d visualisation",
       ortofotografi: "Orthophoto (SfM)",
@@ -83,9 +83,9 @@ export default {
         },
       
       search: {
-        searchintro: 'Below are the available search terms for keyword, dating and image type searches.',
-        searchhelp: `To perform a simple search, click on one of the suggested keywords below the main search field or type one keyword, site, author, etc. in 
-        the search field and click enter or the search icon.  To search for all images from a site, use the map view to click on a point.  The site IDs are displayed when you hover over the map and the map will zoom to your selected point.  For more advanced searches with multiple parameters, click on the 'Advanced Search' menu located in a toggle button on the map view.  In this menu, you can begin typing a keyword in each field and the suggested available keywords will be displayed below the search box.  You can only select one keyword in each search field, adding a 
+        searchintro: 'Below are the available search terms for keyword, dating and image type searches.  The motif-related keywords are interpretations of the rock art by archaeologists.',
+        searchhelp: `To perform a simple search, click on one of the suggested keywords below the main search field or type one keyword, site, author, or other free text in 
+        the search field and click enter or the search icon.  If entering free text in the search bar, we recommend using the keywords below for the best results.  To search for all images from a site, use the map view to click on a point.  The site IDs are displayed when you hover over the map and the map will zoom to a point when selected.  For more advanced searches with multiple parameters, click on the 'Advanced Search' menu located in a toggle button on the map view.  In this menu, you can begin typing a keyword in each field and the suggested available keywords will be displayed below the search box.  You can only select one keyword in each search field, adding a 
         new keyword or clicking on the existing keyword will remove it from the search box.`,
         documentation: 'Documentation Process',
         environment: 'Environment',
@@ -222,8 +222,8 @@ export default {
       sökförslag: 'Sökförslag:',
       searchbutton: 'Sök',
       clearbutton: 'Rensa',
-      site: 'Plats',
-      searchsite: 'Sök platser...',
+      site: 'Fornlämning',
+      searchsite: 'Sök fornlämningar...',
       hällristningsauthor: 'Upphovsperson',
       sökauthor: 'Sök upphovsperson...',
       bildtyp: 'Bildtyp',
