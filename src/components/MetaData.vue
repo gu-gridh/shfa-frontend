@@ -75,7 +75,7 @@ export default {
     },
     getFornsokUrl() {
       if (this.data.site && this.data.site.ksamsok_id) {
-        return `https://app.raa.se/open/fornsok/lamning/${this.data.site.ksamsok_id}`;
+        return `https://kulturarvsdata.se/raa/lamning/${this.data.site.ksamsok_id}`;
       } else {
         return '';
       }
