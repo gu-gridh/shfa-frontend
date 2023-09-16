@@ -256,7 +256,7 @@ export default {
       sökguide: 'Sökguide',
       åtkomst: 'åtkomst',
       at: 'på',
-      close: 'Utforska'
+      close: 'Stäng'
         },
       search: {
           searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar.',

@@ -325,7 +325,7 @@ export default {
 <style scoped>
 
 .light{
-  background-color:rgb(255, 255, 255);
+  background-color:rgb(250, 250, 250);
   color:black;
 
 }
