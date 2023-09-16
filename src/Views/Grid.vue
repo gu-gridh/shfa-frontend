@@ -185,12 +185,9 @@
         <p style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}: <p style="color:rgb(200,225,250); display:inline;"> {{ totalResults }}</p></p>
          ({{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }}) 
       </div> 
-
       
-     
     </div>
   </div>
- 
 </div>
 </div>
 
@@ -896,10 +893,8 @@ font-size:95%;
 @media (max-width: 1024px) {
 
   .top-links{
-
   right:15px;
-
-}
+  }
 
   .menu-show-button{
   display:block;
