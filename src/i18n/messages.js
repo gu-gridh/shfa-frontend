@@ -259,9 +259,10 @@ export default {
       close: 'Stäng'
         },
       search: {
-          searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar.',
-          searchhelp: `För att genomföra en enkel sökning, klicka på ett av de föreslagna nyckelorden under sökfältet eller skriv in ett nyckelord, en plats, upphovsperson etc. i sökrutan och klicka på returknappen eller sökikonen. För att söka fram samtliga bilder från en plats, använd kartan och klicka på platsens punkt. Platsernas id syns när du för pekaren över punkten och kartan kommer zooma in på din valda punkt.
-          För mer avancerade sökningar med flera parametrar, klicka på ”Avancerad sökning” i kartan överdel. I den avancerade sökvyn kan du skriva sökord i de olika fälten och få förslag på tillgängliga sökord. I dagsläget kan du enbart välja ett sökord per fält. Väljer du ett nytt sökord eller klickar på ett existerande sökord så tas det bort ur sökrutan.`,
+          searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar. De motivrelaterade sökorden är arkeologers tolkningar av ristningarna.',
+          searchhelp: `För att genomföra en enkel sökning, klicka på ett av de föreslagna sökorden under sökfältet eller skriv ett sökord, en plats, upphovsperson eller en annan fritextsökning i sökfältet och klicka på Enter eller sökikonen. Om du söker med fritext rekommenderar vi att använda sökorden nedan för bästa resultat. 
+          För att söka på fram alla bilder från en plats, använd kartvyn och klicka på en markör. Platsernas ID syns när du hovrar med muspekaren över markörerna på kartan och kartan zoomas in när du klickar på en markör. 
+          För mer avancerade sökningar med fler parametrar, klicka på knappen ”Avancerad sökning” i övre delen av kartan. I den avancerade sökningen kan du skriva in sökord i respektive sökruta, när du börjar skriva ett ord får du automatiskt förslag på termer under sökrutan. Du kan för närvarande enbart välja ett sökord per sökruta, om du lägger till ytterligare ett sökord eller klickar på ett redan valt sökord tas det redan valda sökordet bort.`,
           documentation: 'Dokumentationsprocess',
           environment: 'Miljö',
           description: 'Beskrivning',

@@ -156,7 +156,9 @@
               <h2>Att referera bilderna</h2>
               <p>Bilder i databasen är fritt tillgängliga för utskrift och nedladdning. Den föreslagna referensen för
                 varje bild finns i den detaljerade vyn, men du kan formatera om den till din föredragna stil med hjälp av
-                bildens metadata. Meddela
+                bildens metadata. Om du tidigare refererat till en bild med hjälp av ID-numret från vår tidigare websida och 
+                vill ha bildens nuvarande unika bild-id, vänligen mejla oss information om tidigare ID för bilden/bilderna du 
+                är intresserad av så återkommer vi med nuvarande ID-nummer. Meddela
                 oss på <a href=mailto:shfa@gu.se>shfa@gu.se</a> och ange en länk till <a
                   href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> när du
                 publicerar bilder från databasen. Upphovsrätten gäller etablerade principer som bland annat innefattar
