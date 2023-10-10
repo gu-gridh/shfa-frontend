@@ -337,9 +337,9 @@ closebutton.onclick = function () {
     symbol: {
       symbolType: 'image',
       color: '#f0c02e',
-      size: [16.56, 24.17],
+      size: [20, 30],
       offset: [0, 0], 
-      src: '/interface/assets/marker-white.svg',
+      src: '/interface/assets/marker-white-wgl.svg',
     },
 
   };
