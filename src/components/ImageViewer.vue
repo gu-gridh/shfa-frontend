@@ -13,9 +13,9 @@
       <a id="zoom-out" href="#zoom-out">
         <div id="ZoomOut" class="NavButton"></div>
       </a>
-     <a id="download" :href="`${iiifFile}/full/full/0/default.jpg`" target="_blank">
-        <div id="Download" class="NavButton"></div>
-      </a>
+     <a id="download" :href="`${completeUrl}/full/full/0/default.jpg`" target="_blank">
+      <div id="Download" class="NavButton"></div>
+    </a>
     </div> 
   </div>
 
@@ -39,7 +39,7 @@
 
 
 <script>
-import OpenSeadragon from "openseadragon";
+import OpenSeadragon from '../external/bookmark-url.js';
 
 export default {
   props: {
@@ -49,9 +49,14 @@ export default {
       default: null,
     },
   },
+  computed: {
+    completeUrl() {
+      return `https://img.dh.gu.se/diana/static/shfa/iiif/${this.iiifFile}`;
+    },
+  },
   mounted() {
     if (this.iiifFile) {
-      this.initOpenSeadragon(this.iiifFile);
+      this.initOpenSeadragon(this.completeUrl);
     }
 
   },
@@ -62,7 +67,7 @@ export default {
         prefixUrl: "/path/to/openseadragon/images/",
         tileSources: `${iiifFile}/info.json`,
         immediateRender: false,
-        visibilityRatio: 1.0,
+        visibilityRatio: 0.8,
         minZoomImageRatio: 1.0,
         homeFillsViewer: false,
         showZoomControl: true,
@@ -75,6 +80,10 @@ export default {
         zoomInButton: "zoom-in",
         zoomOutButton: "zoom-out",
       });
+
+      /* this.viewer.bookmarkUrl({
+        trackPage: true,
+      }); */
     },
   },
 // Update this in ImageViewer.vue
@@ -83,9 +92,9 @@ watch: {
         if (newIiifFile !== oldIiifFile) {
             if (this.viewer) {
                 this.viewer.close();
-                this.viewer.open(`${newIiifFile}/info.json`);
+                this.viewer.open(`${this.completeUrl}/info.json`);
             } else {
-                this.initOpenSeadragon(newIiifFile);
+                this.initOpenSeadragon(this.completeUrl);
             }
         }
     },
@@ -153,14 +162,14 @@ watch: {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
   overflow: hidden;
 }
 
 #Prev {
   background: url(../assets/openseadragon/prev.png);
   background-size: 35px 35px;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -170,7 +179,7 @@ watch: {
 #Next {
   background: url(../assets/openseadragon/next.png);
   background-size: 35px 35px;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -182,7 +191,7 @@ watch: {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
 
 
   margin-top: 0px;
@@ -195,17 +204,17 @@ watch: {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
   overflow: hidden;
 }
 
 #Download {
   margin-top: 20px;
   background: url(../../public/interface/downloadwhite.png);
-  background-size: 100%;
+  background-size: 90%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(35, 35, 35, 0.9);
+  background-color: rgba(65, 65, 65, 0.9);
   cursor: pointer;
   overflow: hidden;
 }
@@ -214,10 +223,12 @@ watch: {
   width: 35px;
   height: 35px;
   color: white;
-  opacity: 0.8;
-  margin-bottom: 3px;
+  opacity: 0.95;
+  border-width:1px;
+  border-style:solid;
+  border-color:rgb(45,45,45);
 }
 .NavButton:hover {
-  opacity: 1;
+  opacity: 0.8;
 }
 </style>

@@ -3,38 +3,40 @@
     <!-- <div class="search-container-title">Advanced Search</div> -->
     <div class="search-grid">
       <div v-for="(query, index) in searchQuery" :key="index" class="search-item">
-        <div class="field-title">
+        <div class="field-title" id="label-wrapper">
           {{
             [
-            'Site',
-            'Area',
-            'Image Type',
-            'Keywords',
-            'Datings',
-              'Institution',
+            $t('message.site'),
+            $t('message.hällristningsauthor'),
+            $t('message.bildtyp'),
+            $t('message.nyckelord'),
+            $t('message.datering'),
+            'Institution',
             ][index]
           }}
         </div>
-        <div class="input-wrapper">
+        <div class="input-wrapper" id="text-wrapper">
           <div
             v-for="keyword in selectedKeywords[index]"
             :key="keyword.id"
-            class="tag-example-search accent-bg-selected"
+            class="tag-example-search" 
+            :class="{light: isLight}"
+            id="text-wrapper"
             @click="deselectKeyword(keyword, index)"
           >
-            {{ keyword.text }}
+          {{ keyword.text }}
           </div>
           <input
             type="search"
             :id="'search' + index"
             :name="'search' + index"
             :placeholder="selectedKeywords[index].length ? '' : [
-               'Search sites...',
-               'Search area...',
-               'Search image types...',
-               'Search keywords...',
-               'Search datings...',
-               'Search institutions...',
+               $t('message.searchsite'),
+               $t('message.sökauthor'),
+               $t('message.sökbildtyp'),
+               $t('message.söknyckelord'),
+               $t('message.sökdatering'),
+               $t('message.sökinstitutioner'),
             ][index]"
             class=""
             :value="query"
@@ -46,7 +48,7 @@
           <div
             v-for="result in searchResults[index]"
             :key="result.id"
-            class="tag-example accent-bg"
+            class="tag-example"
             @click="selectResult(result, index)"
             @mouseover="hoverResult(index)"
             @mouseout="unhoverResult(index)"
@@ -56,11 +58,15 @@
         </div>
       </div>
     </div>
-    <button class="search-button accent-bg" @click="handleSearchButtonClick">Search</button>
+    <button class="search-button" id="search-suggestion" @click="handleSearchButtonClick"> {{ $t('message.searchbutton') }}</button>
+    <button class="clear-button" id="search-suggestion" @click="clearAdvancedSearchFields">{{ $t('message.clearbutton') }}</button>
   </div>
 </template>
 
 <script>
+import useSearchTracking from '../composables/useSearchTracking.js'
+import { useStore } from '../stores/store.js';
+
 export default {
   data() {
     return {
@@ -71,10 +77,21 @@ export default {
       selectedKeywords: [[], [], [], [], [], []],
       hoveredResultIndex: -1,
       nextPageUrl: null,
+      previousPageUrl: null,
+      count: 0,
+      isLight: false,
     };
   },
   props: {
+  currentLang:
+  {
+    type: String,
+  },
   updateNextPageUrlAdvanced: {
+    type: Function,
+    required: true,
+    },
+  updatePreviousPageUrlAdvanced: {
     type: Function,
     required: true,
     },
@@ -87,50 +104,153 @@ export default {
     });
   },
   computed: {
-    apiUrls() {
+    apiUrls() { //For Autocomplete
+      const langParam = `?language=${this.currentLang}&`;
       return [
         'https://diana.dh.gu.se/api/shfa/search/site/?site_name=',
-        'https://diana.dh.gu.se/api/shfa/search/carving/?carving_object=',
-        'https://diana.dh.gu.se/api/shfa/search/type/?image_type=',
-        'https://diana.dh.gu.se/api/shfa/search/keywords/?keyword=',
-        'https://diana.dh.gu.se/api/shfa/search/dating/?dating_tag=',
+        `https://diana.dh.gu.se/api/shfa/search/author/${langParam}auhtor_name=`,
+        `https://diana.dh.gu.se/api/shfa/search/type/${langParam}image_type=`,
+        `https://diana.dh.gu.se/api/shfa/search/keywords/${langParam}keyword=`,
+        `https://diana.dh.gu.se/api/shfa/search/dating/${langParam}dating_tag=`,
         'https://diana.dh.gu.se/api/shfa/search/institution/?institution_name=',
       ];
     },
+    totalPages() {
+      return Math.ceil(this.count / 25);
+    },
+    currentPage() {
+      if (this.nextPageUrl) {
+        const url = new URL(this.nextPageUrl);
+        const offset = url.searchParams.get("offset");
+        return (offset / 25);
+      } else if (this.previousPageUrl) {
+        const url = new URL(this.previousPageUrl);
+        const offset = url.searchParams.get("offset");
+        return (offset / 25) + 2;
+      } else {
+        // Default to 1 if no next or previous page
+        return 1;
+      }
+    }
   },
   methods: {
-  async fetchResults(fetchURL = null) {
+  clearAdvancedSearchFields() {
+    this.searchQuery = ['', '', '', '', '', ''];
+    this.selectedKeywords = [[], [], [], [], [], []];
+  },
+  updatePageDetails() {
+    this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
+  },
+  async fetchResults(combinedQueries = null, fetchURL = null) {
     const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
     const searchParams = new URLSearchParams();
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
 
     const fieldNames = [
       'site_name',
-      'carving_object',
+      'author_name',
       'image_type',
       'keyword',
       'dating_tag',
       'institution_name'
     ];
 
-    this.selectedKeywords.forEach((keywords, index) => {
-      if (keywords.length > 0) {
-        searchParams.append(fieldNames[index], keywords[0].text);
-      }
-    });
+    if (combinedQueries) {
+      combinedQueries.forEach((query, index) => {
+        if (query) {
+          searchParams.append(fieldNames[index], query);
+        }
+      });
+    }
 
+    searchParams.append('depth', '1');
     fetchURL = fetchURL ? fetchURL : baseURL + searchParams.toString();
 
     try {
       const response = await fetch(fetchURL);
       const data = await response.json();
+      this.count = data.count; // Update the total count
 
-      const newResults = data.results.map(result => ({
-        id: result.id,
-        iiif_file: result.iiif_file,
+      const specificOrder = [
+        { type: 957, text: 'ortofotografi', order: 1 },
+        { type: 965, text: 'översiktsbild', order: 1},
+        { type: 943, text: 'threedvisualization', order: 2 },
+        { type: 958, text: 'threedsm', order: 3 },
+        { type: 959, text: 'threedlaserscanning', order: 4 },
+        { type: 961, text: 'miljöbild', order: 5 },
+        { type: 964, text: 'nattfoto', order: 6 },
+        { type: 942, text: 'fotografi', order: 7 },
+        { type: 949, text: 'diabild', order: 8 },
+        { type: 947, text: 'negativfärg', order: 9 },
+        { type: 948, text: 'negativsvart', order: 10 },
+        { type: 960, text: 'printscreen', order: 11 },
+        { type: 956, text: 'photosfm', order: 12 },
+        { type: 954, text: 'dstretch', order: 13 },
+        { type: 941, text: 'frottage', order: 14 },
+        { type: 946, text: 'grafik', order: 15 },
+        { type: 944, text: 'kalkering', order: 16 },
+        { type: 951, text: 'ritning', order: 17 },
+        { type: 955, text: 'kalkeringpapper', order: 18 },
+        { type: 945, text: 'avgjutning', order: 19 },
+        { type: 952, text: 'dokument', order: 20 },
+        { type: 953, text: 'karta', order: 21 },
+        { type: 950, text: 'tidnings', order: 22 },
+        { type: 962, text: 'arbetsbild', order: 23 },
+      ]
+
+      // Map the specificOrder array to an object where the keys are the types
+      let typeMap = specificOrder.map(order => ({
+        ...order,
+        items: [],
       }));
 
-      // Append new results to existing ones
-      this.advancedResults = [...this.advancedResults, ...newResults];
+       // Iterate over the results and map them into the correct groups
+      for (let image of data.results) {
+        let type = image.type;
+        let item = {
+          id: image.id ?? null, 
+          lamning_id: image?.site?.lamning_id ?? null, 
+          raa_id: image?.site?.raa_id ?? null,
+          type: image?.type?.id ?? null,
+          iiif_file: image.iiif_file ?? null,
+          coordinates: image?.site?.coordinates?.coordinates ?? null,
+        };
+
+        // Block to calculate minimum and maximum coordinates
+        const coords = image?.site?.coordinates?.coordinates;
+        if (coords) {
+          const [x, y] = coords;
+          // console.log(`Coordinates for image ${item.id}: x = ${x}, y = ${y}`);  // Log the coordinates
+          minX = Math.min(minX, x);
+          maxX = Math.max(maxX, x);
+          minY = Math.min(minY, y);
+          maxY = Math.max(maxY, y);
+        }
+
+        // Block to group images by type
+        let typeIndex = typeMap.findIndex(x => x.type === type.id); 
+        if (typeIndex !== -1) {
+          typeMap[typeIndex].items.push(item);
+        }
+      }
+
+      if (minX !== Infinity && maxX !== -Infinity && minY !== Infinity && maxY !== -Infinity) {
+        const boundingBox = {
+          topLeft: [minX, maxY],
+          topRight: [maxX, maxY],
+          bottomLeft: [minX, minY],
+          bottomRight: [maxX, minY],
+        };
+        
+        const coordinateStore = useStore();
+        coordinateStore.setBoundingBox(boundingBox);
+      } else {
+        console.log('No valid coordinates found. Skipping setting the bounding box.');
+      }
+
+      // Filter out the groups with no items and sort the image groups by the specified order
+      this.advancedResults = typeMap.filter(group => group.items.length > 0);
+      // .sort((a, b) => a.order - b.order);
 
       // Handle next page URL
       if (data.next) {
@@ -142,7 +262,17 @@ export default {
         this.updateNextPageUrlAdvanced(null);  // Update the parent's nextPageUrl state
       }
 
+      if (data.previous) {
+        this.previousPageUrl = data.previous.replace('http://', 'https://');
+        this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
+        this.updatePreviousPageUrlAdvanced(this.previousPageUrl);  // Update the parent's previousPageUrl state
+      } else {
+        this.previousPageUrl = null;
+        this.updatePreviousPageUrlAdvanced(null);  // Update the parent's previousPageUrl state
+      }
+
       this.$emit('advanced-search-results', this.advancedResults);
+      this.updatePageDetails();
 
     } catch (error) {
       console.error(error);
@@ -151,12 +281,19 @@ export default {
 
    async fetchNextPage() {
     if (this.nextPageUrl) {
-      await this.fetchResults(this.nextPageUrl);
+      await this.fetchResults(null, this.nextPageUrl);
     } else {
       console.log("No more pages to fetch.");
     }
   },
 
+  async fetchPreviousPage() {
+    if (this.previousPageUrl) {
+      await this.fetchResults(null, this.previousPageUrl);
+    } else {
+      console.log("No previous pages to fetch.");
+    }
+  },
 
     debounce(fn, delay) {
       let timer;
@@ -173,65 +310,65 @@ export default {
         return;
       }
 
-      const apiUrl = this.apiUrls[index]; // Use the corresponding API URL
+      let apiUrl = this.apiUrls[index]; // Use the corresponding API URL
+
+      // Check if the index corresponds to the image_type and append &depth=1 accordingly
+      if (index === 2) {
+        apiUrl += `${query}&depth=1`;
+      } else {
+        apiUrl += query;
+      }
 
       try {
-        const response = await fetch(`${apiUrl}${query}`);
+        const response = await fetch(apiUrl);
         const data = await response.json();
         switch(index) {
-          case 0: // Site name: use "raa_id"
-            this.searchResults[index] = data.features.map(feature => ({
-              id: feature.id,
-              text: feature.properties.raa_id
-            }));
+          case 0: // Site name: use "raa_id or lamning_id"
+            this.searchResults[index] = data.features.flatMap(feature => [
+              {
+                id: feature.id + "-raa",
+                text: feature.properties.raa_id
+              },
+              {
+                id: feature.id + "-lamning",
+                text: feature.properties.lamning_id
+              }
+            ]);
             break;
-          case 1: // Carving type: use "name"
+          case 1:
             this.searchResults[index] = data.results.map(result => ({
-              id: result.id,
-              text: result.name
-            }));
+                  id: result.id,
+                  text: this.currentLang === 'sv' ? result.name : result.english_translation
+              }));
             break;
-          case 2: // Image type: use local list
-          const imageTypes = [
-            'ortofoto (sfm)',
-            'foto',
-            '3d-laserskanning',
-            '3d-visualisering',
-            '3d-sfm',
-            'foto av sfm bild',
-            'diabild',
-            'kalkering plast',
-            'grafik',
-            'negativ, svart/vit',
-            'negativ, färg',
-            'natt foto',
-            'kalkering papper',
-            'frottage',
-            'printscreen av lasermodel',
-            'dstretch-visualisering',
-            'ritning',
-            'avgjutning',
-            'karta',
-            'dokument',
-            'tidningsartikel',
-            'miljöbild',
-            'arbetsbild'
-          ];
-          this.searchResults[index] = imageTypes
-            .filter(type => type.toLowerCase().includes(query.toLowerCase())) // Filter based on the search query
-            .map((type, i) => ({ id: i, text: type })); // Map to desired result format
+          case 2:
+            // Use a set to track unique image types
+            const uniqueTypes = new Set();
+            this.searchResults[index] = data.results
+              .filter(result => {
+                const text = this.currentLang === 'sv' ? result.type.text : result.type.english_translation;
+                if (!uniqueTypes.has(text)) {
+                  uniqueTypes.add(text);
+                  return true;
+                }
+                return false;
+              })
+              .map(result => ({
+                id: result.id,
+                text: this.currentLang === 'sv' ? result.type.text : result.type.english_translation
+              }));
             break;
           case 3: // Keywords: use "text"
             this.searchResults[index] = data.results.map(result => ({
-              id: result.id,
-              text: result.text
-            }));
+                  id: result.id,
+                  text: this.currentLang === 'sv' ? result.text : result.english_translation
+              }));
             break;
           case 4: // Dating: use "text"
             this.searchResults[index] = data.results.map(result => ({
-              id: result.id,
-              text: result.text
-            }));
+                  id: result.id,
+                  text: this.currentLang === 'sv' ? result.text : result.english_translation
+              }));
             break;
           case 5: // Institution name: use "name"
             this.searchResults[index] = data.results.map(result => ({
@@ -282,8 +419,35 @@ export default {
     },
     handleSearchButtonClick() {
       this.advancedResults = []; // Reset the advancedResults array
-      this.fetchResults();
-    },
+
+      // Combine the selected keywords with the typed-in search queries
+      const combinedQueries = this.searchQuery.map((query, index) => {
+        return query || (this.selectedKeywords[index][0] && this.selectedKeywords[index][0].text) || '';
+      });
+
+      this.fetchResults(combinedQueries);
+
+      const { trackSearch } = useSearchTracking();
+
+      const searchParams = new URLSearchParams();
+
+      const fieldNames = [
+        'site_name',
+        'author_name',
+        'image_type',
+        'keyword',
+        'dating_tag',
+        'institution_name'
+      ];
+
+      combinedQueries.forEach((query, index) => {
+        if (query) {
+          searchParams.append(fieldNames[index], query);
+        }
+      });
+
+      trackSearch(decodeURIComponent(searchParams.toString()));
+    }
   },
 };
 </script>
@@ -292,6 +456,7 @@ export default {
 .search-container {
   width: 100%; 
   margin-top:125px; 
+ 
 }
 .search-container-title {
   width: 100%; 
@@ -301,28 +466,20 @@ export default {
 }
 .search-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 48.7% 48.7%;
   gap: 15px;
+ 
+}
+
+@media (max-width:480px) {
+  .search-grid {
+    grid-template-columns: 100%;
+}
 }
 
 .search-item {
   position: relative;
-}
-
-.input-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  background-color: rgb(45, 45, 45);
-  border-radius: 6px;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 1rem;
-  font-weight:200;
-  padding: 0px 10px;
-  height: 40px;
-  gap: 5px;
-  overflow:hidden;
+  
 }
 
 .field-title {
@@ -340,22 +497,6 @@ export default {
   border-radius: 5px;
   margin: 5px;
   cursor: pointer;
-}
-
-
-.tag-example-search {
-  padding: 0.1em 0.6em;
-  font-size: 1.0em;
-  font-weight:500;
-  border-radius: 5px;
-  cursor: pointer;
-  display: inline-block; 
-  max-width:100%; 
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis;
-  color: white;
-  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
 
 input[type="search"] {
@@ -387,7 +528,7 @@ input[type="search"]:focus {
   padding: 10px;
   margin-top:-5px;
   overflow-y:auto;
-  max-height:180px;
+  max-height:170px;
 }
 
 .search-button {
@@ -401,10 +542,31 @@ color: white;
 border: none;
 border-radius: 5px;
 cursor: pointer;
+font-weight:500;
 }
 
 .search-button:hover {
-font-weight:400;
+  background-color: rgb(80,90,100);
+  color:white;
+}
+
+.clear-button {
+  float:left;
+  display: block;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  padding: 5px 20px;
+  background-color: rgb(90, 90, 90);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight:500;
+}
+
+.clear-button:hover {
+  background-color: rgb(80,90,100);
+  color:white;
 }
 
 input[type="search"]::-webkit-search-cancel-button {
@@ -423,4 +585,11 @@ input[type="search"]:focus::-webkit-search-cancel-button {
   pointer-events: all;
   filter: invert(1);
 }
+
+#label-wrapper{
+  color:white;
+}
+
+
+
 </style>

@@ -1,7 +1,10 @@
 <template>
  <div id="map">
-</div>
 
+<div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content"></div>
+    </div></div>
 
 </template>
 
@@ -11,20 +14,25 @@ import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import { fromLonLat } from 'ol/proj';
-import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import Icon from 'ol/style/Icon';
-import Style from 'ol/style/Style';
 import {toLonLat} from 'ol/proj';
-import { Cluster } from 'ol/source';
-import { Circle as CircleStyle, Fill, Stroke, Text } from 'ol/style';
 import { debounce } from 'lodash';
+import WebGLPointsLayer from 'ol/layer/WebGLPoints';
+import Overlay from 'ol/Overlay';
+import Zoom from 'ol/control/Zoom';
+import { watch } from 'vue';
+import { useStore } from '../stores/store.js';
+import { transformExtent } from 'ol/proj';
+
 
 export default {
   name: 'MapComponent',
   props: {
+    showMap: {
+      type: Boolean
+    },
     coordinates: {
       type: Array,
       default: () => [],
@@ -39,27 +47,53 @@ export default {
     return {
     map: null,
     vectorLayer: null,
-    iconStyle: null,
     clickedRaaId: null,
     results: [], 
     cachedResults: [],
+    coordinateStore: useStore(), // Initialize the store here
     }
   },
 mounted() {
   try {
     this.initMap(); // Initialize the map on component mount
     this.$nextTick(() => {
-      this.updateCoordinates(); // Update the map markers on component mount
+    this.updateCoordinates(); // Update the map markers on component mount
       this.fetchAdditionalData(); // Fetch additional data from the provided API endpoint
     });
   } catch (error) {
     console.error('Error in mounted hook:', error);
   }
 },
+beforeDestroy() {
+  if (this.map) {
+    this.map.un('moveend', this.updateBbox);
+  }
+},
 created() {
-  this.debouncedFetchDataByBbox = debounce(this.fetchDataByBbox, 100);
+  this.debouncedFetchDataByBbox = debounce(this.fetchDataByBbox, 1000);
+
+  // Watch the 'boundingBox' field in the store for changes
+   watch(() => this.coordinateStore.boundingBox, (newBoundingBox, oldBoundingBox) => {
+    if (newBoundingBox) {
+      this.focusOnBoundingBox(newBoundingBox);
+    }
+  });
 },
 watch: {
+showMap: {
+    immediate: true,
+    handler(newVisibility) {
+      if (newVisibility && this.coordinateStore.boundingBox) {
+        this.$nextTick(() => {
+          if (this.map) {
+            // Update the map size
+            this.map.updateSize();
+          }
+          this.focusOnBoundingBox(this.coordinateStore.boundingBox);
+        });
+      }
+    },
+  },
  bbox: {
     deep: true,
     handler(newBbox, oldBbox) {
@@ -72,7 +106,6 @@ watch: {
       ) {
         this.debouncedFetchDataByBbox(); // Fetch data by bounding box
       } else {
-          console.log('Using cached data');
         // Update the results array with the data within the current bounding box
         this.results = this.cachedResults.filter(result => {
           const [x, y] = result.coordinates;
@@ -89,7 +122,43 @@ watch: {
   },
 },
 methods: {
+focusOnBoundingBox(boundingBox) {
+  if (this.map && boundingBox) {
+    // Extract the bounding box coordinates in the format [minLon, minLat, maxLon, maxLat]
+    const extent = [
+      boundingBox.bottomLeft[0],
+      boundingBox.bottomLeft[1],
+      boundingBox.topRight[0],
+      boundingBox.topRight[1]
+    ];
 
+    // Transform the extent to the map's projection
+    const transformedExtent = transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
+
+    // Fit the map view to the extent
+    this.map.getView().fit(transformedExtent, {
+      size: this.map.getSize(),
+      padding: [5, 5, 5, 5],  // optional padding in pixels
+      constrainResolution: false,  // allow intermediate zoom levels
+      duration: 1000, //slow zoom for better user experience
+      minResolution: 5.0 //limit resolution so landmarks in basemap are still visible 
+    });
+
+    // Trigger a manual map render
+    this.map.renderSync();
+  }
+  else {
+    console.warn('Invalid bounding box or map object.');
+  }
+},
+
+focusOnCoordinates(lon, lat) {
+  if (this.map) {
+    const coordinates = fromLonLat([lon, lat]);
+    this.map.getView().setCenter(coordinates);
+    this.map.getView().setZoom(12);     
+  }
+},
 async fetchAdditionalData(url, pagesToFetch = 10) {
   if (!url) {
     url = 'https://diana.dh.gu.se/api/shfa/geojson/site/';
@@ -107,8 +176,9 @@ async fetchAdditionalData(url, pagesToFetch = 10) {
       if (data && data.features) {
         const additionalResults = data.features.map((feature) => ({
           coordinates: feature.geometry.coordinates,
-          id: feature.id,
-          raa_id: feature.properties.raa_id,
+          id: feature.id ?? null,
+          lamning_id: feature.properties.lamning_id ?? null,
+          raa_id: feature.properties.raa_id ?? null,
         }));
 
         // Filter the additionalResults to only include points outside the current bounding box
@@ -194,20 +264,24 @@ async fetchDataByBbox() {
     // Save the fetched data in the cachedResults array
     this.cachedResults.push(...allFeatures.map((feature) => ({
       coordinates: feature.geometry.coordinates,
-      id: feature.id,
-      raa_id: feature.properties.raa_id,
+      id: feature.id ?? null,
+      lamning_id: feature.properties.lamning_id ?? null,
+      raa_id: feature.properties.raa_id ?? null,
     })));
+
 
     // Deduplicate the cachedResults array
     const uniqueResults = [];
-    const seenRaaIds = new Set();
+    const seenIds = new Set();
     for (const result of this.cachedResults) {
-      if (!seenRaaIds.has(result.raa_id)) {
+      const combinedId = `${result.lamning_id}-${result.raa_id}`; // Combine both IDs
+      if (!seenIds.has(combinedId)) {
         uniqueResults.push(result);
-        seenRaaIds.add(result.raa_id);
+        seenIds.add(combinedId);
       }
     }
     this.cachedResults = uniqueResults;
+
 
     // Update the results array with the data within the current bounding box
     this.results = this.cachedResults.filter(result => {
@@ -217,120 +291,165 @@ async fetchDataByBbox() {
   }
 },
 
-   initMap() {
-    this.map = new Map({
+initMap() {
+
+//Based on the OpenLayers example
+const container = document.getElementById('popup');
+const content = document.getElementById('popup-content');
+const closebutton = document.getElementById('popup-closer');
+
+//Overlay that anchors the popups
+const overlay = new Overlay({
+  element: container,
+  positioning: 'center-center',
+  autoPan: {
+    animation: {
+      duration: 200,
+    },
+  },
+});
+
+//Button to make popup invisible
+closebutton.onclick = function () {
+  container.style.visibility ='collapse';
+  closebutton.blur();
+  return false;
+};
+
+  this.map = new Map({
     target: 'map',
     layers: [
       new TileLayer({
+        className: 'grey',
         source: new OSM()
       })
     ],
     view: new View({
-      center: fromLonLat([11.35, 58.73]), //Default center of the map
+      center: fromLonLat([11.35, 58.73]), // Default center of the map
       zoom: 13 // Default zoom level of the map
-    })
+    }),
+    overlays: [overlay]
+  });
+  this.map.addControl(new Zoom());
+
+  // Initialize the WebGL map marker style
+  const webGLStyle = {
+    symbol: {
+      symbolType: 'image',
+      color: '#f0c02e',
+      size: [20, 30],
+      offset: [0, 10], 
+      src: '/interface/assets/marker-white-wgl.svg',
+    },
+
+  };
+
+ 
+
+  const pointSource = new VectorSource();
+  this.vectorLayer = new WebGLPointsLayer({
+    source: pointSource,
+    style: webGLStyle,
+    className: 'markers',
   });
 
-  // Initialize the map marker style
-  this.iconStyle = new Style({
-    image: new Icon({
-      src: '/interface/assets/marker-red.svg',
-      scale: 1.2,
-      anchor: [0.5, 1],
-      anchorXUnits: 'fraction',
-      anchorYUnits: 'fraction'
-    })
-  });
-
-  // Check if coordinates are defined before creating the features
-  const features = this.results.length ? this.results.map(result => {
-    const coord = result.coordinates;
-    return new Feature({
-      geometry: new Point(fromLonLat([coord[0], coord[1]]))
-    });
-  }) : [];
-
-  // Creates the new layer for the pins
-  const vectorSource = new VectorSource({
-    features: features
-  });
-
-  this.vectorLayer = new VectorLayer({
-    source: vectorSource
-  });
 
   this.map.addLayer(this.vectorLayer);
 
-    // Add 'click' event listener
-      this.map.on('click', (event) => {
-      this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
-      const featuresInCluster = feature.get('features');
-      if (featuresInCluster.length === 1) {
-        const raa_id = featuresInCluster[0].get('raa_id');
-        const id = featuresInCluster[0].get('id');
-        console.log('Clicked id:', id, 'Clicked raa_id:', raa_id);
+
+this.map.on('pointermove', (event) => {
+  if (event.dragging) {return;}
+  this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
+        // Get the properties of the feature (in this case, we're extracting 'lamning_id', 'raa_id', and 'id')
+        const lamning_id = feature.get('lamning_id');
+        const raa_id = feature.get('raa_id');
+        const id = feature.get('id');
+
+        const extent = feature.getGeometry().getExtent();
+
+
+  var popup_text = 0
+  if (raa_id === null) {popup_text = '<p>'+lamning_id+'</p>'} else {popup_text = '<p>'+lamning_id+'</p><p>'+raa_id+'</p>'}
+
+  container.style.visibility='visible'
+  content.innerHTML = popup_text;
+  overlay.setPosition(extent);});
+
+})
+
+  // Add 'click' event listener
+this.map.on('click', (event) => {
+    // Use the hit detection mechanism
+    this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
+        // Get the properties of the feature (in this case, we're extracting 'lamning_id', 'raa_id', and 'id')
+        const lamning_id = feature.get('lamning_id');
+        const raa_id = feature.get('raa_id');
+        const id = feature.get('id');
+
         this.clickedId = id;
+        this.clickedLamningId = lamning_id;
         this.clickedRaaId = raa_id;
+
+
         this.$emit('map-clicked');
         this.$emit('id-selected', id);
-        this.$emit('raaId-selected', raa_id);
-      } else {
-        const coordinates = feature.getGeometry().getCoordinates();
-        this.map.getView().setCenter(coordinates);
-        this.map.getView().setZoom(this.map.getView().getZoom() + 1);
-      }
+        this.$emit('lamning-selected', lamning_id);
+        this.$emit('raa-selected', raa_id);
+
+        //Zoom to the clicked point and make sure basemap is still visible
+        const extent = feature.getGeometry().getExtent();
+        const view = this.map.getView();
+        view.fit(extent, {duration: 1000, padding: [1, 1, 1, 1], minResolution: 5.0});
+
+        var popup_text = 0
+        if (raa_id === null) {popup_text = '<p>'+lamning_id+'</p>'} else {popup_text = '<p>'+lamning_id+'</p><p>'+raa_id+'</p>'}
+        //Display popup for clicked point
+        container.style.visibility='visible'
+        content.innerHTML = popup_text;
+        overlay.setPosition(extent);
+      
+    }, {
+        layerFilter: (layer) => layer === this.vectorLayer, // Ensure we're only checking features in our WebGLPointsLayer
+        hitTolerance: 10 // Increase or decrease this value for a larger or smaller hit detection area
     });
-  });
+});
 
   // Add 'moveend' event listener to the map to update the bounding box
   this.map.on('moveend', debounce(() => {
     this.updateBbox();
-  }, 2000)); // Adjust the delay in milliseconds as needed
+  }, 1000)); // Adjust the delay in milliseconds as needed
 },
+
 
 updateCoordinates() {
-  const pointSource = new VectorSource({
-    features: this.cachedResults.map(result => { 
-      const coord = result.coordinates;
-      const feature = new Feature({
-        geometry: new Point(fromLonLat([coord[0], coord[1]]))
-      });
-      feature.set('raa_id', result.raa_id); 
-      feature.set('id', result.id)
-      feature.setStyle(this.iconStyle);
-      return feature;
-    })
-  });
+    const newFeatures = this.cachedResults.map(result => {
+        const coord = result.coordinates;
+        const feature = new Feature({
+            geometry: new Point(fromLonLat([coord[0], coord[1]]))
+        });
+        feature.set('lamning_id', result.lamning_id);
+        feature.set('raa_id', result.raa_id);
+        feature.set('id', result.id);
+        return feature;
+    });
 
-  const clusterSource = new Cluster({
-    distance: 20, // Adjust this value to control the clustering distance
-    source: pointSource,
-  });
-
-  const clusterLayer = new VectorLayer({
-    source: clusterSource,
-    style: this.createClusterStyle,
-  });
-
-  // Remove the previous vectorLayer
-  if (this.vectorLayer) {
-    this.map.removeLayer(this.vectorLayer);
-  }
-
-  // Set the new vectorLayer to the clusterLayer and add it to the map
-  this.vectorLayer = clusterLayer;
-  this.map.addLayer(this.vectorLayer);
+    const pointSource = this.vectorLayer.getSource();
+    pointSource.clear();
+    pointSource.addFeatures(newFeatures);
 },
 
-createClusterStyle(feature) {
+/* createClusterStyle(feature) {
   const size = feature.get('features').length;
+
   if (size === 1) {
     return this.iconStyle; // Return the individual pin style when cluster size is 1
   } else {
+    const baseRadius = 20; // Increase the base radius for larger visual representation
+    const scalingFactor = 0.2; // Adjust this value to control how much the radius grows with the cluster size
     const style = new Style({
       image: new CircleStyle({
-        radius: 15 + Math.min(size, 50) * 0.1,
-        fill: new Fill({ color: '#3399CC' }),
+        radius: baseRadius + Math.min(size, 100) * scalingFactor,
+        fill: new Fill({ color: 'rgba(120,135,150, 0.8)' }),
         stroke: new Stroke({
           color: '#fff',
           width: 2,
@@ -339,12 +458,14 @@ createClusterStyle(feature) {
       text: new Text({
         text: size.toString(),
         fill: new Fill({ color: '#fff' }),
+        scale: 1.5, // Adjust the scale to make the text larger and more readable on mobile
       }),
     });
 
     return style;
   }
-},
+} */
+
 
   },
 }
@@ -355,40 +476,42 @@ createClusterStyle(feature) {
   z-index: 40; /* Fixes border-radius in Safari. */
   width: 100%;
   height: 100%;
+  min-height: 270px;
   margin-top:45px!important;
   padding:0px 0px 0px 0px;
   border-radius:10px;
   overflow:hidden!important;
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5)!important;
-  filter:contrast(130%) grayscale(80%) brightness(0.9);
+  cursor: pointer;
+  position: relative;
+ /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
 
-@media screen and (min-height: 1150px) {
-/* #map {
-  margin-top:125px!important;
-} */
+@media (max-width:480px) {
+  #map {
+margin-top:35px!important;
+  }
 }
 
 
 #app .ol-control{
 position:absolute;
 right:20px;
-box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
+/* box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important; */
 }
 
 
 #app .ol-control button {
   font-family: "Barlow Condensed", sans-serif;
   border-radius: 50% !important;
-  background-color: rgb(40, 40, 40) !important;
+  background-color: rgba(65, 65, 65, 0.9);
   color: white !important;
 }
 
 #app .ol-control button:active,
 #app .ol-control button:hover,
 #app .ol-control button:focus {
-  background: #ff9900 !important;
-  border-width: 0px !important;
+    opacity: 0.5;
 }
 
 .ol-scaleline-control {
@@ -415,39 +538,78 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
   display:none!important;
 }
 
+.ol-attribution {
+  display: flex;
+  bottom: 2%;
+  font-size: x-small;
+  font-weight: bold;
+}
+.ol-attribution-expand {
+  display: none;
+}
 
-#app .ol-attribution {
-  display:none!important;
+.ol-attribution-collapse {
+  display: none;
+}
+
+
+#map .grey {
+  filter: grayscale(100%) contrast(110%)
+}
+
+#map .markers {
+  filter:contrast(100%) 
 }
 
 
 .ol-zoom {
-  display:none;
+  /* display:none; */
   font-size: 30px !important;
   color: white !important;
   width: 40px;
   height: 40px;
   padding: 0px !important;
-  box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important;
+  /* box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important; */
   opacity: 0.9 !important;
-  right: 20px !important;
+  left: 20px !important;
   position: absolute !important;
 }
 
-.ol-zoom-in {
-  right: 20px !important;
-  top: 20px !important;
-  position: fixed;
+.ol-zoom-in, .ol-zoom-out {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    opacity: 0.95;
+    border-width: 1px;
+    border: 1px solid black;
+    width: 33px;
+    height: 33px;
+    position: absolute;
+    font-size: 0;
 }
+
+.ol-zoom-in {
+   background: url(../assets/openseadragon/plus.svg) no-repeat center center;
+    background-size: contain; 
+    top: 20px;
+}
+
+.ol-zoom-out {
+  background: url(../assets/openseadragon/minus.svg) no-repeat center center;
+    background-size: contain; 
+    top: 60px;
+}
+
+@media (max-width:350px) {
+  .ol-zoom {
+    bottom: 18%;
+  }
+}
+
 .ol-zoom-in:hover {
   background-color: rgba(0, 0, 0, 0.7);
 }
-.ol-zoom-out {
-  right: 20px;
-  top: 68px;
-  position: fixed;
-  margin-top: 3px;
-}
+
 .ol-zoom-out:hover {
   background-color: rgba(0, 0, 0, 0.7);
 }
@@ -471,23 +633,28 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
 }
 
 .overlay-content {
-  background: #ff0000;
   box-shadow: 0 5px 10px rgb(2 2 2 / 20%);
   padding: 10px 20px;
   font-size: 16px;
+ 
 }
 
 .ol-popup {
-  text-align: center;
+  text-align: justify;
   position: absolute;
   color: white;
-  background-color: rgb(40, 40, 40) !important;
+  line-height:1.2;
+  background-color:rgba(80,80,80, 1.0);
+  opacity: 100%;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  border-radius: 10px;
-  bottom: 12px;
-  left: -50px;
-  min-width: 150px;
+  padding: 8px 18px 8px 38px;
+  border-radius: 8px;
+  bottom: 25px;
+  left: -48px;
+  min-width:max-content;
+  block-size: fit-content;
+  font-family: "Barlow Condensed", sans-serif !important;
+  max-width: max-content;
 }
 
 .ol-popup:after,
@@ -502,28 +669,31 @@ box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important;
 }
 
 .ol-popup:after {
-  border-top-color: rgb(40, 40, 40) !important;
+  border-top-color: rgb(80, 80, 80) !important;
   border-width: 10px;
   left: 48px;
   margin-left: -10px;
+
 }
 
 .ol-popup:before {
-  border-top-color: rgb(40, 40, 40) !important;
+  border-top-color: rgb(80, 80, 80) !important;
   border-width: 11px;
   left: 48px;
   margin-left: -11px;
+  
 }
 
 .ol-popup-closer {
   text-decoration: none;
   position: absolute;
-  top: 2px;
-  right: 8px;
+  top: 25%;
+  left: 12px;
 }
 
 .ol-popup-closer:after {
   content: "✖";
+  /* color:white */
 }
 
 </style>

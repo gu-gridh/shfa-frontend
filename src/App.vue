@@ -21,8 +21,8 @@ export default {
 html,
 body {
   font-family: "Barlow Condensed", sans-serif !important;
-  background-color:white;
-  color:black;
+  background-color:white !important;
+  color:black !important;
 }
 
 </style>

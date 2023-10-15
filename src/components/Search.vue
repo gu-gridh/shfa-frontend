@@ -1,21 +1,22 @@
 <template>
-  <div>
-    <div id="search-interface" class="">
-      <h2 class="input-unpad mb-0">
-        <div class="input-wrapper">
+  <div v-bind="$attrs">
+    <div id="search-interface" class="" >
+      <h2 class="input-unpad mb-0" id="search">
+        <div class="input-wrapper" id="search-wrapper">
           <div
             v-for="keyword in selectedKeywords"
             :key="keyword.id"
-            class="tag-example-search accent-bg-selected"
+            class="tag-example-search"
+            id="search-selected"
             @click="deselectKeyword(keyword)"
           >
-            {{ keyword.text }}
+          {{ $t('message.'+keyword.text) }}
           </div>
           <input
             type="search"
             id="search"
             name="search"
-            :placeholder="selectedKeywords.length > 0 ? '' : 'Search Archive...'"
+            :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'"
             class=""
             :value="searchQuery"
             @input="updateSearchQuery($event.target.value)"
@@ -25,31 +26,31 @@
         <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
             Advanced Search
           </button> -->
-          <button class="search-button-round accent-bg" @click="triggerSearch">
-         
+          <button class="search-button-round" id="search-button" :class="{light:isLight}" @click="triggerSearch">
           </button>
         </div>
       </h2>
     </div>
     <div id="filter-interface">
-      <div class="filter-text">Search suggestions:</div>
+      <div class="filter-text" :class="{light:isLight}">{{ $t('message.sökförslag') }}</div>
       <div
         v-for="result in defaultSearchResults"
         :key="result.id"
-        class="tag-example accent-bg"
+        class="tag-example"
+        id="search-suggestion"
         @click="selectResult(result)"
       >
-        {{ result.text }}
+        {{ $t('message.' + result.text) }}
       </div>
     </div>
   </div>
   <div style="display:flex;  align-items: center; justify-content: center;">
-    <div class="ui-mode ui-overlay map-switch-margin" style="background-color:rgba(0,0,0,0.6)">
-        <button class="item accent-text" :class="{ 'accent': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
-         Map Interface
+    <div class="ui-mode ui-overlay map-switch-margin" id="map-toggle">
+        <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
+          {{ $t('message.karta') }}
         </button>
-        <button class="item accent-text" :class="{ 'accent': activePanel === 'Advanced Search' }" @click="togglePanel('Advanced Search')">
-          Advanced Search
+        <button class="item" :class="{ 'active': activePanel === 'Advanced Search' }" @click="togglePanel('Advanced Search')">
+          {{ $t('message.avanceradsökning') }}
         </button>
        
       </div>
@@ -57,21 +58,31 @@
 </template>
 
 <script>
+import useSearchTracking from '../composables/useSearchTracking.js'
+import { useStore } from '../stores/store.js';
+
 export default {
   name: 'Search',
-  emits: ['toggle-map', 'search-completed'],
+  emits: ['toggle-map', 'search-completed', 'page-details-updated'],
   data() {
     return {
       searchQuery: '',
       searchResults: [],
       selectedKeywords: [],
       defaultSearchResults: [],
+      previousPageUrl: null,
       nextPageUrl: null,
-      activePanel: 'Map Interface', 
+      count: 0,
+      activePanel: 'Map Interface',
+      isLight: false,
     };
   },
   props: {
   updateNextPageUrl: {
+    type: Function,
+    required: true,
+    },
+  updatePreviousPageUrl: {
     type: Function,
     required: true,
     },
@@ -80,31 +91,55 @@ export default {
     currentKeywordName() {
       return this.selectedKeywords.length > 0 ? this.selectedKeywords[0].text : '';
     },
+    totalPages() {
+      return Math.ceil(this.count / 25);
+    },
+    currentPage() {
+      if (this.nextPageUrl) {
+        const url = new URL(this.nextPageUrl);
+        const offset = url.searchParams.get("offset");
+        return (offset / 25);
+      } else if (this.previousPageUrl) {
+        const url = new URL(this.previousPageUrl);
+        const offset = url.searchParams.get("offset");
+        return (offset / 25) + 2;
+      } else {
+        // Default to 1 if no next or previous page
+        return 1;
+      }
+    }
   },
   created() {
     this.defaultSearchResults = [
-    { id: 1, text: 'Skepp'},
-    { id: 2, text: 'Djur'},
-    { id: 3, text: 'Vapen'},
-    { id: 4, text: 'Vagn'},
-    { id: 5, text: 'Vitlycke'},
-    { id: 6, text: 'Lur'},
-    { id: 7, text: 'Krigare'},
-    { id: 8, text: 'Frottage'},
-    { id: 9, text: '3d'},
-    { id: 10, text: 'Yxa'},
-    { id: 11, text: 'Älg'},
-    { id: 12, text: 'Nattfoto'},
-    { id: 13, text: 'Vatten'},
-
+    { id: 1, text: 'skepp'},
+    { id: 2, text: 'djur'},
+    { id: 3, text: 'människofigur'},
+    { id: 4, text: 'vagn'},
+    { id: 5, text: 'vapen'},
+    { id: 6, text: 'krigare'},
+    { id: 7, text: 'vitlycke'},
+    { id: 8, text: 'skee'},
+    { id: 9, text: 'kalkering'},
+    { id: 10, text: 'frottage'},
+    { id: 11, text: 'nattfotografering'},
     ];
   },  
   methods: {
+    clearSearchField() {
+      this.searchQuery = '';
+      this.selectedKeywords = [];
+    },
+    updatePageDetails() {
+      this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
+    },
     triggerSearch() {
       const query = this.selectedKeywords.length > 0 
         ? this.selectedKeywords[0].text 
         : this.searchQuery;
+
       this.searchKeywordTags(query);
+      const { trackSearch } = useSearchTracking();
+      trackSearch(query);
     },
     async searchKeywordTags(query) {
       this.searchResults = []; // clear previous results
@@ -113,36 +148,125 @@ export default {
         return;
       }
 
-      const url = `https://diana.dh.gu.se/api/shfa/search/?q=${query}`;
+      const url = `https://diana.dh.gu.se/api/shfa/search/?q=${query}&depth=1`;
       await this.fetchResults(url);
     },
     async fetchResults(url) {
       try {
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
         const response = await fetch(url);
         const data = await response.json();
-        // Extract the file data from the results
-        const fileData = data.results.map(result => ({
-          id: result.id,
-          file: result.file,
-          iiif_file: result.iiif_file,
-        }));
-        this.searchResults = [...this.searchResults, ...fileData];
+        this.count = data.count; // Update the total count
 
-        // Store the next URL for future use
-        if (data.next) {
-          this.nextPageUrl = data.next.replace('http://', 'https://');
-          this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
-          this.updateNextPageUrl(this.nextPageUrl);  // Update the parent's nextPageUrl state
-        } else {
-          this.nextPageUrl = null;
-          this.updateNextPageUrl(null);  // Update the parent's nextPageUrl state
-        }
+        // Define the specific order of the image types
+        const specificOrder = [
+        { type: 957, text: 'ortofotografi', order: 1 },
+        { type: 965, text: 'översiktsbild', order: 1},
+        { type: 943, text: 'threedvisualization', order: 2 },
+        { type: 958, text: 'threedsm', order: 3 },
+        { type: 959, text: 'threedlaserscanning', order: 4 },
+        { type: 961, text: 'miljöbild', order: 5 },
+        { type: 964, text: 'nattfoto', order: 6 },
+        { type: 942, text: 'fotografi', order: 7 },
+        { type: 949, text: 'diabild', order: 8 },
+        { type: 947, text: 'negativfärg', order: 9 },
+        { type: 948, text: 'negativsvart', order: 10 },
+        { type: 960, text: 'printscreen', order: 11 },
+        { type: 956, text: 'photosfm', order: 12 },
+        { type: 954, text: 'dstretch', order: 13 },
+        { type: 941, text: 'frottage', order: 14 },
+        { type: 946, text: 'grafik', order: 15 },
+        { type: 944, text: 'kalkering', order: 16 },
+        { type: 951, text: 'ritning', order: 17 },
+        { type: 955, text: 'kalkeringpapper', order: 18 },
+        { type: 945, text: 'avgjutning', order: 19 },
+        { type: 952, text: 'dokument', order: 20 },
+        { type: 953, text: 'karta', order: 21 },
+        { type: 950, text: 'tidnings', order: 22 },
+        { type: 962, text: 'arbetsbild', order: 23 },
+        ]
+
+    // Map the specificOrder array to an object where the keys are the types
+    let typeMap = specificOrder.map(order => ({
+      ...order,
+      items: [],
+    }));
+
+    // Iterate over the results and map them into the correct groups
+    for (let image of data.results) {
+      let type = image.type;
+      let item = {
+        id: image.id ?? null, 
+        lamning_id: image?.site?.lamning_id ?? null, 
+        raa_id: image?.site?.raa_id ?? null,
+        type: image?.type?.id ?? null,
+        iiif_file: image.iiif_file ?? null, 
+        coordinates: image?.site?.coordinates?.coordinates ?? null,
+      };
+
+      const coords = image?.site?.coordinates?.coordinates;
+      if (coords) {
+        const [x, y] = coords;
+        minX = Math.min(minX, x);
+        maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y);
+      }
+      
+
+    let typeIndex = typeMap.findIndex(x => x.type === type.id); 
+      if (typeIndex !== -1) {
+        typeMap[typeIndex].items.push(item);
+      }
+    }
+
+    if (minX !== Infinity && maxX !== -Infinity && minY !== Infinity && maxY !== -Infinity) {
+        const boundingBox = {
+          topLeft: [minX, maxY],
+          topRight: [maxX, maxY],
+          bottomLeft: [minX, minY],
+          bottomRight: [maxX, minY],
+        };
+        
+        const coordinateStore = useStore();
+        coordinateStore.setBoundingBox(boundingBox);
+    } else {
+      console.log('No valid coordinates found. Skipping setting the bounding box.');
+    }
+
+    // Filter out the groups with no items and sort the image groups by the specified order
+    this.searchResults = typeMap.filter(group => group.items.length > 0)
+    //.sort((a, b) => a.order - b.order);
+
+    this.searchResults = Array.from(typeMap.values());
+
+
+      // Store the next URL for future use
+      if (data.next) {
+        this.nextPageUrl = data.next.replace('http://', 'https://');
+        this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
+        this.updateNextPageUrl(this.nextPageUrl);  // Update the parent's nextPageUrl state
+      } else {
+        this.nextPageUrl = null;
+        this.updateNextPageUrl(null);  // Update the parent's nextPageUrl state
+      }
+
+      if (data.previous) {
+        this.previousPageUrl = data.previous.replace('http://', 'https://');
+        this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
+        this.updatePreviousPageUrl(this.previousPageUrl);  // Update the parent's previousPageUrl state
+      } else {
+        this.previousPageUrl = null;
+        this.updatePreviousPageUrl(null);  // Update the parent's previousPageUrl state
+      }
+
 
       } catch (error) {
         console.error(error);
       } finally {
         // After all data is loaded, emit the contents of searchResults
         this.$emit('search-completed', this.searchResults);
+        this.updatePageDetails();
       }
     },
     async fetchNextPage() {
@@ -152,6 +276,14 @@ export default {
         console.log("No more pages to fetch.");
       }
     },
+    async fetchPreviousPage() {
+  if (this.previousPageUrl) {
+    await this.fetchResults(this.previousPageUrl);
+  } else {
+    console.log("No previous pages to fetch.");
+  }
+},
+
     selectResult(result) {
       if (this.selectedKeywords.length > 0) {
         // Add the currently selected keyword back to the defaultSearchResults
@@ -191,6 +323,15 @@ export default {
 </script>
 
 <style scoped>
+
+.light{
+  background-color:rgb(250, 250, 250);
+  color:black;
+
+}
+
+
+
 #search-interface{
   font-size:100%;
 }
@@ -205,11 +346,14 @@ border-radius:50%;
 height:40px;
 width:40px;
 margin-right:10px;
-background:url(../../interface/searchbuttonwhite.png) no-repeat 50% 50%;
+background:url(../../public/interface/searchbuttonwhite.png) no-repeat 50% 50%;
 background-size: 30px 30px;
 background-color:#6666;
 }
 
+.search-button-round:hover{
+  background-color: rgb(70,90,90);
+}
 
 #filter-interface {
   display: flex;
@@ -234,6 +378,17 @@ background-color:#6666;
   margin-bottom: 5px;
 }
 
+@media (max-width:480px) {
+  .filter-text {
+  width:100%;
+}
+#filter-interface {
+  height:70px;
+  justify-content:left;
+  padding: 0px 0px 0px 0px;
+}
+}
+
 .tag-example {
   float: left;
   background-color: rgb(90, 90, 90);
@@ -247,21 +402,24 @@ background-color:#6666;
 
 .tag-example-search {
   float: left;
-  color:white;
+  background-color: rgb(80,90,100);
   padding: 0.4em 0.5em; 
-  font-size: 1.25em;
-  font-weight:400;
+  font-size: 1.2em;
   border-radius: 5px;
   margin-left: 10px;
   cursor: pointer;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
   overflow:hidden;
   max-height:32px;
+  color:white;
+  font-weight:300;
 }
 
 .tag-example:hover {
+  background-color: rgb(80,90,100);
   cursor: pointer;
-  font-weight:500;
+  color:white;
+ 
 }
 
 #search {
@@ -272,7 +430,7 @@ background-color:#6666;
   margin-left: 0px;
   margin-right: 0px;
   border-radius: 8px;
-  padding: 8px 15px;
+  padding: 4px 00px 0px 0px;
   background-color: transparent;
 }
 
@@ -287,16 +445,19 @@ background-color:#6666;
   font-size: 1rem; 
 }
 
+
 .input-wrapper:hover {
   background-color: rgba(45, 45, 45, 1.0);
 }
 
 input[type="search"] {
-  background-color: transparent;
+  background-color: transparent!important;
   border: none;
   color: white;
   margin-top: 5px;
-  margin-bottom: 5px;
+  padding-left: 15px!important;
+  padding-right: 15px!important;
+  margin-bottom: 10px;
   flex: 1;
   width:1px!important;
 }
@@ -351,8 +512,11 @@ input:focus {
 }
 
 .toggle-map-btn:hover {
-  
+  background-color: rgb(80,90,100);
 }
 
+.item.active {
+  color: rgb(200,225,250);
+}
 </style>
 
