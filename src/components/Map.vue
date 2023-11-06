@@ -73,9 +73,15 @@ created() {
   this.debouncedFetchDataByBbox = debounce(this.fetchDataByBbox, 1000);
 
   // Watch the 'boundingBox' field in the store for changes
-   watch(() => this.coordinateStore.boundingBox, (newBoundingBox, oldBoundingBox) => {
+  watch(() => this.coordinateStore.boundingBox, (newBoundingBox, oldBoundingBox) => {
     if (newBoundingBox) {
       this.focusOnBoundingBox(newBoundingBox);
+    }
+  });
+  watch(() => this.coordinateStore.coordinates, (newCoordinates, oldCoordinates) => {
+    if (newCoordinates && newCoordinates.length === 2) {
+      const [lon, lat] = newCoordinates;
+      this.focusOnCoordinates(lon, lat);
     }
   });
 },
@@ -151,7 +157,6 @@ focusOnBoundingBox(boundingBox) {
     console.warn('Invalid bounding box or map object.');
   }
 },
-
 focusOnCoordinates(lon, lat) {
   if (this.map) {
     const coordinates = fromLonLat([lon, lat]);

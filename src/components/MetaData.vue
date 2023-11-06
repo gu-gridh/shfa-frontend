@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { useStore } from '../stores/store.js';
+
 export default {
   props: {
     Id: {
@@ -60,7 +62,7 @@ export default {
       data: {},
       acc_date,
       isLight: false,
-      //ref_url,
+      coordinateStore: useStore(),
     };
   },
    methods: {
@@ -83,18 +85,25 @@ export default {
   },
   watch: {
     Id(newId, oldId) {
-      if(newId){
+      if (newId !== oldId) {
         fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${newId}&depth=1`)
-        .then((response) => response.json())
-        .then((json) => {
-          this.data = json.results[0];
-          this.fetchDescription(); 
-        });
+          .then((response) => response.json())
+          .then((json) => {
+            this.data = json.results[0];
+            this.fetchDescription(); 
+            
+            const coordinates = this.data?.site?.coordinates?.coordinates;
+            if (coordinates) {
+              this.coordinateStore.setCoordinates(coordinates);
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching image data:', error);
+          });
       }
     }
   }
 };
-
 
 const date = new Date();
 const options = {
