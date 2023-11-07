@@ -365,24 +365,24 @@ export default defineComponent({
       isLight: false,
     }
   },
-beforeRouteEnter(to, from, next) {
-  const siteId = to.params.siteId;
-  const iiifFile = to.params.iiifFile;
-  const idForMetaData = to.params.idForMetaData; 
-  next(vm => {
-    if (siteId) {
-      vm.selectedId = siteId;
-    }
-    if (iiifFile) {
-      // convert the URL-encoded iiifFile back to a string
-      vm.selectedIiifFile = decodeURIComponent(iiifFile);
-      vm.showThreePanels = true;
-    }
-    if (idForMetaData ) {
-      vm.idForMetaData = idForMetaData;
-    }
-  });
-},
+  // beforeRouteEnter(to, from, next) {
+  //   const siteId = to.params.siteId;
+  //   const iiifFile = to.params.iiifFile;
+  //   const idForMetaData = to.params.idForMetaData; 
+  //   next(vm => {
+  //     if (siteId) {
+  //       vm.selectedId = siteId;
+  //     }
+  //     if (iiifFile) {
+  //       // convert the URL-encoded iiifFile back to a string
+  //       vm.selectedIiifFile = decodeURIComponent(iiifFile);
+  //       vm.showThreePanels = true;
+  //     }
+  //     if (idForMetaData ) {
+  //       vm.idForMetaData = idForMetaData;
+  //     }
+  //   });
+  // },
   mounted() {
     window.addEventListener('resize', this.updateWindowWidth);
 
@@ -391,6 +391,10 @@ beforeRouteEnter(to, from, next) {
     this.currentColour = this.currentColour;
 
     this.isLight = this.isLight;
+
+    if (window.location.pathname.includes('search')) {
+      this.adjustSplitDisplay();
+    }
 
     const vm = this;
     const direction = window.innerWidth <= 1024 ? 'vertical' : 'horizontal';
@@ -427,13 +431,13 @@ beforeDestroy() {
 },
 
   methods: {
-   /*  detectUserLanguage() {
-      // Extract the first two characters of the browser language setting
-      const langCode = navigator.language.substr(0, 2);
-      
-      // Return 'sv' if the language code is 'sv', otherwise return 'en'
-      return langCode === 'sv' ? 'sv' : 'en';
-    }, */
+    adjustSplitDisplay() {
+      // Get the element by its ID
+      const splitElement = document.getElementById('split-1');
+      if (!splitElement) return;
+
+      splitElement.style.display = 'none';
+    },
     updateWindowWidth() {
       this.windowWidth = window.innerWidth;
     },
@@ -451,8 +455,6 @@ beforeDestroy() {
       this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
       this.isLight=false;
       if (this.currentColour === 'light') {return this.isLight=true};
-      
-      
     },
 
     handleMapClicked() {
@@ -461,17 +463,18 @@ beforeDestroy() {
       this.showResults = true;
       this.$refs.searchRef.clearSearchField();
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
+      this.showImageGallery()
     },
-
     updateItems(newItems) {
-    this.searchItems = newItems;
-    this.selectedId = null; // Reset selectedId
-    this.showResults = true;
-    this.$refs.advancedSearchRef.clearAdvancedSearchFields();
-   
-    this.$router.push({ 
-      name: 'Search', 
-    });
+      this.searchItems = newItems;
+      this.selectedId = null; // Reset selectedId
+      this.showResults = true;
+      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
+      
+      this.$router.push({ 
+        name: 'Search', 
+      });
+      this.showImageGallery()
     },
     toggleMap() {
       this.showMap = !this.showMap;
@@ -479,10 +482,20 @@ beforeDestroy() {
     toggleThreePanels() 
     {
       this.showThreePanels = true;
+      this.showImageGallery();
     },
     closeThreePanels() 
     {
       this.showThreePanels = false;
+      this.showImageGallery()
+    },
+    showImageGallery()
+    {
+      const splitElement = document.getElementById('split-1');
+
+      if (splitElement && splitElement.style.display === 'none') {
+        splitElement.style.display = 'block';
+      }
     },
     onImageClicked(iiifFile, id) {
       const fileSegment = iiifFile.split('iiif/')[1]; 
@@ -514,6 +527,7 @@ beforeDestroy() {
       this.$router.push({ 
         name: 'Search', 
       });
+      this.showImageGallery()
     },
     fetchPreviousPage() {
       this.$refs.searchRef.fetchPreviousPage();
