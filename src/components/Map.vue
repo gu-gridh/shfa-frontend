@@ -160,8 +160,13 @@ focusOnBoundingBox(boundingBox) {
 focusOnCoordinates(lon, lat) {
   if (this.map) {
     const coordinates = fromLonLat([lon, lat]);
-    this.map.getView().setCenter(coordinates);
-    this.map.getView().setZoom(12);     
+    this.map.getView().animate(
+      {center: coordinates},
+      {zoom:  18},
+      {duration: 600},
+    );
+    // this.map.getView().setCenter(coordinates);
+    // this.map.getView().setZoom(17)
   }
 },
 async fetchAdditionalData(url, pagesToFetch = 10) {
@@ -349,7 +354,6 @@ closebutton.onclick = function () {
 
   };
 
- 
 
   const pointSource = new VectorSource();
   this.vectorLayer = new WebGLPointsLayer({
@@ -411,7 +415,7 @@ this.map.on('click', (event) => {
         //Display popup for clicked point
         container.style.visibility='visible'
         content.innerHTML = popup_text;
-        overlay.setPosition(extent);
+        overlay.setPosition(extent);     
       
     }, {
         layerFilter: (layer) => layer === this.vectorLayer, // Ensure we're only checking features in our WebGLPointsLayer
