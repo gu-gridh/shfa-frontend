@@ -33,14 +33,15 @@
     </div>
   </div>
   <h2>{{ $t('message.description') }}</h2>
+  <div class="metadata" >
+  <div v-if="getFornsokUrl()" class="button-container">
+    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit">{{ $t('message.checkfornsök') }}</a>
+  </div>
   <div class="disclaimer" :class="{light:isLight}" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
   <div class="description" :class="{light:isLight}" id="description">
     {{ data.description }}
   </div>
-<div class="metadata" >
-  <div v-if="getFornsokUrl()" class="button-container">
-    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit">{{ $t('message.checkfornsök') }}</a>
-  </div>
+
 </div>
 </div>
 </div>
@@ -223,10 +224,10 @@ ul {
   color: white;
   background-color: rgb(100, 100, 100);
   border-radius: 8px;
-  font-size:1.3em;
+  font-size:1.15em;
   text-decoration: none;
   cursor: pointer;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   background-image:url(../../public/interface/linkbuttonwhite.png);
   background-size:25px;
   background-position:10px 8px;
