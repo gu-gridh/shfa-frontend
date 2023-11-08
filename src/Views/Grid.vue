@@ -1536,10 +1536,14 @@ color:black !important;
 
  .light #map {
   /* filter: hue-rotate(160deg) grayscale(30%); */
-
   box-shadow: 0px 3px 35px rgba(0, 0, 0, 0.3)!important;
-
 }
+
+.light #links {
+  color:black;
+  text-decoration: underline dotted;
+}
+
 
 
 

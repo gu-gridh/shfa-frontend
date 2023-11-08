@@ -191,6 +191,7 @@ async fetchAdditionalData(url, pagesToFetch = 10) {
           id: feature.id ?? null,
           lamning_id: feature.properties.lamning_id ?? null,
           raa_id: feature.properties.raa_id ?? null,
+          ksamsok_id: feature.properties.ksamsok_id ?? null,
         }));
 
         // Filter the additionalResults to only include points outside the current bounding box
@@ -279,6 +280,7 @@ async fetchDataByBbox() {
       id: feature.id ?? null,
       lamning_id: feature.properties.lamning_id ?? null,
       raa_id: feature.properties.raa_id ?? null,
+      ksamsok_id:feature.properties.ksamsok_id ?? null,
     })));
 
 
@@ -353,9 +355,7 @@ closebutton.onclick = function () {
       offset: [0, 10], 
       src: '/interface/assets/marker-white-wgl.svg',
     },
-
   };
-
 
   const pointSource = new VectorSource();
   this.vectorLayer = new WebGLPointsLayer({
@@ -375,15 +375,21 @@ this.map.on('pointermove', (event) => {
         const lamning_id = feature.get('lamning_id');
         const raa_id = feature.get('raa_id');
         const id = feature.get('id');
-
+        const ksamsok_id = feature.get('ksamsok_id');
+        const coords = feature.get('coords');
+    
         const extent = feature.getGeometry().getExtent();
 
 
-  var popup_text = 0
-  if (raa_id === null) {popup_text = `<p>${lamning_id}</p>`} else {popup_text = `<p>${lamning_id}</p><p>${raa_id}</p>`}
+  //v-if not working in innerHTML statement, so define the text translation here
+  var fornsok_text = 0
+  if (this.$i18n.locale === 'en') {fornsok_text = this.$i18n.messages.en.message.checkfornsök} else {fornsok_text = this.$i18n.messages.sv.message.checkfornsök}
+  var maplink_text = 0
+  if (this.$i18n.locale === 'en') {maplink_text = this.$i18n.messages.en.message.maplink} else {maplink_text = this.$i18n.messages.sv.message.maplink}
+      
 
-  container.style.visibility='visible'
-  content.innerHTML = popup_text;
+  container.style.visibility='visible';
+  content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;
   overlay.setPosition(extent);});
 
 })
@@ -396,6 +402,8 @@ this.map.on('click', (event) => {
         const lamning_id = feature.get('lamning_id');
         const raa_id = feature.get('raa_id');
         const id = feature.get('id');
+        const ksamsok_id = feature.get('ksamsok_id');
+        const coords = feature.get('coords');
 
         this.clickedId = id;
         this.clickedLamningId = lamning_id;
@@ -412,11 +420,16 @@ this.map.on('click', (event) => {
         const view = this.map.getView();
         view.fit(extent, {duration: 1000, padding: [1, 1, 1, 1], minResolution: 5.0});
 
-        var popup_text = 0
-        if (raa_id === null) {popup_text = `<p>${lamning_id}</p>`} else {popup_text = `<p>${lamning_id}</p><p>${raa_id}</p>`}
-        //Display popup for clicked point
+
+        //v-if not working in innerHTML statement, so define the text translation here
+        var fornsok_text = 0
+        if (this.$i18n.locale === 'en') {fornsok_text = this.$i18n.messages.en.message.checkfornsök} else {fornsok_text = this.$i18n.messages.sv.message.checkfornsök}
+        var maplink_text = 0
+        if (this.$i18n.locale === 'en') {maplink_text = this.$i18n.messages.en.message.maplink} else {maplink_text = this.$i18n.messages.sv.message.maplink}
+
+
         container.style.visibility='visible'
-        content.innerHTML = popup_text;
+        content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;
         overlay.setPosition(extent);     
       
     }, {
@@ -441,6 +454,8 @@ updateCoordinates() {
         feature.set('lamning_id', result.lamning_id);
         feature.set('raa_id', result.raa_id);
         feature.set('id', result.id);
+        feature.set('ksamsok_id',result.ksamsok_id);
+        feature.set('coords', result.coordinates[1]+','+result.coordinates[0]);
         return feature;
     });
 
@@ -666,6 +681,12 @@ right:20px;
   block-size: fit-content;
   font-family: "Barlow Condensed", sans-serif !important;
   max-width: max-content;
+  min-height: max-content;
+}
+
+#links {
+  color: rgb(200,225,250);
+  text-decoration: underline dotted;
 }
 
 .ol-popup:after,

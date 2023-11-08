@@ -79,7 +79,8 @@ export default {
       sökguide: 'Search Guide',
       åtkomst:'accessed',
       at: 'at',
-      close: 'Close'
+      close: 'Close',
+      maplink: 'View in Google Maps'
         },
       
       search: {
@@ -256,7 +257,8 @@ export default {
       sökguide: 'Sökguide',
       åtkomst: 'åtkomst',
       at: 'på',
-      close: 'Stäng'
+      close: 'Stäng',
+      maplink: 'Se i Google Maps'
         },
       search: {
           searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar. De motivrelaterade sökorden är arkeologers tolkningar av ristningarna.',
