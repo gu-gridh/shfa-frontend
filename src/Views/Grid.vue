@@ -1539,7 +1539,7 @@ color:black !important;
   box-shadow: 0px 3px 35px rgba(0, 0, 0, 0.3)!important;
 }
 
-.light #links {
+.light #fornsok_link, .light #extmap_link {
   color:black;
   text-decoration: underline dotted;
 }

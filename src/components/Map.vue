@@ -3,7 +3,7 @@
 
 <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-      <div id="popup-content"></div>
+      <div id="popup-content"><p id="lamning_id"></p><p id="raa_id"></p><p><a id='fornsok_link' target="_blank">{{$t('message.checkfornsök')}}</a></p><p><a id='extmap_link' target="_blank">{{$t('message.maplink')}}</a></p></div>
     </div></div>
 
 </template>
@@ -52,6 +52,7 @@ export default {
     results: [], 
     cachedResults: [],
     coordinateStore: useStore(), // Initialize the store here
+
     }
   },
 mounted() {
@@ -309,7 +310,9 @@ initMap() {
 
 //Based on the OpenLayers example
 const container = document.getElementById('popup');
-const content = document.getElementById('popup-content');
+// const content = document.getElementById('popup-content');
+const raaContent = document.getElementById('raa_id');
+const lamningContent = document.getElementById('lamning_id');
 const closebutton = document.getElementById('popup-closer');
 
 //Overlay that anchors the popups
@@ -381,15 +384,13 @@ this.map.on('pointermove', (event) => {
         const extent = feature.getGeometry().getExtent();
 
 
-  //v-if not working in innerHTML statement, so define the text translation here
-  var fornsok_text = 0
-  if (this.$i18n.locale === 'en') {fornsok_text = this.$i18n.messages.en.message.checkfornsök} else {fornsok_text = this.$i18n.messages.sv.message.checkfornsök}
-  var maplink_text = 0
-  if (this.$i18n.locale === 'en') {maplink_text = this.$i18n.messages.en.message.maplink} else {maplink_text = this.$i18n.messages.sv.message.maplink}
-      
-
+  
+  raaContent.innerHTML = raa_id;
+  lamningContent.innerHTML = lamning_id;
+  document.getElementById("fornsok_link").href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
+  document.getElementById("extmap_link").href = `https://www.google.com/maps/place/${coords}`;
+  // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;
   container.style.visibility='visible';
-  content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;
   overlay.setPosition(extent);});
 
 })
@@ -420,16 +421,12 @@ this.map.on('click', (event) => {
         const view = this.map.getView();
         view.fit(extent, {duration: 1000, padding: [1, 1, 1, 1], minResolution: 5.0});
 
-
-        //v-if not working in innerHTML statement, so define the text translation here
-        var fornsok_text = 0
-        if (this.$i18n.locale === 'en') {fornsok_text = this.$i18n.messages.en.message.checkfornsök} else {fornsok_text = this.$i18n.messages.sv.message.checkfornsök}
-        var maplink_text = 0
-        if (this.$i18n.locale === 'en') {maplink_text = this.$i18n.messages.en.message.maplink} else {maplink_text = this.$i18n.messages.sv.message.maplink}
-
-
-        container.style.visibility='visible'
-        content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;
+        raaContent.innerHTML = raa_id;
+        lamningContent.innerHTML = lamning_id;
+        document.getElementById("fornsok_link").href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
+        document.getElementById("extmap_link").href = `https://www.google.com/maps/place/${coords}`;
+        container.style.visibility='visible';
+        // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;
         overlay.setPosition(extent);     
       
     }, {
@@ -684,10 +681,11 @@ right:20px;
   min-height: max-content;
 }
 
-#links {
+#fornsok_link, #extmap_link {
   color: rgb(200,225,250);
   text-decoration: underline dotted;
 }
+
 
 .ol-popup:after,
 .ol-popup:before {
