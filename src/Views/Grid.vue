@@ -1602,7 +1602,7 @@ filter:invert(1)
 }
 
 .light #search-wrapper{
-  background:linear-gradient(rgb(227, 224, 224) 0%, rgb(247, 244, 244) 100%);
+  background:linear-gradient(rgb(200, 200, 200) 0%, rgb(235, 235, 235) 100%);
   color: black !important;
 }
 
@@ -1630,7 +1630,7 @@ filter:invert(1)
 }
 
 .light #text-wrapper{
-  background:linear-gradient(rgb(237, 234, 234) 0%, rgb(247, 244, 244) 100%);
+  background:linear-gradient(rgb(220, 220, 220) 0%, rgb(235, 235, 235) 100%);
 
 }
 
@@ -1706,21 +1706,21 @@ background-color: rgb(210,210,210)!important;
 
 .light .ui-overlay {
 font-weight: 600;
-color: black;
-background-color: rgba(255, 255, 255, 0.5);
+color: white;
+background-color: rgba(25, 25, 25, 0.5);
 
 }
 
 .light .ui-mode .item:hover {
-  color: rgb(100,125,150);
+  color: rgb(220,245,250);
 }
 
 .light .ui-overlay .selected{
-  color: rgb(100,125,150);
+  color: rgb(200,225,250);
 }
 
 .light .item.active {
-  color: rgb(100,155,220);
+  color: rgb(200,235,255);
   font-weight: 600;
 }
 

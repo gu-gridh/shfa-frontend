@@ -40,7 +40,7 @@ div.split-container > div > div:nth-child(4)
   background-repeat: no-repeat;
   background-position:50%;
   border-radius:50%;
-  background-color:#999;
+  background-color:rgb(200,200,200);
   height:25px;
   min-width:25px;
   margin-top:calc(50vh - 80px);

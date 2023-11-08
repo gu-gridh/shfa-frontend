@@ -2,7 +2,7 @@
   <div class="gallery-container" :class="{light:isLight}">
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
       <h1 v-if="group.items.length > 0">{{ $t('message.' + group.text) }}</h1>
-      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="20" class="gallery-group">
+      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="5" class="gallery-group">
         <template #default="{ item, index }">
           <div class="grid-image card flex items-center justify-center bg-slate-50 text-black" @click="$emit('image-clicked', item.iiif_file, item.id);">
           <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" 
@@ -446,9 +446,10 @@ h1 {
 
 
 .card {
- border-radius:2px;
+
+  background-color:#333;
+border-radius:2px;
   overflow:hidden;
-  background-color:transparent;
   box-shadow: 0rem 0rem 0.8rem rgba(0, 0, 0, 0.3)!important;
 
 }
@@ -456,8 +457,6 @@ h1 {
 .card img {
   transition: all 0.2s ease-in-out;
   transform:scale(1.02);
-
-
 }
 .card:hover img {
   filter:brightness(90%);
