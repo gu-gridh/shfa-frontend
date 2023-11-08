@@ -1172,7 +1172,6 @@ min-width:550px;
   #map{
     height: 50vw;
     width: 100%;
-    min-height: 450px;
   }
 }
 
