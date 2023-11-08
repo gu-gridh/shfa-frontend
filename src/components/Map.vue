@@ -22,6 +22,7 @@ import { debounce } from 'lodash';
 import WebGLPointsLayer from 'ol/layer/WebGLPoints';
 import Overlay from 'ol/Overlay';
 import Zoom from 'ol/control/Zoom';
+import {easeIn} from 'ol/easing'
 import { watch } from 'vue';
 import { useStore } from '../stores/store.js';
 import { transformExtent } from 'ol/proj';
@@ -161,9 +162,10 @@ focusOnCoordinates(lon, lat) {
   if (this.map) {
     const coordinates = fromLonLat([lon, lat]);
     this.map.getView().animate(
-      {center: coordinates},
-      {zoom:  18},
-      {duration: 600},
+      {center: coordinates,
+      zoom:  18,
+      duration: 1050,
+      }
     );
     // this.map.getView().setCenter(coordinates);
     // this.map.getView().setZoom(17)
