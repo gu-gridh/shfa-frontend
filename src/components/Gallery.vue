@@ -2,7 +2,7 @@
   <div class="gallery-container" :class="{light:isLight}">
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
       <h1 v-if="group.items.length > 0">{{ $t('message.' + group.text) }}</h1>
-      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="2" class="gallery-group">
+      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="20" class="gallery-group">
         <template #default="{ item, index }">
           <div class="grid-image card flex items-center justify-center bg-slate-50 text-black" @click="$emit('image-clicked', item.iiif_file, item.id);">
           <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" 
@@ -418,6 +418,7 @@ export default {
 .gallery-container{
 padding-top: 35px; 
   padding-bottom: 35px;
+  /* padding-left:150px; */
 }
 
 @media (max-width: 1024px) {
@@ -430,16 +431,26 @@ padding-top: 35px;
 h1 {
   font-size: 20px;
   color: white !important;
-  margin: 20px 20px 2px 0px;
+  margin: 20px 20px 8px 0px;
+/*   width:150px;
+  text-align:right;
+  transform:translate(-180px, 30px) */
+}
+
+.grid-item-info-meta h1 {
+  font-size: 20px;
+  margin: 20px 20px 0px 0px;
 }
 
 
 
 
 .card {
-  border-radius:0px;
+ border-radius:2px;
   overflow:hidden;
   background-color:transparent;
+  box-shadow: 0rem 0rem 0.8rem rgba(0, 0, 0, 0.3)!important;
+
 }
 
 .card img {
@@ -452,6 +463,10 @@ h1 {
   filter:brightness(90%);
   cursor:pointer;
   transform:scale(1.05);
+}
+
+.grid-image{
+
 }
 
 .grid-item-info {
@@ -528,7 +543,6 @@ h1 {
     margin-left:-100px;
     background:url(../../public/interface/backbuttonwhite.png);
     background-size:35px;
-  
     pointer-events:auto;
   }
 
