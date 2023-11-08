@@ -380,7 +380,7 @@ this.map.on('pointermove', (event) => {
 
 
   var popup_text = 0
-  if (raa_id === null) {popup_text = '<p>'+lamning_id+'</p>'} else {popup_text = '<p>'+lamning_id+'</p><p>'+raa_id+'</p>'}
+  if (raa_id === null) {popup_text = `<p>${lamning_id}</p>`} else {popup_text = `<p>${lamning_id}</p><p>${raa_id}</p>`}
 
   container.style.visibility='visible'
   content.innerHTML = popup_text;
@@ -413,7 +413,7 @@ this.map.on('click', (event) => {
         view.fit(extent, {duration: 1000, padding: [1, 1, 1, 1], minResolution: 5.0});
 
         var popup_text = 0
-        if (raa_id === null) {popup_text = '<p>'+lamning_id+'</p>'} else {popup_text = '<p>'+lamning_id+'</p><p>'+raa_id+'</p>'}
+        if (raa_id === null) {popup_text = `<p>${lamning_id}</p>`} else {popup_text = `<p>${lamning_id}</p><p>${raa_id}</p>`}
         //Display popup for clicked point
         container.style.visibility='visible'
         content.innerHTML = popup_text;
