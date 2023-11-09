@@ -33,20 +33,23 @@
     </div>
   </div>
   <h2>{{ $t('message.description') }}</h2>
+  <div class="metadata" >
+  <div v-if="getFornsokUrl()" class="button-container">
+    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit">{{ $t('message.checkfornsök') }}</a>
+  </div>
   <div class="disclaimer" :class="{light:isLight}" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
   <div class="description" :class="{light:isLight}" id="description">
     {{ data.description }}
   </div>
-<div class="metadata" >
-  <div v-if="getFornsokUrl()" class="button-container">
-    <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit">{{ $t('message.checkfornsök') }}</a>
-  </div>
+
 </div>
 </div>
 </div>
 </template>
 
 <script>
+import { useStore } from '../stores/store.js';
+
 export default {
   props: {
     Id: {
@@ -60,7 +63,7 @@ export default {
       data: {},
       acc_date,
       isLight: false,
-      //ref_url,
+      coordinateStore: useStore(),
     };
   },
    methods: {
@@ -83,18 +86,25 @@ export default {
   },
   watch: {
     Id(newId, oldId) {
-      if(newId){
+      if (newId !== oldId) {
         fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${newId}&depth=1`)
-        .then((response) => response.json())
-        .then((json) => {
-          this.data = json.results[0];
-          this.fetchDescription(); 
-        });
+          .then((response) => response.json())
+          .then((json) => {
+            this.data = json.results[0];
+            this.fetchDescription(); 
+            
+            const coordinates = this.data?.site?.coordinates?.coordinates;
+            if (coordinates) {
+              this.coordinateStore.setCoordinates(coordinates);
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching image data:', error);
+          });
       }
     }
   }
 };
-
 
 const date = new Date();
 const options = {
@@ -214,10 +224,10 @@ ul {
   color: white;
   background-color: rgb(100, 100, 100);
   border-radius: 8px;
-  font-size:1.3em;
+  font-size:1.15em;
   text-decoration: none;
   cursor: pointer;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   background-image:url(../../public/interface/linkbuttonwhite.png);
   background-size:25px;
   background-position:10px 8px;

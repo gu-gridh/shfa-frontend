@@ -3,7 +3,7 @@
 
 <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-      <div id="popup-content"></div>
+      <div id="popup-content"><p id="lamning_id"></p><p id="raa_id"></p><p><a id='fornsok_link' target="_blank">{{$t('message.checkfornsök')}}</a></p><p><a id='extmap_link' target="_blank">{{$t('message.maplink')}}</a></p></div>
     </div></div>
 
 </template>
@@ -22,6 +22,7 @@ import { debounce } from 'lodash';
 import WebGLPointsLayer from 'ol/layer/WebGLPoints';
 import Overlay from 'ol/Overlay';
 import Zoom from 'ol/control/Zoom';
+import {easeIn} from 'ol/easing'
 import { watch } from 'vue';
 import { useStore } from '../stores/store.js';
 import { transformExtent } from 'ol/proj';
@@ -51,6 +52,7 @@ export default {
     results: [], 
     cachedResults: [],
     coordinateStore: useStore(), // Initialize the store here
+
     }
   },
 mounted() {
@@ -73,9 +75,15 @@ created() {
   this.debouncedFetchDataByBbox = debounce(this.fetchDataByBbox, 1000);
 
   // Watch the 'boundingBox' field in the store for changes
-   watch(() => this.coordinateStore.boundingBox, (newBoundingBox, oldBoundingBox) => {
+  watch(() => this.coordinateStore.boundingBox, (newBoundingBox, oldBoundingBox) => {
     if (newBoundingBox) {
       this.focusOnBoundingBox(newBoundingBox);
+    }
+  });
+  watch(() => this.coordinateStore.coordinates, (newCoordinates, oldCoordinates) => {
+    if (newCoordinates && newCoordinates.length === 2) {
+      const [lon, lat] = newCoordinates;
+      this.focusOnCoordinates(lon, lat);
     }
   });
 },
@@ -151,12 +159,17 @@ focusOnBoundingBox(boundingBox) {
     console.warn('Invalid bounding box or map object.');
   }
 },
-
 focusOnCoordinates(lon, lat) {
   if (this.map) {
     const coordinates = fromLonLat([lon, lat]);
-    this.map.getView().setCenter(coordinates);
-    this.map.getView().setZoom(12);     
+    this.map.getView().animate(
+      {center: coordinates,
+      zoom:  18,
+      duration: 1050,
+      }
+    );
+    // this.map.getView().setCenter(coordinates);
+    // this.map.getView().setZoom(17)
   }
 },
 async fetchAdditionalData(url, pagesToFetch = 10) {
@@ -179,6 +192,7 @@ async fetchAdditionalData(url, pagesToFetch = 10) {
           id: feature.id ?? null,
           lamning_id: feature.properties.lamning_id ?? null,
           raa_id: feature.properties.raa_id ?? null,
+          ksamsok_id: feature.properties.ksamsok_id ?? null,
         }));
 
         // Filter the additionalResults to only include points outside the current bounding box
@@ -267,6 +281,7 @@ async fetchDataByBbox() {
       id: feature.id ?? null,
       lamning_id: feature.properties.lamning_id ?? null,
       raa_id: feature.properties.raa_id ?? null,
+      ksamsok_id:feature.properties.ksamsok_id ?? null,
     })));
 
 
@@ -295,7 +310,9 @@ initMap() {
 
 //Based on the OpenLayers example
 const container = document.getElementById('popup');
-const content = document.getElementById('popup-content');
+// const content = document.getElementById('popup-content');
+const raaContent = document.getElementById('raa_id');
+const lamningContent = document.getElementById('lamning_id');
 const closebutton = document.getElementById('popup-closer');
 
 //Overlay that anchors the popups
@@ -341,10 +358,7 @@ closebutton.onclick = function () {
       offset: [0, 10], 
       src: '/interface/assets/marker-white-wgl.svg',
     },
-
   };
-
- 
 
   const pointSource = new VectorSource();
   this.vectorLayer = new WebGLPointsLayer({
@@ -364,15 +378,19 @@ this.map.on('pointermove', (event) => {
         const lamning_id = feature.get('lamning_id');
         const raa_id = feature.get('raa_id');
         const id = feature.get('id');
-
+        const ksamsok_id = feature.get('ksamsok_id');
+        const coords = feature.get('coords');
+    
         const extent = feature.getGeometry().getExtent();
 
 
-  var popup_text = 0
-  if (raa_id === null) {popup_text = '<p>'+lamning_id+'</p>'} else {popup_text = '<p>'+lamning_id+'</p><p>'+raa_id+'</p>'}
-
-  container.style.visibility='visible'
-  content.innerHTML = popup_text;
+  
+  raaContent.innerHTML = raa_id;
+  lamningContent.innerHTML = lamning_id;
+  document.getElementById("fornsok_link").href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
+  document.getElementById("extmap_link").href = `https://www.google.com/maps/place/${coords}`;
+  // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;
+  container.style.visibility='visible';
   overlay.setPosition(extent);});
 
 })
@@ -385,6 +403,8 @@ this.map.on('click', (event) => {
         const lamning_id = feature.get('lamning_id');
         const raa_id = feature.get('raa_id');
         const id = feature.get('id');
+        const ksamsok_id = feature.get('ksamsok_id');
+        const coords = feature.get('coords');
 
         this.clickedId = id;
         this.clickedLamningId = lamning_id;
@@ -401,12 +421,13 @@ this.map.on('click', (event) => {
         const view = this.map.getView();
         view.fit(extent, {duration: 1000, padding: [1, 1, 1, 1], minResolution: 5.0});
 
-        var popup_text = 0
-        if (raa_id === null) {popup_text = '<p>'+lamning_id+'</p>'} else {popup_text = '<p>'+lamning_id+'</p><p>'+raa_id+'</p>'}
-        //Display popup for clicked point
-        container.style.visibility='visible'
-        content.innerHTML = popup_text;
-        overlay.setPosition(extent);
+        raaContent.innerHTML = raa_id;
+        lamningContent.innerHTML = lamning_id;
+        document.getElementById("fornsok_link").href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
+        document.getElementById("extmap_link").href = `https://www.google.com/maps/place/${coords}`;
+        container.style.visibility='visible';
+        // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;
+        overlay.setPosition(extent);     
       
     }, {
         layerFilter: (layer) => layer === this.vectorLayer, // Ensure we're only checking features in our WebGLPointsLayer
@@ -430,6 +451,8 @@ updateCoordinates() {
         feature.set('lamning_id', result.lamning_id);
         feature.set('raa_id', result.raa_id);
         feature.set('id', result.id);
+        feature.set('ksamsok_id',result.ksamsok_id);
+        feature.set('coords', result.coordinates[1]+','+result.coordinates[0]);
         return feature;
     });
 
@@ -476,7 +499,7 @@ updateCoordinates() {
   z-index: 40; /* Fixes border-radius in Safari. */
   width: 100%;
   height: 100%;
-  min-height: 270px;
+  min-height: 200px;
   margin-top:45px!important;
   padding:0px 0px 0px 0px;
   border-radius:10px;
@@ -655,7 +678,14 @@ right:20px;
   block-size: fit-content;
   font-family: "Barlow Condensed", sans-serif !important;
   max-width: max-content;
+  min-height: max-content;
 }
+
+#fornsok_link, #extmap_link {
+  color: rgb(200,225,250);
+  text-decoration: underline dotted;
+}
+
 
 .ol-popup:after,
 .ol-popup:before {
