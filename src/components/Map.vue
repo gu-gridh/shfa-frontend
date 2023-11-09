@@ -681,9 +681,15 @@ right:20px;
   min-height: max-content;
 }
 
+
 #fornsok_link, #extmap_link {
   color: rgb(200,225,250);
-  text-decoration: underline dotted;
+  background-position: left;
+  background-size: 14px;
+  background-image: url(../../public/interface/linkbuttonwhite.png);
+  background-repeat:no-repeat;
+  padding: 8px 0px 8px 18px;
+  min-width:max-content;
 }
 
 

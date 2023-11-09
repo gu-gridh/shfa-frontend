@@ -1540,8 +1540,8 @@ color:black !important;
 }
 
 .light #fornsok_link, .light #extmap_link {
-  color:black;
-  text-decoration: underline dotted;
+  filter:invert(1);
+  color:white;
 }
 
 
