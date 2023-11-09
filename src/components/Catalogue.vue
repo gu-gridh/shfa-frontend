@@ -78,7 +78,7 @@ export default {
 .background{
   width:100%;
   min-height:calc(100vh - 200px);
-  padding:110px 0px 0px 0px;
+  padding:90px 0px 0px 0px;
 }
 .card{
   border-radius:0px;

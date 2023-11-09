@@ -29,15 +29,23 @@ div.split-container > div > div:nth-child(2)
   background-color: rgba(165,165,165, 0);
   background-repeat: no-repeat;
   background-position: 50%;
+  min-width:20px;
 } 
 
 div.split-container > div > div:nth-child(4)
 {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+  background-image: url("assets/horizontalblack.png");
   cursor: col-resize;
-  background-color: rgba(165,165,165, 0);
+  background-size:contain;
   background-repeat: no-repeat;
-  background-position: 50%;
+  background-position:50%;
+  border-radius:50%;
+  background-color:rgb(200,200,200);
+  height:25px;
+  min-width:25px;
+  margin-top:calc(50vh - 80px);
+  transform:translateX(12.5px);
+  z-index:1000;
 }
 
 /*Border Radius for Map*/

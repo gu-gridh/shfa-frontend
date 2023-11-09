@@ -67,9 +67,9 @@ export default {
         prefixUrl: "/path/to/openseadragon/images/",
         tileSources: `${iiifFile}/info.json`,
         immediateRender: false,
-        visibilityRatio: 0.8,
-        minZoomImageRatio: 1.0,
-        homeFillsViewer: false,
+        visibilityRatio: 1.0,
+        minZoomImageRatio: 0.5,
+        homeFillsViewer: true,
         showZoomControl: true,
         showHomeControl: false,
         showFullPageControl: true,
@@ -106,11 +106,11 @@ watch: {
 .image-viewer {
   width: auto;
   margin-left:15px;
-  margin-right:20px;
+  margin-right:30px;
   margin-top:-45px;
-  height: 70%;
+  height: 65%;
   background-color:black;
-  border-radius:8px;
+  border-radius:0px;
   overflow:hidden;
   z-index:-1;
 }

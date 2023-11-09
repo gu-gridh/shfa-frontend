@@ -1108,12 +1108,12 @@ padding-right:10px;
   height:calc(100% - 160px) ;
   width:100%;
   position:absolute;
-  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.3)!important;
+  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25)!important;
   pointer-events:none;
 }
 
 #split-0{
-padding:30px 15px 35px 40px;
+padding:30px 25px 35px 40px;
 min-width:550px;
 }
 
@@ -1139,7 +1139,7 @@ min-width:550px;
     }
 
 #split-1{
-  padding:0px 15px 0px 15px;
+  padding:0px 20px 0px 20px;
 }
 
 @media (max-width: 1024px) {
@@ -1154,6 +1154,18 @@ min-width:550px;
 #split-1::-webkit-scrollbar {
     width: 0px !important;
     }
+
+  #split-2{
+ background-color:rgb(55,55,55);
+ padding:0px 0px 0px 20px;
+ box-shadow: inset 0rem 0rem 3rem rgba(0, 0, 0, 0.2)!important;
+}
+
+.light #split-2{
+ background-color:rgb(245,245,245);
+ padding:0px 0px 0px 20px;
+ box-shadow: inset 0rem 0rem 3rem rgba(0, 0, 0, 0.15)!important;
+}
 
     #split-2::-webkit-scrollbar {
     width: 0px !important;
@@ -1329,7 +1341,7 @@ h2 input:not(:placeholder-shown) {
   width:35px;
   background-color:rgba(65,65,65, 0.9);
   margin-left:27px;
-  margin-top:45px;
+  margin-top:54px;
   opacity:1.0;
   padding:5px;
   border-width:1px;
@@ -1607,7 +1619,7 @@ filter:invert(1)
 }
 
 .light #search-wrapper{
-  background:linear-gradient(rgb(227, 224, 224) 0%, rgb(247, 244, 244) 100%);
+  background:linear-gradient(rgb(200, 200, 200) 0%, rgb(235, 235, 235) 100%);
   color: black !important;
 }
 
@@ -1635,7 +1647,7 @@ filter:invert(1)
 }
 
 .light #text-wrapper{
-  background:linear-gradient(rgb(237, 234, 234) 0%, rgb(247, 244, 244) 100%);
+  background:linear-gradient(rgb(220, 220, 220) 0%, rgb(235, 235, 235) 100%);
 
 }
 
@@ -1660,7 +1672,7 @@ filter:invert(1)
 
 
 .light .split-container-top{
-  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.2)!important;
+  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.15)!important;
   height:calc(100% - 160px);
 }
 
@@ -1711,21 +1723,21 @@ background-color: rgb(210,210,210)!important;
 
 .light .ui-overlay {
 font-weight: 600;
-color: black;
-background-color: rgba(255, 255, 255, 0.5);
+color: white;
+background-color: rgba(25, 25, 25, 0.5);
 
 }
 
 .light .ui-mode .item:hover {
-  color: rgb(100,125,150);
+  color: rgb(220,245,250);
 }
 
 .light .ui-overlay .selected{
-  color: rgb(100,125,150);
+  color: rgb(200,225,250);
 }
 
 .light .item.active {
-  color: rgb(100,155,220);
+  color: rgb(200,235,255);
   font-weight: 600;
 }
 
