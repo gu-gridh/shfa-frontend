@@ -1108,7 +1108,7 @@ padding-right:10px;
   height:calc(100% - 160px) ;
   width:100%;
   position:absolute;
-  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.3)!important;
+  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25)!important;
   pointer-events:none;
 }
 
@@ -1158,13 +1158,13 @@ min-width:550px;
   #split-2{
  background-color:rgb(55,55,55);
  padding:0px 0px 0px 20px;
- box-shadow: inset 0rem 0rem 2rem rgba(0, 0, 0, 0.4)!important;
+ box-shadow: inset 0rem 0rem 3rem rgba(0, 0, 0, 0.2)!important;
 }
 
 .light #split-2{
- background-color:rgb(255,255,255);
+ background-color:rgb(245,245,245);
  padding:0px 0px 0px 20px;
- box-shadow: inset 0rem 0rem 2rem rgba(0, 0, 0, 0.4)!important;
+ box-shadow: inset 0rem 0rem 3rem rgba(0, 0, 0, 0.15)!important;
 }
 
     #split-2::-webkit-scrollbar {
@@ -1672,7 +1672,7 @@ filter:invert(1)
 
 
 .light .split-container-top{
-  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.2)!important;
+  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.15)!important;
   height:calc(100% - 160px);
 }
 

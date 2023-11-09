@@ -106,7 +106,7 @@ watch: {
 .image-viewer {
   width: auto;
   margin-left:15px;
-  margin-right:20px;
+  margin-right:30px;
   margin-top:-45px;
   height: 65%;
   background-color:black;

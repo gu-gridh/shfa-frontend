@@ -1,12 +1,13 @@
 <template>
-  <div class="gallery-container" :class="{light:isLight}">
+  <div class="gallery-container" :class="{ light: isLight }">
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
       <h1 v-if="group.items.length > 0">{{ $t('message.' + group.text) }}</h1>
-      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="5" class="gallery-group">
+      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="10"
+        class="gallery-group">
         <template #default="{ item, index }">
-          <div class="grid-image card flex items-center justify-center bg-slate-50 text-black" @click="$emit('image-clicked', item.iiif_file, item.id);">
-          <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" 
-              :alt="`Image ${index}`" 
+          <div class="grid-image card flex items-center justify-center bg-slate-50 text-black"
+            @click="$emit('image-clicked', item.iiif_file, item.id);">
+            <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`"
               @load="item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)"
               v-on:load.once="item.loaded = true" />
             <div class="grid-item-info" id="gallery">
@@ -20,19 +21,23 @@
       </MasonryWall>
     </div>
 
-      <div class="button-container" >
+    <div class="button-container">
       <!-- Previous buttons -->
       <div class="button-group">
         <button class="loadMore left" v-if="mapGallery && previousPageUrl" @click="fetchPreviousData"></button>
-        <button class="loadMore left" v-if="!mapGallery && searchPreviousPageUrl && !advancedSearch" @click="searchFetchPreviousPage"></button>
-        <button class="loadMore left" v-if="!mapGallery && advancedPreviousPageUrl && advancedSearch" @click="advancedFetchPreviousPage"></button>
+        <button class="loadMore left" v-if="!mapGallery && searchPreviousPageUrl && !advancedSearch"
+          @click="searchFetchPreviousPage"></button>
+        <button class="loadMore left" v-if="!mapGallery && advancedPreviousPageUrl && advancedSearch"
+          @click="advancedFetchPreviousPage"></button>
       </div>
 
       <!-- Next buttons -->
       <div class="button-group">
         <button class="loadMore right" v-if="mapGallery && nextPageUrl" @click="fetchData"></button>
-        <button class="loadMore right" v-if="!mapGallery && searchNextPageUrl && !advancedSearch" @click="loadMore"></button>
-        <button class="loadMore right" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch" @click="loadMoreAdvanced"></button>
+        <button class="loadMore right" v-if="!mapGallery && searchNextPageUrl && !advancedSearch"
+          @click="loadMore"></button>
+        <button class="loadMore right" v-if="!mapGallery && searchNextPageUrlAdvanced && advancedSearch"
+          @click="loadMoreAdvanced"></button>
       </div>
     </div>
   </div>
@@ -113,38 +118,38 @@ export default {
     },
   },
   computed: {
-  columnWidth() {
-    const screenWidth = window.innerWidth;
-    let columnWidth;
+    columnWidth() {
+      const screenWidth = window.innerWidth;
+      let columnWidth;
 
-    if (screenWidth < 768) {
-      columnWidth = 100; // Set the column width for small screens
-    } else if (screenWidth < 1024) {
-      columnWidth = 200; // Set the column width for medium screens
-    } else {
-      columnWidth = 200; // Set the column width for large screens
-    }
+      if (screenWidth < 768) {
+        columnWidth = 100; // Set the column width for small screens
+      } else if (screenWidth < 1024) {
+        columnWidth = 200; // Set the column width for medium screens
+      } else {
+        columnWidth = 200; // Set the column width for large screens
+      }
 
-    return columnWidth;
-  },
-  totalPages() {
-    return Math.ceil(this.count / 25);
-  },
-  currentPage() {
-    if (this.nextPageUrl) {
-      const url = new URL(this.nextPageUrl);
-      const offset = url.searchParams.get("offset");
-      return (offset / 25);
-    } else if (this.previousPageUrl) {
-      const url = new URL(this.previousPageUrl);
-      const offset = url.searchParams.get("offset");
-      return (offset / 25) + 2;
-    } else {
-      // Default to 1 if no next or previous page
-      return 1;
+      return columnWidth;
+    },
+    totalPages() {
+      return Math.ceil(this.count / 25);
+    },
+    currentPage() {
+      if (this.nextPageUrl) {
+        const url = new URL(this.nextPageUrl);
+        const offset = url.searchParams.get("offset");
+        return (offset / 25);
+      } else if (this.previousPageUrl) {
+        const url = new URL(this.previousPageUrl);
+        const offset = url.searchParams.get("offset");
+        return (offset / 25) + 2;
+      } else {
+        // Default to 1 if no next or previous page
+        return 1;
+      }
     }
-  }
-},
+  },
   data() {
     return {
       mapGallery: false,
@@ -152,10 +157,10 @@ export default {
       advancedSearch: false,
       nextPageUrl: null,
       previousPageUrl: null,
-      loading: false, 
+      loading: false,
       layoutKey: 0,
       loadedImagesCount: 0,
-      count: 0, 
+      count: 0,
       imageGroups: [],
       specificOrder: [
         { type: 957, text: 'ortofotografi', order: 1 },
@@ -182,32 +187,32 @@ export default {
         { type: 953, text: 'karta', order: 21 },
         { type: 950, text: 'tidnings', order: 22 },
         { type: 962, text: 'arbetsbild', order: 23 },
-        ]
+      ]
     }
   },
   mounted() {
     // this.loadStartPage();
   },
   methods: {
-  imageLoadLog(imageIndex, groupIndex, image) {
-    // console.log(`Loading image ${imageIndex} in group ${groupIndex}`);
-    if (!image.loaded) {
+    imageLoadLog(imageIndex, groupIndex, image) {
+      // console.log(`Loading image ${imageIndex} in group ${groupIndex}`);
+      if (!image.loaded) {
         this.imageLoaded(image);
-    }
-  },
-  imageLoaded(event) {
-    this.loadedImagesCount += 1;
-    // Check if all images are loaded
-    if (this.loadedImagesCount === this.imageGroups.reduce((count, group) => count + group.items.length, 0)) {
-      this.$nextTick(() => {
-        this.layoutKey += 1;
-      });   
-    }
-  },
-  updatePageDetails() {
-    this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
-  },
-  async loadStartPage() {
+      }
+    },
+    imageLoaded(event) {
+      this.loadedImagesCount += 1;
+      // Check if all images are loaded
+      if (this.loadedImagesCount === this.imageGroups.reduce((count, group) => count + group.items.length, 0)) {
+        this.$nextTick(() => {
+          this.layoutKey += 1;
+        });
+      }
+    },
+    updatePageDetails() {
+      this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
+    },
+    async loadStartPage() {
       let response = await fetch('https://diana.dh.gu.se/api/shfa/compilation/1/?depth=2');
       if (!response.ok) {
         this.$emit('error', 'Could not fetch data');
@@ -230,14 +235,14 @@ export default {
       for (let image of data.images) {
         let type = image.type;
         let item = {
-          id: image.id ?? null, 
-          lamning_id: image?.site?.lamning_id ?? null, 
+          id: image.id ?? null,
+          lamning_id: image?.site?.lamning_id ?? null,
           raa_id: image?.site?.raa_id ?? null,
           type: image?.type?.id ?? null,
-          iiif_file: image.iiif_file ?? null, 
+          iiif_file: image.iiif_file ?? null,
         };
 
-      let typeIndex = typeMap.findIndex(x => x.type === type.id); 
+        let typeIndex = typeMap.findIndex(x => x.type === type.id);
         if (typeIndex !== -1) {
           typeMap[typeIndex].items.push(item);
         }
@@ -246,7 +251,7 @@ export default {
       // Filter out the groups with no items and sort the image groups by the specified order.
       this.imageGroups = typeMap.filter(group => group.items.length > 0)
       //.sort((a, b) => a.order - b.order);
-  },
+    },
 
     loadMore() {
       this.fetchNextPage();
@@ -264,7 +269,7 @@ export default {
       this.advancedFetchPreviousPage();
     },
 
-   async loadInitialData() {
+    async loadInitialData() {
       if (this.loading) {
         return;
       }
@@ -277,7 +282,7 @@ export default {
       }
     },
 
-   async fetchData() {
+    async fetchData() {
       if (this.nextPageUrl) {
         this.loadedImagesCount = 0;
 
@@ -300,90 +305,90 @@ export default {
           items: [],
         }));
 
-      for (let image of data.results) {
-        let type = image.type;
-        let item = {
-          id: image.id,
-          file: image.file,
-          type: image.type,
-          iiif_file: image.iiif_file,
-        };
+        for (let image of data.results) {
+          let type = image.type;
+          let item = {
+            id: image.id,
+            file: image.file,
+            type: image.type,
+            iiif_file: image.iiif_file,
+          };
 
-      let typeIndex = typeMap.findIndex(x => x.type === type);
-      if (typeIndex !== -1) {
-      typeMap[typeIndex].items.push(item);
-      }
-  
-      // Filter out the groups with no items and sort the image groups by the specified order
-      this.imageGroups = typeMap.filter(group => group.items.length > 0)
-      //.sort((a, b) => a.order - b.order);
+          let typeIndex = typeMap.findIndex(x => x.type === type);
+          if (typeIndex !== -1) {
+            typeMap[typeIndex].items.push(item);
+          }
 
-      }
+          // Filter out the groups with no items and sort the image groups by the specified order
+          this.imageGroups = typeMap.filter(group => group.items.length > 0)
+          //.sort((a, b) => a.order - b.order);
 
-      // Convert map to array for use in template
-      this.imageGroups = Array.from(typeMap.values());
+        }
 
-      this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
-      this.previousPageUrl = data.previous ? data.previous.replace('http://', 'https://') : null;
+        // Convert map to array for use in template
+        this.imageGroups = Array.from(typeMap.values());
 
-      this.updatePageDetails();
+        this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
+        this.previousPageUrl = data.previous ? data.previous.replace('http://', 'https://') : null;
 
-      this.mapGallery = true;
+        this.updatePageDetails();
+
+        this.mapGallery = true;
       }
     },
 
     async fetchPreviousData() {
-    if (this.previousPageUrl) {
-      this.loadedImagesCount = 0;
+      if (this.previousPageUrl) {
+        this.loadedImagesCount = 0;
 
-      let response = await fetch(this.previousPageUrl)
-      if (!response.ok) {
-        this.$emit('error', 'Could not fetch data');
-        return;
-      }
-
-      let data = await response.json()
-
-      if (!data.results) {
-        this.$emit('error', 'No results in data');
-        return;
-      }
-
-      let typeMap = this.specificOrder.map(order => ({
-        ...order,
-        items: [],
-      }));
-
-      for (let image of data.results) {
-        let type = image.type;
-        let item = {
-          id: image.id,
-          file: image.file,
-          type: image.type,
-          iiif_file: image.iiif_file,
-        };
-
-        let typeIndex = typeMap.findIndex(x => x.type === type);
-        if (typeIndex !== -1) {
-        typeMap[typeIndex].items.push(item);
+        let response = await fetch(this.previousPageUrl)
+        if (!response.ok) {
+          this.$emit('error', 'Could not fetch data');
+          return;
         }
 
-      // Filter out the groups with no items and sort the image groups by the specified order
-      this.imageGroups = typeMap.filter(group => group.items.length > 0)
-      //.sort((a, b) => a.order - b.order);
+        let data = await response.json()
 
+        if (!data.results) {
+          this.$emit('error', 'No results in data');
+          return;
+        }
+
+        let typeMap = this.specificOrder.map(order => ({
+          ...order,
+          items: [],
+        }));
+
+        for (let image of data.results) {
+          let type = image.type;
+          let item = {
+            id: image.id,
+            file: image.file,
+            type: image.type,
+            iiif_file: image.iiif_file,
+          };
+
+          let typeIndex = typeMap.findIndex(x => x.type === type);
+          if (typeIndex !== -1) {
+            typeMap[typeIndex].items.push(item);
+          }
+
+          // Filter out the groups with no items and sort the image groups by the specified order
+          this.imageGroups = typeMap.filter(group => group.items.length > 0)
+          //.sort((a, b) => a.order - b.order);
+
+        }
+
+        // Convert map to array for use in template
+        this.imageGroups = Array.from(typeMap.values());
+
+        this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
+        this.previousPageUrl = data.previous ? data.previous.replace('http://', 'https://') : null;
+
+        this.updatePageDetails();
+
+        this.mapGallery = true;
       }
-
-      // Convert map to array for use in template
-      this.imageGroups = Array.from(typeMap.values());
-
-      this.nextPageUrl = data.next ? data.next.replace('http://', 'https://') : null;
-      this.previousPageUrl = data.previous ? data.previous.replace('http://', 'https://') : null;
-
-      this.updatePageDetails();
-
-      this.mapGallery = true;
-    }
     },
 
   },
@@ -415,24 +420,24 @@ export default {
 </script>
 
 <style scoped>
-.gallery-container{
-padding-top: 35px; 
+.gallery-container {
+  padding-top: 35px;
   padding-bottom: 35px;
   /* padding-left:150px; */
 }
 
 @media (max-width: 1024px) {
-  .gallery-container{
-  padding-top: 0px; 
-  padding-bottom: 35px;
-}
+  .gallery-container {
+    padding-top: 0px;
+    padding-bottom: 35px;
+  }
 }
 
 h1 {
   font-size: 20px;
   color: white !important;
   margin: 20px 20px 8px 0px;
-/*   width:150px;
+  /*   width:150px;
   text-align:right;
   transform:translate(-180px, 30px) */
 }
@@ -446,42 +451,40 @@ h1 {
 
 
 .card {
-
-  background-color:#333;
-border-radius:2px;
-  overflow:hidden;
-  box-shadow: 0rem 0rem 0.8rem rgba(0, 0, 0, 0.3)!important;
+  background-color: transparent;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0rem 0rem 1.0rem rgba(0, 0, 0, 0.2) !important;
 
 }
 
 .card img {
   transition: all 0.2s ease-in-out;
-  transform:scale(1.02);
+  transform: scale(1.02);
 }
+
 .card:hover img {
-  filter:brightness(90%);
-  cursor:pointer;
-  transform:scale(1.05);
+  filter: brightness(90%);
+  cursor: pointer;
+  transform: scale(1.05);
 }
 
-.grid-image{
-
-}
+.grid-image {}
 
 .grid-item-info {
   height: 100%;
   width: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%); 
+  background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
   color: white;
   position: absolute;
   opacity: 0;
   transition: all 0.5s ease-in-out;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .grid-item-info:hover {
   opacity: 0.9;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .grid-item-info-meta {
@@ -510,49 +513,48 @@ border-radius:2px;
   cursor: pointer;
   color: white;
   text-align: center;
-  width:35px;
-    height:35px;
-    overflow:hidden;
-  
-  
+  width: 35px;
+  height: 35px;
+  overflow: hidden;
+
+
 }
 
 .loadMore:hover {
-  background-color: rgb(80,90,100);
+  background-color: rgb(80, 90, 100);
 }
 
-  .button-container {
-    display: flex;
-    justify-content: center;
- 
+.button-container {
+  display: flex;
+  justify-content: center;
 
-  
-  }
 
-  /* Button groups */
-  .button-group {
-    position:fixed;
-    bottom:31px;
-    z-index:999;
-    pointer-events:none;
-  }
 
-  /* Align "Load Previous" buttons to the left */
-  .left {
-    margin-left:-100px;
-    background:url(../../public/interface/backbuttonwhite.png);
-    background-size:35px;
-    pointer-events:auto;
-  }
+}
 
-  /* Align "Load More" buttons to the right */
-  .right {
-    margin-left:170px;
-    background:url(../../public/interface/nextbuttonwhite.png);
-    background-size:35px;
-   
-    pointer-events:auto;
-  }
+/* Button groups */
+.button-group {
+  position: fixed;
+  bottom: 31px;
+  z-index: 999;
+  pointer-events: none;
+}
 
+/* Align "Load Previous" buttons to the left */
+.left {
+  margin-left: -100px;
+  background: url(../../public/interface/backbuttonwhite.png);
+  background-size: 35px;
+  pointer-events: auto;
+}
+
+/* Align "Load More" buttons to the right */
+.right {
+  margin-left: 170px;
+  background: url(../../public/interface/nextbuttonwhite.png);
+  background-size: 35px;
+
+  pointer-events: auto;
+}
 </style>
 
