@@ -672,7 +672,7 @@ right:20px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   padding: 8px 18px 8px 38px;
   border-radius: 8px;
-  bottom: 25px;
+  bottom: 38px;
   left: -48px;
   min-width:max-content;
   block-size: fit-content;
@@ -683,7 +683,7 @@ right:20px;
 
 
 #fornsok_link, #extmap_link {
-  color: rgb(200,225,250);
+  color: rgb(250,250,250);
   background-position: left;
   background-size: 14px;
   background-image: url(../../public/interface/linkbuttonwhite.png);
@@ -720,10 +720,26 @@ right:20px;
   
 }
 
+.light .ol-popup:after {
+  border-top-color: rgb(255, 255, 255) !important;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+
+}
+
+.light .ol-popup:before {
+  border-top-color: rgb(200, 200, 200) !important;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+  
+}
+
 .ol-popup-closer {
   text-decoration: none;
   position: absolute;
-  top: 25%;
+  top: 10%;
   left: 12px;
 }
 

@@ -63,22 +63,18 @@
                 no other data is recorded. </p><br>
               <h2>Accessibility Statement</h2>
               <p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>. GRIDH aim to include
-                accessibility as part of our mission statement.</p>
-              <p>The <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
+                accessibility as part of our mission statement. The <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
                   (WCAG)</a> defines requirements for designers and developers to improve accessibility for people with
                 disabilities. It defines three levels of conformance: Level A, Level AA, and Level AAA. The SHFA webportal
                 is partially conformant with WCAG 2.1 level A. Partially conformant means that some parts of the content
-                do not fully conform to the accessibility standard.</p>
-              <p>Accessibility of the SHFA webportal relies on the following technologies to work with the particular
+                do not fully conform to the accessibility standard. Accessibility of the SHFA webportal relies on the following technologies to work with the particular
                 combination of web browser and any assistive technologies or plugins installed on your computer:</p>
               <ul>
                 <li>HTML</li>
                 <li>CSS</li>
                 <li>JavaScript</li>
               </ul>
-              <p>These technologies are relied upon for conformance with the accessibility standards used.</p>
-              <p>GRIDH assessed the accessibility of the SHFA webportal by self-evaluation.</p>
-              <p>This statement was created on 23 August 2023 using the <a
+              <p>These technologies are relied upon for conformance with the accessibility standards used. GRIDH assessed the accessibility of the SHFA webportal by self-evaluation. This statement was created on 23 August 2023 using the <a
                   href="https://www.w3.org/WAI/planning/statements/">W3C Accessibility Statement Generator Tool</a>.</p>
               <br>
 
@@ -179,21 +175,18 @@
                 varifrån besöker kommer. Datat är anonymiserat och ingen annan data sparas. </p><br>
               <h2>Tillgänglighetsredogörelse</h2>
               <p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>. GRIDH strävar efter att
-                inkludera tillgänglighet som en del av vårt uppdrag</p>
-              <p><a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
+                inkludera tillgänglighet som en del av vårt uppdrag. <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
                   (WCAG)</a> definierar krav på designers och utvecklare för att förbättra tillgängligheten för personer
                 med funktionsnedsättning. Den definierar tre nivåer av överensstämmelse: nivå A, nivå AA och nivå AAA.
                 SHFAs webbportal överensstämmer delvis med WCAG 2.1 nivå A. Det innebär att vissa delar av innehållet inte
-                helt överensstämmer med tillgänglighetsstandarden.</p>
-              <p> Tillgängligheten på SHFAs webbportal är beroende av följande tekniker för att fungera med speciella
+                helt överensstämmer med tillgänglighetsstandarden. Tillgängligheten på SHFAs webbportal är beroende av följande tekniker för att fungera med speciella
                 webbläsare och eventuella hjälpmedel eller plugins installerade på din dator:</p>
               <ul>
                 <li>HTML</li>
                 <li>CSS</li>
                 <li>JavaScript</li>
               </ul>
-              <p>GRIDH har gjort en självskattning av SHFAs webbportal.</p>
-              <p>Redogörelsen uppdaterades senast 2023-08-25 </p><br>
+              <p>GRIDH har gjort en självskattning av SHFAs webbportal. Redogörelsen uppdaterades senast 2023-08-25 </p><br>
               <h2>Kontaktinformation</h2>
 
               <p>Vänligen kontakta SHFA via <a href=mailto:shfa@gu.se>shfa@gu.se</a> för frågor om informationen samt för

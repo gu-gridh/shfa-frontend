@@ -1696,7 +1696,7 @@ filter:invert(1)
 
 
 .light .split-container-top{
-  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.15)!important;
+  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.10)!important;
   height:calc(100% - 160px);
 }
 

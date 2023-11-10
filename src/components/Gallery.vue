@@ -5,9 +5,9 @@
       <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="10"
         class="gallery-group">
         <template #default="{ item, index }">
-          <div class="grid-image card flex items-center justify-center bg-slate-50 text-black"
+          <div class="grid-image card flex items-center justify-center"
             @click="$emit('image-clicked', item.iiif_file, item.id);">
-            <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`"
+            <img :src="`${item.iiif_file}/full/250,/0/default.jpg`" :alt="`Image ${index}`"
               @load="item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)"
               v-on:load.once="item.loaded = true" />
             <div class="grid-item-info" id="gallery">
@@ -123,11 +123,11 @@ export default {
       let columnWidth;
 
       if (screenWidth < 768) {
-        columnWidth = 100; // Set the column width for small screens
+        columnWidth = 50; // Set the column width for small screens
       } else if (screenWidth < 1024) {
-        columnWidth = 200; // Set the column width for medium screens
+        columnWidth = 150; // Set the column width for medium screens
       } else {
-        columnWidth = 200; // Set the column width for large screens
+        columnWidth = 150; // Set the column width for large screens
       }
 
       return columnWidth;
