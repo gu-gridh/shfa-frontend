@@ -317,9 +317,12 @@ export default defineComponent({
         });  }
     },
     showThreePanels(newValue) {
-      const gutter = document.querySelector('.gutter:not(.gutter-2)') as HTMLElement;
-      if (gutter) {
-        gutter.style.display = newValue ? 'block' : 'none';
+      if (newValue === false)
+      { //hide the 2nd gutter when the third panel is not visible
+        const gutter = document.querySelector('.gutter:not(.gutter-2)') as HTMLElement;
+        if (gutter) {
+          gutter.style.display = newValue ? 'block' : 'none';
+        }
       }
       if (newValue && !this.shouldShowPanel1) { // Check if on mobile
         const panel = document.getElementById('split-1');
@@ -392,10 +395,6 @@ export default defineComponent({
 
     this.isLight = this.isLight;
 
-    if (window.location.pathname.includes('search')) {
-      this.adjustSplitDisplay();
-    }
-
     const vm = this;
     const direction = window.innerWidth <= 1024 ? 'vertical' : 'horizontal';
 
@@ -409,6 +408,7 @@ export default defineComponent({
     gutter: function (index, direction) {
       const gutter = document.createElement('div');
       gutter.className = 'gutter';
+      gutter.id = 'gutter-' + index;
       if (index === 1) {
         gutter.classList.add('gutter-2');
       } else {
@@ -417,6 +417,10 @@ export default defineComponent({
       return gutter;
     },
   });
+
+  if (window.location.pathname.includes('search')) {
+    this.adjustSplitDisplay();
+  }
 },
 computed: {
   shouldShowPanel1() {
@@ -437,6 +441,16 @@ beforeDestroy() {
       if (!splitElement) return;
 
       splitElement.style.display = 'none';
+
+      const gutterElement = document.getElementById('gutter-1');
+      if (gutterElement) {
+          gutterElement.style.display = 'none';
+      }
+
+      const gutterElement2 = document.getElementById('gutter-2');
+      if (gutterElement2) {
+          gutterElement2.style.display = 'none';
+      }
     },
     updateWindowWidth() {
       this.windowWidth = window.innerWidth;
@@ -492,9 +506,19 @@ beforeDestroy() {
     showImageGallery()
     {
       const splitElement = document.getElementById('split-1');
-
+      
       if (splitElement && splitElement.style.display === 'none') {
         splitElement.style.display = 'block';
+      }
+
+      const gutterElement = document.getElementById('gutter-1');
+      if (gutterElement && this.showThreePanels) {
+          gutterElement.style.display = 'block';
+      }
+
+      const gutterElement2 = document.getElementById('gutter-2');
+      if (gutterElement && this.showThreePanels) {
+          gutterElement2.style.display = 'block';
       }
     },
     onImageClicked(iiifFile, id) {
