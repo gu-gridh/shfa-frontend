@@ -28,6 +28,7 @@
           </div>
           <input
             type="search"
+            @click="onInputFocus(index)"
             :id="'search' + index"
             :name="'search' + index"
             :placeholder="selectedKeywords[index].length ? '' : [
@@ -42,6 +43,7 @@
             :value="query"
             @input="updateSearchQuery($event.target.value, index)"
             @keydown="handleBackspace($event, index)"
+            autocomplete="off"
           />
         </div>
         <div v-show="searchResults[index].length" class="suggestions">
@@ -75,6 +77,7 @@ export default {
       advancedResults: [],
       debouncedSearch: [null, null, null, null, null, null],
       selectedKeywords: [[], [], [], [], [], []],
+      infiniteScrollUrls: Array(6).fill(null),
       hoveredResultIndex: -1,
       nextPageUrl: null,
       previousPageUrl: null,
@@ -95,6 +98,13 @@ export default {
     type: Function,
     required: true,
     },
+  },
+  mounted() {
+    this.setupScrollListener();
+    document.addEventListener('click', this.handleClickOutside);
+  },
+   beforeDestroy() {
+    document.removeEventListener('click', this.handleClickOutside);
   },
   created() {
     this.debouncedSearch = this.searchQuery.map(() => {
@@ -134,6 +144,51 @@ export default {
     }
   },
   methods: {
+  closeAllSuggestions() {
+    // Close all suggestion boxes
+    this.searchResults = this.searchResults.map(() => []);
+  },
+  handleClickOutside(event) {
+    const searchContainers = this.$el.querySelectorAll('.input-wrapper');
+    let clickInsideSearchContainer = false;
+
+    searchContainers.forEach((container) => {
+      if (container.contains(event.target)) {
+        clickInsideSearchContainer = true;
+      }
+    });
+
+    if (!clickInsideSearchContainer) {
+      this.closeAllSuggestions();
+    }
+  },
+  setupScrollListener() {
+    const suggestionBoxes = this.$el.querySelectorAll('.suggestions');
+    suggestionBoxes.forEach((box, index) => {
+      box.addEventListener('scroll', () => {
+        // Before calling searchKeywordTags, check if infiniteScrollUrls at this index is not null
+        if (this.isScrolledToBottom(box) && this.infiniteScrollUrls[index] !== null) {
+          this.searchKeywordTags('', index, this.infiniteScrollUrls[index]);
+        }
+      });
+    });
+  },
+  isScrolledToBottom(element) {
+    return element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
+  },
+  onInputFocus(index) {
+    // Close all other suggestion boxes
+    this.searchResults = this.searchResults.map(() => []);
+
+    // Check if there is already a query or selected keywords
+    if (!this.searchQuery[index] && !this.selectedKeywords[index].length) {
+      // If not, perform a search to get initial results
+      this.searchKeywordTags('', index);
+    }
+
+    // Make sure the suggestions for the current input are shown
+    this.searchResults[index] = this.searchResults[index].length ? this.searchResults[index] : [];
+  },
   clearAdvancedSearchFields() {
     this.searchQuery = ['', '', '', '', '', ''];
     this.selectedKeywords = [[], [], [], [], [], []];
@@ -220,7 +275,6 @@ export default {
         const coords = image?.site?.coordinates?.coordinates;
         if (coords) {
           const [x, y] = coords;
-          // console.log(`Coordinates for image ${item.id}: x = ${x}, y = ${y}`);  // Log the coordinates
           minX = Math.min(minX, x);
           maxX = Math.max(maxX, x);
           minY = Math.min(minY, y);
@@ -304,27 +358,38 @@ export default {
         }, delay);
       };
     },
-    async searchKeywordTags(query, index) {
-      if (!query) {
-        this.searchResults[index] = [];
-        return;
-      }
+  async searchKeywordTags(query, index, nextPage = null) {      
+    let apiUrl;
+    let newResults;
+    let shouldAppendResults = nextPage != null;
 
-      let apiUrl = this.apiUrls[index]; // Use the corresponding API URL
+  if (shouldAppendResults) {
+    // Replace 'http://' with 'https://' if present
+    apiUrl = nextPage.replace(/^http:\/\//i, 'https://');
+  } else {
+    apiUrl = this.apiUrls[index] + encodeURIComponent(query);
+    // Clear out the current search results as we're refining the search
+    this.searchResults[index] = [];
+  }
 
-      // Check if the index corresponds to the image_type and append &depth=1 accordingly
-      if (index === 2) {
-        apiUrl += `${query}&depth=1`;
-      } else {
-        apiUrl += query;
-      }
+    // Check if the index corresponds to the image_type and append &depth=1 accordingly
+    if (index === 2) {
+      apiUrl += `${query}&depth=1`;
+    }
 
-      try {
+    try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        switch(index) {
+        // If after an API call we find there is no 'next' page, do not proceed with updating results
+        if (data.next) {
+          this.infiniteScrollUrls[index] = data.next.replace(/^http:\/\//i, 'https://');
+        } else {
+          this.infiniteScrollUrls[index] = null;
+          console.log("No more pages to load.");
+        }
+          switch(index) {
           case 0: // Site name: use "raa_id or lamning_id"
-            this.searchResults[index] = data.features.flatMap(feature => [
+            newResults = data.features.flatMap(feature => [
               {
                 id: feature.id + "-raa",
                 text: feature.properties.raa_id
@@ -336,7 +401,7 @@ export default {
             ]);
             break;
           case 1:
-            this.searchResults[index] = data.results.map(result => ({
+           newResults = data.results.map(result => ({
                   id: result.id,
                   text: this.currentLang === 'sv' ? result.name : result.english_translation
               }));
@@ -344,7 +409,7 @@ export default {
           case 2:
             // Use a set to track unique image types
             const uniqueTypes = new Set();
-            this.searchResults[index] = data.results
+            newResults = data.results
               .filter(result => {
                 const text = this.currentLang === 'sv' ? result.type.text : result.type.english_translation;
                 if (!uniqueTypes.has(text)) {
@@ -359,25 +424,34 @@ export default {
               }));
             break;
           case 3: // Keywords: use "text"
-            this.searchResults[index] = data.results.map(result => ({
+            newResults = data.results.map(result => ({
                   id: result.id,
                   text: this.currentLang === 'sv' ? result.text : result.english_translation
               }));
             break;
           case 4: // Dating: use "text"
-            this.searchResults[index] = data.results.map(result => ({
+            newResults = data.results.map(result => ({
                   id: result.id,
                   text: this.currentLang === 'sv' ? result.text : result.english_translation
               }));
             break;
           case 5: // Institution name: use "name"
-            this.searchResults[index] = data.results.map(result => ({
+            newResults = data.results.map(result => ({
               id: result.id,
               text: result.name
             }));
             break;
           default: // For the other cases, use the existing structure
             this.searchResults[index] = data.results.slice(0, 5);
+        }
+        if(newResults) {
+          if (shouldAppendResults) {
+            // Append the new results to the existing ones
+            this.searchResults[index] = [...this.searchResults[index], ...newResults];
+          } else {
+            // Replace the current results with the new ones as we're refining the search
+            this.searchResults[index] = newResults;
+          }
         }
       } catch (error) {
         console.error(error);
