@@ -679,6 +679,7 @@ right:20px;
   font-family: "Barlow Condensed", sans-serif !important;
   max-width: max-content;
   min-height: max-content;
+  cursor: pointer;
 }
 
 
