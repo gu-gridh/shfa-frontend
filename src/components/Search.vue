@@ -112,7 +112,7 @@ export default {
   created() {
     this.coordinateStore = useStore();
     this.defaultSearchResults = [
-    { id: 1, text: 'miljö'},
+    { id: 1, text: 'hällristningsmiljö'},
     { id: 2, text: 'nattfoto'},
     { id: 3, text: 'vattenöversilad'},
     { id: 4, text: 'laserskanning'},
