@@ -111,17 +111,21 @@ export default {
   },
   created() {
     this.defaultSearchResults = [
-    { id: 1, text: 'skepp'},
-    { id: 2, text: 'djur'},
-    { id: 3, text: 'människofigur'},
-    { id: 4, text: 'vagn'},
-    { id: 5, text: 'vapen'},
-    { id: 6, text: 'krigare'},
-    { id: 7, text: 'vitlycke'},
-    { id: 8, text: 'skee'},
-    { id: 9, text: 'kalkering'},
-    { id: 10, text: 'frottage'},
-    { id: 11, text: 'nattfotografering'},
+    { id: 1, text: 'miljö'},
+    { id: 2, text: 'nattfotografering'},
+    { id: 3, text: 'vattenöversilad'},
+    { id: 4, text: 'laserskanning'},
+    { id: 4, text: 'skepp'},
+    { id: 5, text: 'djur'},
+    { id: 6, text: 'vagn'},
+    { id: 7, text: 'vapen'},
+    { id: 8, text: 'krigare'},
+    { id: 9, text: 'människofigur'},
+    { id: 10, text: 'vitlycke'},
+    { id: 11, text: 'skee'},
+    { id: 12, text: 'kalkering'},
+    { id: 13, text: 'frottage'},
+    
     ];
   },  
   methods: {
