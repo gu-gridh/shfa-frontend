@@ -437,6 +437,7 @@ export default {
 .loading-animation img {
   width: 50px;
   height: 50px;
+  filter: invert(0.8)
 }
 
 .gallery-container {

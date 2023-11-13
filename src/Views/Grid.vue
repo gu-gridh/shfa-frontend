@@ -1542,7 +1542,11 @@ background: rgb(250,250,250);
 color:black !important;
 }
 
-
+.light .loading-animation img{
+  width: 50px;
+  height: 50px;
+  filter: invert(0.5);
+}
 .light h1{
   color:black !important;
 }
