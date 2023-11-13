@@ -317,18 +317,21 @@ export default defineComponent({
         });  }
     },
     showThreePanels(newValue) {
-      if (newValue === false)
-      { //hide the 2nd gutter when the third panel is not visible
-        const gutter = document.querySelector('.gutter:not(.gutter-2)') as HTMLElement;
-        if (gutter) {
-          gutter.style.display = newValue ? 'block' : 'none';
-        }
+      if (this.isFirstLoad && (window.location.pathname.includes('search'))) {
+        this.isFirstLoad = false;
+        return;
       }
+
+      const gutter = document.querySelector('.gutter:not(.gutter-2)') as HTMLElement;
+      if (gutter) {
+        gutter.style.display = newValue ? 'block' : 'none';
+      }
+
       if (newValue && !this.shouldShowPanel1) { // Check if on mobile
         const panel = document.getElementById('split-1');
-            if (panel) {
-              window.scrollTo(0, 400);
-            }        
+        if (panel) {
+          window.scrollTo(0, 400);
+        }        
       }
     }
   },
@@ -366,6 +369,7 @@ export default defineComponent({
       mapClicked: false,
       currentColour: 'dark',
       isLight: false,
+      isFirstLoad: true,
     }
   },
   // beforeRouteEnter(to, from, next) {
