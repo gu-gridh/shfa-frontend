@@ -220,7 +220,7 @@ ul {
 
 .visit-button {
   display: inline-block;
-  padding: 4px 10px 6px 43px;
+  padding: 4px 10px 4px 43px;
   color: white;
   background-color: rgb(100, 100, 100);
   border-radius: 8px;
@@ -229,7 +229,7 @@ ul {
   cursor: pointer;
   margin-bottom: 20px;
   background-image:url(../../public/interface/linkbuttonwhite.png);
-  background-size:25px;
+  background-size:20px;
   background-position:10px 8px;
   background-repeat:no-repeat;
   box-shadow:5px 5px 10px rgba(0,0,0,0.1);
