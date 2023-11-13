@@ -22,7 +22,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="h-15 w-15" fill="none" viewBox="0 0 25 30" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button> 
   <div class="languages">
-    <div class="version">Version 1.0</div>
+    <div class="version">Version 1.1</div>
     
  <transition name="flip-fade" mode="out-in">
     <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage">
