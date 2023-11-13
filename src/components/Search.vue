@@ -112,7 +112,7 @@ export default {
   created() {
     this.defaultSearchResults = [
     { id: 1, text: 'miljö'},
-    { id: 2, text: 'nattfotografering'},
+    { id: 2, text: 'nattfoto'},
     { id: 3, text: 'vattenöversilad'},
     { id: 4, text: 'laserskanning'},
     { id: 4, text: 'skepp'},

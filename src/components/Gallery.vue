@@ -7,7 +7,7 @@
         <template #default="{ item, index }">
           <div class="grid-image card flex items-center justify-center"
             @click="$emit('image-clicked', item.iiif_file, item.id);">
-            <img :src="`${item.iiif_file}/full/200,/0/default.jpg`" :alt="`Image ${index}`"
+            <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`"
               @load="item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)"
               v-on:load.once="item.loaded = true" />
             <div class="grid-item-info" id="gallery">
