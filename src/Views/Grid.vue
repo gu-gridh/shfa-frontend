@@ -422,7 +422,7 @@ export default defineComponent({
     },
   });
 
-  if (window.location.pathname.includes('search')) {
+  if (window.location.pathname.includes('search') && window.location.pathname.includes('iiif')) {
     this.adjustSplitDisplay();
   }
 },
