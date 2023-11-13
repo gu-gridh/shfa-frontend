@@ -107,6 +107,7 @@ export default {
     document.removeEventListener('click', this.handleClickOutside);
   },
   created() {
+    this.coordinateStore = useStore();
     this.debouncedSearch = this.searchQuery.map(() => {
       return this.debounce((query, index) => {
         this.searchKeywordTags(query, index);
@@ -222,6 +223,7 @@ export default {
     fetchURL = fetchURL ? fetchURL : baseURL + searchParams.toString();
 
     try {
+      this.coordinateStore.setLoading(true);
       const response = await fetch(fetchURL);
       const data = await response.json();
       this.count = data.count; // Update the total count
@@ -296,8 +298,7 @@ export default {
           bottomRight: [maxX, minY],
         };
         
-        const coordinateStore = useStore();
-        coordinateStore.setBoundingBox(boundingBox);
+        this.coordinateStore.setBoundingBox(boundingBox);
       } else {
         console.log('No valid coordinates found. Skipping setting the bounding box.');
       }
@@ -326,6 +327,7 @@ export default {
       }
 
       this.$emit('advanced-search-results', this.advancedResults);
+      this.coordinateStore.setLoading(false);
       this.updatePageDetails();
 
     } catch (error) {
