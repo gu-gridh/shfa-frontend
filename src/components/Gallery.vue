@@ -1,5 +1,8 @@
 <template>
   <div class="gallery-container" :class="{ light: isLight }">
+    <div v-if="store.isLoading" class="loading-animation">
+      <img src="/interface/6-dots-rotate.svg" alt="Loading...">
+    </div>
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
       <h1 v-if="group.items.length > 0">{{ $t('message.' + group.text) }}</h1>
       <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="10"
@@ -45,6 +48,7 @@
 
 <script>
 import MasonryWall from '@yeger/vue-masonry-wall'
+import { useStore } from '../stores/store.js';
 
 export default {
   components: {
@@ -118,6 +122,9 @@ export default {
     },
   },
   computed: {
+    store() {
+      return useStore();
+    },
     columnWidth() {
       const screenWidth = window.innerWidth;
       let columnWidth;
@@ -420,6 +427,18 @@ export default {
 </script>
 
 <style scoped>
+.loading-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 100%;
+}
+
+.loading-animation img {
+  width: 50px;
+  height: 50px;
+}
+
 .gallery-container {
   padding-top: 35px;
   padding-bottom: 35px;

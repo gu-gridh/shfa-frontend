@@ -110,6 +110,7 @@ export default {
     }
   },
   created() {
+    this.coordinateStore = useStore();
     this.defaultSearchResults = [
     { id: 1, text: 'miljö'},
     { id: 2, text: 'nattfoto'},
@@ -157,12 +158,12 @@ export default {
     },
     async fetchResults(url) {
       try {
+        this.coordinateStore.setLoading(true);
         let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
         const response = await fetch(url);
         const data = await response.json();
         this.count = data.count; // Update the total count
 
-        // Define the specific order of the image types
         const specificOrder = [
         { type: 957, text: 'ortofotografi', order: 1 },
         { type: 965, text: 'översiktsbild', order: 1},
@@ -231,9 +232,7 @@ export default {
           bottomLeft: [minX, minY],
           bottomRight: [maxX, minY],
         };
-        
-        const coordinateStore = useStore();
-        coordinateStore.setBoundingBox(boundingBox);
+        this.coordinateStore.setBoundingBox(boundingBox);
     } else {
       console.log('No valid coordinates found. Skipping setting the bounding box.');
     }
@@ -269,6 +268,7 @@ export default {
         console.error(error);
       } finally {
         // After all data is loaded, emit the contents of searchResults
+        this.coordinateStore.setLoading(false);
         this.$emit('search-completed', this.searchResults);
         this.updatePageDetails();
       }
