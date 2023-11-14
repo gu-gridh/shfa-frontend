@@ -365,18 +365,13 @@ export default {
     let newResults;
     let shouldAppendResults = nextPage != null;
 
-  if (shouldAppendResults) {
-    // Replace 'http://' with 'https://' if present
-    apiUrl = nextPage.replace(/^http:\/\//i, 'https://');
-  } else {
-    apiUrl = this.apiUrls[index] + encodeURIComponent(query);
-    // Clear out the current search results as we're refining the search
-    this.searchResults[index] = [];
-  }
-
-    // Check if the index corresponds to the image_type and append &depth=1 accordingly
-    if (index === 2) {
-      apiUrl += `${query}&depth=1`;
+    if (shouldAppendResults) {
+      // Replace 'http://' with 'https://' if present
+      apiUrl = nextPage.replace(/^http:\/\//i, 'https://');
+    } else {
+      apiUrl = this.apiUrls[index] + encodeURIComponent(query);
+      // Clear out the current search results as we're refining the search
+      this.searchResults[index] = [];
     }
 
     try {
@@ -409,21 +404,10 @@ export default {
               }));
             break;
           case 2:
-            // Use a set to track unique image types
-            const uniqueTypes = new Set();
-            newResults = data.results
-              .filter(result => {
-                const text = this.currentLang === 'sv' ? result.type.text : result.type.english_translation;
-                if (!uniqueTypes.has(text)) {
-                  uniqueTypes.add(text);
-                  return true;
-                }
-                return false;
-              })
-              .map(result => ({
-                id: result.id,
-                text: this.currentLang === 'sv' ? result.type.text : result.type.english_translation
-              }));
+            newResults = data.results.map(result => ({
+                      id: result.id,
+                      text: this.currentLang === 'sv' ? result.text : result.english_translation
+                  }));
             break;
           case 3: // Keywords: use "text"
             newResults = data.results.map(result => ({
