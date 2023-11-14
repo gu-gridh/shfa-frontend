@@ -291,6 +291,7 @@ export default {
 
     async fetchData() {
       if (this.nextPageUrl) {
+        this.store.setLoading(true);
         this.loadedImagesCount = 0;
 
         let response = await fetch(this.nextPageUrl)
@@ -339,13 +340,14 @@ export default {
         this.previousPageUrl = data.previous ? data.previous.replace('http://', 'https://') : null;
 
         this.updatePageDetails();
-
+        this.store.setLoading(false);
         this.mapGallery = true;
       }
     },
 
     async fetchPreviousData() {
       if (this.previousPageUrl) {
+        this.store.setLoading(true);
         this.loadedImagesCount = 0;
 
         let response = await fetch(this.previousPageUrl)
@@ -393,7 +395,7 @@ export default {
         this.previousPageUrl = data.previous ? data.previous.replace('http://', 'https://') : null;
 
         this.updatePageDetails();
-
+        this.store.setLoading(false);
         this.mapGallery = true;
       }
     },
