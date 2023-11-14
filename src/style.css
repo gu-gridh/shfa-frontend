@@ -48,6 +48,18 @@ div.split-container > div > div:nth-child(4)
   z-index:1000;
 }
 
+@media (max-width: 1024px) { /*disable gutters on small devices*/
+  div.split-container > div > div:nth-child(4)
+  {
+    margin-top: 0px;
+    height: 0px !important;
+  }
+  #gutter-1
+  {
+    height: 0px !important;
+  }
+}
+
 /*Border Radius for Map*/
 #map > div >  div.ol-unselectable.ol-layers > div > canvas
 {
