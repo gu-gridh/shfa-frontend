@@ -387,7 +387,7 @@ export default {
           color: "#f0c02e",
           size: [20, 30],
           offset: [0, 10],
-          src: "/interface/assets/marker-white-wgl.svg",
+          src: "/interface/assets/marker-white.svg",
         },
       };
 
