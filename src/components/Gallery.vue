@@ -4,7 +4,7 @@
       <img src="/interface/6-dots-rotate.svg" alt="Loading...">
     </div>
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
-      <h1 v-if="group.items.length > 0">{{ $t('message.' + group.text) }}</h1>
+      <h3 v-if="group.items.length > 0">{{ $t('message.' + group.text) }}</h3>
       <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="10"
         class="gallery-group">
         <template #default="{ item, index }">
@@ -15,8 +15,8 @@
               v-on:load.once="item.loaded = true" />
             <div class="grid-item-info" id="gallery">
               <div class="grid-item-info-meta">
-                <h1>{{ mapGallery ? siteLamningId : item.lamning_id }}</h1>
-                <h2>{{ mapGallery ? siteRaaId : item.raa_id }}</h2>
+                <h5>{{ mapGallery ? siteLamningId : item.lamning_id }}</h5>
+                <h6>{{ mapGallery ? siteRaaId : item.raa_id }}</h6>
               </div>
             </div>
           </div>
@@ -432,7 +432,7 @@ export default {
 .loading-animation {
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
   height: 100%;
 }
 
@@ -455,7 +455,7 @@ export default {
   }
 }
 
-h1 {
+h3 {
   font-size: 20px;
   color: white !important;
   margin: 20px 20px 8px 0px;
@@ -463,13 +463,6 @@ h1 {
   text-align:right;
   transform:translate(-180px, 30px) */
 }
-
-.grid-item-info-meta h1 {
-  font-size: 20px;
-  margin: 20px 20px 0px 0px;
-}
-
-
 
 
 .card {
@@ -501,6 +494,7 @@ h1 {
   opacity: 0;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
+  padding:0px;
 }
 
 .grid-item-info:hover {
@@ -509,21 +503,22 @@ h1 {
 }
 
 .grid-item-info-meta {
-  bottom: 20px;
+  bottom: 0px;
   position: absolute;
+  padding:10px 10px;
 }
 
-.grid-item-info-meta h1 {
-  font-size: 20px;
-  margin-left: 20px;
-  bottom: 20px;
-  font-weight: 800;
-}
-
-
-.grid-item-info-meta h2 {
+.grid-item-info-meta h5 {
   font-size: 18px;
-  margin-left: 20px;
+  font-weight: 800;
+  line-height:1.0;
+}
+
+
+.grid-item-info-meta h6 {
+  font-size: 15px;
+  bottom: 0px;
+  line-height:1.0;
 }
 
 .loadMore {
@@ -537,8 +532,6 @@ h1 {
   width: 35px;
   height: 35px;
   overflow: hidden;
-
-
 }
 
 .loadMore:hover {
