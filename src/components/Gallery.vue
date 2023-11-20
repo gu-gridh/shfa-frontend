@@ -280,6 +280,7 @@ export default {
     async fetchImagesClicked(next = true) {
       let url;
       this.loadedImagesCount = 0;
+      this.store.setLoading(true);
       if (next && this.nextPageUrl) {
         url = this.nextPageUrl;
       } else if (!next && this.previousPageUrl) {
@@ -334,6 +335,7 @@ export default {
 
         // Update page details if needed
         this.updatePageDetails();
+        this.store.setLoading(false);
       } catch (error) {
         console.error("Error fetching images:", error);
       } finally {
