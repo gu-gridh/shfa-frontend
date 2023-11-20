@@ -1,5 +1,7 @@
 <template>
   <div id="map">
+    <button id="new-button" @click="fetchImagesClicked()"></button>
+ 
     <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
       <div id="popup-content">
@@ -17,7 +19,7 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 import Map from "ol/Map";
 import View from "ol/View";
@@ -35,7 +37,7 @@ import Zoom from "ol/control/Zoom";
 import { watch } from "vue";
 import { useStore } from "../stores/store.js";
 import { transformExtent } from "ol/proj";
-
+ 
 export default {
   name: "MapComponent",
   props: {
@@ -79,7 +81,7 @@ export default {
   },
   created() {
     this.debouncedFetchDataByBbox = debounce(this.fetchDataByBbox, 1000);
-
+ 
     // Watch the 'boundingBox' field in the store for changes
     watch(
       () => this.coordinateStore.boundingBox,
@@ -147,6 +149,10 @@ export default {
     },
   },
   methods: {
+    fetchImagesClicked() {
+      this.coordinateStore.setImagesFetchTriggered(true); // Set the trigger flag in the store
+    },
+ 
     focusOnBoundingBox(boundingBox) {
       if (this.map && boundingBox) {
         // Extract the bounding box coordinates in the format [minLon, minLat, maxLon, maxLat]
@@ -156,14 +162,14 @@ export default {
           boundingBox.topRight[0],
           boundingBox.topRight[1],
         ];
-
+ 
         // Transform the extent to the map's projection
         const transformedExtent = transformExtent(
           extent,
           "EPSG:4326",
           "EPSG:3857"
         );
-
+ 
         // Fit the map view to the extent
         this.map.getView().fit(transformedExtent, {
           size: this.map.getSize(),
@@ -172,7 +178,7 @@ export default {
           duration: 1000, //slow zoom for better user experience
           minResolution: 5.0, //limit resolution so landmarks in basemap are still visible
         });
-
+ 
         // Trigger a manual map render
         this.map.renderSync();
       } else {
@@ -193,17 +199,17 @@ export default {
       if (!url) {
         url = "https://diana.dh.gu.se/api/shfa/geojson/site/?page_size=1000";
       }
-
+ 
       const delay = async (duration) =>
         new Promise((resolve) => setTimeout(resolve, duration));
-
+ 
       let pagesFetched = 0;
-
+ 
       const fetchData = async (url) => {
         try {
           const response = await fetch(url);
           const data = await response.json();
-
+ 
           if (data && data.features) {
             const additionalResults = data.features.map((feature) => ({
               coordinates: feature.geometry.coordinates,
@@ -212,7 +218,7 @@ export default {
               raa_id: feature.properties.raa_id ?? null,
               ksamsok_id: feature.properties.ksamsok_id ?? null,
             }));
-
+ 
             // Filter the additionalResults to only include points outside the current bounding box
             const filteredAdditionalResults = additionalResults.filter(
               (result) => {
@@ -225,13 +231,13 @@ export default {
                 );
               }
             );
-
+ 
             // Merge the filteredAdditionalResults with the cachedResults
             this.cachedResults.push(...filteredAdditionalResults);
-
+ 
             // Increment the pagesFetched counter
             pagesFetched++;
-
+ 
             // If there's a next page, fetch it
             if (data.next) {
               const fixedNextUrl = data.next.replace("http://", "https://");
@@ -248,10 +254,10 @@ export default {
           console.error("Error fetching additional data:", error);
         }
       };
-
+ 
       await fetchData(url);
     },
-
+ 
     updateBbox() {
       // Get the bounding box coordinates of the current view and emit them to the parent component
       const extent = this.map.getView().calculateExtent(this.map.getSize());
@@ -259,8 +265,9 @@ export default {
       const topRight = toLonLat([extent[2], extent[3]]);
       const newBbox = [bottomLeft[0], bottomLeft[1], topRight[0], topRight[1]];
       this.$emit("update-bbox", newBbox);
+      this.coordinateStore.setBboxFetch(newBbox);
     },
-
+ 
     async fetchDataByBbox() {
       if (this.bbox.length === 4) {
         // Calculate the larger bounding box
@@ -272,20 +279,20 @@ export default {
           maxX + (maxX - minX) * padding,
           maxY + (maxY - minY) * padding,
         ];
-
+ 
         // Construct the API URL with the padded bounding box coordinates
         const url = `https://diana.dh.gu.se/api/shfa/geojson/site/?in_bbox=${paddedBbox[0]},${paddedBbox[1]},${paddedBbox[2]},${paddedBbox[3]}&limit=100`;
-
+ 
         let allFeatures = [];
-
+ 
         const fetchResults = async (url) => {
           try {
             const response = await fetch(url);
             const data = await response.json();
-
+ 
             if (data && data.features) {
               allFeatures.push(...data.features);
-
+ 
               if (data.next) {
                 //if there is a "next" URL, recursively fetch the next set of data
                 let fixedNextUrl = data.next.replace("http://", "https://");
@@ -299,9 +306,9 @@ export default {
             console.error("Error fetching data:", error);
           }
         };
-
+ 
         await fetchResults(url);
-
+ 
         // Save the fetched data in the cachedResults array
         this.cachedResults.push(
           ...allFeatures.map((feature) => ({
@@ -312,7 +319,7 @@ export default {
             ksamsok_id: feature.properties.ksamsok_id ?? null,
           }))
         );
-
+ 
         // Deduplicate the cachedResults array
         const uniqueResults = [];
         const seenIds = new Set();
@@ -324,7 +331,7 @@ export default {
           }
         }
         this.cachedResults = uniqueResults;
-
+ 
         // Update the results array with the data within the current bounding box
         this.results = this.cachedResults.filter((result) => {
           const [x, y] = result.coordinates;
@@ -337,7 +344,7 @@ export default {
         });
       }
     },
-
+ 
     initMap() {
       //Based on the OpenLayers example
       const container = document.getElementById("popup");
@@ -345,7 +352,7 @@ export default {
       const raaContent = document.getElementById("raa_id");
       const lamningContent = document.getElementById("lamning_id");
       const closebutton = document.getElementById("popup-closer");
-
+ 
       //Overlay that anchors the popups
       const overlay = new Overlay({
         element: container,
@@ -356,14 +363,14 @@ export default {
           },
         },
       });
-
+ 
       //Button to make popup invisible
       closebutton.onclick = function () {
         container.style.visibility = "collapse";
         closebutton.blur();
         return false;
       };
-
+ 
       this.map = new Map({
         target: "map",
         layers: [
@@ -379,7 +386,7 @@ export default {
         overlays: [overlay],
       });
       this.map.addControl(new Zoom());
-
+ 
       // Initialize the WebGL map marker style
       const webGLStyle = {
         symbol: {
@@ -390,16 +397,16 @@ export default {
           src: "/interface/assets/marker-white.svg",
         },
       };
-
+ 
       const pointSource = new VectorSource();
       this.vectorLayer = new WebGLPointsLayer({
         source: pointSource,
         style: webGLStyle,
         className: "markers",
       });
-
+ 
       this.map.addLayer(this.vectorLayer);
-
+ 
       this.map.on("pointermove", (event) => {
         if (event.dragging) {
           return;
@@ -411,9 +418,9 @@ export default {
           const id = feature.get("id");
           const ksamsok_id = feature.get("ksamsok_id");
           const coords = feature.get("coords");
-
+ 
           const extent = feature.getGeometry().getExtent();
-
+ 
           raaContent.innerHTML = raa_id;
           lamningContent.innerHTML = lamning_id;
           document.getElementById(
@@ -422,12 +429,12 @@ export default {
           document.getElementById(
             "extmap_link"
           ).href = `https://www.google.com/maps/place/${coords}`;
-          // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;
+          // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;          
           container.style.visibility = "visible";
           overlay.setPosition(extent);
         });
       });
-
+ 
       // Add 'click' event listener
       this.map.on("click", (event) => {
         // Use the hit detection mechanism
@@ -440,16 +447,16 @@ export default {
             const id = feature.get("id");
             const ksamsok_id = feature.get("ksamsok_id");
             const coords = feature.get("coords");
-
+ 
             this.clickedId = id;
             this.clickedLamningId = lamning_id;
             this.clickedRaaId = raa_id;
-
+ 
             this.$emit("map-clicked");
             this.$emit("id-selected", id);
             this.$emit("lamning-selected", lamning_id);
             this.$emit("raa-selected", raa_id);
-
+ 
             //Zoom to the clicked point and make sure basemap is still visible
             const extent = feature.getGeometry().getExtent();
             const view = this.map.getView();
@@ -458,7 +465,7 @@ export default {
               padding: [1, 1, 1, 1],
               minResolution: 5.0,
             });
-
+ 
             raaContent.innerHTML = raa_id;
             lamningContent.innerHTML = lamning_id;
             document.getElementById(
@@ -468,7 +475,7 @@ export default {
               "extmap_link"
             ).href = `https://www.google.com/maps/place/${coords}`;
             container.style.visibility = "visible";
-            // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;
+            // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;            
             overlay.setPosition(extent);
           },
           {
@@ -477,7 +484,7 @@ export default {
           }
         );
       });
-
+ 
       // Add 'moveend' event listener to the map to update the bounding box
       this.map.on(
         "moveend",
@@ -486,7 +493,7 @@ export default {
         }, 1000)
       ); // Adjust the delay in milliseconds as needed
     },
-
+ 
     updateCoordinates() {
       const newFeatures = this.cachedResults.map((result) => {
         const coord = result.coordinates;
@@ -503,7 +510,7 @@ export default {
         );
         return feature;
       });
-
+ 
       const pointSource = this.vectorLayer.getSource();
       pointSource.clear();
       pointSource.addFeatures(newFeatures);
@@ -511,8 +518,24 @@ export default {
   },
 };
 </script>
-
+ 
 <style>
+#new-button {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 100;
+  background: url(/public/interface/searchbuttonwhite.png) no-repeat 50% 50%;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50% !important;
+  background-color: rgba(65, 65, 65, 0.9);
+  background-size: 30px 30px;
+}
+ 
 #map {
   z-index: 40; /* Fixes border-radius in Safari. */
   width: 100%;
@@ -527,37 +550,37 @@ export default {
   position: relative;
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
-
+ 
 @media (max-width: 480px) {
   #map {
     margin-top: 35px !important;
   }
 }
-
+ 
 #app .ol-control {
   position: absolute;
   right: 20px;
   /* box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.0) !important; */
 }
-
+ 
 #app .ol-control button {
   font-family: "Barlow Condensed", sans-serif;
   border-radius: 50% !important;
   background-color: rgba(65, 65, 65, 0.9);
   color: white !important;
 }
-
+ 
 #app .ol-control button:active,
 #app .ol-control button:hover,
 #app .ol-control button:focus {
   opacity: 0.5;
 }
-
+ 
 .ol-scaleline-control {
   right: 20px !important;
   display: none !important;
 }
-
+ 
 .ol-full-screen {
   display: none !important;
   right: 25px !important;
@@ -572,11 +595,11 @@ export default {
   box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important;
   opacity: 0.9 !important;
 }
-
+ 
 .ol-compass {
   display: none !important;
 }
-
+ 
 .ol-attribution {
   display: flex;
   bottom: 2%;
@@ -586,19 +609,19 @@ export default {
 .ol-attribution-expand {
   display: none;
 }
-
+ 
 .ol-attribution-collapse {
   display: none;
 }
-
+ 
 #map .grey {
   filter: grayscale(100%) contrast(110%);
 }
-
+ 
 #map .markers {
   filter: contrast(100%);
 }
-
+ 
 .ol-zoom {
   /* display:none; */
   font-size: 30px !important;
@@ -611,7 +634,7 @@ export default {
   left: 20px !important;
   position: absolute !important;
 }
-
+ 
 .ol-zoom-in,
 .ol-zoom-out {
   display: flex;
@@ -625,33 +648,33 @@ export default {
   position: absolute;
   font-size: 0;
 }
-
+ 
 .ol-zoom-in {
   background: url(../assets/openseadragon/plus.svg) no-repeat center center;
   background-size: contain;
   top: 20px;
 }
-
+ 
 .ol-zoom-out {
   background: url(../assets/openseadragon/minus.svg) no-repeat center center;
   background-size: contain;
   top: 60px;
 }
-
+ 
 @media (max-width: 350px) {
   .ol-zoom {
     bottom: 18%;
   }
 }
-
+ 
 .ol-zoom-in:hover {
   background-color: rgba(0, 0, 0, 0.7);
 }
-
+ 
 .ol-zoom-out:hover {
   background-color: rgba(0, 0, 0, 0.7);
 }
-
+ 
 .ol-control {
   position: fixed;
 }
@@ -665,17 +688,17 @@ export default {
   width: 25px !important;
   position: fixed !important;
 }
-
+ 
 .ol-zoomslider-thumb {
   width: 60px !important;
 }
-
+ 
 .overlay-content {
   box-shadow: 0 5px 10px rgb(2 2 2 / 20%);
   padding: 10px 20px;
   font-size: 16px;
 }
-
+ 
 .ol-popup {
   text-align: justify;
   position: absolute;
@@ -695,7 +718,7 @@ export default {
   min-height: max-content;
   cursor: pointer;
 }
-
+ 
 #fornsok_link,
 #extmap_link {
   color: rgb(250, 250, 250);
@@ -706,7 +729,7 @@ export default {
   padding: 8px 0px 8px 18px;
   min-width: max-content;
 }
-
+ 
 .ol-popup:after,
 .ol-popup:before {
   top: 100%;
@@ -717,42 +740,42 @@ export default {
   position: absolute;
   pointer-events: none;
 }
-
+ 
 .ol-popup:after {
   border-top-color: rgb(80, 80, 80) !important;
   border-width: 10px;
   left: 48px;
   margin-left: -10px;
 }
-
+ 
 .ol-popup:before {
   border-top-color: rgb(80, 80, 80) !important;
   border-width: 11px;
   left: 48px;
   margin-left: -11px;
 }
-
+ 
 .light .ol-popup:after {
   border-top-color: rgb(255, 255, 255) !important;
   border-width: 10px;
   left: 48px;
   margin-left: -10px;
 }
-
+ 
 .light .ol-popup:before {
   border-top-color: rgb(200, 200, 200) !important;
   border-width: 11px;
   left: 48px;
   margin-left: -11px;
 }
-
+ 
 .ol-popup-closer {
   text-decoration: none;
   position: absolute;
   top: 10%;
   left: 12px;
 }
-
+ 
 .ol-popup-closer:after {
   content: "✖";
   /* color:white */

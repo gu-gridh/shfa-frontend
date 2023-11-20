@@ -134,6 +134,7 @@
     :siteLamningId="selectedLamningId"
     :siteRaaId="selectedRaaId"
     @image-clicked="onImageClicked"
+    @updateShowResults="handleShowResults"
     @page-details-updated="updatePageDetails"
     :searchItems="searchItems"
     :forceRefresh="forceRefresh"
@@ -167,7 +168,6 @@
     <Datareport>
     </Datareport>
   </div>
-
 
     <div style="display:flex; align-items: center; justify-content: center;">
    <!--  <div class="ui-mode ui-overlay" style="min-width:240px; display:flex; align-items: center; justify-content: center;">
@@ -209,7 +209,6 @@
 </div>
 </div>
 <!-- End of Container -->
-
 
 </div>
 </template>
@@ -439,6 +438,9 @@ beforeDestroy() {
 },
 
   methods: {
+    handleShowResults(newValue) {
+      this.showResults = newValue;
+    },
     adjustSplitDisplay() {
       // Get the element by its ID
       const splitElement = document.getElementById('split-1');
@@ -578,7 +580,6 @@ beforeDestroy() {
 });
 </script>
 
-
 <style>
 .flip-fade-enter-active, .flip-fade-leave-active {
     transition: transform 0.15s, opacity 0.15s;
@@ -642,7 +643,6 @@ beforeDestroy() {
   background-position: center;
 }
 
-
 #dark-mode{
   float:right;
   text-align:left;
@@ -684,7 +684,6 @@ beforeDestroy() {
 .menu-close-button{
   display:none;
 }
-
 
 
 /* #logo:hover{
@@ -851,7 +850,6 @@ padding:5px 8px 5px 8px;
 
 
 
-
 .ui-overlay {
 pointer-events:auto;
 z-index: 100;
@@ -893,7 +891,6 @@ padding: 0px 15px 0px 15px;
   pointer-events:none;
 }
 
-
 .ui-map-info {
 padding: 2px 15px 6px 15px;
 text-align: center;
@@ -929,7 +926,6 @@ font-size:95%;
         display: block !important; 
     }
 }
-
 
 /* This controls the menu look on small screens */
 @media (max-width: 1024px) {
@@ -1034,7 +1030,6 @@ margin-bottom:5px;
 
 
 
-
 .top-link-button{
   float:right;
   text-align:left;
@@ -1079,7 +1074,6 @@ margin-bottom:5px;
 
 @media (max-width:350px) {
 
-
   .menu-show-button{
     margin-right:15px;
 }
@@ -1098,7 +1092,6 @@ padding-top:10px;
 padding-right:10px;
 
 }
-
 
   .top-links{
     width: 350px;
@@ -1239,7 +1232,6 @@ min-width:550px;
   margin-bottom:10px;
 }
 
-
 .tag-example{
 float:left;
  background-color: rgb(90,90,90);
@@ -1331,7 +1323,6 @@ h2 input:not(:placeholder-shown) {
 .slide-leave-from {
   transform: translateX(0);
 }
-
 
 
 .gutter {
@@ -1428,7 +1419,6 @@ h2 input:not(:placeholder-shown) {
   width:100%;
   }
 
-
 h2{
   width:100%;
   font-size:1.3em;
@@ -1448,7 +1438,6 @@ font-size: 1.3em;
 }
 
 
-
 #app .map-switch-margin{
   font-size:1.2em
 }
@@ -1466,7 +1455,6 @@ font-size: 1.3em;
   font-size:1.5em !important;
   max-height:42px;
 }
-
 
 
 #app .field-title {
@@ -1500,7 +1488,6 @@ padding: 3px 15px;
 font-size:120%;
 }
 
-
 #metadata-container .label {
   width:120px;
   color:white;
@@ -1511,7 +1498,6 @@ font-size:120%;
 max-width:200px;
 }
 
-
 #metadata-container .metadata-wide {
   float:left;
  padding-left:25px;;
@@ -1519,7 +1505,6 @@ max-width:200px;
   width:100%;
   margin-top:20px;
 }
-
 
 #metadata-container ul li {
   float:left;
@@ -1563,7 +1548,6 @@ color:black !important;
   color:black !important;
 }
 
-
 .light #popup{
   background-color: white;
   color: black;
@@ -1592,7 +1576,6 @@ color:black !important;
 
 
 
-
 .light #metadata-container{
   color: black;
 }
@@ -1613,13 +1596,11 @@ color:black !important;
   color:black;
 }
 
-
 .light #search-suggestion:hover{
   background-color: rgb(80,90,100);
   border-color: black;
   color:white !important;
 }
-
 
 .light #search-selected{
   /* background-color: rgb(110, 148, 185);  */
@@ -1643,7 +1624,6 @@ filter:invert(1)
   color: black !important;
 }
 
-
 .light input{
   color: black !important;
   font-weight:400;
@@ -1654,7 +1634,6 @@ filter:invert(1)
   background:linear-gradient(rgb(200, 200, 200) 0%, rgb(235, 235, 235) 100%);
   color: black !important;
 }
-
 
 .light #filter-interface{
   color: black !important;
@@ -1673,7 +1652,6 @@ filter:invert(1)
   background-color: rgb(247, 244, 244);
 }
 
-
 .light #gallery{
   background:linear-gradient(rgba(255, 255, 255, 0.25) 30%, rgba(255, 254, 254, 0.7) 100%)
 }
@@ -1682,7 +1660,6 @@ filter:invert(1)
   background:linear-gradient(rgb(220, 220, 220) 0%, rgb(235, 235, 235) 100%);
 
 }
-
 
 .light #disclaimer{
   color:rgb(110, 148, 185);
@@ -1701,7 +1678,6 @@ filter:invert(1)
   color:black;
   background-color: linear-gradient(120deg, #ffffff 10%, rgba(255, 255, 255, 0.95) 30%);
 }
-
 
 .light .split-container-top{
   box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.10)!important;
@@ -1791,7 +1767,4 @@ background-color: rgba(25, 25, 25, 0.5);
 
 
 
-
 </style>
-
-
