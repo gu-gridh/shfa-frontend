@@ -1,7 +1,6 @@
 <template>
   <div id="map">
-    <button id="new-button" @click="fetchImagesClicked()"></button>
- 
+    <button id="search-bbox-button" @click="fetchImagesClicked()">{{ $t("message.searchinbbox") }}</button>
     <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
       <div id="popup-content">
@@ -520,22 +519,29 @@ export default {
 </script>
  
 <style>
-#new-button {
+#search-bbox-button {
   position: absolute;
-  right: 20px;
-  top: 20px;
+  left: 50%; 
+  transform: translateX(-50%);
+  background: url(/public/interface/searchbuttonwhite.png) no-repeat right 50%;
+  background-size: 32px 32px;
+  bottom: 5%;
+  padding-right: 30px;
   z-index: 100;
-  background: url(/public/interface/searchbuttonwhite.png) no-repeat 50% 50%;
-  background-size: contain;
-  width: 40px;
-  height: 40px;
-  border: none;
+  width: 125px;
+  height: 30px;
+  border: 1px solid black;
   cursor: pointer;
-  border-radius: 50% !important;
+  border-radius: 8px !important;
   background-color: rgba(65, 65, 65, 0.9);
-  background-size: 30px 30px;
+  backdrop-filter: blur(5px);
+  color: white;
 }
  
+#search-bbox-button:hover {
+  opacity: 0.9;
+}
+
 #map {
   z-index: 40; /* Fixes border-radius in Safari. */
   width: 100%;
