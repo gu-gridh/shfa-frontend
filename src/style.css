@@ -30,7 +30,14 @@ div.split-container > div > div:nth-child(2)
   background-repeat: no-repeat;
   background-position: 50%;
   min-width:20px;
+  transition: all 0.5s ease-in-out;
+  opacity:0;
 } 
+
+div.split-container > div > div:nth-child(2):hover
+{
+  opacity:1;
+  } 
 
 div.split-container > div > div:nth-child(4)
 {
