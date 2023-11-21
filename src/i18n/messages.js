@@ -85,7 +85,7 @@ export default {
       at: 'at',
       close: 'Close',
       maplink: 'View in Google Maps',
-      searchinbbox: 'Search in area',
+      searchinbbox: 'Search in map view',
         },
       
       search: {
@@ -268,7 +268,7 @@ export default {
       at: 'på',
       close: 'Stäng',
       maplink: 'Se i Google Maps',
-      searchinbbox: 'Sök i området',
+      searchinbbox: 'Sök i kartvy',
         },
       search: {
           searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar. De motivrelaterade sökorden är arkeologers tolkningar av ristningarna.',
