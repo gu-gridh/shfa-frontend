@@ -628,9 +628,12 @@ h3 {
   font-size: 20px;
   color: white !important;
   margin: 20px 20px 8px 0px;
-  /*   width:150px;
-  text-align:right;
-  transform:translate(-180px, 30px) */
+}
+
+.light h3 {
+  font-size: 20px;
+  color: black !important;
+  margin: 20px 20px 8px 0px;
 }
 
 .card {
@@ -675,6 +678,10 @@ h3 {
   bottom: 0px;
   position: absolute;
   padding: 10px 10px;
+}
+
+.light .grid-item-info-meta {
+color:black;
 }
 
 .grid-item-info-meta h5 {
