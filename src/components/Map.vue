@@ -529,13 +529,13 @@ export default {
   position: absolute;
   left: 50%; 
   transform: translateX(-50%);
-  background: url(/public/interface/searchbuttonwhite.png) no-repeat right 50%;
+  background: url(/public/interface/searchbuttonwhite.png) no-repeat 2px 50%;
   background-size: 32px 32px;
   bottom: 5%;
-  padding-right: 30px;
+  padding: 5px 15px 5px 35px;
   z-index: 100;
-  width: 125px;
-  height: 30px;
+  width: auto;
+  height: auto;
   border: 1px solid black;
   cursor: pointer;
   border-radius: 8px !important;
