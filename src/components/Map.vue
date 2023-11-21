@@ -536,7 +536,6 @@ export default {
   z-index: 100;
   width: auto;
   height: auto;
-  border: 1px solid black;
   cursor: pointer;
   border-radius: 8px !important;
   background-color: rgba(65, 65, 65, 0.9);
@@ -666,7 +665,6 @@ export default {
   justify-content: center;
   opacity: 0.95;
   border-width: 1px;
-  border: 1px solid black;
   width: 33px;
   height: 33px;
   position: absolute;
