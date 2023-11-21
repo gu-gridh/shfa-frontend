@@ -664,7 +664,7 @@ export default {
   align-items: center;
   justify-content: center;
   opacity: 0.95;
-  border-width: 1px;
+  border-width: 0px;
   width: 33px;
   height: 33px;
   position: absolute;
