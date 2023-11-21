@@ -149,7 +149,11 @@ export default {
   },
   methods: {
     fetchImagesClicked() {
-      this.coordinateStore.setImagesFetchTriggered(true); // Set the trigger flag in the store
+      this.coordinateStore.setImagesFetchTriggered(true);
+      this.$emit('reset-id');
+      this.$router.push({ 
+        name: 'Search', 
+      });
     },
  
     focusOnBoundingBox(boundingBox) {
@@ -184,6 +188,7 @@ export default {
         console.warn("Invalid bounding box or map object.");
       }
     },
+
     focusOnCoordinates(lon, lat) {
       if (this.map) {
         const coordinates = fromLonLat([lon, lat]);
@@ -194,6 +199,7 @@ export default {
         // this.map.getView().setZoom(17)
       }
     },
+
     async fetchAdditionalData(url, pagesToFetch = 10) {
       if (!url) {
         url = "https://diana.dh.gu.se/api/shfa/geojson/site/?page_size=1000";

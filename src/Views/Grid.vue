@@ -102,6 +102,7 @@
         :class="{light: isLight}"
         :showMap="showMap"
         @id-selected="selectedId = $event"
+        @reset-id="selectedId = null"
         @lamning-selected="selectedLamningId = $event"
         @raa-selected="selectedRaaId = $event"
         @update-bbox="bbox = $event"
@@ -254,7 +255,6 @@ export default defineComponent({
     selectedId(newId, oldId) {
     if (newId) {
       this.$router.push({ name: 'Site', params: { siteId: newId } });
-      
       fetch(`https://diana.dh.gu.se/api/shfa/geojson/site/?id=${newId}`)
         .then(response => {
           if (!response.ok) {
@@ -273,7 +273,7 @@ export default defineComponent({
           console.error('Failed to fetch new site coordinates:', e);
         });
     }
-  },
+    },
     selectedIiifFile(newIiifFile, oldIiifFile) {
       if(this.selectedId === null) {  // When there's no site id
         // Only change the URL, but not the history
