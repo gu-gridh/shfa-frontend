@@ -543,6 +543,8 @@ export default {
   backdrop-filter: blur(5px);
   color: white;
 }
+
+
  
 #search-bbox-button:hover {
   opacity: 0.9;
@@ -553,13 +555,23 @@ export default {
   width: 100%;
   height: 100%;
   min-height: 200px;
-  margin-top: 45px !important;
+  margin-top: 90px !important;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
   overflow: hidden !important;
+  border-width:0px;
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5) !important;
   cursor: pointer;
   position: relative;
+  /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
+}
+
+.light #map {
+  border-color:rgb(180,180,180);
+  border-style:solid;
+  border-width:1px;
+  box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5) !important;
+ 
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
  
@@ -631,7 +643,7 @@ export default {
 }
  
 #map .markers {
-  filter: contrast(100%);
+  filter: contrast(70%);
 }
  
 .ol-zoom {

@@ -36,6 +36,7 @@ div.split-container > div > div:nth-child(2)
 
 div.split-container > div > div:nth-child(2):hover
 {
+  cursor: col-resize;
   opacity:1;
   } 
 

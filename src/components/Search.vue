@@ -45,8 +45,8 @@
       </div>
     </div>
   </div>
-  <div style="display:flex;  align-items: center; justify-content: center;">
-    <div class="ui-mode ui-overlay map-switch-margin" id="map-toggle">
+  <div class="search-switcher" style="display:flex;  align-items: left; justify-content: left;">
+    <div class="ui-overlay ui-mode map-switch-margin" id="map-toggle">
         <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
           {{ $t('message.karta') }}
         </button>
@@ -342,8 +342,17 @@ export default {
 }
 
 .map-switch-margin{
-  margin-top:175px; 
-  font-size:1.0em
+  margin-top:155px; 
+  font-size:1.1em;
+  margin-left:-6px;
+}
+
+.light .map-switch-margin{
+  color:black;
+}
+
+.search-switcher .ui-mode{
+  background-color:transparent;
 }
 .search-button-round{
 background-color:#6666;

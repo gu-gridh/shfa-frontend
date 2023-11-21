@@ -515,7 +515,7 @@ export default {
 <style scoped>
 .search-container {
   width: 100%; 
-  margin-top:125px; 
+  margin-top:105px; 
  
 }
 .search-container-title {
@@ -526,7 +526,8 @@ export default {
 }
 .search-grid {
   display: grid;
-  grid-template-columns: 48.7% 48.7%;
+  grid-template-columns: 48.3% 48.3%;
+  padding-left:6px;
   gap: 15px;
  
 }
@@ -546,6 +547,7 @@ export default {
   font-size: 0.95em;
   margin-bottom: 5px;
   color: white;
+  padding-left:4px;
 }
 
 .tag-example {
@@ -622,6 +624,7 @@ font-weight:500;
   border-radius: 5px;
   cursor: pointer;
   font-weight:500;
+  margin-left:8px;
 }
 
 .clear-button:hover {

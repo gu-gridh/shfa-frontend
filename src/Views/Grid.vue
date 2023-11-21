@@ -1703,7 +1703,7 @@ background-color: rgba(25, 25, 25, 0.5);
 }
 
 .light .ui-mode .item:hover {
-  color: rgb(220,245,250);
+  color: rgb(110,145,180);
 }
 
 .light .ui-overlay .selected{
@@ -1711,7 +1711,7 @@ background-color: rgba(25, 25, 25, 0.5);
 }
 
 .light .item.active {
-  color: rgb(200,235,255);
+  color: rgb(130,165,200);
   font-weight: 600;
 }
 
