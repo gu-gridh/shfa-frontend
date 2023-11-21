@@ -58,19 +58,19 @@
 
           {{ $t('message.aboutArchive') }}<div class="top-link-infobutton" ></div></button>
 
-    <button class="item" @click="" v-if="currentLanguage === 'en'"> 
+    <button class="item" v-if="currentLanguage === 'en'"> 
     
           <a href="https://www.gu.se/en/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
 
-          <button class="item" @click="" v-else> 
+          <button class="item" v-else> 
     
     <a href="https://www.gu.se/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
 
-    <button class="item" @click="" v-if="currentLanguage === 'en'">
+    <button class="item" v-if="currentLanguage === 'en'">
    
           <a href="https://www.gu.se/en/shfa/research" target="_blank">{{ $t('message.news') }}<div class="top-link-button" ></div></a></button>
 
-          <button class="item" @click="" v-else>
+          <button class="item" v-else>
    
    <a href="https://www.gu.se/shfa/forskning" target="_blank">{{ $t('message.news') }}<div class="top-link-button" ></div></a></button>
 </div>
@@ -139,17 +139,13 @@
     @page-details-updated="updatePageDetails"
     :searchItems="searchItems"
     :forceRefresh="forceRefresh"
-
     :fetchNextPage="fetchNextPage"
     :searchNextPageUrl="nextPageUrl"
-
     :advancedSearchResults="advancedSearchResults"
     :fetchNextPageAdvanced="fetchNextPageAdvanced"
     :searchNextPageUrlAdvanced="nextPageUrlAdvanced"
-
     :searchFetchPreviousPage="fetchPreviousPage"
     :searchPreviousPageUrl="previousPageUrl"
-
     :advancedFetchPreviousPage="fetchPreviousPageAdvanced"
     :advancedPreviousPageUrl="previousPageUrlAdvanced"
     >
@@ -171,17 +167,6 @@
   </div>
 
     <div style="display:flex; align-items: center; justify-content: center;">
-   <!--  <div class="ui-mode ui-overlay" style="min-width:240px; display:flex; align-items: center; justify-content: center;">
-        <button class="item" v-bind:class="{ selected: showGallery}" v-on:click="showGallery = true; showCatalogue = false; showDatareport = false; ">
-        {{ $t('message.galleri') }}
-        </button>
-        <button class="item" v-bind:class="{ selected: showCatalogue}" v-on:click="showCatalogue = true; showGallery = false; showDatareport = false; ">
-        {{ $t('message.katalog') }}
-        </button>
-        <button class="item" v-bind:class="{ selected: showDatareport}" v-on:click="showDatareport = true; showCatalogue = false; showGallery = false; ">
-          Data
-        </button>
-      </div> -->
       <div class="ui-results" v-show="showResults" style="width:220px; font-size:0.9em; padding:5px 5px;">
         <p style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}: <p style="color:rgb(200,225,250); display:inline;"> {{ totalResults }}</p></p>
          ({{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }}) 
@@ -240,6 +225,7 @@ export default defineComponent({
       const idForMetaData = to.params.idForMetaData;
       if (newSiteId) {
         this.selectedId = newSiteId;
+        this.showResults = true;
       }
       if (newIiifFile) {
         this.selectedIiifFile = newIiifFile;
@@ -290,7 +276,6 @@ export default defineComponent({
             params: { 
               siteId: this.selectedId, 
               iiifFile: newIiifFile, 
-              // showThreePanels: this.showThreePanels.toString() 
             } 
           });  }
    },
@@ -371,24 +356,6 @@ export default defineComponent({
       isFirstLoad: true,
     }
   },
-  // beforeRouteEnter(to, from, next) {
-  //   const siteId = to.params.siteId;
-  //   const iiifFile = to.params.iiifFile;
-  //   const idForMetaData = to.params.idForMetaData; 
-  //   next(vm => {
-  //     if (siteId) {
-  //       vm.selectedId = siteId;
-  //     }
-  //     if (iiifFile) {
-  //       // convert the URL-encoded iiifFile back to a string
-  //       vm.selectedIiifFile = decodeURIComponent(iiifFile);
-  //       vm.showThreePanels = true;
-  //     }
-  //     if (idForMetaData ) {
-  //       vm.idForMetaData = idForMetaData;
-  //     }
-  //   });
-  // },
   mounted() {
     window.addEventListener('resize', this.updateWindowWidth);
 
@@ -490,7 +457,6 @@ beforeDestroy() {
       this.selectedId = null; // Reset selectedId
       this.showResults = true;
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
-      
       this.$router.push({ 
         name: 'Search', 
       });
