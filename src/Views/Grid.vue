@@ -102,7 +102,7 @@
         :class="{light: isLight}"
         :showMap="showMap"
         @id-selected="selectedId = $event"
-        @reset-id="selectedId = null"
+        @reset-id="handleBboxClicked"
         @lamning-selected="selectedLamningId = $event"
         @raa-selected="selectedRaaId = $event"
         @update-bbox="bbox = $event"
@@ -451,6 +451,12 @@ beforeDestroy() {
       this.$refs.searchRef.clearSearchField();
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
       this.showImageGallery()
+    },
+    handleBboxClicked()
+    {
+      this.selectedId = null
+      this.$refs.searchRef.clearSearchField();
+      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
     },
     updateItems(newItems) {
       this.searchItems = newItems;
