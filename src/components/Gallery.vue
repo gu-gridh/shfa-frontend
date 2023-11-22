@@ -199,7 +199,7 @@ export default {
       let columnWidth;
 
       if (screenWidth < 768) {
-        columnWidth = 50; // Set the column width for small screens
+        columnWidth = 140; // Set the column width for small screens
       } else if (screenWidth < 1024) {
         columnWidth = 150; // Set the column width for medium screens
       } else {
