@@ -616,7 +616,7 @@ export default {
 
 .gallery-container {
   padding-top: 0px;
-  margin-top:-10px;
+  margin-top:-5px;
   padding-bottom: 35px;
   /* padding-left:150px; */
 }
@@ -629,15 +629,13 @@ export default {
 }
 
 h3 {
-  font-size: 20px;
+  font-size: 17px;
   color: white !important;
   margin: 20px 20px 8px 0px;
 }
 
 .light h3 {
-  font-size: 20px;
   color: black !important;
-  margin: 20px 20px 8px 0px;
 }
 
 .card {
