@@ -110,7 +110,7 @@ watch: {
   margin-top:-45px;
   height: 65%;
   background-color:black;
-  border-radius:0px;
+  border-radius:2px;
   overflow:hidden;
   z-index:-1;
 }
