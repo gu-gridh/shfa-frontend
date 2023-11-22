@@ -568,8 +568,8 @@ export default {
 .light #map {
   border-color:rgb(180,180,180);
   border-style:solid;
-  border-width:1px;
-  box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5) !important;
+  border-width:0px;
+  box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.5) !important;
  
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
