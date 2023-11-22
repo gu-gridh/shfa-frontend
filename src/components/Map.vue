@@ -1,6 +1,6 @@
 <template>
   <div id="map">
-    <button id="search-bbox-button" @click="fetchImagesClicked()">{{ $t("message.searchinbbox") }}</button>
+    <button id="search-bbox-button" v-if="bboxUpdated" @click="fetchImagesClicked()">{{ $t("message.searchinbbox") }}</button>
     <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
       <div id="popup-content">
@@ -57,6 +57,7 @@ export default {
       map: null,
       vectorLayer: null,
       clickedRaaId: null,
+      bboxUpdated: true,
       results: [],
       cachedResults: [],
       coordinateStore: useStore(), // Initialize the store here
@@ -271,6 +272,7 @@ export default {
       const newBbox = [bottomLeft[0], bottomLeft[1], topRight[0], topRight[1]];
       this.$emit("update-bbox", newBbox);
       this.coordinateStore.setBboxFetch(newBbox);
+      this.bboxUpdated = true;
     },
  
     async fetchDataByBbox() {
@@ -489,6 +491,10 @@ export default {
           }
         );
       });
+
+      this.map.on("movestart", () => {
+        this.bboxUpdated = false;
+      });
  
       // Add 'moveend' event listener to the map to update the bounding box
       this.map.on(
@@ -576,7 +582,7 @@ export default {
  
 @media (max-width: 480px) {
   #map {
-    margin-top: 35px !important;
+    margin-top:70px !important;
   }
 }
  
