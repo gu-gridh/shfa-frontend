@@ -669,7 +669,7 @@ export default {
   overflow:hidden!important;
   border-radius:50%!important;
   background: url(../assets/openseadragon/expand.svg) no-repeat center center!important;
-  background-color: rgba(25, 25, 25, 0.9)!important;
+  background-color: rgba(35, 35, 35, 0.9)!important;
   background-size: contain !important;
 }
 .ol-full-screen:hover {
