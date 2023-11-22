@@ -582,7 +582,7 @@ export default {
  
 @media (max-width: 480px) {
   #map {
-    margin-top: 35px !important;
+    margin-top:70px !important;
   }
 }
  
