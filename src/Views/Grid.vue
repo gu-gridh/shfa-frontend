@@ -986,7 +986,6 @@ margin-right:9px;
 
   .item{
     text-align:right;
-    float:right;
     display:block;
     padding-bottom:10px;
   }
