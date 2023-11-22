@@ -1331,7 +1331,7 @@ h2 input:not(:placeholder-shown) {
   width:35px;
   background-color:rgba(65,65,65, 0.9);
   margin-left:27px;
-  margin-top:68px;
+  margin-top:58px;
   opacity:1.0;
   padding:5px;
   border-width:1px;

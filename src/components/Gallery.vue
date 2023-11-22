@@ -616,7 +616,7 @@ export default {
 
 .gallery-container {
   padding-top: 0px;
-  margin-top:0px;
+  margin-top:-10px;
   padding-bottom: 35px;
   /* padding-left:150px; */
 }

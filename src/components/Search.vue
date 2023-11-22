@@ -339,11 +339,11 @@ export default {
 
 #search-interface{
   font-size:100%;
-  padding-top:12px;
+  padding-top:02px;
 }
 
 .map-switch-margin{
-  margin-top:168px; 
+  margin-top:155px; 
   font-size:1.1em;
   margin-left:-6px;
 }
