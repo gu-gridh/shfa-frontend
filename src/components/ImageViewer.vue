@@ -107,7 +107,7 @@ watch: {
   width: auto;
   margin-left:15px;
   margin-right:30px;
-  margin-top:-45px;
+  margin-top:-30px;
   height: 65%;
   background-color:black;
   border-radius:0px;

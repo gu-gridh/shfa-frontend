@@ -603,6 +603,9 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
+  padding-top:50px;
+  transition: all 0.5s ease-in-out;
+
 }
 
 .loading-animation img {
@@ -612,7 +615,8 @@ export default {
 }
 
 .gallery-container {
-  padding-top: 35px;
+  padding-top: 0px;
+  margin-top:0px;
   padding-bottom: 35px;
   /* padding-left:150px; */
 }
