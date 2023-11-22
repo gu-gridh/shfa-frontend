@@ -33,6 +33,8 @@ import { debounce } from "lodash";
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
 import Overlay from "ol/Overlay";
 import Zoom from "ol/control/Zoom";
+import ScaleLine from "ol/control/ScaleLine";
+import FullScreen from "ol/control/FullScreen";
 import { watch } from "vue";
 import { useStore } from "../stores/store.js";
 import { transformExtent } from "ol/proj";
@@ -393,7 +395,9 @@ export default {
         overlays: [overlay],
       });
       this.map.addControl(new Zoom());
- 
+      // this.map.addControl(new ScaleLine());
+      this.map.addControl(new FullScreen());
+     
       // Initialize the WebGL map marker style
       const webGLStyle = {
         symbol: {
@@ -595,7 +599,6 @@ export default {
 #app .ol-control button {
   font-family: "Barlow Condensed", sans-serif;
   border-radius: 50% !important;
-  background-color: rgba(65, 65, 65, 0.9);
   color: white !important;
 }
  
@@ -606,23 +609,71 @@ export default {
 }
  
 .ol-scaleline-control {
-  right: 20px !important;
-  display: none !important;
+  position: relative !important;
+  margin-top:200px!important;
+  margin-left: 120px !important;
+  display:none!important;
 }
  
-.ol-full-screen {
-  display: none !important;
-  right: 25px !important;
-  top: 20px !important;
-  position: fixed !important;
+.ol-zoom {
+  /* display:none; */
   font-size: 30px !important;
-  color: black;
-  border-radius: 50% !important;
-  width: 40px !important;
-  height: 40px !important;
+  color: white !important;
+  width: 40px;
+  height: 40px;
   padding: 0px !important;
-  box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important;
+  /* box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important; */
   opacity: 0.9 !important;
+  left: 20px !important;
+  position: absolute !important;
+}
+ 
+.ol-zoom-in,
+.ol-zoom-out {
+    background-color: rgba(65, 65, 65, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.95;
+  border-width: 0px;
+  width: 33px;
+  height: 33px;
+  position: absolute;
+  font-size: 0;
+}
+ 
+.ol-zoom-in {
+  opacity: 1.0!important;
+  background: url(../assets/openseadragon/plus.svg) no-repeat center center;
+  background-color: rgba(65, 65, 65, 0.9);
+  background-size: contain;
+  top: 60px;
+}
+ 
+.ol-zoom-out {
+  opacity: 1.0!important;
+  background: url(../assets/openseadragon/minus.svg) no-repeat center center;
+  background-color: rgba(65, 65, 65, 0.9);
+  background-size: contain;
+  top: 100px;
+}
+
+.ol-full-screen {
+  opacity: 0.9!important;
+  position: relative!important;
+  left: 20px !important;
+  top: 20px !important;
+  font-size:100px !important;
+  width: 33px !important;
+  height: 33px !important;
+  overflow:hidden!important;
+  border-radius:50%!important;
+  background: url(../assets/openseadragon/expand.svg) no-repeat center center!important;
+  background-color: rgba(25, 25, 25, 0.9)!important;
+  background-size: contain !important;
+}
+.ol-full-screen:hover {
+  background-color: rgba(25, 25, 25, 1.0)!important;
 }
  
 .ol-compass {
@@ -651,43 +702,7 @@ export default {
   filter: contrast(70%);
 }
  
-.ol-zoom {
-  /* display:none; */
-  font-size: 30px !important;
-  color: white !important;
-  width: 40px;
-  height: 40px;
-  padding: 0px !important;
-  /* box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.2) !important; */
-  opacity: 0.9 !important;
-  left: 20px !important;
-  position: absolute !important;
-}
- 
-.ol-zoom-in,
-.ol-zoom-out {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.95;
-  border-width: 0px;
-  width: 33px;
-  height: 33px;
-  position: absolute;
-  font-size: 0;
-}
- 
-.ol-zoom-in {
-  background: url(../assets/openseadragon/plus.svg) no-repeat center center;
-  background-size: contain;
-  top: 20px;
-}
- 
-.ol-zoom-out {
-  background: url(../assets/openseadragon/minus.svg) no-repeat center center;
-  background-size: contain;
-  top: 60px;
-}
+
  
 @media (max-width: 350px) {
   .ol-zoom {
