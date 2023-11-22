@@ -1,5 +1,6 @@
 <template>
   <div id="map">
+    <div class="expand-map-widget" ref="expandWidget" @click="expandMap"></div>
     <button id="search-bbox-button" v-if="bboxUpdated" @click="fetchImagesClicked()">{{ $t("message.searchinbbox") }}</button>
     <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -34,7 +35,6 @@ import WebGLPointsLayer from "ol/layer/WebGLPoints";
 import Overlay from "ol/Overlay";
 import Zoom from "ol/control/Zoom";
 import ScaleLine from "ol/control/ScaleLine";
-import FullScreen from "ol/control/FullScreen";
 import { watch } from "vue";
 import { useStore } from "../stores/store.js";
 import { transformExtent } from "ol/proj";
@@ -148,9 +148,20 @@ export default {
       handler() {
         this.updateCoordinates(); // Update the map markers when results change
       },
+      expandedMap: false,
     },
   },
   methods: {
+    expandMap() {
+      //Toggle expansion
+      this.expandedMap = !this.expandedMap;
+      if (this.expandedMap) {
+        document.body.classList.add("map-expanded");
+      } else {
+        document.body.classList.remove("map-expanded");
+      }
+    },
+
     fetchImagesClicked() {
       this.coordinateStore.setImagesFetchTriggered(true);
       this.$emit('reset-id');
@@ -396,7 +407,7 @@ export default {
       });
       this.map.addControl(new Zoom());
       // this.map.addControl(new ScaleLine());
-      this.map.addControl(new FullScreen());
+      this.map.addControl(new control.Control({ element: this.$refs.expandWidget }));
      
       // Initialize the WebGL map marker style
       const webGLStyle = {
@@ -560,7 +571,7 @@ export default {
 }
 
 #map {
-  z-index: 40; /* Fixes border-radius in Safari. */
+  z-index: 1040; /* Fixes border-radius in Safari. */
   width: 100%;
   height: 100%;
   min-height: 200px;
@@ -572,6 +583,7 @@ export default {
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5) !important;
   cursor: pointer;
   position: relative;
+  transition: all 0.5s ease-in-out;
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
 
@@ -582,6 +594,14 @@ export default {
   box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.5) !important;
  
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
+}
+
+.map-expanded #map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-top: -100px!important;
+  min-height: 200px;
 }
  
 @media (max-width: 480px) {
@@ -658,7 +678,29 @@ export default {
   top: 100px;
 }
 
+.expand-map-widget{
+  opacity: 0.9!important;
+  position: absolute!important;
+  z-index:1000;
+  left: 20px !important;
+  top: 20px !important;
+  font-size:100px !important;
+  width: 33px !important;
+  height: 33px !important;
+  overflow:hidden!important;
+  border-radius:50%!important;
+  background: url(../assets/openseadragon/expand.svg) no-repeat center center!important;
+  background-color: rgba(35, 35, 35, 0.9)!important;
+  background-size: contain !important;
+}
+
+.expand-map-widget:hover {
+  background-color: rgba(25, 25, 25, 1.0)!important;
+}
+ 
+
 .ol-full-screen {
+  display:none;
   opacity: 0.9!important;
   position: relative!important;
   left: 20px !important;

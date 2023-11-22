@@ -354,6 +354,7 @@ export default {
 
 .search-switcher .ui-mode{
   background-color:transparent;
+  backdrop-filter: none;
 }
 .search-button-round{
 background-color:#6666;
