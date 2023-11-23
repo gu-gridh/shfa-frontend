@@ -581,6 +581,7 @@ export default {
   box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5) !important;
   cursor: pointer;
   position: relative;
+  background-color:rgb(65,65,65);
   transition: all 0.5s ease-in-out;
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
@@ -590,18 +591,16 @@ export default {
   border-style:solid;
   border-width:0px;
   box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.5) !important;
- 
+  background-color:rgb(255,255,255);
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
 
 .map-expanded #map {
-  position: relative;
   width: 100%;
   height: 100%;
   margin-top: -102px!important;
-  min-height: 200px;
 }
- 
+
 @media (max-width: 480px) {
   #map {
     margin-top:70px !important;
@@ -694,6 +693,21 @@ export default {
 
 .expand-map-widget:hover {
   background-color: rgba(25, 25, 25, 1.0)!important;
+}
+
+@media (max-width: 1025px) {
+  .expand-map-widget{
+ display:none;
+}
+.ol-zoom-in {
+
+  top: 20px;
+}
+ 
+.ol-zoom-out {
+
+  top: 60px;
+}
 }
  
 
