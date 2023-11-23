@@ -595,10 +595,19 @@ export default {
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
 
+
 .map-expanded #map {
   width: 100%;
   height: 100%;
   margin-top: -102px!important;
+}
+
+@media (max-width: 1024px) {
+  .map-expanded #map {
+  width: 100%;
+  height: 70vw!important;
+  margin-top: -102px!important;
+}
 }
 
 @media (max-width: 480px) {
@@ -695,7 +704,7 @@ export default {
   background-color: rgba(25, 25, 25, 1.0)!important;
 }
 
-@media (max-width: 1025px) {
+/* @media (max-width: 1025px) {
   .expand-map-widget{
  display:none;
 }
@@ -708,7 +717,7 @@ export default {
 
   top: 60px;
 }
-}
+} */
  
 
 .ol-full-screen {
