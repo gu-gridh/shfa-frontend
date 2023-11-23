@@ -598,7 +598,7 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  margin-top: -100px!important;
+  margin-top: -102px!important;
   min-height: 200px;
 }
  
