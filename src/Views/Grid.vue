@@ -1135,6 +1135,12 @@ min-width:550px;
   min-width:200px;
 }
 
+@media (min-width: 1024px) and (max-width: 1200px) {
+  #gutter-2 {
+    display: none !important;
+  }
+}
+
 @media (max-width: 1024px) {
   #split-1{
     width: 100% !important;
