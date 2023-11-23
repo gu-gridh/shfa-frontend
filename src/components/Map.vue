@@ -34,7 +34,6 @@ import { debounce } from "lodash";
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
 import Overlay from "ol/Overlay";
 import Zoom from "ol/control/Zoom";
-import ScaleLine from "ol/control/ScaleLine";
 import { watch } from "vue";
 import { useStore } from "../stores/store.js";
 import { transformExtent } from "ol/proj";
@@ -406,8 +405,7 @@ export default {
         overlays: [overlay],
       });
       this.map.addControl(new Zoom());
-      // this.map.addControl(new ScaleLine());
-      this.map.addControl(new control.Control({ element: this.$refs.expandWidget }));
+    
      
       // Initialize the WebGL map marker style
       const webGLStyle = {
@@ -571,7 +569,7 @@ export default {
 }
 
 #map {
-  z-index: 1040; /* Fixes border-radius in Safari. */
+  z-index: 1000; /* Fixes border-radius in Safari. */
   width: 100%;
   height: 100%;
   min-height: 200px;
