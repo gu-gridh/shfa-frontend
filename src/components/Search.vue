@@ -491,7 +491,7 @@ input[type="search"]::-webkit-search-cancel-button {
   height: 0.75em;
   width: 0.75em;
   border-radius: 50em;
-  background: url(../../interface/input-cancel-x.svg) no-repeat 50% 50%;
+  background: url(../../public/interface/input-cancel-x.svg) no-repeat 50% 50%;
   background-size: contain;
   opacity: 1.0;
   pointer-events: none;
