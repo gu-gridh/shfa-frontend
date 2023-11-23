@@ -394,7 +394,7 @@ export default defineComponent({
 },
 computed: {
   shouldShowPanel1() {
-    if (this.windowWidth <= 1200) {
+    if (this.windowWidth <= 1250) {
       return !this.showThreePanels;
     }
     return true; // always show on larger screens
