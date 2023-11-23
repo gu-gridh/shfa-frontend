@@ -704,6 +704,22 @@ export default {
   background-color: rgba(25, 25, 25, 1.0)!important;
 }
 
+@media (max-width: 1024px) {
+  .expand-map-widget{
+ display:none;
+}
+.ol-zoom-in {
+
+  top: 20px;
+}
+ 
+.ol-zoom-out {
+
+  top: 60px;
+}
+} 
+ 
+
 .ol-full-screen {
   display:none;
   opacity: 0.9!important;
