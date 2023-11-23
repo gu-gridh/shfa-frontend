@@ -1132,6 +1132,7 @@ min-width:550px;
 
 #split-1{
   padding:0px 20px 0px 20px;
+  min-width:200px;
 }
 
 @media (max-width: 1024px) {
