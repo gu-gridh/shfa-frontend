@@ -1135,7 +1135,7 @@ min-width:550px;
   min-width:200px;
 }
 
-@media (min-width: 1024px) and (max-width: 1200px) {
+@media (min-width: 1024px) and (max-width: 1250px) {
   #gutter-2 {
     display: none !important;
   }
