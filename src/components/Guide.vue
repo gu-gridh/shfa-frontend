@@ -139,15 +139,12 @@
             </div>
           </div>
         </div>
-        <div style="display: flex; justify-content: center; align-items: center;">
-          <button @click="$emit('close')" style="padding:30px;">
-            <div class="p-1 px-2 clickable category-button" :class="{ fullopacityui: visibleGuide, light: isLight }"
-              id="search-suggestion" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">
-              {{ $t('message.close') }}</div>
-          </button>
-        </div>
       </div>
     </div>
+    <button class="close-page-button" @click="$emit('close')">
+    <div class="category-button" :class="{ fullopacityui: visibleAbout, isLight: isLight }" id="search-suggestion"
+      style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
+  </button>
   </div>
 </template>
 
@@ -374,19 +371,36 @@ h2 {
 }
 
 .category-button {
-  position: relative;
   float: left;
-  font-size: 2em;
+  font-size: 1.8em;
   font-weight: 400;
   transition: all 0.4s ease-in-out;
   background-color: rgb(80, 90, 100);
   padding: 8px 20px !important;
   z-index: 1000;
   opacity: 1.0;
-  margin-bottom: 50px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   border-radius: 5px;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
+.close-page-button {
+  position: sticky;
+  bottom: 0px;
+  z-index: 3000;
+  top:calc(100vh - 80px);
+  padding-bottom: 20px;
+  color: white;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.0) 100%);
+  background:black;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+}
+
 
 
 

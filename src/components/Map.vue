@@ -569,7 +569,7 @@ export default {
 }
 
 #map {
-  z-index: 1000; /* Fixes border-radius in Safari. */
+  z-index: 40; /* Fixes border-radius in Safari. */
   width: 100%;
   height: 100%;
   min-height: 200px;

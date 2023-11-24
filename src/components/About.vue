@@ -1,18 +1,18 @@
 <template>
-  <template v-if="$i18n.locale === 'en'">
-    <div class="about-container" :class="{ fullopacity: visibleAbout, light: isLight }" id='block-text'>
+  <div class="about-container" :class="{ fullopacity: visibleAbout, light: isLight }" id='block-text'>
+
+
+    <template v-if="$i18n.locale === 'en'">
       <div class="flex-machine" :class="{ light: isLight }" id="block-text">
-
         <div class="rows" :class="{ light: isLight }" id="block-text">
-
           <div class="content">
+
             <div class="logo-area">
               <div id="logo"></div>
               <h1 class="title">
                 <div v-html="$t('message.abouttitle')"></div>
               </h1>
             </div>
-
 
             <div class="about-article-sub" :class="{ fullopacityui: visibleAbout, light: isLight }" id="block-text">
               <h2>Database Overview</h2>
@@ -63,19 +63,23 @@
                 no other data is recorded. </p><br>
               <h2>Accessibility Statement</h2>
               <p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>. GRIDH aim to include
-                accessibility as part of our mission statement. The <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
+                accessibility as part of our mission statement. The <a
+                  href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
                   (WCAG)</a> defines requirements for designers and developers to improve accessibility for people with
                 disabilities. It defines three levels of conformance: Level A, Level AA, and Level AAA. The SHFA webportal
                 is partially conformant with WCAG 2.1 level A. Partially conformant means that some parts of the content
-                do not fully conform to the accessibility standard. Accessibility of the SHFA webportal relies on the following technologies to work with the particular
+                do not fully conform to the accessibility standard. Accessibility of the SHFA webportal relies on the
+                following technologies to work with the particular
                 combination of web browser and any assistive technologies or plugins installed on your computer:</p>
               <ul>
                 <li>HTML</li>
                 <li>CSS</li>
                 <li>JavaScript</li>
               </ul>
-              <p>These technologies are relied upon for conformance with the accessibility standards used. GRIDH assessed the accessibility of the SHFA webportal by self-evaluation. This statement was created on 23 August 2023 using the <a
-                  href="https://www.w3.org/WAI/planning/statements/">W3C Accessibility Statement Generator Tool</a>.</p>
+              <p>These technologies are relied upon for conformance with the accessibility standards used. GRIDH assessed
+                the accessibility of the SHFA webportal by self-evaluation. This statement was created on 23 August 2023
+                using the <a href="https://www.w3.org/WAI/planning/statements/">W3C Accessibility Statement Generator
+                  Tool</a>.</p>
               <br>
 
               <h2>Contact Information</h2>
@@ -91,25 +95,14 @@
 
 
           </div>
-          <button @click="$emit('close')" style="padding:30px;">
-            <div class="p-1 px-2 clickable category-button" :class="{ fullopacityui: visibleAbout, isLight: isLight }"
-              id="search-suggestion" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">Close
-            </div>
-          </button>
         </div>
       </div>
-    </div>
-    <div class="about-logo-top-right" id="block-text"> </div>
+      <div class="about-logo-top-right" id="block-text"> </div>
+    </template>
 
-
-  </template>
-
-  <template v-else>
-    <div class="about-container" id='block-text' :class="{ fullopacity: visibleAbout, light: isLight }">
+    <template v-else>
       <div class="flex-machine">
-
         <div class="rows" :class="{ light: isLight }" id="block-text">
-
           <div class="content" id="block-text">
 
             <div class="logo-area">
@@ -152,8 +145,10 @@
               <h2>Att referera bilderna</h2>
               <p>Bilder i databasen är fritt tillgängliga för utskrift och nedladdning. Den föreslagna referensen för
                 varje bild finns i den detaljerade vyn, men du kan formatera om den till din föredragna stil med hjälp av
-                bildens metadata. Om du tidigare refererat till en bild med hjälp av ID-numret från vår tidigare websida och 
-                vill ha bildens nuvarande unika bild-id, vänligen mejla oss information om tidigare ID för bilden/bilderna du 
+                bildens metadata. Om du tidigare refererat till en bild med hjälp av ID-numret från vår tidigare websida
+                och
+                vill ha bildens nuvarande unika bild-id, vänligen mejla oss information om tidigare ID för bilden/bilderna
+                du
                 är intresserad av så återkommer vi med nuvarande ID-nummer. Meddela
                 oss på <a href=mailto:shfa@gu.se>shfa@gu.se</a> och ange en länk till <a
                   href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> när du
@@ -175,18 +170,21 @@
                 varifrån besöker kommer. Datat är anonymiserat och ingen annan data sparas. </p><br>
               <h2>Tillgänglighetsredogörelse</h2>
               <p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>. GRIDH strävar efter att
-                inkludera tillgänglighet som en del av vårt uppdrag. <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
+                inkludera tillgänglighet som en del av vårt uppdrag. <a
+                  href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
                   (WCAG)</a> definierar krav på designers och utvecklare för att förbättra tillgängligheten för personer
                 med funktionsnedsättning. Den definierar tre nivåer av överensstämmelse: nivå A, nivå AA och nivå AAA.
                 SHFAs webbportal överensstämmer delvis med WCAG 2.1 nivå A. Det innebär att vissa delar av innehållet inte
-                helt överensstämmer med tillgänglighetsstandarden. Tillgängligheten på SHFAs webbportal är beroende av följande tekniker för att fungera med speciella
+                helt överensstämmer med tillgänglighetsstandarden. Tillgängligheten på SHFAs webbportal är beroende av
+                följande tekniker för att fungera med speciella
                 webbläsare och eventuella hjälpmedel eller plugins installerade på din dator:</p>
               <ul>
                 <li>HTML</li>
                 <li>CSS</li>
                 <li>JavaScript</li>
               </ul>
-              <p>GRIDH har gjort en självskattning av SHFAs webbportal. Redogörelsen uppdaterades senast 2023-08-25 </p><br>
+              <p>GRIDH har gjort en självskattning av SHFAs webbportal. Redogörelsen uppdaterades senast 2023-08-25 </p>
+              <br>
               <h2>Kontaktinformation</h2>
 
               <p>Vänligen kontakta SHFA via <a href=mailto:shfa@gu.se>shfa@gu.se</a> för frågor om informationen samt för
@@ -196,31 +194,20 @@
 
               <p>Fysisk plats: Humanisten, Göteborgs universitet, Renströmsgatan 6, 412 55 Göteborg</p>
 
-
-
-
             </div>
-
-
-
-
-
-
-
           </div>
-          <button @click="$emit('close')" style="padding:30px;">
-            <div class="p-1 px-2 clickable category-button" :class="{ fullopacityui: visibleAbout, isLight: isLight }"
-              id="search-suggestion" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">Stäng
-            </div>
-          </button>
-
         </div>
-
       </div>
+    </template>
 
-    </div>
-    <div class="about-logo-top-right" id="block-text"> </div>
-  </template>
+
+
+  <div class="about-logo-top-right" id="block-text"> </div>
+  <button class="close-page-button" @click="$emit('close')">
+    <div class="category-button" :class="{ fullopacityui: visibleAbout, isLight: isLight }" id="search-suggestion"
+      style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
+  </button>
+</div>
 </template>
 
 <script lang="ts">
@@ -284,13 +271,10 @@ h2 {
   translate: 0px 100px;
   transition: all 0.5s ease-in-out;
   opacity: 0.0;
-  height: calc(100% - 80px);
+  height: calc(100%);
   overflow-y: auto;
   max-height: max-content;
-  /*background: linear-gradient(120deg, rgb(205, 210, 214) 0%, rgba(177, 189, 202, 0.856) 30%)*/
-  ;
   background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 30%);
-
 }
 
 .logo-area {
@@ -347,9 +331,6 @@ h2 {
   flex-direction: column;
 }
 
-
-
-
 .rows {
   display: flex;
   flex-direction: column;
@@ -357,7 +338,6 @@ h2 {
   justify-content: start;
   width: auto;
 }
-
 
 
 .about-main-title {
@@ -404,7 +384,6 @@ h2 {
   opacity: 0.0;
   padding: 0px 100px;
   transition: all 0.4s ease-in-out;
-
 }
 
 .about-article-sub {
@@ -422,21 +401,39 @@ h2 {
   opacity: 0.0;
   transition: all 0.4s ease-in-out;
   line-height: 1.2;
+  padding-bottom: 120px !important;
 }
 
 .category-button {
-  position: relative;
   float: left;
-  font-size: 2em;
+  font-size: 1.8em;
   font-weight: 400;
   transition: all 0.4s ease-in-out;
   background-color: rgb(80, 90, 100);
   padding: 8px 20px !important;
   z-index: 1000;
   opacity: 1.0;
-  margin-bottom: 50px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   border-radius: 5px;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.close-page-button {
+  position: sticky;
+  bottom: 0px;
+  z-index: 3000;
+  top:calc(100vh - 80px);
+  padding-bottom: 20px;
+  color: white;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.0) 100%);
+  background:black;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
 }
 
 
@@ -524,4 +521,5 @@ h2 {
 
 a {
   font-weight: normal;
-}</style>
+}
+</style>
