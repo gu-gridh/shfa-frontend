@@ -235,6 +235,11 @@ h2 {
 
 }
 
+.logo-area {
+    margin-top: 30px;
+    margin-bottom:20px;
+  }
+
 #logo {
   position: relative;
   width: 210px;

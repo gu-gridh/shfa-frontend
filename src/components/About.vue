@@ -278,7 +278,7 @@ h2 {
 }
 
 .logo-area {
-  margin-top: 80px;
+  margin-top: 30px;
 }
 
 #logo {
