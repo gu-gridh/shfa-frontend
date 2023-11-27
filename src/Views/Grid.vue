@@ -784,7 +784,7 @@ padding:5px 8px 5px 8px;
 .top-link-button{
   float:right;
   text-align:left;
-  margin-left:7px;
+  margin-left:5px;
   margin-top:4px;
   height:20px;
   width:20px;
@@ -801,7 +801,7 @@ padding:5px 8px 5px 8px;
 .top-link-infobutton{
   float:right;
   text-align:left;
-  margin-left:7px;
+  margin-left:5px;
   margin-top:4px;
   height:20px;
   width:20px;

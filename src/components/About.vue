@@ -421,8 +421,8 @@ h2 {
 
 .close-page-button {
   position: sticky;
-  bottom: 0px;
   z-index: 3000;
+  bottom:0px;
   top:calc(100vh - 80px);
   padding-bottom: 20px;
   color: white;

@@ -141,7 +141,7 @@
         </div>
       </div>
     </div>
-    <button class="close-page-button" @click="$emit('close')">
+    <button class="close-page-button"  @click="$emit('close')">
     <div class="category-button" :class="{ fullopacityui: visibleAbout, isLight: isLight }" id="search-suggestion"
       style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
   </button>
@@ -386,8 +386,8 @@ h2 {
 }
 .close-page-button {
   position: sticky;
-  bottom: 0px;
   z-index: 3000;
+  bottom:0px;
   top:calc(100vh - 80px);
   padding-bottom: 20px;
   color: white;
