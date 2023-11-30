@@ -7,7 +7,10 @@
       <div id="popup-content">
         <p id="lamning_id"></p>
         <p id="raa_id"></p>
-        <p>
+        <p id="placename"></p>
+        <p id="lokalitet_id"></p>
+        <p id="askeladden_id"></p>
+        <p id="fornsok_header">
           <a id="fornsok_link" target="_blank">{{
             $t("message.checkfornsök")
           }}</a>
@@ -235,6 +238,9 @@ export default {
               lamning_id: feature.properties.lamning_id ?? null,
               raa_id: feature.properties.raa_id ?? null,
               ksamsok_id: feature.properties.ksamsok_id ?? null,
+              lokalitet_id: feature.properties.lokalitet_id ?? null,
+              askeladden_id: feature.properties.askeladden_id ?? null,
+              placename: feature.properties.placename ?? null,
             }));
  
             // Filter the additionalResults to only include points outside the current bounding box
@@ -336,6 +342,9 @@ export default {
             lamning_id: feature.properties.lamning_id ?? null,
             raa_id: feature.properties.raa_id ?? null,
             ksamsok_id: feature.properties.ksamsok_id ?? null,
+            lokalitet_id: feature.properties.lokalitet_id ?? null,
+            askeladden_id: feature.properties.askeladden_id ?? null,
+            placename: feature.properties.placename ?? null,
           }))
         );
  
@@ -370,6 +379,9 @@ export default {
       // const content = document.getElementById('popup-content');
       const raaContent = document.getElementById("raa_id");
       const lamningContent = document.getElementById("lamning_id");
+      const lokalitetContent = document.getElementById("lokalitet_id");
+      const askeladdenContent = document.getElementById("askeladden_id");
+      const placenameContent = document.getElementById("placename");
       const closebutton = document.getElementById("popup-closer");
  
       //Overlay that anchors the popups
@@ -440,16 +452,25 @@ export default {
           const coords = feature.get("coords");
  
           const extent = feature.getGeometry().getExtent();
+
+          const lokalitet_id = feature.get("lokalitet_id");
+          const askeladden_id = feature.get("askeladden_id");
+          const placename = feature.get("placename");
+
  
           raaContent.innerHTML = raa_id;
           lamningContent.innerHTML = lamning_id;
+          placenameContent.innerHTML = placename;
+          lokalitetContent.innerHTML = lokalitet_id;
+          askeladdenContent.innerHTML = askeladden_id;
+
           document.getElementById(
             "fornsok_link"
           ).href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
+          
           document.getElementById(
             "extmap_link"
           ).href = `https://www.google.com/maps/place/${coords}`;
-          // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;          
           container.style.visibility = "visible";
           overlay.setPosition(extent);
         });
@@ -467,10 +488,15 @@ export default {
             const id = feature.get("id");
             const ksamsok_id = feature.get("ksamsok_id");
             const coords = feature.get("coords");
+            const lokalitet_id = feature.get("lokalitet_id");
+            const askeladden_id = feature.get("askeladden_id");
+            const placename = feature.get("placename");
+
  
             this.clickedId = id;
             this.clickedLamningId = lamning_id;
             this.clickedRaaId = raa_id;
+
  
             this.$emit("map-clicked");
             this.$emit("id-selected", id);
@@ -488,9 +514,12 @@ export default {
  
             raaContent.innerHTML = raa_id;
             lamningContent.innerHTML = lamning_id;
+            placenameContent.innerHTML = placename;
+            lokalitetContent.innerHTML = lokalitet_id;
+            askeladdenContent.innerHTML = askeladden_id;
             document.getElementById(
-              "fornsok_link"
-            ).href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
+            "fornsok_link"
+          ).href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
             document.getElementById(
               "extmap_link"
             ).href = `https://www.google.com/maps/place/${coords}`;
@@ -532,6 +561,9 @@ export default {
           "coords",
           result.coordinates[1] + "," + result.coordinates[0]
         );
+        feature.set("placename", result.placename);
+        feature.set("askeladden_id", result.askeladden_id);
+        feature.set("lokalitet_id",result.lokalitet_id);
         return feature;
       });
  
