@@ -793,12 +793,6 @@ export default {
   filter: grayscale(100%) contrast(110%);
 }
  
-#map .markers {
-  filter: contrast(70%);
-}
- 
-
- 
 @media (max-width: 350px) {
   .ol-zoom {
     bottom: 18%;
