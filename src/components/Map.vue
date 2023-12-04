@@ -84,8 +84,6 @@ export default {
     }
   },
   created() {
-    this.debouncedFetchDataByBbox = debounce(this.fetchDataByBbox, 1000);
- 
     // Watch the 'boundingBox' field in the store for changes
     watch(
       () => this.coordinateStore.boundingBox,
@@ -120,31 +118,6 @@ export default {
         }
       },
     },
-    bbox: {
-      deep: true,
-      handler(newBbox, oldBbox) {
-        if (
-          oldBbox.length !== 4 ||
-          newBbox[0] < oldBbox[0] ||
-          newBbox[1] < oldBbox[1] ||
-          newBbox[2] > oldBbox[2] ||
-          newBbox[3] > oldBbox[3]
-        ) {
-          this.debouncedFetchDataByBbox(); // Fetch data by bounding box
-        } else {
-          // Update the results array with the data within the current bounding box
-          this.results = this.cachedResults.filter((result) => {
-            const [x, y] = result.coordinates;
-            return (
-              x >= newBbox[0] &&
-              x <= newBbox[2] &&
-              y >= newBbox[1] &&
-              y <= newBbox[3]
-            );
-          });
-        }
-      },
-    },
     results: {
       deep: true,
       handler() {
@@ -163,12 +136,12 @@ export default {
         document.body.classList.remove("map-expanded");
       }
     },
-
+ 
     fetchImagesClicked() {
       this.coordinateStore.setImagesFetchTriggered(true);
       this.$emit('reset-id');
-      this.$router.push({ 
-        name: 'Search', 
+      this.$router.push({
+        name: 'Search',
       });
     },
  
@@ -204,7 +177,7 @@ export default {
         console.warn("Invalid bounding box or map object.");
       }
     },
-
+ 
     focusOnCoordinates(lon, lat) {
       if (this.map) {
         const coordinates = fromLonLat([lon, lat]);
@@ -215,8 +188,8 @@ export default {
         // this.map.getView().setZoom(17)
       }
     },
-
-    async fetchAdditionalData(url, pagesToFetch = 10) {
+ 
+    async fetchAdditionalData(url, pagesToFetch = 1) {
       if (!url) {
         url = "https://diana.dh.gu.se/api/shfa/geojson/site/?page_size=1000";
       }
@@ -243,21 +216,10 @@ export default {
               placename: feature.properties.placename ?? null,
             }));
  
-            // Filter the additionalResults to only include points outside the current bounding box
-            const filteredAdditionalResults = additionalResults.filter(
-              (result) => {
-                const [x, y] = result.coordinates;
-                return (
-                  x < this.bbox[0] ||
-                  x > this.bbox[2] ||
-                  y < this.bbox[1] ||
-                  y > this.bbox[3]
-                );
-              }
-            );
+            this.updateCoordinates(additionalResults);
  
             // Merge the filteredAdditionalResults with the cachedResults
-            this.cachedResults.push(...filteredAdditionalResults);
+            this.cachedResults.push(...additionalResults);
  
             // Increment the pagesFetched counter
             pagesFetched++;
@@ -267,9 +229,12 @@ export default {
               const fixedNextUrl = data.next.replace("http://", "https://");
               if (pagesFetched % pagesToFetch === 0) {
                 // If pages fetched is a multiple of pagesToFetch, add a delay
-                await delay(3000); // Pause for 3 seconds
+                await delay(1000);
               }
               await fetchData(fixedNextUrl);
+            } else {
+              // Call updateCoordinates after all pages have been fetched
+              this.updateCoordinates(this.cachedResults);
             }
           } else {
             console.error("Unexpected API response:", data);
@@ -291,86 +256,6 @@ export default {
       this.$emit("update-bbox", newBbox);
       this.coordinateStore.setBboxFetch(newBbox);
       this.bboxUpdated = true;
-    },
- 
-    async fetchDataByBbox() {
-      if (this.bbox.length === 4) {
-        // Calculate the larger bounding box
-        const padding = 0.2; // Adjust this value to control the amount of padding around the current bounding box
-        const [minX, minY, maxX, maxY] = this.bbox;
-        const paddedBbox = [
-          minX - (maxX - minX) * padding,
-          minY - (maxY - minY) * padding,
-          maxX + (maxX - minX) * padding,
-          maxY + (maxY - minY) * padding,
-        ];
- 
-        // Construct the API URL with the padded bounding box coordinates
-        const url = `https://diana.dh.gu.se/api/shfa/geojson/site/?in_bbox=${paddedBbox[0]},${paddedBbox[1]},${paddedBbox[2]},${paddedBbox[3]}&limit=100`;
- 
-        let allFeatures = [];
- 
-        const fetchResults = async (url) => {
-          try {
-            const response = await fetch(url);
-            const data = await response.json();
- 
-            if (data && data.features) {
-              allFeatures.push(...data.features);
- 
-              if (data.next) {
-                //if there is a "next" URL, recursively fetch the next set of data
-                let fixedNextUrl = data.next.replace("http://", "https://");
-                fixedNextUrl = decodeURIComponent(fixedNextUrl);
-                await fetchResults(fixedNextUrl);
-              }
-            } else {
-              console.error("Unexpected API response:", data);
-            }
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
-        };
- 
-        await fetchResults(url);
- 
-        // Save the fetched data in the cachedResults array
-        this.cachedResults.push(
-          ...allFeatures.map((feature) => ({
-            coordinates: feature.geometry.coordinates,
-            id: feature.id ?? null,
-            lamning_id: feature.properties.lamning_id ?? null,
-            raa_id: feature.properties.raa_id ?? null,
-            ksamsok_id: feature.properties.ksamsok_id ?? null,
-            lokalitet_id: feature.properties.lokalitet_id ?? null,
-            askeladden_id: feature.properties.askeladden_id ?? null,
-            placename: feature.properties.placename ?? null,
-          }))
-        );
- 
-        // Deduplicate the cachedResults array
-        const uniqueResults = [];
-        const seenIds = new Set();
-        for (const result of this.cachedResults) {
-          const combinedId = `${result.lamning_id}-${result.raa_id}`; // Combine both IDs
-          if (!seenIds.has(combinedId)) {
-            uniqueResults.push(result);
-            seenIds.add(combinedId);
-          }
-        }
-        this.cachedResults = uniqueResults;
- 
-        // Update the results array with the data within the current bounding box
-        this.results = this.cachedResults.filter((result) => {
-          const [x, y] = result.coordinates;
-          return (
-            x >= this.bbox[0] &&
-            x <= this.bbox[2] &&
-            y >= this.bbox[1] &&
-            y <= this.bbox[3]
-          );
-        });
-      }
     },
  
     initMap() {
@@ -417,7 +302,7 @@ export default {
         overlays: [overlay],
       });
       this.map.addControl(new Zoom());
-    
+   
      
       // Initialize the WebGL map marker style
       const webGLStyle = {
@@ -452,22 +337,22 @@ export default {
           const coords = feature.get("coords");
  
           const extent = feature.getGeometry().getExtent();
-
+ 
           const lokalitet_id = feature.get("lokalitet_id");
           const askeladden_id = feature.get("askeladden_id");
           const placename = feature.get("placename");
-
+ 
  
           raaContent.innerHTML = raa_id;
           lamningContent.innerHTML = lamning_id;
           placenameContent.innerHTML = placename;
           lokalitetContent.innerHTML = lokalitet_id;
           askeladdenContent.innerHTML = askeladden_id;
-
+ 
           document.getElementById(
             "fornsok_link"
           ).href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
-          
+         
           document.getElementById(
             "extmap_link"
           ).href = `https://www.google.com/maps/place/${coords}`;
@@ -491,12 +376,12 @@ export default {
             const lokalitet_id = feature.get("lokalitet_id");
             const askeladden_id = feature.get("askeladden_id");
             const placename = feature.get("placename");
-
+ 
  
             this.clickedId = id;
             this.clickedLamningId = lamning_id;
             this.clickedRaaId = raa_id;
-
+ 
  
             this.$emit("map-clicked");
             this.$emit("id-selected", id);
@@ -524,7 +409,7 @@ export default {
               "extmap_link"
             ).href = `https://www.google.com/maps/place/${coords}`;
             container.style.visibility = "visible";
-            // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;            
+            // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;                      
             overlay.setPosition(extent);
           },
           {
@@ -533,7 +418,7 @@ export default {
           }
         );
       });
-
+ 
       this.map.on("movestart", () => {
         this.bboxUpdated = false;
       });
@@ -578,7 +463,7 @@ export default {
 <style>
 #search-bbox-button {
   position: absolute;
-  left: 50%; 
+  left: 50%;
   transform: translateX(-50%);
   background: url(/public/interface/searchbuttonwhite.png) no-repeat 4px 50%;
   background-size: 32px 32px;
@@ -593,13 +478,13 @@ export default {
   backdrop-filter: blur(5px);
   color: white;
 }
-
+ 
 
  
 #search-bbox-button:hover {
   opacity: 0.9;
 }
-
+ 
 #map {
   z-index: 40; /* Fixes border-radius in Safari. */
   width: 100%;
@@ -617,7 +502,7 @@ export default {
   transition: all 0.5s ease-in-out;
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
-
+ 
 .light #map {
   border-color:rgb(180,180,180);
   border-style:solid;
@@ -626,14 +511,14 @@ export default {
   background-color:rgb(255,255,255);
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
-
+ 
 
 .map-expanded #map {
   width: 100%;
   height: 100%;
   margin-top: -102px!important;
 }
-
+ 
 @media (max-width: 1024px) {
   .map-expanded #map {
   width: 100%;
@@ -641,7 +526,7 @@ export default {
   margin-top: -102px!important;
 }
 }
-
+ 
 @media (max-width: 480px) {
   #map {
     margin-top:70px !important;
@@ -715,7 +600,7 @@ export default {
   background-size: contain;
   top: 100px;
 }
-
+ 
 .expand-map-widget{
   opacity: 0.9!important;
   position: absolute!important;
@@ -731,27 +616,27 @@ export default {
   background-color: rgba(35, 35, 35, 0.9)!important;
   background-size: contain !important;
 }
-
+ 
 .expand-map-widget:hover {
   background-color: rgba(25, 25, 25, 1.0)!important;
 }
-
+ 
 @media (max-width: 1024px) {
   .expand-map-widget{
  display:none;
 }
 .ol-zoom-in {
-
+ 
   top: 20px;
 }
  
 .ol-zoom-out {
-
+ 
   top: 60px;
 }
-} 
+}
  
-
+ 
 .ol-full-screen {
   display:none;
   opacity: 0.9!important;
