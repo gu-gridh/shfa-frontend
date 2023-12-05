@@ -85,17 +85,17 @@ export default {
           {
             name: 'Utby',
             extent: [11.327822802207764, 58.75384513495297, 11.380412139115528, 58.77651539902158],
-            zoom: 13.4
+            zoom: 14
           },
           {
             name: 'Trollhättan',
             extent: [12.15738173533494, 58.227118178236026, 12.642861792437941, 58.39854824830422],
-            zoom: 10
+            zoom: 11
           },
           {
             name: 'Växsjö',
             extent: [13.559456183370157, 56.60214828694683, 15.0936533881588, 57.16560071860496],
-            zoom: 10
+            zoom: 9
           },
           {
             name: 'Senoren',
@@ -107,7 +107,18 @@ export default {
             extent: [18.59707164248733, 63.328028653896865, 21.602319408229594, 64.22070829719868],
             zoom: 8.7
           },
-      ]
+          {
+            name: 'Tjörn',
+            extent: [11.462438176159067, 57.949980245340925, 11.783449041239933, 58.1017415182024],
+            zoom: 11
+          },
+
+          {
+            name: 'Tanum1',
+            extent: [11.347513875726316, 58.71596325683694, 11.400385579827878, 58.735256825937256],
+            zoom: 14
+          },
+          ]
     };
   },
   mounted() {
@@ -303,6 +314,11 @@ export default {
       const newBbox = [bottomLeft[0], bottomLeft[1], topRight[0], topRight[1]];
       this.$emit("update-bbox", newBbox);
       this.coordinateStore.setBboxFetch(newBbox);
+
+      console.log('Bounding Box:', newBbox);
+      const currentZoom = this.map.getView().getZoom();
+      console.log('Current Zoom Level:', currentZoom);
+
       this.bboxUpdated = true;
     },
  

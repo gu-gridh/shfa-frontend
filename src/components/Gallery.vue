@@ -199,11 +199,13 @@ export default {
       let columnWidth;
 
       if (screenWidth < 768) {
-        columnWidth = 140; // Small screens
+        columnWidth = 140; // Mobile screens
       } else if (screenWidth < 1024) {
-        columnWidth = 150; // Medium screens (768px to 1023px)
-      } else if (screenWidth < 2000) {
-        columnWidth = 150; // Large screens (1024px to 1999px)
+        columnWidth = 150; // Small screens (768px to 1023px)
+      } else if (screenWidth < 1600) {
+        columnWidth = 150; // Medium screens (1024px to 1599px)
+      } else if (screenWidth < 1800) {
+        columnWidth = 175; // Large screens (1600px to 1799px)
       } else if (screenWidth < 2300) {
         columnWidth = 200; // Extra large screens (2000px to 2299px)
       } else if (screenWidth < 2600) {
