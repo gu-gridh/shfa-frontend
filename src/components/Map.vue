@@ -64,7 +64,50 @@ export default {
       bboxUpdated: true,
       results: [],
       cachedResults: [],
-      coordinateStore: useStore(), // Initialize the store here
+      coordinateStore: useStore(),
+      locations: 
+        [
+          {
+            name: 'Gotland',
+            extent: [17.513174670372624, 57.020592564779975, 19.753000596207425, 58.062886268526256],
+            zoom: 8.44999999999999
+          },
+          {
+            name: 'Vålådalen',
+            extent: [11.704174523632746, 62.54648249879901, 14.513168012454589, 63.64847226657625],
+            zoom: 8.123
+          },
+          {
+            name: 'Lerberg',
+            extent: [11.328369638055705, 58.90122304424608, 11.400832551072183, 58.933663487575984],
+            zoom: 13.4
+          },
+          {
+            name: 'Utby',
+            extent: [11.327822802207764, 58.75384513495297, 11.380412139115528, 58.77651539902158],
+            zoom: 13.4
+          },
+          {
+            name: 'Trollhättan',
+            extent: [12.15738173533494, 58.227118178236026, 12.642861792437941, 58.39854824830422],
+            zoom: 10
+          },
+          {
+            name: 'Växsjö',
+            extent: [13.559456183370157, 56.60214828694683, 15.0936533881588, 57.16560071860496],
+            zoom: 10
+          },
+          {
+            name: 'Senoren',
+            extent: [15.495836722062396, 56.04407481172257, 16.120355679608245, 56.27785953081357],
+            zoom: 10
+          },
+          {
+            name: 'Umeå',
+            extent: [18.59707164248733, 63.328028653896865, 21.602319408229594, 64.22070829719868],
+            zoom: 8.7
+          },
+      ]
     };
   },
   mounted() {
@@ -135,6 +178,11 @@ export default {
       } else {
         document.body.classList.remove("map-expanded");
       }
+    },
+
+    fetchImagesClickedInit() {
+      this.coordinateStore.setImagesFetchTriggered(true);
+      this.$emit('reset-id');
     },
  
     fetchImagesClicked() {
@@ -255,12 +303,6 @@ export default {
       const newBbox = [bottomLeft[0], bottomLeft[1], topRight[0], topRight[1]];
       this.$emit("update-bbox", newBbox);
       this.coordinateStore.setBboxFetch(newBbox);
-
-      console.log('Bounding Box:', newBbox);
-
-      const currentZoom = this.map.getView().getZoom();
-      console.log('Current Zoom Level:', currentZoom);
-
       this.bboxUpdated = true;
     },
  
@@ -302,14 +344,29 @@ export default {
           }),
         ],
         view: new View({
-          center: fromLonLat([11.35, 58.73]), // Default center of the map
-          zoom: 13, // Default zoom level of the map
+          center: fromLonLat([11.35, 58.73]), 
+          zoom: 13, 
         }),
         overlays: [overlay],
       });
+
+       if (this.map) {
+        const randomLocation = this.locations[Math.floor(Math.random() * this.locations.length)];
+        const transformedExtent = transformExtent(
+          randomLocation.extent,
+          "EPSG:4326",
+          "EPSG:3857"
+        );
+        this.map.getView().fit(transformedExtent, {
+          size: this.map.getSize(),
+        });
+        this.map.getView().setZoom(randomLocation.zoom);
+      } else {
+        console.error("Failed to initialize the map.");
+      }
+      this.updateBbox();
       this.map.addControl(new Zoom());
    
-     
       // Initialize the WebGL map marker style
       const webGLStyle = {
         symbol: {

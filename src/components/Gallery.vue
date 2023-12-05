@@ -272,9 +272,6 @@ export default {
       ],
     };
   },
-  mounted() {
-    // this.loadStartPage();
-  },
   methods: {
     loadNextPageBbox() {
       this.fetchImagesClicked(true);
@@ -364,54 +361,13 @@ export default {
         });
       }
     },
+    
     updatePageDetails() {
       this.$emit("page-details-updated", {
         currentPage: this.currentPage,
         totalPages: this.totalPages,
         totalResults: this.count,
       });
-    },
-    async loadStartPage() {
-      let response = await fetch(
-        "https://diana.dh.gu.se/api/shfa/compilation/1/?depth=2"
-      );
-      if (!response.ok) {
-        this.$emit("error", "Could not fetch data");
-        return;
-      }
-
-      let data = await response.json();
-
-      if (!data.images) {
-        this.$emit("error", "No results in data");
-        return;
-      }
-
-      // Prepare the image groups.
-      let typeMap = this.specificOrder.map((order) => ({
-        ...order,
-        items: [],
-      }));
-
-      for (let image of data.images) {
-        let type = image.type;
-        let item = {
-          id: image.id ?? null,
-          lamning_id: image?.site?.lamning_id ?? null,
-          raa_id: image?.site?.raa_id ?? null,
-          type: image?.type?.id ?? null,
-          iiif_file: image.iiif_file ?? null,
-        };
-
-        let typeIndex = typeMap.findIndex((x) => x.type === type.id);
-        if (typeIndex !== -1) {
-          typeMap[typeIndex].items.push(item);
-        }
-      }
-
-      // Filter out the groups with no items and sort the image groups by the specified order.
-      this.imageGroups = typeMap.filter((group) => group.items.length > 0);
-      //.sort((a, b) => a.order - b.order);
     },
 
     loadMore() {

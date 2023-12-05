@@ -129,7 +129,6 @@
    
   <div v-show="showGallery" :class="{light: isLight}"> 
   <Gallery 
-    ref="galleryRef"
     :class="{light: isLight}"
     :siteId="selectedId" 
     :siteLamningId="selectedLamningId"
@@ -235,7 +234,7 @@ export default defineComponent({
         this.idForMetaData = idForMetaData;
       }
       if (to.name === 'Home' && !newSiteId && !newIiifFile && !idForMetaData) {
-        this.$refs.galleryRef.loadStartPage();
+        this.$refs.mapComponent.fetchImagesClickedInit();
       }
     },
     selectedId(newId, oldId) {
