@@ -273,11 +273,11 @@ export default {
       const overlay = new Overlay({
         element: container,
         positioning: "center-center",
-        autoPan: {
-          animation: {
-            duration: 200,
-          },
-        },
+        // autoPan: {
+        //   animation: {
+        //     duration: 200,
+        //   },
+        // },
       });
  
       //Button to make popup invisible
