@@ -255,6 +255,12 @@ export default {
       const newBbox = [bottomLeft[0], bottomLeft[1], topRight[0], topRight[1]];
       this.$emit("update-bbox", newBbox);
       this.coordinateStore.setBboxFetch(newBbox);
+
+      console.log('Bounding Box:', newBbox);
+
+      const currentZoom = this.map.getView().getZoom();
+      console.log('Current Zoom Level:', currentZoom);
+
       this.bboxUpdated = true;
     },
  
