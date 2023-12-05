@@ -19,7 +19,7 @@
             @click="$emit('image-clicked', item.iiif_file, item.id)"
           >
             <img
-              :src="`${item.iiif_file}/full/300,/0/default.jpg`"
+              :src="`${item.iiif_file}/full/350,/0/default.jpg`"
               :alt="`Image ${index}`"
               @load="
                 item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)
@@ -199,13 +199,18 @@ export default {
       let columnWidth;
 
       if (screenWidth < 768) {
-        columnWidth = 140; // Set the column width for small screens
+        columnWidth = 140; // Small screens
       } else if (screenWidth < 1024) {
-        columnWidth = 150; // Set the column width for medium screens
+        columnWidth = 150; // Medium screens (768px to 1023px)
+      } else if (screenWidth < 2000) {
+        columnWidth = 150; // Large screens (1024px to 1999px)
+      } else if (screenWidth < 2300) {
+        columnWidth = 200; // Extra large screens (2000px to 2299px)
+      } else if (screenWidth < 2600) {
+        columnWidth = 250; // Larger screens (2300px to 2599px)
       } else {
-        columnWidth = 150; // Set the column width for large screens
+        columnWidth = 300; // Very large screens (2600px and above)
       }
-
       return columnWidth;
     },
     totalPages() {
