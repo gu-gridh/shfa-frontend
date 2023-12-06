@@ -68,7 +68,30 @@ export default {
       coordinateStore: useStore(),
     };
   },
+   mounted() {
+    // Fetch ID from URL and populate data
+    this.extractIdAndFetchData();
+  },
    methods: {
+     extractIdAndFetchData() {
+      const pathSegments = window.location.pathname.split('/');
+      const iiifIndex = pathSegments.indexOf('iiif');
+      if (iiifIndex !== -1 && pathSegments.length > iiifIndex) {
+        const id = pathSegments[iiifIndex + 1];
+        this.fetchData(id);
+      }
+    },
+    fetchData(id) {
+      fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${id}&depth=1`)
+        .then((response) => response.json())
+        .then((json) => {
+          this.data = json.results[0];
+          this.fetchDescription(); 
+        })
+        .catch((error) => {
+          console.error('Error fetching image data:', error);
+        });
+    },
     fetchDescription() {
       fetch(`https://kulturarvsdata.se/raa/lamning/xml/${this.data.site.ksamsok_id}`)
         .then(response => response.text())
@@ -94,7 +117,6 @@ export default {
           .then((json) => {
             this.data = json.results[0];
             this.fetchDescription(); 
-            
             const coordinates = this.data?.site?.coordinates?.coordinates;
             if (coordinates) {
               this.coordinateStore.setCoordinates(coordinates);

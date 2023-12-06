@@ -146,21 +146,6 @@
     >
   </Gallery>
 </div>
-
-<div v-if="showCatalogue" @click="toggleThreePanels">
-    <Catalogue 
-      :siteId="selectedId" 
-      :siteLamningId="selectedLamningId"
-      @items-updated="onItemsUpdated"
-      @image-clicked="onImageClicked">
-    </Catalogue>
-  </div>
-
-  <div v-if="showDatareport">
-    <Datareport>
-    </Datareport>
-  </div>
-
     <div style="display:flex; align-items: center; justify-content: center;">
       <div class="ui-results" v-show="showResults" style="width:220px; font-size:0.9em; padding:5px 5px;">
         <p style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}: <p style="color:rgb(200,225,250); display:inline;"> {{ totalResults }}</p></p>
@@ -200,8 +185,6 @@ import Map from '../components/Map.vue';
 import { defineComponent } from 'vue';
 import Split from 'split.js';
 import Gallery from '../components/Gallery.vue';
-import Catalogue from '../components/Catalogue.vue';
-import Datareport from '../components/Datareport.vue';
 import Search from "../components/Search.vue";
 import AdvancedSearch from "../components/AdvancedSearch.vue";
 import ImageViewer from "../components/ImageViewer.vue";
@@ -211,13 +194,12 @@ import Guide from "../components/Guide.vue";
 
 export default defineComponent({
   components: {
-    Map, Gallery, Catalogue, Datareport, Search, AdvancedSearch, ImageViewer, MetaData, About, Guide
+    Map, Gallery, Search, AdvancedSearch, ImageViewer, MetaData, About, Guide
   },
   watch: {
     $route(to, from) {
       const newSiteId = to.params.siteId;
       const newIiifFile = to.params.iiifFile;
-      const idForMetaData = to.params.idForMetaData;
       if (newSiteId) {
         this.selectedId = newSiteId;
         this.showResults = true;
@@ -226,10 +208,8 @@ export default defineComponent({
         this.selectedIiifFile = newIiifFile;
         this.showThreePanels = true;
       }
-      if (idForMetaData) {
-        this.idForMetaData = idForMetaData;
-      }
-      if (to.name === 'Home' && !newSiteId && !newIiifFile && !idForMetaData) {
+
+      if (to.name === 'Home' && !newSiteId && !newIiifFile) {
         this.$refs.mapComponent.fetchImagesClickedInit();
       }
     },
@@ -259,10 +239,9 @@ export default defineComponent({
       if(this.selectedId === null) {  // When there's no site id
         // Only change the URL, but not the history
         this.$router.replace({ 
-          name: 'IiifFileMetaDataWithoutSite', 
+          name: 'SearchWithIiifFile', 
           params: { 
             iiifFile: newIiifFile, 
-            idForMetaData: this.idForMetaData,
           } 
         });
       } else {
@@ -274,27 +253,6 @@ export default defineComponent({
             } 
           });  }
    },
-    idForMetaData(newMeta, oldMeta) {
-      if(this.selectedId === null) {  // When there's no site id
-        // Only change the URL, but not the history
-        this.$router.replace({ 
-          name: 'IiifFileMetaDataWithoutSite', 
-          params: { 
-            iiifFile: this.selectedIiifFile,
-            idForMetaData: newMeta, 
-          } 
-        });
-      } else {
-      // Only change the URL, but not the history
-        this.$router.replace({ 
-          name: 'SiteWithIiifFileMetaData', 
-          params: { 
-            siteId: this.selectedId,
-            iiifFile: this.selectedIiifFile,
-            idForMetaData: newMeta, 
-          } 
-        });  }
-    },
     showThreePanels(newValue) {
       if (this.isFirstLoad && (window.location.pathname.includes('search'))) {
         this.isFirstLoad = false;
@@ -493,12 +451,7 @@ beforeDestroy() {
       }
     },
     onImageClicked(iiifFile, id) {
-      const fileSegment = iiifFile.split('iiif/')[1]; 
-      if(fileSegment){
-          this.selectedIiifFile = fileSegment; 
-      } else {
-          console.error('Invalid IIIF File URL');
-      }
+      this.selectedIiifFile = id; 
       this.idForMetaData = id;
       this.toggleThreePanels();
     },

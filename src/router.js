@@ -18,13 +18,8 @@ const routes = [
     component: Grid,
   },
   {
-    path: '/site/:siteId/iiif/:iiifFile/meta/:idForMetaData',
-    name: 'SiteWithIiifFileMetaData',
-    component: Grid,
-  },
-  {
-    path: '/search/iiif/:iiifFile/meta/:idForMetaData',
-    name: 'IiifFileMetaDataWithoutSite',
+    path: '/search/iiif/:iiifFile/',
+    name: 'SearchWithIiifFile',
     component: Grid,
   },
   {
