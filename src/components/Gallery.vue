@@ -28,8 +28,8 @@
             />
             <div class="grid-item-info" id="gallery">
               <div class="grid-item-info-meta">
-                <h5>{{ mapGallery ? siteLamningId : item.lamning_id }}</h5>
-                <h6>{{ mapGallery ? siteRaaId : item.raa_id }}</h6>
+                <h5>{{ item.lamning_id }}</h5>
+                <h6>{{ item.raa_id }}</h6>
               </div>
             </div>
           </div>
@@ -129,16 +129,6 @@ export default {
   props: {
     siteId: {
       type: [Number, String],
-      required: false,
-      default: null,
-    },
-    siteLamningId: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    siteRaaId: {
-      type: String,
       required: false,
       default: null,
     },
@@ -292,7 +282,7 @@ export default {
       } else {
         // Initial URL or fallback
         const [minX, minY, maxX, maxY] = this.store.bboxFetch;
-        url = `https://diana.dh.gu.se/api/shfa/search/image/?in_bbox=${minX},${minY},${maxX},${maxY}`;
+        url = `https://diana.dh.gu.se/api/shfa/search/image/?in_bbox=${minX},${minY},${maxX},${maxY}&depth=2`;
       }
       try {
         // Make the API call
@@ -313,13 +303,15 @@ export default {
         for (let image of data.results) {
           let type = image.type;
           let item = {
+            lamning_id: image.site.lamning_id,
+            raa_id: image.site.raa_id,
             id: image.id,
             file: image.file,
-            type: image.type,
+            type: image.type.id,
             iiif_file: image.iiif_file,
           };
 
-          let typeIndex = typeMap.findIndex((x) => x.type === type);
+          let typeIndex = typeMap.findIndex((x) => x.type === type.id);
           if (typeIndex !== -1) {
             typeMap[typeIndex].items.push(item);
           }
@@ -404,10 +396,14 @@ export default {
     async fetchData() {
       this.bboxSearch = false;
       if (this.nextPageUrl) {
+
+        const separator = this.nextPageUrl.includes('?') ? '&' : '?';
+        const urlWithDepth = this.nextPageUrl + separator + 'depth=2';
+
         this.store.setLoading(true);
         this.loadedImagesCount = 0;
 
-        let response = await fetch(this.nextPageUrl);
+        let response = await fetch(urlWithDepth);
         if (!response.ok) {
           this.$emit("error", "Could not fetch data");
           return;
@@ -429,13 +425,15 @@ export default {
         for (let image of data.results) {
           let type = image.type;
           let item = {
+            lamning_id: image.site.lamning_id,
+            raa_id: image.site.raa_id,
             id: image.id,
             file: image.file,
-            type: image.type,
+            type: image.type.id,
             iiif_file: image.iiif_file,
           };
 
-          let typeIndex = typeMap.findIndex((x) => x.type === type);
+          let typeIndex = typeMap.findIndex((x) => x.type === type.id);
           if (typeIndex !== -1) {
             typeMap[typeIndex].items.push(item);
           }
@@ -487,13 +485,15 @@ export default {
         for (let image of data.results) {
           let type = image.type;
           let item = {
+            lamning_id: image.site.lamning_id,
+            raa_id: image.site.raa_id,
             id: image.id,
             file: image.file,
-            type: image.type,
+            type: image.type.id,
             iiif_file: image.iiif_file,
           };
 
-          let typeIndex = typeMap.findIndex((x) => x.type === type);
+          let typeIndex = typeMap.findIndex((x) => x.type === type.id);
           if (typeIndex !== -1) {
             typeMap[typeIndex].items.push(item);
           }

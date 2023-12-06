@@ -470,8 +470,6 @@ export default {
  
             this.$emit("map-clicked");
             this.$emit("id-selected", id);
-            this.$emit("lamning-selected", lamning_id);
-            this.$emit("raa-selected", raa_id);
  
             //Zoom to the clicked point and make sure basemap is still visible
             const extent = feature.getGeometry().getExtent();

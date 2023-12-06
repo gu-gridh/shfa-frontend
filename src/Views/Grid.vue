@@ -103,8 +103,6 @@
         :showMap="showMap"
         @id-selected="selectedId = $event"
         @reset-id="handleBboxClicked"
-        @lamning-selected="selectedLamningId = $event"
-        @raa-selected="selectedRaaId = $event"
         @update-bbox="bbox = $event"
         @map-clicked="handleMapClicked"
       ></Map>
@@ -131,8 +129,6 @@
   <Gallery 
     :class="{light: isLight}"
     :siteId="selectedId" 
-    :siteLamningId="selectedLamningId"
-    :siteRaaId="selectedRaaId"
     @image-clicked="onImageClicked"
     @updateShowResults="handleShowResults"
     @page-details-updated="updatePageDetails"
@@ -329,8 +325,6 @@ export default defineComponent({
       isMenuOpen: false,
       showThreePanels: false,
       selectedId: null,
-      selectedLamningId: null,
-      selectedRaaId: null,
       selectedIiifFile: null,
       idForMetaData: null,
       currentPage: 1,
