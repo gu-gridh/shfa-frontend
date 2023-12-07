@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
 import useSearchTracking from '../composables/useSearchTracking.js'
 import { useStore } from '../stores/store.js';
 
@@ -77,6 +78,11 @@ export default {
       activePanel: 'Map Interface',
       isLight: false,
     };
+  },
+   setup() {
+    const router = useRouter();
+
+    return { router };
   },
   props: {
   updateNextPageUrl: {
@@ -142,6 +148,8 @@ export default {
       const query = this.selectedKeywords.length > 0 
         ? this.selectedKeywords[0].text 
         : this.searchQuery;
+
+      this.$router.push({ name: 'SearchQuery', params: { query: query } });
 
       this.searchKeywordTags(query);
       const { trackSearch } = useSearchTracking();

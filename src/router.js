@@ -28,6 +28,16 @@ const routes = [
     component: Grid, 
   },
   {
+    path: '/search=:query',
+    name: 'SearchQuery',
+    component: Grid,
+  },
+  {
+    path: '/search=:query/iiif/:iiifFile',
+    name: 'SearchQueryWithIiifFile',
+    component: Grid,
+  },
+  {
     path: '/:catchAll(.*)',
     component: Grid, 
   }

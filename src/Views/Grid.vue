@@ -85,7 +85,7 @@
   <div  id="split-0" class="flex-grow flex flex-col "
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
        
-      <Search 
+      <Search
       @toggle-map="toggleMap" 
       @search-completed="updateItems"
       @page-details-updated="updatePageDetails" 
@@ -200,15 +200,18 @@ export default defineComponent({
     $route(to, from) {
       const newSiteId = to.params.siteId;
       const newIiifFile = to.params.iiifFile;
+      const newQuery = to.params.query;
       if (newSiteId) {
         this.selectedId = newSiteId;
         this.showResults = true;
+      }
+      if (newQuery) {
+        this.$refs.searchRef.searchKeywordTags(newQuery);
       }
       if (newIiifFile) {
         this.selectedIiifFile = newIiifFile;
         this.showThreePanels = true;
       }
-
       if (to.name === 'Home' && !newSiteId && !newIiifFile) {
         this.$refs.mapComponent.fetchImagesClickedInit();
       }
@@ -236,14 +239,24 @@ export default defineComponent({
     }
     },
     selectedIiifFile(newIiifFile, oldIiifFile) {
+      const currentPath = this.$route.path;
       if(this.selectedId === null) {  // When there's no site id
-        // Only change the URL, but not the history
-        this.$router.replace({ 
-          name: 'SearchWithIiifFile', 
-          params: { 
-            iiifFile: newIiifFile, 
-          } 
-        });
+      if (currentPath.startsWith('/search/')) {
+            this.$router.replace({ 
+              name: 'SearchWithIiifFile', 
+              params: { 
+                iiifFile: newIiifFile, 
+              } 
+            });
+          }
+      else if (currentPath.startsWith('/search=')) {
+            this.$router.replace({ 
+              name: 'SearchQueryWithIiifFile', 
+              params: { 
+                iiifFile: newIiifFile, 
+              } 
+            });   
+          }
       } else {
         this.$router.replace({ 
             name: 'SiteWithIiifFile', 
@@ -339,8 +352,10 @@ export default defineComponent({
     },
   });
 
-  if (window.location.pathname.includes('search') && window.location.pathname.includes('iiif')) {
-    this.adjustSplitDisplay();
+if (window.location.pathname.includes('search') 
+    && window.location.pathname.includes('iiif') 
+    && !window.location.pathname.includes('search=')) {
+      this.adjustSplitDisplay();
   }
 },
 computed: {
@@ -414,9 +429,6 @@ beforeDestroy() {
       this.selectedId = null; // Reset selectedId
       this.showResults = true;
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
-      this.$router.push({ 
-        name: 'Search', 
-      });
       this.showImageGallery()
     },
     toggleMap() {
