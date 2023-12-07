@@ -205,8 +205,10 @@ export default defineComponent({
         this.selectedId = newSiteId;
         this.showResults = true;
       }
-      if (newQuery) {
+      if (newQuery && this.isInitialLoad) {
         this.$refs.searchRef.searchKeywordTags(newQuery);
+        this.isInitialLoad = false;
+        console.log('dsds')
       }
       if (newIiifFile) {
         this.selectedIiifFile = newIiifFile;
@@ -267,8 +269,8 @@ export default defineComponent({
           });  }
    },
     showThreePanels(newValue) {
-      if (this.isFirstLoad && (window.location.pathname.includes('search'))) {
-        this.isFirstLoad = false;
+      if (this.windowSize && (window.location.pathname.includes('search'))) {
+        this.windowSize = false;
         return;
       }
 
@@ -305,8 +307,6 @@ export default defineComponent({
       showResults: false,
       showMap: true,
       showGallery: true,
-      showCatalogue: false,
-      showDatareport: false,
       nextPageUrl: null,
       nextPageUrlAdvanced: null,
       previousPageUrl: null,
@@ -317,7 +317,8 @@ export default defineComponent({
       mapClicked: false,
       currentColour: 'dark',
       isLight: false,
-      isFirstLoad: true,
+      windowSize: true,
+      isInitialLoad: true,
     }
   },
   mounted() {
@@ -463,7 +464,7 @@ beforeDestroy() {
       }
     },
     onImageClicked(iiifFile, id) {
-      this.selectedIiifFile = id; 
+      this.selectedIiifFile = id;
       this.idForMetaData = id;
       this.toggleThreePanels();
     },
