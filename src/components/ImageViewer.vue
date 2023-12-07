@@ -153,26 +153,32 @@ export default {
 
 #ToolbarVertical {
   position: absolute;
-  margin-top: 60px;
+  margin-top: 0px;
   width: 40px;
   margin-left: 12px;
   z-index: 1000;
+  height:100%;
 }
 
 #FullPage {
-  margin-top: 10px;
+  margin-top: 70px;
   background: url(../assets/openseadragon/expand.svg);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(65, 65, 65, 0.9);
+  background-color: rgba(0, 0, 0, 1.0);
   overflow: hidden;
+  
+}
+
+button:focus {
+  outline:0;
 }
 
 #Prev {
   background: url(../assets/openseadragon/prev.png);
   background-size: 35px 35px;
-  background-color: rgba(65, 65, 65, 0.9);
+  background-color: rgba(0, 0, 0, 1.0);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -182,7 +188,7 @@ export default {
 #Next {
   background: url(../assets/openseadragon/next.png);
   background-size: 35px 35px;
-  background-color: rgba(65, 65, 65, 0.9);
+  background-color: rgba(0, 0, 0, 1.0);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -194,7 +200,7 @@ export default {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(65, 65, 65, 0.9);
+  background-color: rgba(0, 0, 0, 1.0);
 
   margin-top: 0px;
 
@@ -206,17 +212,18 @@ export default {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(65, 65, 65, 0.9);
+  background-color: rgba(0, 0, 0, 1.0);
   overflow: hidden;
 }
 
 #Download {
-  margin-top: 20px;
+  position:absolute;
+  bottom:10px;
   background: url(../../public/interface/downloadwhite.png);
-  background-size: 90%;
+  background-size: 95%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(65, 65, 65, 0.9);
+  background-color: rgba(0, 0, 0, 1.0);
   cursor: pointer;
   overflow: hidden;
 }
@@ -225,10 +232,10 @@ export default {
   width: 35px;
   height: 35px;
   color: white;
-  opacity: 0.95;
+  opacity: 1.0;
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(45, 45, 45);
+  border-color:rgb(50,50,50);
 }
 .NavButton:hover {
   opacity: 0.8;

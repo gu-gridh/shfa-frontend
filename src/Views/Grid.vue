@@ -1295,14 +1295,14 @@ h2 input:not(:placeholder-shown) {
   border-radius:50%;
   height:35px;
   width:35px;
-  background-color:rgba(65,65,65, 0.9);
+  background-color:rgba(0,0,0, 1.0);
   margin-left:27px;
   margin-top:58px;
   opacity:1.0;
   padding:5px;
   border-width:1px;
   border-style:solid;
-  border-color:rgb(45,45,45);
+  border-color:rgb(50,50,50);
   }
 
   .close-button:hover{
