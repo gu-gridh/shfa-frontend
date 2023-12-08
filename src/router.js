@@ -8,18 +8,8 @@ const routes = [
     component: Grid,
   },
   {
-    path: '/site/:siteId/iiif/:iiifFile',
-    name: 'SiteWithIiifFile',
-    component: Grid,
-  },
-  {
     path: '/site/:siteId',
     name: 'Site',
-    component: Grid,
-  },
-  {
-    path: '/search/iiif/:iiifFile/',
-    name: 'SearchWithIiifFile',
     component: Grid,
   },
   {
@@ -33,8 +23,8 @@ const routes = [
     component: Grid,
   },
   {
-    path: '/search=:query/iiif/:iiifFile',
-    name: 'SearchQueryWithIiifFile',
+    path: '/iiif/:iiifFile',
+    name: 'IiifFile',
     component: Grid,
   },
   {

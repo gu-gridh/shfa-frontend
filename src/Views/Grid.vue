@@ -165,7 +165,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 
-    <ImageViewer :iiifFile="selectedIiifFile"/>
+    <ImageViewer :iiifFile="IiifFileforImageViewer"/>
 <MetaData :Id="idForMetaData" />
 
 </div>
@@ -208,14 +208,14 @@ export default defineComponent({
       if (newQuery && this.isInitialLoad) {
         this.$refs.searchRef.searchKeywordTags(newQuery);
         this.isInitialLoad = false;
-        console.log('dsds')
       }
       if (newIiifFile) {
-        this.selectedIiifFile = newIiifFile;
         this.showThreePanels = true;
+        this.IiifFileforImageViewer = newIiifFile;
       }
-      if (to.name === 'Home' && !newSiteId && !newIiifFile) {
+      if (to.name === 'Home' && !newSiteId && !newIiifFile && this.shouldFireInitialFetch) {
         this.$refs.mapComponent.fetchImagesClickedInit();
+        this.shouldFireInitialFetch = false;
       }
     },
     selectedId(newId, oldId) {
@@ -241,42 +241,20 @@ export default defineComponent({
     }
     },
     selectedIiifFile(newIiifFile, oldIiifFile) {
-      const currentPath = this.$route.path;
-      if(this.selectedId === null) {  // When there's no site id
-      if (currentPath.startsWith('/search/')) {
-            this.$router.replace({ 
-              name: 'SearchWithIiifFile', 
-              params: { 
-                iiifFile: newIiifFile, 
-              } 
-            });
-          }
-      else if (currentPath.startsWith('/search=')) {
-            this.$router.replace({ 
-              name: 'SearchQueryWithIiifFile', 
-              params: { 
-                iiifFile: newIiifFile, 
-              } 
-            });   
-          }
-      } else {
-        this.$router.replace({ 
-            name: 'SiteWithIiifFile', 
-            params: { 
-              siteId: this.selectedId, 
-              iiifFile: newIiifFile, 
-            } 
-          });  }
+      if (!this.$route.fullPath.includes('iiif')) {
+        this.previousRoute = this.$route.fullPath;
+      }
+      this.$router.replace({ 
+        name: 'IiifFile', 
+        params: { 
+          iiifFile: newIiifFile, 
+        } 
+      });
    },
     showThreePanels(newValue) {
       if (this.windowSize && (window.location.pathname.includes('search'))) {
         this.windowSize = false;
         return;
-      }
-
-      const gutter = document.querySelector('.gutter:not(.gutter-2)') as HTMLElement;
-      if (gutter) {
-        gutter.style.display = newValue ? 'block' : 'none';
       }
 
       if (newValue && !this.shouldShowPanel1) { // Check if on mobile
@@ -299,6 +277,7 @@ export default defineComponent({
       showThreePanels: false,
       selectedId: null,
       selectedIiifFile: null,
+      IiifFileforImageViewer: null,
       idForMetaData: null,
       currentPage: 1,
       totalPages: 1,
@@ -319,6 +298,8 @@ export default defineComponent({
       isLight: false,
       windowSize: true,
       isInitialLoad: true,
+      previousRoute: null,
+      shouldFireInitialFetch: true,
     }
   },
   mounted() {
@@ -353,9 +334,7 @@ export default defineComponent({
     },
   });
 
-if (window.location.pathname.includes('search') 
-    && window.location.pathname.includes('iiif') 
-    && !window.location.pathname.includes('search=')) {
+if (window.location.pathname.includes('iiif')) {
       this.adjustSplitDisplay();
   }
 },
@@ -444,6 +423,9 @@ beforeDestroy() {
     {
       this.showThreePanels = false;
       this.showImageGallery()
+      if (this.previousRoute) {
+        this.$router.push(this.previousRoute);
+      }
     },
     showImageGallery()
     {
