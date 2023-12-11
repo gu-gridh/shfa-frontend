@@ -48,7 +48,7 @@ export default {
       }
       try {
         const response = await fetch(
-          `https://diana.dh.gu.se/api/shfa/image/?id=${this.iiifFile}`
+          `https://diana.dh.gu.se/api/shfa/image/?id=${this.iiifFile}&depth=1`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -56,7 +56,15 @@ export default {
         const data = await response.json();
         const iiifFile = data.results[0].iiif_file;
         const download = data.results[0].file;
+        const lamning_id = data.results[0].site.lamning_id;
+        const placename = data.results[0].site.placename;
+        const creator = data.results[0].author.name;
+        // const year = data.results[0].year;
         this.completeUrl = download;
+        this.lamning_id = lamning_id;
+        this.placename = placename;
+        this.creator = creator;
+        // this.year = year;
 
         if (this.viewer) {
           this.viewer.open(`${iiifFile}/info.json`);
@@ -71,16 +79,22 @@ export default {
 
      downloadImage() {
       const imageUrl = this.completeUrl; 
+      const lamning_id = this.lamning_id;
+      const placename = this.placename;
+      const creator = this.creator.replace(', ', '_');
+      // const year = this.year;
+
 
       fetch(imageUrl)
         .then(response => response.blob())
         .then(blob => {
           const url = window.URL.createObjectURL(blob);
-          const fileName = imageUrl.split('/').pop();
+          const imgId = imageUrl.split('/').pop();
+          const downloadName = `${creator}_${lamning_id || placename}_SHFAid${imgId}`;
           const a = document.createElement('a');
           a.style.display = 'none';
           a.href = url;
-          a.download = fileName || 'carving.jpg'; // Use the extracted file name or a default
+          a.download = downloadName || 'carving.jpg'; // Use the extracted file name or a default
           document.body.appendChild(a);
           a.click();
           window.URL.revokeObjectURL(url);
