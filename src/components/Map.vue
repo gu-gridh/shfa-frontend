@@ -10,8 +10,8 @@
         <p id="placename"></p>
         <p id="lokalitet_id"></p>
         <p id="askeladden_id"></p>
-        <p id="fornsok_header">
-          <a id="fornsok_link" target="_blank">{{
+        <p v-if="isSwedish" id="fornsok_header">
+          <a v-if="isSwedish" id="fornsok_link" target="_blank">{{
             $t("message.checkfornsök")
           }}</a>
         </p>
@@ -62,6 +62,7 @@ export default {
       vectorLayer: null,
       clickedRaaId: null,
       bboxUpdated: true,
+      isSwedish:true,
       results: [],
       cachedResults: [],
       coordinateStore: useStore(),
@@ -286,7 +287,7 @@ export default {
               askeladden_id: feature.properties.askeladden_id ?? null,
               placename: feature.properties.placename ?? null,
             }));
- 
+
             this.updateCoordinates(additionalResults);
  
             // Merge the filteredAdditionalResults with the cachedResults
@@ -432,18 +433,18 @@ export default {
           const lokalitet_id = feature.get("lokalitet_id");
           const askeladden_id = feature.get("askeladden_id");
           const placename = feature.get("placename");
- 
+
+          if (placename) {this.isSwedish = false}
+          else {this.isSwedish = true,
+            document.getElementById(
+            "fornsok_link"
+          ).href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;};
  
           raaContent.innerHTML = raa_id;
           lamningContent.innerHTML = lamning_id;
           placenameContent.innerHTML = placename;
           lokalitetContent.innerHTML = lokalitet_id;
-          askeladdenContent.innerHTML = askeladden_id;
- 
-          document.getElementById(
-            "fornsok_link"
-          ).href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
-         
+          askeladdenContent.innerHTML = askeladden_id;      
           document.getElementById(
             "extmap_link"
           ).href = `https://www.google.com/maps/place/${coords}`;
@@ -467,8 +468,8 @@ export default {
             const lokalitet_id = feature.get("lokalitet_id");
             const askeladden_id = feature.get("askeladden_id");
             const placename = feature.get("placename");
- 
- 
+
+
             this.clickedId = id;
             this.clickedLamningId = lamning_id;
             this.clickedRaaId = raa_id;
@@ -486,19 +487,21 @@ export default {
               minResolution: 5.0,
             });
  
+            if (placename) {this.isSwedish = false}
+            else {this.isSwedish = true,
+            document.getElementById(
+            "fornsok_link"
+            ).href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;};
+          
             raaContent.innerHTML = raa_id;
             lamningContent.innerHTML = lamning_id;
             placenameContent.innerHTML = placename;
             lokalitetContent.innerHTML = lokalitet_id;
             askeladdenContent.innerHTML = askeladden_id;
             document.getElementById(
-            "fornsok_link"
-          ).href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
-            document.getElementById(
-              "extmap_link"
+            "extmap_link"
             ).href = `https://www.google.com/maps/place/${coords}`;
             container.style.visibility = "visible";
-            // content.innerHTML = `<p>${lamning_id}</p><p v-if="${raa_id}">${raa_id}</p><p><a id='links' href="https://kulturarvsdata.se/raa/lamning/${ksamsok_id}" target="_blank">${fornsok_text}</a></p><p><a id='links' href="https://www.google.com/maps/place/${coords}" target="_blank">${maplink_text}</a></p>`;                      
             overlay.setPosition(extent);
           },
           {
