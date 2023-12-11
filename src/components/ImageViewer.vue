@@ -12,13 +12,9 @@
       <a id="zoom-out" href="#zoom-out">
         <div id="ZoomOut" class="NavButton"></div>
       </a>
-      <a
-        id="download"
-        :href="`${completeUrl}/full/full/0/default.jpg`"
-        target="_blank"
-      >
-        <div id="Download" class="NavButton"></div>
-      </a>
+
+    <div id="Download" class="NavButton" @click="downloadImage"></div>
+ 
     </div>
   </div>
 
@@ -59,7 +55,8 @@ export default {
         }
         const data = await response.json();
         const iiifFile = data.results[0].iiif_file;
-        this.completeUrl = iiifFile;
+        const download = data.results[0].file;
+        this.completeUrl = download;
 
         if (this.viewer) {
           this.viewer.open(`${iiifFile}/info.json`);
@@ -70,6 +67,26 @@ export default {
       } catch (error) {
         console.error("Fetch error:", error);
       }
+    },
+
+     downloadImage() {
+      const imageUrl = this.completeUrl; 
+
+      fetch(imageUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const fileName = imageUrl.split('/').pop();
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = fileName || 'carving.jpg'; // Use the extracted file name or a default
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        })
+        .catch(() => console.error('Could not download the image'));
     },
 
     initOpenSeadragon(iiifFile) {
