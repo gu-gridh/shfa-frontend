@@ -75,7 +75,7 @@ export default {
    methods: {
      extractIdAndFetchData() {
       const pathSegments = window.location.pathname.split('/');
-      const iiifIndex = pathSegments.indexOf('iiif');
+      const iiifIndex = pathSegments.indexOf('image');
       if (iiifIndex !== -1 && pathSegments.length > iiifIndex) {
         const id = pathSegments[iiifIndex + 1];
         this.fetchData(id);

@@ -23,7 +23,7 @@ const routes = [
     component: Grid,
   },
   {
-    path: '/iiif/:iiifFile',
+    path: '/image/:iiifFile',
     name: 'IiifFile',
     component: Grid,
   },

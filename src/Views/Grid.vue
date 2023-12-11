@@ -241,7 +241,7 @@ export default defineComponent({
     }
     },
     selectedIiifFile(newIiifFile) {
-      if (!this.$route.fullPath.includes('iiif')) {
+      if (!this.$route.fullPath.includes('image')) {
         this.previousRoute = this.$route.fullPath;
       }
       this.$router.replace({ 
@@ -335,7 +335,7 @@ export default defineComponent({
     },
   });
 
-if (window.location.pathname.includes('iiif')) {
+if (window.location.pathname.includes('image')) {
       this.adjustSplitDisplay();
   }
 },
@@ -457,7 +457,7 @@ beforeDestroy() {
       this.idForMetaData = id;
 
       this.toggleThreePanels();
-      if (!this.$route.fullPath.includes('iiif')) {
+      if (!this.$route.fullPath.includes('image')) {
         this.previousRoute = this.$route.fullPath;
       }
       if (this.IiifFileforImageViewer) {
