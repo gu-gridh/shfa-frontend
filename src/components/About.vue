@@ -30,7 +30,7 @@
                 display digital documentation. The migration from SHFA's previous web portal (developed by Miljödata AB)
                 is currently on-going. To date, the images
                 of rock carving sites in Sweden have been transferred. 3D documentation and data from international sites
-                will be made available as the migration continues.</p><br>
+                will continue to be made available as the migration continues.</p><br>
 
               <h2>Searching the Database</h2>
               <p>Using the suggested keyword search, you can access images of common documentation methods and motifs. Any
@@ -54,8 +54,8 @@
                 <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a>
               </p><br>
               <h2>Citing the Platform</h2>
-              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, & Humlesjö, Siska "gu-gridh/shfa-frontend: v.1.0 Initial
-                public release" Github, 24 August 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
+              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely & Humlesjö, Siska "gu-gridh/shfa-frontend: v.2.0 Initial
+                public release" Github, 19 December 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
               <h2>Privacy Information</h2>
               <p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user
                 experience. The tracked data includes device specification, time spent on the website, first visit to the
@@ -160,8 +160,8 @@
               </p><br>
 
               <h2>Att referera till plattformen</h2>
-              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, & Humlesjö, Siska "gu-gridh/shfa-frontend: v.1.0 Initial
-                public release" Github, 24 August 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
+              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely & Humlesjö, Siska "gu-gridh/shfa-frontend: v.2.0 Initial
+                public release" Github, 19 December 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
 
               <h2>Integritetspolicy</h2>
               <p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att
