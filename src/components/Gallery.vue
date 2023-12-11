@@ -28,8 +28,9 @@
             />
             <div class="grid-item-info" id="gallery">
               <div class="grid-item-info-meta">
-                <h5>{{ item.lamning_id }}</h5>
-                <h6>{{ item.raa_id }}</h6>
+                <h5>{{ item.lamning_id || item.placename}}</h5>
+                <h6 v-if="item.askeladden_id && item.lokalitet_id">{{ item.askeladden_id }}</h6>
+                <h6 v-else>{{ item.raa_id || item.lokalitet_id}}</h6>
               </div>
             </div>
           </div>
@@ -305,6 +306,9 @@ export default {
           let item = {
             lamning_id: image.site.lamning_id,
             raa_id: image.site.raa_id,
+            placename: image.site.placename,
+            askeladden_id: image.site.askeladden_id,
+            lokalitet_id: image.site.lokalitet_id,
             id: image.id,
             file: image.file,
             type: image.type.id,
@@ -427,6 +431,9 @@ export default {
           let item = {
             lamning_id: image.site.lamning_id,
             raa_id: image.site.raa_id,
+            askeladden_id: image.site.askeladden_id,
+            lokalitet_id: image.site.lokalitet_id,
+            placename: image.site.placename,
             id: image.id,
             file: image.file,
             type: image.type.id,
@@ -487,6 +494,9 @@ export default {
           let item = {
             lamning_id: image.site.lamning_id,
             raa_id: image.site.raa_id,
+            askeladden_id: image.site.askeladden_id,
+            lokalitet_id: image.site.lokalitet_id,
+            placename: image.site.placename,
             id: image.id,
             file: image.file,
             type: image.type.id,
