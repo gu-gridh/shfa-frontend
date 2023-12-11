@@ -20,8 +20,8 @@
   </table></div>
    <div class="metadata-wide" :class="{light:isLight}">
    <table>
-    <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site && $i18n.locale==='en'">  {{ data.author.english_translation }}. ({{ data.year || 'n.d.'}}). {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id || data.site.placename }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/search/iiif/{{ data.uuid }}.tif/meta/{{ data.id }}</td>
-      <td class="ref" v-if="data.site && $i18n.locale==='sv'">  {{ data.author.name}}. ({{ data.year || 'n.d.'}}). {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id || data.site.placename}}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/search/iiif/{{ data.uuid }}.tif/meta/{{ data.id }}</td></tr>
+    <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site && $i18n.locale==='en'">  {{ data.author.english_translation }}. ({{ data.year || 'n.d.'}}). {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id || data.site.placename }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/iiif/{{ data.id }}</td>
+      <td class="ref" v-if="data.site && $i18n.locale==='sv'">  {{ data.author.name}}. ({{ data.year || 'n.d.'}}). {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id || data.site.placename}}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/iiif/{{ data.id }}</td></tr>
     </table>
   </div>
 </div>
