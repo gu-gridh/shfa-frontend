@@ -54,8 +54,8 @@
                 <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a>
               </p><br>
               <h2>Citing the Platform</h2>
-              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely & Humlesjö, Siska "gu-gridh/shfa-frontend: v.2.0 Initial
-                public release" Github, 19 December 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
+              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely & Humlesjö, Siska "gu-gridh/shfa-frontend: v.1.2 Initial
+                public release" Github, 12 December 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
               <h2>Privacy Information</h2>
               <p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user
                 experience. The tracked data includes device specification, time spent on the website, first visit to the
@@ -160,8 +160,8 @@
               </p><br>
 
               <h2>Att referera till plattformen</h2>
-              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely & Humlesjö, Siska "gu-gridh/shfa-frontend: v.2.0 Initial
-                public release" Github, 19 December 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
+              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely & Humlesjö, Siska "gu-gridh/shfa-frontend: v.1.2 Initial
+                public release" Github, 12 December 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
 
               <h2>Integritetspolicy</h2>
               <p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att
