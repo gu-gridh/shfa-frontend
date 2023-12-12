@@ -30,7 +30,7 @@
       <h2>{{ $t('message.keywords') }}</h2>
       <div class="keywords"> <!-- Empty div for margin -->
       <ul>
-        <li id="search-suggestion" v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index">{{ $t('keywords.'+keyword.text.replaceAll('.','_')) }}</li>
+        <li id="search-suggestion" v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index" @click="logKeyword(keyword.text)">{{ $t('keywords.'+keyword.text.replaceAll('.','_')) }}</li>
       </ul>
     </div>
   </div>
@@ -73,6 +73,10 @@ export default {
     this.extractIdAndFetchData();
   },
    methods: {
+     logKeyword(keyword) {
+      const translatedKeyword = this.$t('keywords.'+keyword.replaceAll('.','_'));
+      this.$emit('keyword-clicked', translatedKeyword);
+    },
      extractIdAndFetchData() {
       const pathSegments = window.location.pathname.split('/');
       const iiifIndex = pathSegments.indexOf('image');
@@ -228,6 +232,12 @@ ul {
   float:left;
   margin-bottom: 30px;
   width:100%;
+  cursor: pointer;
+}
+
+#search-suggestion:hover {
+  background-color: rgb(80,90,100);
+  color:white;
 }
 
 .description {

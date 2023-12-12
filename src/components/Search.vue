@@ -137,6 +137,11 @@ export default {
     ];
   },  
   methods: {
+    updateSearchFromMetadata(term) {
+    this.clearSearchField();
+    this.searchQuery = term;
+    this.searchKeywordTags(term);
+  },
     clearSearchField() {
       this.searchQuery = '';
       this.selectedKeywords = [];

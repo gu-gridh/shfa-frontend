@@ -166,7 +166,7 @@
     </button>
 
     <ImageViewer :iiifFile="IiifFileforImageViewer"/>
-<MetaData :Id="idForMetaData" />
+    <MetaData :Id="idForMetaData" @keyword-clicked="handleKeywordClick" />
 
 </div>
 </transition>
@@ -354,6 +354,9 @@ beforeDestroy() {
   methods: {
     handleShowResults(newValue) {
       this.showResults = newValue;
+    },
+    handleKeywordClick(keyword) {
+      this.$refs.searchRef.updateSearchFromMetadata(keyword)
     },
     adjustSplitDisplay() {
       // Get the element by its ID
