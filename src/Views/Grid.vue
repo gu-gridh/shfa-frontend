@@ -116,8 +116,9 @@
         :class="{light: isLight}"
         ref="advancedSearchRef" />
 
+        <div style="width:100%;">
      <button id="resetSplitButton" @click="resetSplitsAndPanels">{{ $t('message.resetlayout') }}</button>
-
+    </div>
   </div>
   <!-- Panel 2 -->
   <div id="split-1" class="flex-grow overflow-auto main-color " 
@@ -534,18 +535,17 @@ beforeDestroy() {
 
 #resetSplitButton
 {
-  margin-left: auto;
-  margin-right: auto;
+  float:right;
   padding: 4px 10px;
   z-index: 100;
-  width: 150px;
+  width: 110px;
   height: auto;
   cursor: pointer;
-  border-radius: 8px !important;
+  border-radius: 6px !important;
   background-color: rgb(90, 90, 90);
-  margin-top: 20px;
+  margin-top: 15px;
   color: white;
-  font-size: 110%;
+  font-size: 100%;
 }
 
 @media (max-width: 1023px) {
@@ -1113,7 +1113,7 @@ padding-right:10px;
 }
 
 #split-0{
-padding:30px 25px 35px 40px;
+padding:30px 25px 15px 40px;
 min-width:550px;
 }
 
