@@ -89,6 +89,7 @@
       @toggle-map="toggleMap" 
       @search-completed="updateItems"
       @page-details-updated="updatePageDetails" 
+      @metadata-route="updatePreviousRoute"
       :updateNextPageUrl="updateNextPageUrl" 
       :updatePreviousPageUrl="updatePreviousPageUrl"
       :class="{light: isLight}"
@@ -352,6 +353,9 @@ beforeDestroy() {
 },
 
   methods: {
+    updatePreviousRoute(route) {
+      this.previousRoute = route;
+    },
     handleShowResults(newValue) {
       this.showResults = newValue;
     },

@@ -138,10 +138,19 @@ export default {
   },  
   methods: {
     updateSearchFromMetadata(term) {
-    this.clearSearchField();
-    this.searchQuery = term;
-    this.searchKeywordTags(term);
-  },
+      this.clearSearchField();
+      this.searchQuery = term;
+      this.$router.push({ name: 'SearchQuery', params: { query: this.searchQuery } })
+        .then(() => {
+          const currentRoute = this.$route.fullPath;
+          this.$emit('metadata-route', currentRoute); 
+        })
+        .catch(err => {
+          console.error(err);
+        });
+
+      this.searchKeywordTags(term);
+    },
     clearSearchField() {
       this.searchQuery = '';
       this.selectedKeywords = [];
