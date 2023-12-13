@@ -47,7 +47,7 @@
     <!-- <div class="top-button">|</div> -->
 </div>
   
-<About :visibleAbout="visibleAbout" :isLight="isLight" @close="visibleAbout = false" />
+  <About :visibleAbout="visibleAbout" :isLight="isLight" @close="visibleAbout = false" />
   <Guide :visibleGuide="visibleGuide" :isLight="isLight" @close="visibleGuide = false" />
   <div class="top-links">
     <button class="item" @click="visibleGuide=true, isLight=isLight">
@@ -115,7 +115,9 @@
         :updatePreviousPageUrlAdvanced="updatePreviousPageUrlAdvanced" 
         :class="{light: isLight}"
         ref="advancedSearchRef" />
-     
+
+     <button id="resetSplitButton" @click="resetSplitsAndPanels">{{ $t('message.resetlayout') }}</button>
+
   </div>
   <!-- Panel 2 -->
   <div id="split-1" class="flex-grow overflow-auto main-color " 
@@ -302,6 +304,7 @@ export default defineComponent({
       previousRoute: null,
       shouldFireInitialFetch: true,
       newIiifFile: null,
+      splitInstance: null,
     }
   },
   mounted() {
@@ -316,7 +319,7 @@ export default defineComponent({
     const vm = this;
     const direction = window.innerWidth <= 1024 ? 'vertical' : 'horizontal';
 
-    Split(['#split-0', '#split-1', '#split-2'], {
+    this.splitInstance = Split(['#split-0', '#split-1', '#split-2'], {
     sizes: [40, 60, 40],
     minSize: [500, 300],
     direction: direction,
@@ -353,6 +356,13 @@ beforeDestroy() {
 },
 
   methods: {
+  resetSplitsAndPanels() {
+    if (this.splitInstance) {
+        this.splitInstance.setSizes([40, 60, 40]);
+        this.showThreePanels = false;
+        this.showImageGallery()
+      }
+    },
     updatePreviousRoute(route) {
       this.previousRoute = route;
     },
@@ -411,6 +421,7 @@ beforeDestroy() {
       this.selectedId = null
       this.$refs.searchRef.clearSearchField();
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
+      this.showImageGallery()
     },
     updateItems(newItems) {
       this.searchItems = newItems;
@@ -520,6 +531,36 @@ beforeDestroy() {
 </script>
 
 <style>
+
+#resetSplitButton
+{
+  margin-left: auto;
+  margin-right: auto;
+  padding: 4px 10px;
+  z-index: 100;
+  width: 150px;
+  height: auto;
+  cursor: pointer;
+  border-radius: 8px !important;
+  background-color: rgb(90, 90, 90);
+  margin-top: 20px;
+  color: white;
+  font-size: 110%;
+}
+
+@media (max-width: 1023px) {
+    #resetSplitButton {
+        display: none;
+    }
+}
+
+#resetSplitButton:hover
+{
+  background-color: rgb(80,90,100);
+  cursor: pointer;
+  color: white;
+}
+
 .flip-fade-enter-active, .flip-fade-leave-active {
     transition: transform 0.15s, opacity 0.15s;
 }
