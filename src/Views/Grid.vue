@@ -1341,7 +1341,6 @@ h2 input:not(:placeholder-shown) {
 .close-button{
   color:white;
   z-index:1000;
-  position: relative;
   border-radius:50%;
   height:35px;
   width:35px;
