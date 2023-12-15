@@ -40,8 +40,15 @@ export default {
   },
   mounted() {
     this.fetchImageData();
+    this.toggleFullScreenPageMode(false);
   },
   methods: {
+      toggleFullScreenPageMode(bool) {
+      // Toggles full screen and full page modes
+      OpenSeadragon.supportsFullScreen = bool;
+      OpenSeadragon.supportsFullPage = !bool;
+    },
+
     async fetchImageData() {
       if (!this.iiifFile) {
         return; 
@@ -123,6 +130,8 @@ export default {
         zoomOutButton: "zoom-out",
       });
 
+      this.viewer.addHandler("full-page");
+
       /* this.viewer.bookmarkUrl({
         trackPage: true,
       }); */
@@ -148,7 +157,7 @@ export default {
   background-color: black;
   border-radius: 2px;
   overflow: hidden;
-  z-index: -1;
+  z-index: 1;
 }
 
 #navigatorDiv {
