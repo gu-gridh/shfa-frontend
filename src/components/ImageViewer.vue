@@ -13,8 +13,7 @@
         <div id="ZoomOut" class="NavButton"></div>
       </a>
 
-    <div id="Download" class="NavButton" @click="downloadImage"></div>
- 
+      <div id="Download" class="NavButton" @click="downloadImage"></div>
     </div>
   </div>
 
@@ -50,7 +49,7 @@ export default {
     },
     async fetchImageData() {
       if (!this.iiifFile) {
-        return; 
+        return;
       }
       try {
         const response = await fetch(
@@ -83,30 +82,31 @@ export default {
       }
     },
 
-     downloadImage() {
-      const imageUrl = this.completeUrl; 
+    downloadImage() {
+      const imageUrl = this.completeUrl;
       const lamning_id = this.lamning_id;
       const placename = this.placename;
-      const creator = this.creator.replace(', ', '_');
+      const creator = this.creator.replace(", ", "_");
       // const year = this.year;
 
-
       fetch(imageUrl)
-        .then(response => response.blob())
-        .then(blob => {
+        .then((response) => response.blob())
+        .then((blob) => {
           const url = window.URL.createObjectURL(blob);
-          const imgId = imageUrl.split('/').pop();
-          const downloadName = `${creator}_${lamning_id || placename}_SHFAid${imgId}`;
-          const a = document.createElement('a');
-          a.style.display = 'none';
+          const imgId = imageUrl.split("/").pop();
+          const downloadName = `${creator}_${
+            lamning_id || placename
+          }_SHFAid${imgId}`;
+          const a = document.createElement("a");
+          a.style.display = "none";
           a.href = url;
-          a.download = downloadName || 'carving.jpg'; // Use the extracted file name or a default
+          a.download = downloadName || "carving.jpg"; // Use the extracted file name or a default
           document.body.appendChild(a);
           a.click();
           window.URL.revokeObjectURL(url);
           document.body.removeChild(a);
         })
-        .catch(() => console.error('Could not download the image'));
+        .catch(() => console.error("Could not download the image"));
     },
 
     initOpenSeadragon(iiifFile) {
@@ -160,8 +160,8 @@ export default {
 }
 
 .image-viewer.fullpage {
-    height: 100vh !important; /* Adjust as needed */
-    width: 100vw !important; /* Adjust as needed */
+  height: 100vh !important;
+  width: 100vw !important;
 }
 
 #navigatorDiv {
@@ -201,7 +201,7 @@ export default {
   width: 40px;
   margin-left: 12px;
   z-index: 1000;
-  height:100%;
+  height: 100%;
 }
 
 #FullPage {
@@ -210,19 +210,18 @@ export default {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 1.0);
+  background-color: rgba(0, 0, 0, 1);
   overflow: hidden;
-  
 }
 
 button:focus {
-  outline:0;
+  outline: 0;
 }
 
 #Prev {
   background: url(../assets/openseadragon/prev.png);
   background-size: 35px 35px;
-  background-color: rgba(0, 0, 0, 1.0);
+  background-color: rgba(0, 0, 0, 1);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -232,7 +231,7 @@ button:focus {
 #Next {
   background: url(../assets/openseadragon/next.png);
   background-size: 35px 35px;
-  background-color: rgba(0, 0, 0, 1.0);
+  background-color: rgba(0, 0, 0, 1);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -244,7 +243,7 @@ button:focus {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 1.0);
+  background-color: rgba(0, 0, 0, 1);
 
   margin-top: 0px;
 
@@ -256,18 +255,18 @@ button:focus {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 1.0);
+  background-color: rgba(0, 0, 0, 1);
   overflow: hidden;
 }
 
 #Download {
-  position:absolute;
-  bottom:10px;
+  position: absolute;
+  bottom: 10px;
   background: url(../../public/interface/downloadwhite.png);
   background-size: 95%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 1.0);
+  background-color: rgba(0, 0, 0, 1);
   cursor: pointer;
   overflow: hidden;
 }
@@ -276,10 +275,10 @@ button:focus {
   width: 35px;
   height: 35px;
   color: white;
-  opacity: 1.0;
+  opacity: 1;
   border-width: 1px;
   border-style: solid;
-  border-color:rgb(50,50,50);
+  border-color: rgb(50, 50, 50);
 }
 .NavButton:hover {
   opacity: 0.8;
