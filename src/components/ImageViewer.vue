@@ -147,6 +147,16 @@ export default {
 </script>
 
 <style scoped>
+a:visited{
+  outline:none;
+}
+a:focus{
+  outline:none;
+}
+a:active{
+  outline:none;
+}
+
 .image-viewer {
   width: auto;
   margin-left: 15px;
@@ -202,6 +212,7 @@ export default {
   margin-left: 12px;
   z-index: 1000;
   height: 100%;
+  outline: none;
 }
 
 #FullPage {
@@ -212,10 +223,11 @@ export default {
   background-position: center;
   background-color: rgba(0, 0, 0, 1);
   overflow: hidden;
+  outline: none;
 }
 
-button:focus {
-  outline: 0;
+#FullPage:focus {
+  outline: none;
 }
 
 #Prev {
