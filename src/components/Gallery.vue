@@ -28,9 +28,11 @@
             />
             <div class="grid-item-info" id="gallery">
               <div class="grid-item-info-meta">
-                <h5>{{ item.lamning_id || item.placename}}</h5>
-                <h6 v-if="item.askeladden_id && item.lokalitet_id">{{ item.askeladden_id }}</h6>
-                <h6 v-else>{{ item.raa_id || item.lokalitet_id}}</h6>
+                <h5>{{ item.lamning_id || item.placename }}</h5>
+                <h6 v-if="item.askeladden_id && item.lokalitet_id">
+                  {{ item.askeladden_id }}
+                </h6>
+                <h6 v-else>{{ item.raa_id || item.lokalitet_id }}</h6>
               </div>
             </div>
           </div>
@@ -40,12 +42,13 @@
     <div class="button-container">
       <!-- Previous buttons -->
       <div class="button-group">
+        <!-- Map Search Previous button -->
         <button
           class="loadMore left"
           v-if="mapGallery && previousPageUrl && !bboxSearch"
           @click="fetchPreviousData"
-        >
-        </button>
+        ></button>
+        <!-- Search Previous button -->
         <button
           class="loadMore left"
           v-if="
@@ -55,8 +58,8 @@
             !bboxSearch
           "
           @click="searchFetchPreviousPage"
-        >
-        </button>
+        ></button>
+        <!-- Advanced Search Previous button -->
         <button
           class="loadMore left"
           v-if="
@@ -66,32 +69,32 @@
             !bboxSearch
           "
           @click="advancedFetchPreviousPage"
-        >
-        </button>
+        ></button>
+        <!-- Bbox Search Previous button -->
         <button
           class="loadMore left"
           v-if="mapGallery && previousPageUrl && bboxSearch"
           @click="loadPreviousPageBbox"
-        >
-        </button>
+        ></button>
       </div>
 
       <!-- Next buttons -->
       <div class="button-group">
+        <!-- Map Search Next button -->
         <button
           class="loadMore right"
           v-if="mapGallery && nextPageUrl && !bboxSearch"
           @click="fetchData"
-        >
-        </button>
+        ></button>
+        <!-- Search Next button -->
         <button
           class="loadMore right"
           v-if="
             !mapGallery && searchNextPageUrl && !advancedSearch && !bboxSearch
           "
           @click="loadMore"
-        >
-        </button>
+        ></button>
+        <!-- Advanced Search Next button -->
         <button
           class="loadMore right"
           v-if="
@@ -101,14 +104,13 @@
             !bboxSearch
           "
           @click="loadMoreAdvanced"
-        >
-        </button>
+        ></button>
+        <!-- Bbox Search Next button -->
         <button
           class="loadMore right"
           v-if="mapGallery && nextPageUrl && bboxSearch"
           @click="loadNextPageBbox"
-        >
-        </button>
+        ></button>
       </div>
     </div>
   </div>
@@ -133,6 +135,13 @@ export default {
       required: false,
       default: null,
     },
+    forceRefresh: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+
+    /* Props for general searches */
     searchItems: {
       type: Array,
       required: false,
@@ -142,11 +151,22 @@ export default {
       type: Function,
       required: true,
     },
+    searchFetchPreviousPage: {
+      type: Function,
+      required: true,
+    },
     searchNextPageUrl: {
       type: [String, null],
       required: true,
       default: "",
     },
+    searchPreviousPageUrl: {
+      type: [String, null],
+      required: true,
+      default: "",
+    },
+
+    /* Props for advanced searches */
     advancedSearchResults: {
       type: Array,
       required: true,
@@ -155,37 +175,24 @@ export default {
       type: Function,
       required: true,
     },
+    advancedFetchPreviousPage: {
+      type: Function,
+      required: true,
+    },
     searchNextPageUrlAdvanced: {
       type: [String, null],
       required: true,
       default: "",
-    },
-    searchFetchPreviousPage: {
-      type: Function,
-      required: true,
-    },
-    searchPreviousPageUrl: {
-      type: [String, null],
-      required: true,
-      default: "",
-    },
-    advancedFetchPreviousPage: {
-      type: Function,
-      required: true,
     },
     advancedPreviousPageUrl: {
       type: [String, null],
       required: true,
       default: "",
     },
-    forceRefresh: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
   },
   computed: {
     columnWidth() {
+      // calculate gallery column sizes based on device width
       const screenWidth = window.innerWidth;
       let columnWidth;
 
@@ -273,6 +280,7 @@ export default {
       this.fetchImagesClicked(false);
     },
     async fetchImagesClicked(next = true) {
+      // fetch images based on the bbox
       let url;
       this.loadedImagesCount = 0;
       this.store.setLoading(true);
@@ -348,6 +356,7 @@ export default {
       }
     },
     imageLoaded(event) {
+      // used for refreshing the gallery when the images are loaded
       this.loadedImagesCount += 1;
       // Check if all images are loaded
       if (
@@ -359,7 +368,7 @@ export default {
         });
       }
     },
-    
+
     updatePageDetails() {
       this.$emit("page-details-updated", {
         currentPage: this.currentPage,
@@ -369,18 +378,22 @@ export default {
     },
 
     loadMore() {
+      // load the next page for the general searches
       this.fetchNextPage();
     },
 
-    loadMoreAdvanced() {
-      this.fetchNextPageAdvanced();
-    },
-
     loadPrevious() {
+      // load the previous page for the general searches
       this.searchFetchPreviousPage();
     },
 
+    loadMoreAdvanced() {
+      // load the next page for the advanced searches
+      this.fetchNextPageAdvanced();
+    },
+
     loadPreviousAdvanced() {
+      // load the previous page for the advanced searches
       this.advancedFetchPreviousPage();
     },
 
@@ -398,11 +411,11 @@ export default {
     },
 
     async fetchData() {
+      // fetch data based on point clicked
       this.bboxSearch = false;
       if (this.nextPageUrl) {
-
-        const separator = this.nextPageUrl.includes('?') ? '&' : '?';
-        const urlWithDepth = this.nextPageUrl + separator + 'depth=2';
+        const separator = this.nextPageUrl.includes("?") ? "&" : "?";
+        const urlWithDepth = this.nextPageUrl + separator + "depth=2";
 
         this.store.setLoading(true);
         this.loadedImagesCount = 0;
@@ -467,6 +480,7 @@ export default {
     },
 
     async fetchPreviousData() {
+      // fetch previous page data based on point clicked
       if (this.previousPageUrl) {
         this.store.setLoading(true);
         this.loadedImagesCount = 0;
@@ -531,6 +545,7 @@ export default {
   },
   watch: {
     "store.imagesFetchTriggered"(newVal) {
+      // watch the store for when the bbox search button is clicked
       if (newVal) {
         this.nextPageUrl = null;
         this.previousPageUrl = null;
@@ -576,9 +591,8 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding-top:50px;
+  padding-top: 50px;
   transition: all 0.5s ease-in-out;
-
 }
 
 .loading-animation img {
@@ -589,7 +603,7 @@ export default {
 
 .gallery-container {
   padding-top: 0px;
-  margin-top:-5px;
+  margin-top: -5px;
   padding-bottom: 35px;
   /* padding-left:150px; */
 }
@@ -656,7 +670,7 @@ h3 {
 }
 
 .light .grid-item-info-meta {
-color:black;
+  color: black;
 }
 
 .grid-item-info-meta h5 {
