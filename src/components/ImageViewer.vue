@@ -63,11 +63,13 @@ export default {
         const iiifFile = data.results[0].iiif_file;
         const download = data.results[0].file;
         const lamning_id = data.results[0].site.lamning_id;
+        const raa_id = data.results[0].site.raa_id;
         const placename = data.results[0].site.placename;
         const creator = data.results[0].author.name;
         // const year = data.results[0].year;
         this.completeUrl = download;
         this.lamning_id = lamning_id;
+        this.raa_id = raa_id;
         this.placename = placename;
         this.creator = creator;
         // this.year = year;
@@ -86,6 +88,7 @@ export default {
     downloadImage() {
       const imageUrl = this.completeUrl;
       const lamning_id = this.lamning_id;
+      const raa_id = this.raa_id;
       const placename = this.placename;
       const creator = this.creator.replace(", ", "_");
       // const year = this.year;
@@ -96,7 +99,7 @@ export default {
           const url = window.URL.createObjectURL(blob);
           const imgId = imageUrl.split("/").pop();
           const downloadName = `${creator}_${
-            lamning_id || placename
+            lamning_id || raa_id || placename
           }_SHFAid${imgId}`;
           const a = document.createElement("a");
           a.style.display = "none";

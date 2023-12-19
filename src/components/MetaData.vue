@@ -4,24 +4,24 @@
     <h1> <span v-if="data.site"> {{ data.site.lamning_id || data.site.placename}} </span> </h1>
   <div class="metadata-column" :class="{light:isLight}">
     <table>
-   <tr><td class="label" v-if="data.site && data.site.raa_id">{{ $t('message.raanumber') }}</td><td class="data" v-if="data.site && data.site.raa_id">  {{ data.site.raa_id }}</td></tr>
-   <tr><td class="label" v-if="data.site && data.site.lokalitet_id">{{ $t('message.lokalitetid') }}</td><td class="data" v-if="data.site && data.site.lokalitet_id">  {{ data.site.lokalitet_id }}</td></tr>
-   <tr><td class="label" v-if="data.site && data.site.askeladden_id">{{ $t('message.askeladdenid') }}</td><td class="data" v-if="data.site && data.site.askeladden_id">  {{ data.site.askeladden_id }}</td></tr>
-   <tr><td class="label" v-if="data.type && data.type.text">{{ $t('message.typ') }}</td><td class="data" v-if="data.type && data.type.text && $i18n.locale==='sv'">  {{ $t('keywords.'+data.type.text) }}</td><td class="data" v-else-if="data.type && data.type.text && $i18n.locale==='en'">{{ data.type.english_translation }}</td></tr>
-   <tr><td class="label" v-if="data.author && data.author.name">{{ $t('message.author') }}</td><td class="data" v-if="data.author && data.author.name && $i18n.locale==='sv'">  {{ data.author.name }}</td><td class="data" v-else-if="data.author && data.author.name && $i18n.locale==='en'">{{ data.author.english_translation }}</td></tr>
+   <tr><td class="label" v-if="data.site && data.site.raa_id">{{ $t('message.raanumber') }}</td><td class="data" v-if="data.site && data.site.raa_id" @click="logMetaSearch(data.site.raa_id)">  {{ data.site.raa_id }}</td></tr>
+   <tr><td class="label" v-if="data.site && data.site.lokalitet_id">{{ $t('message.lokalitetid') }}</td><td class="data" v-if="data.site && data.site.lokalitet_id" @click="logMetaSearch(data.site.lokalitet_id)">  {{ data.site.lokalitet_id }}</td></tr>
+   <tr><td class="label" v-if="data.site && data.site.askeladden_id">{{ $t('message.askeladdenid') }}</td><td class="data" v-if="data.site && data.site.askeladden_id" @click="logMetaSearch(data.site.askeladden_id)">  {{ data.site.askeladden_id }}</td></tr>
+   <tr><td class="label" v-if="data.type && data.type.text">{{ $t('message.typ') }}</td><td class="data" v-if="data.type && data.type.text && $i18n.locale==='sv'" @click="logKeyword(data.type.text)">  {{ $t('keywords.'+data.type.text) }}</td><td class="data" v-else-if="data.type && data.type.text && $i18n.locale==='en'" @click="logKeyword(data.type.text)">{{ data.type.english_translation }}</td></tr>
+   <tr><td class="label" v-if="data.author && data.author.name">{{ $t('message.author') }}</td><td class="data" v-if="data.author && data.author.name && $i18n.locale==='sv'" @click="logMetaSearch(data.author.name)">  {{ data.author.name }}</td><td class="data" v-else-if="data.author && data.author.name && $i18n.locale==='en'" @click="logMetaSearch(data.author.name)">{{ data.author.english_translation }}</td></tr>
   </table>
   </div>
    <div class="metadata-column">
     <table>
-      <tr><td class="label" v-if="data.year">{{ $t('message.år') }}</td><td class="data" v-if="data.year">  {{ data.year }}</td></tr>
-   <tr><td class="label" v-if="data.rock_carving_object && data.rock_carving_object.name">{{ $t('message.ristning') }}</td><td class="data" v-if="data.rock_carving_object && data.rock_carving_object.name">  {{ data.rock_carving_object.name }}</td></tr>
-   <tr><td class="label" v-if="data.collection && data.collection.name">{{ $t('message.collection') }}</td><td class="data" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
-  <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="ref" v-if="data.institution && data.institution.name">  {{ data.institution.name }}</td></tr>
+      <tr><td class="label" v-if="data.year">{{ $t('message.år') }}</td><td class="not-clickable" v-if="data.year">  {{ data.year }}</td></tr>
+   <tr><td class="label" v-if="data.rock_carving_object && data.rock_carving_object.name">{{ $t('message.ristning') }}</td><td class="data" v-if="data.rock_carving_object && data.rock_carving_object.name" @click="logMetaSearch(data.rock_carving_object.name)">  {{ data.rock_carving_object.name }}</td></tr>
+   <tr><td class="label" v-if="data.collection && data.collection.name">{{ $t('message.collection') }}</td><td class="not-clickable" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
+  <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="data" v-if="data.institution && data.institution.name" @click="logMetaSearch(data.institution.name)">  {{ data.institution.name }}</td></tr>
   </table></div>
    <div class="metadata-wide" :class="{light:isLight}">
    <table>
-    <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site && $i18n.locale==='en'">  {{ data.author.english_translation }}. ({{ data.year || 'n.d.'}}). {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id || data.site.placename }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/image/{{ data.id }}</td>
-      <td class="ref" v-if="data.site && $i18n.locale==='sv'">  {{ data.author.name}}. ({{ data.year || 'n.d.'}}). {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id || data.site.placename}}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/image/{{ data.id }}</td></tr>
+    <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site && $i18n.locale==='en'">  {{ data.author.english_translation }}. ({{ data.year || 'n.d.'}}). {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id || data.raa_id || data.site.placename }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/image/{{ data.id }}</td>
+      <td class="ref" v-if="data.site && $i18n.locale==='sv'">  {{ data.author.name}}. ({{ data.year || 'n.d.'}}). {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id || data.raa_id || data.site.placename}}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/image/{{ data.id }}</td></tr>
     </table>
   </div>
 </div>
@@ -76,6 +76,9 @@ export default {
      logKeyword(keyword) {
       const translatedKeyword = this.$t('keywords.'+keyword.replaceAll('.','_'));
       this.$emit('keyword-clicked', translatedKeyword);
+    },
+    logMetaSearch(item) {
+      this.$emit('keyword-clicked',item);
     },
      extractIdAndFetchData() {
       const pathSegments = window.location.pathname.split('/');
@@ -197,7 +200,17 @@ h2{
 .data {
   color: rgb(200,225,250);
 max-width:180px;
+cursor: pointer;
+}
 
+.data:hover {
+  color:white;
+}
+
+.not-clickable {
+  color: rgb(200,225,250);
+  max-width:180px;
+  cursor:default;
 }
 
 .ref {
