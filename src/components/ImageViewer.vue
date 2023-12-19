@@ -12,8 +12,9 @@
       <a id="zoom-out" href="#zoom-out">
         <div id="ZoomOut" class="NavButton"></div>
       </a>
-
-      <div id="Download" class="NavButton" @click="downloadImage"></div>
+      <a id="Download" class="NavButton">
+        <div id="Download" class="NavButton" @click="downloadImage"></div>
+      </a>
     </div>
   </div>
 
@@ -256,9 +257,7 @@ a:active{
   background-repeat: no-repeat;
   background-position: center;
   background-color: rgba(0, 0, 0, 1);
-
   margin-top: 0px;
-
   overflow: hidden;
 }
 
@@ -272,15 +271,15 @@ a:active{
 }
 
 #Download {
-  position: absolute;
-  bottom: 10px;
+  position: relative;
+  top: 10px;
   background: url(../../public/interface/downloadwhite.png);
-  background-size: 95%;
+  background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-color: rgba(0, 0, 0, 1);
-  cursor: pointer;
   overflow: hidden;
+  cursor: pointer;
 }
 .NavButton {
   border-radius: 50%;
