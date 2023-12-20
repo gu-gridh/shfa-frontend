@@ -557,7 +557,7 @@ export default {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  background: url(/public/interface/searchbuttonwhite.png) no-repeat 4px 50%;
+  background: url(/interface/searchbuttonwhite.png) no-repeat 4px 50%;
   background-size: 32px 32px;
   bottom: 5%;
   padding: 5px 15px 5px 38px;
@@ -833,7 +833,7 @@ export default {
   color: rgb(250, 250, 250);
   background-position: left;
   background-size: 14px;
-  background-image: url(../../public/interface/linkbuttonwhite.png);
+  background-image: url(../../interface/linkbuttonwhite.png);
   background-repeat: no-repeat;
   padding: 8px 0px 8px 18px;
   min-width: max-content;

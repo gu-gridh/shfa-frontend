@@ -198,7 +198,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 
-    <ImageViewer :iiifFile="IiifFileforImageViewer"/>
+    <ImageViewer v-if="IiifFileforImageViewer" :iiifFile="IiifFileforImageViewer"/>
     <MetaData :Id="idForMetaData" @keyword-clicked="handleKeywordClick" />
 
 </div>
@@ -670,7 +670,7 @@ export default defineComponent({
   height: 29px;
   width: 29px;
   border-radius: 8px;
-  background-image: url(../../public/interface/lightmode.png);
+  background-image: url(../../interface/lightmode.png);
   background-size: 18px;
   background-position: center;
   background-repeat: no-repeat;
@@ -687,7 +687,7 @@ export default defineComponent({
   height: 29px;
   width: 29px;
   border-radius: 8px;
-  background-image: url(../../public/interface/darkmode.png);
+  background-image: url(../../interface/darkmode.png);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -835,7 +835,7 @@ export default defineComponent({
   height: 20px;
   width: 20px;
   border-radius: 8px;
-  background-image: url(../../public/interface/linkbuttonbold.png);
+  background-image: url(../../interface/linkbuttonbold.png);
   background-size: 18px;
   background-position: center;
   background-repeat: no-repeat;
@@ -852,7 +852,7 @@ export default defineComponent({
   height: 20px;
   width: 20px;
   border-radius: 8px;
-  background-image: url(../../public/interface/infobuttonbold.png);
+  background-image: url(../../interface/infobuttonbold.png);
   background-size: 18px;
   background-position: center;
   background-repeat: no-repeat;
@@ -959,7 +959,7 @@ export default defineComponent({
     border-radius: 50%;
     height: 30px;
     width: 30px;
-    background-image: url(../../public/interface/menu.png);
+    background-image: url(../../interface/menu.png);
     background-size: 25px 25px;
     background-position: center;
     background-repeat: no-repeat;
@@ -1044,7 +1044,7 @@ export default defineComponent({
     height: 40px;
     width: 40px;
     border-radius: 8px;
-    background-image: url(../../public/interface/linkbuttonbold.png);
+    background-image: url(../../interface/linkbuttonbold.png);
     background-size: 32px;
     background-position: center;
     background-repeat: no-repeat;
@@ -1061,7 +1061,7 @@ export default defineComponent({
     height: 40px;
     width: 40px;
     border-radius: 8px;
-    background-image: url(../../public/interface/infobuttonbold.png);
+    background-image: url(../../interface/infobuttonbold.png);
     background-size: 32px;
     background-position: center;
     background-repeat: no-repeat;
@@ -1276,7 +1276,7 @@ input[type="search"]::-webkit-search-cancel-button {
   height: 0.5em;
   width: 0.5em;
   border-radius: 50em;
-  background: url(../../public/interface/input-cancel-x.svg) no-repeat 50% 50%;
+  background: url(../../interface/input-cancel-x.svg) no-repeat 50% 50%;
   background-size: contain;
   opacity: 1;
   pointer-events: none;

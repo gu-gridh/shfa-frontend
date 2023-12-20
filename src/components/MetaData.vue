@@ -275,7 +275,7 @@ ul {
   text-decoration: none;
   cursor: pointer;
   margin-bottom: 20px;
-  background-image:url(../../public/interface/linkbuttonwhite.png);
+  background-image:url(../../interface/linkbuttonwhite.png);
   background-size:20px;
   background-position:10px 8px;
   background-repeat:no-repeat;

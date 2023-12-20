@@ -65,7 +65,7 @@ import { useStore } from '../stores/store.js';
 
 export default {
   name: 'Search',
-  emits: ['toggle-map', 'search-completed', 'page-details-updated'],
+  emits: ['toggle-map', 'search-completed', 'page-details-updated', 'metadata-route'],
   data() {
     return {
       searchQuery: '',
@@ -385,7 +385,7 @@ border-radius:50%;
 height:40px;
 width:40px;
 margin-right:10px;
-background:url(../../public/interface/searchbuttonwhite.png) no-repeat 50% 50%;
+background:url(../../interface/searchbuttonwhite.png) no-repeat 50% 50%;
 background-size: 30px 30px;
 background-color:#6666;
 }
@@ -514,7 +514,7 @@ input[type="search"]::-webkit-search-cancel-button {
   height: 0.75em;
   width: 0.75em;
   border-radius: 50em;
-  background: url(../../public/interface/input-cancel-x.svg) no-repeat 50% 50%;
+  background: url(../../interface/input-cancel-x.svg) no-repeat 50% 50%;
   background-size: contain;
   opacity: 1.0;
   pointer-events: none;

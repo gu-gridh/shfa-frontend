@@ -27,9 +27,9 @@ import OpenSeadragon from "../external/bookmark-url.js";
 export default {
   props: {
     iiifFile: {
-      type: Number,
+      type: String,
       required: true,
-      default: null,
+      default: '',
     },
   },
   data() {
@@ -276,7 +276,7 @@ a:active{
 #Download {
   position: relative;
   top: 10px;
-  background: url(../../public/interface/downloadwhite.png);
+  background: url(../interface/downloadwhite.png);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;

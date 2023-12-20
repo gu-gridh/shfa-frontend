@@ -142,7 +142,7 @@
       </div>
     </div>
     <button class="close-page-button"  @click="$emit('close')">
-    <div class="category-button" :class="{ fullopacityui: visibleAbout, isLight: isLight }" id="search-suggestion"
+    <div class="category-button" :class="{ fullopacityui: visibleGuide, isLight: isLight }" id="search-suggestion"
       style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
   </button>
   </div>
