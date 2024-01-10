@@ -59,8 +59,7 @@
               <h2>Privacy Information</h2>
               <p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user
                 experience. The tracked data includes device specification, time spent on the website, first visit to the
-                website, subsequent visits to the website, and an approximate location. This user data is anonymised and
-                no other data is recorded. </p><br>
+                website, subsequent visits to the website, and an approximate location.</p><br>
               <h2>Accessibility Statement</h2>
               <p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>. GRIDH aim to include
                 accessibility as part of our mission statement. The <a
@@ -167,7 +166,7 @@
               <p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att
                 användarupplevelsen. Den spårade datan inkluderar information om vilken typ av enhet som använts, under
                 hur lång tid besöket varat, förstagångsbesökare på webbplatsen, återkommande besök och en uppskattning om
-                varifrån besöker kommer. Datat är anonymiserat och ingen annan data sparas. </p><br>
+                varifrån besöker kommer.</p><br>
               <h2>Tillgänglighetsredogörelse</h2>
               <p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>. GRIDH strävar efter att
                 inkludera tillgänglighet som en del av vårt uppdrag. <a
