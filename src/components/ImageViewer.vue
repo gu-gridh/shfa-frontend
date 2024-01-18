@@ -65,7 +65,7 @@ export default {
         const lamning_id = data.results[0].site.lamning_id;
         const raa_id = data.results[0].site.raa_id;
         const placename = data.results[0].site.placename;
-        const creator = data.results[0].author.name;
+        const creator = data.results[0].author?.name || 'Unknown';
         const img_id = data.results[0].id;
         // const year = data.results[0].year;
         this.completeUrl = download;
