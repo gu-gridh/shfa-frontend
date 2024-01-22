@@ -12,7 +12,7 @@
       <a id="zoom-out" href="#zoom-out">
         <div id="ZoomOut" class="NavButton"></div>
       </a>
-      <a id="Download" class="NavButton">
+      <a id="Download">
         <div id="Download" class="NavButton" @click="downloadImage"></div>
       </a>
     </div>
