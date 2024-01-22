@@ -100,14 +100,15 @@ export default {
         });
     },
     fetchDescription() {
-      fetch(`https://kulturarvsdata.se/raa/lamning/xml/${this.data.site.ksamsok_id}`)
+      if (this.data.site && this.data.site.ksamsok_id) {fetch(`https://kulturarvsdata.se/raa/lamning/xml/${this.data.site.ksamsok_id}`)
         .then(response => response.text())
         .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
         .then(data => {
           let descriptionNode = data.getElementsByTagName('pres:description')[0];
           this.data.description = descriptionNode ? descriptionNode.textContent : null;
         });
-    },
+    }
+  },
     getFornsokUrl() {
       if (this.data.site && this.data.site.ksamsok_id) {
         return `https://kulturarvsdata.se/raa/lamning/${this.data.site.ksamsok_id}`;
