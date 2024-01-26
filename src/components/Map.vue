@@ -278,7 +278,7 @@ export default {
  
           if (data && data.features) {
             const additionalResults = data.features.map((feature) => ({
-              coordinates: feature.geometry.coordinates,
+              coordinates: feature.geometry?.coordinates,
               id: feature.id ?? null,
               lamning_id: feature.properties.lamning_id ?? null,
               raa_id: feature.properties.raa_id ?? null,
