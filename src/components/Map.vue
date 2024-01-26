@@ -278,7 +278,7 @@ export default {
  
           if (data && data.features) {
             const additionalResults = data.features.map((feature) => ({
-              coordinates: feature.geometry?.coordinates,
+              coordinates: feature.geometry?.coordinates ?? [],
               id: feature.id ?? null,
               lamning_id: feature.properties.lamning_id ?? null,
               raa_id: feature.properties.raa_id ?? null,
@@ -435,10 +435,13 @@ export default {
           const placename = feature.get("placename");
 
           if (placename) {this.isSwedish = false}
-          else {this.isSwedish = true,
-            document.getElementById(
-            "fornsok_link"
-          ).href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;};
+          else {
+            this.isSwedish = true;
+            const fornsokLink = document.getElementById("fornsok_link");
+            if (fornsokLink) {
+              fornsokLink.href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
+            }
+          };
  
           raaContent.innerHTML = raa_id;
           lamningContent.innerHTML = lamning_id;
