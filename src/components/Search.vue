@@ -1,61 +1,44 @@
 <template>
   <div v-bind="$attrs">
-    <div id="search-interface" class="" >
+    <div id="search-interface" class="">
       <h2 class="input-unpad mb-0" id="search">
         <div class="input-wrapper" id="search-wrapper">
-          <div
-            v-for="keyword in selectedKeywords"
-            :key="keyword.id"
-            class="tag-example-search"
-            id="search-selected"
-            @click="deselectKeyword(keyword)"
-          >
-          {{ $t('message.'+keyword.text) }}
+          <div v-for="keyword in selectedKeywords" :key="keyword.id" class="tag-example-search" id="search-selected"
+            @click="deselectKeyword(keyword)">
+            {{ $t('message.' + keyword.text) }}
           </div>
-          <input
-            type="search"
-            id="search"
-            name="search"
-            :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'"
-            class=""
-            :value="searchQuery"
-            @input="updateSearchQuery($event.target.value)"
-            @keydown="handleBackspace($event)"
-            @keydown.enter="triggerSearch"
-            autocomplete="off"
-          />
-        <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
+          <input type="search" id="search" name="search"
+            :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'" class="" :value="searchQuery"
+            @input="updateSearchQuery($event.target.value)" @keydown="handleBackspace($event)"
+            @keydown.enter="triggerSearch" autocomplete="off" />
+          <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
             Advanced Search
           </button> -->
-          <button class="search-button-round" id="search-button" :class="{light:isLight}" @click="triggerSearch">
+          <button class="search-button-round" id="search-button" :class="{ light: isLight }" @click="triggerSearch">
           </button>
         </div>
       </h2>
     </div>
     <div id="filter-interface">
-      <div class="filter-text" :class="{light:isLight}">{{ $t('message.sökförslag') }}</div>
-      <div
-        v-for="result in defaultSearchResults"
-        :key="result.id"
-        class="tag-example"
-        id="search-suggestion"
-        @click="selectResult(result)"
-      >
+      <div class="filter-text" :class="{ light: isLight }">{{ $t('message.sökförslag') }}</div>
+      <div v-for="result in defaultSearchResults" :key="result.id" class="tag-example" id="search-suggestion"
+        @click="selectResult(result)">
         {{ $t('message.' + result.text) }}
       </div>
     </div>
   </div>
   <div class="search-switcher" style="display:flex;  align-items: left; justify-content: left;">
-    <div class="ui-overlay ui-mode map-switch-margin" id="map-toggle">
-        <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
-          {{ $t('message.karta') }}
-        </button>
-        <button class="item" :class="{ 'active': activePanel === 'Advanced Search' }" @click="togglePanel('Advanced Search')">
-          {{ $t('message.avanceradsökning') }}
-        </button>
-       
-      </div>
+    <div class="ui-mode map-switch-margin" id="map-toggle">
+      <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
+        {{ $t('message.karta') }}
+      </button>
+      <button class="item" :class="{ 'active': activePanel === 'Advanced Search' }"
+        @click="togglePanel('Advanced Search')">
+        {{ $t('message.avanceradsökning') }}
+      </button>
+
     </div>
+  </div>
 </template>
 
 <script>
@@ -79,19 +62,19 @@ export default {
       isLight: false,
     };
   },
-   setup() {
+  setup() {
     const router = useRouter();
 
     return { router };
   },
   props: {
-  updateNextPageUrl: {
-    type: Function,
-    required: true,
+    updateNextPageUrl: {
+      type: Function,
+      required: true,
     },
-  updatePreviousPageUrl: {
-    type: Function,
-    required: true,
+    updatePreviousPageUrl: {
+      type: Function,
+      required: true,
     },
   },
   computed: {
@@ -119,23 +102,23 @@ export default {
   created() {
     this.coordinateStore = useStore();
     this.defaultSearchResults = [
-    { id: 1, text: 'hällristningsmiljö'},
-    { id: 2, text: 'nattfoto'},
-    { id: 3, text: 'vattenöversilad'},
-    { id: 4, text: 'laserskanning'},
-    { id: 4, text: 'skepp'},
-    { id: 5, text: 'djur'},
-    { id: 6, text: 'vagn'},
-    { id: 7, text: 'vapen'},
-    { id: 8, text: 'krigare'},
-    { id: 9, text: 'människofigur'},
-    { id: 10, text: 'vitlycke'},
-    { id: 11, text: 'skee'},
-    { id: 12, text: 'kalkering'},
-    { id: 13, text: 'frottage'},
-    
+      { id: 1, text: 'hällristningsmiljö' },
+      { id: 2, text: 'nattfoto' },
+      { id: 3, text: 'vattenöversilad' },
+      { id: 4, text: 'laserskanning' },
+      { id: 4, text: 'skepp' },
+      { id: 5, text: 'djur' },
+      { id: 6, text: 'vagn' },
+      { id: 7, text: 'vapen' },
+      { id: 8, text: 'krigare' },
+      { id: 9, text: 'människofigur' },
+      { id: 10, text: 'vitlycke' },
+      { id: 11, text: 'skee' },
+      { id: 12, text: 'kalkering' },
+      { id: 13, text: 'frottage' },
+
     ];
-  },  
+  },
   methods: {
     updateSearchFromMetadata(term) {
       this.clearSearchField();
@@ -143,7 +126,7 @@ export default {
       this.$router.push({ name: 'SearchQuery', params: { query: this.searchQuery } })
         .then(() => {
           const currentRoute = this.$route.fullPath;
-          this.$emit('metadata-route', currentRoute); 
+          this.$emit('metadata-route', currentRoute);
         })
         .catch(err => {
           console.error(err);
@@ -159,8 +142,8 @@ export default {
       this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
     },
     triggerSearch() {
-      const query = this.selectedKeywords.length > 0 
-        ? this.selectedKeywords[0].text 
+      const query = this.selectedKeywords.length > 0
+        ? this.selectedKeywords[0].text
         : this.searchQuery;
 
       this.$router.push({ name: 'SearchQuery', params: { query: query } });
@@ -188,103 +171,103 @@ export default {
         this.count = data.count; // Update the total count
 
         const specificOrder = [
-        { type: 957, text: 'ortofotografi', order: 1 },
-        { type: 965, text: 'översiktsbild', order: 1},
-        { type: 943, text: 'threedvisualization', order: 2 },
-        { type: 958, text: 'threedsm', order: 3 },
-        { type: 959, text: 'threedlaserscanning', order: 4 },
-        { type: 961, text: 'miljöbild', order: 5 },
-        { type: 964, text: 'nattfoto', order: 6 },
-        { type: 942, text: 'fotografi', order: 7 },
-        { type: 949, text: 'diabild', order: 8 },
-        { type: 947, text: 'negativfärg', order: 9 },
-        { type: 948, text: 'negativsvart', order: 10 },
-        { type: 960, text: 'printscreen', order: 11 },
-        { type: 956, text: 'photosfm', order: 12 },
-        { type: 954, text: 'dstretch', order: 13 },
-        { type: 941, text: 'frottage', order: 14 },
-        { type: 946, text: 'grafik', order: 15 },
-        { type: 944, text: 'kalkering', order: 16 },
-        { type: 951, text: 'ritning', order: 17 },
-        { type: 955, text: 'kalkeringpapper', order: 18 },
-        { type: 945, text: 'avgjutning', order: 19 },
-        { type: 952, text: 'dokument', order: 20 },
-        { type: 953, text: 'karta', order: 21 },
-        { type: 950, text: 'tidnings', order: 22 },
-        { type: 962, text: 'arbetsbild', order: 23 },
+          { type: 957, text: 'ortofotografi', order: 1 },
+          { type: 965, text: 'översiktsbild', order: 1 },
+          { type: 943, text: 'threedvisualization', order: 2 },
+          { type: 958, text: 'threedsm', order: 3 },
+          { type: 959, text: 'threedlaserscanning', order: 4 },
+          { type: 961, text: 'miljöbild', order: 5 },
+          { type: 964, text: 'nattfoto', order: 6 },
+          { type: 942, text: 'fotografi', order: 7 },
+          { type: 949, text: 'diabild', order: 8 },
+          { type: 947, text: 'negativfärg', order: 9 },
+          { type: 948, text: 'negativsvart', order: 10 },
+          { type: 960, text: 'printscreen', order: 11 },
+          { type: 956, text: 'photosfm', order: 12 },
+          { type: 954, text: 'dstretch', order: 13 },
+          { type: 941, text: 'frottage', order: 14 },
+          { type: 946, text: 'grafik', order: 15 },
+          { type: 944, text: 'kalkering', order: 16 },
+          { type: 951, text: 'ritning', order: 17 },
+          { type: 955, text: 'kalkeringpapper', order: 18 },
+          { type: 945, text: 'avgjutning', order: 19 },
+          { type: 952, text: 'dokument', order: 20 },
+          { type: 953, text: 'karta', order: 21 },
+          { type: 950, text: 'tidnings', order: 22 },
+          { type: 962, text: 'arbetsbild', order: 23 },
         ]
 
-    // Map the specificOrder array to an object where the keys are the types
-    let typeMap = specificOrder.map(order => ({
-      ...order,
-      items: [],
-    }));
+        // Map the specificOrder array to an object where the keys are the types
+        let typeMap = specificOrder.map(order => ({
+          ...order,
+          items: [],
+        }));
 
-    // Iterate over the results and map them into the correct groups
-    for (let image of data.results) {
-      let type = image.type;
-      let item = {
-        id: image.id ?? null, 
-        lamning_id: image?.site?.lamning_id ?? null, 
-        raa_id: image?.site?.raa_id ?? null,
-        type: image?.type?.id ?? null,
-        iiif_file: image.iiif_file ?? null, 
-        coordinates: image?.site?.coordinates?.coordinates ?? null,
-      };
+        // Iterate over the results and map them into the correct groups
+        for (let image of data.results) {
+          let type = image.type;
+          let item = {
+            id: image.id ?? null,
+            lamning_id: image?.site?.lamning_id ?? null,
+            raa_id: image?.site?.raa_id ?? null,
+            type: image?.type?.id ?? null,
+            iiif_file: image.iiif_file ?? null,
+            coordinates: image?.site?.coordinates?.coordinates ?? null,
+          };
 
-      const coords = image?.site?.coordinates?.coordinates;
-      if (coords) {
-        const [x, y] = coords;
-        minX = Math.min(minX, x);
-        maxX = Math.max(maxX, x);
-        minY = Math.min(minY, y);
-        maxY = Math.max(maxY, y);
-      }
-      
-
-    let typeIndex = typeMap.findIndex(x => x.type === type.id); 
-      if (typeIndex !== -1) {
-        typeMap[typeIndex].items.push(item);
-      }
-    }
-
-    if (minX !== Infinity && maxX !== -Infinity && minY !== Infinity && maxY !== -Infinity) {
-        const boundingBox = {
-          topLeft: [minX, maxY],
-          topRight: [maxX, maxY],
-          bottomLeft: [minX, minY],
-          bottomRight: [maxX, minY],
-        };
-        this.coordinateStore.setBoundingBox(boundingBox);
-    } else {
-      console.log('No valid coordinates found. Skipping setting the bounding box.');
-    }
-
-    // Filter out the groups with no items and sort the image groups by the specified order
-    this.searchResults = typeMap.filter(group => group.items.length > 0)
-    //.sort((a, b) => a.order - b.order);
-
-    this.searchResults = Array.from(typeMap.values());
+          const coords = image?.site?.coordinates?.coordinates;
+          if (coords) {
+            const [x, y] = coords;
+            minX = Math.min(minX, x);
+            maxX = Math.max(maxX, x);
+            minY = Math.min(minY, y);
+            maxY = Math.max(maxY, y);
+          }
 
 
-      // Store the next URL for future use
-      if (data.next) {
-        this.nextPageUrl = data.next.replace('http://', 'https://');
-        this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
-        this.updateNextPageUrl(this.nextPageUrl);  // Update the parent's nextPageUrl state
-      } else {
-        this.nextPageUrl = null;
-        this.updateNextPageUrl(null);  // Update the parent's nextPageUrl state
-      }
+          let typeIndex = typeMap.findIndex(x => x.type === type.id);
+          if (typeIndex !== -1) {
+            typeMap[typeIndex].items.push(item);
+          }
+        }
 
-      if (data.previous) {
-        this.previousPageUrl = data.previous.replace('http://', 'https://');
-        this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
-        this.updatePreviousPageUrl(this.previousPageUrl);  // Update the parent's previousPageUrl state
-      } else {
-        this.previousPageUrl = null;
-        this.updatePreviousPageUrl(null);  // Update the parent's previousPageUrl state
-      }
+        if (minX !== Infinity && maxX !== -Infinity && minY !== Infinity && maxY !== -Infinity) {
+          const boundingBox = {
+            topLeft: [minX, maxY],
+            topRight: [maxX, maxY],
+            bottomLeft: [minX, minY],
+            bottomRight: [maxX, minY],
+          };
+          this.coordinateStore.setBoundingBox(boundingBox);
+        } else {
+          console.log('No valid coordinates found. Skipping setting the bounding box.');
+        }
+
+        // Filter out the groups with no items and sort the image groups by the specified order
+        this.searchResults = typeMap.filter(group => group.items.length > 0)
+        //.sort((a, b) => a.order - b.order);
+
+        this.searchResults = Array.from(typeMap.values());
+
+
+        // Store the next URL for future use
+        if (data.next) {
+          this.nextPageUrl = data.next.replace('http://', 'https://');
+          this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
+          this.updateNextPageUrl(this.nextPageUrl);  // Update the parent's nextPageUrl state
+        } else {
+          this.nextPageUrl = null;
+          this.updateNextPageUrl(null);  // Update the parent's nextPageUrl state
+        }
+
+        if (data.previous) {
+          this.previousPageUrl = data.previous.replace('http://', 'https://');
+          this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
+          this.updatePreviousPageUrl(this.previousPageUrl);  // Update the parent's previousPageUrl state
+        } else {
+          this.previousPageUrl = null;
+          this.updatePreviousPageUrl(null);  // Update the parent's previousPageUrl state
+        }
 
 
       } catch (error) {
@@ -304,18 +287,18 @@ export default {
       }
     },
     async fetchPreviousPage() {
-  if (this.previousPageUrl) {
-    await this.fetchResults(this.previousPageUrl);
-  } else {
-    console.log("No previous pages to fetch.");
-  }
-},
+      if (this.previousPageUrl) {
+        await this.fetchResults(this.previousPageUrl);
+      } else {
+        console.log("No previous pages to fetch.");
+      }
+    },
 
     selectResult(result) {
       if (this.selectedKeywords.length > 0) {
         // Add the currently selected keyword back to the defaultSearchResults
         //const currentKeyword = this.selectedKeywords[0];
-       // this.defaultSearchResults.splice(currentKeyword.position, 0, currentKeyword);
+        // this.defaultSearchResults.splice(currentKeyword.position, 0, currentKeyword);
       }
       // Replace the currently selected keyword with the new one
       this.selectedKeywords = [result];
@@ -335,10 +318,10 @@ export default {
       this.searchQuery = value;
     },
     togglePanel(panelName) {
-        if (this.activePanel !== panelName) {
-            this.activePanel = panelName;
-            this.$emit('toggle-map');
-        }
+      if (this.activePanel !== panelName) {
+        this.activePanel = panelName;
+        this.$emit('toggle-map');
+      }
     },
     handleBackspace(event) {
       if (event.key === 'Backspace' && this.searchQuery === '') {
@@ -350,54 +333,53 @@ export default {
 </script>
 
 <style scoped>
-
-.light{
-  background-color:rgb(250, 250, 250);
-  color:black;
-
+.light {
+  background-color: rgb(250, 250, 250);
+  color: black;
 }
 
 
-
-#search-interface{
-  font-size:100%;
-  padding-top:02px;
+#search-interface {
+  font-size: 100%;
+  padding-top: 02px;
 }
 
-.map-switch-margin{
-  margin-top:155px; 
-  font-size:1.1em;
-  margin-left:-6px;
+.map-switch-margin {
+  margin-top: 30px;
+  font-size: 1.1em;
+  margin-left: -6px;
+  color:white;
 }
 
-.light .map-switch-margin{
-  color:black;
+.light .map-switch-margin {
+  color: black;
 }
 
-.search-switcher .ui-mode{
-  background-color:transparent;
+.search-switcher .ui-mode {
+  background-color: transparent;
   backdrop-filter: none;
-  z-index:0;
-}
-.search-button-round{
-background-color:#6666;
-border-radius:50%;
-height:40px;
-width:40px;
-margin-right:10px;
-background:url(../../interface/searchbuttonwhite.png) no-repeat 50% 50%;
-background-size: 30px 30px;
-background-color:#6666;
+  z-index: 0;
 }
 
-.search-button-round:hover{
-  background-color: rgb(70,90,90);
+.search-button-round {
+  background-color: #6666;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  background: url(../../interface/searchbuttonwhite.png) no-repeat 50% 50%;
+  background-size: 30px 30px;
+  background-color: #6666;
+}
+
+.search-button-round:hover {
+  background-color: rgb(70, 90, 90);
 }
 
 #filter-interface {
   display: flex;
   flex-direction: row;
-  justify-content:space-between;
+  justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
   gap: 0px;
@@ -405,8 +387,8 @@ background-color:#6666;
   color: white;
   z-index: 1000;
   margin-left: -5px;
-  height:38px;
-  overflow:hidden;
+  height: 38px;
+  overflow: hidden;
 }
 
 .filter-text {
@@ -419,20 +401,21 @@ background-color:#6666;
 
 @media (max-width:480px) {
   .filter-text {
-  width:100%;
-}
-#filter-interface {
-  height:70px;
-  justify-content:left;
-  padding: 0px 0px 0px 0px;
-}
+    width: 100%;
+  }
+
+  #filter-interface {
+    height: 70px;
+    justify-content: left;
+    padding: 0px 0px 0px 0px;
+  }
 }
 
 .tag-example {
   float: left;
   background-color: rgb(90, 90, 90);
-  padding: 4px 10px; 
-  font-size: 15px; 
+  padding: 4px 10px;
+  font-size: 15px;
   margin-bottom: 5px;
   border-radius: 5px;
   margin-left: 10px;
@@ -441,29 +424,29 @@ background-color:#6666;
 
 .tag-example-search {
   float: left;
-  background-color: rgb(80,90,100);
-  padding: 0.4em 0.5em; 
+  background-color: rgb(80, 90, 100);
+  padding: 0.4em 0.5em;
   font-size: 1.2em;
   border-radius: 5px;
   margin-left: 10px;
   cursor: pointer;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
-  overflow:hidden;
-  max-height:32px;
-  color:white;
-  font-weight:300;
+  overflow: hidden;
+  max-height: 32px;
+  color: white;
+  font-weight: 300;
 }
 
 .tag-example:hover {
-  background-color: rgb(80,90,100);
+  background-color: rgb(80, 90, 100);
   cursor: pointer;
-  color:white;
- 
+  color: white;
+
 }
 
 #search {
   flex: 1;
-  font-size:1.5em;
+  font-size: 1.5em;
   display: flex;
   flex-direction: column;
   margin-left: 0px;
@@ -481,7 +464,7 @@ background-color:#6666;
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
-  font-size: 1rem; 
+  font-size: 1rem;
 }
 
 
@@ -490,15 +473,15 @@ background-color:#6666;
 }
 
 input[type="search"] {
-  background-color: transparent!important;
+  background-color: transparent !important;
   border: none;
   color: white;
   margin-top: 5px;
-  padding-left: 15px!important;
-  padding-right: 15px!important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
   margin-bottom: 10px;
   flex: 1;
-  width:1px!important;
+  width: 1px !important;
 }
 
 input[type="search"]::placeholder {
@@ -551,11 +534,11 @@ input:focus {
 }
 
 .toggle-map-btn:hover {
-  background-color: rgb(80,90,100);
+  background-color: rgb(80, 90, 100);
 }
 
 .item.active {
-  color: rgb(200,225,250);
+  color: rgb(200, 225, 250);
 }
 </style>
 

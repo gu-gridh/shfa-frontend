@@ -47,7 +47,7 @@
     <!-- <div class="top-button">|</div> -->
 </div>
   
-  <About :visibleAbout="visibleAbout" :isLight="isLight" @close="visibleAbout = false" />
+<About :visibleAbout="visibleAbout" :isLight="isLight" @close="visibleAbout = false" />
   <Guide :visibleGuide="visibleGuide" :isLight="isLight" @close="visibleGuide = false" />
   <div class="top-links">
     <button class="item" @click="visibleGuide=true, isLight=isLight">
@@ -1135,6 +1135,7 @@ export default defineComponent({
 #split-0 {
   padding: 30px 25px 15px 40px;
   min-width: 550px;
+  overflow-y:auto;
 }
 
 @media (max-width: 1024px) {

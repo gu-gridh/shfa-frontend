@@ -1,10 +1,10 @@
 <template>
   <div class="guide-container" :class="{ fullopacity: visibleGuide, light: isLight }" id='block-text'>
-
+    <div class="content" :class="{ light: isLight }" id="block-text">
 
 
     <div class="rows" :class="{ light: isLight }" id="block-text">
-      <div class="content" :class="{ light: isLight }" id="block-text">
+      
 
         <div class="flex-machine" :class="{ light: isLight }" id="block-text">
           <div class="logo-area">
@@ -213,8 +213,6 @@ h2 {
 
 .guide-container {
   position: fixed;
-  height: 100vh !important;
-  /* Safari Fix */
   color: white;
   line-height: 1;
   width: 100%;
@@ -226,14 +224,11 @@ h2 {
   translate: 0px 100px;
   transition: all 0.5s ease-in-out;
   opacity: 0.0;
-  height: calc(100% - 80px);
-  overflow-y: auto;
+  overflow-y:scroll;
   max-height: max-content;
-  /*background: linear-gradient(120deg, rgb(205, 210, 214) 0%, rgba(177, 189, 202, 0.856) 30%)*/
-  ;
   background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 30%);
-
 }
+
 
 .logo-area {
     margin-top: 30px;
@@ -390,8 +385,9 @@ h2 {
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
 .close-page-button {
+  pointer-events:auto;
   position: sticky;
-  z-index: 3000;
+  z-index: 5000;
   bottom:0px;
   top:calc(100vh - 80px);
   padding-bottom: 20px;
@@ -435,7 +431,7 @@ h2 {
     margin-top: 80px;
   }
 
-  .guide-container.fullopacity {
+  .guide-container .fullopacity {
     margin-top: 0px;
     margin-bottom: 0px;
   }
@@ -531,6 +527,11 @@ h2 {
 
 }
 
+
+a {
+  font-weight: normal;
+}
+
 .fullopacity {
   /* backdrop-filter:blur(5px); */
   opacity: 1.0;
@@ -538,7 +539,7 @@ h2 {
   transform: scale(1.0);
   translate: 0px 0px;
   background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 80%);
-  height: 100%;
+  height: 100vh;
 }
 
 
@@ -546,6 +547,4 @@ h2 {
   opacity: 1.0;
 }
 
-a {
-  font-weight: normal;
-}</style>
+</style>

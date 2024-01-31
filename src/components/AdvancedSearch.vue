@@ -515,9 +515,8 @@ export default {
 <style scoped>
 .search-container {
   width: 100%; 
-  margin-top:95px; 
+  margin-top:20px; 
   background-color:transparent;
- 
 }
 .search-container-title {
   width: 100%; 
