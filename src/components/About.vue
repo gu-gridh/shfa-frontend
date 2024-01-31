@@ -59,7 +59,7 @@
               public release" Github, 12 December 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
             <h2>Privacy Information</h2>
             <p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user
-              experience. The tracked data includes device specification, time spent on the website, first visit to the
+              experience. The tracked data includes IP address, device specification, time spent on the website, first visit to the
               website, subsequent visits to the website, and an approximate location.</p><br>
             <h2>Accessibility Statement</h2>
             <p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>. GRIDH aim to include
@@ -166,7 +166,7 @@
 
               <h2>Integritetspolicy</h2>
               <p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att
-                användarupplevelsen. Den spårade datan inkluderar information om vilken typ av enhet som använts, under
+                användarupplevelsen. Den spårade datan inkluderar information om IP-addressen, vilken typ av enhet som använts, under
                 hur lång tid besöket varat, förstagångsbesökare på webbplatsen, återkommande besök och en uppskattning om
                 varifrån besöker kommer.</p><br>
               <h2>Tillgänglighetsredogörelse</h2>
