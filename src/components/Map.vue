@@ -610,7 +610,7 @@ export default {
 .map-expanded #map {
   width: 100%;
   height: 100%;
-  margin-top: -102px!important;
+  margin-top: -105px!important;
 }
  
 @media (max-width: 1024px) {
