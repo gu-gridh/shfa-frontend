@@ -587,11 +587,10 @@ export default {
   min-height: 200px;
   margin-top: 20px !important;
   padding: 0px 0px 0px 0px;
-  border-radius: 10px;
+  /* border-radius: 00px;
+  box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5) !important;  cursor: pointer;*/
   overflow: hidden !important;
   border-width:0px;
-  box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5) !important;
-  cursor: pointer;
   position: relative;
   background-color:rgb(65,65,65);
   transition: all 0.5s ease-in-out;
