@@ -587,8 +587,9 @@ export default {
   min-height: 200px;
   margin-top: 20px !important;
   padding: 0px 0px 0px 0px;
-  /* border-radius: 00px;
-  box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5) !important;  cursor: pointer;*/
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5) !important;  
+  cursor: pointer;
   overflow: hidden !important;
   border-width:0px;
   position: relative;
@@ -601,7 +602,7 @@ export default {
   border-color:rgb(180,180,180);
   border-style:solid;
   border-width:0px;
-  box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5) !important;
   background-color:rgb(255,255,255);
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
