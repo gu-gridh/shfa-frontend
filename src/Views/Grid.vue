@@ -585,7 +585,7 @@ export default defineComponent({
   background-color: rgba(60, 60, 60, 0.9);
   color: white;
   font-size: 100%;
-  height:35px;
+  height:32px;
 }
 
 @media (max-width: 1023px) {
