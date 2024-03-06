@@ -562,7 +562,7 @@ export default {
   transform: translateX(-50%);
   background: url(/interface/searchbuttonwhite.png) no-repeat 4px 50%;
   background-size: 32px 32px;
-  bottom: 5%;
+  bottom: 20px;
   padding: 5px 15px 5px 38px;
   z-index: 100;
   width: auto;

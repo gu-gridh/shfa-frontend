@@ -574,7 +574,7 @@ export default defineComponent({
 <style>
 #resetSplitButton {
   position:absolute;
-  bottom:55px;
+  bottom:50px;
   left:60px;
   padding: 4px 10px;
   z-index: 100;
