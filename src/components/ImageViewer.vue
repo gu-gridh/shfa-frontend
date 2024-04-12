@@ -122,7 +122,7 @@ export default {
         prefixUrl: "/path/to/openseadragon/images/",
         tileSources: `${iiifFile}/info.json`,
         immediateRender: false,
-        visibilityRatio: 0.9,
+        visibilityRatio: 0.6,
         minZoomImageRatio: 0.5,
         homeFillsViewer: true,
         showZoomControl: true,
