@@ -562,7 +562,7 @@ export default {
   transform: translateX(-50%);
   background: url(/interface/searchbuttonwhite.png) no-repeat 4px 50%;
   background-size: 32px 32px;
-  bottom: 5%;
+  bottom: 20px;
   padding: 5px 15px 5px 38px;
   z-index: 100;
   width: auto;
@@ -588,10 +588,10 @@ export default {
   margin-top: 20px !important;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5) !important;  
+  cursor: pointer;
   overflow: hidden !important;
   border-width:0px;
-  box-shadow: 0px 5px 45px rgba(0, 0, 0, 0.5) !important;
-  cursor: pointer;
   position: relative;
   background-color:rgb(65,65,65);
   transition: all 0.5s ease-in-out;
@@ -602,7 +602,7 @@ export default {
   border-color:rgb(180,180,180);
   border-style:solid;
   border-width:0px;
-  box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5) !important;
   background-color:rgb(255,255,255);
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
@@ -611,7 +611,7 @@ export default {
 .map-expanded #map {
   width: 100%;
   height: 100%;
-  margin-top: -102px!important;
+  margin-top: -105px!important;
 }
  
 @media (max-width: 1024px) {

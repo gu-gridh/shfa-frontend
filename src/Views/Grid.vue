@@ -84,7 +84,7 @@
   <!-- Panel 1 -->
   <div  id="split-0" class="flex-grow flex flex-col "
        :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
-       
+
       <Search
         @toggle-map="toggleMap" 
         @search-completed="updateItems"
@@ -108,6 +108,7 @@
         :class="{light: isLight}"
         :showMap="showMap"
       />
+  
 
       <AdvancedSearch v-show="!showMap" 
         @advanced-search-results="handleAdvancedSearchResults"
@@ -119,9 +120,9 @@
         :class="{light: isLight}"
       />
 
-        <div style="width:100%;">
+
      <button id="resetSplitButton" @click="resetSplitsAndPanels">{{ $t('message.resetlayout') }}</button>
-    </div>
+ 
   </div>
   <!-- Panel 2 -->
   <div id="split-1" class="flex-grow overflow-auto main-color " 
@@ -572,17 +573,19 @@ export default defineComponent({
 
 <style>
 #resetSplitButton {
-  float: right;
+  position:absolute;
+  bottom:50px;
+  left:60px;
   padding: 4px 10px;
   z-index: 100;
   width: 110px;
   height: auto;
   cursor: pointer;
   border-radius: 6px !important;
-  background-color: rgb(90, 90, 90);
-  margin-top: 15px;
+  background-color: rgba(60, 60, 60, 0.9);
   color: white;
   font-size: 100%;
+  height:32px;
 }
 
 @media (max-width: 1023px) {
@@ -1133,7 +1136,7 @@ export default defineComponent({
 }
 
 #split-0 {
-  padding: 30px 25px 15px 40px;
+  padding:30px 20px 30px 30px;
   min-width: 550px;
   overflow-y:auto;
 }
@@ -1161,6 +1164,7 @@ export default defineComponent({
 #split-1 {
   padding: 0px 20px 0px 20px;
   min-width: 200px;
+
 }
 
 @media (min-width: 1024px) and (max-width: 1250px) {
@@ -1209,7 +1213,8 @@ export default defineComponent({
 
 @media (max-width: 1024px) {
   #map {
-    height: 50vw;
+    top:-60px;
+    height: 80vw;
     width: 100%;
   }
 }
@@ -1561,7 +1566,7 @@ h2 input:not(:placeholder-shown) {
 
 .light #map {
   /* filter: hue-rotate(160deg) grayscale(30%); */
-  box-shadow: 0px 3px 35px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0px 3px 25px rgba(0, 0, 0, 0.3) !important;
 }
 
 .light #fornsok_link,
@@ -1763,4 +1768,5 @@ h2 input:not(:placeholder-shown) {
   opacity: 0.3;
   transition: all 0.8s ease-in-out;
 }
+
 </style>
