@@ -2,7 +2,7 @@
   <div id="metadata-container">
   <div class="metadata-column-group">
     <h1> <span v-if="data.site"> {{ data.site.lamning_id || data.site.placename}} </span> </h1>
-  <div class="metadata-column" :class="{light:isLight}">
+  <div class="metadata-column">
     <table>
    <tr><td class="label" v-if="data.site && data.site.raa_id">{{ $t('message.raanumber') }}</td><td class="data" v-if="data.site && data.site.raa_id" @click="logMetaSearch(data.site.raa_id)">  {{ data.site.raa_id }}</td></tr>
    <tr><td class="label" v-if="data.site && data.site.lokalitet_id">{{ $t('message.lokalitetid') }}</td><td class="data" v-if="data.site && data.site.lokalitet_id" @click="logMetaSearch(data.site.lokalitet_id)">  {{ data.site.lokalitet_id }}</td></tr>
@@ -18,7 +18,7 @@
    <tr><td class="label" v-if="data.collection && data.collection.name">{{ $t('message.collection') }}</td><td class="not-clickable" v-if="data.collection && data.collection.name">  {{ data.collection.name }}</td></tr>
   <tr><td class="label" v-if="data.institution && data.institution.name">Institution:</td><td class="data" v-if="data.institution && data.institution.name" @click="logMetaSearch(data.institution.name)">  {{ data.institution.name }}</td></tr>
   </table></div>
-   <div class="metadata-wide" :class="{light:isLight}">
+   <div class="metadata-wide">
    <table>
     <tr><td class="label" v-if="data.site">{{ $t('message.reference') }}</td><td class="ref" v-if="data.site && $i18n.locale==='en'">  {{ data.author.english_translation }}. ({{ data.year || 'n.d.'}}). {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id || data.raa_id || data.site.placename }}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/image/{{ data.id }}</td>
       <td class="ref" v-if="data.site && $i18n.locale==='sv'">  {{ data.author?.name}}. ({{ data.year || 'n.d.'}}). {{ $t('keywords.'+data.type.text) }} {{$t('message.av')}} {{ data.site.lamning_id || data.raa_id || data.site.placename}}, SHFA, {{$t('message.åtkomst')}} {{ acc_date }} {{$t('message.at')}} https://shfa.dh.gu.se/image/{{ data.id }}</td></tr>
@@ -39,8 +39,8 @@
   <div v-if="getFornsokUrl()" class="button-container">
     <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit">{{ $t('message.checkfornsök') }}</a>
   </div>
-  <div class="disclaimer" :class="{light:isLight}" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
-  <div class="description" :class="{light:isLight}" id="description">
+  <div class="disclaimer" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
+  <div class="description" id="description">
     {{ data.description }}
   </div>
 
@@ -64,7 +64,6 @@ export default {
     return {
       data: {},
       acc_date,
-      isLight: false,
       coordinateStore: useStore(),
     };
   },

@@ -20,7 +20,6 @@
             v-for="keyword in selectedKeywords[index]"
             :key="keyword.id"
             class="tag-example-search" 
-            :class="{light: isLight}"
             id="text-wrapper"
             @click="deselectKeyword(keyword, index)"
           >
@@ -82,7 +81,6 @@ export default {
       nextPageUrl: null,
       previousPageUrl: null,
       count: 0,
-      isLight: false,
     };
   },
   props: {

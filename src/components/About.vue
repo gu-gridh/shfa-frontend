@@ -1,10 +1,10 @@
 <template>
-  <div class="about-container" :class="{ fullopacity: visibleAbout, light: isLight }" id='block-text'>
-    <div class="content" :class="{ light: isLight }" id="block-text">
+  <div class="about-container" :class="{ fullopacity: visibleAbout }" id='block-text'>
+    <div class="content" id="block-text">
 
     <template v-if="$i18n.locale === 'en'">
-      <div class="flex-machine" :class="{ light: isLight }" id="block-text">
-        <div class="rows" :class="{ light: isLight }" id="block-text">
+      <div class="flex-machine" id="block-text">
+        <div class="rows" id="block-text">
 
 
           <div class="logo-area">
@@ -14,7 +14,7 @@
             </h1>
           </div>
 
-          <div class="about-article-sub" :class="{ fullopacityui: visibleAbout, light: isLight }" id="block-text">
+          <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }" id="block-text">
             <h2>Database Overview</h2>
             <p>SHFA's [Svenskt Hällristnings Forsknings Arkivs] image database includes more than 24,000 digitized
               images that are the result of ongoing work describing and documenting rock carvings since 1627.
@@ -102,7 +102,7 @@
 
     <template v-else>
       <div class="flex-machine">
-        <div class="rows" :class="{ light: isLight }" id="block-text">
+        <div class="rows" id="block-text">
           <div class="content" id="block-text">
 
             <div class="logo-area">
@@ -113,7 +113,7 @@
             </div>
 
 
-            <div class="about-article-sub" id='block-text' :class="{ fullopacityui: visibleAbout, light: isLight }">
+            <div class="about-article-sub" id='block-text' :class="{ fullopacityui: visibleAbout }">
               <h2>Databasöversikt</h2>
               <p>Svenskt Hällristnings Forsknings Arkivs bilddatabas omfattar mer än 24 000 digitaliserade bilder som är
                 resultatet av pågående arbete
@@ -205,7 +205,7 @@
 
     <div class="about-logo-top-right" id="block-text"> </div>
     <button class="close-page-button" @click="$emit('close')">
-      <div class="category-button" :class="{ fullopacityui: visibleAbout, isLight: isLight }" id="search-suggestion"
+      <div class="category-button" :class="{ fullopacityui: visibleAbout }" id="search-suggestion"
         style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
     </button>
   </div>
@@ -219,10 +219,6 @@ export default {
   emits: ['close'],
   props: {
     visibleAbout: {
-      type: Boolean,
-      required: true,
-    },
-    isLight: {
       type: Boolean,
       required: true,
     },

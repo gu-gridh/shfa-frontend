@@ -1,5 +1,5 @@
 <template>
-  <div class="gallery-container" :class="{ light: isLight }">
+  <div class="gallery-container">
     <div v-if="store.isLoading" class="loading-animation">
       <img src="/interface/6-dots-rotate.svg" alt="Loading..." />
     </div>
@@ -234,7 +234,6 @@ export default {
   data() {
     return {
       mapGallery: false,
-      isLight: false,
       advancedSearch: false,
       bboxSearch: false,
       nextPageUrl: null,

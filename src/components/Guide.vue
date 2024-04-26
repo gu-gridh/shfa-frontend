@@ -1,12 +1,12 @@
 <template>
-  <div class="guide-container" :class="{ fullopacity: visibleGuide, light: isLight }" id='block-text'>
-    <div class="content" :class="{ light: isLight }" id="block-text">
+  <div class="guide-container" :class="{ fullopacity: visibleGuide }" id='block-text'>
+    <div class="content" id="block-text">
 
 
-    <div class="rows" :class="{ light: isLight }" id="block-text">
+    <div class="rows" id="block-text">
       
 
-        <div class="flex-machine" :class="{ light: isLight }" id="block-text">
+        <div class="flex-machine" id="block-text">
           <div class="logo-area">
             <div id="logo"></div>
             <h1 class="title">
@@ -14,16 +14,16 @@
             </h1>
           </div>
 
-          <div class="guide-article-main" :class="{ fullopacityui: visibleGuide, light: isLight }" id="block-text"
+          <div class="guide-article-main" :class="{ fullopacityui: visibleGuide }" id="block-text"
             style="margin-bottom: 0px;">
             <h2>{{ $t('message.sökguide') }}</h2>
           </div>
 
-          <div class="guide-article-main" :class="{ fullopacityui: visibleGuide, light: isLight }" id="block-text"
+          <div class="guide-article-main" :class="{ fullopacityui: visibleGuide }" id="block-text"
             style="padding-top:0px;">{{ $t('search.searchintro') }} {{ $t('search.searchhelp') }}</div>
 
-          <div class="guide-article-sub" :class="{ fullopacityui: visibleGuide, light: isLight }" id="block-text">
-            <div class="sections" :class="{ light: isLight }" id="block-text"> <!-- Empty div for margin -->
+          <div class="guide-article-sub" :class="{ fullopacityui: visibleGuide }" id="block-text">
+            <div class="sections" id="block-text"> <!-- Empty div for margin -->
               <h2>{{ $t('message.nyckelord') }}</h2>
               <div class="first">
 
@@ -142,7 +142,7 @@
       </div>
     </div>
     <button class="close-page-button"  @click="$emit('close')">
-    <div class="category-button" :class="{ fullopacityui: visibleGuide, isLight: isLight }" id="search-suggestion"
+    <div class="category-button" :class="{ fullopacityui: visibleGuide }" id="search-suggestion"
       style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
   </button>
   </div>
@@ -155,10 +155,6 @@ export default {
   emits: ['close'],
   props: {
     visibleGuide: {
-      type: Boolean,
-      required: true,
-    },
-    isLight: {
       type: Boolean,
       required: true,
     },
@@ -298,7 +294,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   width: auto;
 }
 
@@ -399,7 +395,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 

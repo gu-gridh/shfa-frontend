@@ -1,147 +1,134 @@
 <template>
-<div>
-<div class="top" :class="{light: isLight}">  
-  <a href="https://shfa.dh.gu.se/" target="_blank">
-    <div id="logo"></div>
-    <h1 class="title" :class="{light: isLight}">
-      <div v-html="$t('message.title')"></div>
-    </h1>
-  </a>
-  <div id="gu-logo-bg">
-      <div v-if="currentLanguage === 'sv'" id="gu-logo-sv"></div>
-      <div v-else id="gu-logo-en"></div>
-      
-    </div>
-  <button @click="toggleMenu" class="menu-show-button">
-   <!--  {{ $t('message.menuButton') }} -->
-  </button> 
+  <div>
+    <div class="top">
+      <a href="https://shfa.dh.gu.se/" target="_blank">
+        <div id="logo"></div>
+        <h1 class="title">
+          <div v-html="$t('message.title')"></div>
+        </h1>
+      </a>
+      <div id="gu-logo-bg">
+        <div v-if="currentLanguage === 'sv'" id="gu-logo-sv"></div>
+        <div v-else id="gu-logo-en"></div>
 
-<!-- This controls the menu on small screens -->
-  <div class="main-menu" v-show="isMenuOpen">
-    <button @click="toggleMenu" class="menu-close-button">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-15 w-15" fill="none" viewBox="0 0 25 30" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-    </button> 
-  <div class="languages">
-    <div class="version">Version 1.2.2</div>
-    
- <transition name="flip-fade" mode="out-in">
-    <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage">
-        Svenska 
-        
-    </div>
-    <div v-else class="top-button" key="svenska" @click="toggleLanguage">
-        English 
-    
-    </div>
-</transition>
+      </div>
+      <button @click="toggleMenu" class="menu-show-button">
+        <!--  {{ $t('message.menuButton') }} -->
+      </button>
 
-<transition name="flip-fade" mode="out-in">
-    <div v-if="currentColour === 'dark'" class="top-button" id='dark-mode' key="dark" @click="toggleColour">
-        
-    </div>
-    <div v-else class="top-button" id='light-mode' key="light" @click="toggleColour">
+      <!-- This controls the menu on small screens -->
+      <div class="main-menu" v-show="isMenuOpen">
+        <button @click="toggleMenu" class="menu-close-button">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-15 w-15" fill="none" viewBox="0 0 25 30"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div class="languages">
+          <div class="version">Version 1.2.2</div>
 
-    </div>
-</transition>
+          <transition name="flip-fade" mode="out-in">
+            <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage">
+              Svenska
 
-    <!-- <div class="top-button">|</div> -->
-</div>
-  
-<About :visibleAbout="visibleAbout" :isLight="isLight" @close="visibleAbout = false" />
-  <Guide :visibleGuide="visibleGuide" :isLight="isLight" @close="visibleGuide = false" />
-  <div class="top-links">
-    <button class="item" @click="visibleGuide=true, isLight=isLight">
+            </div>
+            <div v-else class="top-button" key="svenska" @click="toggleLanguage">
+              English
 
-          {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div></button>
+            </div>
+          </transition>
 
-    <button class="item" @click="visibleAbout=true, isLight=isLight">
+          <transition name="flip-fade" mode="out-in">
+            <div class="top-button">
+              <div v-if="currentColour === 'light'" id="colour-mode" class="material-symbols-outlined"
+                @click="toggleColour">
+                dark_mode
+              </div>
+              <div v-else id="colour-mode" class="material-symbols-outlined" @click="toggleColour">
+                light_mode
+              </div>
+            </div>
+          </transition>
 
-          {{ $t('message.aboutArchive') }}<div class="top-link-infobutton" ></div></button>
+          <!-- <div class="top-button">|</div> -->
+        </div>
 
-    <button class="item" v-if="currentLanguage === 'en'"> 
-    
-          <a href="https://www.gu.se/en/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
+        <About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
+        <Guide :visibleGuide="visibleGuide" @close="visibleGuide = false" />
+        <div class="top-links">
+          <button class="item" @click="visibleGuide = true">
 
-          <button class="item" v-else> 
-    
-    <a href="https://www.gu.se/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button" ></div></a> </button>
+            {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div></button>
 
-    <button class="item" v-if="currentLanguage === 'en'">
-   
-          <a href="https://www.gu.se/en/shfa/research" target="_blank">{{ $t('message.news') }}<div class="top-link-button" ></div></a></button>
+          <button class="item" @click="visibleAbout = true">
+
+            {{ $t('message.aboutArchive') }}<div class="top-link-infobutton"></div></button>
+
+          <button class="item" v-if="currentLanguage === 'en'">
+
+            <a href="https://www.gu.se/en/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div
+                class="top-link-button"></div></a> </button>
 
           <button class="item" v-else>
-   
-   <a href="https://www.gu.se/shfa/forskning" target="_blank">{{ $t('message.news') }}<div class="top-link-button" ></div></a></button>
-</div>
-</div> 
-<!-- End of main-menu -->
-</div>
 
-  <!-- Start of Container -->
-  <div class="split-container main-color" :class="{light: isLight}">
-  <div class="flex height">
-  <!-- Panel 1 -->
-  <div  id="split-0" class="flex-grow flex flex-col "
-       :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
+            <a href="https://www.gu.se/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button">
+              </div></a> </button>
 
-      <Search
-        @toggle-map="toggleMap" 
-        @search-completed="updateItems"
-        @page-details-updated="updatePageDetails" 
-        @metadata-route="updatePreviousRoute"
-        ref="searchRef"
-        :updateNextPageUrl="updateNextPageUrl" 
-        :updatePreviousPageUrl="updatePreviousPageUrl"
-        :class="{light: isLight}"
-      />
+          <button class="item" v-if="currentLanguage === 'en'">
 
-      <Map
-        @id-selected="selectedId = $event"
-        @reset-id="handleBboxClicked"
-        @update-bbox="bbox = $event"
-        @map-clicked="handleMapClicked"
-        ref="mapComponent"
-        v-show="showMap"
-        :coordinates="results"
-        :bbox="bbox"
-        :class="{light: isLight}"
-        :showMap="showMap"
-      />
-  
+            <a href="https://www.gu.se/en/shfa/research" target="_blank">{{ $t('message.news') }}<div
+                class="top-link-button"></div></a></button>
 
-      <AdvancedSearch v-show="!showMap" 
-        @advanced-search-results="handleAdvancedSearchResults"
-        @page-details-updated="updatePageDetails"
-        ref="advancedSearchRef"
-        :currentLang="currentLanguage"
-        :updateNextPageUrlAdvanced="updateNextPageUrlAdvanced"
-        :updatePreviousPageUrlAdvanced="updatePreviousPageUrlAdvanced" 
-        :class="{light: isLight}"
-      />
+          <button class="item" v-else>
+
+            <a href="https://www.gu.se/shfa/forskning" target="_blank">{{ $t('message.news') }}<div
+                class="top-link-button"></div></a></button>
+        </div>
+      </div>
+      <!-- End of main-menu -->
+    </div>
+
+    <!-- Start of Container -->
+    <div class="split-container main-color">
+      <div class="flex height">
+        <!-- Panel 1 -->
+        <div id="split-0" class="flex-grow flex flex-col "
+          :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
+
+          <Search @toggle-map="toggleMap" @search-completed="updateItems" @page-details-updated="updatePageDetails"
+            @metadata-route="updatePreviousRoute" ref="searchRef" :updateNextPageUrl="updateNextPageUrl"
+            :updatePreviousPageUrl="updatePreviousPageUrl" />
+
+          <Map @id-selected="selectedId = $event" @reset-id="handleBboxClicked" @update-bbox="bbox = $event"
+            @map-clicked="handleMapClicked" ref="mapComponent" v-show="showMap" :coordinates="results" :bbox="bbox"
+            :showMap="showMap" />
 
 
-     <button id="resetSplitButton" @click="resetSplitsAndPanels">{{ $t('message.resetlayout') }}</button>
- 
-  </div>
-  <!-- Panel 2 -->
-  <div id="split-1" class="flex-grow overflow-auto main-color " 
-       v-show="shouldShowPanel1"
-       :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels, 'light':isLight}"
-       >
+          <AdvancedSearch v-show="!showMap" @advanced-search-results="handleAdvancedSearchResults"
+            @page-details-updated="updatePageDetails" ref="advancedSearchRef" :currentLang="currentLanguage"
+            :updateNextPageUrlAdvanced="updateNextPageUrlAdvanced"
+            :updatePreviousPageUrlAdvanced="updatePreviousPageUrlAdvanced" />
 
-  <div class="">
-  <div class="">
-   
-  <div v-show="showGallery" :class="{light: isLight}"> 
-    
-  <!--
+
+          <button id="resetSplitButton" @click="resetSplitsAndPanels">{{ $t('message.resetlayout') }}</button>
+
+        </div>
+        <!-- Panel 2 -->
+        <div id="split-1" class="flex-grow overflow-auto main-color " v-show="shouldShowPanel1"
+          :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
+
+          <div class="">
+            <div class="">
+
+              <div v-show="showGallery">
+
+                <!--
   Gallery Component Attributes:
   - @image-clicked="onImageClicked" Listens for an 'image-clicked' event and calls 'onImageClicked' method
   - @updateShowResults="handleShowResults" Handles the event to show/hide results
   - @page-details-updated="updatePageDetails"   Updates page details when they change in the Gallery component 
 
-  - :class="{light: isLight}" : Binds a dynamic class based on the 'isLight' state for theming
+  - : Binds a dynamic class based on the 'isLight' state for theming
   - :siteId="selectedId" : Passes the currently selected site ID to the Gallery component
   - :forceRefresh="forceRefresh" A number that changes to trigger a refresh in the Gallery component
 
@@ -158,59 +145,50 @@
   - :advancedPreviousPageUrl="previousPageUrlAdvanced" URL for fetching the previous page of advanced search results
   -->
 
-  <Gallery
-    @image-clicked="onImageClicked"
-    @updateShowResults="handleShowResults"
-    @page-details-updated="updatePageDetails"
+                <Gallery @image-clicked="onImageClicked" @updateShowResults="handleShowResults"
+                  @page-details-updated="updatePageDetails" :siteId="selectedId" :forceRefresh="forceRefresh"
+                  :searchItems="searchItems" :fetchNextPage="fetchNextPage" :searchFetchPreviousPage="fetchPreviousPage"
+                  :searchNextPageUrl="nextPageUrl" :searchPreviousPageUrl="previousPageUrl"
+                  :advancedSearchResults="advancedSearchResults" :fetchNextPageAdvanced="fetchNextPageAdvanced"
+                  :advancedFetchPreviousPage="fetchPreviousPageAdvanced"
+                  :searchNextPageUrlAdvanced="nextPageUrlAdvanced" :advancedPreviousPageUrl="previousPageUrlAdvanced" />
+              </div>
+              <div style="display:flex; align-items: center; justify-content: center;">
+                <div class="ui-results" v-show="showResults" style="width:220px; font-size:0.9em; padding:5px 5px;">
+                  <p style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}:
+                  <p style="color:rgb(200,225,250); display:inline;"> {{ totalResults }}</p>
+                  </p>
+                  ({{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }})
+                </div>
 
-    :class="{light: isLight}"
-    :siteId="selectedId" 
-    :forceRefresh="forceRefresh"
+              </div>
+            </div>
+          </div>
+        </div>
 
-    :searchItems="searchItems"
-    :fetchNextPage="fetchNextPage"
-    :searchFetchPreviousPage="fetchPreviousPage"
-    :searchNextPageUrl="nextPageUrl"
-    :searchPreviousPageUrl="previousPageUrl"
+        <!-- Panel 3 -->
+        <transition name="slide">
+          <div id="split-2" class="flex-grow main-color overflow-auto"
+            :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }" v-show="showThreePanels">
+            <button @click="closeThreePanels" class="close-button">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
 
-    :advancedSearchResults="advancedSearchResults"
-    :fetchNextPageAdvanced="fetchNextPageAdvanced"
-    :advancedFetchPreviousPage="fetchPreviousPageAdvanced"
-    :searchNextPageUrlAdvanced="nextPageUrlAdvanced"
-    :advancedPreviousPageUrl="previousPageUrlAdvanced"
-  />
-</div>
-    <div style="display:flex; align-items: center; justify-content: center;">
-      <div class="ui-results" v-show="showResults" style="width:220px; font-size:0.9em; padding:5px 5px;">
-        <p style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}: <p style="color:rgb(200,225,250); display:inline;"> {{ totalResults }}</p></p>
-         ({{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }}) 
-      </div> 
-      
+            <ImageViewer v-if="IiifFileforImageViewer" :iiifFile="IiifFileforImageViewer" />
+            <MetaData :Id="idForMetaData" @keyword-clicked="handleKeywordClick" />
+
+          </div>
+        </transition>
+
+        <div class="split-container-top"></div>
+      </div>
     </div>
+    <!-- End of Container -->
+
   </div>
-</div>
-</div>
-
-<!-- Panel 3 -->
-<transition name="slide">
-<div id="split-2" class="flex-grow main-color overflow-auto"
-      :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels, 'light':isLight}" v-show="showThreePanels">
-      <button @click="closeThreePanels" class="close-button" :class="{light: isLight}">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-    </button>
-
-    <ImageViewer v-if="IiifFileforImageViewer" :iiifFile="IiifFileforImageViewer"/>
-    <MetaData :Id="idForMetaData" @keyword-clicked="handleKeywordClick" />
-
-</div>
-</transition>
-
-<div class="split-container-top"></div>
-</div>
-</div>
-<!-- End of Container -->
-
-</div>
 </template>
 
 <script lang="ts">
@@ -340,7 +318,7 @@ export default defineComponent({
       visibleGuide: false,
       mapClicked: false,
       currentColour: "dark",
-      isLight: false,
+      targetTheme: "dark",
       windowSize: true,
       isInitialLoad: true,
       previousRoute: null,
@@ -356,7 +334,7 @@ export default defineComponent({
 
     this.currentColour = this.currentColour;
 
-    this.isLight = this.isLight;
+    this.targetTheme = this.targetTheme;
 
     const vm = this;
     const direction = window.innerWidth <= 1024 ? "vertical" : "horizontal";
@@ -446,11 +424,12 @@ export default defineComponent({
     },
 
     toggleColour() {
-      this.currentColour = this.currentColour === "dark" ? "light" : "dark";
-      this.isLight = false;
-      if (this.currentColour === "light") {
-        return (this.isLight = true);
-      }
+      
+      this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
+      this.targetTheme = (this.targetTheme === 'dark') ? 'light' : 'dark';
+
+      document.documentElement.setAttribute('style-theme', this.targetTheme);
+      return this.currentColour && this.targetTheme;
     },
 
     handleMapClicked() {
@@ -573,19 +552,19 @@ export default defineComponent({
 
 <style>
 #resetSplitButton {
-  position:absolute;
-  bottom:50px;
-  left:60px;
+  position: absolute;
+  bottom: 50px;
+  left: 60px;
   padding: 4px 10px;
   z-index: 100;
   width: 110px;
   height: auto;
   cursor: pointer;
   border-radius: 6px !important;
-  background-color: rgba(60, 60, 60, 0.9);
-  color: white;
+  background-color: var(--theme-background);
+  color: var(--theme-text-color);
   font-size: 100%;
-  height:32px;
+  height: 32px;
 }
 
 @media (max-width: 1023px) {
@@ -595,20 +574,22 @@ export default defineComponent({
 }
 
 #resetSplitButton:hover {
-  background-color: rgb(80, 90, 100);
+  background-color: var(--theme-accent-color1-alpha);
   cursor: pointer;
-  color: white;
+  color: var(--theme-text-color);
 }
 
 .flip-fade-enter-active,
 .flip-fade-leave-active {
   transition: transform 0.15s, opacity 0.15s;
 }
+
 .flip-fade-enter,
 .flip-fade-leave-to {
   transform: rotateY(90deg);
   opacity: 0;
 }
+
 .flip-fade-leave,
 .flip-fade-enter-to {
   transform: rotateY(0deg);
@@ -618,7 +599,7 @@ export default defineComponent({
 #logo {
   width: 110px;
   height: 100px;
-  background-color: grey;
+  background-color: var(--theme-footer-color);
   float: left;
   margin-top: 30px;
   margin-left: 40px;
@@ -634,13 +615,12 @@ export default defineComponent({
   right: 20px;
   height: 145px;
   width: 165px;
-  background: linear-gradient(
-    to bottom,
-    rgba(40, 40, 40, 1) 0%,
-    rgba(40, 40, 40, 0.8) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(40, 40, 40, 1) 0%,
+      rgba(40, 40, 40, 0.8) 100%);
   border-radius: 0px 0px 5px 5px;
 }
+
 @media (max-width: 1024px) {
   #gu-logo-bg {
     display: none;
@@ -650,7 +630,7 @@ export default defineComponent({
 #gu-logo-sv {
   width: 165px;
   height: 145px;
-  background: url(../assets/gu_logo_sv.png);
+  background: var(--theme-gu-logo);
   background-size: 125px 95px;
   background-repeat: no-repeat;
   background-position: center;
@@ -659,7 +639,7 @@ export default defineComponent({
 #gu-logo-en {
   width: 165px;
   height: 145px;
-  background: url(../assets/gu_logo.png);
+  background: var(--theme-gu-logo);
   background-size: 125px 95px;
   background-repeat: no-repeat;
   background-position: center;
@@ -725,7 +705,7 @@ export default defineComponent({
   font-weight: 400;
   margin-left: 120px;
   padding: 30px 40px;
-  color: rgb(150, 150, 150);
+  color: var(--theme-text-color);
 }
 
 @media (max-width: 350px) {
@@ -742,7 +722,7 @@ export default defineComponent({
   cursor: pointer;
   pointer-events: auto;
   display: inline;
-  color: rgb(90, 90, 90);
+  color: var(--theme-accent-color1-alpha);
   transition: all 0.8s ease-in-out;
 }
 
@@ -750,7 +730,7 @@ export default defineComponent({
   /* cursor:pointer;
   pointer-events:auto; */
   display: inline;
-  color: rgb(120, 135, 150) !important;
+  color: var(--theme-accent-color1-alpha) !important;
 }
 
 /* .title .emph:hover{
@@ -762,14 +742,14 @@ export default defineComponent({
 .top {
   height: 160px;
   z-index: 1000;
-  background-color: rgb(210, 210, 210);
+  background-color: var(--theme-footer-color);
 }
 
 .languages {
   right: 185px;
   font-size: 1.2em;
   font-weight: 400;
-  color: black;
+  color: var(--theme-text-color);
   position: absolute;
   padding-right: 20px;
   margin-top: 0px;
@@ -789,7 +769,7 @@ export default defineComponent({
   margin-top: 110px;
   height: auto;
   right: 201px;
-  color: black;
+  color: var(--theme-text-color);
   position: absolute;
   padding-right: 0px;
   width: auto;
@@ -802,7 +782,7 @@ export default defineComponent({
 }
 
 .top-links .item:hover {
-  background-color: rgb(240, 240, 240);
+  background-color: var(--theme-accent-color2-alpha)
 }
 
 .button-image {
@@ -813,7 +793,7 @@ export default defineComponent({
   height: 25px;
   border-radius: 50%;
   border-width: 1.5px;
-  border-color: black;
+  border-color: var(--theme-button);
   background-size: contain;
 }
 
@@ -827,7 +807,7 @@ export default defineComponent({
 }
 
 .top-button:hover {
-  background-color: rgb(235, 235, 235);
+  background-color: var(--theme-accent-color2)
 }
 
 .top-link-button {
@@ -865,7 +845,7 @@ export default defineComponent({
 }
 
 .main-color {
-  background-color: rgb(65, 65, 65);
+  background-color: var(--theme-background)
 }
 
 .ui-overlay {
@@ -936,6 +916,7 @@ export default defineComponent({
 }
 
 @media (min-width: 1025px) {
+
   .menu-show-button,
   .menu-close-button {
     display: none;
@@ -1084,9 +1065,11 @@ export default defineComponent({
   .menu-show-button {
     margin-right: 15px;
   }
+
   .menu-close-button {
     margin-right: 15px;
   }
+
   .languages {
     right: 10px;
     font-size: 1.5em;
@@ -1136,13 +1119,13 @@ export default defineComponent({
 }
 
 #split-0 {
-  padding:30px 20px 30px 30px;
+  padding: 30px 20px 30px 30px;
   min-width: 550px;
-  overflow-y:auto;
+  overflow-y: auto;
 }
 
 @media (max-width: 1024px) {
-  #split-1 > div > div > div:nth-child(2) > div.ui-mode.ui-overlay {
+  #split-1>div>div>div:nth-child(2)>div.ui-mode.ui-overlay {
     position: absolute;
     top: 0.5%;
     left: 50%;
@@ -1213,14 +1196,14 @@ export default defineComponent({
 
 @media (max-width: 1024px) {
   #map {
-    top:-60px;
+    top: -60px;
     height: 80vw;
     width: 100%;
   }
 }
 
 @media (max-width: 1024px) {
-  #split-2 > div.image-viewer {
+  #split-2>div.image-viewer {
     height: 400px;
   }
 }
@@ -1233,6 +1216,7 @@ export default defineComponent({
   #split-1 {
     padding: 20px;
   }
+
   #split-2 {
     padding: 0px;
     padding-left: 5px;
@@ -1319,6 +1303,7 @@ h2 input:focus,
 h2 input:not(:placeholder-shown) {
   background-color: black;
 }
+
 .slide-enter-active,
 .slide-leave-active {
   transition: transform 200ms ease-in;
@@ -1411,12 +1396,16 @@ h2 input:not(:placeholder-shown) {
   gap: 3px !important;
   overflow: hidden;
 }
+
 .flex-grow.overflow-auto.main-color::-webkit-scrollbar {
   display: none;
 }
+
 .flex-grow.overflow-auto.main-color {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /*   Adaptation for plus-sized monitors */
@@ -1534,6 +1523,7 @@ h2 input:not(:placeholder-shown) {
   height: 50px;
   filter: invert(0.5);
 }
+
 .light h1 {
   color: black !important;
 }
@@ -1606,6 +1596,7 @@ h2 input:not(:placeholder-shown) {
   border-color: black !important;
   color: white;
 }
+
 .light #visit {
   background-color: rgb(37, 35, 35);
   filter: invert(1);
@@ -1642,6 +1633,7 @@ h2 input:not(:placeholder-shown) {
   color: black;
   background-color: transparent;
 }
+
 .light input[type="search"] {
   color: black;
   background-color: transparent;
@@ -1652,10 +1644,8 @@ h2 input:not(:placeholder-shown) {
 }
 
 .light #gallery {
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.25) 30%,
-    rgba(255, 254, 254, 0.7) 100%
-  );
+  background: linear-gradient(rgba(255, 255, 255, 0.25) 30%,
+      rgba(255, 254, 254, 0.7) 100%);
 }
 
 .light #text-wrapper {
@@ -1672,20 +1662,16 @@ h2 input:not(:placeholder-shown) {
 
 .light #block-text {
   color: black;
-  background-color: linear-gradient(
-    120deg,
-    #ffffff 10%,
-    rgba(255, 255, 255, 0.95) 30%
-  );
+  background-color: linear-gradient(120deg,
+      #ffffff 10%,
+      rgba(255, 255, 255, 0.95) 30%);
 }
 
 .light #search-text {
   color: black;
-  background-color: linear-gradient(
-    120deg,
-    #ffffff 10%,
-    rgba(255, 255, 255, 0.95) 30%
-  );
+  background-color: linear-gradient(120deg,
+      #ffffff 10%,
+      rgba(255, 255, 255, 0.95) 30%);
 }
 
 .light .split-container-top {
@@ -1769,4 +1755,15 @@ h2 input:not(:placeholder-shown) {
   transition: all 0.8s ease-in-out;
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 100,
+    'wght' 200,
+    'GRAD' 0,
+    'opsz' 24;
+  vertical-align: middle;
+  padding: 1px;
+  color: var(--theme-text-color);
+  cursor: pointer;
+}
 </style>

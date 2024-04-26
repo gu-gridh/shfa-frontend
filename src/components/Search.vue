@@ -14,13 +14,13 @@
           <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
             Advanced Search
           </button> -->
-          <button class="search-button-round" id="search-button" :class="{ light: isLight }" @click="triggerSearch">
+          <button class="search-button-round" id="search-button" @click="triggerSearch">
           </button>
         </div>
       </h2>
     </div>
     <div id="filter-interface">
-      <div class="filter-text" :class="{ light: isLight }">{{ $t('message.sökförslag') }}</div>
+      <div class="filter-text">{{ $t('message.sökförslag') }}</div>
       <div v-for="result in defaultSearchResults" :key="result.id" class="tag-example" id="search-suggestion"
         @click="selectResult(result)">
         {{ $t('message.' + result.text) }}
@@ -59,7 +59,6 @@ export default {
       nextPageUrl: null,
       count: 0,
       activePanel: 'Map Interface',
-      isLight: false,
     };
   },
   setup() {
