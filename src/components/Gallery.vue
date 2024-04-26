@@ -16,10 +16,7 @@
             <div class="grid-item-info" id="gallery">
               <div class="grid-item-info-meta">
                 <h5>{{ item.lamning_id || item.placename }}</h5>
-                <h6 v-if="item.askeladden_id && item.lokalitet_id">
-                  {{ item.askeladden_id }}
-                </h6>
-                <h6 v-else>{{ item.raa_id || item.lokalitet_id }}</h6>
+                <h6 v-if="item.raa_id || item.lokalitet_id || item.askeladden_id">{{ item.raa_id || item.askeladden_id || item.lokalitet_id }}</h6>
               </div>
             </div>
           </div>

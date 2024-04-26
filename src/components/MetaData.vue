@@ -1,13 +1,17 @@
 <template>
   <div id="metadata-container">
     <div class="metadata-column-group">
-      <h1> <span v-if="data.site"> {{ data.site.lamning_id || data.site.placename }} </span> </h1>
+      <h1 v-if="data.site"> {{ data.site.lamning_id || data.site.placename }} </h1>
       <div class="metadata-column">
         <table>
+          <tr id="image-metadata-header">
+            <th scope="col">Metadata Field</th>
+            <th scope="col">Value</th>
+          </tr>
           <tr>
             <td class="label" v-if="data.site && data.site.raa_id">{{ $t('message.raanumber') }}</td>
-            <td class="data" v-if="data.site && data.site.raa_id" @click="logMetaSearch(data.site.raa_id)"> {{
-        data.site.raa_id }}</td>
+            <td class="data" v-if="data.site && data.site.raa_id" @click="logMetaSearch(data.site.raa_id)"> 
+              {{ data.site.raa_id }}</td>
           </tr>
           <tr>
             <td class="label" v-if="data.site && data.site.lokalitet_id">{{ $t('message.lokalitetid') }}</td>
@@ -38,6 +42,10 @@
       <div class="metadata-column">
         <table>
           <tr>
+            <th scope="col">Metadata Field</th>
+            <th scope="col">Value</th>
+          </tr>
+          <tr>
             <td class="label" v-if="data.year">{{ $t('message.år') }}</td>
             <td class="not-clickable" v-if="data.year"> {{ data.year }}</td>
           </tr>
@@ -63,10 +71,12 @@
           <tr>
             <td class="label" v-if="data.site">{{ $t('message.reference') }}</td>
             <td class="ref" v-if="data.site && $i18n.locale === 'en'"> {{ data.author.english_translation }}. ({{
-        data.year || 'n.d.' }}). {{ $t('keywords.' + data.type.text) }} {{ $t('message.av') }} {{ data.site.lamning_id
+        data.year || 'n.d.' }}). {{ $t('keywords.' + data.type.text) }} {{ $t('message.av') }} {{
+        data.site.lamning_id
         || data.raa_id || data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }}
               {{ $t('message.at') }} https://shfa.dh.gu.se/image/{{ data.id }}</td>
-            <td class="ref" v-if="data.site && $i18n.locale === 'sv'"> {{ data.author?.name }}. ({{ data.year || 'n.d.' }}).
+            <td class="ref" v-if="data.site && $i18n.locale === 'sv'"> {{ data.author?.name }}. ({{ data.year || 'n.d.'
+              }}).
               {{ $t('keywords.' + data.type.text) }} {{ $t('message.av') }} {{ data.site.lamning_id || data.raa_id ||
         data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }} {{ $t('message.at') }}
               https://shfa.dh.gu.se/image/{{ data.id }}</td>
@@ -78,10 +88,8 @@
       <div v-if="data.keywords && data.keywords.length > 0">
         <h2>{{ $t('message.keywords') }}</h2>
         <div class="keywords"> <!-- Empty div for margin -->
-          <ul>
-            <li id="search-suggestion" v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index"
-              @click="logKeyword(keyword.text)">{{ $t('keywords.' + keyword.text.replaceAll('.', '_')) }}</li>
-          </ul>
+          <button class="keyword-button" v-for="(keyword, index) in data.keywords" :key="index"
+            @click="logKeyword(keyword.text)">{{ $t('keywords.' + keyword.text.replaceAll('.', '_')) }}</button>
         </div>
       </div>
       <h2 v-if="data.site && data.site.ksamsok_id">{{ $t('message.description') }}</h2>
@@ -152,12 +160,12 @@ export default {
     fetchDescription() {
       if (this.data.site && this.data.site.ksamsok_id) {
         fetch(`https://kulturarvsdata.se/raa/lamning/xml/${this.data.site.ksamsok_id}`)
-        .then(response => response.text())
-        .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
-        .then(data => {
-          let descriptionNode = data.getElementsByTagName('pres:description')[0];
-          this.data.description = descriptionNode ? descriptionNode.textContent : null;
-        });
+          .then(response => response.text())
+          .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
+          .then(data => {
+            let descriptionNode = data.getElementsByTagName('pres:description')[0];
+            this.data.description = descriptionNode ? descriptionNode.textContent : null;
+          });
       }
     },
     getFornsokUrl() {
@@ -226,6 +234,10 @@ h2 {
   margin-bottom: 15px;
 }
 
+#image-metadata-header {
+  display: none;
+}
+
 .metadata-column-group {
   float: left;
   width: 95%;
@@ -289,18 +301,34 @@ ul {
   margin: 0;
 }
 
-.keywords {
+/* .keywords {
   float: left;
   margin-bottom: 30px;
   width: 100%;
   cursor: pointer;
+} */
+
+.keyword-button {
+  display: inline-flex;
+  padding: 4px 8px 4px 8px;
+  margin-left: 10px;
+  color: white;
+  background-color: rgb(100, 100, 100);
+  border-radius: 8px;
+  font-size: 1.05em;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  background-size: 18px;
+  background-position: 10px 8px;
+  background-repeat: no-repeat;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-#search-suggestion:hover {
+.keyword-button:hover {
   background-color: rgb(80, 90, 100);
   color: white;
 }
-
 .description {
   width: 90%;
   margin-bottom: 30px;

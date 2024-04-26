@@ -3,21 +3,30 @@
 <template>
   <div ref="imageViewer" class="image-viewer">
     <div id="ToolbarVertical">
-      <a id="full-page" href="#full-page">
-        <div id="FullPage" class="NavButton"></div>
-      </a>
-      <a id="zoom-in" href="#zoom-in">
-        <div id="ZoomIn" class="NavButton"></div>
-      </a>
-      <a id="zoom-out" href="#zoom-out">
-        <div id="ZoomOut" class="NavButton"></div>
-      </a>
-      <a id="Download">
-        <div id="Download" class="NavButton" @click="downloadImage"></div>
-      </a>
+      <ul>
+        <li>
+          <a id="full-page" href="#full-page">
+            <div id="FullPage" class="NavButton"></div>
+          </a>
+        </li>
+        <li>
+          <a id="zoom-in" href="#zoom-in">
+            <div id="ZoomIn" class="NavButton"></div>
+          </a>
+        </li>
+        <li>
+          <a id="zoom-out" href="#zoom-out">
+            <div id="ZoomOut" class="NavButton"></div>
+          </a>
+        </li>
+        <li>
+          <a id="Download">
+            <div id="DownloadButton" class="NavButton" @click="downloadImage"></div>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
-
   <div id="navigator-div"></div>
 </template>
 
@@ -101,9 +110,8 @@ export default {
         .then((blob) => {
           const url = window.URL.createObjectURL(blob);
           const imgId = imageUrl.split("/").pop();
-          const downloadName = `${creator}_${
-            lamning_id || raa_id || placename
-          }_SHFAid${img_id}`;
+          const downloadName = `${creator}_${lamning_id || raa_id || placename
+            }_SHFAid${img_id}`;
           const a = document.createElement("a");
           a.style.display = "none";
           a.href = url;
@@ -154,14 +162,16 @@ export default {
 </script>
 
 <style scoped>
-a:visited{
-  outline:none;
+a:visited {
+  outline: none;
 }
-a:focus{
-  outline:none;
+
+a:focus {
+  outline: none;
 }
-a:active{
-  outline:none;
+
+a:active {
+  outline: none;
 }
 
 .image-viewer {
@@ -196,9 +206,11 @@ a:active{
   width: 100%;
   z-index: 1000;
 }
+
 #CenterNav {
   margin: auto;
 }
+
 #ToolbarHorizontal span {
   background-color: rgba(35, 35, 35, 0.6);
   color: white;
@@ -287,6 +299,7 @@ a:active{
   overflow: hidden;
   cursor: pointer;
 }
+
 .NavButton {
   border-radius: 50%;
   width: 35px;
@@ -297,6 +310,7 @@ a:active{
   border-style: solid;
   border-color: rgb(50, 50, 50);
 }
+
 .NavButton:hover {
   opacity: 0.8;
 }

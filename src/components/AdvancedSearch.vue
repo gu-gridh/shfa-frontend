@@ -3,7 +3,7 @@
     <!-- <div class="search-container-title">Advanced Search</div> -->
     <div class="search-grid">
       <div v-for="(query, index) in searchQuery" :key="index" class="search-item">
-        <div class="field-title" id="label-wrapper">
+        <div class="field-title" :id="query">
           {{
         [
           $t('message.site'),
@@ -15,8 +15,8 @@
         ][index]
       }}
         </div>
-        <div class="input-wrapper" id="text-wrapper">
-          <div v-for="keyword in selectedKeywords[index]" :key="keyword.id" class="tag-example-search" id="text-wrapper"
+        <div class="input-wrapper">
+          <div v-for="keyword in selectedKeywords[index]" :key="keyword.id" class="tag-example-search" :id="keyword"
             @click="deselectKeyword(keyword, index)">
             {{ keyword.text }}
           </div>
@@ -39,9 +39,9 @@
         </div>
       </div>
     </div>
-    <button class="search-button" id="search-suggestion" @click="handleSearchButtonClick"> {{ $t('message.searchbutton')
+    <button class="search-button" :id="$t('message.searchbutton')" @click="handleSearchButtonClick"> {{ $t('message.searchbutton')
       }}</button>
-    <button class="clear-button" id="search-suggestion" @click="clearAdvancedSearchFields">{{ $t('message.clearbutton')
+    <button class="clear-button" :id="$t('message.clearbutton')" @click="clearAdvancedSearchFields">{{ $t('message.clearbutton')
       }}</button>
   </div>
 </template>

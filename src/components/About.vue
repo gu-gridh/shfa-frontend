@@ -1,20 +1,20 @@
 <template>
-  <div class="about-container" :class="{ fullopacity: visibleAbout }" id='block-text'>
-    <div class="content" id="block-text">
+  <div class="about-container" :class="{ fullopacity: visibleAbout }">
+    <div class="content" >
 
       <template v-if="$i18n.locale === 'en'">
-        <div class="flex-machine" id="block-text">
-          <div class="rows" id="block-text">
+        <div class="flex-machine" >
+          <div class="rows" >
 
 
             <div class="logo-area">
-              <div id="logo"></div>
+              <div id="logo-about"></div>
               <h1 class="title">
                 <div v-html="$t('message.abouttitle')"></div>
               </h1>
             </div>
 
-            <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }" id="block-text">
+            <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }" >
               <h2>Database Overview</h2>
               <p>SHFA's [Svenskt Hällristnings Forsknings Arkivs] image database includes more than 24,000 digitized
                 images that are the result of ongoing work describing and documenting rock carvings since 1627.
@@ -108,23 +108,23 @@
 
           </div>
         </div>
-        <div class="about-logo-top-right" id="block-text"> </div>
+        <div class="about-logo-top-right" > </div>
       </template>
 
       <template v-else>
         <div class="flex-machine">
-          <div class="rows" id="block-text">
-            <div class="content" id="block-text">
+          <div class="rows" >
+            <div class="content" >
 
               <div class="logo-area">
-                <div id="logo"></div>
+                <div id="logo-about"></div>
                 <h1 class="title">
                   <div v-html="$t('message.abouttitle')"></div>
                 </h1>
               </div>
 
 
-              <div class="about-article-sub" id='block-text' :class="{ fullopacityui: visibleAbout }">
+              <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }">
                 <h2>Databasöversikt</h2>
                 <p>Svenskt Hällristnings Forsknings Arkivs bilddatabas omfattar mer än 24 000 digitaliserade bilder som
                   är
@@ -232,9 +232,9 @@
 
 
 
-      <div class="about-logo-top-right" id="block-text"> </div>
+      <div class="about-logo-top-right" > </div>
       <button class="close-page-button" @click="$emit('close')">
-        <div class="category-button" :class="{ fullopacityui: visibleAbout }" id="search-suggestion"
+        <div class="category-button" :class="{ fullopacityui: visibleAbout }"
           style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
       </button>
     </div>
@@ -305,7 +305,7 @@ h2 {
   margin-top: 30px;
 }
 
-#logo {
+#logo-about {
   position: relative;
   width: 210px;
   height: 200px;
@@ -491,7 +491,7 @@ h2 {
     margin-top: 20px;
   }
 
-  #logo {
+  #logo-about {
     width: 120px;
     height: 100px;
     margin-left: 0px;

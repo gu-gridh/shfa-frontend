@@ -2,7 +2,7 @@
   <div>
     <div class="top">
       <a href="https://shfa.dh.gu.se/" target="_blank">
-        <div id="logo"></div>
+        <div id="logo-main"></div>
         <h1 class="title">
           <div v-html="$t('message.title')"></div>
         </h1>
@@ -596,7 +596,7 @@ export default defineComponent({
   opacity: 1;
 }
 
-#logo {
+#logo-main {
   width: 110px;
   height: 100px;
   background-color: var(--theme-footer-color);
@@ -709,7 +709,7 @@ export default defineComponent({
 }
 
 @media (max-width: 350px) {
-  #logo {
+  #logo-main {
     margin-left: 10px;
   }
 

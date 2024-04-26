@@ -1,118 +1,138 @@
 <template>
   <div class="guide-container" :class="{ fullopacity: visibleGuide }" id='block-text'>
-    <div class="content" id="block-text">
+    <div class="content">
 
 
-      <div class="rows" id="block-text">
+      <div class="rows">
 
 
-        <div class="flex-machine" id="block-text">
+        <div class="flex-machine">
           <div class="logo-area">
-            <div id="logo"></div>
+            <div id="logo-guide"></div>
             <h1 class="title">
               <div v-html="$t('message.abouttitle')"></div>
             </h1>
           </div>
 
-          <div class="guide-article-main" :class="{ fullopacityui: visibleGuide }" id="block-text"
-            style="margin-bottom: 0px;">
+          <div class="guide-article-main" :class="{ fullopacityui: visibleGuide }" style="margin-bottom: 0px;">
             <h2>{{ $t('message.sökguide') }}</h2>
           </div>
 
-          <div class="guide-article-main" :class="{ fullopacityui: visibleGuide }" id="block-text"
-            style="padding-top:0px;">{{ $t('search.searchintro') }} {{ $t('search.searchhelp') }}</div>
+          <div class="guide-article-main" :class="{ fullopacityui: visibleGuide }" style="padding-top:0px;">{{
+    $t('search.searchintro') }} {{ $t('search.searchhelp') }}</div>
 
-          <div class="guide-article-sub" :class="{ fullopacityui: visibleGuide }" id="block-text">
-            <div class="sections" id="block-text"> <!-- Empty div for margin -->
+          <div class="guide-article-sub" :class="{ fullopacityui: visibleGuide }">
+            <div class="sections"> <!-- Empty div for margin -->
               <h2>{{ $t('message.nyckelord') }}</h2>
               <div class="first">
-
-                <table>
-                  <th scope="rowgroup">{{ $t('search.documentation') }}</th>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(0, 6))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key) }}</td>
-                  </tr>
-                </table>
-                <table>
-                  <th scope="rowgroup">{{ $t('search.environment') }}</th>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(6, 10))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key) }}</td>
-                  </tr>
-                </table>
-
-                <table>
-                  <th scope="rowgroup">{{ $t('search.description') }}</th>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(10, 19))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key) }}</td>
-                  </tr>
-                </table>
-                <table>
-                  <th scope="rowgroup">{{ $t('search.type') }}</th>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(19, 25))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key) }}</td>
-                  </tr>
-                </table>
-                <table>
-                  <th scope="rowgroup">{{ $t('search.natural') }}</th>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(25, 29))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key) }}</td>
-                  </tr>
-                </table>
-                <table>
-                  <th scope="rowgroup">{{ $t('search.humans') }}</th>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(29, 49))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key) }}</td>
-                  </tr>
-                </table>
-
-                <table>
-                  <th scope="rowgroup">{{ $t('search.animals') }}</th>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(49, 63))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key) }}</td>
-                  </tr>
-                </table>
-                <table>
-                  <th scope="rowgroup">{{ $t('search.ships') }}</th>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(63, 73))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key.replaceAll('.', '_')) }}</td>
-                  </tr>
-                </table>
-                <table>
-                  <th scope="rowgroup">{{ $t('search.weapons') }}</th>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(73, 82))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key) }}</td>
-                  </tr>
-                </table>
-                <table>
-                  <th scope="rowgroup">{{ $t('search.other') }}</th>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(82, 117))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key) }}</td>
-                  </tr>
-                </table>
+                <section>
+                  <h3>{{ $t('search.documentation') }}</h3>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(0, 6))"
+                      :key="key">
+                      {{ $t('keywords.' + key) }}
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h3>{{ $t('search.environment') }}</h3>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(6, 10))"
+                      :key="key">
+                      {{ $t('keywords.' + key) }}
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h3>{{ $t('search.description') }}</h3>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(10, 19))"
+                      :key="key">
+                      {{ $t('keywords.' + key) }}
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h3>{{ $t('search.type') }}</h3>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(19, 25))"
+                      :key="key">
+                      {{ $t('keywords.' + key) }}
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h3 scope="rowgroup">{{ $t('search.natural') }}</h3>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(25, 29))"
+                      :key="key">
+                      {{ $t('keywords.' + key) }}
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h3>{{ $t('search.humans') }}</h3>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(29, 49))"
+                      :key="key">
+                      {{ $t('keywords.' + key) }}
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h3>{{ $t('search.animals') }}</h3>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(49, 63))"
+                      :key="key">
+                      {{ $t('keywords.' + key) }}
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h3>{{ $t('search.ships') }}</h3>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(63, 73))"
+                      :key="key">
+                      {{ $t('keywords.' + key.replaceAll('.', '_')) }}
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h3>{{ $t('search.weapons') }}</h3>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(73, 82))"
+                      :key="key">
+                      {{ $t('keywords.' + key) }}
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h3>{{ $t('search.other') }}</h3>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(82, 117))"
+                      :key="key">
+                      {{ $t('keywords.' + key) }}
+                    </li>
+                  </ul>
+                </section>
               </div>
               <div class="second">
                 <h2>{{ $t('message.bildtyp') }}</h2>
                 <table>
+                  <tr>
+                    <th scope="col">{{ $t('message.bildtyp') }}</th>
+                    <th scope="col">{{ $t('message.beskrivning') }}</th>
+                  </tr>
                   <tr v-if="$i18n.locale === 'en'" v-for="(value, key) in this.$i18n.messages.en.imgdescription"
                     :key="key">
                     <td>{{ value[0] }}</td>
@@ -124,25 +144,25 @@
                   </tr>
                 </table>
               </div>
-
               <div class="third">
                 <h2>{{ $t('message.datering') }}</h2>
-                <table>
-                  <tr
-                    v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(137))"
-                    :key="key">
-                    <td>{{ $t('keywords.' + key) }}</td>
-                  </tr>
-                </table>
+                <section>
+                  <ul>
+                    <li
+                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(137))"
+                      :key="key">
+                      {{ $t('keywords.' + key) }}
+                    </li>
+                  </ul>
+                </section>
               </div>
-
             </div>
           </div>
         </div>
       </div>
     </div>
     <button class="close-page-button" @click="$emit('close')">
-      <div class="category-button" :class="{ fullopacityui: visibleGuide }" id="search-suggestion"
+      <div class="category-button" :class="{ fullopacityui: visibleGuide }"
         style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
     </button>
   </div>
@@ -173,7 +193,8 @@ body {
 table {}
 
 th {
-  padding-top: 20px;
+  padding-top: 10px;
+  font-weight: 450;
 }
 
 td {
@@ -194,6 +215,20 @@ h2 {
   color: rgb(200, 225, 250) !important;
   font-weight: 500;
   line-height: 1.5;
+}
+
+h3 {
+  font-size: 105%;
+  font-style: bold;
+  margin-top: 15px;
+  margin-bottom: 0px;
+  color: white;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+ul {
+  padding-left: 20px;
 }
 
 .guide-article-sub h2 {
@@ -223,7 +258,7 @@ h2 {
   margin-bottom: 20px;
 }
 
-#logo {
+#logo-guide {
   position: relative;
   width: 210px;
   height: 200px;
@@ -415,7 +450,7 @@ h2 {
     margin-bottom: 0px;
   }
 
-  #logo {
+  #logo-guide {
     margin-left: 0px;
     margin-top: 0px;
   }
@@ -467,7 +502,7 @@ h2 {
     margin-top: 20px;
   }
 
-  #logo {
+  #logo-guide {
     width: 120px;
     height: 100px;
     margin-left: 10px;

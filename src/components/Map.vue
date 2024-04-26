@@ -4,7 +4,7 @@
     <button id="search-bbox-button" v-if="bboxUpdated" @click="fetchImagesClicked()">{{ $t("message.searchinbbox")
       }}</button>
     <div id="popup" class="ol-popup">
-      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <button id="popup-closer" class="ol-popup-closer" ></button>
       <div id="popup-content">
         <p id="lamning_id"></p>
         <p id="raa_id"></p>
@@ -12,12 +12,12 @@
         <p id="lokalitet_id"></p>
         <p id="askeladden_id"></p>
         <p v-if="isSwedish" id="fornsok_header">
-          <a v-if="isSwedish" id="fornsok_link" target="_blank">{{
+          <a v-if="isSwedish" id="fornsok_link"> {{
       $t("message.checkfornsök")
     }}</a>
         </p>
         <p>
-          <a id="extmap_link" target="_blank">{{ $t("message.maplink") }}</a>
+          <a id="extmap_link" target="_blank"> {{ $t("message.maplink") }}</a>
         </p>
       </div>
     </div>
@@ -439,8 +439,11 @@ export default {
           else {
             this.isSwedish = true;
             const fornsokLink = document.getElementById("fornsok_link");
+            const fornsokHeader = document.getElementById("fornsok_header").getElementsByTagName("a")[0];
             if (fornsokLink) {
-              fornsokLink.href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
+              // fornsokLink.href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
+              fornsokHeader.setAttribute("target", "_blank");
+              fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
             }
           };
 
@@ -490,14 +493,14 @@ export default {
               padding: [1, 1, 1, 1],
               minResolution: 5.0,
             });
-
+            const fornsokHeader = document.getElementById("fornsok_header").getElementsByTagName("a")[0];
             if (placename) { this.isSwedish = false }
-            else {
+            if (fornsokLink) {
+              // fornsokLink.href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
               this.isSwedish = true,
-              document.getElementById(
-                "fornsok_link"
-              ).href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
-            };
+              fornsokHeader.setAttribute("target", "_blank");
+              fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
+            }
 
             raaContent.innerHTML = raa_id;
             lamningContent.innerHTML = lamning_id;

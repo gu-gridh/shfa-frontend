@@ -89,6 +89,7 @@ export default {
       close: 'Close',
       maplink: 'View in Google Maps',
       searchinbbox: 'Search in map view',
+      beskrivning: 'Description',
         },
       
       search: {

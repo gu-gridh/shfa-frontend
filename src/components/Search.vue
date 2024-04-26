@@ -1,7 +1,7 @@
 <template>
   <div v-bind="$attrs">
     <div id="search-interface" class="">
-      <h2 class="input-unpad mb-0" id="search">
+      <div class="input-unpad mb-0" id="search-main"> 
         <div class="input-wrapper" id="search-wrapper">
           <div v-for="keyword in selectedKeywords" :key="keyword.id" class="tag-example-search" id="search-selected"
             @click="deselectKeyword(keyword)">
@@ -17,11 +17,11 @@
           <button class="search-button-round" id="search-button" @click="triggerSearch">
           </button>
         </div>
-      </h2>
+      </div>
     </div>
     <div id="filter-interface">
       <div class="filter-text">{{ $t('message.sökförslag') }}</div>
-      <div v-for="result in defaultSearchResults" :key="result.id" class="tag-example" id="search-suggestion"
+      <div v-for="result in defaultSearchResults" :key="result.id" class="tag-example" :id="result.text"
         @click="selectResult(result)">
         {{ $t('message.' + result.text) }}
       </div>
