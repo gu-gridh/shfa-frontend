@@ -5,62 +5,44 @@
       <div v-for="(query, index) in searchQuery" :key="index" class="search-item">
         <div class="field-title" id="label-wrapper">
           {{
-            [
-            $t('message.site'),
-            $t('message.hällristningsauthor'),
-            $t('message.bildtyp'),
-            $t('message.nyckelord'),
-            $t('message.datering'),
-            'Institution',
-            ][index]
-          }}
+        [
+          $t('message.site'),
+          $t('message.hällristningsauthor'),
+          $t('message.bildtyp'),
+          $t('message.nyckelord'),
+          $t('message.datering'),
+          'Institution',
+        ][index]
+      }}
         </div>
         <div class="input-wrapper" id="text-wrapper">
-          <div
-            v-for="keyword in selectedKeywords[index]"
-            :key="keyword.id"
-            class="tag-example-search" 
-            id="text-wrapper"
-            @click="deselectKeyword(keyword, index)"
-          >
-          {{ keyword.text }}
+          <div v-for="keyword in selectedKeywords[index]" :key="keyword.id" class="tag-example-search" id="text-wrapper"
+            @click="deselectKeyword(keyword, index)">
+            {{ keyword.text }}
           </div>
-          <input
-            type="search"
-            @click="onInputFocus(index)"
-            :id="'search' + index"
-            :name="'search' + index"
+          <input type="search" @click="onInputFocus(index)" :id="'search' + index" :name="'search' + index"
             :placeholder="selectedKeywords[index].length ? '' : [
-               $t('message.searchsite'),
-               $t('message.sökauthor'),
-               $t('message.sökbildtyp'),
-               $t('message.söknyckelord'),
-               $t('message.sökdatering'),
-               $t('message.sökinstitutioner'),
-            ][index]"
-            class=""
-            :value="query"
-            @input="updateSearchQuery($event.target.value, index)"
-            @keydown="handleBackspace($event, index)"
-            autocomplete="off"
-          />
+        $t('message.searchsite'),
+        $t('message.sökauthor'),
+        $t('message.sökbildtyp'),
+        $t('message.söknyckelord'),
+        $t('message.sökdatering'),
+        $t('message.sökinstitutioner'),
+      ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
+            @keydown="handleBackspace($event, index)" autocomplete="off" />
         </div>
         <div v-show="searchResults[index].length" class="suggestions">
-          <div
-            v-for="result in searchResults[index]"
-            :key="result.id"
-            class="tag-example"
-            @click="selectResult(result, index)"
-            @mouseover="hoverResult(index)"
-            @mouseout="unhoverResult(index)"
-          >
+          <div v-for="result in searchResults[index]" :key="result.id" class="tag-example"
+            @click="selectResult(result, index)" @mouseover="hoverResult(index)" @mouseout="unhoverResult(index)">
             {{ result.text }}
           </div>
         </div>
       </div>
     </div>
-    <button class="search-button" id="search-suggestion" @click="handleSearchButtonClick"> {{ $t('message.searchbutton') }}</button>
-    <button class="clear-button" id="search-suggestion" @click="clearAdvancedSearchFields">{{ $t('message.clearbutton') }}</button>
+    <button class="search-button" id="search-suggestion" @click="handleSearchButtonClick"> {{ $t('message.searchbutton')
+      }}</button>
+    <button class="clear-button" id="search-suggestion" @click="clearAdvancedSearchFields">{{ $t('message.clearbutton')
+      }}</button>
   </div>
 </template>
 
@@ -84,24 +66,24 @@ export default {
     };
   },
   props: {
-  currentLang:
-  {
-    type: String,
-  },
-  updateNextPageUrlAdvanced: {
-    type: Function,
-    required: true,
+    currentLang:
+    {
+      type: String,
     },
-  updatePreviousPageUrlAdvanced: {
-    type: Function,
-    required: true,
+    updateNextPageUrlAdvanced: {
+      type: Function,
+      required: true,
+    },
+    updatePreviousPageUrlAdvanced: {
+      type: Function,
+      required: true,
     },
   },
   mounted() {
     this.setupScrollListener();
     document.addEventListener('click', this.handleClickOutside);
   },
-   beforeDestroy() {
+  beforeDestroy() {
     document.removeEventListener('click', this.handleClickOutside);
   },
   created() {
@@ -143,211 +125,211 @@ export default {
     }
   },
   methods: {
-  closeAllSuggestions() {
-    // Close all suggestion boxes
-    this.searchResults = this.searchResults.map(() => []);
-  },
-  handleClickOutside(event) {
-    const searchContainers = this.$el.querySelectorAll('.input-wrapper');
-    let clickInsideSearchContainer = false;
+    closeAllSuggestions() {
+      // Close all suggestion boxes
+      this.searchResults = this.searchResults.map(() => []);
+    },
+    handleClickOutside(event) {
+      const searchContainers = this.$el.querySelectorAll('.input-wrapper');
+      let clickInsideSearchContainer = false;
 
-    searchContainers.forEach((container) => {
-      if (container.contains(event.target)) {
-        clickInsideSearchContainer = true;
-      }
-    });
-
-    if (!clickInsideSearchContainer) {
-      this.closeAllSuggestions();
-    }
-  },
-  setupScrollListener() {
-    const suggestionBoxes = this.$el.querySelectorAll('.suggestions');
-    suggestionBoxes.forEach((box, index) => {
-      box.addEventListener('scroll', () => {
-        // Before calling searchKeywordTags, check if infiniteScrollUrls at this index is not null
-        if (this.isScrolledToBottom(box) && this.infiniteScrollUrls[index] !== null) {
-          this.searchKeywordTags('', index, this.infiniteScrollUrls[index]);
+      searchContainers.forEach((container) => {
+        if (container.contains(event.target)) {
+          clickInsideSearchContainer = true;
         }
       });
-    });
-  },
-  isScrolledToBottom(element) {
-    return element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
-  },
-  onInputFocus(index) {
-    // Close all other suggestion boxes
-    this.searchResults = this.searchResults.map(() => []);
 
-    // Check if there is already a query or selected keywords
-    if (!this.searchQuery[index] && !this.selectedKeywords[index].length) {
-      // If not, perform a search to get initial results
-      this.searchKeywordTags('', index);
-    }
-
-    // Make sure the suggestions for the current input are shown
-    this.searchResults[index] = this.searchResults[index].length ? this.searchResults[index] : [];
-  },
-  clearAdvancedSearchFields() {
-    this.searchQuery = ['', '', '', '', '', ''];
-    this.selectedKeywords = [[], [], [], [], [], []];
-  },
-  updatePageDetails() {
-    this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
-  },
-  async fetchResults(combinedQueries = null, fetchURL = null) {
-    const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
-    const searchParams = new URLSearchParams();
-    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-
-    const fieldNames = [
-      'site_name',
-      'author_name',
-      'image_type',
-      'keyword',
-      'dating_tag',
-      'institution_name'
-    ];
-
-    if (combinedQueries) {
-      combinedQueries.forEach((query, index) => {
-        if (query) {
-          searchParams.append(fieldNames[index], query);
-        }
+      if (!clickInsideSearchContainer) {
+        this.closeAllSuggestions();
+      }
+    },
+    setupScrollListener() {
+      const suggestionBoxes = this.$el.querySelectorAll('.suggestions');
+      suggestionBoxes.forEach((box, index) => {
+        box.addEventListener('scroll', () => {
+          // Before calling searchKeywordTags, check if infiniteScrollUrls at this index is not null
+          if (this.isScrolledToBottom(box) && this.infiniteScrollUrls[index] !== null) {
+            this.searchKeywordTags('', index, this.infiniteScrollUrls[index]);
+          }
+        });
       });
-    }
+    },
+    isScrolledToBottom(element) {
+      return element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
+    },
+    onInputFocus(index) {
+      // Close all other suggestion boxes
+      this.searchResults = this.searchResults.map(() => []);
 
-    searchParams.append('depth', '1');
-    fetchURL = fetchURL ? fetchURL : baseURL + searchParams.toString();
+      // Check if there is already a query or selected keywords
+      if (!this.searchQuery[index] && !this.selectedKeywords[index].length) {
+        // If not, perform a search to get initial results
+        this.searchKeywordTags('', index);
+      }
 
-    try {
-      this.coordinateStore.setLoading(true);
-      const response = await fetch(fetchURL);
-      const data = await response.json();
-      this.count = data.count; // Update the total count
+      // Make sure the suggestions for the current input are shown
+      this.searchResults[index] = this.searchResults[index].length ? this.searchResults[index] : [];
+    },
+    clearAdvancedSearchFields() {
+      this.searchQuery = ['', '', '', '', '', ''];
+      this.selectedKeywords = [[], [], [], [], [], []];
+    },
+    updatePageDetails() {
+      this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
+    },
+    async fetchResults(combinedQueries = null, fetchURL = null) {
+      const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
+      const searchParams = new URLSearchParams();
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
 
-      const specificOrder = [
-        { type: 957, text: 'ortofotografi', order: 1 },
-        { type: 965, text: 'översiktsbild', order: 1},
-        { type: 943, text: 'threedvisualization', order: 2 },
-        { type: 958, text: 'threedsm', order: 3 },
-        { type: 959, text: 'threedlaserscanning', order: 4 },
-        { type: 961, text: 'miljöbild', order: 5 },
-        { type: 964, text: 'nattfoto', order: 6 },
-        { type: 942, text: 'fotografi', order: 7 },
-        { type: 949, text: 'diabild', order: 8 },
-        { type: 947, text: 'negativfärg', order: 9 },
-        { type: 948, text: 'negativsvart', order: 10 },
-        { type: 960, text: 'printscreen', order: 11 },
-        { type: 956, text: 'photosfm', order: 12 },
-        { type: 954, text: 'dstretch', order: 13 },
-        { type: 941, text: 'frottage', order: 14 },
-        { type: 946, text: 'grafik', order: 15 },
-        { type: 944, text: 'kalkering', order: 16 },
-        { type: 951, text: 'ritning', order: 17 },
-        { type: 955, text: 'kalkeringpapper', order: 18 },
-        { type: 945, text: 'avgjutning', order: 19 },
-        { type: 952, text: 'dokument', order: 20 },
-        { type: 953, text: 'karta', order: 21 },
-        { type: 950, text: 'tidnings', order: 22 },
-        { type: 962, text: 'arbetsbild', order: 23 },
-      ]
+      const fieldNames = [
+        'site_name',
+        'author_name',
+        'image_type',
+        'keyword',
+        'dating_tag',
+        'institution_name'
+      ];
 
-      // Map the specificOrder array to an object where the keys are the types
-      let typeMap = specificOrder.map(order => ({
-        ...order,
-        items: [],
-      }));
+      if (combinedQueries) {
+        combinedQueries.forEach((query, index) => {
+          if (query) {
+            searchParams.append(fieldNames[index], query);
+          }
+        });
+      }
 
-       // Iterate over the results and map them into the correct groups
-      for (let image of data.results) {
-        let type = image.type;
-        let item = {
-          id: image.id ?? null, 
-          lamning_id: image?.site?.lamning_id ?? null, 
-          raa_id: image?.site?.raa_id ?? null,
-          type: image?.type?.id ?? null,
-          iiif_file: image.iiif_file ?? null,
-          coordinates: image?.site?.coordinates?.coordinates ?? null,
-        };
+      searchParams.append('depth', '1');
+      fetchURL = fetchURL ? fetchURL : baseURL + searchParams.toString();
 
-        // Block to calculate minimum and maximum coordinates
-        const coords = image?.site?.coordinates?.coordinates;
-        if (coords) {
-          const [x, y] = coords;
-          minX = Math.min(minX, x);
-          maxX = Math.max(maxX, x);
-          minY = Math.min(minY, y);
-          maxY = Math.max(maxY, y);
+      try {
+        this.coordinateStore.setLoading(true);
+        const response = await fetch(fetchURL);
+        const data = await response.json();
+        this.count = data.count; // Update the total count
+
+        const specificOrder = [
+          { type: 957, text: 'ortofotografi', order: 1 },
+          { type: 965, text: 'översiktsbild', order: 1 },
+          { type: 943, text: 'threedvisualization', order: 2 },
+          { type: 958, text: 'threedsm', order: 3 },
+          { type: 959, text: 'threedlaserscanning', order: 4 },
+          { type: 961, text: 'miljöbild', order: 5 },
+          { type: 964, text: 'nattfoto', order: 6 },
+          { type: 942, text: 'fotografi', order: 7 },
+          { type: 949, text: 'diabild', order: 8 },
+          { type: 947, text: 'negativfärg', order: 9 },
+          { type: 948, text: 'negativsvart', order: 10 },
+          { type: 960, text: 'printscreen', order: 11 },
+          { type: 956, text: 'photosfm', order: 12 },
+          { type: 954, text: 'dstretch', order: 13 },
+          { type: 941, text: 'frottage', order: 14 },
+          { type: 946, text: 'grafik', order: 15 },
+          { type: 944, text: 'kalkering', order: 16 },
+          { type: 951, text: 'ritning', order: 17 },
+          { type: 955, text: 'kalkeringpapper', order: 18 },
+          { type: 945, text: 'avgjutning', order: 19 },
+          { type: 952, text: 'dokument', order: 20 },
+          { type: 953, text: 'karta', order: 21 },
+          { type: 950, text: 'tidnings', order: 22 },
+          { type: 962, text: 'arbetsbild', order: 23 },
+        ]
+
+        // Map the specificOrder array to an object where the keys are the types
+        let typeMap = specificOrder.map(order => ({
+          ...order,
+          items: [],
+        }));
+
+        // Iterate over the results and map them into the correct groups
+        for (let image of data.results) {
+          let type = image.type;
+          let item = {
+            id: image.id ?? null,
+            lamning_id: image?.site?.lamning_id ?? null,
+            raa_id: image?.site?.raa_id ?? null,
+            type: image?.type?.id ?? null,
+            iiif_file: image.iiif_file ?? null,
+            coordinates: image?.site?.coordinates?.coordinates ?? null,
+          };
+
+          // Block to calculate minimum and maximum coordinates
+          const coords = image?.site?.coordinates?.coordinates;
+          if (coords) {
+            const [x, y] = coords;
+            minX = Math.min(minX, x);
+            maxX = Math.max(maxX, x);
+            minY = Math.min(minY, y);
+            maxY = Math.max(maxY, y);
+          }
+
+          // Block to group images by type
+          let typeIndex = typeMap.findIndex(x => x.type === type.id);
+          if (typeIndex !== -1) {
+            typeMap[typeIndex].items.push(item);
+          }
         }
 
-        // Block to group images by type
-        let typeIndex = typeMap.findIndex(x => x.type === type.id); 
-        if (typeIndex !== -1) {
-          typeMap[typeIndex].items.push(item);
+        if (minX !== Infinity && maxX !== -Infinity && minY !== Infinity && maxY !== -Infinity) {
+          const boundingBox = {
+            topLeft: [minX, maxY],
+            topRight: [maxX, maxY],
+            bottomLeft: [minX, minY],
+            bottomRight: [maxX, minY],
+          };
+
+          this.coordinateStore.setBoundingBox(boundingBox);
+        } else {
+          console.log('No valid coordinates found. Skipping setting the bounding box.');
         }
-      }
 
-      if (minX !== Infinity && maxX !== -Infinity && minY !== Infinity && maxY !== -Infinity) {
-        const boundingBox = {
-          topLeft: [minX, maxY],
-          topRight: [maxX, maxY],
-          bottomLeft: [minX, minY],
-          bottomRight: [maxX, minY],
-        };
-        
-        this.coordinateStore.setBoundingBox(boundingBox);
+        // Filter out the groups with no items and sort the image groups by the specified order
+        this.advancedResults = typeMap.filter(group => group.items.length > 0);
+        // .sort((a, b) => a.order - b.order);
+
+        // Handle next page URL
+        if (data.next) {
+          this.nextPageUrl = data.next.replace('http://', 'https://');
+          this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
+          this.updateNextPageUrlAdvanced(this.nextPageUrl);  // Update the parent's nextPageUrl state
+        } else {
+          this.nextPageUrl = null;
+          this.updateNextPageUrlAdvanced(null);  // Update the parent's nextPageUrl state
+        }
+
+        if (data.previous) {
+          this.previousPageUrl = data.previous.replace('http://', 'https://');
+          this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
+          this.updatePreviousPageUrlAdvanced(this.previousPageUrl);  // Update the parent's previousPageUrl state
+        } else {
+          this.previousPageUrl = null;
+          this.updatePreviousPageUrlAdvanced(null);  // Update the parent's previousPageUrl state
+        }
+
+        this.$emit('advanced-search-results', this.advancedResults);
+        this.coordinateStore.setLoading(false);
+        this.updatePageDetails();
+
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async fetchNextPage() {
+      if (this.nextPageUrl) {
+        await this.fetchResults(null, this.nextPageUrl);
       } else {
-        console.log('No valid coordinates found. Skipping setting the bounding box.');
+        console.log("No more pages to fetch.");
       }
+    },
 
-      // Filter out the groups with no items and sort the image groups by the specified order
-      this.advancedResults = typeMap.filter(group => group.items.length > 0);
-      // .sort((a, b) => a.order - b.order);
-
-      // Handle next page URL
-      if (data.next) {
-        this.nextPageUrl = data.next.replace('http://', 'https://');
-        this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
-        this.updateNextPageUrlAdvanced(this.nextPageUrl);  // Update the parent's nextPageUrl state
+    async fetchPreviousPage() {
+      if (this.previousPageUrl) {
+        await this.fetchResults(null, this.previousPageUrl);
       } else {
-        this.nextPageUrl = null;
-        this.updateNextPageUrlAdvanced(null);  // Update the parent's nextPageUrl state
+        console.log("No previous pages to fetch.");
       }
-
-      if (data.previous) {
-        this.previousPageUrl = data.previous.replace('http://', 'https://');
-        this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
-        this.updatePreviousPageUrlAdvanced(this.previousPageUrl);  // Update the parent's previousPageUrl state
-      } else {
-        this.previousPageUrl = null;
-        this.updatePreviousPageUrlAdvanced(null);  // Update the parent's previousPageUrl state
-      }
-
-      this.$emit('advanced-search-results', this.advancedResults);
-      this.coordinateStore.setLoading(false);
-      this.updatePageDetails();
-
-    } catch (error) {
-      console.error(error);
-    }
-  },
-
-   async fetchNextPage() {
-    if (this.nextPageUrl) {
-      await this.fetchResults(null, this.nextPageUrl);
-    } else {
-      console.log("No more pages to fetch.");
-    }
-  },
-
-  async fetchPreviousPage() {
-    if (this.previousPageUrl) {
-      await this.fetchResults(null, this.previousPageUrl);
-    } else {
-      console.log("No previous pages to fetch.");
-    }
-  },
+    },
 
     debounce(fn, delay) {
       let timer;
@@ -358,21 +340,21 @@ export default {
         }, delay);
       };
     },
-  async searchKeywordTags(query, index, nextPage = null) {      
-    let apiUrl;
-    let newResults;
-    let shouldAppendResults = nextPage != null;
+    async searchKeywordTags(query, index, nextPage = null) {
+      let apiUrl;
+      let newResults;
+      let shouldAppendResults = nextPage != null;
 
-    if (shouldAppendResults) {
-      // Replace 'http://' with 'https://' if present
-      apiUrl = nextPage.replace(/^http:\/\//i, 'https://');
-    } else {
-      apiUrl = this.apiUrls[index] + encodeURIComponent(query);
-      // Clear out the current search results as we're refining the search
-      this.searchResults[index] = [];
-    }
+      if (shouldAppendResults) {
+        // Replace 'http://' with 'https://' if present
+        apiUrl = nextPage.replace(/^http:\/\//i, 'https://');
+      } else {
+        apiUrl = this.apiUrls[index] + encodeURIComponent(query);
+        // Clear out the current search results as we're refining the search
+        this.searchResults[index] = [];
+      }
 
-    try {
+      try {
         const response = await fetch(apiUrl);
         const data = await response.json();
         // If after an API call we find there is no 'next' page, do not proceed with updating results
@@ -382,7 +364,7 @@ export default {
           this.infiniteScrollUrls[index] = null;
           console.log("No more pages to load.");
         }
-          switch(index) {
+        switch (index) {
           case 0: // Site name: use "raa_id or lamning_id"
             newResults = data.features.flatMap(feature => [
               {
@@ -396,28 +378,28 @@ export default {
             ]);
             break;
           case 1:
-           newResults = data.results.map(result => ({
-                  id: result.id,
-                  text: this.currentLang === 'sv' ? result.name : result.english_translation
-              }));
+            newResults = data.results.map(result => ({
+              id: result.id,
+              text: this.currentLang === 'sv' ? result.name : result.english_translation
+            }));
             break;
           case 2:
             newResults = data.results.map(result => ({
-                      id: result.id,
-                      text: this.currentLang === 'sv' ? result.text : result.english_translation
-                  }));
+              id: result.id,
+              text: this.currentLang === 'sv' ? result.text : result.english_translation
+            }));
             break;
           case 3: // Keywords: use "text"
             newResults = data.results.map(result => ({
-                  id: result.id,
-                  text: this.currentLang === 'sv' ? result.text : result.english_translation
-              }));
+              id: result.id,
+              text: this.currentLang === 'sv' ? result.text : result.english_translation
+            }));
             break;
           case 4: // Dating: use "text"
             newResults = data.results.map(result => ({
-                  id: result.id,
-                  text: this.currentLang === 'sv' ? result.text : result.english_translation
-              }));
+              id: result.id,
+              text: this.currentLang === 'sv' ? result.text : result.english_translation
+            }));
             break;
           case 5: // Institution name: use "name"
             newResults = data.results.map(result => ({
@@ -428,7 +410,7 @@ export default {
           default: // For the other cases, use the existing structure
             this.searchResults[index] = data.results.slice(0, 5);
         }
-        if(newResults) {
+        if (newResults) {
           if (shouldAppendResults) {
             // Append the new results to the existing ones
             this.searchResults[index] = [...this.searchResults[index], ...newResults];
@@ -442,12 +424,12 @@ export default {
       }
     },
     selectResult(result, index) {
-    this.selectedKeywords[index] = [result]; // Replace the current keyword instead of pushing a new one
-    this.searchResults[index] = this.searchResults[index].filter(
+      this.selectedKeywords[index] = [result]; // Replace the current keyword instead of pushing a new one
+      this.searchResults[index] = this.searchResults[index].filter(
         item => item.id !== result.id,
       );
-    this.searchQuery[index] = ''; // Clear the search input value when a tag is selected
-    this.searchResults = this.searchResults.map(() => []); // Close all menus
+      this.searchQuery[index] = ''; // Clear the search input value when a tag is selected
+      this.searchResults = this.searchResults.map(() => []); // Close all menus
     },
     deselectKeyword(keyword, index) {
       this.selectedKeywords[index] = this.selectedKeywords[index].filter(
@@ -460,11 +442,11 @@ export default {
       this.searchResults = this.searchResults.map((results, i) => (i === index ? results : []));
     },
     handleBackspace(event, index) {
-    if (event.key === 'Backspace' && this.searchQuery[index] === '') {
-      this.deselectKeyword(
-        this.selectedKeywords[index][this.selectedKeywords[index].length - 1],
-        index,
-      );
+      if (event.key === 'Backspace' && this.searchQuery[index] === '') {
+        this.deselectKeyword(
+          this.selectedKeywords[index][this.selectedKeywords[index].length - 1],
+          index,
+        );
       }
     },
     hoverResult(index) {
@@ -512,47 +494,47 @@ export default {
 
 <style scoped>
 .search-container {
-  width: 100%; 
-  margin-top:20px; 
-  background-color:transparent;
+  width: 100%;
+  margin-top: 20px;
+  background-color: transparent;
 }
+
 .search-container-title {
-  width: 100%; 
-  color:white;
+  width: 100%;
+  color: white;
   font-size: 1.3rem;
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
+
 .search-grid {
   display: grid;
   grid-template-columns: 48.3% 48.3%;
-  padding-left:6px;
+  padding-left: 6px;
   gap: 15px;
- 
 }
 
 @media (max-width:480px) {
   .search-grid {
     grid-template-columns: 100%;
-}
+  }
 }
 
 .search-item {
   position: relative;
-  
 }
 
 .field-title {
   font-size: 0.95em;
   margin-bottom: 5px;
   color: white;
-  padding-left:4px;
+  padding-left: 4px;
 }
 
 .tag-example {
   float: left;
   background-color: rgb(90, 90, 90);
-  padding: 3px 8px; 
-  font-size: 15px; 
+  padding: 3px 8px;
+  font-size: 15px;
   margin-bottom: 5px;
   border-radius: 5px;
   margin: 5px;
@@ -566,7 +548,7 @@ input[type="search"] {
   margin-top: 5px;
   margin-bottom: 5px;
   flex: 1;
-  width:1px!important;
+  width: 1px !important;
 }
 
 input[type="search"]::placeholder {
@@ -580,39 +562,39 @@ input[type="search"]:focus {
 .suggestions {
   position: absolute;
   width: 100%;
-  color:white;
-  background-color: rgb(45,45,45);
+  color: white;
+  background-color: rgb(45, 45, 45);
   z-index: 1;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 0px 0px 5px 5px;
   padding: 10px;
-  margin-top:-5px;
-  overflow-y:auto;
-  max-height:170px;
+  margin-top: -5px;
+  overflow-y: auto;
+  max-height: 170px;
 }
 
 .search-button {
-  float:right;
-display: block;
-margin-top: 20px;
-margin-bottom: 20px;
-font-size: 1.1rem;
-padding: 5px 20px;
-background-color: rgb(90, 90, 90);
-color: white;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-font-weight:500;
+  float: right;
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  padding: 5px 20px;
+  background-color: rgb(90, 90, 90);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
 }
 
 .search-button:hover {
-  background-color: rgb(80,90,100);
-  color:white;
+  background-color: rgb(80, 90, 100);
+  color: white;
 }
 
 .clear-button {
-  float:left;
+  float: left;
   display: block;
   margin-top: 20px;
   font-size: 1.1rem;
@@ -622,13 +604,13 @@ font-weight:500;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight:500;
-  margin-left:8px;
+  font-weight: 500;
+  margin-left: 8px;
 }
 
 .clear-button:hover {
-  background-color: rgb(80,90,100);
-  color:white;
+  background-color: rgb(80, 90, 100);
+  color: white;
 }
 
 input[type="search"]::-webkit-search-cancel-button {
@@ -648,10 +630,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
   filter: invert(1);
 }
 
-#label-wrapper{
-  color:white;
+#label-wrapper {
+  color: white;
 }
-
-
-
 </style>

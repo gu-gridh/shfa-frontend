@@ -14,70 +14,54 @@
   -webkit-text-size-adjust: 100%;
 }
 
-body 
-{
- /*  background-color: #989898;
-  color: rgba(255, 255, 255, 0.87); */
-}
-
-
-
-div.split-container > div > div:nth-child(2)
-{
+div.split-container>div>div:nth-child(2) {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
   cursor: col-resize;
-  background-color: rgba(165,165,165, 0);
+  background-color: rgba(165, 165, 165, 0);
   background-repeat: no-repeat;
   background-position: 50%;
-  min-width:20px;
+  min-width: 20px;
   transition: all 0.5s ease-in-out;
-  opacity:0;
-} 
-
-div.split-container > div > div:nth-child(2):hover
-{
-  cursor: col-resize;
-  opacity:1;
-  } 
-
-div.split-container > div > div:nth-child(4)
-{
-  background-image: url("assets/horizontalblack.png");
-  cursor: col-resize;
-  background-size:contain;
-  background-repeat: no-repeat;
-  background-position:50%;
-  border-radius:50%;
-  background-color:rgb(200,200,200);
-  height:25px;
-  min-width:25px;
-  margin-top:calc(50vh - 90px);
-  transform:translateX(12.5px);
-  z-index:1000;
+  opacity: 0;
 }
 
-@media (max-width: 1024px) { /*disable gutters on small devices*/
-  div.split-container > div > div:nth-child(4)
-  {
+div.split-container>div>div:nth-child(2):hover {
+  cursor: col-resize;
+  opacity: 1;
+}
+
+div.split-container>div>div:nth-child(4) {
+  background-image: url("assets/horizontalblack.png");
+  cursor: col-resize;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: 50%;
+  background-color: rgb(200, 200, 200);
+  height: 25px;
+  min-width: 25px;
+  margin-top: calc(50vh - 90px);
+  transform: translateX(12.5px);
+  z-index: 1000;
+}
+
+@media (max-width: 1024px) {
+
+  /*disable gutters on small devices*/
+  div.split-container>div>div:nth-child(4) {
     margin-top: 0px;
     height: 0px !important;
   }
-  #gutter-1
-  {
+
+  #gutter-1 {
     height: 0px !important;
   }
 }
 
-#search-section{
- 
-}
-
-
 /*Border Radius for Map*/
-#map > div >  div.ol-unselectable.ol-layers > div > canvas
-{
-border-radius:20px;
-z-index: 40; /* Fixes border-radius in Safari. */
-background-color:none!important;
+#map>div>div.ol-unselectable.ol-layers>div>canvas {
+  border-radius: 20px;
+  z-index: 40;
+  /* Fixes border-radius in Safari. */
+  background-color: none !important;
 }
-

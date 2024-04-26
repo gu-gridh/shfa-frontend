@@ -8,8 +8,8 @@
             {{ $t('message.' + keyword.text) }}
           </div>
           <input type="search" id="search" name="search"
-            :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'" class="" :value="searchQuery"
-            @input="updateSearchQuery($event.target.value)" @keydown="handleBackspace($event)"
+            :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'" class=""
+            :value="searchQuery" @input="updateSearchQuery($event.target.value)" @keydown="handleBackspace($event)"
             @keydown.enter="triggerSearch" autocomplete="off" />
           <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
             Advanced Search
@@ -332,12 +332,6 @@ export default {
 </script>
 
 <style scoped>
-.light {
-  background-color: rgb(250, 250, 250);
-  color: black;
-}
-
-
 #search-interface {
   font-size: 100%;
   padding-top: 02px;
@@ -347,11 +341,7 @@ export default {
   margin-top: 30px;
   font-size: 1.1em;
   margin-left: -6px;
-  color:white;
-}
-
-.light .map-switch-margin {
-  color: black;
+  color: white;
 }
 
 .search-switcher .ui-mode {
@@ -440,7 +430,6 @@ export default {
   background-color: rgb(80, 90, 100);
   cursor: pointer;
   color: white;
-
 }
 
 #search {
@@ -465,7 +454,6 @@ export default {
   box-sizing: border-box;
   font-size: 1rem;
 }
-
 
 .input-wrapper:hover {
   background-color: rgba(45, 45, 45, 1.0);
@@ -540,4 +528,3 @@ input:focus {
   color: rgb(200, 225, 250);
 }
 </style>
-

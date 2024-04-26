@@ -1,7 +1,4 @@
-
-
 :root {
-    
     --theme-background: #222222;
     --theme-footer-color: #1b1b1b;
     --theme-accent-color1-alpha: #3BC5FCa1;
@@ -15,9 +12,9 @@
     --theme-shfa-logo: url("../src/assets/shfa_logo_downscale.png");
     --theme-rj-logo: url("../graphics/interface/RJ_logo_white.png");
     --theme-font: "Barlow Semi Condensed", sans-serif;
-  }
-  
-  html[style-theme='dark'] {
+}
+
+html[style-theme='dark'] {
     --theme-background: #222222;
     --theme-footer-color: #1b1b1b;
     --theme-accent-color1-alpha: #3BC5FCa1;
@@ -31,9 +28,9 @@
     --theme-shfa-logo: url("../src/assets/shfa_logo_downscale.png");
     --theme-rj-logo: url("../graphics/interface/RJ_logo_white.png");
     --theme-font: "Barlow Semi Condensed", sans-serif;
-  }
-  
-  html[style-theme='light'] {
+}
+
+html[style-theme='light'] {
     --theme-background: #f1f1f1;
     --theme-footer-color: #c2c2c2;
     --theme-accent-color1-alpha: #11455aa1;
@@ -46,21 +43,21 @@
     --theme-gu-logo: url("../src/assets/gu_logo.png");
     --theme-shfa-logo: url("../src/assets/shfa_logo_downscale.png");
     --theme-rj-logo: url("../graphics/interface/RJ_logo_black.png");
-  }
-  
-  *::before,
-  *::after {
+}
+
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     position: relative;
     font-weight: normal;
-  }
-  
-  body {
+}
+
+body {
     min-height: 100vh;
     transition: color 0.5s, background-color 0.5s;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     --theme-font: "Barlow Semi Condensed", sans-serif;
-  }
+}

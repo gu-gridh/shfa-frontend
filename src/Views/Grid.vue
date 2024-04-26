@@ -424,7 +424,7 @@ export default defineComponent({
     },
 
     toggleColour() {
-      
+
       this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
       this.targetTheme = (this.targetTheme === 'dark') ? 'light' : 'dark';
 
@@ -1175,12 +1175,6 @@ export default defineComponent({
   box-shadow: inset 0rem 0rem 3rem rgba(0, 0, 0, 0.2) !important;
 }
 
-.light #split-2 {
-  background-color: rgb(245, 245, 245);
-  padding: 0px 0px 0px 20px;
-  box-shadow: inset 0rem 0rem 3rem rgba(0, 0, 0, 0.15) !important;
-}
-
 #split-2::-webkit-scrollbar {
   width: 0px !important;
 }
@@ -1333,7 +1327,6 @@ h2 input:not(:placeholder-shown) {
   .gutter {
     display: none;
   }
-
   .gutter-2 {
     display: none;
   }
@@ -1509,250 +1502,6 @@ h2 input:not(:placeholder-shown) {
   #app .datareportcard {
     padding: 110px 30px 30px 30px;
   }
-}
-
-/* light mode styles */
-
-.light {
-  background: rgb(250, 250, 250);
-  color: black !important;
-}
-
-.light .loading-animation img {
-  width: 50px;
-  height: 50px;
-  filter: invert(0.5);
-}
-
-.light h1 {
-  color: black !important;
-}
-
-.light h2 {
-  color: rgb(0, 32, 73) !important;
-}
-
-.light a {
-  color: black;
-}
-
-.light td {
-  color: black !important;
-}
-
-.light #popup {
-  background-color: white;
-  color: black;
-}
-
-.light #popup-content {
-  background-color: white;
-  color: black;
-}
-
-.light #popup-closer {
-  color: black;
-}
-
-.light #map {
-  /* filter: hue-rotate(160deg) grayscale(30%); */
-  box-shadow: 0px 3px 25px rgba(0, 0, 0, 0.3) !important;
-}
-
-.light #fornsok_link,
-.light #extmap_link {
-  filter: invert(1);
-  color: white;
-}
-
-.light #metadata-container {
-  color: black;
-}
-
-.light #search-interface {
-  color: black;
-  border-color: black;
-}
-
-.light #search-button {
-  background-color: black;
-  border-color: black;
-}
-
-.light #search-suggestion {
-  background-color: rgb(237, 234, 234);
-  border-color: black !important;
-  color: black;
-}
-
-.light #search-suggestion:hover {
-  background-color: rgb(80, 90, 100);
-  border-color: black;
-  color: white !important;
-}
-
-.light #search-selected {
-  /* background-color: rgb(110, 148, 185);  */
-  border-color: black !important;
-  color: white;
-}
-
-.light #visit {
-  background-color: rgb(37, 35, 35);
-  filter: invert(1);
-}
-
-.light #visit:hover {
-  background-color: rgb(110, 148, 185);
-  filter: invert(0);
-  border-color: black;
-  color: black !important;
-}
-
-.light #search {
-  background: transparent;
-  color: black !important;
-}
-
-.light input {
-  color: black !important;
-  font-weight: 400;
-  background-color: transparent;
-}
-
-.light #search-wrapper {
-  background: linear-gradient(rgb(200, 200, 200) 0%, rgb(235, 235, 235) 100%);
-  color: black !important;
-}
-
-.light #filter-interface {
-  color: black !important;
-}
-
-.light input[type="search"]::placeholder {
-  color: black;
-  background-color: transparent;
-}
-
-.light input[type="search"] {
-  color: black;
-  background-color: transparent;
-}
-
-.light #app {
-  background-color: rgb(247, 244, 244);
-}
-
-.light #gallery {
-  background: linear-gradient(rgba(255, 255, 255, 0.25) 30%,
-      rgba(255, 254, 254, 0.7) 100%);
-}
-
-.light #text-wrapper {
-  background: linear-gradient(rgb(220, 220, 220) 0%, rgb(235, 235, 235) 100%);
-}
-
-.light #disclaimer {
-  color: rgb(110, 148, 185);
-}
-
-.light #description {
-  color: black;
-}
-
-.light #block-text {
-  color: black;
-  background-color: linear-gradient(120deg,
-      #ffffff 10%,
-      rgba(255, 255, 255, 0.95) 30%);
-}
-
-.light #search-text {
-  color: black;
-  background-color: linear-gradient(120deg,
-      #ffffff 10%,
-      rgba(255, 255, 255, 0.95) 30%);
-}
-
-.light .split-container-top {
-  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.1) !important;
-  height: calc(100% - 160px);
-}
-
-.light .search-container .tag-example-search {
-  background-color: rgb(80, 90, 100) !important;
-
-  border-radius: 2px !important;
-  cursor: pointer;
-  display: inline-block;
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: black !important;
-  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
-}
-
-.light .title {
-  color: rgb(150, 150, 150) !important;
-  background-color: transparent;
-}
-
-.light .top {
-  background-color: rgb(210, 210, 210) !important;
-}
-
-.light #label-wrapper {
-  color: black;
-}
-
-.light .search-button-round {
-  background-color: rgb(150, 150, 150) !important;
-}
-
-.light .search-button-round:hover {
-  background-color: rgb(120, 120, 120) !important;
-}
-
-.light .close-button {
-  background-color: rgb(65, 65, 65) !important;
-  color: white !important;
-}
-
-.light .suggestions {
-  background-color: rgb(235, 235, 235) !important;
-  color: white !important;
-}
-
-.light .ui-overlay {
-  font-weight: 600;
-  color: white;
-  background-color: rgba(25, 25, 25, 0.5);
-}
-
-.light .ui-mode .item:hover {
-  color: rgb(110, 145, 180);
-}
-
-.light .ui-overlay .selected {
-  color: rgb(200, 225, 250);
-}
-
-.light .item.active {
-  color: rgb(130, 165, 200);
-  font-weight: 600;
-}
-
-.light #logo {
-  background-color: grey;
-  float: left;
-  margin-top: 30px;
-  margin-left: 40px;
-  background: url("../assets/shfa_logo_downscale.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  opacity: 0.3;
-  transition: all 0.8s ease-in-out;
 }
 
 .material-symbols-outlined {

@@ -3,8 +3,8 @@
     <div class="content" id="block-text">
 
 
-    <div class="rows" id="block-text">
-      
+      <div class="rows" id="block-text">
+
 
         <div class="flex-machine" id="block-text">
           <div class="logo-area">
@@ -141,10 +141,10 @@
         </div>
       </div>
     </div>
-    <button class="close-page-button"  @click="$emit('close')">
-    <div class="category-button" :class="{ fullopacityui: visibleGuide }" id="search-suggestion"
-      style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
-  </button>
+    <button class="close-page-button" @click="$emit('close')">
+      <div class="category-button" :class="{ fullopacityui: visibleGuide }" id="search-suggestion"
+        style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
+    </button>
   </div>
 </template>
 
@@ -164,12 +164,8 @@ export default {
 
 
 </script>
-  
-<style scoped>
-.light #search-text {
-  background-color: linear-gradient(120deg, #ffffff 10%, rgba(255, 255, 255, 0.95) 30%);
-}
 
+<style scoped>
 body {
   /* border:opx; */
 }
@@ -183,7 +179,6 @@ th {
 td {
   padding-left: 15px;
   padding-right: 5px;
-
 }
 
 a {
@@ -205,8 +200,6 @@ h2 {
   font-size: 115%;
 }
 
-
-
 .guide-container {
   position: fixed;
   color: white;
@@ -220,16 +213,15 @@ h2 {
   translate: 0px 100px;
   transition: all 0.5s ease-in-out;
   opacity: 0.0;
-  overflow-y:scroll;
+  overflow-y: scroll;
   max-height: max-content;
   background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 30%);
 }
 
-
 .logo-area {
-    margin-top: 30px;
-    margin-bottom:20px;
-  }
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
 
 #logo {
   position: relative;
@@ -260,14 +252,11 @@ h2 {
   color: rgb(190, 190, 190);
 }
 
-
-
 .flex-machine {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-
 
 .sections {
   float: left;
@@ -297,8 +286,6 @@ h2 {
   justify-content: flex-start;
   width: auto;
 }
-
-
 
 .guide-main-title {
   font-family: 'Teko', sans-serif;
@@ -332,7 +319,6 @@ h2 {
 }
 
 .guide-article-main {
-
   position: relative;
   float: left;
   text-align: justify;
@@ -380,16 +366,17 @@ h2 {
   border-radius: 5px;
   box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
+
 .close-page-button {
-  pointer-events:auto;
+  pointer-events: auto;
   position: sticky;
   z-index: 5000;
-  bottom:0px;
-  top:calc(100vh - 80px);
+  bottom: 0px;
+  top: calc(100vh - 80px);
   padding-bottom: 20px;
   color: white;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.0) 100%);
-  background:black;
+  background: black;
   width: 100%;
   height: 80px;
   display: flex;
@@ -397,10 +384,6 @@ h2 {
   align-items: center;
   justify-content: flex-end;
 }
-
-
-
-
 
 @media screen and (max-width: 1025px) {
   .columns {
@@ -520,9 +503,7 @@ h2 {
     transition: all 0.4s ease-in-out;
     line-height: 1.2;
   }
-
 }
-
 
 a {
   font-weight: normal;
@@ -538,9 +519,7 @@ a {
   height: 100vh;
 }
 
-
 .fullopacityui {
   opacity: 1.0;
 }
-
 </style>

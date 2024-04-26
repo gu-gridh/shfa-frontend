@@ -5,27 +5,14 @@
     </div>
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
       <h3 v-if="group.items.length > 0">{{ $t("message." + group.text) }}</h3>
-      <MasonryWall
-        :key="layoutKey"
-        :items="group.items"
-        :ssr-columns="1"
-        :column-width="columnWidth"
-        :gap="10"
-        class="gallery-group"
-      >
+      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="10"
+        class="gallery-group">
         <template #default="{ item, index }">
-          <div
-            class="grid-image card flex items-center justify-center"
-            @click="$emit('image-clicked', item.iiif_file, item.id)"
-          >
-            <img
-              :src="`${item.iiif_file}/full/350,/0/default.jpg`"
-              :alt="`Image ${index}`"
-              @load="
-                item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)
-              "
-              v-on:load.once="item.loaded = true"
-            />
+          <div class="grid-image card flex items-center justify-center"
+            @click="$emit('image-clicked', item.iiif_file, item.id)">
+            <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" :alt="`Image ${index}`" @load="
+      item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)
+      " v-on:load.once="item.loaded = true" />
             <div class="grid-item-info" id="gallery">
               <div class="grid-item-info-meta">
                 <h5>{{ item.lamning_id || item.placename }}</h5>
@@ -43,79 +30,46 @@
       <!-- Previous buttons -->
       <div class="button-group">
         <!-- Map Search Previous button -->
-        <button
-          class="loadMore left"
-          v-if="mapGallery && previousPageUrl && !bboxSearch"
-          @click="fetchPreviousData"
-        ></button>
+        <button class="loadMore left" v-if="mapGallery && previousPageUrl && !bboxSearch"
+          @click="fetchPreviousData"></button>
         <!-- Search Previous button -->
-        <button
-          class="loadMore left"
-          v-if="
-            !mapGallery &&
-            searchPreviousPageUrl &&
-            !advancedSearch &&
-            !bboxSearch
-          "
-          @click="searchFetchPreviousPage"
-        ></button>
+        <button class="loadMore left" v-if="!mapGallery &&
+      searchPreviousPageUrl &&
+      !advancedSearch &&
+      !bboxSearch
+      " @click="searchFetchPreviousPage"></button>
         <!-- Advanced Search Previous button -->
-        <button
-          class="loadMore left"
-          v-if="
-            !mapGallery &&
-            advancedPreviousPageUrl &&
-            advancedSearch &&
-            !bboxSearch
-          "
-          @click="advancedFetchPreviousPage"
-        ></button>
+        <button class="loadMore left" v-if="!mapGallery &&
+      advancedPreviousPageUrl &&
+      advancedSearch &&
+      !bboxSearch
+      " @click="advancedFetchPreviousPage"></button>
         <!-- Bbox Search Previous button -->
-        <button
-          class="loadMore left"
-          v-if="mapGallery && previousPageUrl && bboxSearch"
-          @click="loadPreviousPageBbox"
-        ></button>
+        <button class="loadMore left" v-if="mapGallery && previousPageUrl && bboxSearch"
+          @click="loadPreviousPageBbox"></button>
       </div>
 
       <!-- Next buttons -->
       <div class="button-group">
         <!-- Map Search Next button -->
-        <button
-          class="loadMore right"
-          v-if="mapGallery && nextPageUrl && !bboxSearch"
-          @click="fetchData"
-        ></button>
+        <button class="loadMore right" v-if="mapGallery && nextPageUrl && !bboxSearch" @click="fetchData"></button>
         <!-- Search Next button -->
-        <button
-          class="loadMore right"
-          v-if="
-            !mapGallery && searchNextPageUrl && !advancedSearch && !bboxSearch
-          "
-          @click="loadMore"
-        ></button>
+        <button class="loadMore right" v-if="!mapGallery && searchNextPageUrl && !advancedSearch && !bboxSearch
+      " @click="loadMore"></button>
         <!-- Advanced Search Next button -->
-        <button
-          class="loadMore right"
-          v-if="
-            !mapGallery &&
-            searchNextPageUrlAdvanced &&
-            advancedSearch &&
-            !bboxSearch
-          "
-          @click="loadMoreAdvanced"
-        ></button>
+        <button class="loadMore right" v-if="!mapGallery &&
+      searchNextPageUrlAdvanced &&
+      advancedSearch &&
+      !bboxSearch
+      " @click="loadMoreAdvanced"></button>
         <!-- Bbox Search Next button -->
-        <button
-          class="loadMore right"
-          v-if="mapGallery && nextPageUrl && bboxSearch"
-          @click="loadNextPageBbox"
-        ></button>
+        <button class="loadMore right" v-if="mapGallery && nextPageUrl && bboxSearch"
+          @click="loadNextPageBbox"></button>
       </div>
     </div>
   </div>
 </template>
- 
+
 <script>
 import MasonryWall from "@yeger/vue-masonry-wall";
 import { useStore } from "../stores/store.js";
@@ -583,7 +537,7 @@ export default {
   },
 };
 </script>
- 
+
 <style scoped>
 .loading-animation {
   display: flex;
@@ -620,10 +574,6 @@ h3 {
   margin: 20px 20px 8px 0px;
 }
 
-.light h3 {
-  color: black !important;
-}
-
 .card {
   background-color: transparent;
   border-radius: 2px;
@@ -640,9 +590,6 @@ h3 {
   filter: brightness(90%);
   cursor: pointer;
   transform: scale(1.05);
-}
-
-.grid-image {
 }
 
 .grid-item-info {
@@ -666,10 +613,6 @@ h3 {
   bottom: 0px;
   position: absolute;
   padding: 10px 10px;
-}
-
-.light .grid-item-info-meta {
-  color: black;
 }
 
 .grid-item-info-meta h5 {
