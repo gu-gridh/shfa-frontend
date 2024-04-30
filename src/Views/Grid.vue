@@ -52,10 +52,14 @@
 
           <!-- <div class="top-button">|</div> -->
         </div>
-
+        <Privacy v-if="currentLanguage === 'en'" :visiblePrivacy="visiblePrivacy" :currentLanguage="'en'" @close="visiblePrivacy = false" />
+        <Privacy v-else :visiblePrivacy="visiblePrivacy" :currentLanguage="'sv'" @close="visiblePrivacy = false" />
         <About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
         <Guide :visibleGuide="visibleGuide" @close="visibleGuide = false" />
         <div class="top-links">
+          <button class="item" @click="visiblePrivacy = true">
+
+            {{ $t('message.privacy') }}<div class="top-link-infobutton"></div></button>
           <button class="item" @click="visibleGuide = true">
 
             {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div></button>
@@ -202,6 +206,7 @@ import ImageViewer from "../components/ImageViewer.vue";
 import MetaData from "../components/MetaData.vue";
 import About from "../components/About.vue";
 import Guide from "../components/Guide.vue";
+import Privacy from "../components/Privacy.vue";
 
 export default defineComponent({
   components: {
@@ -213,6 +218,7 @@ export default defineComponent({
     MetaData,
     About,
     Guide,
+    Privacy,
   },
   watch: {
     $route(to, from) {
@@ -316,6 +322,7 @@ export default defineComponent({
       forceRefresh: 0,
       visibleAbout: false,
       visibleGuide: false,
+      visiblePrivacy: false,
       mapClicked: false,
       currentColour: "dark",
       targetTheme: "dark",
@@ -561,8 +568,8 @@ export default defineComponent({
   height: auto;
   cursor: pointer;
   border-radius: 6px !important;
-  background-color: var(--theme-background);
-  color: var(--theme-text-color);
+  background-color: var(--theme-button-background);
+  color: var(--theme-page-text);
   font-size: 100%;
   height: 32px;
 }
@@ -574,9 +581,9 @@ export default defineComponent({
 }
 
 #resetSplitButton:hover {
-  background-color: var(--theme-accent-color1-alpha);
+  background-color: var(--theme-button-hover);
   cursor: pointer;
-  color: var(--theme-text-color);
+  color: var(--theme-page-text);
 }
 
 .flip-fade-enter-active,
@@ -599,7 +606,7 @@ export default defineComponent({
 #logo-main {
   width: 110px;
   height: 100px;
-  background-color: var(--theme-footer-color);
+  background-color: var(--theme-footer-background);
   float: left;
   margin-top: 30px;
   margin-left: 40px;
@@ -615,9 +622,7 @@ export default defineComponent({
   right: 20px;
   height: 145px;
   width: 165px;
-  background: linear-gradient(to bottom,
-      rgba(40, 40, 40, 1) 0%,
-      rgba(40, 40, 40, 0.8) 100%);
+  background: var(--theme-logo-background);
   border-radius: 0px 0px 5px 5px;
 }
 
@@ -630,7 +635,7 @@ export default defineComponent({
 #gu-logo-sv {
   width: 165px;
   height: 145px;
-  background: var(--theme-gu-logo);
+  background: var(--theme-gu-logo-sv);
   background-size: 125px 95px;
   background-repeat: no-repeat;
   background-position: center;
@@ -639,44 +644,10 @@ export default defineComponent({
 #gu-logo-en {
   width: 165px;
   height: 145px;
-  background: var(--theme-gu-logo);
+  background: var(--theme-gu-logo-en);
   background-size: 125px 95px;
   background-repeat: no-repeat;
   background-position: center;
-}
-
-#dark-mode {
-  float: right;
-  text-align: left;
-  margin-right: 10px;
-  margin-top: 2px;
-  height: 29px;
-  width: 29px;
-  border-radius: 8px;
-  background-image: url(../../interface/lightmode.png);
-  background-size: 18px;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-width: 1.5px;
-  border-color: transparent;
-  border-radius: 50%;
-}
-
-#light-mode {
-  float: right;
-  text-align: left;
-  margin-right: 10px;
-  margin-top: 2px;
-  height: 29px;
-  width: 29px;
-  border-radius: 8px;
-  background-image: url(../../interface/darkmode.png);
-  background-size: 16px;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-width: 1.5px;
-  border-color: transparent;
-  border-radius: 50%;
 }
 
 .menu-show-button {
@@ -687,9 +658,6 @@ export default defineComponent({
   display: none;
 }
 
-/* #logo:hover{
-  opacity:0.5;
-} */
 
 .height {
   height: calc(100vh - 160px);
@@ -705,7 +673,7 @@ export default defineComponent({
   font-weight: 400;
   margin-left: 120px;
   padding: 30px 40px;
-  color: var(--theme-text-color);
+  color: var(--theme-page-text);
 }
 
 @media (max-width: 350px) {
@@ -727,29 +695,21 @@ export default defineComponent({
 }
 
 .title .aboutemph {
-  /* cursor:pointer;
-  pointer-events:auto; */
   display: inline;
   color: var(--theme-accent-color1-alpha) !important;
 }
 
-/* .title .emph:hover{
-  display:inline;
- color: rgb(120,135,150);
-
-} */
-
 .top {
   height: 160px;
   z-index: 1000;
-  background-color: var(--theme-footer-color);
+  background-color: var(--theme-footer-background);
 }
 
 .languages {
   right: 185px;
   font-size: 1.2em;
   font-weight: 400;
-  color: var(--theme-text-color);
+  color: var(--theme-page-text);
   position: absolute;
   padding-right: 20px;
   margin-top: 0px;
@@ -769,7 +729,7 @@ export default defineComponent({
   margin-top: 110px;
   height: auto;
   right: 201px;
-  color: var(--theme-text-color);
+  color: var(--theme-page-text);
   position: absolute;
   padding-right: 0px;
   width: auto;
@@ -782,7 +742,7 @@ export default defineComponent({
 }
 
 .top-links .item:hover {
-  background-color: var(--theme-accent-color2-alpha)
+  background-color: var(--theme-button-hover)
 }
 
 .button-image {
@@ -793,7 +753,7 @@ export default defineComponent({
   height: 25px;
   border-radius: 50%;
   border-width: 1.5px;
-  border-color: var(--theme-button);
+  border-color: var(--theme-button-border);
   background-size: contain;
 }
 
@@ -807,7 +767,7 @@ export default defineComponent({
 }
 
 .top-button:hover {
-  background-color: var(--theme-accent-color2)
+  background-color: var(--theme-button-hover)
 }
 
 .top-link-button {
@@ -818,7 +778,7 @@ export default defineComponent({
   height: 20px;
   width: 20px;
   border-radius: 8px;
-  background-image: url(../../interface/linkbuttonbold.png);
+  background-image: var(--theme-link-button);
   background-size: 18px;
   background-position: center;
   background-repeat: no-repeat;
@@ -835,7 +795,7 @@ export default defineComponent({
   height: 20px;
   width: 20px;
   border-radius: 8px;
-  background-image: url(../../interface/infobuttonbold.png);
+  background-image: var(--theme-info-button);
   background-size: 18px;
   background-position: center;
   background-repeat: no-repeat;
@@ -943,7 +903,7 @@ export default defineComponent({
     border-radius: 50%;
     height: 30px;
     width: 30px;
-    background-image: url(../../interface/menu.png);
+    background-image: var(--theme-menu-button);
     background-size: 25px 25px;
     background-position: center;
     background-repeat: no-repeat;
@@ -1028,7 +988,7 @@ export default defineComponent({
     height: 40px;
     width: 40px;
     border-radius: 8px;
-    background-image: url(../../interface/linkbuttonbold.png);
+    background-image: var(--theme-link-button);
     background-size: 32px;
     background-position: center;
     background-repeat: no-repeat;
@@ -1045,7 +1005,7 @@ export default defineComponent({
     height: 40px;
     width: 40px;
     border-radius: 8px;
-    background-image: url(../../interface/infobuttonbold.png);
+    background-image: var(--theme-link-button);
     background-size: 32px;
     background-position: center;
     background-repeat: no-repeat;
@@ -1251,7 +1211,7 @@ export default defineComponent({
 }
 
 #search-wrapper {
-  background: linear-gradient(rgb(35, 35, 35) 0%, rgb(50, 50, 50) 100%);
+  background: var(--theme-input-wrapper-background);
   color: black !important;
 }
 
@@ -1260,7 +1220,7 @@ input[type="search"]::-webkit-search-cancel-button {
   height: 0.5em;
   width: 0.5em;
   border-radius: 50em;
-  background: url(../../interface/input-cancel-x.svg) no-repeat 50% 50%;
+  background: var(--theme-close-button);
   background-size: contain;
   opacity: 1;
   pointer-events: none;
@@ -1274,7 +1234,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 h2 {
   display: flex;
-  color: white;
+  color: var(--theme-page-text);
   font-size: 30px;
   font-weight: 400;
   line-height: 0.8;
@@ -1287,7 +1247,7 @@ input:focus {
 h2 input {
   flex: 1;
   min-width: 3em;
-  color: white;
+  color: var(--theme-page-text);
   font-weight: 400;
   z-index: 35;
 }
@@ -1327,6 +1287,7 @@ h2 input:not(:placeholder-shown) {
   .gutter {
     display: none;
   }
+
   .gutter-2 {
     display: none;
   }
@@ -1512,7 +1473,7 @@ h2 input:not(:placeholder-shown) {
     'opsz' 24;
   vertical-align: middle;
   padding: 1px;
-  color: var(--theme-text-color);
+  color: var(--theme-page-text);
   cursor: pointer;
 }
 </style>

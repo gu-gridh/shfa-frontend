@@ -25,36 +25,69 @@ body {
 }
 
 :root {
-
-  --theme-background: #222222;
-  --theme-footer-color: #1b1b1b;
-  --theme-accent-color1-alpha: #3BC5FCa1;
-  --theme-accent-color2-alpha: #7143ad54;
-  --theme-accent-color1: #3BC5FC;
-  --theme-accent-color2: #7344e1;
-  --theme-text-color: white;
-  --theme-button: linear-gradient(#232323, #232323) padding-box, linear-gradient(to right, rgba(3, 163, 226, 0.90), rgba(115, 68, 225, 0.8)) border-box;
-  --theme-popup-background: rgba(20, 20, 20, 0.95);
-  --theme-gu-logo: url("src/assets/gu_logo.png");
-  --theme-shfa-logo: url("../src/assets/shfa_logo_downscale.png");
-  --theme-rj-logo: url("../graphics/interface/RJ_logo_white.png");
-  --theme-font: "Barlow Semi Condensed", sans-serif;
+    --theme-page-background:#222222;
+    --theme-footer-background: #1b1b1b;
+    --theme-button-background: #686767;
+    --theme-button-hover: #236f88;
+    --theme-page-text: white;
+    --theme-button-text: white;
+    --theme-highlighted-text: #4da5c2;
+    --theme-popup-background: #292929;
+    --theme-popup-text: white;
+    --theme-map-markers: #271063;
+    --theme-image-hover-background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
+    --theme-image-hover-text: white;
+    --theme-metadata-text: white;
+    --theme-notice-text: #4da5c2;
+    --theme-emphasised-text: #4da5c2;
+    --theme-placeholder-text: #909090;
+    --theme-input-background: #1d192c;
+    --theme-input-wrapper-background: linear-gradient(rgb(35, 35, 35) 0%, rgb(50, 50, 50) 100%);
+    --theme-logo-background: #1b1b1b;
+    --theme-gu-logo-en: url("../src/assets/gu_logo.png");
+    --theme-gu-logo-sv: url("../src/assets/gu_logo_sv.png");
+    --theme-shfa-logo: url("../src/assets/shfa_logo_downscale.png");
+    --theme-guide-page-background: #222222b4;
+    --theme-gallery-nav-text: #5dadc8;
+    --theme-gallery-nav-background: #1b1b1b99;
+    --theme-font: "Barlow Semi Condensed", sans-serif;
+    --theme-link-button: url(../../interface/linkbuttonboldwhite.png);
+    --theme-info-button: url(../../interface/infobuttonboldwhite.png);
+    --theme-menu-button: url(../../interface/menu.png);
+    --theme-close-button: url(../../interface/input-cancel-x.svg) no-repeat 50% 50%;
 }
 
 html[style-theme='dark'] {
-  --theme-background: #222222;
-  --theme-footer-color: #1b1b1b;
-  --theme-accent-color1-alpha: #3BC5FCa1;
-  --theme-accent-color2-alpha: #7143ad54;
-  --theme-accent-color1: #3BC5FC;
-  --theme-accent-color2: #7344e1;
-  --theme-text-color: white;
-  --theme-button: linear-gradient(#232323, #232323) padding-box, linear-gradient(to right, rgba(3, 163, 226, 0.90), rgba(115, 68, 225, 0.8)) border-box;
-  --theme-popup-background: rgba(20, 20, 20, 0.95);
-  --theme-gu-logo: url("../src/assets/gu_logo.png");
-  --theme-shfa-logo: url("../src/assets/shfa_logo_downscale.png");
-  --theme-rj-logo: url("../graphics/interface/RJ_logo_white.png");
-  --theme-font: "Barlow Semi Condensed", sans-serif;
+    --theme-page-background:#222222;
+    --theme-footer-background: #1b1b1b;
+    --theme-button-background: #686767;
+    --theme-button-hover: #236f88;
+    --theme-page-text: white;
+    --theme-button-text: white;
+    --theme-highlighted-text: #4da5c2;
+    --theme-popup-background: #292929;
+    --theme-popup-text: white;
+    --theme-map-markers: #271063;
+    --theme-image-hover-background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
+    --theme-image-hover-text: white;
+    --theme-metadata-text: white;
+    --theme-notice-text: #4da5c2;
+    --theme-emphasised-text: #4da5c2;
+    --theme-placeholder-text: #909090;
+    --theme-input-background: #1d192c;
+    --theme-input-wrapper-background: linear-gradient(rgb(35, 35, 35) 0%, rgb(50, 50, 50) 100%);
+    --theme-logo-background: #1b1b1b;
+    --theme-gu-logo-en: url("../src/assets/gu_logo.png");
+    --theme-gu-logo-sv: url("../src/assets/gu_logo_sv.png");
+    --theme-shfa-logo: url("../src/assets/shfa_logo_downscale.png");
+    --theme-guide-page-background: #222222b4;
+    --theme-gallery-nav-text: #5dadc8;
+    --theme-gallery-nav-background: #1b1b1b99;
+    --theme-font: "Barlow Semi Condensed", sans-serif;
+    --theme-link-button: url(../../interface/linkbuttonboldwhite.png);
+    --theme-info-button: url(../../interface/infobuttonboldwhite.png);
+    --theme-menu-button: url(../../interface/menu.png);
+    --theme-close-button: url(../../interface/input-cancel-x.svg) no-repeat 50% 50%;
 }
 
 html[style-theme='light'] {
