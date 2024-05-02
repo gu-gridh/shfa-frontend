@@ -284,6 +284,10 @@ td {
   max-width: 100%;
 }
 
+th{
+  display: none;
+}
+
 .metadata-wide {
   float: left;
   padding-left: 25px;

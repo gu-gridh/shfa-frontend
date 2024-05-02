@@ -610,7 +610,7 @@ export default defineComponent({
   float: left;
   margin-top: 30px;
   margin-left: 40px;
-  background: url("../assets/shfa_logo_downscale.png");
+  background: var(--theme-shfa-logo);
   background-repeat: no-repeat;
   background-size: contain;
   opacity: 0.3;
@@ -690,13 +690,13 @@ export default defineComponent({
   cursor: pointer;
   pointer-events: auto;
   display: inline;
-  color: var(--theme-accent-color1-alpha);
+  color: var(--theme-emphasised-text);
   transition: all 0.8s ease-in-out;
 }
 
 .title .aboutemph {
   display: inline;
-  color: var(--theme-accent-color1-alpha) !important;
+  color: var(--theme-emphasised-text) !important;
 }
 
 .top {
@@ -783,7 +783,7 @@ export default defineComponent({
   background-position: center;
   background-repeat: no-repeat;
   border-width: 1.4px;
-  border-color: black;
+  border-color: var(--theme-top-link-button-border);
   border-radius: 50%;
 }
 
@@ -800,7 +800,7 @@ export default defineComponent({
   background-position: center;
   background-repeat: no-repeat;
   border-width: 1.4px;
-  border-color: black;
+  border-color: var(--theme-top-link-button-border);
   border-radius: 50%;
 }
 
@@ -815,15 +815,15 @@ export default defineComponent({
   border-radius: 8px;
   font-size: 1.1em;
   font-weight: 500;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.5);
+  color: var(--theme-page-text);
+  background-color: var(--theme-overlay);
   backdrop-filter: blur(5px);
 }
 
 .ui-mode {
   top: 190px;
   padding: 4px 0px 4px 0px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--theme-overlay);
 }
 
 .ui-mode .item {
@@ -834,11 +834,11 @@ export default defineComponent({
 }
 
 .ui-mode .item:hover {
-  color: rgb(200, 225, 250);
+  color: var(--theme-ui-hover);
 }
 
 .ui-mode .selected {
-  color: rgb(200, 225, 250);
+  color: var(--theme-ui-hover);
 }
 
 .ui-numbers {
@@ -868,10 +868,10 @@ export default defineComponent({
   border-radius: 8px;
   font-size: 1.1em;
   font-weight: 500;
-  color: white;
+  color: var(--theme-page-text);
   padding: 2px 15px 6px 15px;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--theme-overlay);
   backdrop-filter: blur(5px);
 }
 
@@ -895,7 +895,7 @@ export default defineComponent({
 
   .menu-show-button {
     display: block;
-    color: black;
+    color: var(--theme-top-link-button-border);
     float: right;
     margin-right: 35px;
     margin-top: 16px;
@@ -910,13 +910,13 @@ export default defineComponent({
   }
 
   .menu-show-button:hover {
-    background-color: white;
+    background-color: var(--theme-footer-background);
     opacity: 1;
   }
 
   .menu-close-button {
     display: block;
-    color: black;
+    color: var(--theme-page-text);
     float: right;
     border-radius: 50%;
     height: 45px;
@@ -929,7 +929,7 @@ export default defineComponent({
   }
 
   .menu-close-button:hover {
-    background-color: white;
+    background-color: var(--theme-page-text);
     opacity: 1;
   }
 
@@ -937,9 +937,9 @@ export default defineComponent({
     display: block;
     width: 100%;
     position: absolute;
-    background-color: rgba(240, 240, 240, 0.9);
+    background-color: var(--theme-menu-background);
     height: 440px;
-    box-shadow: 0rem 2rem 2rem rgba(0, 0, 0, 0.3) !important;
+    box-shadow: var(--theme-menu-shadow);
     backdrop-filter: blur(8px);
   }
 
@@ -993,7 +993,7 @@ export default defineComponent({
     background-position: center;
     background-repeat: no-repeat;
     border-width: 1.5px;
-    border-color: black;
+    border-color: var(--theme-top-link-button-border);
     border-radius: 50%;
   }
 
@@ -1010,7 +1010,7 @@ export default defineComponent({
     background-position: center;
     background-repeat: no-repeat;
     border-width: 1.5px;
-    border-color: black;
+    border-color: var(--theme-top-link-button-border);
     border-radius: 50%;
   }
 
@@ -1074,7 +1074,7 @@ export default defineComponent({
   height: calc(100% - 160px);
   width: 100%;
   position: absolute;
-  box-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
+  box-shadow: var(--theme-menu-shadow);
   pointer-events: none;
 }
 
@@ -1130,9 +1130,9 @@ export default defineComponent({
 }
 
 #split-2 {
-  background-color: rgb(55, 55, 55);
+  background-color: var(--theme-footer-background);
   padding: 0px 0px 0px 20px;
-  box-shadow: inset 0rem 0rem 3rem rgba(0, 0, 0, 0.2) !important;
+  box-shadow: var(--theme-menu-shadow);
 }
 
 #split-2::-webkit-scrollbar {
@@ -1183,7 +1183,7 @@ export default defineComponent({
 
 .tag-example {
   float: left;
-  background-color: rgb(90, 90, 90);
+  background-color: var(--theme-button-background);
   padding: 5px 10px;
   border-radius: 5px;
   margin-left: 10px;
@@ -1193,8 +1193,8 @@ export default defineComponent({
 }
 
 .tag-example:hover {
-  background-color: rgb(80, 90, 100);
-  color: white;
+  background-color: var(--theme-button-hover);
+  color: var(--theme-page-text);
   cursor: pointer;
 }
 
@@ -1212,7 +1212,7 @@ export default defineComponent({
 
 #search-wrapper {
   background: var(--theme-input-wrapper-background);
-  color: black !important;
+  color: var(--theme-base);
 }
 
 input[type="search"]::-webkit-search-cancel-button {
@@ -1255,7 +1255,7 @@ h2 input {
 h2 input:hover,
 h2 input:focus,
 h2 input:not(:placeholder-shown) {
-  background-color: black;
+  background-color: var(--theme-base);
 }
 
 .slide-enter-active,
@@ -1274,12 +1274,12 @@ h2 input:not(:placeholder-shown) {
 }
 
 .gutter {
-  background-color: #999;
+  background-color: var(--theme-ui-hover);
   cursor: ew-resize;
 }
 
 .gutter-2 {
-  background-color: #999;
+  background-color: var(--theme-ui-hover);
   cursor: ew-resize;
 }
 
@@ -1299,29 +1299,29 @@ h2 input:not(:placeholder-shown) {
 }
 
 .close-button {
-  color: white;
+  color: var(--theme-viewer-button-text);
   z-index: 1000;
   position: relative;
   border-radius: 50%;
   height: 35px;
   width: 35px;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: var(--theme-viewer-button-background);
   margin-left: 27px;
   margin-top: 58px;
   opacity: 1;
   padding: 5px;
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(50, 50, 50);
+  border-color: var(--theme-viewer-button-border);
 }
 
 .close-button:hover {
-  background-color: rgb(80, 90, 100);
+  background-color: var(--theme-viewer-button-hover);
   opacity: 1;
 }
 
 #app .search-container .tag-example-search {
-  background-color: rgb(80, 90, 100);
+  background-color: var(--theme-button-background);
   padding: 0px 10px;
   font-size: 1em;
   font-weight: 400;
@@ -1332,15 +1332,15 @@ h2 input:not(:placeholder-shown) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: white;
-  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
+  color: var(--theme-page-text);
+  box-shadow: var(--theme-menu-shadow);
 }
 
 #app .search-container .input-wrapper {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  background-color: rgb(45, 45, 45);
+  background-color: var(--theme-input-wrapper-background);
   border-radius: 6px;
   width: 100%;
   box-sizing: border-box;
@@ -1373,7 +1373,7 @@ h2 input:not(:placeholder-shown) {
     width: 100%;
     font-size: 1.3em;
     text-align: left;
-    color: white;
+    color: var(--theme-page-text);
     padding-left: 0px;
     margin-top: 5px;
     margin-bottom: 25px;
@@ -1408,14 +1408,14 @@ h2 input:not(:placeholder-shown) {
   #app .field-title {
     font-size: 1.2em;
     margin-bottom: 5px;
-    color: white;
+    color: var(--theme-page-text);
   }
 
   #app .search-container .input-wrapper {
     font-size: 1.3em;
 
     margin-bottom: 5px;
-    color: white;
+    color: var(--theme-page-text);
   }
 
   #app .search-button {
@@ -1436,7 +1436,7 @@ h2 input:not(:placeholder-shown) {
 
   #metadata-container .label {
     width: 120px;
-    color: white;
+    color: var(--theme-page-text);
     font-weight: 600;
   }
 
@@ -1447,7 +1447,7 @@ h2 input:not(:placeholder-shown) {
   #metadata-container .metadata-wide {
     float: left;
     padding-left: 25px;
-    color: white;
+    color: var(--theme-page-text);
     width: 100%;
     margin-top: 20px;
   }
@@ -1457,7 +1457,7 @@ h2 input:not(:placeholder-shown) {
     list-style-type: none;
     padding: 2px 12px;
     border-radius: 5px;
-    background-color: rgb(100, 100, 100);
+    background-color: var(--theme-button-background);
   }
 
   #app .datareportcard {
