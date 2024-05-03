@@ -28,18 +28,18 @@ body {
   --theme-page-background: #222222;
   --theme-footer-background: #1b1b1b;
   --theme-button-background: #686767;
-  --theme-button-hover: #236f88;
+  --theme-button-hover: #277994;
   --theme-page-text: white;
   --theme-button-text: white;
-  --theme-highlighted-text: #4da5c2;
+  --theme-highlighted-text: #56b8d9;
   --theme-popup-background: #292929;
   --theme-popup-text: white;
   --theme-map-markers: #1a094c;
   --theme-image-hover-background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
   --theme-image-hover-text: white;
   --theme-metadata-text: white;
-  --theme-notice-text: #4da5c2;
-  --theme-emphasised-text: #4da5c2;
+  --theme-notice-text: #56b8d9;
+  --theme-emphasised-text: #56b8d9;
   --theme-placeholder-text: #909090;
   --theme-input-background: #1d192c;
   --theme-input-wrapper-background: linear-gradient(rgb(35, 35, 35) 0%, rgb(50, 50, 50) 100%);
@@ -50,7 +50,7 @@ body {
   --theme-guide-page-background: #1b1b1b;
   --theme-gallery-nav-text: #5dadc8;
   --theme-gallery-nav-background: #1b1b1b99;
-  --theme-link-color: #4da5c2;
+  --theme-link-color: #c2a6d5;
   --theme-base: black !important;
   --theme-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   --theme-menu-background: rgba(27, 27, 27, 0.80);
@@ -79,18 +79,18 @@ html[style-theme='dark'] {
   --theme-page-background: #222222;
   --theme-footer-background: #1b1b1b;
   --theme-button-background: #686767;
-  --theme-button-hover: #236f88;
+  --theme-button-hover: #277994;
   --theme-page-text: white;
   --theme-button-text: white;
-  --theme-highlighted-text: #4da5c2;
+  --theme-highlighted-text: #56b8d9;
   --theme-popup-background: #292929;
   --theme-popup-text: white;
   --theme-map-markers: #1a094c;
   --theme-image-hover-background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
   --theme-image-hover-text: white;
   --theme-metadata-text: white;
-  --theme-notice-text: #4da5c2;
-  --theme-emphasised-text: #4da5c2;
+  --theme-notice-text: #56b8d9;
+  --theme-emphasised-text: #56b8d9;
   --theme-placeholder-text: #909090;
   --theme-input-background: #1d192c;
   --theme-input-wrapper-background: linear-gradient(rgb(35, 35, 35) 0%, rgb(50, 50, 50) 100%);
@@ -101,7 +101,7 @@ html[style-theme='dark'] {
   --theme-guide-page-background: #1b1b1b;
   --theme-gallery-nav-text: #5dadc8;
   --theme-gallery-nav-background: #1b1b1b99;
-  --theme-link-color: #4da5c2;
+  --theme-link-color: #c2a6d5;
   --theme-base: black !important;
   --theme-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   --theme-menu-background: rgba(27, 27, 27, 0.80);
@@ -123,7 +123,7 @@ html[style-theme='dark'] {
   --theme-zoom-out-button: url(../assets/openseadragon/minus.svg);
   --theme-previous-button: url(../assets/openseadragon/prev.png);
   --theme-next-button: url(../assets/openseadragon/next.png);
-  --theme-download-button: url(../interface/downloadbuttonwhite.png);
+  --theme-download-button: url(public/interface/downloadwhite.png);
 }
 
 html[style-theme='light'] {
