@@ -28,11 +28,12 @@
           <div class="version">Version 1.2.2</div>
 
           <transition name="flip-fade" mode="out-in">
-            <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage">
+            <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage"
+              id="language-button">
               Svenska
 
             </div>
-            <div v-else class="top-button" key="svenska" @click="toggleLanguage">
+            <div v-else class="top-button" key="svenska" @click="toggleLanguage" id="language-button">
               English
 
             </div>
@@ -52,13 +53,11 @@
 
           <!-- <div class="top-button">|</div> -->
         </div>
-        <Privacy v-if="currentLanguage === 'en'" :visiblePrivacy="visiblePrivacy" :currentLanguage="'en'" @close="visiblePrivacy = false" />
-        <Privacy v-else :visiblePrivacy="visiblePrivacy" :currentLanguage="'sv'" @close="visiblePrivacy = false" />
+        <Privacy :visiblePrivacy="visiblePrivacy" :currentLanguage="currentLanguage" @close="visiblePrivacy = false" />
         <About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
         <Guide :visibleGuide="visibleGuide" @close="visibleGuide = false" />
         <div class="top-links">
-          <button class="item" @click="visiblePrivacy = true">
-
+          <button class="item" id="privacy-button" @click="visiblePrivacy = true">
             {{ $t('message.privacy') }}<div class="top-link-infobutton"></div></button>
           <button class="item" @click="visibleGuide = true">
 
@@ -335,6 +334,124 @@ export default defineComponent({
     };
   },
   mounted() {
+    var en_settings = {
+      "showIntro": true, "divId": "matomo-opt-out", "useSecureCookies": true, "cookiePath": null, "cookieDomain": null, "cookieSameSite": "Lax", "OptOutComplete": "Opt-out complete; your visits to this website will not be recorded by the Web Analytics tool.", "OptOutCompleteBis": "Note that if you clear your cookies, delete the opt-out cookie, or if you change computers or Web browsers, you will need to perform the opt-out procedure again.", "YouMayOptOut2": "You may choose to prevent this website from aggregating and analyzing the actions you take here.", "YouMayOptOut3": "Doing so will protect your privacy, but will also prevent the owner from learning from your actions and creating a better experience for you and other users.", "OptOutErrorNoCookies": "The tracking opt-out feature requires cookies to be enabled.", "OptOutErrorNotHttps": "The tracking opt-out feature may not work because this site was not loaded over HTTPS. Please reload the page to check if your opt out status changed.", "YouAreNotOptedOut": "You are not opted out.", "UncheckToOptOut": "Uncheck this box to opt-out.", "YouAreOptedOut": "You are currently opted out.", "CheckToOptIn": "Check this box to opt-in."
+    };
+    var sv_settings = {
+      "showIntro": true, "divId": "matomo-opt-out", "useSecureCookies": true, "cookiePath": null, "cookieDomain": null, "cookieSameSite": "Lax", "OptOutComplete": "Exkludering utf\u00f6rd; dina bes\u00f6k p\u00e5 denna webbplatsen kommer inte att sp\u00e5ras av webbanalys-verktyget.", "OptOutCompleteBis": "Observera att om du rensar cookies, tar bort cookien f\u00f6r exkludering eller om du byter dator eller webbl\u00e4sare m\u00e5ste du utf\u00f6ra exkluderingen igen.", "YouMayOptOut2": "Du kan v\u00e4lja att neka den h\u00e4r webbplatsen tillst\u00e5nd att samla in och analysera information om dina handlingar h\u00e4r.", "YouMayOptOut3": "Genom att g\u00f6ra s\u00e5 kommer du skydda din integritet, men kommer \u00e4ven hindra \u00e4garen att l\u00e4ra fr\u00e5n dina handlingar och d\u00e4rigenom skapa en b\u00e4ttre upplevelse f\u00f6r dig och andra anv\u00e4ndare.", "OptOutErrorNoCookies": "Funktionen f\u00f6r opt-out fr\u00e5n sp\u00e5rning kr\u00e4ver att cookies \u00e4r aktiverade.", "OptOutErrorNotHttps": "Funktionen f\u00f6r opt-out fr\u00e5n sp\u00e5rning kanske inte fungerar eftersom denna webbplats inte laddades \u00f6ver HTTPS. Ladda om sidan f\u00f6r att kolla om din opt-out status \u00e4ndrats.", "YouAreNotOptedOut": "Du har inte valt bort det.", "UncheckToOptOut": "Avmarkera rutan f\u00f6r att inte vara med.", "YouAreOptedOut": "Du \u00e4r just nu exkluderad.", "CheckToOptIn": "Markera rutan f\u00f6r att vara med."
+    };
+    var settings = this.currentLanguage === 'en' ? en_settings : sv_settings;
+    const privacyButton = document.getElementById("privacy-button");
+    privacyButton.addEventListener('click', function () {
+      window.MatomoConsent.init(settings.useSecureCookies, settings.cookiePath, settings.cookieDomain, settings.cookieSameSite);
+      showContent(window.MatomoConsent.hasConsent());
+    });
+    function showContent(consent, errorMessage = null, useTracker = false) {
+
+      var errorBlock = '<p style="color: red; font-weight: bold;">';
+
+      var div = document.getElementById(settings.divId);
+      if (!div) {
+        const warningDiv = document.createElement("div");
+        var msg = 'Unable to find opt-out content div: "' + settings.divId + '"';
+        warningDiv.id = settings.divId + '-warning';
+        warningDiv.innerHTML = errorBlock + msg + '</p>';
+        document.body.insertBefore(warningDiv, document.body.firstChild);
+        console.log(msg);
+        return;
+      }
+
+      if (!navigator || !navigator.cookieEnabled) {
+        div.innerHTML = errorBlock + settings.OptOutErrorNoCookies + '</p>';
+        return;
+      }
+      if (location.protocol !== 'https:') {
+        div.innerHTML = errorBlock + settings.OptOutErrorNotHttps + '</p>';
+        return;
+      }
+      if (errorMessage !== null) {
+        div.innerHTML = errorBlock + errorMessage + '</p>';
+        return;
+      }
+      var content = '';
+      if (consent) {
+        if (settings.showIntro) {
+          content += '<p>' + settings.YouMayOptOut2 + ' ' + settings.YouMayOptOut3 + '</p>';
+        }
+        if (useTracker) {
+          content += '<input onclick="_paq.push([\'optUserOut\']);showContent(false, null, true);" id="trackVisits" type="checkbox" checked="checked" />';
+        } else {
+          content += '<input onclick="window.MatomoConsent.consentRevoked();showContent(false);" id="trackVisits" type="checkbox" checked="checked" />';
+        }
+        content += '<label for="trackVisits"><strong><span>' + settings.YouAreNotOptedOut + ' ' + settings.UncheckToOptOut + '</span></strong></label>';
+      } else {
+        if (settings.showIntro) {
+          content += '<p>' + settings.OptOutComplete + ' ' + settings.OptOutCompleteBis + '</p>';
+        }
+        if (useTracker) {
+          content += '<input onclick="_paq.push([\'forgetUserOptOut\']);showContent(true, null, true);" id="trackVisits" type="checkbox" />';
+        } else {
+          content += '<input onclick="window.MatomoConsent.consentGiven();showContent(true);" id="trackVisits" type="checkbox" />';
+        }
+        content += '<label for="trackVisits"><strong><span>' + settings.YouAreOptedOut + ' ' + settings.CheckToOptIn + '</span></strong></label>';
+      }
+      div.innerHTML = content;
+    };
+
+    window.MatomoConsent = {
+      cookiesDisabled: (!navigator || !navigator.cookieEnabled),
+      CONSENT_COOKIE_NAME: 'mtm_consent', CONSENT_REMOVED_COOKIE_NAME: 'mtm_consent_removed',
+      cookieIsSecure: false, useSecureCookies: true, cookiePath: '', cookieDomain: '', cookieSameSite: 'Lax',
+      init: function (useSecureCookies, cookiePath, cookieDomain, cookieSameSite) {
+        this.useSecureCookies = useSecureCookies; this.cookiePath = cookiePath;
+        this.cookieDomain = cookieDomain; this.cookieSameSite = cookieSameSite;
+        if (useSecureCookies && location.protocol !== 'https:') {
+          console.log('Error with setting useSecureCookies: You cannot use this option on http.');
+        } else {
+          this.cookieIsSecure = useSecureCookies;
+        }
+      },
+      hasConsent: function () {
+        var consentCookie = this.getCookie(this.CONSENT_COOKIE_NAME);
+        var removedCookie = this.getCookie(this.CONSENT_REMOVED_COOKIE_NAME);
+        if (!consentCookie && !removedCookie) {
+          return true; // No cookies set, so opted in
+        }
+        if (removedCookie && consentCookie) {
+          this.setCookie(this.CONSENT_COOKIE_NAME, '', -129600000);
+          return false;
+        }
+        return (consentCookie || consentCookie !== 0);
+      },
+      consentGiven: function () {
+        this.setCookie(this.CONSENT_REMOVED_COOKIE_NAME, '', -129600000);
+        this.setCookie(this.CONSENT_COOKIE_NAME, new Date().getTime(), 946080000000);
+      },
+      consentRevoked: function () {
+        this.setCookie(this.CONSENT_COOKIE_NAME, '', -129600000);
+        this.setCookie(this.CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), 946080000000);
+      },
+      getCookie: function (cookieName) {
+        var cookiePattern = new RegExp('(^|;)[ ]*' + cookieName + '=([^;]*)'), cookieMatch = cookiePattern.exec(document.cookie);
+        return cookieMatch ? window.decodeURIComponent(cookieMatch[2]) : 0;
+      },
+      setCookie: function (cookieName, value, msToExpire) {
+        var expiryDate = new Date();
+        expiryDate.setTime((new Date().getTime()) + msToExpire);
+        document.cookie = cookieName + '=' + window.encodeURIComponent(value) +
+          (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
+          ';path=' + (this.cookiePath || '/') +
+          (this.cookieDomain ? ';domain=' + this.cookieDomain : '') +
+          (this.cookieIsSecure ? ';secure' : '') +
+          ';SameSite=' + this.cookieSameSite;
+        if ((!msToExpire || msToExpire >= 0) && this.getCookie(cookieName) !== String(value)) {
+          console.log('There was an error setting cookie `' + cookieName + '`. Please check domain and path.');
+        }
+      }
+    };
+
+
+
     window.addEventListener("resize", this.updateWindowWidth);
 
     this.$i18n.locale = this.currentLanguage;
