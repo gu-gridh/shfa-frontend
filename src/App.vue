@@ -67,6 +67,12 @@ body {
   --theme-info-button: url(../../interface/infobuttonboldwhite.png);
   --theme-menu-button: url(../../interface/menuwhite.png);
   --theme-close-button: url(../../interface/input-cancel-x.svg) no-repeat 50% 50%;
+  --theme-fullscreen-button: url(../assets/openseadragon/expand.svg);
+  --theme-zoom-in-button: url(../assets/openseadragon/plus.svg);
+  --theme-zoom-out-button: url(../assets/openseadragon/minus.svg);
+  --theme-previous-button: url(../assets/openseadragon/prev.png);
+  --theme-next-button: url(../assets/openseadragon/next.png);
+  --theme-download-button: url(public/interface/downloadwhite.png);
 }
 
 html[style-theme='dark'] {
@@ -112,6 +118,12 @@ html[style-theme='dark'] {
   --theme-info-button: url(../../interface/infobuttonboldwhite.png);
   --theme-menu-button: url(../../interface/menuwhite.png);
   --theme-close-button: url(../../interface/input-cancel-x.svg) no-repeat 50% 50%;
+  --theme-fullscreen-button: url(../assets/openseadragon/expand.svg);
+  --theme-zoom-in-button: url(../assets/openseadragon/plus.svg);
+  --theme-zoom-out-button: url(../assets/openseadragon/minus.svg);
+  --theme-previous-button: url(../assets/openseadragon/prev.png);
+  --theme-next-button: url(../assets/openseadragon/next.png);
+  --theme-download-button: url(../interface/downloadbuttonwhite.png);
 }
 
 html[style-theme='light'] {

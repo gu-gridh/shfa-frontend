@@ -27,7 +27,7 @@
       </ul>
     </div>
   </div>
-  <div id="navigator-div"></div>
+  <!-- <div id="navigator-div"></div> -->
 </template>
 
 <script>
@@ -212,8 +212,8 @@ a:active {
 }
 
 #ToolbarHorizontal span {
-  background-color: rgba(35, 35, 35, 0.6);
-  color: white;
+  background-color: var(--theme-viewer-button-background);
+  color: var(--theme-page-text);
   text-align: center;
   padding: 5px 10px 5px 10px;
   border-radius: 8px;
@@ -240,7 +240,7 @@ a:active {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: var(--theme-viewer-button-background);
   overflow: hidden;
   outline: none;
 }
@@ -252,7 +252,7 @@ a:active {
 #Prev {
   background: url(../assets/openseadragon/prev.png);
   background-size: 35px 35px;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: var(--theme-viewer-button-background);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -262,7 +262,7 @@ a:active {
 #Next {
   background: url(../assets/openseadragon/next.png);
   background-size: 35px 35px;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: var(--theme-viewer-button-background);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -270,11 +270,11 @@ a:active {
 }
 
 #ZoomIn {
-  background: url(../assets/openseadragon/plus.svg);
+  background-image: url(../assets/openseadragon/plus.svg);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: var(--theme-viewer-button-background);
   margin-top: 0px;
   overflow: hidden;
 }
@@ -284,18 +284,18 @@ a:active {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: var(--theme-viewer-button-background);
   overflow: hidden;
 }
 
-#Download {
+#DownloadButton {
   position: relative;
   top: 10px;
   background: url(../interface/downloadwhite.png);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: var(--theme-viewer-button-background);
   overflow: hidden;
   cursor: pointer;
 }
@@ -304,14 +304,22 @@ a:active {
   border-radius: 50%;
   width: 35px;
   height: 35px;
-  color: white;
+  color: var(--theme-page-text);
   opacity: 1;
+  background-color: var(--theme-viewer-button-background);
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(50, 50, 50);
+  border-color: var(--theme-viewer-button-border);
 }
 
 .NavButton:hover {
-  opacity: 0.8;
+  opacity: 0.85;
+}
+
+#FullPage:hover,
+#ZoomIn:hover,
+#ZoomOut:hover,
+#DownloadButton:hover {
+  background-color: var(--theme-viewer-button-hover);
 }
 </style>
