@@ -1,10 +1,10 @@
 <template>
   <div class="about-container" :class="{ fullopacity: visibleAbout }">
-    <div class="content" >
+    <div class="content">
 
       <template v-if="$i18n.locale === 'en'">
-        <div class="flex-machine" >
-          <div class="rows" >
+        <div class="flex-machine">
+          <div class="rows">
 
 
             <div class="logo-area">
@@ -14,7 +14,7 @@
               </h1>
             </div>
 
-            <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }" >
+            <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }">
               <h2>Database Overview</h2>
               <p>SHFA's [Svenskt Hällristnings Forsknings Arkivs] image database includes more than 24,000 digitized
                 images that are the result of ongoing work describing and documenting rock carvings since 1627.
@@ -108,13 +108,13 @@
 
           </div>
         </div>
-        <div class="about-logo-top-right" > </div>
+        <div class="about-logo-top-right"> </div>
       </template>
 
       <template v-else>
         <div class="flex-machine">
-          <div class="rows" >
-            <div class="content" >
+          <div class="rows">
+            <div class="content">
 
               <div class="logo-area">
                 <div id="logo-about"></div>
@@ -232,7 +232,7 @@
 
 
 
-      <div class="about-logo-top-right" > </div>
+      <div class="about-logo-top-right"> </div>
       <button class="close-page-button" @click="$emit('close')">
         <div class="category-button" :class="{ fullopacityui: visibleAbout }"
           style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
@@ -259,17 +259,13 @@ export default {
 </script>
 
 <style scoped>
-body {
-  /* border:opx; */
-}
-
 li {
   list-style: inside;
   margin-left: 30px;
 }
 
 a {
-  color: rgb(156, 201, 247);
+  color: var(--theme-ui-hover);
   font-weight: 400;
 }
 
@@ -278,14 +274,14 @@ h2 {
   font-style: bold;
   margin-top: -10px;
   margin-bottom: 5px;
-  color: rgb(200, 225, 250);
+  color: var(--theme-highlighted-text);
   font-weight: 500;
   line-height: 1.5;
 }
 
 .about-container {
   position: fixed;
-  color: white;
+  color: var(--theme-page-text);
   line-height: 1;
   width: 100%;
   font-size: 12px;
@@ -298,7 +294,7 @@ h2 {
   opacity: 0.0;
   overflow-y: scroll;
   max-height: max-content;
-  background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 30%);
+  background: var(--theme-guide-page-background);
 }
 
 .logo-area {
@@ -309,10 +305,10 @@ h2 {
   position: relative;
   width: 210px;
   height: 200px;
-  background-color: white;
+  background-color: var(--theme-page-text);
   float: left;
   margin-left: 80px;
-  background: url("../assets/shfa_logo_downscale_light.png");
+  background: var(--theme-shfa-logo);
   background-repeat: no-repeat;
   background-size: contain;
   opacity: 0.7;
@@ -331,21 +327,21 @@ h2 {
   font-weight: 400;
   margin-left: 0px;
   padding-left: 30px;
-  color: rgb(190, 190, 190);
+  color: var(--theme-page-text)
 }
 
 .title .emph:hover {
   display: inline;
-  color: rgb(120, 135, 150);
+  color: var(--theme-ui-hover)
 }
 
 .fullopacity {
-  /* backdrop-filter:blur(5px); */
+  backdrop-filter: blur(5px);
   opacity: 1.0;
   pointer-events: auto;
   transform: scale(1.0);
   translate: 0px 0px;
-  background: linear-gradient(120deg, rgb(50, 50, 50) 10%, rgba(65, 65, 65, 0.95) 80%);
+  background: var(--theme-guide-page-background);
   height: 100%;
 }
 
@@ -373,7 +369,7 @@ h2 {
   font-weight: 100;
   letter-spacing: -0.2px;
   text-align: center;
-  color: rgba(245, 245, 245, 0.8);
+  color: var(--theme-page-text);
   margin-bottom: 15px;
   transition: all 0.4s ease-in-out;
 }
@@ -388,7 +384,7 @@ h2 {
   font-weight: 100;
   letter-spacing: -0.2rem;
   text-align: center;
-  color: whitesmoke;
+  color: var(--theme-page-text);
   opacity: 0.0;
   margin-bottom: 20px;
   transition: all 0.4s ease-in-out;
@@ -398,7 +394,7 @@ h2 {
   position: relative;
   float: left;
   text-align: center;
-  color: white;
+  color: var(--theme-page-text);
   width: 100%;
   columns: 1;
   column-gap: 30px;
@@ -413,7 +409,7 @@ h2 {
   position: relative;
   float: left;
   text-align: justify;
-  color: white;
+  color: var(--theme-page-text);
   columns: 1;
   width: 100%;
   padding: 30px 100px;
@@ -432,14 +428,14 @@ h2 {
   font-size: 1.8em;
   font-weight: 400;
   transition: all 0.4s ease-in-out;
-  background-color: rgb(80, 90, 100);
+  background-color: var(--theme-button-background);
   padding: 8px 20px !important;
   z-index: 1000;
   opacity: 1.0;
   margin-top: 0px;
   margin-bottom: 0px;
   border-radius: 5px;
-  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: var(--theme-shadow);
 }
 
 .close-page-button {
@@ -448,15 +444,18 @@ h2 {
   bottom: 0px;
   top: calc(100vh - 80px);
   padding-bottom: 20px;
-  color: white;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.0) 100%);
-  background: black;
+  color: var(--theme-page-text);
+  background: var(--theme-footer-background);
   width: 100%;
   height: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: end;
+}
+
+.category-button:hover {
+  background: var(--theme-button-hover);
 }
 
 @media screen and (max-width: 900px) {
@@ -482,7 +481,7 @@ h2 {
   top: 30px;
   right: 60px;
   opacity: 0.6;
-  color: whitesmoke;
+  color: var(--theme-page-text);
   transition: all 0.4s ease-in-out;
 }
 
@@ -507,7 +506,7 @@ h2 {
     position: relative;
     float: left;
     text-align: center;
-    color: white;
+    color: var(--theme-page-text);
     width: 100%;
     columns: 1;
     column-gap: 30px;

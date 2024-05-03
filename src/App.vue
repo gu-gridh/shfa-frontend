@@ -47,7 +47,7 @@ body {
   --theme-gu-logo-en: url("../src/assets/gu_logo.png");
   --theme-gu-logo-sv: url("../src/assets/gu_logo_sv.png");
   --theme-shfa-logo: url("../src/assets/shfa_logo_downscale_light.png");
-  --theme-guide-page-background: #222222b4;
+  --theme-guide-page-background: #1b1b1b;
   --theme-gallery-nav-text: #5dadc8;
   --theme-gallery-nav-background: #1b1b1b99;
   --theme-link-color: #4da5c2;
@@ -98,7 +98,7 @@ html[style-theme='dark'] {
   --theme-gu-logo-en: url("../src/assets/gu_logo.png");
   --theme-gu-logo-sv: url("../src/assets/gu_logo_sv.png");
   --theme-shfa-logo: url("../src/assets/shfa_logo_downscale_light.png");
-  --theme-guide-page-background: #222222b4;
+  --theme-guide-page-background: #1b1b1b;
   --theme-gallery-nav-text: #5dadc8;
   --theme-gallery-nav-background: #1b1b1b99;
   --theme-link-color: #4da5c2;
