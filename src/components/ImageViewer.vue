@@ -180,7 +180,7 @@ a:active {
   margin-right: 30px;
   margin-top: -45px;
   height: 65%;
-  background-color: var(--theme-background);
+  background-color: var(--page-background);
   border-radius: 2px;
   overflow: hidden;
   z-index: 1;
@@ -212,8 +212,8 @@ a:active {
 }
 
 #ToolbarHorizontal span {
-  background-color: var(--theme-viewer-button-background);
-  color: var(--theme-page-text);
+  background-color: var(--viewer-button-background);
+  color: var(--page-text);
   text-align: center;
   padding: 5px 10px 5px 10px;
   border-radius: 8px;
@@ -240,7 +240,7 @@ a:active {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: var(--theme-viewer-button-background);
+  background-color: var(--viewer-button-background);
   overflow: hidden;
   outline: none;
 }
@@ -252,7 +252,7 @@ a:active {
 #Prev {
   background: url(../assets/openseadragon/prev.png);
   background-size: 35px 35px;
-  background-color: var(--theme-viewer-button-background);
+  background-color: var(--viewer-button-background);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -262,7 +262,7 @@ a:active {
 #Next {
   background: url(../assets/openseadragon/next.png);
   background-size: 35px 35px;
-  background-color: var(--theme-viewer-button-background);
+  background-color: var(--viewer-button-background);
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -274,7 +274,7 @@ a:active {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: var(--theme-viewer-button-background);
+  background-color: var(--viewer-button-background);
   margin-top: 0px;
   overflow: hidden;
 }
@@ -284,7 +284,7 @@ a:active {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: var(--theme-viewer-button-background);
+  background-color: var(--viewer-button-background);
   overflow: hidden;
 }
 
@@ -295,7 +295,7 @@ a:active {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: var(--theme-viewer-button-background);
+  background-color: var(--viewer-button-background);
   overflow: hidden;
   cursor: pointer;
 }
@@ -304,12 +304,12 @@ a:active {
   border-radius: 50%;
   width: 35px;
   height: 35px;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   opacity: 1;
-  background-color: var(--theme-viewer-button-background);
+  background-color: var(--viewer-button-background);
   border-width: 1px;
   border-style: solid;
-  border-color: var(--theme-viewer-button-border);
+  border-color: var(--viewer-button-border);
 }
 
 .NavButton:hover {
@@ -320,6 +320,6 @@ a:active {
 #ZoomIn:hover,
 #ZoomOut:hover,
 #DownloadButton:hover {
-  background-color: var(--theme-viewer-button-hover);
+  background-color: var(--viewer-button-hover);
 }
 </style>

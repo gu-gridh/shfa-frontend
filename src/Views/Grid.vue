@@ -159,7 +159,7 @@
               <div style="display:flex; align-items: center; justify-content: center;">
                 <div class="ui-results" v-show="showResults" style="width:220px; font-size:0.9em; padding:5px 5px;">
                   <p style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}:
-                  <p style="color:rgb(200,225,250); display:inline;"> {{ totalResults }}</p>
+                  <p style="color:var(--total-results); display:inline;"> {{ totalResults }}</p>
                   </p>
                   ({{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }})
                 </div>
@@ -676,7 +676,7 @@ export default defineComponent({
 
 <style>
 #resetSplitButton {
-  position: absolute;
+  /* position: absolute;
   bottom: 50px;
   left: 60px;
   padding: 4px 10px;
@@ -685,10 +685,27 @@ export default defineComponent({
   height: auto;
   cursor: pointer;
   border-radius: 6px !important;
-  background-color: var(--theme-button-background);
-  color: var(--theme-page-text);
+  background-color: var(--button-background);
+  color: var(--button-text);
   font-size: 100%;
-  height: 32px;
+  height: 32px; */
+
+  position: absolute;
+  left: 8px;
+  transform: translateX(25%);
+  bottom: 50px;
+  padding: 5px 15px 5px 15px;
+  z-index: 100;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+  border-radius: 8px !important;
+  background-color: var(--button-background);
+  backdrop-filter: blur(5px);
+  color: var(--button-text);
+  mix-blend-mode: difference;
+  /* font-size: 1.2rem; */
+  font-weight: 450;
 }
 
 @media (max-width: 1023px) {
@@ -698,9 +715,10 @@ export default defineComponent({
 }
 
 #resetSplitButton:hover {
-  background-color: var(--theme-button-hover);
+  background-color: var(--button-hover);
   cursor: pointer;
-  color: var(--theme-page-text);
+  color: var(--page-text);
+  mix-blend-mode: normal;
 }
 
 .flip-fade-enter-active,
@@ -723,14 +741,14 @@ export default defineComponent({
 #logo-main {
   width: 110px;
   height: 100px;
-  background-color: var(--theme-footer-background);
+  /* background-color: var(--page-text); */
   float: left;
   margin-top: 30px;
   margin-left: 40px;
-  background: var(--theme-shfa-logo);
+  background: var(--shfa-logo);
   background-repeat: no-repeat;
   background-size: contain;
-  opacity: 0.3;
+  opacity: 0.8;
   transition: all 0.8s ease-in-out;
 }
 
@@ -739,7 +757,7 @@ export default defineComponent({
   right: 20px;
   height: 145px;
   width: 165px;
-  background: var(--theme-logo-background);
+  background: var(--logo-background);
   border-radius: 0px 0px 5px 5px;
 }
 
@@ -752,7 +770,7 @@ export default defineComponent({
 #gu-logo-sv {
   width: 165px;
   height: 145px;
-  background: var(--theme-gu-logo-sv);
+  background: var(--gu-logo-sv);
   background-size: 125px 95px;
   background-repeat: no-repeat;
   background-position: center;
@@ -761,7 +779,7 @@ export default defineComponent({
 #gu-logo-en {
   width: 165px;
   height: 145px;
-  background: var(--theme-gu-logo-en);
+  background: var(--gu-logo-en);
   background-size: 125px 95px;
   background-repeat: no-repeat;
   background-position: center;
@@ -790,7 +808,7 @@ export default defineComponent({
   font-weight: 400;
   margin-left: 120px;
   padding: 30px 40px;
-  color: var(--theme-page-text);
+  color: var(--page-text);
 }
 
 @media (max-width: 350px) {
@@ -807,26 +825,27 @@ export default defineComponent({
   cursor: pointer;
   pointer-events: auto;
   display: inline;
-  color: var(--theme-emphasised-text);
+  color: var(--emphasised-text);
   transition: all 0.8s ease-in-out;
 }
 
 .title .aboutemph {
   display: inline;
-  color: var(--theme-emphasised-text) !important;
+  color: var(--emphasised-text) !important;
 }
 
 .top {
   height: 160px;
   z-index: 1000;
-  background-color: var(--theme-footer-background);
+  background-color: var(--footer-background);
+  border-image: var(--default-gradient) 1 / 0px 0px 5px 0px/ 0.1em round space;
 }
 
 .languages {
   right: 185px;
   font-size: 1.2em;
   font-weight: 400;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   position: absolute;
   padding-right: 20px;
   margin-top: 0px;
@@ -846,7 +865,7 @@ export default defineComponent({
   margin-top: 110px;
   height: auto;
   right: 201px;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   position: absolute;
   padding-right: 0px;
   width: auto;
@@ -859,7 +878,7 @@ export default defineComponent({
 }
 
 .top-links .item:hover {
-  background-color: var(--theme-button-hover)
+  background-color: var(--button-hover)
 }
 
 .button-image {
@@ -870,7 +889,7 @@ export default defineComponent({
   height: 25px;
   border-radius: 50%;
   border-width: 1.5px;
-  border-color: var(--theme-button-border);
+  border-color: var(--button-border);
   background-size: contain;
 }
 
@@ -884,7 +903,7 @@ export default defineComponent({
 }
 
 .top-button:hover {
-  background-color: var(--theme-button-hover)
+  background-color: var(--button-hover)
 }
 
 .top-link-button {
@@ -895,12 +914,12 @@ export default defineComponent({
   height: 20px;
   width: 20px;
   border-radius: 8px;
-  background-image: var(--theme-link-button);
+  background-image: var(--link-button);
   background-size: 18px;
   background-position: center;
   background-repeat: no-repeat;
   border-width: 1.4px;
-  border-color: var(--theme-top-link-button-border);
+  border-color: var(--top-link-button-border);
   border-radius: 50%;
 }
 
@@ -912,17 +931,17 @@ export default defineComponent({
   height: 20px;
   width: 20px;
   border-radius: 8px;
-  background-image: var(--theme-info-button);
+  background-image: var(--info-button);
   background-size: 18px;
   background-position: center;
   background-repeat: no-repeat;
   border-width: 1.4px;
-  border-color: var(--theme-top-link-button-border);
+  border-color: var(--top-link-button-border);
   border-radius: 50%;
 }
 
 .main-color {
-  background-color: var(--theme-background)
+  background-color: var(--page-background)
 }
 
 .ui-overlay {
@@ -932,15 +951,15 @@ export default defineComponent({
   border-radius: 8px;
   font-size: 1.1em;
   font-weight: 500;
-  color: var(--theme-page-text);
-  background-color: var(--theme-overlay);
+  color: var(--page-text);
+  background-color: var(--overlay);
   backdrop-filter: blur(5px);
 }
 
 .ui-mode {
   top: 190px;
   padding: 4px 0px 4px 0px;
-  background-color: var(--theme-overlay);
+  background-color: var(--overlay);
 }
 
 .ui-mode .item {
@@ -951,11 +970,11 @@ export default defineComponent({
 }
 
 .ui-mode .item:hover {
-  color: var(--theme-ui-hover);
+  color: var(--ui-hover);
 }
 
 .ui-mode .selected {
-  color: var(--theme-ui-hover);
+  color: var(--ui-hover);
 }
 
 .ui-numbers {
@@ -985,10 +1004,10 @@ export default defineComponent({
   border-radius: 8px;
   font-size: 1.1em;
   font-weight: 500;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   padding: 2px 15px 6px 15px;
   text-align: center;
-  background-color: var(--theme-overlay);
+  background-color: var(--overlay);
   backdrop-filter: blur(5px);
 }
 
@@ -1012,7 +1031,7 @@ export default defineComponent({
 
   .menu-show-button {
     display: block;
-    color: var(--theme-top-link-button-border);
+    color: var(--top-link-button-border);
     float: right;
     margin-right: 35px;
     margin-top: 16px;
@@ -1020,20 +1039,20 @@ export default defineComponent({
     border-radius: 50%;
     height: 30px;
     width: 30px;
-    background-image: var(--theme-menu-button);
+    background-image: var(--menu-button);
     background-size: 25px 25px;
     background-position: center;
     background-repeat: no-repeat;
   }
 
   .menu-show-button:hover {
-    background-color: var(--theme-footer-background);
+    background-color: var(--footer-background);
     opacity: 1;
   }
 
   .menu-close-button {
     display: block;
-    color: var(--theme-page-text);
+    color: var(--page-text);
     float: right;
     border-radius: 50%;
     height: 45px;
@@ -1046,7 +1065,7 @@ export default defineComponent({
   }
 
   .menu-close-button:hover {
-    background-color: var(--theme-page-text);
+    background-color: var(--page-text);
     opacity: 1;
   }
 
@@ -1054,9 +1073,9 @@ export default defineComponent({
     display: block;
     width: 100%;
     position: absolute;
-    background-color: var(--theme-menu-background);
+    background-color: var(--menu-background);
     height: 440px;
-    box-shadow: var(--theme-menu-shadow);
+    box-shadow: var(--menu-shadow);
     backdrop-filter: blur(8px);
   }
 
@@ -1105,12 +1124,12 @@ export default defineComponent({
     height: 40px;
     width: 40px;
     border-radius: 8px;
-    background-image: var(--theme-link-button);
+    background-image: var(--link-button);
     background-size: 32px;
     background-position: center;
     background-repeat: no-repeat;
     border-width: 1.5px;
-    border-color: var(--theme-top-link-button-border);
+    border-color: var(--top-link-button-border);
     border-radius: 50%;
   }
 
@@ -1122,12 +1141,12 @@ export default defineComponent({
     height: 40px;
     width: 40px;
     border-radius: 8px;
-    background-image: var(--theme-link-button);
+    background-image: var(--link-button);
     background-size: 32px;
     background-position: center;
     background-repeat: no-repeat;
     border-width: 1.5px;
-    border-color: var(--theme-top-link-button-border);
+    border-color: var(--top-link-button-border);
     border-radius: 50%;
   }
 
@@ -1191,7 +1210,7 @@ export default defineComponent({
   height: calc(100% - 160px);
   width: 100%;
   position: absolute;
-  box-shadow: var(--theme-menu-shadow);
+  box-shadow: var(--menu-shadow);
   pointer-events: none;
 }
 
@@ -1222,6 +1241,7 @@ export default defineComponent({
 }
 
 #split-1 {
+  background-color: var(--page-background);
   padding: 0px 20px 0px 20px;
   min-width: 200px;
 
@@ -1247,9 +1267,9 @@ export default defineComponent({
 }
 
 #split-2 {
-  background-color: var(--theme-footer-background);
+  background-color: var(--page-background);
   padding: 0px 0px 0px 20px;
-  box-shadow: var(--theme-menu-shadow);
+  box-shadow: var(--menu-shadow);
 }
 
 #split-2::-webkit-scrollbar {
@@ -1300,7 +1320,7 @@ export default defineComponent({
 
 .tag-example {
   float: left;
-  background-color: var(--theme-button-background);
+  background-color: var(--button-background);
   padding: 5px 10px;
   border-radius: 5px;
   margin-left: 10px;
@@ -1310,8 +1330,8 @@ export default defineComponent({
 }
 
 .tag-example:hover {
-  background-color: var(--theme-button-hover);
-  color: var(--theme-page-text);
+  background-color: var(--button-hover);
+  color: var(--page-text);
   cursor: pointer;
 }
 
@@ -1328,8 +1348,8 @@ export default defineComponent({
 }
 
 #search-wrapper {
-  background: var(--theme-input-wrapper-background);
-  color: var(--theme-base);
+  background: var(--input-wrapper-background);
+  color: var(--base);
 }
 
 input[type="search"]::-webkit-search-cancel-button {
@@ -1337,7 +1357,7 @@ input[type="search"]::-webkit-search-cancel-button {
   height: 0.5em;
   width: 0.5em;
   border-radius: 50em;
-  background: var(--theme-close-button);
+  background: var(--close-button);
   background-size: contain;
   opacity: 1;
   pointer-events: none;
@@ -1351,7 +1371,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 h2 {
   display: flex;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   font-size: 30px;
   font-weight: 400;
   line-height: 0.8;
@@ -1364,7 +1384,7 @@ input:focus {
 h2 input {
   flex: 1;
   min-width: 3em;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   font-weight: 400;
   z-index: 35;
 }
@@ -1372,7 +1392,7 @@ h2 input {
 h2 input:hover,
 h2 input:focus,
 h2 input:not(:placeholder-shown) {
-  background-color: var(--theme-base);
+  background-color: var(--base);
 }
 
 .slide-enter-active,
@@ -1391,12 +1411,12 @@ h2 input:not(:placeholder-shown) {
 }
 
 .gutter {
-  background-color: var(--theme-ui-hover);
+  background-color: var(--ui-hover);
   cursor: ew-resize;
 }
 
 .gutter-2 {
-  background-color: var(--theme-ui-hover);
+  background-color: var(--ui-hover);
   cursor: ew-resize;
 }
 
@@ -1416,29 +1436,29 @@ h2 input:not(:placeholder-shown) {
 }
 
 .close-button {
-  color: var(--theme-viewer-button-text);
+  color: var(--viewer-button-text);
   z-index: 1000;
   position: relative;
   border-radius: 50%;
   height: 35px;
   width: 35px;
-  background-color: var(--theme-viewer-button-background);
+  background-color: var(--viewer-button-background);
   margin-left: 27px;
   margin-top: 58px;
   opacity: 1;
   padding: 5px;
   border-width: 1px;
   border-style: solid;
-  border-color: var(--theme-viewer-button-border);
+  border-color: var(--viewer-button-border);
 }
 
 .close-button:hover {
-  background-color: var(--theme-viewer-button-hover);
+  background-color: var(--viewer-button-hover);
   opacity: 1;
 }
 
 #app .search-container .tag-example-search {
-  background-color: var(--theme-button-background);
+  background-color: var(--button-background);
   padding: 0px 10px;
   font-size: 1em;
   font-weight: 400;
@@ -1449,15 +1469,15 @@ h2 input:not(:placeholder-shown) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--theme-page-text);
-  box-shadow: var(--theme-menu-shadow);
+  color: var(--page-text);
+  box-shadow: var(--menu-shadow);
 }
 
 #app .search-container .input-wrapper {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  background-color: var(--theme-input-wrapper-background);
+  background-color: var(--input-wrapper-background);
   border-radius: 6px;
   width: 100%;
   box-sizing: border-box;
@@ -1490,7 +1510,7 @@ h2 input:not(:placeholder-shown) {
     width: 100%;
     font-size: 1.3em;
     text-align: left;
-    color: var(--theme-page-text);
+    color: var(--page-text);
     padding-left: 0px;
     margin-top: 5px;
     margin-bottom: 25px;
@@ -1525,14 +1545,14 @@ h2 input:not(:placeholder-shown) {
   #app .field-title {
     font-size: 1.2em;
     margin-bottom: 5px;
-    color: var(--theme-page-text);
+    color: var(--page-text);
   }
 
   #app .search-container .input-wrapper {
     font-size: 1.3em;
 
     margin-bottom: 5px;
-    color: var(--theme-page-text);
+    color: var(--page-text);
   }
 
   #app .search-button {
@@ -1553,7 +1573,7 @@ h2 input:not(:placeholder-shown) {
 
   #metadata-container .label {
     width: 120px;
-    color: var(--theme-page-text);
+    color: var(--page-text);
     font-weight: 600;
   }
 
@@ -1564,7 +1584,7 @@ h2 input:not(:placeholder-shown) {
   #metadata-container .metadata-wide {
     float: left;
     padding-left: 25px;
-    color: var(--theme-page-text);
+    color: var(--page-text);
     width: 100%;
     margin-top: 20px;
   }
@@ -1574,7 +1594,7 @@ h2 input:not(:placeholder-shown) {
     list-style-type: none;
     padding: 2px 12px;
     border-radius: 5px;
-    background-color: var(--theme-button-background);
+    background-color: var(--button-background);
   }
 
   #app .datareportcard {
@@ -1590,7 +1610,7 @@ h2 input:not(:placeholder-shown) {
     'opsz' 24;
   vertical-align: middle;
   padding: 1px;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   cursor: pointer;
 }
 </style>

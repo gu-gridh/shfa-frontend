@@ -39,9 +39,11 @@
         </div>
       </div>
     </div>
-    <button class="search-button" :id="$t('message.searchbutton')" @click="handleSearchButtonClick"> {{ $t('message.searchbutton')
+    <button class="search-button" :id="$t('message.searchbutton')" @click="handleSearchButtonClick"> {{
+        $t('message.searchbutton')
       }}</button>
-    <button class="clear-button" :id="$t('message.clearbutton')" @click="clearAdvancedSearchFields">{{ $t('message.clearbutton')
+    <button class="clear-button" :id="$t('message.clearbutton')" @click="clearAdvancedSearchFields">{{
+        $t('message.clearbutton')
       }}</button>
   </div>
 </template>
@@ -501,7 +503,7 @@ export default {
 
 .search-container-title {
   width: 100%;
-  color: white;
+  color: var(--page-text);
   font-size: 1.3rem;
   margin-bottom: 10px;
 }
@@ -526,13 +528,13 @@ export default {
 .field-title {
   font-size: 0.95em;
   margin-bottom: 5px;
-  color: white;
+  color: var(--page-text);
   padding-left: 4px;
 }
 
 .tag-example {
   float: left;
-  background-color: rgb(90, 90, 90);
+  background-color: var(--button-background);
   padding: 3px 8px;
   font-size: 15px;
   margin-bottom: 5px;
@@ -541,18 +543,30 @@ export default {
   cursor: pointer;
 }
 
+.input-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: var(--input-wrapper-background);
+  border-radius: 5px;
+  padding: 5px;
+  border: 0.5px solid var(--input-border);
+}
+
 input[type="search"] {
-  background-color: transparent;
-  border: none;
-  color: white;
+  color: var(--page-text);
   margin-top: 5px;
   margin-bottom: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
   flex: 1;
   width: 1px !important;
+  background: transparent;
+
 }
 
 input[type="search"]::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--placeholder-text);
 }
 
 input[type="search"]:focus {
@@ -562,10 +576,10 @@ input[type="search"]:focus {
 .suggestions {
   position: absolute;
   width: 100%;
-  color: white;
-  background-color: rgb(45, 45, 45);
+  color: var(--button-text);
+  background-color: var(--autocomplete-background);
   z-index: 1;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   border-radius: 0px 0px 5px 5px;
   padding: 10px;
   margin-top: -5px;
@@ -578,10 +592,10 @@ input[type="search"]:focus {
   display: block;
   margin-top: 20px;
   margin-bottom: 20px;
-  font-size: 1.1rem;
+  /* font-size: 1.1rem; */
   padding: 5px 20px;
-  background-color: rgb(90, 90, 90);
-  color: white;
+  background-color: var(--button-background);
+  color: var(--button-text);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -589,18 +603,19 @@ input[type="search"]:focus {
 }
 
 .search-button:hover {
-  background-color: rgb(80, 90, 100);
-  color: white;
+  background-color: var(--button-hover);
+  color: var(--page-text);
 }
 
 .clear-button {
   float: left;
   display: block;
   margin-top: 20px;
-  font-size: 1.1rem;
+  margin-bottom: 20px;
+  /* font-size: 1.2rem; */
   padding: 5px 20px;
-  background-color: rgb(90, 90, 90);
-  color: white;
+  background-color: var(--button-background);
+  color: var(--button-text);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -609,8 +624,8 @@ input[type="search"]:focus {
 }
 
 .clear-button:hover {
-  background-color: rgb(80, 90, 100);
-  color: white;
+  background-color: var(--button-hover);
+  color: var(--page-text);
 }
 
 input[type="search"]::-webkit-search-cancel-button {
@@ -618,7 +633,7 @@ input[type="search"]::-webkit-search-cancel-button {
   height: 0.75em;
   width: 0.75em;
   border-radius: 50em;
-  background: url(../../interface/input-cancel-x.svg) no-repeat 50% 50%;
+  background: var(--close-button) no-repeat 50% 50%;
   background-size: contain;
   opacity: 1.0;
   pointer-events: none;
@@ -631,6 +646,6 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 }
 
 #label-wrapper {
-  color: white;
+  color: var(--page-text);
 }
 </style>

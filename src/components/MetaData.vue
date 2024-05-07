@@ -10,7 +10,7 @@
           </tr>
           <tr>
             <td class="label" v-if="data.site && data.site.raa_id">{{ $t('message.raanumber') }}</td>
-            <td class="data" v-if="data.site && data.site.raa_id" @click="logMetaSearch(data.site.raa_id)"> 
+            <td class="data" v-if="data.site && data.site.raa_id" @click="logMetaSearch(data.site.raa_id)">
               {{ data.site.raa_id }}</td>
           </tr>
           <tr>
@@ -95,7 +95,8 @@
       <h2 v-if="data.site && data.site.ksamsok_id">{{ $t('message.description') }}</h2>
       <div v-if="data.site && data.site.ksamsok_id" class="metadata">
         <div v-if="getFornsokUrl()" class="button-container">
-          <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit">{{
+          <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit"><span
+              class="visit-icon"></span>{{
         $t('message.checkfornsök') }}</a>
         </div>
         <div class="disclaimer" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
@@ -218,7 +219,7 @@ h1 {
   width: 100%;
   font-size: 1.8em;
   text-align: left;
-  color: white;
+  color: var(--page-text);
   padding-left: 25px;
   margin-top: 20px;
   margin-bottom: 10px;
@@ -228,7 +229,7 @@ h2 {
   width: 100%;
   font-size: 1.3em;
   text-align: left;
-  color: white;
+  color: var(--page-text);
   padding-left: 0px;
   margin-top: 20px;
   margin-bottom: 15px;
@@ -246,34 +247,34 @@ h2 {
 .metadata-column {
   float: left;
   padding-left: 25px;
-  color: white;
+  color: var(--page-text);
   line-height: 1;
 }
 
 .label {
   width: 120px;
-  color: white;
+  color: var(--page-text);
   font-weight: 600;
 }
 
 .data {
-  color: rgb(200, 225, 250);
+  color: var(--page-text);
   max-width: 180px;
   cursor: pointer;
 }
 
 .data:hover {
-  color: white;
+  color: var(--ui-hover);
 }
 
 .not-clickable {
-  color: rgb(200, 225, 250);
+  color: var(--page-text);
   max-width: 180px;
   cursor: default;
 }
 
 .ref {
-  color: rgb(200, 225, 250);
+  color: var(--page-text);
   max-width: 100%;
   margin-top: 0px;
 }
@@ -284,14 +285,14 @@ td {
   max-width: 100%;
 }
 
-th{
+th {
   display: none;
 }
 
 .metadata-wide {
   float: left;
   padding-left: 25px;
-  color: white;
+  color: var(--page-text);
   max-width: 100%;
   margin-top: 10px;
 }
@@ -316,8 +317,8 @@ ul {
   display: inline-flex;
   padding: 4px 8px 4px 8px;
   margin-left: 10px;
-  color: white;
-  background-color: rgb(100, 100, 100);
+  color: var(--button-text);
+  background-color: var(--button-background);
   border-radius: 8px;
   font-size: 1.05em;
   text-decoration: none;
@@ -326,13 +327,14 @@ ul {
   background-size: 18px;
   background-position: 10px 8px;
   background-repeat: no-repeat;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
 }
 
 .keyword-button:hover {
-  background-color: rgb(80, 90, 100);
-  color: white;
+  background-color: var(--button-hover);
+  color: var(--page-text);
 }
+
 .description {
   width: 90%;
   margin-bottom: 30px;
@@ -341,30 +343,52 @@ ul {
 .disclaimer {
   width: 90%;
   margin-bottom: 10px;
-  color: rgb(200, 225, 250);
+  color: var(--disclaimer-text);
   font-weight: 500;
 }
 
 .visit-button {
   display: inline-block;
-  padding: 4px 10px 4px 43px;
-  color: white;
-  background-color: rgb(100, 100, 100);
+  padding: 4px 10px 4px 13px;
+  color: var(--button-text);
+  background-color: var(--button-background);
   border-radius: 8px;
   font-size: 1.15em;
   text-decoration: none;
   cursor: pointer;
   margin-bottom: 20px;
-  background-image: url(../../interface/linkbuttonwhite.png);
+  /* background-image: var(--link-button);
   background-size: 20px;
   background-position: 10px 8px;
+  background-repeat: no-repeat; */
+  box-shadow: var(--shadow);
+}
+
+.visit-icon {
+  float: left;
+  text-align: right;
+  margin-top: 4px;
+  height: 30px;
+  width: 30px;
+  background-image: var(--link-button);
+  filter: invert(1);
+  background-size: 25px;
+  background-position: center;
   background-repeat: no-repeat;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+  margin-left: -40px;
+  border-width: 1.4px;
+  border-color: var(--page-text);
+  border-radius: 50%;
 }
 
 .visit-button:hover {
-  background-color: rgb(80, 90, 100);
-  color: white;
+  background-color: var(--button-hover);
+  color: var(--page-text);
+}
+
+.visit-button:hover>.visit-icon {
+  background-image: var(--link-button);
+  filter: invert(0);
 }
 
 .button-container {
@@ -377,7 +401,7 @@ ul li {
   list-style-type: none;
   padding: 2px 8px;
   border-radius: 5px;
-  background-color: rgb(100, 100, 100);
+  background-color: var(--button-background);
 }
 
 @media screen and (min-height: 950px) {

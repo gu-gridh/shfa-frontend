@@ -4,7 +4,7 @@
     <button id="search-bbox-button" v-if="bboxUpdated" @click="fetchImagesClicked()">{{ $t("message.searchinbbox")
       }}</button>
     <div id="popup" class="ol-popup">
-      <button id="popup-closer" class="ol-popup-closer" ></button>
+      <button id="popup-closer" class="ol-popup-closer"></button>
       <div id="popup-content">
         <p id="lamning_id"></p>
         <p id="raa_id"></p>
@@ -12,12 +12,12 @@
         <p id="lokalitet_id"></p>
         <p id="askeladden_id"></p>
         <p v-if="isSwedish" id="fornsok_header">
-          <a v-if="isSwedish" id="fornsok_link"> {{
+          <span class="link-button"></span><a v-if="isSwedish" id="fornsok_link"> {{
       $t("message.checkfornsök")
     }}</a>
         </p>
         <p>
-          <a id="extmap_link" target="_blank"> {{ $t("message.maplink") }}</a>
+          <span class="link-button"></span><a id="extmap_link" target="_blank"> {{ $t("message.maplink") }}</a>
         </p>
       </div>
     </div>
@@ -396,12 +396,12 @@ export default {
       }
       this.updateBbox();
       this.map.addControl(new Zoom());
-
+      const markerColour = getComputedStyle(document.getElementById("map")).getPropertyValue("--map-markers");
       // Initialize the WebGL map marker style
       const webGLStyle = {
         symbol: {
           symbolType: "image",
-          color: "#f0c02e",
+          color: markerColour,
           size: [20, 30],
           offset: [0, 10],
           src: "/interface/assets/marker-white.svg",
@@ -498,7 +498,7 @@ export default {
             if (fornsokLink) {
               // fornsokLink.href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
               this.isSwedish = true,
-              fornsokHeader.setAttribute("target", "_blank");
+                fornsokHeader.setAttribute("target", "_blank");
               fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
             }
 
@@ -566,7 +566,7 @@ export default {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  background: url(/interface/searchbuttonwhite.png) no-repeat 4px 50%;
+  background: var(--search-button-dark-bkgrnd) no-repeat 4px 50%;
   background-size: 32px 32px;
   bottom: 20px;
   padding: 5px 15px 5px 38px;
@@ -575,15 +575,14 @@ export default {
   height: auto;
   cursor: pointer;
   border-radius: 8px !important;
-  background-color: rgba(65, 65, 65, 0.9);
+  background-color: var(--footer-background);
   backdrop-filter: blur(5px);
-  color: white;
+  color: var(--page-text);
 }
-
-
 
 #search-bbox-button:hover {
   opacity: 0.9;
+  background-color: var(--button-hover);
 }
 
 #map {
@@ -595,12 +594,12 @@ export default {
   margin-top: 20px !important;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: var(--shadow);
   cursor: pointer;
   overflow: hidden !important;
   border-width: 0px;
   position: relative;
-  background-color: rgb(65, 65, 65);
+  background-color: var(--page-background) !important;
   transition: all 0.5s ease-in-out;
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
@@ -634,7 +633,7 @@ export default {
 #app .ol-control button {
   font-family: "Barlow Condensed", sans-serif;
   border-radius: 50% !important;
-  color: white !important;
+  color: var(--page-text) !important;
 }
 
 #app .ol-control button:active,
@@ -653,7 +652,7 @@ export default {
 .ol-zoom {
   /* display:none; */
   font-size: 30px !important;
-  color: white !important;
+  color: var(--page-text) !important;
   width: 40px;
   height: 40px;
   padding: 0px !important;
@@ -665,7 +664,7 @@ export default {
 
 .ol-zoom-in,
 .ol-zoom-out {
-  background-color: rgba(65, 65, 65, 0.9);
+  background-color: var(--footer-background) !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -680,7 +679,7 @@ export default {
 .ol-zoom-in {
   opacity: 1.0 !important;
   background: url(../assets/openseadragon/plus.svg) no-repeat center center;
-  background-color: rgba(65, 65, 65, 0.9);
+  background-color: var(--footer-background) !important;
   background-size: contain;
   top: 60px;
 }
@@ -688,7 +687,7 @@ export default {
 .ol-zoom-out {
   opacity: 1.0 !important;
   background: url(../assets/openseadragon/minus.svg) no-repeat center center;
-  background-color: rgba(65, 65, 65, 0.9);
+  background-color: var(--footer-background) !important;
   background-size: contain;
   top: 100px;
 }
@@ -705,12 +704,12 @@ export default {
   overflow: hidden !important;
   border-radius: 50% !important;
   background: url(../assets/openseadragon/expand.svg) no-repeat center center !important;
-  background-color: rgba(35, 35, 35, 0.9) !important;
+  background-color: var(--footer-background) !important;
   background-size: contain !important;
 }
 
 .expand-map-widget:hover {
-  background-color: rgba(25, 25, 25, 1.0) !important;
+  background-color: var(--footer-background) !important;
 }
 
 @media (max-width: 1024px) {
@@ -742,12 +741,12 @@ export default {
   overflow: hidden !important;
   border-radius: 50% !important;
   background: url(../assets/openseadragon/expand.svg) no-repeat center center !important;
-  background-color: rgba(35, 35, 35, 0.9) !important;
+  background-color: var(--footer-background) !important;
   background-size: contain !important;
 }
 
 .ol-full-screen:hover {
-  background-color: rgba(25, 25, 25, 1.0) !important;
+  background-color: var(--viewer-button-hover) !important;
 }
 
 .ol-compass {
@@ -756,9 +755,10 @@ export default {
 
 .ol-attribution {
   display: flex;
-  bottom: 2%;
-  font-size: x-small;
-  font-weight: bold;
+  bottom: 3%;
+  font-size: 12px;
+  font-weight: 525;
+  color: black;
 }
 
 .ol-attribution-expand {
@@ -780,11 +780,11 @@ export default {
 }
 
 .ol-zoom-in:hover {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--viewer-button-hover);
 }
 
 .ol-zoom-out:hover {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--viewer-button-hover);
 }
 
 .ol-control {
@@ -794,8 +794,8 @@ export default {
 #app .ol-zoomslider {
   top: 1rem !important;
   border-radius: 5px !important;
-  background: rgba(255, 255, 255, 0.4) !important;
-  border: 0px solid rgba(0, 60, 136, 0) !important;
+  background: var(--button-hover) !important;
+  border: var(--footer-background) !important;
   right: 60px !important;
   height: 200px !important;
   width: 25px !important;
@@ -807,7 +807,7 @@ export default {
 }
 
 .overlay-content {
-  box-shadow: 0 5px 10px rgb(2 2 2 / 20%);
+  box-shadow: var(--shadow);
   padding: 10px 20px;
   font-size: 16px;
 }
@@ -815,11 +815,11 @@ export default {
 .ol-popup {
   text-align: justify;
   position: absolute;
-  color: white;
+  color: var(--page-text);
   line-height: 1.2;
-  background-color: rgba(80, 80, 80, 1);
+  background-color: var(--popup-background);
   opacity: 100%;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow);
   padding: 8px 18px 8px 38px;
   border-radius: 8px;
   bottom: 38px;
@@ -832,15 +832,38 @@ export default {
   cursor: pointer;
 }
 
+.link-button {
+  float: left;
+  text-align: right;
+  margin-top: 4px;
+  height: 15px;
+  width: 15px;
+  background-image: var(--link-button);
+  background-size: 18px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-width: 1.4px;
+  border-color: var(--top-link-button-border);
+  border-radius: 50%;
+}
+
 #fornsok_link,
 #extmap_link {
-  color: rgb(250, 250, 250);
-  background-position: left;
+  color: var(--page-text);
+  /* background-position: left;
   background-size: 14px;
-  background-image: url(../../interface/linkbuttonwhite.png);
-  background-repeat: no-repeat;
-  padding: 8px 0px 8px 18px;
+  background-image: var(--link-button);
+  background-repeat: no-repeat; */
+  padding: 10px;
   min-width: max-content;
+  /* border-radius: 8px;
+  background-image: var(--link-button);
+  background-size: 18px;
+  background-position: left;
+  background-repeat: no-repeat;
+  border-width: 1.4px;
+  border-color: var(--top-link-button-border);
+  border-radius: 50%; */
 }
 
 .ol-popup:after,
@@ -855,14 +878,14 @@ export default {
 }
 
 .ol-popup:after {
-  border-top-color: rgb(80, 80, 80) !important;
+  border-top-color: var(--footer-background) !important;
   border-width: 10px;
   left: 48px;
   margin-left: -10px;
 }
 
 .ol-popup:before {
-  border-top-color: rgb(80, 80, 80) !important;
+  border-top-color: var(--footer-background) !important;
   border-width: 11px;
   left: 48px;
   margin-left: -11px;

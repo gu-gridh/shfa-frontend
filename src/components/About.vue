@@ -265,7 +265,7 @@ li {
 }
 
 a {
-  color: var(--theme-ui-hover);
+  color: var(--ui-hover);
   font-weight: 400;
 }
 
@@ -274,14 +274,14 @@ h2 {
   font-style: bold;
   margin-top: -10px;
   margin-bottom: 5px;
-  color: var(--theme-highlighted-text);
+  color: var(--highlighted-text);
   font-weight: 500;
   line-height: 1.5;
 }
 
 .about-container {
   position: fixed;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   line-height: 1;
   width: 100%;
   font-size: 12px;
@@ -294,7 +294,7 @@ h2 {
   opacity: 0.0;
   overflow-y: scroll;
   max-height: max-content;
-  background: var(--theme-guide-page-background);
+  background: var(--guide-page-background);
 }
 
 .logo-area {
@@ -305,10 +305,10 @@ h2 {
   position: relative;
   width: 210px;
   height: 200px;
-  background-color: var(--theme-page-text);
+  background-color: var(--page-text);
   float: left;
   margin-left: 80px;
-  background: var(--theme-shfa-logo);
+  background: var(--shfa-logo);
   background-repeat: no-repeat;
   background-size: contain;
   opacity: 0.7;
@@ -327,12 +327,12 @@ h2 {
   font-weight: 400;
   margin-left: 0px;
   padding-left: 30px;
-  color: var(--theme-page-text)
+  color: var(--page-text)
 }
 
 .title .emph:hover {
   display: inline;
-  color: var(--theme-ui-hover)
+  color: var(--ui-hover)
 }
 
 .fullopacity {
@@ -341,7 +341,7 @@ h2 {
   pointer-events: auto;
   transform: scale(1.0);
   translate: 0px 0px;
-  background: var(--theme-guide-page-background);
+  background: var(--guide-page-background);
   height: 100%;
 }
 
@@ -369,7 +369,7 @@ h2 {
   font-weight: 100;
   letter-spacing: -0.2px;
   text-align: center;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   margin-bottom: 15px;
   transition: all 0.4s ease-in-out;
 }
@@ -384,7 +384,7 @@ h2 {
   font-weight: 100;
   letter-spacing: -0.2rem;
   text-align: center;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   opacity: 0.0;
   margin-bottom: 20px;
   transition: all 0.4s ease-in-out;
@@ -394,7 +394,7 @@ h2 {
   position: relative;
   float: left;
   text-align: center;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   width: 100%;
   columns: 1;
   column-gap: 30px;
@@ -409,7 +409,7 @@ h2 {
   position: relative;
   float: left;
   text-align: justify;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   columns: 1;
   width: 100%;
   padding: 30px 100px;
@@ -428,14 +428,14 @@ h2 {
   font-size: 1.8em;
   font-weight: 400;
   transition: all 0.4s ease-in-out;
-  background-color: var(--theme-button-background);
+  background-color: var(--button-background);
   padding: 8px 20px !important;
   z-index: 1000;
   opacity: 1.0;
   margin-top: 0px;
   margin-bottom: 0px;
   border-radius: 5px;
-  box-shadow: var(--theme-shadow);
+  box-shadow: var(--shadow);
 }
 
 .close-page-button {
@@ -444,8 +444,8 @@ h2 {
   bottom: 0px;
   top: calc(100vh - 80px);
   padding-bottom: 20px;
-  color: var(--theme-page-text);
-  background: var(--theme-footer-background);
+  color: var(--button-text);
+  background: var(--footer-background);
   width: 100%;
   height: 80px;
   display: flex;
@@ -455,7 +455,7 @@ h2 {
 }
 
 .category-button:hover {
-  background: var(--theme-button-hover);
+  background: var(--button-hover);
 }
 
 @media screen and (max-width: 900px) {
@@ -481,7 +481,7 @@ h2 {
   top: 30px;
   right: 60px;
   opacity: 0.6;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   transition: all 0.4s ease-in-out;
 }
 
@@ -506,7 +506,7 @@ h2 {
     position: relative;
     float: left;
     text-align: center;
-    color: var(--theme-page-text);
+    color: var(--page-text);
     width: 100%;
     columns: 1;
     column-gap: 30px;

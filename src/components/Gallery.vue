@@ -16,7 +16,8 @@
             <div class="grid-item-info" id="gallery">
               <div class="grid-item-info-meta">
                 <h5>{{ item.lamning_id || item.placename }}</h5>
-                <h6 v-if="item.raa_id || item.lokalitet_id || item.askeladden_id">{{ item.raa_id || item.askeladden_id || item.lokalitet_id }}</h6>
+                <h6 v-if="item.raa_id || item.lokalitet_id || item.askeladden_id">{{ item.raa_id || item.askeladden_id
+      || item.lokalitet_id }}</h6>
               </div>
             </div>
           </div>
@@ -567,7 +568,7 @@ export default {
 
 h3 {
   font-size: 17px;
-  color: white !important;
+  color: var(--page-text) !important;
   margin: 20px 20px 8px 0px;
 }
 
@@ -575,7 +576,7 @@ h3 {
   background-color: transparent;
   border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0rem 0rem 1rem rgba(0, 0, 0, 0.2) !important;
+  box-shadow: var(--shadow);
 }
 
 .card img {
@@ -592,8 +593,8 @@ h3 {
 .grid-item-info {
   height: 100%;
   width: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
-  color: white;
+  background: var(--image-hover-background);
+  color: var(--page-text);
   position: absolute;
   opacity: 0;
   transition: all 0.5s ease-in-out;
@@ -613,13 +614,13 @@ h3 {
 }
 
 .grid-item-info-meta h5 {
-  font-size: 18px;
-  font-weight: 800;
-  line-height: 1;
+  font-size: 20px;
+  font-weight: 550;
+  line-height: 1.5;
 }
 
 .grid-item-info-meta h6 {
-  font-size: 15px;
+  font-size: 17px;
   bottom: 0px;
   line-height: 1;
 }
@@ -630,7 +631,7 @@ h3 {
   font-size: 1.2em;
   border-radius: 50%;
   cursor: pointer;
-  color: white;
+  color: var(--page-text);
   text-align: center;
   width: 35px;
   height: 35px;
@@ -638,7 +639,7 @@ h3 {
 }
 
 .loadMore:hover {
-  background-color: rgb(80, 90, 100);
+  background-color: var(--button-hover);
 }
 
 .button-container {

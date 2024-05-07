@@ -48,7 +48,7 @@ li {
 }
 
 a {
-  color: var(--theme-ui-hover);
+  color: var(--ui-hover);
   font-weight: 400;
 }
 
@@ -57,14 +57,14 @@ h2 {
   font-style: bold;
   margin-top: -10px;
   margin-bottom: 5px;
-  color: var(--theme-highlighted-text);
+  color: var(--highlighted-text);
   font-weight: 500;
   line-height: 1.5;
 }
 
 .privacy-container {
   position: fixed;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   line-height: 1;
   width: 500px;
   height: 100px;
@@ -80,7 +80,7 @@ h2 {
   left: 40%;
   top: 10%;
   transform: translateY(-50%);
-  background: var(--theme-guide-page-background);
+  background: var(--guide-page-background);
 }
 
 
@@ -90,7 +90,7 @@ h2 {
   pointer-events: auto;
   transform: scale(1.0);
   translate: -25% 25%;
-  background: var(--theme-guide-page-background);
+  background: var(--guide-page-background);
   height: 30%;
   width: 40%;
 }
@@ -119,7 +119,7 @@ h2 {
   font-weight: 100;
   letter-spacing: -0.2px;
   text-align: center;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   margin-bottom: 15px;
   transition: all 0.4s ease-in-out;
 }
@@ -128,7 +128,7 @@ h2 {
   position: relative;
   float: left;
   text-align: justify;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   columns: 1;
   width: 100%;
   padding: 30px 100px;
@@ -147,21 +147,21 @@ h2 {
   font-size: 1.8em;
   font-weight: 400;
   transition: all 0.4s ease-in-out;
-  background-color: var(--theme-button-background);
+  background-color: var(--button-background);
   padding: 8px 20px !important;
   z-index: 1000;
   opacity: 1.0;
   margin-top: 0px;
   margin-bottom: 0px;
   border-radius: 5px;
-  box-shadow: var(--theme-shadow);
+  box-shadow: var(--shadow);
 }
 
 .close-page-button {
   position: absolute;
   z-index: 3000;
   bottom: 20px;
-  color: var(--theme-page-text);
+  color: var(--button-text);
   width: 100%;
   height: 80px;
   display: flex;
@@ -193,7 +193,7 @@ h2 {
   top: 30px;
   right: 60px;
   opacity: 0.6;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   transition: all 0.4s ease-in-out;
 }
 
@@ -218,7 +218,7 @@ h2 {
     position: relative;
     float: left;
     text-align: center;
-    color: var(--theme-page-text);
+    color: var(--page-text);
     width: 100%;
     columns: 1;
     column-gap: 30px;

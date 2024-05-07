@@ -333,7 +333,7 @@ export default {
 
 <style scoped>
 body {
-  background-color: var(--theme-page-background) !important;
+  background-color: var(--page-background) !important;
 }
 
 #search-interface {
@@ -345,7 +345,7 @@ body {
   margin-top: 30px;
   font-size: 1.1em;
   margin-left: -6px;
-  color: var(--theme-page-text);
+  color: var(--page-text);
 }
 
 .search-switcher .ui-mode {
@@ -359,13 +359,13 @@ body {
   height: 40px;
   width: 40px;
   margin-right: 10px;
-  background: var(--theme-search-button) no-repeat 50% 50%;
+  background: var(--search-button-light-bkgrnd) no-repeat 50% 50%;
   background-size: 30px 30px;
-  background-color: var(--theme-button-background);
+  background-color: var(--button-background);
 }
 
 .search-button-round:hover {
-  background-color: var(--theme-button-hover);
+  background-color: var(--button-hover);
 }
 
 #filter-interface {
@@ -376,7 +376,7 @@ body {
   align-items: center;
   gap: 0px;
   padding: 0px 0px 10px 0px;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   z-index: 1000;
   margin-left: -5px;
   height: 38px;
@@ -405,34 +405,42 @@ body {
 
 .tag-example {
   float: left;
-  background-color: var(--theme-button-background);
+  background-color: var(--button-background);
   padding: 4px 10px;
   font-size: 15px;
   margin-bottom: 5px;
   border-radius: 5px;
   margin-left: 10px;
   cursor: pointer;
+  color: var(--button-text);
 }
 
 .tag-example-search {
   float: left;
-  background-color: var(--theme-button-background);
-  padding: 0.4em 0.5em;
+  background-color: var(--button-background);
+  padding: 0.2em 0.3em;
   font-size: 1.2em;
   border-radius: 5px;
   margin-left: 10px;
   cursor: pointer;
-  box-shadow: var(--theme-shadow);
+  box-shadow: var(--shadow);
   overflow: hidden;
-  max-height: 32px;
-  color: var(--theme-page-text);
+  /* max-height: 32px; */
+  color: var(--button-text);
   font-weight: 300;
 }
 
+#search-selected {
+  background-color: var(--selected-option);
+  vertical-align: middle;
+  color: var(--page-text);
+  /* min-height: 10px; */
+}
+
 .tag-example:hover {
-  background-color: var(--theme-button-hover);
+  background-color: var(--button-hover);
   cursor: pointer;
-  color: var(--theme-page-text);
+  color: var(--page-text);
 }
 
 #search {
@@ -451,21 +459,22 @@ body {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  background-color: var(--theme-input-background);
+  background-color: var(--input-background);
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
   font-size: 1rem;
+  border: 0.5px solid var(--input-border);
 }
 
 .input-wrapper:hover {
-  background-color: var(--theme-input-hover);
+  background-color: var(--input-hover);
 }
 
 input[type="search"] {
   background-color: transparent !important;
   border: none;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   margin-top: 5px;
   padding-left: 15px !important;
   padding-right: 15px !important;
@@ -475,7 +484,7 @@ input[type="search"] {
 }
 
 input[type="search"]::placeholder {
-  color: var(--theme-placeholder-text);
+  color: var(--placeholder-text);
 }
 
 input[type="search"]:focus {
@@ -487,7 +496,7 @@ input[type="search"]::-webkit-search-cancel-button {
   height: 0.75em;
   width: 0.75em;
   border-radius: 50em;
-  background: var(--theme-close-button) no-repeat 50% 50%;
+  background: var(--close-button) no-repeat 50% 50%;
   background-size: contain;
   opacity: 1.0;
   pointer-events: none;
@@ -501,7 +510,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 h2 {
   display: flex;
-  color: var(--theme-page-text);
+  color: var(--page-text);
   font-size: 30px;
   font-weight: 400;
   line-height: 0.8;
@@ -512,8 +521,8 @@ input:focus {
 }
 
 .toggle-map-btn {
-  background-color: var(--theme-button-background);
-  color: var(--theme-page-text);
+  background-color: var(--button-background);
+  color: var(--page-text);
   border: none;
   padding: 10px 10px;
   margin-left: 10px;
@@ -524,10 +533,10 @@ input:focus {
 }
 
 .toggle-map-btn:hover {
-  background-color: var(--theme-button-hover);
+  background-color: var(--button-hover);
 }
 
 .item.active {
-  color: var(--theme-selected-option);
+  color: var(--highlighted-text);
 }
 </style>
