@@ -45,7 +45,7 @@ body {
   --input-wrapper-background: #404040;
   --input-border: #a9a9a9;
   --input-hover: #1a094c;
-  --logo-background: #1b1b1b;
+  --logo-background: #0e0e0e;
   --gu-logo-en: url("../src/assets/gu_logo.png");
   --gu-logo-sv: url("../src/assets/gu_logo_sv.png");
   --shfa-logo: url("../src/assets/shfa_logo_downscale_light.png");
@@ -108,7 +108,7 @@ html[style-theme='dark'] {
   --input-wrapper-background: #404040;
   --input-border: #a9a9a9;
   --input-hover: #1a094c;
-  --logo-background: #1b1b1b;
+  --logo-background: #0e0e0e;
   --gu-logo-en: url("../src/assets/gu_logo.png");
   --gu-logo-sv: url("../src/assets/gu_logo_sv.png");
   --shfa-logo: url("../src/assets/shfa_logo_downscale_light.png");
