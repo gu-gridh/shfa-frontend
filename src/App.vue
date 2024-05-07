@@ -55,7 +55,7 @@ body {
   --link-color: #50169b;
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-  --menu-background: rgba(27, 27, 27, 0.80);
+  --menu-background: rgba(6, 6, 6, 0.95);
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
   --overlay: rgba(0, 0, 0, 0.7);
   --ui-hover: #03a3e2;
@@ -118,7 +118,7 @@ html[style-theme='dark'] {
   --link-color: #50169b;
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-  --menu-background: rgba(27, 27, 27, 0.80);
+  --menu-background: rgba(6, 6, 6, 0.95);
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
   --overlay: rgba(0, 0, 0, 0.7);
   --ui-hover: #03a3e2;
@@ -183,7 +183,7 @@ html[style-theme='light'] {
   --link-color: #50169b;
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-  --menu-background: rgba(202, 202, 202, 0.8);
+  --menu-background: rgba(220, 220, 220, 0.9);
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
   --overlay: rgba(0, 0, 0, 0.7);
   --ui-hover: #01374c;

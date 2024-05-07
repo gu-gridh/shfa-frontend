@@ -841,7 +841,7 @@ export default defineComponent({
 .top {
   height: 160px;
   z-index: 1000;
-  background-color: var(--footer-background);
+  background-color: var(--page-background);
   border-image: var(--default-gradient) 1 / 0px 0px 5px 0px/ 0.1em round space;
 }
 
@@ -1069,7 +1069,7 @@ export default defineComponent({
   }
 
   .menu-close-button:hover {
-    background-color: var(--page-text);
+    background-color: var(--button-hover);
     opacity: 1;
   }
 
@@ -1085,7 +1085,7 @@ export default defineComponent({
 
   .languages {
     right: 20px;
-    font-size: 1.5em;
+    font-size: 1.3em;
     margin-top: 60px;
     padding-top: 10px;
     padding-right: 20px;
@@ -1104,7 +1104,7 @@ export default defineComponent({
 
     float: left;
     padding-left: 50px;
-    font-size: 1.8em;
+    font-size: 1.5em;
   }
 
   .item {
@@ -1125,11 +1125,11 @@ export default defineComponent({
     text-align: left;
     margin-left: 15px;
     margin-top: 3px;
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     border-radius: 8px;
     background-image: var(--link-button);
-    background-size: 32px;
+    background-size: 25px;
     background-position: center;
     background-repeat: no-repeat;
     border-width: 1.5px;
@@ -1142,11 +1142,11 @@ export default defineComponent({
     text-align: left;
     margin-left: 15px;
     margin-top: 3px;
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     border-radius: 8px;
     background-image: var(--link-button);
-    background-size: 32px;
+    background-size: 25px;
     background-position: center;
     background-repeat: no-repeat;
     border-width: 1.5px;
@@ -1172,7 +1172,7 @@ export default defineComponent({
 
   .languages {
     right: 10px;
-    font-size: 1.5em;
+    font-size: 1.3em;
     margin-top: 60px;
     padding-top: 10px;
     padding-right: 10px;
@@ -1185,7 +1185,7 @@ export default defineComponent({
 
     float: left;
     padding-left: 50px;
-    font-size: 1.8em;
+    font-size: 1.3em;
   }
 }
 
@@ -1214,7 +1214,7 @@ export default defineComponent({
   height: calc(100% - 160px);
   width: 100%;
   position: absolute;
-  box-shadow: var(--menu-shadow);
+  /* box-shadow: var(--menu-shadow); */
   pointer-events: none;
 }
 
@@ -1222,6 +1222,7 @@ export default defineComponent({
   padding: 30px 20px 30px 30px;
   min-width: 550px;
   overflow-y: auto;
+  background: var(--page-background);
 }
 
 @media (max-width: 1024px) {
