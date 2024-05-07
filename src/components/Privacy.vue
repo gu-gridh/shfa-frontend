@@ -57,7 +57,7 @@ h2 {
   font-style: bold;
   margin-top: -10px;
   margin-bottom: 5px;
-  color: var(--highlighted-text);
+  color: var(--page-text);
   font-weight: 500;
   line-height: 1.5;
 }

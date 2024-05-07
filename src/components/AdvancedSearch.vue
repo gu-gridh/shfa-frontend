@@ -5,29 +5,30 @@
       <div v-for="(query, index) in searchQuery" :key="index" class="search-item">
         <div class="field-title" :id="query">
           {{
-            [
-              $t('message.site'),
-              $t('message.hällristningsauthor'),
-              $t('message.bildtyp'),
-              $t('message.nyckelord'),
-              $t('message.datering'),
-              'Institution',
-            ][index]
+        [
+          $t('message.site'),
+          $t('message.hällristningsauthor'),
+          $t('message.bildtyp'),
+          $t('message.nyckelord'),
+          $t('message.datering'),
+          'Institution',
+        ][index]
       }}
         </div>
         <div class="input-wrapper">
           <div v-for="keyword in selectedKeywords[index]" :key="keyword.id" class="tag-example-search" :id="keyword"
+            style="background-color: var(--selected-option); opacity:1; background: var(--selected-option); color: var(--button-text)"
             @click="deselectKeyword(keyword, index)">
             {{ keyword.text }}
           </div>
           <input type="search" @click="onInputFocus(index)" :id="'search' + index" :name="'search' + index"
             :placeholder="selectedKeywords[index].length ? '' : [
-              $t('message.searchsite'),
-              $t('message.sökauthor'),
-              $t('message.sökbildtyp'),
-              $t('message.söknyckelord'),
-              $t('message.sökdatering'),
-              $t('message.sökinstitutioner'),
+        $t('message.searchsite'),
+        $t('message.sökauthor'),
+        $t('message.sökbildtyp'),
+        $t('message.söknyckelord'),
+        $t('message.sökdatering'),
+        $t('message.sökinstitutioner'),
       ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
             @keydown="handleBackspace($event, index)" autocomplete="off" />
         </div>
@@ -367,18 +368,18 @@ export default {
         }
         switch (index) {
           case 0: // Site name: use "raa_id, lamning_id, askeladden_id, lokalitet_id, placename"
-              newResults = data.features.flatMap(feature => {
-                  const { askeladden_id, lokalitet_id, placename, raa_id, lamning_id } = feature.properties;
-                  const suggestions = [];
-                  
-                  if (raa_id) suggestions.push({ id: feature.id + '-raa', text: raa_id });
-                  if (lamning_id) suggestions.push({ id: feature.id + '-lamning', text: lamning_id });
-                  if (askeladden_id) suggestions.push({ id: feature.id + '-askeladden', text: askeladden_id });
-                  if (lokalitet_id) suggestions.push({ id: feature.id + '-lokalitet', text: lokalitet_id });
-                  if (placename) suggestions.push({ id: feature.id + '-placename', text: placename });
+            newResults = data.features.flatMap(feature => {
+              const { askeladden_id, lokalitet_id, placename, raa_id, lamning_id } = feature.properties;
+              const suggestions = [];
 
-                  return suggestions;
-                });
+              if (raa_id) suggestions.push({ id: feature.id + '-raa', text: raa_id });
+              if (lamning_id) suggestions.push({ id: feature.id + '-lamning', text: lamning_id });
+              if (askeladden_id) suggestions.push({ id: feature.id + '-askeladden', text: askeladden_id });
+              if (lokalitet_id) suggestions.push({ id: feature.id + '-lokalitet', text: lokalitet_id });
+              if (placename) suggestions.push({ id: feature.id + '-placename', text: placename });
+
+              return suggestions;
+            });
             break;
           case 1:
             newResults = data.results.map(result => ({
@@ -542,6 +543,14 @@ export default {
   border-radius: 5px;
   margin: 5px;
   cursor: pointer;
+}
+
+
+.tag-example-search {
+  background-color: var(--selected-option);
+  vertical-align: middle;
+  color: var(--button-text);
+  /* min-height: 10px; */
 }
 
 .input-wrapper {

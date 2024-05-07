@@ -575,9 +575,9 @@ export default {
   height: auto;
   cursor: pointer;
   border-radius: 8px !important;
-  background-color: var(--footer-background);
+  background-color: var(--popup-background);
   backdrop-filter: blur(5px);
-  color: var(--page-text);
+  color: var(--popup-text);
 }
 
 #search-bbox-button:hover {
@@ -592,6 +592,7 @@ export default {
   height: 100%;
   min-height: 200px;
   margin-top: 20px !important;
+  margin-bottom: 30px !important;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
   box-shadow: var(--shadow);
@@ -664,11 +665,11 @@ export default {
 
 .ol-zoom-in,
 .ol-zoom-out {
-  background-color: var(--footer-background) !important;
+  background-color: var(--viewer-button-background) !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.95;
+  opacity: 0.9;
   border-width: 0px;
   width: 33px;
   height: 33px;
@@ -677,17 +678,15 @@ export default {
 }
 
 .ol-zoom-in {
-  opacity: 1.0 !important;
   background: url(../assets/openseadragon/plus.svg) no-repeat center center;
-  background-color: var(--footer-background) !important;
+  background-color: var(--viewer-button-background) !important;
   background-size: contain;
   top: 60px;
 }
 
 .ol-zoom-out {
-  opacity: 1.0 !important;
   background: url(../assets/openseadragon/minus.svg) no-repeat center center;
-  background-color: var(--footer-background) !important;
+  background-color: var(--viewer-button-background) !important;
   background-size: contain;
   top: 100px;
 }
@@ -704,12 +703,14 @@ export default {
   overflow: hidden !important;
   border-radius: 50% !important;
   background: url(../assets/openseadragon/expand.svg) no-repeat center center !important;
-  background-color: var(--footer-background) !important;
+  background-color: var(--viewer-button-background) !important;
   background-size: contain !important;
 }
 
-.expand-map-widget:hover {
-  background-color: var(--footer-background) !important;
+.expand-map-widget:hover,
+.ol-zoom-in:hover,
+.ol-zoom-out:hover {
+  background-color: var(--viewer-button-hover) !important;
 }
 
 @media (max-width: 1024px) {
@@ -741,7 +742,7 @@ export default {
   overflow: hidden !important;
   border-radius: 50% !important;
   background: url(../assets/openseadragon/expand.svg) no-repeat center center !important;
-  background-color: var(--footer-background) !important;
+  background-color: var(--viewer-button-background) !important;
   background-size: contain !important;
 }
 
@@ -815,7 +816,7 @@ export default {
 .ol-popup {
   text-align: justify;
   position: absolute;
-  color: var(--page-text);
+  color: var(--popup-text);
   line-height: 1.2;
   background-color: var(--popup-background);
   opacity: 100%;
@@ -838,7 +839,7 @@ export default {
   margin-top: 4px;
   height: 15px;
   width: 15px;
-  background-image: var(--link-button);
+  background-image: var(--popup-link-button);
   background-size: 18px;
   background-position: center;
   background-repeat: no-repeat;
@@ -849,15 +850,15 @@ export default {
 
 #fornsok_link,
 #extmap_link {
-  color: var(--page-text);
+  color: var(--popup-text);
   /* background-position: left;
   background-size: 14px;
-  background-image: var(--link-button);
+  background-image: var(--popup-link-button);
   background-repeat: no-repeat; */
   padding: 10px;
   min-width: max-content;
   /* border-radius: 8px;
-  background-image: var(--link-button);
+  background-image: var(--popup-link-button);
   background-size: 18px;
   background-position: left;
   background-repeat: no-repeat;

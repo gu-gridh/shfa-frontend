@@ -359,7 +359,7 @@ body {
   height: 40px;
   width: 40px;
   margin-right: 10px;
-  background: var(--search-button-light-bkgrnd) no-repeat 50% 50%;
+  background: var(--search-button) no-repeat 50% 50%;
   background-size: 30px 30px;
   background-color: var(--button-background);
 }
@@ -433,7 +433,7 @@ body {
 #search-selected {
   background-color: var(--selected-option);
   vertical-align: middle;
-  color: var(--page-text);
+  color: var(--button-text);
   /* min-height: 10px; */
 }
 

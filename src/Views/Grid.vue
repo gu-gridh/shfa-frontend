@@ -692,20 +692,24 @@ export default defineComponent({
 
   position: absolute;
   left: 8px;
-  transform: translateX(25%);
+  transform: translateX(25%) translateY(100%);
   bottom: 50px;
   padding: 5px 15px 5px 15px;
   z-index: 100;
+  width: max-content;
   width: auto;
   height: auto;
   cursor: pointer;
   border-radius: 8px !important;
   background-color: var(--button-background);
-  backdrop-filter: blur(5px);
+  /* background: var(--underlay); */
+  /* backdrop-filter: blur(5px); */
+  /* color: rgb(235, 234, 234); */
   color: var(--button-text);
-  mix-blend-mode: difference;
-  /* font-size: 1.2rem; */
+  font-size: 1.1rem;
   font-weight: 450;
+  /* isolation: isolate; */
+
 }
 
 @media (max-width: 1023px) {
@@ -1004,7 +1008,7 @@ export default defineComponent({
   border-radius: 8px;
   font-size: 1.1em;
   font-weight: 500;
-  color: var(--page-text);
+  color: var(--results-text);
   padding: 2px 15px 6px 15px;
   text-align: center;
   background-color: var(--overlay);
@@ -1288,7 +1292,7 @@ export default defineComponent({
 @media (max-width: 1024px) {
   #map {
     top: -60px;
-    height: 80vw;
+    height: 75vw;
     width: 100%;
   }
 }
