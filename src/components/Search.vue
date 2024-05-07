@@ -1,7 +1,7 @@
 <template>
   <div v-bind="$attrs">
     <div id="search-interface" class="">
-      <div class="input-unpad mb-0" id="search-main"> 
+      <div class="input-unpad mb-0" id="search-main">
         <div class="input-wrapper" id="search-wrapper">
           <div v-for="keyword in selectedKeywords" :key="keyword.id" class="tag-example-search" id="search-selected"
             @click="deselectKeyword(keyword)">
@@ -332,6 +332,10 @@ export default {
 </script>
 
 <style scoped>
+body {
+  background-color: var(--theme-page-background) !important;
+}
+
 #search-interface {
   font-size: 100%;
   padding-top: 02px;
@@ -341,7 +345,7 @@ export default {
   margin-top: 30px;
   font-size: 1.1em;
   margin-left: -6px;
-  color: white;
+  color: var(--theme-page-text);
 }
 
 .search-switcher .ui-mode {
@@ -351,18 +355,17 @@ export default {
 }
 
 .search-button-round {
-  background-color: #6666;
   border-radius: 50%;
   height: 40px;
   width: 40px;
   margin-right: 10px;
-  background: url(../../interface/searchbuttonwhite.png) no-repeat 50% 50%;
+  background: var(--theme-search-button) no-repeat 50% 50%;
   background-size: 30px 30px;
-  background-color: #6666;
+  background-color: var(--theme-button-background);
 }
 
 .search-button-round:hover {
-  background-color: rgb(70, 90, 90);
+  background-color: var(--theme-button-hover);
 }
 
 #filter-interface {
@@ -373,7 +376,7 @@ export default {
   align-items: center;
   gap: 0px;
   padding: 0px 0px 10px 0px;
-  color: white;
+  color: var(--theme-page-text);
   z-index: 1000;
   margin-left: -5px;
   height: 38px;
@@ -402,7 +405,7 @@ export default {
 
 .tag-example {
   float: left;
-  background-color: rgb(90, 90, 90);
+  background-color: var(--theme-button-background);
   padding: 4px 10px;
   font-size: 15px;
   margin-bottom: 5px;
@@ -413,23 +416,23 @@ export default {
 
 .tag-example-search {
   float: left;
-  background-color: rgb(80, 90, 100);
+  background-color: var(--theme-button-background);
   padding: 0.4em 0.5em;
   font-size: 1.2em;
   border-radius: 5px;
   margin-left: 10px;
   cursor: pointer;
-  box-shadow: 0rem 2px 15px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: var(--theme-shadow);
   overflow: hidden;
   max-height: 32px;
-  color: white;
+  color: var(--theme-page-text);
   font-weight: 300;
 }
 
 .tag-example:hover {
-  background-color: rgb(80, 90, 100);
+  background-color: var(--theme-button-hover);
   cursor: pointer;
-  color: white;
+  color: var(--theme-page-text);
 }
 
 #search {
@@ -448,7 +451,7 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  background-color: rgba(45, 45, 45, 0.8);
+  background-color: var(--theme-input-background);
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
@@ -456,13 +459,13 @@ export default {
 }
 
 .input-wrapper:hover {
-  background-color: rgba(45, 45, 45, 1.0);
+  background-color: var(--theme-input-hover);
 }
 
 input[type="search"] {
   background-color: transparent !important;
   border: none;
-  color: white;
+  color: var(--theme-page-text);
   margin-top: 5px;
   padding-left: 15px !important;
   padding-right: 15px !important;
@@ -472,7 +475,7 @@ input[type="search"] {
 }
 
 input[type="search"]::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--theme-placeholder-text);
 }
 
 input[type="search"]:focus {
@@ -484,7 +487,7 @@ input[type="search"]::-webkit-search-cancel-button {
   height: 0.75em;
   width: 0.75em;
   border-radius: 50em;
-  background: url(../../interface/input-cancel-x.svg) no-repeat 50% 50%;
+  background: var(--theme-close-button) no-repeat 50% 50%;
   background-size: contain;
   opacity: 1.0;
   pointer-events: none;
@@ -498,7 +501,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 h2 {
   display: flex;
-  color: white;
+  color: var(--theme-page-text);
   font-size: 30px;
   font-weight: 400;
   line-height: 0.8;
@@ -509,8 +512,8 @@ input:focus {
 }
 
 .toggle-map-btn {
-  background-color: rgb(90, 90, 90);
-  color: white;
+  background-color: var(--theme-button-background);
+  color: var(--theme-page-text);
   border: none;
   padding: 10px 10px;
   margin-left: 10px;
@@ -521,10 +524,10 @@ input:focus {
 }
 
 .toggle-map-btn:hover {
-  background-color: rgb(80, 90, 100);
+  background-color: var(--theme-button-hover);
 }
 
 .item.active {
-  color: rgb(200, 225, 250);
+  color: var(--theme-selected-option);
 }
 </style>

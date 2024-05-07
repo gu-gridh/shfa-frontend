@@ -20,7 +20,7 @@ export default {
 html,
 body {
   font-family: "Barlow Condensed", sans-serif !important;
-  background-color: white !important;
+  background-color: var(--theme-page-background) !important;
   color: black !important;
 }
 
@@ -43,6 +43,7 @@ body {
   --theme-placeholder-text: #909090;
   --theme-input-background: #1d192c;
   --theme-input-wrapper-background: linear-gradient(rgb(35, 35, 35) 0%, rgb(50, 50, 50) 100%);
+  --theme-input-hover: #1a094c;
   --theme-logo-background: #1b1b1b;
   --theme-gu-logo-en: url("../src/assets/gu_logo.png");
   --theme-gu-logo-sv: url("../src/assets/gu_logo_sv.png");
@@ -73,6 +74,8 @@ body {
   --theme-previous-button: url(../assets/openseadragon/prev.png);
   --theme-next-button: url(../assets/openseadragon/next.png);
   --theme-download-button: url(public/interface/downloadwhite.png);
+  --theme-search-button: url(../../interface/searchbuttonwhite.png);
+  --theme-selected-option: #1193c6;
 }
 
 html[style-theme='dark'] {
@@ -94,6 +97,7 @@ html[style-theme='dark'] {
   --theme-placeholder-text: #909090;
   --theme-input-background: #1d192c;
   --theme-input-wrapper-background: linear-gradient(rgb(35, 35, 35) 0%, rgb(50, 50, 50) 100%);
+  --theme-input-hover: #1a094c;
   --theme-logo-background: #1b1b1b;
   --theme-gu-logo-en: url("../src/assets/gu_logo.png");
   --theme-gu-logo-sv: url("../src/assets/gu_logo_sv.png");
@@ -124,21 +128,8 @@ html[style-theme='dark'] {
   --theme-previous-button: url(../assets/openseadragon/prev.png);
   --theme-next-button: url(../assets/openseadragon/next.png);
   --theme-download-button: url(public/interface/downloadwhite.png);
-}
-
-html[style-theme='light'] {
-  --theme-background: #f1f1f1;
-  --theme-footer-color: #c2c2c2;
-  --theme-accent-color1-alpha: #11455aa1;
-  --theme-accent-color2-alpha: #45256f54;
-  --theme-accent-color1: #11455a;
-  --theme-accent-color2: #45256f;
-  --theme-text-color: black;
-  --theme-button: linear-gradient(#ececec, #ececec) padding-box, linear-gradient(to right, #026288f2, #41208dae) border-box;
-  --theme-popup-background: rgba(236, 236, 237, 0.75);
-  --theme-gu-logo: url("../src/assets/gu_logo.png");
-  --theme-shfa-logo: url("../src/assets/shfa_logo_downscale.png");
-  --theme-rj-logo: url("../graphics/interface/RJ_logo_black.png");
+  --theme-search-button: url(../../interface/searchbuttonwhite.png);
+  --theme-selected-option: #1193c6;
 }
 
 *::before,
