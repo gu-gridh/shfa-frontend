@@ -364,7 +364,7 @@ export default {
           this.infiniteScrollUrls[index] = null;
         }
         switch (index) {
-          case 0: // Site name: use "raa_id or lamning_id"
+          case 0: // Site name: use "raa_id, lamning_id, askeladden_id, lokalitet_id, placename"
               newResults = data.features.flatMap(feature => {
                   const { askeladden_id, lokalitet_id, placename, raa_id, lamning_id } = feature.properties;
                   const suggestions = [];
