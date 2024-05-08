@@ -1,13 +1,17 @@
 <template>
+  <!-- Skip Link -->
+  <a href="#maincontent" class="skip-link">Skip to Main Content</a>
+
   <div role="main">
-    <Grid />
-    <!-- <Footer /> -->
+    <!-- Main content -->
+    <div id="maincontent" tabindex="-1">
+      <Grid />
+    </div>
   </div>
 </template>
 
 <script>
 import Grid from './Views/Grid.vue';
-import Footer from './components/Footer.vue';
 
 export default {
   components: { Grid, /* Footer */ },
@@ -22,6 +26,21 @@ body {
   font-family: "Barlow Condensed", sans-serif !important;
   background-color: black !important;
   color: white !important;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #FFF;
+  color: #000;
+  padding: 8px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 10px;
 }
 
 :root {
