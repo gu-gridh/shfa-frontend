@@ -126,27 +126,27 @@
               <div v-show="showGallery">
 
                 <!--
-  Gallery Component Attributes:
-  - @image-clicked="onImageClicked" Listens for an 'image-clicked' event and calls 'onImageClicked' method
-  - @updateShowResults="handleShowResults" Handles the event to show/hide results
-  - @page-details-updated="updatePageDetails"   Updates page details when they change in the Gallery component 
+                  Gallery Component Attributes:
+                  - @image-clicked="onImageClicked" Listens for an 'image-clicked' event and calls 'onImageClicked' method
+                  - @updateShowResults="handleShowResults" Handles the event to show/hide results
+                  - @page-details-updated="updatePageDetails"   Updates page details when they change in the Gallery component 
 
-  - : Binds a dynamic class based on the 'isLight' state for theming
-  - :siteId="selectedId" : Passes the currently selected site ID to the Gallery component
-  - :forceRefresh="forceRefresh" A number that changes to trigger a refresh in the Gallery component
+                  - : Binds a dynamic class based on the 'isLight' state for theming
+                  - :siteId="selectedId" : Passes the currently selected site ID to the Gallery component
+                  - :forceRefresh="forceRefresh" A number that changes to trigger a refresh in the Gallery component
 
-  - :searchItems="searchItems"   Passes search items to the Gallery for display
-  - :fetchNextPage="fetchNextPage" Function to fetch the next page of search results
-  - :searchFetchPreviousPage="fetchPreviousPage" Function to fetch the previous page of search results
-  - :searchNextPageUrl="nextPageUrl" URL for fetching the next page of search results
-  - :searchPreviousPageUrl="previousPageUrl" URL for fetching the previous page of search results
+                  - :searchItems="searchItems"   Passes search items to the Gallery for display
+                  - :fetchNextPage="fetchNextPage" Function to fetch the next page of search results
+                  - :searchFetchPreviousPage="fetchPreviousPage" Function to fetch the previous page of search results
+                  - :searchNextPageUrl="nextPageUrl" URL for fetching the next page of search results
+                  - :searchPreviousPageUrl="previousPageUrl" URL for fetching the previous page of search results
 
-  - :advancedSearchResults="advancedSearchResults" Passes advanced search results to the Gallery
-  - :fetchNextPageAdvanced="fetchNextPageAdvanced" Function to fetch the next page of advanced search results
-  - :advancedFetchPreviousPage="fetchPreviousPageAdvanced" Function to fetch the previous page of advanced search results
-  - :searchNextPageUrlAdvanced="nextPageUrlAdvanced" URL for fetching the next page of advanced search results
-  - :advancedPreviousPageUrl="previousPageUrlAdvanced" URL for fetching the previous page of advanced search results
-  -->
+                  - :advancedSearchResults="advancedSearchResults" Passes advanced search results to the Gallery
+                  - :fetchNextPageAdvanced="fetchNextPageAdvanced" Function to fetch the next page of advanced search results
+                  - :advancedFetchPreviousPage="fetchPreviousPageAdvanced" Function to fetch the previous page of advanced search results
+                  - :searchNextPageUrlAdvanced="nextPageUrlAdvanced" URL for fetching the next page of advanced search results
+                  - :advancedPreviousPageUrl="previousPageUrlAdvanced" URL for fetching the previous page of advanced search results
+                -->
 
                 <Gallery @image-clicked="onImageClicked" @updateShowResults="handleShowResults"
                   @page-details-updated="updatePageDetails" :siteId="selectedId" :forceRefresh="forceRefresh"
@@ -449,9 +449,6 @@ export default defineComponent({
         }
       }
     };
-
-
-
     window.addEventListener("resize", this.updateWindowWidth);
 
     this.$i18n.locale = this.currentLanguage;
@@ -548,10 +545,8 @@ export default defineComponent({
     },
 
     toggleColour() {
-
       this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
       this.targetTheme = (this.targetTheme === 'dark') ? 'light' : 'dark';
-
       document.documentElement.setAttribute('style-theme', this.targetTheme);
       return this.currentColour && this.targetTheme;
     },

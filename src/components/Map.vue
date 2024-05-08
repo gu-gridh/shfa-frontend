@@ -251,6 +251,33 @@ export default {
       }
     },
 
+    fetchImageData(imageId) {
+      return fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${imageId}&depth=1`)
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
+      .then(data => {
+        if (data.results.length > 0) {
+          return data.results[0].site.coordinates.coordinates; // return the coordinates
+        }
+        throw new Error('No data found');
+      });
+    },
+
+    setRandomLocation() {
+      const randomLocation = this.locations[Math.floor(Math.random() * this.locations.length)];
+      const transformedExtent = transformExtent(
+        randomLocation.extent,
+        "EPSG:4326",
+        "EPSG:3857"
+      );
+      this.map.getView().fit(transformedExtent, {
+        size: this.map.getSize(),
+      });
+      this.map.getView().setZoom(randomLocation.zoom);
+    },
+
     focusOnCoordinates(lon, lat) {
       if (this.map) {
         const coordinates = fromLonLat([lon, lat]);
@@ -380,22 +407,26 @@ export default {
         overlays: [overlay],
       });
 
-      if (this.map) {
-        const randomLocation = this.locations[Math.floor(Math.random() * this.locations.length)];
-        const transformedExtent = transformExtent(
-          randomLocation.extent,
-          "EPSG:4326",
-          "EPSG:3857"
-        );
-        this.map.getView().fit(transformedExtent, {
-          size: this.map.getSize(),
+      const path = window.location.pathname;
+      const match = path.match(/^\/image\/(\d+)$/); //check if address contains image + extract ID
+      
+      if (match) {
+          const imageId = match[1];
+          this.fetchImageData(imageId).then(coordinates => {
+          this.focusOnCoordinates(coordinates[0], coordinates[1]);
+        }).catch(error => {
+          console.error("Error fetching image data:", error);
+          this.setRandomLocation();  
         });
-        this.map.getView().setZoom(randomLocation.zoom);
       } else {
-        console.error("Failed to initialize the map.");
+        this.setRandomLocation();
       }
+
+      if (this.map) {
+        this.map.addControl(new Zoom());
+      }
+
       this.updateBbox();
-      this.map.addControl(new Zoom());
       const markerColour = getComputedStyle(document.getElementById("map")).getPropertyValue("--map-markers");
       // Initialize the WebGL map marker style
       const webGLStyle = {

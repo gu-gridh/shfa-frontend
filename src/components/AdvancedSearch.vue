@@ -5,15 +5,15 @@
       <div v-for="(query, index) in searchQuery" :key="index" class="search-item">
         <div class="field-title" :id="query">
           {{
-        [
-          $t('message.site'),
-          $t('message.hällristningsauthor'),
-          $t('message.bildtyp'),
-          $t('message.nyckelord'),
-          $t('message.datering'),
-          'Institution',
-        ][index]
-      }}
+            [
+              $t('message.site'),
+              $t('message.hällristningsauthor'),
+              $t('message.bildtyp'),
+              $t('message.nyckelord'),
+              $t('message.datering'),
+              'Institution',
+            ][index]
+          }}
         </div>
         <div class="input-wrapper">
           <div v-for="keyword in selectedKeywords[index]" :key="keyword.id" class="tag-example-search" :id="keyword"
@@ -23,14 +23,14 @@
           </div>
           <input type="search" @click="onInputFocus(index)" :id="'search' + index" :name="'search' + index"
             :placeholder="selectedKeywords[index].length ? '' : [
-        $t('message.searchsite'),
-        $t('message.sökauthor'),
-        $t('message.sökbildtyp'),
-        $t('message.söknyckelord'),
-        $t('message.sökdatering'),
-        $t('message.sökinstitutioner'),
-      ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
-            @keydown="handleBackspace($event, index)" autocomplete="off" />
+              $t('message.searchsite'),
+              $t('message.sökauthor'),
+              $t('message.sökbildtyp'),
+              $t('message.söknyckelord'),
+              $t('message.sökdatering'),
+              $t('message.sökinstitutioner'),
+            ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
+                  @keydown="handleBackspace($event, index)" autocomplete="off" />
         </div>
         <div v-show="searchResults[index].length" class="suggestions">
           <div v-for="result in searchResults[index]" :key="result.id" class="tag-example"
