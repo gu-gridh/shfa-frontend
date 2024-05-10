@@ -26,16 +26,31 @@
           <tr>
             <td class="label" v-if="data.type && data.type.text">{{ $t('message.typ') }}</td>
             <td class="data" v-if="data.type && data.type.text && $i18n.locale === 'sv'"
-              @click="logKeyword(data.type.text)"> {{ $t('keywords.' + data.type.text) }}</td>
+              @click="logKeyword(data.type.text)"> {{ data.type.text }}</td>
             <td class="data" v-else-if="data.type && data.type.text && $i18n.locale === 'en'"
-              @click="logKeyword(data.type.text)">{{ data.type.english_translation }}</td>
+              @click="logKeyword(data.type.english_translation.text)">{{ data.type.english_translation }}</td>
           </tr>
           <tr>
-            <td class="label" v-if="data.author && data.author.name">{{ $t('message.author') }}</td>
-            <td class="data" v-if="data.author && data.author.name && $i18n.locale === 'sv'"
-              @click="logMetaSearch(data.author.name)"> {{ data.author.name }}</td>
-            <td class="data" v-else-if="data.author && data.author.name && $i18n.locale === 'en'"
-              @click="logMetaSearch(data.author.name)">{{ data.author.english_translation }}</td>
+            <td class="label" v-if="data.subtype && data.subtype.text">{{ $t('message.subtype') }}</td>
+            <td class="not-clickable" v-if="data.subtype && data.subtype.text && $i18n.locale === 'sv'"> {{
+        data.subtype.text }}
+            </td>
+            <td class="not-clickable" v-else-if="data.subtype && data.subtype.text && $i18n.locale === 'en'">{{
+        data.subtype.english_translation }}</td>
+          </tr>
+          <tr>
+            <td class="label">{{ $t('message.author') }}</td>
+            <td class="data" v-if="data.people.length > 0">
+              <span class="data" v-for="(person, index) in data.people" :key="index"
+                @click="logMetaSearch(person.name)">
+                {{ person.name || 'Unknown'
+                }}<span v-if="index != data.people.length - 1">, </span></span>
+            </td>
+            <td class="data" v-if="data.people.length === 0 && $i18n.locale === 'sv'"
+              @click="logMetaSearch(data.author.name)"> {{ data.author.name || 'Unknown' }}</td>
+            <td class="data" v-else-if="data.people.length === 0 && $i18n.locale === 'en'"
+              @click="logMetaSearch(data.author.english_translation)">{{ data.author.english_translation || 'Unknown' }}
+            </td>
           </tr>
         </table>
       </div>
@@ -71,13 +86,13 @@
           <tr>
             <td class="label" v-if="data.site">{{ $t('message.reference') }}</td>
             <td class="ref" v-if="data.site && $i18n.locale === 'en'"> {{ data.author.english_translation }}. ({{
-        data.year || 'n.d.' }}). {{ $t('keywords.' + data.type.text) }} {{ $t('message.av') }} {{
+        data.year || 'n.d.' }}). {{ data.type.english_translation }} {{ $t('message.av') }} {{
         data.site.lamning_id
         || data.raa_id || data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }}
               {{ $t('message.at') }} https://shfa.dh.gu.se/image/{{ data.id }}</td>
             <td class="ref" v-if="data.site && $i18n.locale === 'sv'"> {{ data.author?.name }}. ({{ data.year || 'n.d.'
               }}).
-              {{ $t('keywords.' + data.type.text) }} {{ $t('message.av') }} {{ data.site.lamning_id || data.raa_id ||
+              {{ data.type.text }} {{ $t('message.av') }} {{ data.site.lamning_id || data.raa_id ||
         data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }} {{ $t('message.at') }}
               https://shfa.dh.gu.se/image/{{ data.id }}</td>
           </tr>
@@ -88,8 +103,16 @@
       <div v-if="data.keywords && data.keywords.length > 0">
         <h2>{{ $t('message.keywords') }}</h2>
         <div class="keywords"> <!-- Empty div for margin -->
-          <button class="keyword-button" v-for="(keyword, index) in data.keywords" :key="index"
-            @click="logKeyword(keyword.text)">{{ $t('keywords.' + keyword.text.replaceAll('.', '_')) }}</button>
+          <button v-if="this.$i18n.locale === 'sv'" class="keyword-button" v-for="(keyword, index) in sortedTags.sort()"
+            :key="index" @click="logKeyword(keyword)"> {{ keyword }}
+          </button>
+          <button v-if="this.$i18n.locale === 'en'" class="keyword-button"
+            v-for="(keyword, index) in sortedTagsEn.sort()" :key="index" @click="logKeyword(keyword)"> {{ keyword
+            }}</button>
+          <!-- <button class="keyword-button" v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index"
+            @click="logKeyword(keyword.text)"> {{ this.$i18n.locale === "en" ? '' : keyword.text }}
+            {{ this.$i18n.locale === "sv" ? '' : keyword.english_translation }}
+          </button> -->
         </div>
       </div>
       <h2 v-if="data.site && data.site.ksamsok_id">{{ $t('message.description') }}</h2>
@@ -125,6 +148,8 @@ export default {
       data: {},
       acc_date,
       coordinateStore: useStore(),
+      sortedTags: [],
+      sortedTagsEn: [],
     };
   },
   mounted() {
@@ -152,11 +177,23 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results[0];
+          this.sortedTags = []
+          this.sortedTagsEn = []
+          this.data.keywords.forEach((tag) => {
+            this.sortedTags.push(tag.text);
+            this.sortedTagsEn.push(tag.english_translation);
+          });
+          this.data.dating_tags.forEach((tag) => {
+            this.sortedTags.push(tag.text);
+            this.sortedTagsEn.push(tag.english_translation);
+          });
           this.fetchDescription();
+          console.log(this.data.people)
         })
         .catch((error) => {
           console.error('Error fetching image data:', error);
         });
+
     },
     fetchDescription() {
       if (this.data.site && this.data.site.ksamsok_id) {
@@ -205,6 +242,7 @@ const options = {
   day: "numeric",
 };
 let acc_date = date.toLocaleString("en-GB", options);
+
 </script>
 
 <style scoped>
@@ -262,6 +300,7 @@ h2 {
   max-width: 180px;
   cursor: pointer;
 }
+
 
 .data:hover {
   color: var(--ui-hover);
