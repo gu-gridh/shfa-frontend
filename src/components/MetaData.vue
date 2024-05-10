@@ -35,21 +35,24 @@
             <td class="not-clickable" v-if="data.subtype && data.subtype.text && $i18n.locale === 'sv'"> {{
         data.subtype.text }}
             </td>
-            <td class="not-clickable" v-else-if="data.subtype && data.subtype.text && $i18n.locale === 'en'">{{
+            <td class="not-clickable" v-if="data.subtype && data.subtype.text && $i18n.locale === 'en'">{{
         data.subtype.english_translation }}</td>
           </tr>
           <tr>
             <td class="label">{{ $t('message.author') }}</td>
-            <td class="data" v-if="data.people.length > 0">
+            <td class="data" v-if="data.people && data.people.length > 0">
               <span class="data" v-for="(person, index) in data.people" :key="index"
                 @click="logMetaSearch(person.name)">
                 {{ person.name || 'Unknown'
-                }}<span v-if="index != data.people.length - 1">, </span></span>
+                }}<span class="not-clickable" v-if="data.people && index != data.people.length - 1">, </span></span>
             </td>
-            <td class="data" v-if="data.people.length === 0 && $i18n.locale === 'sv'"
-              @click="logMetaSearch(data.author.name)"> {{ data.author.name || 'Unknown' }}</td>
-            <td class="data" v-else-if="data.people.length === 0 && $i18n.locale === 'en'"
-              @click="logMetaSearch(data.author.english_translation)">{{ data.author.english_translation || 'Unknown' }}
+            <td class="data" v-if="data.people && data.people.length === 0 && $i18n.locale === 'sv'"
+              @click="logMetaSearch(data.author.name)"> {{
+        data.author.name
+        || 'Unknown' }}</td>
+            <td class="data" v-if="data.people && data.people.length === 0 && $i18n.locale === 'en'"
+              @click="logMetaSearch(data.author.name)">
+              {{ data.author.english_translation || 'Unknown' }}
             </td>
           </tr>
         </table>
@@ -103,16 +106,20 @@
       <div v-if="data.keywords && data.keywords.length > 0">
         <h2>{{ $t('message.keywords') }}</h2>
         <div class="keywords"> <!-- Empty div for margin -->
-          <button v-if="this.$i18n.locale === 'sv'" class="keyword-button" v-for="(keyword, index) in sortedTags.sort()"
+          <!-- <button v-if="this.$i18n.locale === 'sv'" class="keyword-button" v-for="(keyword, index) in sortedTags"
             :key="index" @click="logKeyword(keyword)"> {{ keyword }}
           </button>
-          <button v-if="this.$i18n.locale === 'en'" class="keyword-button"
-            v-for="(keyword, index) in sortedTagsEn.sort()" :key="index" @click="logKeyword(keyword)"> {{ keyword
-            }}</button>
-          <!-- <button class="keyword-button" v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index"
-            @click="logKeyword(keyword.text)"> {{ this.$i18n.locale === "en" ? '' : keyword.text }}
-            {{ this.$i18n.locale === "sv" ? '' : keyword.english_translation }}
-          </button> -->
+          <button v-if="this.$i18n.locale === 'en'" class="keyword-button" v-for="(keyword, index) in sortedTagsEn"
+            :key="index" @click="logKeyword(keyword)"> {{ keyword
+            }}</button> -->
+          <button class="keyword-button" v-if="data.keywords && this.$i18n.locale === 'sv'"
+            v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index"
+            @click="logKeyword(keyword.text)"> {{ keyword.text }}
+          </button>
+          <button class="keyword-button" v-if="data.keywords && this.$i18n.locale === 'en'"
+            v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index"
+            @click="logKeyword(keyword.text)"> {{ keyword.english_translation }}
+          </button>
         </div>
       </div>
       <h2 v-if="data.site && data.site.ksamsok_id">{{ $t('message.description') }}</h2>
@@ -148,8 +155,8 @@ export default {
       data: {},
       acc_date,
       coordinateStore: useStore(),
-      sortedTags: [],
-      sortedTagsEn: [],
+      // sortedTags: [],
+      // sortedTagsEn: [],
     };
   },
   mounted() {
@@ -177,19 +184,20 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results[0];
-          this.sortedTags = []
-          this.sortedTagsEn = []
-          this.data.keywords.forEach((tag) => {
-            this.sortedTags.push(tag.text);
-            this.sortedTagsEn.push(tag.english_translation);
-          });
-          this.data.dating_tags.forEach((tag) => {
-            this.sortedTags.push(tag.text);
-            this.sortedTagsEn.push(tag.english_translation);
-          });
+          // this.sortedTags = []
+          // this.sortedTagsEn = []
+          // this.data.keywords.forEach((tag) => {
+          //   this.sortedTags.push(tag.text);
+          //   this.sortedTagsEn.push(tag.english_translation);
+          // });
+          // this.data.dating_tags.forEach((tag) => {
+          //   this.sortedTags.push(tag.text);
+          //   this.sortedTagsEn.push(tag.english_translation);
+          // });
           this.fetchDescription();
-          console.log(this.data.people)
+
         })
+      console.log(this.sortedTags)
         .catch((error) => {
           console.error('Error fetching image data:', error);
         });
