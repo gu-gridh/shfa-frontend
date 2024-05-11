@@ -41,10 +41,12 @@
           <tr>
             <td class="label">{{ $t('message.author') }}</td>
             <td class="data" v-if="data.people && data.people.length > 0">
-              <span class="data" v-for="(person, index) in data.people" :key="index"
+              <p class="data" v-for="(person, index) in data.people" :key="index"
                 @click="logMetaSearch(person.name)">
-                {{ person.name || 'Unknown'
-                }}<span class="not-clickable" v-if="data.people && index != data.people.length - 1">, </span></span>
+                {{ person.name }}</p>
+              <!-- <span class="data" v-for="(person, index) in data.people" :key="index"
+                @click="logMetaSearch(person.name)">
+                {{ person.name }}<span class="not-clickable" v-if="data.people && index != data.people.length - 1">, </span></span> -->
             </td>
             <td class="data" v-if="data.people && data.people.length === 0 && $i18n.locale === 'sv'"
               @click="logMetaSearch(data.author.name)"> {{
@@ -309,6 +311,9 @@ h2 {
   cursor: pointer;
 }
 
+.data p {
+  margin-bottom: 5px;
+}
 
 .data:hover {
   color: var(--ui-hover);
@@ -404,6 +409,8 @@ ul {
   text-decoration: none;
   cursor: pointer;
   margin-bottom: 20px;
+  width: max-content;
+  height: max-content;
   /* background-image: var(--link-button);
   background-size: 20px;
   background-position: 10px 8px;
@@ -414,15 +421,16 @@ ul {
 .visit-icon {
   float: left;
   text-align: right;
-  margin-top: 4px;
-  height: 30px;
-  width: 30px;
+  /* margin-top: 4px; */
+  height: 28px;
+  width: 28px;
   background-image: var(--link-button);
   filter: invert(1);
-  background-size: 25px;
+  background-size: 22px;
   background-position: center;
   background-repeat: no-repeat;
-  margin-left: -40px;
+  /* margin-left: -40px; */
+  margin-right: 10px;
   border-width: 1.4px;
   border-color: var(--page-text);
   border-radius: 50%;
