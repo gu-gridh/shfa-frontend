@@ -198,9 +198,7 @@ export default {
           // });
           this.fetchDescription();
 
-        })
-      console.log(this.sortedTags)
-        .catch((error) => {
+        }).catch((error) => {
           console.error('Error fetching image data:', error);
         });
 
