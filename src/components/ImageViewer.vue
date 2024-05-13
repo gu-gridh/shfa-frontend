@@ -24,6 +24,11 @@
             <div id="DownloadButton" class="NavButton" @click="downloadImage"></div>
           </a>
         </li>
+        <li v-if="link_3d">
+          <a id="threedViewer">
+            <div id="threedViewerButton" class="NavButton" @click="open3dViewer">3D</div>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
@@ -45,6 +50,7 @@ export default {
     return {
       completeUrl: null,
       viewer: null,
+      link_3d: false,
     };
   },
   mounted() {
@@ -76,7 +82,10 @@ export default {
         const placename = data.results[0].site.placename;
         const creator = data.results[0].author?.name || 'Unknown';
         const img_id = data.results[0].id;
+        const threed_available = data.results[0].group;
         // const year = data.results[0].year;
+        this.link_3d = threed_available ? true : false;
+        this.query_3d = threed_available ? data.results[0].group.text : null;
         this.completeUrl = download;
         this.lamning_id = lamning_id;
         this.raa_id = raa_id;
@@ -96,6 +105,10 @@ export default {
       }
     },
 
+    open3dViewer() {
+      // const threedUrl = `https://shfa.dh.gu.se/?q=${this.query_3d}/mesh`;
+      // window.open(threedUrl, "_blank");
+    },
     downloadImage() {
       const imageUrl = this.completeUrl;
       const lamning_id = this.lamning_id;
@@ -298,6 +311,23 @@ a:active {
   background-color: var(--viewer-button-background);
   overflow: hidden;
   cursor: pointer;
+}
+
+#threedViewerButton {
+  position: relative;
+  top: 30px;
+  /* background: url(../interface/linkbuttonwhite.png); */
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: var(--viewer-button-background);
+  font-weight: 600;
+  /* padding-top: 5px; */
+  line-height: 2;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  color: var(--popup-text);
 }
 
 .NavButton {

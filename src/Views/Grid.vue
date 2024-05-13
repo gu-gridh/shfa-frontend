@@ -1269,7 +1269,7 @@ export default defineComponent({
 #split-2 {
   background-color: var(--page-background);
   padding: 0px 0px 0px 20px;
-  box-shadow: var(--menu-shadow);
+  /* box-shadow: var(--menu-shadow); */
 }
 
 #split-2::-webkit-scrollbar {
