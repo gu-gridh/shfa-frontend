@@ -466,17 +466,21 @@ export default {
           const askeladden_id = feature.get("askeladden_id");
           const placename = feature.get("placename");
 
-          if (placename) { this.isSwedish = false }
-          else {
-            this.isSwedish = true;
-            const fornsokLink = document.getElementById("fornsok_link");
-            const fornsokHeader = document.getElementById("fornsok_header").getElementsByTagName("a")[0];
-            if (fornsokLink) {
-              // fornsokLink.href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
-              fornsokHeader.setAttribute("target", "_blank");
-              fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
-            }
-          };
+          const fornsokLink = document.getElementById("fornsok_link");
+          const fornsokHeaderElement = document.getElementById("fornsok_header");
+        
+          if (placename) {
+              this.isSwedish = false;
+          } else {
+              this.isSwedish = true;
+              if (fornsokHeaderElement && fornsokLink) {
+                  const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
+                  if (fornsokHeader) {
+                      fornsokHeader.setAttribute("target", "_blank");
+                      fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
+                  }
+              }
+          }
 
           raaContent.innerHTML = raa_id;
           lamningContent.innerHTML = lamning_id;
@@ -524,13 +528,22 @@ export default {
               padding: [1, 1, 1, 1],
               minResolution: 5.0,
             });
-            const fornsokHeader = document.getElementById("fornsok_header").getElementsByTagName("a")[0];
-            if (placename) { this.isSwedish = false }
-            if (fornsokLink) {
-              // fornsokLink.href = `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`;
-              this.isSwedish = true,
-                fornsokHeader.setAttribute("target", "_blank");
-              fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
+              
+            const fornsokHeaderElement = document.getElementById("fornsok_header");
+            const fornsokLink = document.getElementById("fornsok_link");
+
+            if (fornsokHeaderElement) {
+                const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
+                if (fornsokHeader) {
+                    if (placename) {
+                        this.isSwedish = false;
+                    }
+                    if (fornsokLink) {
+                        this.isSwedish = true;
+                        fornsokHeader.setAttribute("target", "_blank");
+                        fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
+                    }
+                }
             }
 
             raaContent.innerHTML = raa_id;
