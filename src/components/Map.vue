@@ -253,16 +253,16 @@ export default {
 
     fetchImageData(imageId) {
       return fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${imageId}&depth=1`)
-      .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.json();
-      })
-      .then(data => {
-        if (data.results.length > 0) {
-          return data.results[0].site.coordinates.coordinates; // return the coordinates
-        }
-        throw new Error('No data found');
-      });
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
+        .then(data => {
+          if (data.results.length > 0) {
+            return data.results[0].site.coordinates.coordinates; // return the coordinates
+          }
+          throw new Error('No data found');
+        });
     },
 
     setRandomLocation() {
@@ -409,14 +409,14 @@ export default {
 
       const path = window.location.pathname;
       const match = path.match(/^\/image\/(\d+)$/); //check if address contains image + extract ID
-      
+
       if (match) {
-          const imageId = match[1];
-          this.fetchImageData(imageId).then(coordinates => {
+        const imageId = match[1];
+        this.fetchImageData(imageId).then(coordinates => {
           this.focusOnCoordinates(coordinates[0], coordinates[1]);
         }).catch(error => {
           console.error("Error fetching image data:", error);
-          this.setRandomLocation();  
+          this.setRandomLocation();
         });
       } else {
         this.setRandomLocation();
@@ -468,18 +468,18 @@ export default {
 
           const fornsokLink = document.getElementById("fornsok_link");
           const fornsokHeaderElement = document.getElementById("fornsok_header");
-        
+
           if (placename) {
-              this.isSwedish = false;
+            this.isSwedish = false;
           } else {
-              this.isSwedish = true;
-              if (fornsokHeaderElement && fornsokLink) {
-                  const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
-                  if (fornsokHeader) {
-                      fornsokHeader.setAttribute("target", "_blank");
-                      fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
-                  }
+            this.isSwedish = true;
+            if (fornsokHeaderElement && fornsokLink) {
+              const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
+              if (fornsokHeader) {
+                fornsokHeader.setAttribute("target", "_blank");
+                fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
               }
+            }
           }
 
           raaContent.innerHTML = raa_id;
@@ -528,22 +528,22 @@ export default {
               padding: [1, 1, 1, 1],
               minResolution: 5.0,
             });
-              
+
             const fornsokHeaderElement = document.getElementById("fornsok_header");
             const fornsokLink = document.getElementById("fornsok_link");
 
             if (fornsokHeaderElement) {
-                const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
-                if (fornsokHeader) {
-                    if (placename) {
-                        this.isSwedish = false;
-                    }
-                    if (fornsokLink) {
-                        this.isSwedish = true;
-                        fornsokHeader.setAttribute("target", "_blank");
-                        fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
-                    }
+              const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
+              if (fornsokHeader) {
+                if (placename) {
+                  this.isSwedish = false;
                 }
+                if (fornsokLink) {
+                  this.isSwedish = true;
+                  fornsokHeader.setAttribute("target", "_blank");
+                  fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
+                }
+              }
             }
 
             raaContent.innerHTML = raa_id;

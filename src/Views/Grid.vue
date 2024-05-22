@@ -113,7 +113,11 @@
             :updatePreviousPageUrlAdvanced="updatePreviousPageUrlAdvanced" />
 
 
-          <button id="resetSplitButton" @click="resetSplitsAndPanels">{{ $t('message.resetlayout') }}</button>
+          <button v-show="showMap" id="reset-layout-mapview" @click="resetSplitsAndPanels">{{
+            $t('message.resetlayout') }}</button>
+
+          <button v-show="!showMap" id="reset-layout-searchview" @click="resetSplitsAndPanels">{{
+            $t('message.resetlayout') }}</button>
 
         </div>
         <!-- Panel 2 -->
@@ -670,8 +674,64 @@ export default defineComponent({
 </script>
 
 <style>
-#resetSplitButton {
-  /* position: absolute;
+#reset-layout-mapview {
+  position: absolute;
+  left: 50px;
+
+  /* transform: translateX(50%); */
+  bottom: 80px;
+  padding: 5px 15px 5px 15px;
+  z-index: 100;
+  width: max-content;
+  height: 32px;
+  cursor: pointer;
+  border-radius: 8px !important;
+  background-color: var(--popup-background);
+  backdrop-filter: blur(5px);
+  color: var(--popup-text);
+}
+
+#reset-layout-mapview:hover {
+  opacity: 0.9;
+  background-color: var(--button-hover);
+}
+
+@media (max-width: 1023px) {
+  #reset-layout-mapview {
+    display: none;
+  }
+}
+
+#reset-layout-searchview {
+  float: left;
+  display: block;
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
+  /* font-size: 1.2rem; */
+  padding: 5px 20px;
+  background-color: var(--button-background);
+  color: var(--button-text);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 8px;
+  width: max-content;
+}
+
+#reset-layout-searchview:hover {
+  opacity: 0.9;
+  background-color: var(--button-hover);
+}
+
+@media (max-width: 1023px) {
+  #reset-layout-searchview {
+    display: none;
+  }
+}
+
+/* #resetSplitButton {
+  position: absolute;
   bottom: 50px;
   left: 60px;
   padding: 4px 10px;
@@ -685,7 +745,7 @@ export default defineComponent({
   font-size: 100%;
   height: 32px; */
 
-  position: absolute;
+/* position: absolute;
   left: 8px;
   transform: translateX(25%) translateY(100%);
   bottom: 50px;
@@ -698,16 +758,15 @@ export default defineComponent({
   border-radius: 8px !important;
   background-color: var(--button-background);
   /* background: var(--underlay); */
-  /* backdrop-filter: blur(5px); */
-  /* color: rgb(235, 234, 234); */
-  color: var(--button-text);
+/* backdrop-filter: blur(5px); */
+/* color: rgb(235, 234, 234); */
+/* color: var(--button-text);
   font-size: 1.1rem;
   font-weight: 450;
-  /* isolation: isolate; */
+  isolation: isolate;  */
+/* } */
 
-}
-
-@media (max-width: 1023px) {
+/* @media (max-width: 1023px) {
   #resetSplitButton {
     display: none;
   }
@@ -718,7 +777,7 @@ export default defineComponent({
   cursor: pointer;
   color: var(--page-text);
   mix-blend-mode: normal;
-}
+} */
 
 .flip-fade-enter-active,
 .flip-fade-leave-active {
