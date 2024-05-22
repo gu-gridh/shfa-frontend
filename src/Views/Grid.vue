@@ -694,6 +694,7 @@ export default defineComponent({
 #reset-layout-mapview:hover {
   opacity: 0.9;
   background-color: var(--button-hover);
+  color: var(--button-text);
 }
 
 @media (max-width: 1023px) {
@@ -806,7 +807,7 @@ export default defineComponent({
   background: var(--shfa-logo);
   background-repeat: no-repeat;
   background-size: contain;
-  opacity: 0.8;
+  opacity: 0.4;
   transition: all 0.8s ease-in-out;
 }
 
@@ -866,7 +867,7 @@ export default defineComponent({
   font-weight: 400;
   margin-left: 120px;
   padding: 30px 40px;
-  color: var(--page-text);
+  color: var(--title-text);
 }
 
 @media (max-width: 350px) {
@@ -895,15 +896,15 @@ export default defineComponent({
 .top {
   height: 160px;
   z-index: 1000;
-  background-color: var(--page-background);
-  border-image: var(--default-gradient) 1 / 0px 0px 5px 0px/ 0.1em round space;
+  background-color: var(--header-background);
+  /* border-image: var(--default-gradient) 1 / 0px 0px 10px 0px/ 0.1em round space; */
 }
 
 .languages {
   right: 185px;
   font-size: 1.2em;
   font-weight: 400;
-  color: var(--page-text);
+  color: var(--header-text);
   position: absolute;
   padding-right: 20px;
   margin-top: 0px;
@@ -915,6 +916,7 @@ export default defineComponent({
   text-align: right;
   margin-right: 9px;
   margin-top: 10px;
+  color: var(--header-text);
 }
 
 .top-links {
@@ -923,7 +925,7 @@ export default defineComponent({
   margin-top: 110px;
   height: auto;
   right: 201px;
-  color: var(--page-text);
+  color: var(--header-text);
   position: absolute;
   padding-right: 0px;
   width: auto;
@@ -1104,13 +1106,13 @@ export default defineComponent({
   }
 
   .menu-show-button:hover {
-    background-color: var(--footer-background);
+    background-color: var(--button-hover);
     opacity: 1;
   }
 
   .menu-close-button {
     display: block;
-    color: var(--page-text);
+    color: var(--button-text);
     float: right;
     border-radius: 50%;
     height: 45px;
@@ -1669,7 +1671,7 @@ h2 input:not(:placeholder-shown) {
     'opsz' 24;
   vertical-align: middle;
   padding: 1px;
-  color: var(--page-text);
+  color: var(--header-text);
   cursor: pointer;
 }
 </style>

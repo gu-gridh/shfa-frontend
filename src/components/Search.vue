@@ -440,7 +440,7 @@ body {
 .tag-example:hover {
   background-color: var(--button-hover);
   cursor: pointer;
-  color: var(--page-text);
+  color: var(--button-text);
 }
 
 #search {

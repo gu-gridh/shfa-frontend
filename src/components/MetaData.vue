@@ -382,7 +382,6 @@ ul {
 
 .keyword-button:hover {
   background-color: var(--button-hover);
-  color: var(--page-text);
 }
 
 .description {
@@ -398,7 +397,7 @@ ul {
 }
 
 .visit-button {
-  display: inline-block;
+  /* display: relative; */
   padding: 4px 10px 4px 13px;
   color: var(--button-text);
   background-color: var(--button-background);
@@ -417,31 +416,24 @@ ul {
 }
 
 .visit-icon {
+  display: absolute;
   float: left;
-  text-align: right;
-  /* margin-top: 4px; */
+  margin-top: 3px;
   height: 28px;
   width: 28px;
   background-image: var(--link-button);
-  filter: invert(1);
+  /* filter: invert(1); */
   background-size: 22px;
   background-position: center;
   background-repeat: no-repeat;
-  /* margin-left: -40px; */
   margin-right: 10px;
   border-width: 1.4px;
-  border-color: var(--page-text);
+  border-color: var(--button-text);
   border-radius: 50%;
 }
 
 .visit-button:hover {
   background-color: var(--button-hover);
-  color: var(--page-text);
-}
-
-.visit-button:hover>.visit-icon {
-  background-image: var(--link-button);
-  filter: invert(0);
 }
 
 .button-container {
@@ -459,7 +451,7 @@ ul li {
 
 @media screen and (min-height: 950px) {
   .visit-button {
-    padding: 4px 15px 6px 50px;
+    padding: 4px 15px 6px 15px;
     background-size: 30px;
   }
 }

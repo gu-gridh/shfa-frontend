@@ -639,7 +639,7 @@ h3 {
 }
 
 .loadMore:hover {
-  background-color: var(--button-hover);
+  background-color: var(--viewer-button-hover);
 }
 
 .button-container {

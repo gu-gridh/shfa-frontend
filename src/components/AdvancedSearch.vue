@@ -614,7 +614,6 @@ input[type="search"]:focus {
 
 .search-button:hover {
   background-color: var(--button-hover);
-  color: var(--page-text);
 }
 
 .clear-button {
@@ -635,7 +634,6 @@ input[type="search"]:focus {
 
 .clear-button:hover {
   background-color: var(--button-hover);
-  color: var(--page-text);
 }
 
 input[type="search"]::-webkit-search-cancel-button {
