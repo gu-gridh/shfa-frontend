@@ -1305,7 +1305,6 @@ export default defineComponent({
   background-color: var(--page-background);
   padding: 0px 20px 0px 20px;
   min-width: 200px;
-
 }
 
 @media (min-width: 1024px) and (max-width: 1250px) {
@@ -1330,7 +1329,7 @@ export default defineComponent({
 #split-2 {
   background-color: var(--page-background);
   padding: 0px 0px 0px 20px;
-  /* box-shadow: var(--menu-shadow); */
+  box-shadow: var(--menu-shadow);
 }
 
 #split-2::-webkit-scrollbar {
