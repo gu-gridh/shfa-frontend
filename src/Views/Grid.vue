@@ -1618,7 +1618,6 @@ h2 input:not(:placeholder-shown) {
 
   #app .search-container .input-wrapper {
     font-size: 1.3em;
-
     margin-bottom: 5px;
     color: var(--page-text);
   }

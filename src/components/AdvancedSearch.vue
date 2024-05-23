@@ -559,7 +559,7 @@ export default {
   align-items: center;
   background-color: var(--input-wrapper-background);
   border-radius: 5px;
-  padding: 5px;
+  padding: 0px 7px;
   border: 0.5px solid var(--input-border);
 }
 
@@ -567,7 +567,7 @@ input[type="search"] {
   color: var(--page-text);
   margin-top: 5px;
   margin-bottom: 5px;
-  padding: 5px 10px;
+  padding: 2px 10px;
   border-radius: 5px;
   flex: 1;
   width: 1px !important;
