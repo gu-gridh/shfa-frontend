@@ -1270,7 +1270,7 @@ export default defineComponent({
   height: calc(100% - 160px);
   width: 100%;
   position: absolute;
-  /* box-shadow: var(--menu-shadow); */
+  box-shadow: var(--menu-shadow);
   pointer-events: none;
 }
 
