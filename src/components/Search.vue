@@ -452,26 +452,26 @@ body {
   margin-left: 0px;
   margin-right: 0px;
   padding: 0px 0px 0px 0px;
-  background-color: transparent;
-}
 
+}
 .input-wrapper {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  background-color: rgba(45, 45, 45, 0.8);
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
   font-size: 0.95rem; 
+  background-color:black;
+
 }
 
 .input-wrapper:hover {
-  background-color: var(--input-hover);
+
 }
 
 input[type="search"] {
-  background-color: transparent!important;
+  
   border: none;
   color: var(--page-text);
   margin-top: 5px;
@@ -480,8 +480,6 @@ input[type="search"] {
   margin-bottom: 10px;
   flex: 1;
   width:1px!important;
-
-
 }
 
 input[type="search"]::placeholder {

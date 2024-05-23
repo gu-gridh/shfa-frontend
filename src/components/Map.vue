@@ -649,7 +649,7 @@ export default {
   margin-bottom: 30px !important;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-map);
   cursor: pointer;
   overflow: hidden !important;
   border-width: 0px;

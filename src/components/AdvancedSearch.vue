@@ -611,6 +611,7 @@ input[type="search"]:focus {
   display: block;
   margin-top: 20px;
   margin-bottom: 20px;
+  margin-right:5px;
   /* font-size: 1.1rem; */
   padding: 5px 20px;
   background-color: var(--button-background);

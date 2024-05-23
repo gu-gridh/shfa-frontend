@@ -69,12 +69,14 @@ div.split-container>div>div:nth-child(4) {
 
 :root {
   --page-background: rgb(65,65,65);
+  --page-background-accent: rgb(55,55,55);
   --footer-background: #1b1b1b;
   --header-background: #d7d7d7;
   --header-text: black;
   --title-text: #7D7D7D;
   --button-background: #5b5b5b;
-  --button-hover: #8b8b8b;
+  --button-hover-light: #c3c3c3;
+  --button-hover: #707070;
   --page-text: white;
   --button-text: white;
   --highlighted-text: #89dbf9;
@@ -100,9 +102,11 @@ div.split-container>div>div:nth-child(4) {
   --gallery-nav-background: #1b1b1b99;
   --link-color: #8ba9c7;
   --base: black !important;
-  --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  --shadow-map: 0 0 30px 0 rgba(0, 0, 0, 0.5);
   --menu-background: rgba(209, 209, 209, 0.9);
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
+  --split-shadow: inset 1rem 0rem 1.5rem rgba(0, 0, 0, 0.20) !important;
   --overlay: rgba(0, 0, 0, 0.7);
   --ui-hover: #C6DFF8;
   --font: "Barlow Semi Condensed", sans-serif;
@@ -126,7 +130,7 @@ div.split-container>div>div:nth-child(4) {
   --search-button-light-bkgrnd: url(../../interface/searchbutton.png);
   --search-button-dark-bkgrnd: url(../../interface/searchbuttonwhite.png);
   --selected-option: #5c5c5c;
-  --autocomplete-background: #121212;
+  --autocomplete-background: var(--input-wrapper-background);
   --disclaimer-text: #C6DFF8;
   --default-gradient: linear-gradient(to right, var(--highlighted-text), var(--map-markers));
   --total-results: #C6DFF8;
@@ -134,20 +138,22 @@ div.split-container>div>div:nth-child(4) {
 }
 
 html[style-theme='dark'] {
-  --page-background: #3b3b3b;
+  --page-background: rgb(65,65,65);
+  --page-background-accent: rgb(55,55,55);
   --footer-background: #1b1b1b;
   --header-background: #d7d7d7;
   --header-text: black;
   --title-text: #7D7D7D;
-  --button-background: #d6d6d6;
-  --button-hover: #C6DFF8;
+  --button-background: #5b5b5b;
+  --button-hover-light: #c3c3c3;
+  --button-hover: #707070;
   --page-text: white;
-  --button-text: black;
-  --highlighted-text: #C6DFF8;
+  --button-text: white;
+  --highlighted-text: #89dbf9;
   --popup-background: #1f1f1f;
   --popup-text: white;
   --map-markers: #F0C02E;
-  --image-hover-background: linear-gradient(rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 100%);
+  --image-hover-background: linear-gradient(rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.8) 100%);
   --image-hover-text: white;
   --metadata-text: white;
   --notice-text: #C6DFF8;
@@ -157,7 +163,7 @@ html[style-theme='dark'] {
   --input-wrapper-background: #2D2D2D;
   --input-border: var(--input-wrapper-background);
   --input-hover: #1a094c;
-  --logo-background: #2b2b2b;
+  --logo-background: linear-gradient(to bottom, rgba(40, 40, 40, 1) 0%, rgba(40, 40, 40, .8) 100%);
   --gu-logo-en: url("../src/assets/gu_logo.png");
   --gu-logo-sv: url("../src/assets/gu_logo_sv.png");
   --shfa-logo: url("../src/assets/shfa_logo_downscale.png");
@@ -166,9 +172,11 @@ html[style-theme='dark'] {
   --gallery-nav-background: #1b1b1b99;
   --link-color: #8ba9c7;
   --base: black !important;
-  --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  --shadow-map: 0 0 30px 0 rgba(0, 0, 0, 0.5);
   --menu-background: rgba(209, 209, 209, 0.9);
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
+  --split-shadow: inset 1rem 0rem 1.5rem rgba(0, 0, 0, 0.20) !important;
   --overlay: rgba(0, 0, 0, 0.7);
   --ui-hover: #C6DFF8;
   --font: "Barlow Semi Condensed", sans-serif;
@@ -188,11 +196,11 @@ html[style-theme='dark'] {
   --previous-button: url(../assets/openseadragon/prev.png);
   --next-button: url(../assets/openseadragon/next.png);
   --download-button: url(public/interface/downloadwhite.png);
-  --search-button: url(../../interface/searchbutton.png);
+  --search-button: url(../../interface/searchbuttonwhite.png);
   --search-button-light-bkgrnd: url(../../interface/searchbutton.png);
   --search-button-dark-bkgrnd: url(../../interface/searchbuttonwhite.png);
-  --selected-option: #C6DFF8;
-  --autocomplete-background: #121212;
+  --selected-option: #5c5c5c;
+  --autocomplete-background: var(--input-wrapper-background);
   --disclaimer-text: #C6DFF8;
   --default-gradient: linear-gradient(to right, var(--highlighted-text), var(--map-markers));
   --total-results: #C6DFF8;
@@ -200,7 +208,8 @@ html[style-theme='dark'] {
 }
 
 html[style-theme='light'] {
-  --page-background: #ffffff;
+  --page-background: rgb(250,250,250);
+  --page-background-accent: rgb(245,245,245);
   --footer-background: #ffffff;
   --header-background: #d7d7d7;
   --header-text: black;
@@ -221,6 +230,7 @@ html[style-theme='light'] {
   --placeholder-text: #000000d5;
   --input-background: #1d192c;
   --input-wrapper-background: var(--page-background);
+  --main-input-wrapper-background: linear-gradient(to bottom, #03a3e2e6, #7344e1cc);
   --input-border: #000;
   --input-hover: #1a094c;
   --logo-background: #1e1e1e;
@@ -232,7 +242,8 @@ html[style-theme='light'] {
   --gallery-nav-background: #1b1b1b99;
   --link-color: #50169b;
   --base: black !important;
-  --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  --shadow-map: 0 0 30px 0 rgba(0, 0, 0, 0.5);
   --menu-background: rgba(220, 220, 220, 0.9);
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
   --overlay: rgba(0, 0, 0, 0.7);
@@ -257,8 +268,8 @@ html[style-theme='light'] {
   --search-button: url(../../interface/searchbuttonwhite.png);
   --search-button-light-bkgrnd: url(../../interface/searchbutton.png);
   --search-button-dark-bkgrnd: url(../../interface/searchbuttonwhite.png);
-  --selected-option: #062e3f;
-  --autocomplete-background: #bebebe;
+  --selected-option: #16739bcc;
+  --autocomplete-background: var(--input-wrapper-background);
   --disclaimer-text: #243f4a;
   --default-gradient: linear-gradient(to right, #03a3e2e6, #7344e1cc);
   --results-text: white;
@@ -271,6 +282,7 @@ html[style-theme='light'] {
 @media (prefers-contrast:more) or (prefers-reduced-transparency) {
   :root {
     --page-background: #ffffff;
+    --page-background-accent: #ffffff;
     --footer-background: #ffffff;
     --header-background: #d7d7d7;
     --header-text: black;
@@ -291,7 +303,7 @@ html[style-theme='light'] {
     --placeholder-text: #000000d5;
     --input-background: #1d192c;
     --input-wrapper-background: var(--page-background);
-    --input-border: #000;
+    --input-border: rgba(0,0,0,1);
     --input-hover: #1a094c;
     --logo-background: #1e1e1e;
     --gu-logo-en: url("../src/assets/gu_logo.png");
@@ -302,7 +314,8 @@ html[style-theme='light'] {
     --gallery-nav-background: #1b1b1b99;
     --link-color: #50169b;
     --base: black !important;
-    --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    --shadow-map: 0 0 30px 0 rgba(0, 0, 0, 0.5);
     --menu-background: rgba(220, 220, 220, 0.9);
     --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
     --overlay: rgba(0, 0, 0, 0.7);

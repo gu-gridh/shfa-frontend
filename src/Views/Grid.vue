@@ -938,7 +938,7 @@ export default defineComponent({
 }
 
 .top-links .item:hover {
-  background-color: var(--button-hover)
+  background-color: var(--button-hover-light)
 }
 
 .button-image {
@@ -963,7 +963,7 @@ export default defineComponent({
 }
 
 .top-button:hover {
-  background-color: var(--button-hover)
+  background-color: var(--button-hover-light)
 }
 
 .top-link-button {
@@ -1327,9 +1327,9 @@ export default defineComponent({
 }
 
 #split-2 {
-  background-color: var(--page-background);
+  background-color: var(--page-background-accent);
   padding: 0px 0px 0px 20px;
-  box-shadow: var(--menu-shadow);
+  box-shadow: var(--split-shadow);
 }
 
 #split-2::-webkit-scrollbar {
