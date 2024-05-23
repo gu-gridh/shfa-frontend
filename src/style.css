@@ -91,6 +91,7 @@ div.split-container>div>div:nth-child(4) {
   --placeholder-text: #ffffffc5;
   --input-background: #1d192c;
   --input-wrapper-background: #2D2D2D;
+  --main-input-wrapper-background: linear-gradient(to bottom, rgba(40, 40, 40, .8) 0%, rgba(50, 50, 50, .8) 100%);
   --input-border: var(--input-wrapper-background);
   --input-hover: #1a094c;
   --logo-background: linear-gradient(to bottom, rgba(40, 40, 40, 1) 0%, rgba(40, 40, 40, .8) 100%);
@@ -215,7 +216,7 @@ html[style-theme='light'] {
   --header-text: black;
   --title-text: #7D7D7D;
   --button-background: #1e1e1e;
-  --button-hover: #48a9d2;
+  --button-hover: #6e6e6e;
   --page-text: black;
   --button-text: white;
   --highlighted-text: #5e527f;
@@ -230,7 +231,7 @@ html[style-theme='light'] {
   --placeholder-text: #000000d5;
   --input-background: #1d192c;
   --input-wrapper-background: var(--page-background);
-  --main-input-wrapper-background: linear-gradient(to bottom, #03a3e2e6, #7344e1cc);
+  --main-input-wrapper-background: linear-gradient(to bottom, rgba(200, 200, 200, 1.0) 0%, rgba(230, 230, 230, 1.0) 100%);
   --input-border: #000;
   --input-hover: #1a094c;
   --logo-background: #1e1e1e;

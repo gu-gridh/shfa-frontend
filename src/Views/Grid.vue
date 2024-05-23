@@ -1408,7 +1408,7 @@ export default defineComponent({
 }
 
 #search-wrapper {
-  background: var(--input-wrapper-background);
+  background: var(--main-input-wrapper-background);
   color: var(--base);
 }
 
@@ -1533,20 +1533,7 @@ h2 input:not(:placeholder-shown) {
   box-shadow: var(--menu-shadow);
 }
 
-#app .search-container .input-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  background-color: var(--input-wrapper-background);
-  border-radius: 6px;
-  width: 100%;
-  box-sizing: border-box;
-  font-weight: 200;
-  padding: 0px 10px;
-  height: 40px !important;
-  gap: 3px !important;
-  overflow: hidden;
-}
+
 
 .flex-grow.overflow-auto.main-color::-webkit-scrollbar {
   display: none;

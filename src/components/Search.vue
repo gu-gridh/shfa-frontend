@@ -462,8 +462,6 @@ body {
   width: 100%;
   box-sizing: border-box;
   font-size: 0.95rem; 
-  background-color:black;
-
 }
 
 .input-wrapper:hover {
