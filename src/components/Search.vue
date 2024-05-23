@@ -338,7 +338,7 @@ body {
 
 #search-interface {
   font-size: 100%;
-  padding-top: 02px;
+  padding-top: 2px;
 }
 
 .map-switch-margin {
@@ -531,6 +531,10 @@ input:focus {
 
 .toggle-map-btn:hover {
   background-color: var(--button-hover);
+}
+
+.item{
+  font-size:1.1em;
 }
 
 .item.active {

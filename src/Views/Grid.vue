@@ -804,7 +804,7 @@ export default defineComponent({
   float: left;
   margin-top: 30px;
   margin-left: 40px;
-  background: var(--shfa-logo);
+  background: var(--shfa-logo-main);
   background-repeat: no-repeat;
   background-size: contain;
   opacity: 0.4;

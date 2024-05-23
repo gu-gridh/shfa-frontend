@@ -645,7 +645,7 @@ export default {
   width: 100%;
   height: 100%;
   min-height: 200px;
-  margin-top: 20px !important;
+  margin-top: 10px !important;
   margin-bottom: 30px !important;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
