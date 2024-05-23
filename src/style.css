@@ -73,11 +73,11 @@ div.split-container>div>div:nth-child(4) {
   --header-background: #d7d7d7;
   --header-text: black;
   --title-text: #7D7D7D;
-  --button-background: #4b4b4b;
-  --button-hover: #C6DFF8;
+  --button-background: #5b5b5b;
+  --button-hover: #8b8b8b;
   --page-text: white;
   --button-text: white;
-  --highlighted-text: #C6DFF8;
+  --highlighted-text: #89dbf9;
   --popup-background: #1f1f1f;
   --popup-text: white;
   --map-markers: #F0C02E;
@@ -125,7 +125,7 @@ div.split-container>div>div:nth-child(4) {
   --search-button: url(../../interface/searchbuttonwhite.png);
   --search-button-light-bkgrnd: url(../../interface/searchbutton.png);
   --search-button-dark-bkgrnd: url(../../interface/searchbuttonwhite.png);
-  --selected-option: #C6DFF8;
+  --selected-option: #5c5c5c;
   --autocomplete-background: #121212;
   --disclaimer-text: #C6DFF8;
   --default-gradient: linear-gradient(to right, var(--highlighted-text), var(--map-markers));

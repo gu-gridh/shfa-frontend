@@ -295,6 +295,7 @@ h2 {
   padding-left: 25px;
   color: var(--page-text);
   line-height: 1;
+  font-size:1.1em;
 }
 
 .label {
@@ -365,19 +366,19 @@ ul {
 
 .keyword-button {
   display: inline-flex;
-  padding: 4px 8px 4px 8px;
-  margin-left: 10px;
+  padding: 2px 10px 2px 10px;
+  margin-right: 10px;
   color: var(--button-text);
   background-color: var(--button-background);
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 1.05em;
   text-decoration: none;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   background-size: 18px;
   background-position: 10px 8px;
   background-repeat: no-repeat;
-  box-shadow: var(--shadow);
+  /* box-shadow: var(--shadow); */
 }
 
 .keyword-button:hover {
@@ -412,21 +413,21 @@ ul {
   background-size: 20px;
   background-position: 10px 8px;
   background-repeat: no-repeat; */
-  box-shadow: var(--shadow);
+
 }
 
 .visit-icon {
   display: absolute;
-  float: left;
+  float: right;
   margin-top: 3px;
-  height: 28px;
-  width: 28px;
-  background-image: var(--link-button);
+  height: 20px;
+  width: 20px;
+  background-image: var(--popup-link-button);
   /* filter: invert(1); */
   background-size: 22px;
   background-position: center;
   background-repeat: no-repeat;
-  margin-right: 10px;
+  margin-left: 10px;
   border-width: 1.4px;
   border-color: var(--button-text);
   border-radius: 50%;

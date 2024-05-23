@@ -676,10 +676,10 @@ export default defineComponent({
 <style>
 #reset-layout-mapview {
   position: absolute;
-  left: 50px;
+  left: 60px;
 
   /* transform: translateX(50%); */
-  bottom: 80px;
+  bottom: 50px;
   padding: 5px 15px 5px 15px;
   z-index: 100;
   width: max-content;
@@ -1275,7 +1275,7 @@ export default defineComponent({
 }
 
 #split-0 {
-  padding: 30px 20px 30px 30px;
+  padding: 45px 25px 00px 40px;
   min-width: 550px;
   overflow-y: auto;
   background: var(--page-background);
