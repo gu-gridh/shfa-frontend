@@ -9,7 +9,7 @@
 
             <div class="logo-area">
               <div id="logo-about"></div>
-              <h1 class="title">
+              <h1 class="about-title">
                 <div v-html="$t('message.abouttitle')"></div>
               </h1>
             </div>
@@ -118,7 +118,7 @@
 
               <div class="logo-area">
                 <div id="logo-about"></div>
-                <h1 class="title">
+                <h1 class="about-title">
                   <div v-html="$t('message.abouttitle')"></div>
                 </h1>
               </div>
@@ -305,9 +305,9 @@ h2 {
   position: relative;
   width: 210px;
   height: 200px;
-  background-color: var(--page-text);
   float: left;
   margin-left: 80px;
+  margin-top: 35px;
   background: var(--shfa-logo);
   background-repeat: no-repeat;
   background-size: contain;
@@ -315,25 +315,6 @@ h2 {
   transition: all 0.8s ease-in-out;
 }
 
-.title {
-  float: left;
-  position: relative;
-  pointer-events: none;
-  font-family: 'Teko', sans-serif;
-  line-height: 0.75;
-  letter-spacing: -1.2px;
-  margin-top: 10px;
-  font-size: 65px;
-  font-weight: 400;
-  margin-left: 0px;
-  padding-left: 30px;
-  color: var(--page-text)
-}
-
-.title .emph:hover {
-  display: inline;
-  color: var(--ui-hover)
-}
 
 .fullopacity {
   backdrop-filter: blur(5px);
@@ -496,7 +477,7 @@ h2 {
     margin-left: 0px;
   }
 
-  .title {
+  .about-title {
     margin-top: 0px;
     font-size: 35px;
     padding-left: 10px;

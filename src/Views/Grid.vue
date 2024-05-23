@@ -890,7 +890,28 @@ export default defineComponent({
 
 .title .aboutemph {
   display: inline;
-  color: var(--emphasised-text) !important;
+  color: var(--emphasised-text);
+}
+
+.about-title {
+  float: left;
+  position: relative;
+  pointer-events: none;
+  font-family: 'Teko', sans-serif;
+  line-height: 0.75;
+  letter-spacing: -1.2px;
+  margin-top: 10px;
+  font-size: 65px;
+  font-weight: 400;
+  margin-left: 0px;
+  margin-top: 40px;
+  padding-left: 30px;
+  color: var(--about-title-text);
+}
+
+.about-title .aboutemph {
+  display: inline!important;
+  color: var(--about-emphasised-text);
 }
 
 .top {

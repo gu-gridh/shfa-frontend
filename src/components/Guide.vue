@@ -9,7 +9,7 @@
         <div class="flex-machine">
           <div class="logo-area">
             <div id="logo-guide"></div>
-            <h1 class="title">
+            <h1 class="about-title">
               <div v-html="$t('message.abouttitle')"></div>
             </h1>
           </div>
@@ -186,6 +186,7 @@ export default {
 </script>
 
 <style scoped>
+
 th {
   padding-top: 10px;
   font-weight: 450;
@@ -259,26 +260,12 @@ ul {
   background-color: var(--page-text);
   float: left;
   margin-left: 80px;
+  margin-top: 35px;
   background: var(--shfa-logo);
   background-repeat: no-repeat;
   background-size: contain;
   opacity: 0.7;
   transition: all 0.8s ease-in-out;
-}
-
-.title {
-  float: left;
-  position: relative;
-  pointer-events: none;
-  font-family: 'Teko', sans-serif;
-  line-height: 0.75;
-  letter-spacing: -1.2px;
-  margin-top: 10px;
-  font-size: 65px;
-  font-weight: 400;
-  margin-left: 0px;
-  padding-left: 30px;
-  color: var(--page-text)
 }
 
 .flex-machine {
