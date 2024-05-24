@@ -21,7 +21,6 @@ div.split-container>div>div:nth-child(2) {
   background-repeat: no-repeat;
   background-position: 8px 50%;
   min-width: 25px;
-  transition: all 0.5s ease-in-out;
   opacity: 1;
 
 }
@@ -38,7 +37,6 @@ div.split-container>div>div:nth-child(4) {
   background-repeat: no-repeat;
   background-position: 50%;
   min-width: 20px;
-  transition: all 0.5s ease-in-out;
   opacity: 1;
 /*   background-image: url("assets/horizontalblack.png");
   cursor: col-resize;
