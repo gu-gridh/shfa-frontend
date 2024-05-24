@@ -673,9 +673,11 @@ export default {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   #map {
-    margin-top: 70px !important;
+  margin-top: 70px !important;
+  margin-bottom:-40px!important;
+  box-shadow: none;
   }
 }
 

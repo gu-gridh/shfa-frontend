@@ -333,7 +333,7 @@ export default {
 
 <style scoped>
 body {
-  background-color: var(--page-background) !important;
+ 
 }
 
 #search-interface {

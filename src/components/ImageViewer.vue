@@ -189,7 +189,7 @@ a:active {
 
 .image-viewer {
   width: auto;
-  margin-left: 15px;
+  margin-left: 25px;
   margin-right: 30px;
   margin-top: -45px;
   height: 65%;
@@ -197,6 +197,15 @@ a:active {
   border-radius: 2px;
   overflow: hidden;
   z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .image-viewer {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding:0px;
+  width:100%;
+  }
 }
 
 .image-viewer.fullpage {
