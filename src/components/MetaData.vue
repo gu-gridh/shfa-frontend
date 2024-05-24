@@ -299,9 +299,10 @@ h2 {
 }
 
 .label {
-  width: 120px;
+  width: 150px!important;
   color: var(--page-text);
   font-weight: 600;
+  text-align:right!important;
 }
 
 .data {

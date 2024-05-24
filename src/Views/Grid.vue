@@ -1022,7 +1022,7 @@ export default defineComponent({
 }
 
 .main-color {
-  background-color: var(--page-background)
+  background-color: var(--page-background-accent)
 }
 
 .ui-overlay {
@@ -1323,9 +1323,10 @@ export default defineComponent({
 }
 
 #split-1 {
-  background-color: var(--page-background);
-  padding: 0px 20px 0px 20px;
+  background-color: var(--page-background-accent);
+  padding: 0px 20px 0px 40px;
   min-width: 200px;
+  box-shadow: var(--split-shadow);
 }
 
 @media (min-width: 1024px) and (max-width: 1250px) {
@@ -1350,7 +1351,7 @@ export default defineComponent({
 #split-2 {
   background-color: var(--page-background-accent);
   padding: 0px 0px 0px 20px;
-  box-shadow: var(--split-shadow);
+ 
 }
 
 #split-2::-webkit-scrollbar {
