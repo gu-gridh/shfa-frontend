@@ -155,13 +155,13 @@ export default {
       } else if (screenWidth < 1600) {
         columnWidth = 150; // Medium screens (1024px to 1599px)
       } else if (screenWidth < 1800) {
-        columnWidth = 175; // Large screens (1600px to 1799px)
+        columnWidth = 150; // Large screens (1600px to 1799px)
       } else if (screenWidth < 2300) {
-        columnWidth = 200; // Extra large screens (2000px to 2299px)
+        columnWidth = 150; // Extra large screens (2000px to 2299px)
       } else if (screenWidth < 2600) {
-        columnWidth = 250; // Larger screens (2300px to 2599px)
+        columnWidth = 200; // Larger screens (2300px to 2599px)
       } else {
-        columnWidth = 300; // Very large screens (2600px and above)
+        columnWidth = 250; // Very large screens (2600px and above)
       }
       return columnWidth;
     },

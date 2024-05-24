@@ -1350,7 +1350,7 @@ export default defineComponent({
 
 #split-2 {
   background-color: var(--page-background-accent);
-  padding: 0px 0px 0px 20px;
+  padding: 0px 0px 0px 5px;
  
 }
 
@@ -1586,11 +1586,11 @@ h2 input:not(:placeholder-shown) {
   }
 
   .filter-text {
-    font-size: 1.2em;
+    font-size: 1.1em;
   }
 
   .ui-overlay {
-    font-size: 1.3em;
+    font-size: 1.1em;
   }
 
   #app .map-switch-margin {
@@ -1598,7 +1598,7 @@ h2 input:not(:placeholder-shown) {
   }
 
   #app #filter-interface {
-    font-size: 110% !important;
+    font-size: 100% !important;
     height: 40px;
   }
 
@@ -1607,24 +1607,24 @@ h2 input:not(:placeholder-shown) {
   }
 
   #app #search-interface .tag-example-search {
-    font-size: 1.5em !important;
+    font-size: 1.3em !important;
     max-height: 42px;
   }
 
   #app .field-title {
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin-bottom: 5px;
     color: var(--page-text);
   }
 
   #app .search-container .input-wrapper {
-    font-size: 1.3em;
+    font-size: 1.1em;
     margin-bottom: 5px;
     color: var(--page-text);
   }
 
   #app .search-button {
-    font-size: 1.5rem !important;
+    font-size: 1.1rem !important;
     padding: 3px 15px;
   }
 
@@ -1636,7 +1636,7 @@ h2 input:not(:placeholder-shown) {
   /* Metadata settings */
 
   #metadata-container {
-    font-size: 120%;
+    font-size: 100%;
   }
 
   #metadata-container .label {
