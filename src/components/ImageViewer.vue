@@ -193,7 +193,7 @@ a:active {
   margin-right: 30px;
   margin-top: -45px;
   height: 65%;
-  background-color: var(--page-background);
+  background-color: var(--page-background-accent);
   border-radius: 2px;
   overflow: hidden;
   z-index: 1;

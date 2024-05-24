@@ -33,7 +33,7 @@ div.split-container>div>div:nth-child(2):hover {
 div.split-container>div>div:nth-child(4) {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
   cursor: col-resize;
-  background-color: var(--page-background-accent);
+  background-color: var(--page-background);
   background-repeat: no-repeat;
   background-position: 50%;
   min-width: 20px;
@@ -116,7 +116,7 @@ div.split-container>div>div:nth-child(4) {
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 30px 0 rgba(0, 0, 0, 0.5);
   --menu-background: rgba(209, 209, 209, 0.9);
-  --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
+  --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.30) !important;
   --split-shadow: inset 1rem 0rem 1.5rem rgba(0, 0, 0, 0.20) !important;
   --overlay: rgba(0, 0, 0, 0.7);
   --ui-hover: #C6DFF8;
@@ -146,6 +146,7 @@ div.split-container>div>div:nth-child(4) {
   --default-gradient: linear-gradient(to right, var(--highlighted-text), var(--map-markers));
   --total-results: #C6DFF8;
   --clickable-metadata: #C6DFF8;
+  --divider: #777;
 }
 
 html[style-theme='dark'] {
@@ -187,7 +188,7 @@ html[style-theme='dark'] {
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 30px 0 rgba(0, 0, 0, 0.5);
   --menu-background: rgba(209, 209, 209, 0.9);
-  --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
+  --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.30) !important;
   --split-shadow: inset 1rem 0rem 1.5rem rgba(0, 0, 0, 0.20) !important;
   --overlay: rgba(0, 0, 0, 0.7);
   --ui-hover: #C6DFF8;
@@ -258,7 +259,8 @@ html[style-theme='light'] {
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 30px 0 rgba(0, 0, 0, 0.5);
   --menu-background: rgba(220, 220, 220, 0.9);
-  --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.25) !important;
+  --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.20) !important;
+  --split-shadow: inset 1rem 0rem 1.5rem rgba(0, 0, 0, 0.20) !important;
   --overlay: rgba(0, 0, 0, 0.7);
   --ui-hover: #2089af;
   --font: "Barlow Semi Condensed", sans-serif;

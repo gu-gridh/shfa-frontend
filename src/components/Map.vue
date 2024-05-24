@@ -646,7 +646,7 @@ export default {
   height: 100%;
   min-height: 200px;
   margin-top: 10px !important;
-  margin-bottom: 30px !important;
+  margin-bottom: 40px !important;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
   box-shadow: var(--shadow-map);

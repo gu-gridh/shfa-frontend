@@ -679,7 +679,7 @@ export default defineComponent({
   left: 60px;
 
   /* transform: translateX(50%); */
-  bottom: 50px;
+  bottom: 60px;
   padding: 5px 15px 5px 15px;
   z-index: 100;
   width: max-content;
@@ -1296,7 +1296,7 @@ export default defineComponent({
 }
 
 #split-0 {
-  padding: 45px 25px 00px 40px;
+  padding: 45px 15px 0px 40px;
   min-width: 550px;
   overflow-y: auto;
   background: var(--page-background);
@@ -1323,10 +1323,13 @@ export default defineComponent({
 }
 
 #split-1 {
-  background-color: var(--page-background-accent);
+  background-color: var(--page-background);
   padding: 0px 20px 0px 40px;
   min-width: 200px;
-  box-shadow: var(--split-shadow);
+  border-width:0px 0px 0px 1px;
+  border-style:dotted;
+  border-color:var(--divider);
+  /* box-shadow: var(--split-shadow); */
 }
 
 @media (min-width: 1024px) and (max-width: 1250px) {
@@ -1349,7 +1352,7 @@ export default defineComponent({
 }
 
 #split-2 {
-  background-color: var(--page-background-accent);
+  background-color: var(--page-background);
   padding: 0px 0px 0px 5px;
  
 }
