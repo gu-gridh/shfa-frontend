@@ -811,7 +811,7 @@ export default {
 .ol-attribution {
   display: flex;
   bottom: 3%;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 525;
   color: black;
 }
@@ -933,14 +933,14 @@ export default {
 }
 
 .ol-popup:after {
-  border-top-color: var(--footer-background) !important;
+  border-top-color: var(--popup-background) !important;
   border-width: 10px;
   left: 48px;
   margin-left: -10px;
 }
 
 .ol-popup:before {
-  border-top-color: var(--footer-background) !important;
+  border-top-color: var(--popup-background) !important;
   border-width: 11px;
   left: 48px;
   margin-left: -11px;
