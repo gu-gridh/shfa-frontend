@@ -157,8 +157,10 @@ html[style-theme='dark'] {
   --header-text: black;
   --title-text: #7D7D7D;
   --button-background: #5b5b5b;
+  --button-background-accent: #448faa;
   --button-hover-light: #c3c3c3;
   --button-hover: #707070;
+  --button-hover-accent: #38768d;
   --page-text: white;
   --button-text: white;
   --highlighted-text: #89dbf9;
@@ -228,7 +230,9 @@ html[style-theme='light'] {
   --header-text: black;
   --title-text: #7D7D7D;
   --button-background: #1e1e1e;
+  --button-background-accent: #448faa;
   --button-hover: #6e6e6e;
+  --button-hover-accent: #38768d;
   --page-text: black;
   --button-text: white;
   --highlighted-text: #2bc0f6;

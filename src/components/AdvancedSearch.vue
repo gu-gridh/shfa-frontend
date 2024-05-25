@@ -614,8 +614,8 @@ input[type="search"]:focus {
   margin-right:5px;
   /* font-size: 1.1rem; */
   padding: 5px 20px;
-  background-color: var(--highlighted-text);
-  color: var(--header-text);
+  background-color: var(--button-background-accent);
+  color: var(--button-text);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -623,7 +623,7 @@ input[type="search"]:focus {
 }
 
 .search-button:hover {
-  background-color: var(--button-hover);
+  background-color: var(--button-hover-accent);
   color: var(--button-text);
 }
 
