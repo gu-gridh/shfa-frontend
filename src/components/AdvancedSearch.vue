@@ -614,12 +614,12 @@ input[type="search"]:focus {
   margin-right:5px;
   /* font-size: 1.1rem; */
   padding: 5px 20px;
-  background-color: var(--button-background);
-  color: var(--button-text);
+  background-color: var(--highlighted-text);
+  color: var(--header-text);
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .search-button:hover {
