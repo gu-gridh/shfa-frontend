@@ -8,6 +8,7 @@
       <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="10"
         class="gallery-group">
         <template #default="{ item, index }">
+          <a href="#split-2-top">
           <div class="grid-image card flex items-center justify-center"
             @click="$emit('image-clicked', item.iiif_file, item.id)">
             <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" :alt="`Image ${index}`" @load="
@@ -21,6 +22,7 @@
               </div>
             </div>
           </div>
+         </a>
         </template>
       </MasonryWall>
     </div>

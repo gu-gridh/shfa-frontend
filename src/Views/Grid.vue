@@ -177,6 +177,7 @@
         <transition name="slide">
           <div id="split-2" class="flex-grow main-color overflow-auto"
             :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }" v-show="showThreePanels">
+            <div id="split-2-top"></div>
             <button @click="closeThreePanels" class="close-button">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24"
                 stroke="currentColor">
