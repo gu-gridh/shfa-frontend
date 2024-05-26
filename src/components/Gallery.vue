@@ -22,7 +22,7 @@
               </div>
             </div>
           </div>
-         </a>
+          </a>
         </template>
       </MasonryWall>
     </div>
