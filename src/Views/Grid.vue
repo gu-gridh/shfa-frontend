@@ -1023,7 +1023,7 @@
   }
 
   .main-color {
-    background-color: var(--page-background-accent)
+    background-color: var(--page-background)
   }
 
   .ui-overlay {
