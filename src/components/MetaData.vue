@@ -90,12 +90,12 @@
         <table>
           <tr>
             <td class="label" v-if="data.site">{{ $t('message.reference') }}</td>
-            <td class="ref" v-if="data.site && $i18n.locale === 'en'"> {{ data.author.english_translation }}. ({{
+            <td class="ref" v-if="data.site && $i18n.locale === 'en'"> {{ formattedPeopleEN || data.author.english_translation }}. ({{
         data.year || 'n.d.' }}). {{ data.type.english_translation }} {{ $t('message.av') }} {{
         data.site.lamning_id
         || data.raa_id || data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }}
               {{ $t('message.at') }} https://shfa.dh.gu.se/image/{{ data.id }}</td>
-            <td class="ref" v-if="data.site && $i18n.locale === 'sv'"> {{ data.author?.name }}. ({{ data.year || 'n.d.'
+            <td class="ref" v-if="data.site && $i18n.locale === 'sv'"> {{ formattedPeopleSV || data.author?.name }}. ({{ data.year || 'n.d.'
               }}).
               {{ data.type.text }} {{ $t('message.av') }} {{ data.site.lamning_id || data.raa_id ||
         data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }} {{ $t('message.at') }}
@@ -164,6 +164,10 @@ export default {
       required: false,
       default: null,
     },
+    currentLang: {
+      type: String,
+      required: true,
+    }
   },
   data() {
     return {
@@ -172,6 +176,8 @@ export default {
       coordinateStore: useStore(),
       groupedKeywordsSV:{},
       groupedKeywordsEN:{},
+      formattedPeopleSV: '',
+      formattedPeopleEN: '',
     };
   },
   mounted() {
@@ -200,7 +206,9 @@ export default {
         .then((json) => {
           this.data = json.results[0];
           this.groupedKeywordsSV = Object.groupBy(this.data.keywords, ({ category }) => category)
-          this.groupedKeywordsEN = Object.groupBy(this.data.keywords, ({ category_translation }) => category_translation)       
+          this.groupedKeywordsEN = Object.groupBy(this.data.keywords, ({ category_translation }) => category_translation)
+          this.formattedPeopleSV = new Intl.ListFormat("sv", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
+          this.formattedPeopleEN = new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
           this.fetchDescription();
 
         }).catch((error) => {
@@ -235,7 +243,9 @@ export default {
           .then((json) => {
             this.data = json.results[0];
             this.groupedKeywordsSV = Object.groupBy(this.data.keywords, ({ category }) => category);
-            this.groupedKeywordsEN = Object.groupBy(this.data.keywords, ({ category_translation }) => category_translation);
+            this.groupedKeywordsEN = Object.groupBy(this.data.keywords, ({ category_translation }) => category_translation);    
+            this.formattedPeopleSV = new Intl.ListFormat("sv", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
+            this.formattedPeopleEN = new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
             this.fetchDescription();
             const coordinates = this.data?.site?.coordinates?.coordinates;
             if (coordinates) {

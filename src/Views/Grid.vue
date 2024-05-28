@@ -186,7 +186,7 @@
             </button>
 
             <ImageViewer v-if="IiifFileforImageViewer" :iiifFile="IiifFileforImageViewer" />
-            <MetaData :Id="idForMetaData" @keyword-clicked="handleKeywordClick" />
+            <MetaData :Id="idForMetaData" :currentLang="currentLanguage" @keyword-clicked="handleKeywordClick" />
 
           </div>
         </transition>
