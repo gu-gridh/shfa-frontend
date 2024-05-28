@@ -108,20 +108,33 @@
       <div v-if="data.keywords && data.keywords.length > 0">
         <h2>{{ $t('message.keywords') }}</h2>
         <div class="keywords"> <!-- Empty div for margin -->
-          <!-- <button v-if="this.$i18n.locale === 'sv'" class="keyword-button" v-for="(keyword, index) in sortedTags"
-            :key="index" @click="logKeyword(keyword)"> {{ keyword }}
+          <div v-if="data.keywords && this.$i18n.locale === 'sv'" v-for="(category,index) in groupedKeywordsSV">
+            <button v-if="data.keywords && this.$i18n.locale === 'sv'" class="keyword-button"
+            :key="index" @click="logKeyword(index)"> {{index}}
           </button>
-          <button v-if="this.$i18n.locale === 'en'" class="keyword-button" v-for="(keyword, index) in sortedTagsEn"
-            :key="index" @click="logKeyword(keyword)"> {{ keyword
-            }}</button> -->
-          <button class="keyword-button" v-if="data.keywords && this.$i18n.locale === 'sv'"
-            v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index"
+          <button v-if="data.keywords && this.$i18n.locale === 'sv'" class="keyword-button" v-for="(keyword,index) in category"
+            :key="index" @click="logKeyword(keyword.text)"> {{keyword.text}}
+          </button>
+          </div>
+          <div v-if="data.keywords && this.$i18n.locale === 'en'" v-for="(category,index) in groupedKeywordsEN">
+            <button v-if="data.keywords && this.$i18n.locale === 'en'" class="keyword-button"
+            :key="index" @click="logKeyword(index)"> {{index}}
+          </button>
+          <button v-if="data.keywords && this.$i18n.locale === 'en'" class="keyword-button" v-for="(keyword,index) in category"
+            :key="index" @click="logKeyword(keyword.english_translation)"> {{keyword.english_translation}}
+          </button>
+          </div>
+            <div v-if="data.dating_tags && data.dating_tags.length > 0">
+        <h2>{{ $t('message.datering') }}</h2>
+          <button class="keyword-button" v-if="data.dating_tags && this.$i18n.locale === 'sv'"
+            v-for="(keyword, index) in data.dating_tags" :key="index"
             @click="logKeyword(keyword.text)"> {{ keyword.text }}
           </button>
-          <button class="keyword-button" v-if="data.keywords && this.$i18n.locale === 'en'"
-            v-for="(keyword, index) in data.keywords.concat(data.dating_tags)" :key="index"
+          <button class="keyword-button" v-if="data.dating_tags && this.$i18n.locale === 'en'"
+            v-for="(keyword, index) in data.dating_tags" :key="index"
             @click="logKeyword(keyword.text)"> {{ keyword.english_translation }}
           </button>
+        </div>
         </div>
       </div>
       <h2 v-if="data.site && data.site.ksamsok_id">{{ $t('message.description') }}</h2>
@@ -157,8 +170,8 @@ export default {
       data: {},
       acc_date,
       coordinateStore: useStore(),
-      // sortedTags: [],
-      // sortedTagsEn: [],
+      groupedKeywordsSV:{},
+      groupedKeywordsEN:{},
     };
   },
   mounted() {
@@ -167,8 +180,8 @@ export default {
   },
   methods: {
     logKeyword(keyword) {
-      const translatedKeyword = this.$t('keywords.' + keyword.replaceAll('.', '_'));
-      this.$emit('keyword-clicked', translatedKeyword);
+      // const translatedKeyword = this.$t('keywords.' + keyword.replaceAll('.', '_'));
+      this.$emit('keyword-clicked', keyword);
     },
     logMetaSearch(item) {
       this.$emit('keyword-clicked', item);
@@ -186,16 +199,8 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results[0];
-          // this.sortedTags = []
-          // this.sortedTagsEn = []
-          // this.data.keywords.forEach((tag) => {
-          //   this.sortedTags.push(tag.text);
-          //   this.sortedTagsEn.push(tag.english_translation);
-          // });
-          // this.data.dating_tags.forEach((tag) => {
-          //   this.sortedTags.push(tag.text);
-          //   this.sortedTagsEn.push(tag.english_translation);
-          // });
+          this.groupedKeywordsSV = Object.groupBy(this.data.keywords, ({ category }) => category)
+          this.groupedKeywordsEN = Object.groupBy(this.data.keywords, ({ category_translation }) => category_translation)       
           this.fetchDescription();
 
         }).catch((error) => {
@@ -229,6 +234,8 @@ export default {
           .then((response) => response.json())
           .then((json) => {
             this.data = json.results[0];
+            this.groupedKeywordsSV = Object.groupBy(this.data.keywords, ({ category }) => category);
+            this.groupedKeywordsEN = Object.groupBy(this.data.keywords, ({ category_translation }) => category_translation);
             this.fetchDescription();
             const coordinates = this.data?.site?.coordinates?.coordinates;
             if (coordinates) {
