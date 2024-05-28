@@ -16,7 +16,7 @@
 
             <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }">
               <h2>Database Overview</h2>
-              <p>SHFA's [Svenskt Hällristnings Forsknings Arkivs] image database includes more than 24,000 digitized
+              <p>SHFA's [Svenskt Hällristnings Forsknings Arkivs] image database includes more than 26,000 digitized
                 images that are the result of ongoing work describing and documenting rock carvings since 1627.
                 These data are primarily from Sweden but also from Denmark, Norway, Italy, Spain and elsewhere around
                 the
@@ -30,10 +30,7 @@
               <p>This platform for the SHFA database has been developed by Göteborgs infrastruktur för digital humaniora
                 (GRIDH) and aims to offer enhanced methods to search the database and
                 display digital documentation. The migration from SHFA's previous web portal (developed by Miljödata AB)
-                is currently on-going. To date, the images
-                of rock carving sites in Sweden have been transferred. 3D documentation and data from international
-                sites
-                will continue to be made available as the migration continues.</p><br>
+                was completed in early 2024. 3D documentation is available for a selection of sites and will continue to be made available.</p><br>
 
               <h2>Searching the Database</h2>
               <p>Using the suggested keyword search, you can access images of common documentation methods and motifs.
@@ -71,13 +68,12 @@
                 visit to the
                 website, subsequent visits to the website, and an approximate location.</p><br>
               <h2>Accessibility Statement</h2>
-              <p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>. GRIDH aim to include
-                accessibility as part of our mission statement. The <a
+              <p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>. The website is displayed in a more accessible format for users who prefer higher contrast and/or reduced transparency by default. The <a
                   href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
                   (WCAG)</a> defines requirements for designers and developers to improve accessibility for people with
                 disabilities. It defines three levels of conformance: Level A, Level AA, and Level AAA. The SHFA
                 webportal
-                is partially conformant with WCAG 2.1 level A. Partially conformant means that some parts of the content
+                is partially conformant with WCAG 2.2 level A. Partially conformant means that some parts of the content
                 do not fully conform to the accessibility standard. Accessibility of the SHFA webportal relies on the
                 following technologies to work with the particular
                 combination of web browser and any assistive technologies or plugins installed on your computer:</p>
@@ -88,7 +84,7 @@
               </ul>
               <p>These technologies are relied upon for conformance with the accessibility standards used. GRIDH
                 assessed
-                the accessibility of the SHFA webportal by self-evaluation. This statement was created on 23 August 2023
+                the accessibility of the SHFA webportal by self-evaluation. This statement was created on 28 May 2024
                 using the <a href="https://www.w3.org/WAI/planning/statements/">W3C Accessibility Statement Generator
                   Tool</a>.</p>
               <br>
@@ -126,7 +122,7 @@
 
               <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }">
                 <h2>Databasöversikt</h2>
-                <p>Svenskt Hällristnings Forsknings Arkivs bilddatabas omfattar mer än 24 000 digitaliserade bilder som
+                <p>Svenskt Hällristnings Forsknings Arkivs bilddatabas omfattar mer än 26 000 digitaliserade bilder som
                   är
                   resultatet av pågående arbete
                   med att beskriva och dokumentera hällristningar sedan 1627. Dessa data kommer i första hand från
@@ -145,9 +141,8 @@
                   (GRIDH) och syftar till att erbjuda
                   förbättrade metoder för att söka i databasen och visa digital dokumentation. Migreringen från SHFAs
                   tidigare webbportal (utvecklad av
-                  Miljödata AB) pågår för närvarande. Hittills har bilderna av hällristningsplatser i Sverige överförts.
-                  3D-dokumentation och data från
-                  internationella webbplatser kommer att göras tillgängliga allt eftersom migreringen fortsätter.</p>
+                  Miljödata AB) är komplett. Hittills har bilderna av hällristningsplatser i Sverige överförts.
+                  3D-dokumentation finns tillgänglig för ett urval av platser och kommer att fortsätta att göras tillgänglig.</p>
                 <br>
 
                 <h2>Sökning i databasen</h2>
@@ -194,13 +189,12 @@
                   om
                   varifrån besöker kommer.</p><br>
                 <h2>Tillgänglighetsredogörelse</h2>
-                <p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>. GRIDH strävar efter att
-                  inkludera tillgänglighet som en del av vårt uppdrag. <a
+                <p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>. Webbsidan visas i ett mer tillgängligt format med högre kontrast och/eller minskad transparens för användare som föredrar det. <a
                     href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
                     (WCAG)</a> definierar krav på designers och utvecklare för att förbättra tillgängligheten för
                   personer
                   med funktionsnedsättning. Den definierar tre nivåer av överensstämmelse: nivå A, nivå AA och nivå AAA.
-                  SHFAs webbportal överensstämmer delvis med WCAG 2.1 nivå A. Det innebär att vissa delar av innehållet
+                  SHFAs webbportal överensstämmer delvis med WCAG 2.2 nivå A. Det innebär att vissa delar av innehållet
                   inte
                   helt överensstämmer med tillgänglighetsstandarden. Tillgängligheten på SHFAs webbportal är beroende av
                   följande tekniker för att fungera med speciella
