@@ -55,7 +55,7 @@
         </div>
         <Privacy :visiblePrivacy="visiblePrivacy" :currentLanguage="currentLanguage" @close="visiblePrivacy = false" />
         <About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
-        <Guide :visibleGuide="visibleGuide" @close="visibleGuide = false" />
+        <Guide :visibleGuide="visibleGuide" :currentLang="currentLanguage" @close="visibleGuide = false" />
         <div class="top-links">
           <button class="item" id="privacy-button" @click="visiblePrivacy = true">
             {{ $t('message.privacy') }}<div class="top-link-infobutton"></div></button>

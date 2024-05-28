@@ -25,103 +25,23 @@
             <div class="sections"> <!-- Empty div for margin -->
               <h2>{{ $t('message.nyckelord') }}</h2>
               <div class="first">
-                <section>
-                  <h3>{{ $t('search.documentation') }}</h3>
+                <section v-if="$i18n.locale === 'en'" v-for="(category, index) in groupedKeywordsEN">
+                  <h3 >{{ index }}</h3>
                   <ul>
                     <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(0, 6))"
+                      v-for="(value, key) in category.sort((a,b) => {return a.english_translation.localeCompare(b.english_translation)})"
                       :key="key">
-                      {{ $t('keywords.' + key) }}
+                      {{ value.english_translation}}
                     </li>
                   </ul>
                 </section>
-                <section>
-                  <h3>{{ $t('search.environment') }}</h3>
+                <section v-else v-for="(category, index) in groupedKeywordsSV">
+                  <h3 >{{ index }}</h3>
                   <ul>
                     <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(6, 10))"
+                      v-for="(value, key) in category.sort((a,b) => {return a.text.localeCompare(b.text)})"
                       :key="key">
-                      {{ $t('keywords.' + key) }}
-                    </li>
-                  </ul>
-                </section>
-                <section>
-                  <h3>{{ $t('search.description') }}</h3>
-                  <ul>
-                    <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(10, 19))"
-                      :key="key">
-                      {{ $t('keywords.' + key) }}
-                    </li>
-                  </ul>
-                </section>
-                <section>
-                  <h3>{{ $t('search.type') }}</h3>
-                  <ul>
-                    <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(19, 25))"
-                      :key="key">
-                      {{ $t('keywords.' + key) }}
-                    </li>
-                  </ul>
-                </section>
-                <section>
-                  <h3 scope="rowgroup">{{ $t('search.natural') }}</h3>
-                  <ul>
-                    <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(25, 29))"
-                      :key="key">
-                      {{ $t('keywords.' + key) }}
-                    </li>
-                  </ul>
-                </section>
-                <section>
-                  <h3>{{ $t('search.humans') }}</h3>
-                  <ul>
-                    <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(29, 49))"
-                      :key="key">
-                      {{ $t('keywords.' + key) }}
-                    </li>
-                  </ul>
-                </section>
-                <section>
-                  <h3>{{ $t('search.animals') }}</h3>
-                  <ul>
-                    <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(49, 63))"
-                      :key="key">
-                      {{ $t('keywords.' + key) }}
-                    </li>
-                  </ul>
-                </section>
-                <section>
-                  <h3>{{ $t('search.ships') }}</h3>
-                  <ul>
-                    <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(63, 73))"
-                      :key="key">
-                      {{ $t('keywords.' + key.replaceAll('.', '_')) }}
-                    </li>
-                  </ul>
-                </section>
-                <section>
-                  <h3>{{ $t('search.weapons') }}</h3>
-                  <ul>
-                    <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(73, 82))"
-                      :key="key">
-                      {{ $t('keywords.' + key) }}
-                    </li>
-                  </ul>
-                </section>
-                <section>
-                  <h3>{{ $t('search.other') }}</h3>
-                  <ul>
-                    <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(82, 117))"
-                      :key="key">
-                      {{ $t('keywords.' + key) }}
+                      {{ value.text}}
                     </li>
                   </ul>
                 </section>
@@ -149,9 +69,14 @@
                 <section>
                   <ul>
                     <li
-                      v-for="(value, key) in Object.fromEntries(Object.entries(this.$i18n.messages.en.keywords).slice(137))"
+                    v-if="$i18n.locale === 'en'" v-for="(value, key) in sortedDatings"
                       :key="key">
-                      {{ $t('keywords.' + key) }}
+                      {{ value.english_translation }}
+                    </li>
+                    <li
+                    v-if="$i18n.locale === 'sv'" v-for="(value, key) in sortedDatings"
+                      :key="key">
+                      {{ value.text }}
                     </li>
                   </ul>
                 </section>
@@ -171,15 +96,65 @@
 <script lang="ts">
 import Grid from '../Views/Grid.vue';
 export default {
+  data(){
+    return {
+      data:{},
+      groupedKeywordsSV:{},
+      groupedKeywordsEN:{},
+      sortedDatings:{},
+    }
+  },
+  mounted() {
+      this.fetchKeywords()
+      this.fetchDatingTags()
+  },
+  methods: {
+    fetchKeywords() {
+      fetch(`https://diana.dh.gu.se/api/shfa/keywordtag/?depth=2&limit=200`)
+        .then((response) => response.json())
+        .then((json) => {
+          this.data = json.results;
+          this.sortedSV = this.data.sort((a,b) => {return a.category.localeCompare(b.category)})
+          this.groupedKeywordsSV = Object.groupBy(this.sortedSV, ({ category }) => category)
+
+          this.sortedEN = this.data.sort((a,b) => {return a.category_translation.localeCompare(b.category_translation)})
+          this.groupedKeywordsEN = Object.groupBy(this.sortedEN, ({ category_translation }) => category_translation)
+          })
+        .catch((error) => {
+          console.error('Error fetching keyword data:', error);
+        });
+    },
+    fetchDatingTags() {
+      fetch(`https://diana.dh.gu.se/api/shfa/datingtag/?depth=2&limit=25`)
+        .then((response) => response.json())
+        .then((json) => {
+          this.data = json.results;
+          console.log(this.data)
+          if (this.currentLang == 'sv') {
+          this.sortedDatings = this.data.sort((a,b) => {return a.text.localeCompare(b.text)})
+          console.log(this.sortedDatings)}
+        
+          else {
+            this.sortedDatings = this.data.sort((a,b) => {return a.english_translation.localeCompare(b.english_translation)})
+          console.log(this.sortedDatings)}
+          })
+        .catch((error) => {
+          console.error('Error fetching keyword data:', error);
+        });
+    },
+  },
   name: "guideview",
   emits: ['close'],
   props: {
+    currentLang: {
+      type: String,
+      required: true,
+    },
     visibleGuide: {
       type: Boolean,
       required: true,
     },
   },
-
 };
 
 
