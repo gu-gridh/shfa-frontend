@@ -129,14 +129,11 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
-          console.log(this.data)
           if (this.currentLang == 'sv') {
-          this.sortedDatings = this.data.sort((a,b) => {return a.text.localeCompare(b.text)})
-          console.log(this.sortedDatings)}
+          this.sortedDatings = this.data.sort((a,b) => {return a.text.localeCompare(b.text)})}
         
           else {
-            this.sortedDatings = this.data.sort((a,b) => {return a.english_translation.localeCompare(b.english_translation)})
-          console.log(this.sortedDatings)}
+            this.sortedDatings = this.data.sort((a,b) => {return a.english_translation.localeCompare(b.english_translation)})}
           })
         .catch((error) => {
           console.error('Error fetching keyword data:', error);
