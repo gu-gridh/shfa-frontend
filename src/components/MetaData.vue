@@ -337,7 +337,7 @@ let acc_date = date.toLocaleString("en-GB", options);
 }
 
 .metadata-container>.metadata-item-container {
-  flex: 1 1 45%
+  flex: 1 1 46.5%
 }
 
 .metadata-container-3col>.metadata-item-container {
@@ -370,7 +370,7 @@ let acc_date = date.toLocaleString("en-GB", options);
   align-items: center;
   width: 50%;
   margin-bottom: 20px;
-  margin-right: 2%;
+  margin-right: 3%;
 }
 
 .tag-label {
