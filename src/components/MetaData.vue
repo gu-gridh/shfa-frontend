@@ -1,157 +1,191 @@
 <template>
-  <div id="metadata-container">
-    <div class="metadata-column-group">
-      <h1 v-if="data.site"> {{ data.site.lamning_id || data.site.placename }} </h1>
-      <div class="metadata-column">
-        <table>
-          <tr id="image-metadata-header">
-            <th scope="col">Metadata Field</th>
-            <th scope="col">Value</th>
-          </tr>
-          <tr>
-            <td class="label" v-if="data.site && data.site.raa_id">{{ $t('message.raanumber') }}</td>
-            <td class="data" v-if="data.site && data.site.raa_id" @click="logMetaSearch(data.site.raa_id)">
-              {{ data.site.raa_id }}</td>
-          </tr>
-          <tr>
-            <td class="label" v-if="data.site && data.site.lokalitet_id">{{ $t('message.lokalitetid') }}</td>
-            <td class="data" v-if="data.site && data.site.lokalitet_id" @click="logMetaSearch(data.site.lokalitet_id)">
-              {{ data.site.lokalitet_id }}</td>
-          </tr>
-          <tr>
-            <td class="label" v-if="data.site && data.site.askeladden_id">{{ $t('message.askeladdenid') }}</td>
-            <td class="data" v-if="data.site && data.site.askeladden_id"
-              @click="logMetaSearch(data.site.askeladden_id)"> {{ data.site.askeladden_id }}</td>
-          </tr>
-          <tr>
-            <td class="label" v-if="data.type && data.type.text">{{ $t('message.typ') }}</td>
-            <td class="data" v-if="data.type && data.type.text && $i18n.locale === 'sv'"
-              @click="logKeyword(data.type.text)"> {{ data.type.text }}</td>
-            <td class="data" v-else-if="data.type && data.type.text && $i18n.locale === 'en'"
-              @click="logKeyword(data.type.english_translation.text)">{{ data.type.english_translation }}</td>
-          </tr>
-          <tr>
-            <td class="label" v-if="data.subtype && data.subtype.text">{{ $t('message.subtype') }}</td>
-            <td class="not-clickable" v-if="data.subtype && data.subtype.text && $i18n.locale === 'sv'"> {{
-        data.subtype.text }}
-            </td>
-            <td class="not-clickable" v-if="data.subtype && data.subtype.text && $i18n.locale === 'en'">{{
-        data.subtype.english_translation }}</td>
-          </tr>
-          <tr>
-            <td class="label">{{ $t('message.author') }}</td>
-            <td class="data" v-if="data.people && data.people.length > 0">
-              <p class="data" v-for="(person, index) in data.people" :key="index"
-                @click="logMetaSearch(person.name)">
-                {{ person.name }}</p>
-              <!-- <span class="data" v-for="(person, index) in data.people" :key="index"
-                @click="logMetaSearch(person.name)">
-                {{ person.name }}<span class="not-clickable" v-if="data.people && index != data.people.length - 1">, </span></span> -->
-            </td>
-            <td class="data" v-if="data.people && data.people.length === 0 && $i18n.locale === 'sv'"
-              @click="logMetaSearch(data.author.name)"> {{
-        data.author.name
-        || 'Unknown' }}</td>
-            <td class="data" v-if="data.people && data.people.length === 0 && $i18n.locale === 'en'"
-              @click="logMetaSearch(data.author.name)">
-              {{ data.author.english_translation || 'Unknown' }}
-            </td>
-          </tr>
-        </table>
+  <div class="metadata-text">
+    <div class="metadata-panel">
+      <div class="metadata-panel-title">
+
+        <h1 v-if="data.site && data.site?.raa_id && data.site?.lamning_id"> {{ data.site.lamning_id }} | {{
+          data.site.raa_id
+        }} </h1>
+
+        <h1 v-if="data.site && !data.site?.raa_id && data.site?.lamning_id"> {{ data.site.lamning_id }}</h1>
+        <h1 v-if="data.site && data.site?.internationl_site"> {{ data.site.placename }}</h1>
       </div>
-      <div class="metadata-column">
-        <table>
-          <tr>
-            <th scope="col">Metadata Field</th>
-            <th scope="col">Value</th>
-          </tr>
-          <tr>
-            <td class="label" v-if="data.year">{{ $t('message.år') }}</td>
-            <td class="not-clickable" v-if="data.year"> {{ data.year }}</td>
-          </tr>
-          <tr>
-            <td class="label" v-if="data.rock_carving_object && data.rock_carving_object.name">{{ $t('message.ristning')
-              }}</td>
-            <td class="data" v-if="data.rock_carving_object && data.rock_carving_object.name"
-              @click="logMetaSearch(data.rock_carving_object.name)"> {{ data.rock_carving_object.name }}</td>
-          </tr>
-          <tr>
-            <td class="label" v-if="data.collection && data.collection.name">{{ $t('message.collection') }}</td>
-            <td class="not-clickable" v-if="data.collection && data.collection.name"> {{ data.collection.name }}</td>
-          </tr>
-          <tr>
-            <td class="label" v-if="data.institution && data.institution.name">Institution:</td>
-            <td class="data" v-if="data.institution && data.institution.name"
-              @click="logMetaSearch(data.institution.name)"> {{ data.institution.name }}</td>
-          </tr>
-        </table>
-      </div>
-      <div class="metadata-wide">
-        <table>
-          <tr>
-            <td class="label" v-if="data.site">{{ $t('message.reference') }}</td>
-            <td class="ref" v-if="data.site && $i18n.locale === 'en'"> {{ formattedPeopleEN || data.author.english_translation }}. ({{
-        data.year || 'n.d.' }}). {{ data.type.english_translation }} {{ $t('message.av') }} {{
-        data.site.lamning_id
-        || data.raa_id || data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }}
-              {{ $t('message.at') }} https://shfa.dh.gu.se/image/{{ data.id }}</td>
-            <td class="ref" v-if="data.site && $i18n.locale === 'sv'"> {{ formattedPeopleSV || data.author?.name }}. ({{ data.year || 'n.d.'
-              }}).
-              {{ data.type.text }} {{ $t('message.av') }} {{ data.site.lamning_id || data.raa_id ||
-        data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }} {{ $t('message.at') }}
-              https://shfa.dh.gu.se/image/{{ data.id }}</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="metadata-wide">
-      <div v-if="data.keywords && data.keywords.length > 0">
-        <h2>{{ $t('message.keywords') }}</h2>
-        <div class="keywords"> <!-- Empty div for margin -->
-          <div v-if="data.keywords && this.$i18n.locale === 'sv'" v-for="(category,index) in groupedKeywordsSV">
-            <button v-if="data.keywords && this.$i18n.locale === 'sv'" class="keyword-button"
-            :key="index" @click="logKeyword(index)"> {{index}}
-          </button>
-          <button v-if="data.keywords && this.$i18n.locale === 'sv'" class="keyword-button" v-for="(keyword,index) in category"
-            :key="index" @click="logKeyword(keyword.text)"> {{keyword.text}}
-          </button>
-          </div>
-          <div v-if="data.keywords && this.$i18n.locale === 'en'" v-for="(category,index) in groupedKeywordsEN">
-            <button v-if="data.keywords && this.$i18n.locale === 'en'" class="keyword-button"
-            :key="index" @click="logKeyword(index)"> {{index}}
-          </button>
-          <button v-if="data.keywords && this.$i18n.locale === 'en'" class="keyword-button" v-for="(keyword,index) in category"
-            :key="index" @click="logKeyword(keyword.english_translation)"> {{keyword.english_translation}}
-          </button>
-          </div>
-            <div v-if="data.dating_tags && data.dating_tags.length > 0">
-        <h2>{{ $t('message.datering') }}</h2>
-          <button class="keyword-button" v-if="data.dating_tags && this.$i18n.locale === 'sv'"
-            v-for="(keyword, index) in data.dating_tags" :key="index"
-            @click="logKeyword(keyword.text)"> {{ keyword.text }}
-          </button>
-          <button class="keyword-button" v-if="data.dating_tags && this.$i18n.locale === 'en'"
-            v-for="(keyword, index) in data.dating_tags" :key="index"
-            @click="logKeyword(keyword.text)"> {{ keyword.english_translation }}
-          </button>
-        </div>
-        </div>
-      </div>
-      <h2 v-if="data.site && data.site.ksamsok_id">{{ $t('message.description') }}</h2>
-      <div v-if="data.site && data.site.ksamsok_id" class="metadata">
-        <div v-if="getFornsokUrl()" class="button-container">
-          <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit"><span
-              class="visit-icon"></span>{{
-        $t('message.checkfornsök') }}</a>
-        </div>
-        <div class="disclaimer" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
-        <div class="description" id="description">
-          {{ data.description }}
+
+      <div class="metadata-container">
+        <div class="metadata-item-container" v-if="data.site && data.site.lokalitet_id">
+          <div class="tag-label">{{ $t('message.lokalitetid') }}</div>
+          <div class="theme-color-text info-label" @click="logMetaSearch(data.site.lokalitet_id)">{{
+          data.site.lokalitet_id }}</div>
         </div>
 
+
+        <div class="metadata-item-container" v-if="data.site && data.site.askeladden_id">
+          <div class="tag-label">{{ $t('message.askeladdenid') }}</div>
+          <div class="theme-color-text info-label" @click="logMetaSearch(data.site.askeladden_id)">{{
+          data.site.askeladden_id }}</div>
+        </div>
+
+
+        <div class="metadata-item-container" v-if="data.type && data.type.text">
+          <div class="tag-label">{{ $t('message.typ') }}</div>
+          <div class="theme-color-text info-label" v-if="$i18n.locale === 'sv'" @click="logKeyword(data.type.text)">
+            {{ data.type.text }}</div>
+          <div class="theme-color-text info-label" v-if="$i18n.locale === 'en'"
+            @click="logKeyword(data.type.english_translation)">
+            {{ data.type.english_translation }}</div>
+        </div>
+
+
+        <div class="metadata-item-container" v-if="data.subtype && data.subtype.text">
+          <div class="tag-label">{{ $t('message.subtype') }}</div>
+          <div class="theme-color-text info-label not-clickable" v-if="$i18n.locale === 'sv'">
+            {{ data.subtype.text }}</div>
+          <div class="theme-color-text info-label not-clickable" v-if="$i18n.locale === 'en'">
+            {{ data.subtype.english_translation.text }}</div>
+        </div>
+
+
+        <div class="metadata-item-container">
+          <div class="tag-label">{{ $t('message.author') }}
+          </div>
+          <div class="theme-color-text info-label" v-if="data.people && data.people.length > 0"
+            v-for="(person, index) in data.people" :key="index" @click="logMetaSearch(person.name)">
+            {{ person.name }}
+          </div>
+          <div class="theme-color-text info-label"
+            v-if="data.people && data.people.length === 0 && $i18n.locale === 'sv'"
+            @click="logMetaSearch(data.author.name)">
+            {{ data.author.name || 'Unknown' }}
+          </div>
+          <div class="theme-color-text info-label"
+            v-if="data.people && data.people.length === 0 && $i18n.locale === 'en'"
+            @click="logMetaSearch(data.author.english_translation)">
+            {{ data.author.english_translation || 'Unknown' }}
+          </div>
+        </div>
+
+
+        <div class="metadata-item-container" v-if="data.institution && data.institution.name">
+          <div id="metadata-item">
+            <div class="tag-label">Institution
+            </div>
+            <div class="theme-color-text info-label" @click="logMetaSearch(data.institution.name)"> {{
+          data.institution.name }}
+            </div>
+          </div>
+        </div>
+
+
+        <div class="metadata-item-container" v-if="data.year">
+          <div class="tag-label">{{ $t('message.år') }}</div>
+          <div class="theme-color-text info-label not-clickable"> {{ data.year }}
+          </div>
+        </div>
+
+
+        <div class="metadata-item-container" v-if="data.rock_carving_object && data.rock_carving_object.name">
+          <div class="tag-label">{{
+          $t('message.ristning') }}
+          </div>
+          <div class="theme-color-text info-label" @click="logMetaSearch(data.rock_carving_object.name)"> {{
+          data.rock_carving_object.name }}
+          </div>
+        </div>
+
+
+        <div class="metadata-item-container" v-if="data.collection && data.collection.name">
+          <div id="metadata-item">
+            <div class="tag-label">{{
+          $t('message.collection') }}
+            </div>
+            <div class="theme-color-text info-label" @click="logMetaSearch(data.collection.name)"> {{
+          data.collection.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="metadata-container" v-if="data.site">
+        <div class="tag-label">{{ $t('message.reference') }}</div>
+        <div class="metadata-item-container-1col">
+          <div class="general-text" v-if="data.site && $i18n.locale === 'en'">{{ formattedPeopleEN ||
+          data.author.english_translation }}. ({{
+          data.year || 'n.d.' }}). {{ data.type.english_translation }} {{ $t('message.av') }} {{
+          data.site.lamning_id
+          || data.raa_id || data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }}
+            {{ $t('message.at') }} https://shfa.dh.gu.se/image/{{ data.id }}</div>
+          <div class="general-text" v-if="data.site && $i18n.locale === 'sv'">{{ formattedPeopleSV ||
+          data.author?.name
+            }}.
+            ({{
+          data.year || 'n.d.'
+        }}).
+            {{ data.type.text }} {{ $t('message.av') }} {{ data.site.lamning_id || data.raa_id ||
+          data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }} {{ $t('message.at')
+            }}
+            https://shfa.dh.gu.se/image/{{ data.id }}</div>
+        </div>
+      </div>
+      <div class="metadata-container" v-if="data.site">
+        <div class="tag-label">{{ $t('message.keywords') }}</div>
+        <div class="metadata-item-container-1col">
+          <div class="keywords"> <!-- Empty div for margin -->
+            <div v-if="data.keywords && this.$i18n.locale === 'sv'" v-for="(category, index) in groupedKeywordsSV">
+              <button v-if="data.keywords && this.$i18n.locale === 'sv'" class="keyword-button" :key="index"
+                @click="logKeyword(index)"> {{ index }}
+              </button>
+              <button v-if="data.keywords && this.$i18n.locale === 'sv'" class="keyword-button"
+                v-for="(keyword, index) in category.sort((a, b) => { return a.text.localeCompare(b.text) })"
+                :key="index" @click="logKeyword(keyword.text)"> {{ keyword.text }}
+              </button>
+            </div>
+            <div v-if="data.keywords && this.$i18n.locale === 'en'" v-for="(category, index) in groupedKeywordsEN">
+              <button v-if="data.keywords && this.$i18n.locale === 'en'" class="keyword-button" :key="index"
+                @click="logKeyword(index)"> {{ index }}
+              </button>
+              <button v-if="data.keywords && this.$i18n.locale === 'en'" class="keyword-button"
+                v-for="(keyword, index) in category.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })"
+                :key="index" @click="logKeyword(keyword.english_translation)">
+                {{ keyword.english_translation }}
+              </button>
+            </div>
+            <div v-if="data.dating_tags && data.dating_tags.length > 0">
+              <h2>{{ $t('message.datering') }}</h2>
+              <button class="keyword-button" v-if="data.dating_tags && this.$i18n.locale === 'sv'"
+                v-for="(keyword, index) in data.dating_tags" :key="index" @click="logKeyword(keyword.text)">
+                {{
+          keyword.text }}
+              </button>
+              <button class="keyword-button" v-if="data.dating_tags && this.$i18n.locale === 'en'"
+                v-for="(keyword, index) in data.dating_tags" :key="index" @click="logKeyword(keyword.text)">
+                {{
+          keyword.english_translation }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="metadata-container" v-if="data.site && data.site.ksamsok_id">
+        <div class="tag-label">{{ $t('message.description') }}</div>
+        <div class="metadata-item-container-1col">
+          <div v-if="data.site && data.site.ksamsok_id" class="metadata">
+            <div v-if="getFornsokUrl()" class="button-container">
+              <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit"><span
+                  class="visit-icon"></span>{{
+          $t('message.checkfornsök') }}</a>
+            </div>
+            <div class="disclaimer" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
+            <div class="general-text" id="description">
+              {{ data.description }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -174,8 +208,8 @@ export default {
       data: {},
       acc_date,
       coordinateStore: useStore(),
-      groupedKeywordsSV:{},
-      groupedKeywordsEN:{},
+      groupedKeywordsSV: {},
+      groupedKeywordsEN: {},
       formattedPeopleSV: '',
       formattedPeopleEN: '',
     };
@@ -243,7 +277,7 @@ export default {
           .then((json) => {
             this.data = json.results[0];
             this.groupedKeywordsSV = Object.groupBy(this.data.keywords, ({ category }) => category);
-            this.groupedKeywordsEN = Object.groupBy(this.data.keywords, ({ category_translation }) => category_translation);    
+            this.groupedKeywordsEN = Object.groupBy(this.data.keywords, ({ category_translation }) => category_translation);
             this.formattedPeopleSV = new Intl.ListFormat("sv", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
             this.formattedPeopleEN = new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
             this.fetchDescription();
@@ -271,6 +305,121 @@ let acc_date = date.toLocaleString("en-GB", options);
 </script>
 
 <style scoped>
+.metadata-panel-title {
+  font-size: 130%;
+  text-align: left;
+  color: var(--page-text);
+  font-weight: 300;
+  font-family: "Barlow Condensed", sans-serif !important;
+}
+
+.general-text {
+  font-size: 110%;
+  text-align: left;
+  color: var(--page-text);
+  font-weight: 300;
+  font-family: "Barlow Condensed", sans-serif !important;
+  margin-bottom: 15px;
+  width: 95%;
+}
+
+.metadata-container {
+  font-family: "Barlow Condensed", sans-serif !important;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+  margin-left: 30px;
+}
+
+.metadata-item-container-font {
+  font-family: "Barlow Condensed", sans-serif !important;
+}
+
+.metadata-container>.metadata-item-container {
+  flex: 1 1 45%
+}
+
+.metadata-container-3col>.metadata-item-container {
+  flex: 1 1 1 25%
+}
+
+.metadata-container-1col>.metadata-item-container {
+  flex: 1 100%
+}
+
+.metadata-item-container-1col {
+  display: block;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+  margin-right: 1%;
+  margin-top: 5px;
+}
+
+.metadata-item-container-3col {
+  display: block;
+  align-items: center;
+  width: 30%;
+  margin-bottom: 10px;
+  margin-right: 1%;
+}
+
+.metadata-item-container {
+  display: block;
+  align-items: center;
+  width: 50%;
+  margin-bottom: 20px;
+  margin-right: 2%;
+}
+
+.tag-label {
+  /* width: 120px; */
+  color: var(--page-text);
+  font-weight: 500;
+  font-size: 120%;
+  flex: 1;
+  white-space: wrap;
+  padding-right: 5px;
+}
+
+.tag-label-header {
+  font-family: "Barlow Condensed", sans-serif !important;
+  /* width: 120px; */
+  color: var(--page-text);
+  font-weight: 600;
+  font-size: 160%;
+  flex: 1;
+  white-space: wrap;
+  padding-right: 5px;
+}
+
+.info-label {
+  /* width: 120px; */
+  font-weight: 400;
+  font-size: 1.2em;
+  flex: 2;
+  text-align: left;
+  white-space: wrap;
+  color: var(--info-label) !important;
+  cursor: pointer;
+}
+
+.theme-color-text:hover,
+.info-label:hover {
+  color: var(--page-text)
+}
+
+.info-label>p {
+  /* width: 120px; */
+  font-weight: 400;
+  font-size: 1.2em !important;
+  flex: 2;
+  text-align: left;
+  white-space: wrap;
+  color: var(--info-label) !important;
+}
+
 #metadata-container {
   max-width: 100%;
   padding: 0px !important;
@@ -298,7 +447,7 @@ h2 {
   margin-bottom: 15px;
 }
 
-#image-metadata-header {
+/* #image-metadata-header {
   display: none;
 }
 
@@ -312,14 +461,14 @@ h2 {
   padding-left: 25px;
   color: var(--page-text);
   line-height: 1;
-  font-size:1.1em;
+  font-size: 1.1em;
 }
 
 .label {
-  width: 130px!important;
+  width: 130px !important;
   color: var(--page-text);
   font-weight: 600;
-  text-align:right!important;
+  text-align: right !important;
 }
 
 .data {
@@ -330,7 +479,7 @@ h2 {
 
 .data p {
   margin-bottom: 5px;
-}
+} */
 
 .data:hover {
   color: var(--ui-hover);

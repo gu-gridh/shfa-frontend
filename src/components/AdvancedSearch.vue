@@ -560,7 +560,7 @@ export default {
   background-color: var(--input-wrapper-background);
   border-radius: 5px;
   padding: 0px 7px;
-  border: 0.5px solid var(--input-border);
+  border: 1px solid var(--input-border);
 }
 
 input[type="search"] {
@@ -572,7 +572,6 @@ input[type="search"] {
   flex: 1;
   width: 1px !important;
   background: transparent;
-
 }
 
 input[type="search"]::placeholder {
@@ -611,7 +610,7 @@ input[type="search"]:focus {
   display: block;
   margin-top: 20px;
   margin-bottom: 20px;
-  margin-right:5px;
+  margin-right: 5px;
   /* font-size: 1.1rem; */
   padding: 5px 20px;
   background-color: var(--button-background-accent);
@@ -619,7 +618,7 @@ input[type="search"]:focus {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 550;
 }
 
 .search-button:hover {

@@ -332,9 +332,7 @@ export default {
 </script>
 
 <style scoped>
-body {
- 
-}
+body {}
 
 #search-interface {
   font-size: 100%;
@@ -434,7 +432,7 @@ body {
   background-color: var(--selected-option);
   vertical-align: middle;
   color: var(--button-text);
-  padding:2px 10px;
+  padding: 2px 10px;
   /* min-height: 10px; */
 }
 
@@ -454,6 +452,7 @@ body {
   padding: 0px 0px 0px 0px;
 
 }
+
 .input-wrapper {
   display: flex;
   flex-wrap: nowrap;
@@ -461,23 +460,22 @@ body {
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
-  font-size: 0.95rem; 
+  font-size: 0.95rem;
+  border: 1px solid var(--input-border);
 }
 
-.input-wrapper:hover {
-
-}
+.input-wrapper:hover {}
 
 input[type="search"] {
-  
+
   border: none;
   color: var(--page-text);
   margin-top: 5px;
-  padding-left: 15px!important;
-  padding-right: 15px!important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
   margin-bottom: 10px;
   flex: 1;
-  width:1px!important;
+  width: 1px !important;
 }
 
 input[type="search"]::placeholder {
@@ -533,8 +531,8 @@ input:focus {
   background-color: var(--button-hover);
 }
 
-.item{
-  font-size:1.1em;
+.item {
+  font-size: 1.1em;
 }
 
 .item.active {
