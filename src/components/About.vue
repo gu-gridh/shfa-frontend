@@ -30,7 +30,8 @@
               <p>This platform for the SHFA database has been developed by Göteborgs infrastruktur för digital humaniora
                 (GRIDH) and aims to offer enhanced methods to search the database and
                 display digital documentation. The migration from SHFA's previous web portal (developed by Miljödata AB)
-                was completed in early 2024. 3D documentation is available for a selection of sites and will continue to be made available.</p><br>
+                was completed in early 2024. 3D documentation is available for a selection of sites and will continue to
+                be made available.</p><br>
 
               <h2>Searching the Database</h2>
               <p>Using the suggested keyword search, you can access images of common documentation methods and motifs.
@@ -68,15 +69,17 @@
                 visit to the
                 website, subsequent visits to the website, and an approximate location.</p><br>
               <h2>Accessibility Statement</h2>
-              <p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>. The website is displayed in a more accessible format for users who prefer higher contrast and/or reduced transparency by default. The <a
-                  href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
+              <p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>. The website is displayed in a
+                more accessible format for users who prefer higher contrast and/or reduced transparency by default. The
+                <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
                   (WCAG)</a> defines requirements for designers and developers to improve accessibility for people with
                 disabilities. It defines three levels of conformance: Level A, Level AA, and Level AAA. The SHFA
                 webportal
                 is partially conformant with WCAG 2.2 level A. Partially conformant means that some parts of the content
                 do not fully conform to the accessibility standard. Accessibility of the SHFA webportal relies on the
                 following technologies to work with the particular
-                combination of web browser and any assistive technologies or plugins installed on your computer:</p>
+                combination of web browser and any assistive technologies or plugins installed on your computer:
+              </p>
               <ul>
                 <li>HTML</li>
                 <li>CSS</li>
@@ -142,7 +145,8 @@
                   förbättrade metoder för att söka i databasen och visa digital dokumentation. Migreringen från SHFAs
                   tidigare webbportal (utvecklad av
                   Miljödata AB) är komplett. Hittills har bilderna av hällristningsplatser i Sverige överförts.
-                  3D-dokumentation finns tillgänglig för ett urval av platser och kommer att fortsätta att göras tillgänglig.</p>
+                  3D-dokumentation finns tillgänglig för ett urval av platser och kommer att fortsätta att göras
+                  tillgänglig.</p>
                 <br>
 
                 <h2>Sökning i databasen</h2>
@@ -189,8 +193,9 @@
                   om
                   varifrån besöker kommer.</p><br>
                 <h2>Tillgänglighetsredogörelse</h2>
-                <p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>. Webbsidan visas i ett mer tillgängligt format med högre kontrast och/eller minskad transparens för användare som föredrar det. <a
-                    href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
+                <p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>. Webbsidan visas i ett mer
+                  tillgängligt format med högre kontrast och/eller minskad transparens för användare som föredrar det.
+                  <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
                     (WCAG)</a> definierar krav på designers och utvecklare för att förbättra tillgängligheten för
                   personer
                   med funktionsnedsättning. Den definierar tre nivåer av överensstämmelse: nivå A, nivå AA och nivå AAA.
@@ -198,13 +203,14 @@
                   inte
                   helt överensstämmer med tillgänglighetsstandarden. Tillgängligheten på SHFAs webbportal är beroende av
                   följande tekniker för att fungera med speciella
-                  webbläsare och eventuella hjälpmedel eller plugins installerade på din dator:</p>
+                  webbläsare och eventuella hjälpmedel eller plugins installerade på din dator:
+                </p>
                 <ul>
                   <li>HTML</li>
                   <li>CSS</li>
                   <li>JavaScript</li>
                 </ul>
-                <p>GRIDH har gjort en självskattning av SHFAs webbportal. Redogörelsen uppdaterades senast 2023-08-25
+                <p>GRIDH har gjort en självskattning av SHFAs webbportal. Redogörelsen uppdaterades senast 2024-05-28.
                 </p>
                 <br>
                 <h2>Kontaktinformation</h2>

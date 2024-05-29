@@ -26,24 +26,27 @@
               <h2>{{ $t('message.nyckelord') }}</h2>
               <div class="first">
                 <section v-if="$i18n.locale === 'en'" v-for="(category, index) in groupedKeywordsEN">
-                  <h3 >{{ index }}</h3>
-                  <ul>
-                    <li
-                      v-for="(value, key) in category.sort((a,b) => {return a.english_translation.localeCompare(b.english_translation)})"
-                      :key="key">
-                      {{ value.english_translation}}
-                    </li>
-                  </ul>
+                  <h3>{{ index }}</h3>
+                  <div class="grouped-items">
+                    <ul>
+                      <li
+                        v-for="(value, key) in category.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })"
+                        :key="key">
+                        {{ value.english_translation }}
+                      </li>
+                    </ul>
+                  </div>
                 </section>
                 <section v-else v-for="(category, index) in groupedKeywordsSV">
-                  <h3 >{{ index }}</h3>
-                  <ul>
-                    <li
-                      v-for="(value, key) in category.sort((a,b) => {return a.text.localeCompare(b.text)})"
-                      :key="key">
-                      {{ value.text}}
-                    </li>
-                  </ul>
+                  <h3>{{ index }}</h3>
+                  <div class="grouped-items">
+                    <ul>
+                      <li v-for="(value, key) in category.sort((a, b) => { return a.text.localeCompare(b.text) })"
+                        :key="key">
+                        {{ value.text }}
+                      </li>
+                    </ul>
+                  </div>
                 </section>
               </div>
               <div class="second">
@@ -68,14 +71,10 @@
                 <h2>{{ $t('message.datering') }}</h2>
                 <section>
                   <ul>
-                    <li
-                    v-if="$i18n.locale === 'en'" v-for="(value, key) in sortedDatings"
-                      :key="key">
+                    <li v-if="$i18n.locale === 'en'" v-for="(value, key) in sortedDatings" :key="key">
                       {{ value.english_translation }}
                     </li>
-                    <li
-                    v-if="$i18n.locale === 'sv'" v-for="(value, key) in sortedDatings"
-                      :key="key">
+                    <li v-if="$i18n.locale === 'sv'" v-for="(value, key) in sortedDatings" :key="key">
                       {{ value.text }}
                     </li>
                   </ul>
@@ -96,17 +95,17 @@
 <script lang="ts">
 import Grid from '../Views/Grid.vue';
 export default {
-  data(){
+  data() {
     return {
-      data:{},
-      groupedKeywordsSV:{},
-      groupedKeywordsEN:{},
-      sortedDatings:{},
+      data: {},
+      groupedKeywordsSV: {},
+      groupedKeywordsEN: {},
+      sortedDatings: {},
     }
   },
   mounted() {
-      this.fetchKeywords()
-      this.fetchDatingTags()
+    this.fetchKeywords()
+    this.fetchDatingTags()
   },
   methods: {
     fetchKeywords() {
@@ -114,12 +113,12 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
-          this.sortedSV = this.data.sort((a,b) => {return a.category.localeCompare(b.category)})
+          this.sortedSV = this.data.sort((a, b) => { return a.category.localeCompare(b.category) })
           this.groupedKeywordsSV = Object.groupBy(this.sortedSV, ({ category }) => category)
 
-          this.sortedEN = this.data.sort((a,b) => {return a.category_translation.localeCompare(b.category_translation)})
+          this.sortedEN = this.data.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) })
           this.groupedKeywordsEN = Object.groupBy(this.sortedEN, ({ category_translation }) => category_translation)
-          })
+        })
         .catch((error) => {
           console.error('Error fetching keyword data:', error);
         });
@@ -130,11 +129,13 @@ export default {
         .then((json) => {
           this.data = json.results;
           if (this.currentLang == 'sv') {
-          this.sortedDatings = this.data.sort((a,b) => {return a.text.localeCompare(b.text)})}
-        
+            this.sortedDatings = this.data.sort((a, b) => { return a.text.localeCompare(b.text) })
+          }
+
           else {
-            this.sortedDatings = this.data.sort((a,b) => {return a.english_translation.localeCompare(b.english_translation)})}
-          })
+            this.sortedDatings = this.data.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })
+          }
+        })
         .catch((error) => {
           console.error('Error fetching keyword data:', error);
         });
@@ -158,7 +159,6 @@ export default {
 </script>
 
 <style scoped>
-
 th {
   padding-top: 10px;
   font-weight: 450;
@@ -187,8 +187,8 @@ h2 {
 h3 {
   font-size: 105%;
   font-style: bold;
-  margin-top: 15px;
-  margin-bottom: 0px;
+  margin-top: 25px;
+  margin-bottom: 5px;
   color: var(--page-text);
   font-weight: 500;
   line-height: 1.2;
@@ -252,9 +252,16 @@ ul {
 
 .first {
   width: 100%;
-  columns: 5;
+  columns: 1;
   column-gap: 50px;
   margin-bottom: 30px;
+}
+
+.grouped-items {
+  columns: 3;
+  column-gap: 50px;
+  margin-bottom: 20px;
+  margin-top: 5px;
 }
 
 .second {
