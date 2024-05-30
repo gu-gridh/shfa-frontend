@@ -39,13 +39,15 @@
           </div>
         </div>
       </div>
-    </div>
-    <button class="search-button" :id="$t('message.searchbutton')" @click="handleSearchButtonClick"> {{
-        $t('message.searchbutton')
-      }}</button>
-    <button class="clear-button" :id="$t('message.clearbutton')" @click="clearAdvancedSearchFields">{{
+
+
+      <button class="clear-button" :id="$t('message.clearbutton')" @click="clearAdvancedSearchFields">{{
         $t('message.clearbutton')
       }}</button>
+      <button class="search-button" :id="$t('message.searchbutton')" @click="handleSearchButtonClick"> {{
+        $t('message.searchbutton')
+      }}</button>
+    </div>
   </div>
 </template>
 
@@ -606,8 +608,8 @@ input[type="search"]:focus {
 }
 
 .search-button {
-  float: right;
-  display: block;
+  /* float: inline-end;
+  display: block; */
   margin-top: 20px;
   margin-bottom: 20px;
   margin-right: 5px;
@@ -619,6 +621,8 @@ input[type="search"]:focus {
   border-radius: 5px;
   cursor: pointer;
   font-weight: 550;
+  width: max-content;
+  margin-left: auto;
 }
 
 .search-button:hover {
@@ -627,8 +631,8 @@ input[type="search"]:focus {
 }
 
 .clear-button {
-  float: left;
-  display: block;
+  /* float: left;
+  display: block; */
   margin-top: 20px;
   margin-bottom: 20px;
   /* font-size: 1.2rem; */
@@ -639,7 +643,8 @@ input[type="search"]:focus {
   border-radius: 5px;
   cursor: pointer;
   font-weight: 500;
-  margin-left: 8px;
+  /* margin-left: 8px; */
+  width: max-content;
 }
 
 .clear-button:hover {

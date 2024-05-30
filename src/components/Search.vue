@@ -464,7 +464,6 @@ body {}
   border: 1px solid var(--input-border);
 }
 
-.input-wrapper:hover {}
 
 input[type="search"] {
 
