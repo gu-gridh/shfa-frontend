@@ -3,7 +3,7 @@
     <div class="metadata-panel">
       <div class="metadata-panel-title">
 
-        <h1 v-if="data.site && data.site?.raa_id && data.site?.lamning_id"> {{ data.site.lamning_id }} | {{
+        <h1 v-if="data.site && data.site?.raa_id && data.site?.lamning_id">{{ data.site.lamning_id }} | {{
           data.site.raa_id
         }} </h1>
 
@@ -305,6 +305,11 @@ let acc_date = date.toLocaleString("en-GB", options);
 </script>
 
 <style scoped>
+.metadata-text {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
 .metadata-panel-title {
   font-size: 130%;
   text-align: left;
@@ -314,22 +319,22 @@ let acc_date = date.toLocaleString("en-GB", options);
 }
 
 .general-text {
-  font-size: 110%;
+  font-size: 120%;
   text-align: left;
   color: var(--page-text);
   font-weight: 300;
   font-family: "Barlow Condensed", sans-serif !important;
-  margin-bottom: 15px;
-  width: 95%;
+  margin-top: -10px;
 }
 
 .metadata-container {
   font-family: "Barlow Condensed", sans-serif !important;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 15px;
-  margin-left: 30px;
+  margin-bottom: 30px;
+  align-items: stretch;
+  row-gap: 15px;
+  column-gap: 10px;
 }
 
 .metadata-item-container-font {
@@ -337,7 +342,7 @@ let acc_date = date.toLocaleString("en-GB", options);
 }
 
 .metadata-container>.metadata-item-container {
-  flex: 1 1 46.5%
+  flex: 1 1 48%;
 }
 
 .metadata-container-3col>.metadata-item-container {
@@ -345,16 +350,16 @@ let acc_date = date.toLocaleString("en-GB", options);
 }
 
 .metadata-container-1col>.metadata-item-container {
-  flex: 1 100%
+  flex: 1 1 auto
 }
 
 .metadata-item-container-1col {
   display: block;
   align-items: center;
   width: 100%;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px;
   margin-right: 1%;
-  margin-top: 5px;
+  margin-top: 5px; */
 }
 
 .metadata-item-container-3col {
@@ -368,9 +373,9 @@ let acc_date = date.toLocaleString("en-GB", options);
 .metadata-item-container {
   display: block;
   align-items: center;
-  width: 50%;
+  /* width: 50%;
   margin-bottom: 20px;
-  margin-right: 3%;
+  margin-right: 3%; */
 }
 
 .tag-label {
@@ -381,6 +386,7 @@ let acc_date = date.toLocaleString("en-GB", options);
   flex: 1;
   white-space: wrap;
   padding-right: 5px;
+  line-height: 1.2;
 }
 
 .tag-label-header {
@@ -398,16 +404,15 @@ let acc_date = date.toLocaleString("en-GB", options);
   /* width: 120px; */
   font-weight: 400;
   font-size: 1.2em;
-  flex: 2;
+  /* flex: 2; */
   text-align: left;
   white-space: wrap;
-  color: var(--info-label) !important;
+  color: var(--info-label);
   cursor: pointer;
 }
 
-.theme-color-text:hover,
 .info-label:hover {
-  color: var(--page-text)
+  color: var(--button-background-accent);
 }
 
 .info-label>p {
@@ -432,7 +437,7 @@ h1 {
   font-size: 1.8em;
   text-align: left;
   color: var(--page-text);
-  padding-left: 25px;
+  /* padding-left: 25px; */
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -486,7 +491,7 @@ h2 {
 }
 
 .not-clickable {
-  color: var(--page-text);
+  color: var(--info-label) !important;
   max-width: 180px;
   cursor: default;
 }
@@ -558,10 +563,10 @@ ul {
 }
 
 .disclaimer {
-  width: 90%;
   margin-bottom: 10px;
   color: var(--disclaimer-text);
-  font-weight: 500;
+  font-weight: 400;
+  font-size: 120%;
 }
 
 .visit-button {
