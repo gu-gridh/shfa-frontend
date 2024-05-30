@@ -256,6 +256,7 @@ export default {
             type: image?.type?.id ?? null,
             iiif_file: image.iiif_file ?? null,
             coordinates: image?.site?.coordinates?.coordinates ?? null,
+            vis_group: image?.group,
           };
 
           // Block to calculate minimum and maximum coordinates

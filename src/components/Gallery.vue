@@ -9,19 +9,20 @@
         class="gallery-group">
         <template #default="{ item, index }">
           <a href="#image">
-          <div class="grid-image card flex items-center justify-center"
-            @click="$emit('image-clicked', item.iiif_file, item.id)">
-            <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" :alt="`Image ${index}`" @load="
+            <div class="grid-image card flex items-center justify-center"
+              @click="$emit('image-clicked', item.iiif_file, item.id)">
+              <button class="avail-3d" v-if="item.vis_group">3D</button>
+              <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" :alt="`Image ${index}`" @load="
       item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)
       " v-on:load.once="item.loaded = true" />
-            <div class="grid-item-info" id="gallery">
-              <div class="grid-item-info-meta">
-                <h5>{{ item.lamning_id || item.placename }}</h5>
-                <h6 v-if="item.raa_id || item.lokalitet_id || item.askeladden_id">{{ item.raa_id || item.askeladden_id
+              <div class="grid-item-info" id="gallery">
+                <div class="grid-item-info-meta">
+                  <h5>{{ item.lamning_id || item.placename }}</h5>
+                  <h6 v-if="item.raa_id || item.lokalitet_id || item.askeladden_id">{{ item.raa_id || item.askeladden_id
       || item.lokalitet_id }}</h6>
+                </div>
               </div>
             </div>
-          </div>
           </a>
         </template>
       </MasonryWall>
@@ -274,6 +275,7 @@ export default {
             file: image.file,
             type: image.type.id,
             iiif_file: image.iiif_file,
+            vis_group: image.subtype,
           };
 
           let typeIndex = typeMap.findIndex((x) => x.type === type.id);
@@ -404,6 +406,7 @@ export default {
             file: image.file,
             type: image.type.id,
             iiif_file: image.iiif_file,
+            vis_group: image.subtype,
           };
 
           let typeIndex = typeMap.findIndex((x) => x.type === type.id);
@@ -468,6 +471,7 @@ export default {
             file: image.file,
             type: image.type.id,
             iiif_file: image.iiif_file,
+            vis_group: image.subtype,
           };
 
           let typeIndex = typeMap.findIndex((x) => x.type === type.id);
@@ -539,6 +543,31 @@ export default {
 </script>
 
 <style scoped>
+.avail-3d {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  color: var(--popup-text);
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  color: var(--page-text);
+  opacity: 1;
+  background-color: var(--button-background-accent);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--button-background-accent);
+  z-index: 10;
+}
+
 .loading-animation {
   display: flex;
   justify-content: center;

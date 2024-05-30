@@ -19,7 +19,22 @@
           </div>
 
           <div class="guide-article-main" :class="{ fullopacityui: visibleGuide }" style="padding-top:0px;">{{
-    $t('search.searchintro') }} {{ $t('search.searchhelp') }}</div>
+    $t('search.searchintro') }} {{ $t('search.searchhelp') }}
+            <p class="new-info" v-if="$i18n.locale === 'en'"> A multimodal viewer is available for a selection of meshes
+              and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
+              thumbnail and <button class="viewer-avail">3D</button>
+              button in the image viewer. You can find these images by searching for 3d visualisation or orthophoto
+              image
+              types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
+              will be able to navigate around the mesh and associated visualisations.</p>
+            <p class="new-info" v-if="$i18n.locale === 'sv'"> A multimodal viewer is available for a selection of meshes
+              and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
+              thumbnail and <button class="viewer-avail">3D</button>
+              button in the image viewer. You can find these images by searching for 3d visualisation or orthophoto
+              image
+              types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
+              will be able to navigate around the mesh and associated visualisations.</p>
+          </div>
 
           <div class="guide-article-sub" :class="{ fullopacityui: visibleGuide }">
             <div class="sections"> <!-- Empty div for margin -->
@@ -159,6 +174,55 @@ export default {
 </script>
 
 <style scoped>
+.new-info {
+  margin-top: 25px;
+}
+
+.avail-3d {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  color: var(--popup-text);
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  color: var(--page-text);
+  opacity: 1;
+  background-color: var(--button-background-accent);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--button-background-accent);
+  font-size: 80%;
+
+}
+
+.viewer-avail {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  color: var(--popup-text);
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  color: var(--page-text);
+  opacity: 1;
+  background-color: var(--viewer-button-background);
+  border-width: 1px;
+  border-style: solid;
+  background-color: var(--viewer-button-background);
+  font-size: 80%;
+}
+
 th {
   padding-top: 10px;
   font-weight: 450;
@@ -177,8 +241,8 @@ a {
 h2 {
   font-size: 125%;
   font-style: bold;
-  margin-top: -10px;
-  margin-bottom: 5px;
+  /* margin-top: -10px; */
+  margin-bottom: 0px;
   color: var(--highlighted-text);
   font-weight: 500;
   line-height: 1.5;
@@ -198,9 +262,9 @@ ul {
   padding-left: 20px;
 }
 
-.guide-article-sub h2 {
+/* .guide-article-sub h2 {
   font-size: 115%;
-}
+} */
 
 .guide-container {
   position: fixed;
@@ -258,8 +322,8 @@ ul {
 }
 
 .grouped-items {
-  columns: 3;
-  column-gap: 50px;
+  columns: 4;
+  column-gap: 20px;
   margin-bottom: 20px;
   margin-top: 5px;
 }
