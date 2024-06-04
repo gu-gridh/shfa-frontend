@@ -106,8 +106,8 @@ export default {
     },
 
     open3dViewer() {
-      // const threedUrl = `https://shfa.dh.gu.se/?q=${this.query_3d}/mesh`;
-      // window.open(threedUrl, "_blank");
+      const threedUrl = `https://shfa.dh.gu.se/viewer/?q=${this.query_3d}/mesh`;
+      window.open(threedUrl, "_blank");
     },
     downloadImage() {
       const imageUrl = this.completeUrl;
@@ -201,10 +201,10 @@ a:active {
 
 @media (max-width: 600px) {
   .image-viewer {
-  margin-left: 0px;
-  margin-right: 0px;
-  padding:0px;
-  width:100%;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 0px;
+    width: 100%;
   }
 }
 
