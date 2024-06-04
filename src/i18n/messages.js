@@ -92,6 +92,7 @@ export default {
       maplink: 'View in Google Maps',
       searchinbbox: 'Search in map view',
       beskrivning: 'Description',
+      visualisation: 'Visualisation Overview'
     },
 
     search: {
@@ -285,6 +286,7 @@ export default {
       maplink: 'Se i Google Maps',
       searchinbbox: 'Sök i kartvy',
       beskrivning: 'Beskrivning',
+      visualisation: 'Visualiseringsinformation'
     },
     search: {
       searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar. De motivrelaterade sökorden är arkeologers tolkningar av ristningarna.',

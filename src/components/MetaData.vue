@@ -105,7 +105,27 @@
         </div>
       </div>
 
-
+      <div class="metadata-container" v-if="data.site && data?.type.id == 943">
+        <div class="tag-label">{{ $t('message.visualisation') }}</div>
+        <div class="metadata-item-container-1col">
+          <div class="general-text"
+            v-if="data?.subtype?.id !== 17 && data?.subtype?.id !== 18 && $i18n.locale === 'en'">
+            The visualisation was generated using the<a href="https://tvt.dh.gu.se" target="_blank"> Topography
+              Visualisation Toolbox (TVT)</a>.</div>
+          <div class="general-text"
+            v-if="data?.subtype?.id !== 17 && data?.subtype?.id !== 18 && $i18n.locale === 'sv'">
+            Visualiseringen genererades med <a href="https://tvt.dh.gu.se" target="_blank"> Topography
+              Visualisation Toolbox (TVT)</a>.</div>
+          <div class="general-text" v-if="data?.subtype?.id == 17 && $i18n.locale === 'en'">
+            The visualisation was generated using the Digital Frottage workflow in <a
+              href="https://www.sciencedirect.com/science/article/pii/S2352409X19302329" target="_blank">Horn et al.
+              (2019)</a></div>
+          <div class="general-text" v-if="data?.subtype?.id == 17 && $i18n.locale === 'sv'">
+            Visualiseringen genererades med Digital Frottage-arbetsflödet i <a
+              href="https://www.sciencedirect.com/science/article/pii/S2352409X19302329" target="_blank"> Horn et al.
+              (2019)</a></div>
+        </div>
+      </div>
 
       <div class="metadata-container" v-if="data.site">
         <div class="tag-label">{{ $t('message.reference') }}</div>
@@ -325,6 +345,10 @@ let acc_date = date.toLocaleString("en-GB", options);
   font-weight: 300;
   font-family: "Barlow Condensed", sans-serif !important;
   margin-top: -10px;
+}
+
+.general-text a {
+  color: var(--ui-hover)
 }
 
 .metadata-container {

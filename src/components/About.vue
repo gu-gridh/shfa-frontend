@@ -42,6 +42,13 @@
                 Each search returns a gallery of images which can be viewed in more detail by clicking on the thumbnail.
                 In the detailed view, the metadata, external information, and download link are available.</p><br>
 
+              <h2>Visualisations</h2>
+              <p>The images tagged as 3d visualisations were generated from mesh files using the <a
+                  href="https://tvt.dh.gu.se" target="_blank">Topography Visualisation Toolbox (TVT)</a> or the Digital
+                Frottage workflow from <a href="https://www.sciencedirect.com/science/article/pii/S2352409X19302329"
+                  target="_blank">Horn et al. (2019)</a>. Where available, a link to the tool used is provided in the
+                metadata below the image viewer.</p><br>
+
               <h2>Citing the Images</h2>
               <p>Images in the database are freely available for printing and downloading. The suggested citation for
                 each
@@ -158,6 +165,13 @@
                   detaljerat genom att klicka på miniatyrbilden. I den detaljerade vyn är metadata, extern information
                   och
                   nedladdningslänk tillgängliga.</p><br>
+
+                <h2>Visualiseringar</h2>
+                <p>Bilderna taggade som 3D-visualiseringar genererades från mesh-filer med <a
+                    href="https://tvt.dh.gu.se" target="_blank">Topography Visualisation Toolbox (TVT)</a> eller Digital
+                  Frottage-arbetsflödet i <a href="https://www.sciencedirect.com/science/article/pii/S2352409X19302329"
+                    target="_blank">Horn et al. (2019)</a>. Om det är tillgängligt, finns en länk till det använda
+                  verktyget i metadata under bildvisaren.</p><br>
 
                 <h2>Att referera bilderna</h2>
                 <p>Bilder i databasen är fritt tillgängliga för utskrift och nedladdning. Den föreslagna referensen för
