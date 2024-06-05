@@ -216,7 +216,6 @@ export default {
   text-decoration: none;
   cursor: pointer;
   margin-top: 0px;
-  margin-bottom: 20px;
   width: max-content;
   height: max-content;
   font-weight:400;
