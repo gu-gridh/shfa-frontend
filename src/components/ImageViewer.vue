@@ -330,6 +330,8 @@ a:active {
   background-repeat: no-repeat;
   background-position: center;
   background-color: var(--viewer-button-background);
+  border-color: var(--button-background-accent);
+  border-width: 2px;
   font-weight: 600;
   /* padding-top: 5px; */
   line-height: 2;

@@ -33,6 +33,12 @@
           <div class="theme-color-text info-label" v-if="$i18n.locale === 'en'"
             @click="logKeyword(data.type.english_translation)">
             {{ data.type.english_translation }}</div>
+            <div class="button-container">
+              <button class="viewer-button" @click="open3dViewer(data.group.text)"><span
+                  class="visit-icon"></span>{{
+          $t('message.viewthreed') }}</button>
+              
+            </div>
         </div>
 
 
@@ -239,6 +245,10 @@ export default {
     this.extractIdAndFetchData();
   },
   methods: {
+    open3dViewer(query) {
+      const threedUrl = `https://shfa.dh.gu.se/viewer/?q=${query}/mesh`;
+      window.open(threedUrl, "_blank");
+    },
     logKeyword(keyword) {
       // const translatedKeyword = this.$t('keywords.' + keyword.replaceAll('.', '_'));
       this.$emit('keyword-clicked', keyword);
@@ -593,6 +603,25 @@ ul {
   font-size: 120%;
 }
 
+
+.viewer-button {
+  /* display: relative; */
+  padding: 4px 10px 4px 13px;
+  color: var(--button-text);
+  /* background-color: var(--button-background); */
+  background-color: var(--button-background-accent);
+  border-radius: 8px;
+  font-size: 1.15em;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  width: max-content;
+  height: max-content;
+  /* background-image: var(--link-button);
+  background-size: 20px;
+  background-position: 10px 8px;
+  background-repeat: no-repeat; */
+}
 .visit-button {
   /* display: relative; */
   padding: 4px 10px 4px 13px;
@@ -609,7 +638,6 @@ ul {
   background-size: 20px;
   background-position: 10px 8px;
   background-repeat: no-repeat; */
-
 }
 
 .visit-icon {
