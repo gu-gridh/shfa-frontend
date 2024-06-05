@@ -12,3 +12,10 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 ```sh
 yarn dev
+```
+## Development contributions 
+- Tristan Bridge
+- Aram Karimi
+- Siska Humlesjö
+- Jonathan Westin
+- Ashely Green
