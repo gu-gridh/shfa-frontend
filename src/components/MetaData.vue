@@ -47,7 +47,7 @@
           <div class="theme-color-text info-label not-clickable" v-if="$i18n.locale === 'sv'">
             {{ data.subtype.text }}</div>
           <div class="theme-color-text info-label not-clickable" v-if="$i18n.locale === 'en'">
-            {{ data.subtype.english_translation.text }}</div>
+            {{ data.subtype.english_translation }}</div>
         </div>
 
 
