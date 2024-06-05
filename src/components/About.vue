@@ -16,7 +16,7 @@
 
             <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }">
               <h2>Database Overview</h2>
-              <p>SHFA's [Svenskt Hällristnings Forsknings Arkivs] image database includes more than 26,000 digitized
+              <p>SHFA's [Svenskt Hällristningsforskningsarkiv's] image database includes more than 26,000 digitized
                 images that are the result of ongoing work describing and documenting rock carvings since 1627.
                 These data are primarily from Sweden but also from Denmark, Norway, Italy, Spain and elsewhere around
                 the
@@ -40,7 +40,9 @@
                 terms listed in the Search Guide. With the map or advanced search options, you can retrieve results for
                 detailed searches.
                 Each search returns a gallery of images which can be viewed in more detail by clicking on the thumbnail.
-                In the detailed view, the metadata, external information, and download link are available.</p><br>
+                In the detailed view, the metadata, external information, and download link are available. If an image has a 3D mesh associated with it, a <button class=" avail-3d">3D</button> icon on the gallery
+              thumbnail and <button class="viewer-avail">3D</button>
+              button in the image viewer.  Clicking the button will open the multimodal viewer for the group of mesh(es) and visualisation(s) in a new window.</p><br>
 
               <h2>Visualisations</h2>
               <p>The images tagged as 3d visualisations were generated from mesh files using the <a
@@ -48,6 +50,10 @@
                 Frottage workflow from <a href="https://www.sciencedirect.com/science/article/pii/S2352409X19302329"
                   target="_blank">Horn et al. (2019)</a>. Where available, a link to the tool used is provided in the
                 metadata below the image viewer.</p><br>
+
+                <h2>Development</h2>
+                <p>The website and database solution were developed by GRIDH, see the <a href="https://github.com/gu-gridh/shfa-frontend/blob/main/README.md#overview" target="_blank">GitHub repository</a> for more details. 
+                  The multimodal viewer uses several open-source libraries which are detailed in the <a href="https://github.com/gu-gridh/multimodal-viewer?tab=readme-ov-file#multimodal-viewer" target="_blank">GitHub repository</a>.</p><br>
 
               <h2>Citing the Images</h2>
               <p>Images in the database are freely available for printing and downloading. The suggested citation for
@@ -66,10 +72,10 @@
                 <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a>
               </p><br>
               <h2>Citing the Platform</h2>
-              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely & Humlesjö, Siska
+              <p>Bridge, Tristan, Karimi, Aram, Westin, Jonathan, Green, Ashely & Humlesjö, Siska
                 "gu-gridh/shfa-frontend:
-                v.1.2 Initial
-                public release" Github, 12 December 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
+                v.1.3 3rd
+                public release" Github, 06 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
               <h2>Privacy Information</h2>
               <p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user
                 experience. The tracked data includes IP address, device specification, time spent on the website, first
@@ -132,7 +138,7 @@
 
               <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }">
                 <h2>Databasöversikt</h2>
-                <p>Svenskt Hällristnings Forsknings Arkivs bilddatabas omfattar mer än 26 000 digitaliserade bilder som
+                <p>Svenskt Hällristningsforskningsarkivs bilddatabas omfattar mer än 26 000 digitaliserade bilder som
                   är
                   resultatet av pågående arbete
                   med att beskriva och dokumentera hällristningar sedan 1627. Dessa data kommer i första hand från
@@ -164,7 +170,8 @@
                   med bilder som kan ses mer
                   detaljerat genom att klicka på miniatyrbilden. I den detaljerade vyn är metadata, extern information
                   och
-                  nedladdningslänk tillgängliga.</p><br>
+                  nedladdningslänk tillgängliga. Om en bild har ett 3D-mesh kopplat till sig, en <button class=" avail-3d">3D</button> ikon på galleriminiatyren och <button class="viewer-avail">3D</button>
+                  knappen i bildvisaren.  Om du klickar på knappen öppnas den multimodal viewer för gruppen av maskor och visualiseringar i ett nytt fönster.</p><br>
 
                 <h2>Visualiseringar</h2>
                 <p>Bilderna taggade som 3D-visualiseringar genererades från mesh-filer med <a
@@ -172,6 +179,10 @@
                   Frottage-arbetsflödet i <a href="https://www.sciencedirect.com/science/article/pii/S2352409X19302329"
                     target="_blank">Horn et al. (2019)</a>. Om det är tillgängligt, finns en länk till det använda
                   verktyget i metadata under bildvisaren.</p><br>
+
+                  <h2>Utveckling</h2>
+                <p>Den webbsidan och databaslösningen har utvecklats av GRIDH, se <a href="https://github.com/gu-gridh/shfa-frontend/blob/main/README.md#overview" target="_blank">GitHub repository</a> för mer detaljer. 
+                  Den multimodal viewer använder flera öppen källkod bibliotek som beskrivs i den <a href="https://github.com/gu-gridh/multimodal-viewer?tab=readme-ov-file#multimodal-viewer" target="_blank">GitHub repository</a>.</p><br>
 
                 <h2>Att referera bilderna</h2>
                 <p>Bilder i databasen är fritt tillgängliga för utskrift och nedladdning. Den föreslagna referensen för
@@ -194,10 +205,10 @@
                 </p><br>
 
                 <h2>Att referera till plattformen</h2>
-                <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely & Humlesjö, Siska
-                  "gu-gridh/shfa-frontend:
-                  v.1.2 Initial
-                  public release" Github, 12 December 2023. https://github.com/gu-gridh/shfa-frontend</p><br>
+                <p>Bridge, Tristan, Karimi, Aram, Westin, Jonathan, Green, Ashely & Humlesjö, Siska
+                "gu-gridh/shfa-frontend:
+                v.1.3 3rd
+                public release" Github, 06 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
 
                 <h2>Integritetspolicy</h2>
                 <p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att
@@ -273,6 +284,50 @@ export default {
 </script>
 
 <style scoped>
+.avail-3d {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  color: var(--popup-text);
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  color: var(--page-text);
+  opacity: 1;
+  background-color: var(--button-background-accent);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--button-background-accent);
+  font-size: 80%;
+
+}
+
+.viewer-avail {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  color: var(--popup-text);
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  color: var(--page-text);
+  opacity: 1;
+  background-color: var(--viewer-button-background);
+  border-width: 1px;
+  border-style: solid;
+  background-color: var(--viewer-button-background);
+  font-size: 80%;
+}
 li {
   list-style: inside;
   margin-left: 30px;
