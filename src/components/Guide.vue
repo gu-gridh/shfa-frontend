@@ -206,19 +206,24 @@ export default {
 }
 
 .viewer-avail {
-  padding: 4px 10px 4px 13px;
+  /* display: relative; */
+  padding: 4px 8px 4px 10px;
   color: var(--button-text);
   /* background-color: var(--button-background); */
   background-color: var(--button-background-accent);
   border-radius: 8px;
-  font-size: 80%;
+  font-size: 86%;
   text-decoration: none;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 20px;
   width: max-content;
   height: max-content;
-  cursor: default;
+  font-weight:400;
+  /* background-image: var(--link-button);
+  background-size: 20px;
+  background-position: 10px 8px;
+  background-repeat: no-repeat; */
 }
 
 .viewer-icon {
