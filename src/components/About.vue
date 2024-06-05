@@ -41,7 +41,9 @@
                 detailed searches.
                 Each search returns a gallery of images which can be viewed in more detail by clicking on the thumbnail.
                 In the detailed view, the metadata, external information, and download link are available. If an image has a 3D mesh associated with it, a <button class=" avail-3d">3D</button> icon on the gallery
-              thumbnail and <button class="viewer-avail">3D</button>
+              thumbnail and <button class="viewer-avail"><span
+                  class="viewer-icon"></span>{{
+          $t('message.viewthreed') }}</button>
               button in the image viewer.  Clicking the button will open the multimodal viewer for the group of mesh(es) and visualisation(s) in a new window.</p><br>
 
               <h2>Visualisations</h2>
@@ -170,7 +172,9 @@
                   med bilder som kan ses mer
                   detaljerat genom att klicka på miniatyrbilden. I den detaljerade vyn är metadata, extern information
                   och
-                  nedladdningslänk tillgängliga. Om en bild har ett 3D-mesh kopplat till sig, en <button class=" avail-3d">3D</button> ikon på galleriminiatyren och <button class="viewer-avail">3D</button>
+                  nedladdningslänk tillgängliga. Om en bild har ett 3D-mesh kopplat till sig, en <button class=" avail-3d">3D</button> ikon på galleriminiatyren och <button class="viewer-avail"><span
+                  class="viewer-icon"></span>{{
+          $t('message.viewthreed') }}</button>
                   knappen i bildvisaren.  Om du klickar på knappen öppnas den multimodal viewer för gruppen av maskor och visualiseringar i ett nytt fönster.</p><br>
 
                 <h2>Visualiseringar</h2>
@@ -304,30 +308,43 @@ export default {
   border-style: solid;
   border-color: var(--button-background-accent);
   font-size: 80%;
+  cursor: default;
 
 }
 
 .viewer-avail {
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  font-weight: 500;
-  line-height: 1;
-  text-align: center;
-  overflow: hidden;
-  cursor: pointer;
-  color: var(--popup-text);
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  color: var(--page-text);
-  opacity: 1;
-  background-color: var(--viewer-button-background);
-  border-width: 1px;
-  border-style: solid;
-  background-color: var(--viewer-button-background);
+  padding: 4px 10px 4px 13px;
+  color: var(--button-text);
+  /* background-color: var(--button-background); */
+  background-color: var(--button-background-accent);
+  border-radius: 8px;
   font-size: 80%;
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: max-content;
+  height: max-content;
+  cursor: default;
 }
+
+.viewer-icon {
+  display: absolute;
+  float: right;
+  /* margin-top: 3px; */
+  height: 20px;
+  width: 20px;
+  background-image: var(--popup-link-button);
+  /* filter: invert(1); */
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-left: 10px;
+  border-width: 1.4px;
+  border-color: var(--button-text);
+  border-radius: 50%;
+}
+
 li {
   list-style: inside;
   margin-left: 30px;

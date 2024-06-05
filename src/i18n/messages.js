@@ -93,7 +93,7 @@ export default {
       searchinbbox: 'Search in map view',
       beskrivning: 'Description',
       visualisation: 'Visualisation Overview',
-      viewthreed:  'Open multimodal viewer'
+      viewthreed:  'Open 3D viewer'
     },
 
     search: {
@@ -288,7 +288,7 @@ export default {
       searchinbbox: 'Sök i kartvy',
       beskrivning: 'Beskrivning',
       visualisation: 'Visualiseringsinformation',
-      viewthreed:  'Öppna multimodal viewer'
+      viewthreed:  'Öppna 3D-vy'
     },
     search: {
       searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar. De motivrelaterade sökorden är arkeologers tolkningar av ristningarna.',

@@ -24,11 +24,11 @@
             <div id="DownloadButton" class="NavButton" @click="downloadImage"></div>
           </a>
         </li>
-        <li v-if="link_3d">
+        <!-- <li v-if="link_3d">
           <a id="threedViewer">
             <div id="threedViewerButton" class="NavButton" @click="open3dViewer">3D</div>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
   </div>
@@ -322,10 +322,9 @@ a:active {
   cursor: pointer;
 }
 
-#threedViewerButton {
+/* #threedViewerButton {
   position: relative;
   top: 30px;
-  /* background: url(../interface/linkbuttonwhite.png); */
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -333,13 +332,12 @@ a:active {
   border-color: var(--button-background-accent);
   border-width: 2px;
   font-weight: 600;
-  /* padding-top: 5px; */
   line-height: 2;
   text-align: center;
   overflow: hidden;
   cursor: pointer;
   color: var(--popup-text);
-}
+} */
 
 .NavButton {
   border-radius: 50%;

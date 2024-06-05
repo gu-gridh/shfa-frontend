@@ -22,15 +22,19 @@
     $t('search.searchintro') }} {{ $t('search.searchhelp') }}
             <p class="new-info" v-if="$i18n.locale === 'en'"> A multimodal viewer is available for a selection of meshes
               and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
-              thumbnail and <button class="viewer-avail">3D</button>
-              button in the image viewer. You can find these images by searching for 3d visualisation or orthophoto
+              thumbnail and <button class="viewer-avail"><span
+                  class="viewer-icon"></span>{{
+          $t('message.viewthreed') }}</button>
+              button in the metadata panel. You can find these images by searching for 3d visualisation or orthophoto
               image
               types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
               will be able to navigate around the mesh and associated visualisations.</p>
             <p class="new-info" v-if="$i18n.locale === 'sv'"> A multimodal viewer is available for a selection of meshes
               and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
-              thumbnail and <button class="viewer-avail">3D</button>
-              button in the image viewer. You can find these images by searching for 3d visualisation or orthophoto
+              thumbnail and <button class="viewer-avail"><span
+                  class="viewer-icon"></span>{{
+          $t('message.viewthreed') }}</button>
+              button in the metadata panel. You can find these images by searching for 3d visualisation or orthophoto
               image
               types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
               will be able to navigate around the mesh and associated visualisations.</p>
@@ -198,29 +202,40 @@ export default {
   border-style: solid;
   border-color: var(--button-background-accent);
   font-size: 80%;
-
+  cursor: default;
 }
 
 .viewer-avail {
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  font-weight: 500;
-  line-height: 1;
-  text-align: center;
-  overflow: hidden;
-  cursor: pointer;
-  color: var(--popup-text);
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  color: var(--page-text);
-  opacity: 1;
-  background-color: var(--viewer-button-background);
-  border-width: 1px;
-  border-style: solid;
-  background-color: var(--viewer-button-background);
+  padding: 4px 10px 4px 13px;
+  color: var(--button-text);
+  /* background-color: var(--button-background); */
+  background-color: var(--button-background-accent);
+  border-radius: 8px;
   font-size: 80%;
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: max-content;
+  height: max-content;
+  cursor: default;
+}
+
+.viewer-icon {
+  display: absolute;
+  float: right;
+  margin-top: 3px;
+  height: 20px;
+  width: 20px;
+  background-image: var(--popup-link-button);
+  /* filter: invert(1); */
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-left: 10px;
+  border-width: 1.4px;
+  border-color: var(--button-text);
+  border-radius: 50%;
 }
 
 th {

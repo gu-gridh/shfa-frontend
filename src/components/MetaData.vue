@@ -1,6 +1,7 @@
 <template>
   <div class="metadata-text">
-    <div class="metadata-panel">
+    <div class="metadata-panel">   
+         
       <div class="metadata-panel-title">
 
         <h1 v-if="data.site && data.site?.raa_id && data.site?.lamning_id">{{ data.site.lamning_id }} | {{
@@ -9,6 +10,12 @@
 
         <h1 v-if="data.site && !data.site?.raa_id && data.site?.lamning_id"> {{ data.site.lamning_id }}</h1>
         <h1 v-if="data.site && data.site?.internationl_site"> {{ data.site.placename }}</h1>
+<div class="button-container">
+              <button class="viewer-button" @click="open3dViewer(data.group.text)"><span
+                  class="viewer-icon"></span>{{
+          $t('message.viewthreed') }}</button>
+              
+            </div>  
       </div>
 
       <div class="metadata-container">
@@ -33,12 +40,6 @@
           <div class="theme-color-text info-label" v-if="$i18n.locale === 'en'"
             @click="logKeyword(data.type.english_translation)">
             {{ data.type.english_translation }}</div>
-            <div class="button-container">
-              <button class="viewer-button" @click="open3dViewer(data.group.text)"><span
-                  class="visit-icon"></span>{{
-          $t('message.viewthreed') }}</button>
-              
-            </div>
         </div>
 
 
@@ -611,9 +612,10 @@ ul {
   /* background-color: var(--button-background); */
   background-color: var(--button-background-accent);
   border-radius: 8px;
-  font-size: 1.15em;
+  font-size: 100%;
   text-decoration: none;
   cursor: pointer;
+  margin-top: 10px;
   margin-bottom: 20px;
   width: max-content;
   height: max-content;
@@ -621,6 +623,23 @@ ul {
   background-size: 20px;
   background-position: 10px 8px;
   background-repeat: no-repeat; */
+}
+
+.viewer-icon {
+  display: absolute;
+  float: right;
+  margin-top: 3px;
+  height: 25px;
+  width: 25px;
+  background-image: var(--popup-link-button);
+  /* filter: invert(1); */
+  background-size: 25px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-left: 10px;
+  border-width: 1.4px;
+  border-color: var(--button-text);
+  border-radius: 50%;
 }
 .visit-button {
   /* display: relative; */
