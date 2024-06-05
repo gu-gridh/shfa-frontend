@@ -40,11 +40,12 @@
                 terms listed in the Search Guide. With the map or advanced search options, you can retrieve results for
                 detailed searches.
                 Each search returns a gallery of images which can be viewed in more detail by clicking on the thumbnail.
-                In the detailed view, the metadata, external information, and download link are available. If an image has a 3D mesh associated with it, a <button class=" avail-3d">3D</button> icon on the gallery
-              thumbnail and <button class="viewer-avail"><span
-                  class="viewer-icon"></span>{{
-          $t('message.viewthreed') }}</button>
-              button in the image viewer.  Clicking the button will open the multimodal viewer for the group of mesh(es) and visualisation(s) in a new window.</p><br>
+                In the detailed view, the metadata, external information, and download link are available. If an image
+                has a 3D mesh associated with it, a <button class=" avail-3d">3D</button> icon on the gallery
+                thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
+    $t('message.viewthreed') }}</button>
+                button in the image viewer. Clicking the button will open the multimodal viewer for the group of
+                mesh(es) and visualisation(s) in a new window.</p><br>
 
               <h2>Visualisations</h2>
               <p>The images tagged as 3d visualisations were generated from mesh files using the <a
@@ -53,9 +54,13 @@
                   target="_blank">Horn et al. (2019)</a>. Where available, a link to the tool used is provided in the
                 metadata below the image viewer.</p><br>
 
-                <h2>Development</h2>
-                <p>The website and database solution were developed by GRIDH, see the <a href="https://github.com/gu-gridh/shfa-frontend/blob/main/README.md#overview" target="_blank">GitHub repository</a> for more details. 
-                  The multimodal viewer uses several open-source libraries which are detailed in the <a href="https://github.com/gu-gridh/multimodal-viewer?tab=readme-ov-file#multimodal-viewer" target="_blank">GitHub repository</a>.</p><br>
+              <h2>Development</h2>
+              <p>The website and database solution were developed by GRIDH, see the <a
+                  href="https://github.com/gu-gridh/shfa-frontend/blob/main/README.md#overview" target="_blank">GitHub
+                  repository</a> for more details.
+                The multimodal viewer uses several open-source libraries which are detailed in the <a
+                  href="https://github.com/gu-gridh/multimodal-viewer?tab=readme-ov-file#multimodal-viewer"
+                  target="_blank">GitHub repository</a>.</p><br>
 
               <h2>Citing the Images</h2>
               <p>Images in the database are freely available for printing and downloading. The suggested citation for
@@ -172,10 +177,12 @@
                   med bilder som kan ses mer
                   detaljerat genom att klicka på miniatyrbilden. I den detaljerade vyn är metadata, extern information
                   och
-                  nedladdningslänk tillgängliga. Om en bild har ett 3D-mesh kopplat till sig, en <button class=" avail-3d">3D</button> ikon på galleriminiatyren och <button class="viewer-avail"><span
-                  class="viewer-icon"></span>{{
-          $t('message.viewthreed') }}</button>
-                  knappen i bildvisaren.  Om du klickar på knappen öppnas den multimodal viewer för gruppen av maskor och visualiseringar i ett nytt fönster.</p><br>
+                  nedladdningslänk tillgängliga. Om en bild har ett 3D-mesh kopplat till sig, en <button
+                    class=" avail-3d">3D</button> ikon på galleriminiatyren och <button class="viewer-avail"><span
+                      class="viewer-icon"></span>{{
+    $t('message.viewthreed') }}</button>
+                  knappen i bildvisaren. Om du klickar på knappen öppnas den multimodal viewer för gruppen av maskor och
+                  visualiseringar i ett nytt fönster.</p><br>
 
                 <h2>Visualiseringar</h2>
                 <p>Bilderna taggade som 3D-visualiseringar genererades från mesh-filer med <a
@@ -184,9 +191,13 @@
                     target="_blank">Horn et al. (2019)</a>. Om det är tillgängligt, finns en länk till det använda
                   verktyget i metadata under bildvisaren.</p><br>
 
-                  <h2>Utveckling</h2>
-                <p>Den webbsidan och databaslösningen har utvecklats av GRIDH, se <a href="https://github.com/gu-gridh/shfa-frontend/blob/main/README.md#overview" target="_blank">GitHub repository</a> för mer detaljer. 
-                  Den multimodal viewer använder flera öppen källkod bibliotek som beskrivs i den <a href="https://github.com/gu-gridh/multimodal-viewer?tab=readme-ov-file#multimodal-viewer" target="_blank">GitHub repository</a>.</p><br>
+                <h2>Utveckling</h2>
+                <p>Den webbsidan och databaslösningen har utvecklats av GRIDH, se <a
+                    href="https://github.com/gu-gridh/shfa-frontend?tab=readme-ov-file#overview" target="_blank">GitHub
+                    repository</a> för mer detaljer.
+                  Den multimodal viewer använder flera öppen källkod bibliotek som beskrivs i den <a
+                    href="https://github.com/gu-gridh/multimodal-viewer?tab=readme-ov-file#multimodal-viewer"
+                    target="_blank">GitHub repository</a>.</p><br>
 
                 <h2>Att referera bilderna</h2>
                 <p>Bilder i databasen är fritt tillgängliga för utskrift och nedladdning. Den föreslagna referensen för
@@ -210,9 +221,9 @@
 
                 <h2>Att referera till plattformen</h2>
                 <p>Bridge, Tristan, Karimi, Aram, Westin, Jonathan, Green, Ashely & Humlesjö, Siska
-                "gu-gridh/shfa-frontend:
-                v.1.3 3rd
-                public release" Github, 06 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
+                  "gu-gridh/shfa-frontend:
+                  v.1.3 3rd
+                  public release" Github, 06 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
 
                 <h2>Integritetspolicy</h2>
                 <p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att
