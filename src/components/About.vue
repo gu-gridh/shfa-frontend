@@ -181,7 +181,8 @@
                     class=" avail-3d">3D</button> ikon på galleriminiatyren och <button class="viewer-avail"><span
                       class="viewer-icon"></span>{{
     $t('message.viewthreed') }}</button>
-                  knappen i bildvisaren. Om du klickar på knappen öppnas den multimodal viewer för gruppen av maskor och
+                  knappen i metadatasektionen. Om du klickar på knappen öppnas den multimodal viewer för gruppen av
+                  maskor och
                   visualiseringar i ett nytt fönster.</p><br>
 
                 <h2>Visualiseringar</h2>
