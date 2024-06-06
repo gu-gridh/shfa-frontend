@@ -75,7 +75,7 @@ div.split-container>div>div:nth-child(4) {
 
 
 :root {
-  --page-background: rgb(65, 65, 65);
+  --page-background: rgb(60, 60, 60);
   --page-background-accent: rgb(55, 55, 55);
   --footer-background: #232323;
   --header-background: #d7d7d7;
@@ -153,7 +153,7 @@ div.split-container>div>div:nth-child(4) {
 }
 
 html[style-theme='dark'] {
-  --page-background: rgb(65, 65, 65);
+  --page-background: rgb(60, 60, 60);
   --page-background-accent: rgb(55, 55, 55);
   --footer-background: #232323;
   --header-background: #d7d7d7;
