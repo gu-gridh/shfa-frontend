@@ -814,7 +814,7 @@ export default defineComponent({
 
 #gu-logo-bg {
   position: absolute;
-  right: 20px;
+  right: 30px;
   height: 145px;
   width: 165px;
   background: var(--logo-background);
@@ -1108,7 +1108,13 @@ export default defineComponent({
 /* This controls the menu look on small screens */
 @media (max-width: 1024px) {
   .top-links {
-    right: 15px;
+    top:50px!important;
+    right: 20px;
+    width:250px!important;
+  }
+
+  .top-links .item {
+    float:right;
   }
 
   .menu-show-button {
