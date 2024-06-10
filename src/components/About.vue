@@ -82,7 +82,7 @@
               <p>Bridge, Tristan, Karimi, Aram, Westin, Jonathan, Green, Ashely & Humlesjö, Siska
                 "gu-gridh/shfa-frontend:
                 v.1.3 3rd
-                public release" Github, 06 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
+                public release" Github, 12 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
               <h2>Privacy Information</h2>
               <p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user
                 experience. The tracked data includes IP address, device specification, time spent on the website, first
@@ -224,7 +224,7 @@
                 <p>Bridge, Tristan, Karimi, Aram, Westin, Jonathan, Green, Ashely & Humlesjö, Siska
                   "gu-gridh/shfa-frontend:
                   v.1.3 3rd
-                  public release" Github, 06 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
+                  public release" Github, 12 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
 
                 <h2>Integritetspolicy</h2>
                 <p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att
