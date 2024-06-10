@@ -559,12 +559,11 @@ export default {
   border-radius: 50%;
   width: 25px;
   height: 25px;
-  color: var(--page-text);
   opacity: 1;
-  background-color: var(--button-background-accent);
+  background-color: var(--threed-icon);
   border-width: 1px;
   border-style: solid;
-  border-color: var(--button-background-accent);
+  border-color: var(--threed-icon);
   z-index: 10;
 }
 

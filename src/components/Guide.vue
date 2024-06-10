@@ -22,18 +22,16 @@
     $t('search.searchintro') }} {{ $t('search.searchhelp') }}
             <p class="new-info" v-if="$i18n.locale === 'en'"> A multimodal viewer is available for a selection of meshes
               and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
-              thumbnail and <button class="viewer-avail"><span
-                  class="viewer-icon"></span>{{
-          $t('message.viewthreed') }}</button>
+              thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
+    $t('message.viewthreed') }}</button>
               button in the metadata panel. You can find these images by searching for 3d visualisation or orthophoto
               image
               types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
               will be able to navigate around the mesh and associated visualisations.</p>
             <p class="new-info" v-if="$i18n.locale === 'sv'"> A multimodal viewer is available for a selection of meshes
               and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
-              thumbnail and <button class="viewer-avail"><span
-                  class="viewer-icon"></span>{{
-          $t('message.viewthreed') }}</button>
+              thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
+    $t('message.viewthreed') }}</button>
               button in the metadata panel. You can find these images by searching for 3d visualisation or orthophoto
               image
               types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
@@ -195,12 +193,11 @@ export default {
   border-radius: 50%;
   width: 25px;
   height: 25px;
-  color: var(--page-text);
   opacity: 1;
-  background-color: var(--button-background-accent);
+  background-color: var(--threed-icon);
   border-width: 1px;
   border-style: solid;
-  border-color: var(--button-background-accent);
+  border-color: var(--threed-icon);
   font-size: 80%;
   cursor: default;
 }
@@ -210,7 +207,7 @@ export default {
   padding: 4px 8px 4px 10px;
   color: var(--button-text);
   /* background-color: var(--button-background); */
-  background-color: var(--button-background-accent);
+  background-color: var(--threed-icon);
   border-radius: 8px;
   font-size: 86%;
   text-decoration: none;
@@ -218,7 +215,7 @@ export default {
   margin-top: 0px;
   width: max-content;
   height: max-content;
-  font-weight:400;
+  font-weight: 400;
   /* background-image: var(--link-button);
   background-size: 20px;
   background-position: 10px 8px;

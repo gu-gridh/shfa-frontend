@@ -1,7 +1,7 @@
 <template>
   <div class="metadata-text">
-    <div class="metadata-panel">   
-         
+    <div class="metadata-panel">
+
       <div class="metadata-panel-title">
 
         <h1 v-if="data.site && data.site?.raa_id && data.site?.lamning_id">{{ data.site.lamning_id }} | {{
@@ -10,12 +10,11 @@
 
         <h1 v-if="data.site && !data.site?.raa_id && data.site?.lamning_id"> {{ data.site.lamning_id }}</h1>
         <h1 v-if="data.site && data.site?.internationl_site"> {{ data.site.placename }}</h1>
-<div class="button-container">
-              <button class="viewer-button" @click="open3dViewer(data.group.text)"><span
-                  class="viewer-icon"></span>{{
+        <div class="button-container">
+          <button class="viewer-button" @click="open3dViewer(data.group.text)"><span class="viewer-icon"></span>{{
           $t('message.viewthreed') }}</button>
-              
-            </div>  
+
+        </div>
       </div>
 
       <div class="metadata-container">
@@ -610,7 +609,7 @@ ul {
   padding: 4px 8px 4px 10px;
   color: var(--button-text);
   /* background-color: var(--button-background); */
-  background-color: var(--button-background-accent);
+  background-color: var(--threed-icon);
   border-radius: 8px;
   font-size: 86%;
   text-decoration: none;
@@ -619,7 +618,7 @@ ul {
   margin-bottom: 20px;
   width: max-content;
   height: max-content;
-  font-weight:400;
+  font-weight: 400;
   /* background-image: var(--link-button);
   background-size: 20px;
   background-position: 10px 8px;
@@ -646,6 +645,7 @@ ul {
   border-color: var(--button-text);
   border-radius: 50%;
 }
+
 .visit-button {
   /* display: relative; */
   padding: 4px 10px 4px 13px;

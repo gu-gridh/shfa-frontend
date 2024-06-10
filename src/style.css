@@ -150,6 +150,7 @@ div.split-container>div>div:nth-child(4) {
   --clickable-metadata: #c8e1fa;
   --divider: #777;
   --info-label: #c8e1fa;
+  --threed-icon: #4588ca;
 }
 
 html[style-theme='dark'] {
@@ -228,6 +229,7 @@ html[style-theme='dark'] {
   --clickable-metadata: #c8e1fa;
   --divider: #777;
   --info-label: #c8e1fa;
+  --threed-icon: #4588ca;
 }
 
 html[style-theme='light'] {
@@ -305,6 +307,7 @@ html[style-theme='light'] {
   --overlaid-button-background: #1b1b1b;
   --underlay: white;
   --info-label: #243f4a;
+  --threed-icon: #4588ca;
 }
 
 @media (prefers-contrast:more) or (prefers-reduced-transparency) {
@@ -315,21 +318,21 @@ html[style-theme='light'] {
     --header-background: #ffffff;
     --header-text: black;
     --title-text: #282828;
-    --button-background: #1e1e1e;
-    --button-background-accent: #448faa;
-    --button-hover: #6e6e6e;
-    --button-hover-accent: #38768d;
+    --button-background: #1c1c1c;
+    --button-background-accent: #3E79B4;
+    --button-hover: #313131;
+    --button-hover-accent: #313131;
     --page-text: black;
     --button-text: white;
-    --highlighted-text: #0887b5;
+    --highlighted-text: #2a527a;
     --popup-background: #1f1f1f;
     --popup-text: white;
-    --map-markers: #062431;
+    --map-markers: #192f46;
     --image-hover-background: linear-gradient(rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 1) 100%);
     --image-hover-text: black;
     --metadata-text: black;
     --notice-text: #82cae9;
-    --emphasised-text: #104359;
+    --emphasised-text: #2a527a;
     --about-emphasised-text: black;
     --placeholder-text: #000000;
     --input-background: #1d192c;
@@ -355,7 +358,7 @@ html[style-theme='light'] {
     --font: "Barlow Semi Condensed", sans-serif;
     --top-button-border: white;
     --viewer-button-background: #121212;
-    --viewer-button-hover: #16739bcc;
+    --viewer-button-hover: #3E79B4cc;
     --viewer-button-text: white;
     --viewer-button-border: black;
     --popup-link-button: url(../../interface/linkbuttonwhite.png);
@@ -372,9 +375,9 @@ html[style-theme='light'] {
     --search-button: url(../../interface/searchbuttonwhite.png);
     --search-button-light-bkgrnd: url(../../interface/searchbutton.png);
     --search-button-dark-bkgrnd: url(../../interface/searchbuttonwhite.png);
-    --selected-option: #16739bcc;
+    --selected-option: #2d5782;
     --autocomplete-background: var(--input-wrapper-background);
-    --disclaimer-text: #243f4a;
+    --disclaimer-text: #1a334c;
     --default-gradient: linear-gradient(to right, #03a3e2, #7344e1);
     --results-text: white;
     --total-results: #88cfee;
@@ -382,5 +385,6 @@ html[style-theme='light'] {
     --overlaid-button-background: #1b1b1b;
     --underlay: white;
     --info-label: #000000;
+    --threed-icon: #3e79b4;
   }
 }

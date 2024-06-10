@@ -313,12 +313,11 @@ export default {
   border-radius: 50%;
   width: 25px;
   height: 25px;
-  color: var(--page-text);
   opacity: 1;
-  background-color: var(--button-background-accent);
+  background-color: var(--threed-icon);
   border-width: 1px;
   border-style: solid;
-  border-color: var(--button-background-accent);
+  border-color: var(--threed-icon);
   font-size: 80%;
   cursor: default;
 
@@ -328,7 +327,7 @@ export default {
   padding: 4px 6px 4px 8px;
   color: var(--button-text);
   /* background-color: var(--button-background); */
-  background-color: var(--button-background-accent);
+  background-color: var(--threed-icon);
   border-radius: 6px;
   font-size: 80%;
   text-decoration: none;
@@ -337,7 +336,7 @@ export default {
   width: max-content;
   height: max-content;
   cursor: default;
-  font-weight:400;
+  font-weight: 400;
 }
 
 .viewer-icon {
