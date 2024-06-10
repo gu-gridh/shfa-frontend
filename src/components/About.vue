@@ -325,19 +325,19 @@ export default {
 }
 
 .viewer-avail {
-  padding: 4px 10px 4px 13px;
+  padding: 4px 6px 4px 8px;
   color: var(--button-text);
   /* background-color: var(--button-background); */
   background-color: var(--button-background-accent);
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 80%;
   text-decoration: none;
   cursor: pointer;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin-top: 0px;
   width: max-content;
   height: max-content;
   cursor: default;
+  font-weight:400;
 }
 
 .viewer-icon {

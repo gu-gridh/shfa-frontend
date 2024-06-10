@@ -607,30 +607,35 @@ ul {
 
 .viewer-button {
   /* display: relative; */
-  padding: 4px 10px 4px 13px;
+  padding: 4px 8px 4px 10px;
   color: var(--button-text);
   /* background-color: var(--button-background); */
   background-color: var(--button-background-accent);
   border-radius: 8px;
-  font-size: 100%;
+  font-size: 86%;
   text-decoration: none;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 20px;
   width: max-content;
   height: max-content;
+  font-weight:400;
   /* background-image: var(--link-button);
   background-size: 20px;
   background-position: 10px 8px;
   background-repeat: no-repeat; */
 }
 
+.viewer-button:hover {
+  background-color: var(--button-hover-accent);
+}
+
 .viewer-icon {
   display: absolute;
   float: right;
   margin-top: 3px;
-  height: 25px;
-  width: 25px;
+  height: 22px;
+  width: 22px;
   background-image: var(--popup-link-button);
   /* filter: invert(1); */
   background-size: 25px;
