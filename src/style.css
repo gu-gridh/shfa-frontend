@@ -117,7 +117,8 @@ div.split-container>div>div:nth-child(4) {
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 20px 0 rgba(0, 0, 0, 0.5);
-  --menu-background: rgba(209, 209, 209, 0.9);
+  --menu-background: rgba(220, 220, 220, 0.9);
+  --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.30) !important;
   --split-shadow: inset 1rem 0rem 1.5rem rgba(0, 0, 0, 0.20) !important;
   --overlay: rgba(0, 0, 0, 0.7);
@@ -196,7 +197,8 @@ html[style-theme='dark'] {
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 20px 0 rgba(0, 0, 0, 0.5);
-  --menu-background: rgba(209, 209, 209, 0.9);
+  --menu-background: rgba(220, 220, 220, 0.9);
+  --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.30) !important;
   --split-shadow: inset 1rem 0rem 1.5rem rgba(0, 0, 0, 0.20) !important;
   --overlay: rgba(0, 0, 0, 0.7);
@@ -243,6 +245,7 @@ html[style-theme='light'] {
   --button-background-accent: #448faa;
   --button-hover: #6e6e6e;
   --button-hover-accent: #38768d;
+  --button-hover-light: #c3c3c3;
   --page-text: black;
   --button-text: white;
   --highlighted-text: #2bc0f6;
@@ -273,6 +276,7 @@ html[style-theme='light'] {
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 15px 0 rgba(0, 0, 0, 0.5);
   --menu-background: rgba(220, 220, 220, 0.9);
+  --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.20) !important;
   --split-shadow: inset 1rem 0rem 1.5rem rgba(0, 0, 0, 0.20) !important;
   --overlay: rgba(0, 0, 0, 0.7);
@@ -322,6 +326,7 @@ html[style-theme='light'] {
     --button-background-accent: #3E79B4;
     --button-hover: #313131;
     --button-hover-accent: #313131;
+    --button-hover-light: #a8bed3;
     --page-text: black;
     --button-text: white;
     --highlighted-text: #2a527a;
@@ -350,7 +355,8 @@ html[style-theme='light'] {
     --base: black !important;
     --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     --shadow-map: 0 0 15px 0 rgba(0, 0, 0, 0.5);
-    --menu-background: rgba(220, 220, 220, 0.9);
+    --menu-background: rgba(220, 220, 220, 1);
+    --menu-text: black;
     --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.0) !important;
     --split-shadow: inset 1rem 0rem 1.5rem rgba(0, 0, 0, 0.0) !important;
     --overlay: rgba(0, 0, 0, 0.7);

@@ -1108,13 +1108,13 @@ export default defineComponent({
 /* This controls the menu look on small screens */
 @media (max-width: 1024px) {
   .top-links {
-    top:50px!important;
+    top: 50px !important;
     right: 20px;
-    width:250px!important;
+    width: 250px !important;
   }
 
   .top-links .item {
-    float:right;
+    float: right;
   }
 
   .menu-show-button {
@@ -1140,7 +1140,7 @@ export default defineComponent({
 
   .menu-close-button {
     display: block;
-    color: var(--button-text);
+    color: var(--menu-text);
     float: right;
     border-radius: 50%;
     height: 45px;
@@ -1153,7 +1153,7 @@ export default defineComponent({
   }
 
   .menu-close-button:hover {
-    background-color: var(--button-hover);
+    background-color: var(--button-hover-light);
     opacity: 1;
   }
 
