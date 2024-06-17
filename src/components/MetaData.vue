@@ -10,7 +10,7 @@
 
         <h1 v-if="data.site && !data.site?.raa_id && data.site?.lamning_id"> {{ data.site.lamning_id }}</h1>
         <h1 v-if="data.site && data.site?.internationl_site"> {{ data.site.placename }}</h1>
-        <div class="button-container">
+        <div v-if="data.site && data.group" class="button-container">
           <button class="viewer-button" @click="open3dViewer(data.group.text)"><span class="viewer-icon"></span>{{
           $t('message.viewthreed') }}</button>
 
