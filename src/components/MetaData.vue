@@ -269,8 +269,8 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results[0];
-          this.groupedKeywordsSV = Object.groupBy(this.data.keywords, ({ category }) => category)
-          this.groupedKeywordsEN = Object.groupBy(this.data.keywords, ({ category_translation }) => category_translation)
+          this.groupedKeywordsSV = Object.groupBy(this.data.keywords.sort((a, b) => { return a.category.localeCompare(b.category) }), ({ category }) => category);
+          this.groupedKeywordsEN = Object.groupBy(this.data.keywords.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) }), ({ category_translation }) => category_translation)
           this.formattedPeopleSV = new Intl.ListFormat("sv", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
           this.formattedPeopleEN = new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
           this.fetchDescription();
@@ -306,8 +306,10 @@ export default {
           .then((response) => response.json())
           .then((json) => {
             this.data = json.results[0];
-            this.groupedKeywordsSV = Object.groupBy(this.data.keywords, ({ category }) => category);
-            this.groupedKeywordsEN = Object.groupBy(this.data.keywords, ({ category_translation }) => category_translation);
+            this.groupedKeywordsSV = Object.groupBy(this.data.keywords.sort((a, b) => { return a.category.localeCompare(b.category) }), ({ category }) => category);
+            this.groupedKeywordsEN = Object.groupBy(this.data.keywords.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) }), ({ category_translation }) => category_translation);
+            console.log(this.groupedKeywordsSV)
+            console.log(this.groupedKeywordsEN)
             this.formattedPeopleSV = new Intl.ListFormat("sv", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
             this.formattedPeopleEN = new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
             this.fetchDescription();

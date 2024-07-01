@@ -104,8 +104,8 @@ export default {
       const langParam = `?language=${this.currentLang}&`;
       return [
         'https://diana.dh.gu.se/api/shfa/search/site/?site_name=',
-        // `https://diana.dh.gu.se/api/shfa/search/author/${langParam}auhtor_name=`,
-        `https://diana.dh.gu.se/api/shfa/people/?q=`,
+        `https://diana.dh.gu.se/api/shfa/search/author/${langParam}auhtor_name=`,
+        // `https://diana.dh.gu.se/api/shfa/people/?q=`,
         `https://diana.dh.gu.se/api/shfa/search/type/${langParam}image_type=`,
         `https://diana.dh.gu.se/api/shfa/search/keywords/${langParam}keyword=`,
         `https://diana.dh.gu.se/api/shfa/search/dating/${langParam}dating_tag=`,
