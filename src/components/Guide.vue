@@ -28,14 +28,13 @@
               image
               types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
               will be able to navigate around the mesh and associated visualisations.</p>
-            <p class="new-info" v-if="$i18n.locale === 'sv'"> A multimodal viewer is available for a selection of meshes
-              and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
-              thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
-    $t('message.viewthreed') }}</button>
-              button in the metadata panel. You can find these images by searching for 3d visualisation or orthophoto
-              image
-              types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
-              will be able to navigate around the mesh and associated visualisations.</p>
+            <p class="new-info" v-if="$i18n.locale === 'sv'"> För ett urval av meshar och visualiseringar finns ett
+              utforskarläge tillgängligt. Detta indikeras av <button class=" avail-3d">3D</button> ikonen i galleriets
+              miniatyrbild och <button class="viewer-avail"><span class="viewer-icon"></span>{{
+    $t('message.viewthreed') }}</button> knappen i metadata-panelen. Du kan hitta dessa objekt genom att
+              söka efter "3D-visualisering" eller
+              "ortofoto" bildtyper. Genom att klicka på knappen öppnas utforskaren. På denna nya sida kan du navigera
+              runt i meshen och dess tillhörande visualiseringar.</p>
           </div>
 
           <div class="guide-article-sub" :class="{ fullopacityui: visibleGuide }">
