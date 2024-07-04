@@ -41,25 +41,25 @@
             <div class="sections"> <!-- Empty div for margin -->
               <h2>{{ $t('message.nyckelord') }}</h2>
               <div class="first">
-                <section v-if="$i18n.locale === 'en'" v-for="(category, index) in groupedKeywordsEN">
-                  <h3>{{ index }}</h3>
+                <section v-if="$i18n.locale === 'en'" v-for="(category, index) in groupedKeywordsEN" >
+                  <button @click="logMetaSearch(index)"><h3>{{ index }}</h3></button>
                   <div class="grouped-items">
                     <ul>
                       <li
                         v-for="(value, key) in category.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })"
-                        :key="key">
-                        {{ value.english_translation }}
+                        :key="key" >
+                        <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation }}</button>
                       </li>
                     </ul>
                   </div>
                 </section>
-                <section v-else v-for="(category, index) in groupedKeywordsSV">
-                  <h3>{{ index }}</h3>
+                <section v-else v-for="(category, index) in groupedKeywordsSV" @click="logMetaSearch(index)">
+                  <button @click="logMetaSearch(index)"><h3>{{ index }}</h3></button>
                   <div class="grouped-items">
                     <ul>
                       <li v-for="(value, key) in category.sort((a, b) => { return a.text.localeCompare(b.text) })"
-                        :key="key">
-                        {{ value.text }}
+                        :key="key" >
+                        <button @click="logMetaSearch(value.text)">{{ value.text }}</button>
                       </li>
                     </ul>
                   </div>
@@ -74,11 +74,11 @@
                   </tr>
                   <tr v-if="$i18n.locale === 'en'" v-for="(value, key) in this.$i18n.messages.en.imgdescription"
                     :key="key">
-                    <td>{{ value[0] }}</td>
+                    <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
                     <td>{{ value[1] }}</td>
                   </tr>
                   <tr v-else v-for="(value, key_sv) in this.$i18n.messages.sv.imgdescription" :key="key_sv">
-                    <td>{{ value[0] }}</td>
+                    <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
                     <td>{{ value[1] }}</td>
                   </tr>
                 </table>
@@ -88,10 +88,10 @@
                 <section>
                   <ul>
                     <li v-if="$i18n.locale === 'en'" v-for="(value, key) in sortedDatings" :key="key">
-                      {{ value.english_translation }}
+                      <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation }}</button>
                     </li>
                     <li v-if="$i18n.locale === 'sv'" v-for="(value, key) in sortedDatings" :key="key">
-                      {{ value.text }}
+                      <button @click="logMetaSearch(value.text)">{{ value.text }}</button>
                     </li>
                   </ul>
                 </section>
@@ -124,6 +124,10 @@ export default {
     this.fetchDatingTags()
   },
   methods: {
+    logMetaSearch(item) {
+      this.$emit('keyword-clicked', item);
+    },
+
     fetchKeywords() {
       fetch(`https://diana.dh.gu.se/api/shfa/keywordtag/?depth=2&limit=200`)
         .then((response) => response.json())
@@ -175,6 +179,14 @@ export default {
 </script>
 
 <style scoped>
+button:hover {
+  color: var(--highlighted-text);
+}
+
+button > h3:hover {
+  color: var(--highlighted-text);
+}
+
 .new-info {
   margin-top: 25px;
 }

@@ -347,7 +347,7 @@ export default {
       "3d-visualisering": ["3d-visualisering", "Mjukvaruförbättrad rendering av SfM-modell eller laserscannad modell"],
       "arbetsbild": ["Arbetsbild", "Fotografi av dokumentationsprocessen, utgrävningar och platsbesök"],
       "avgjutning": ["Avgjutning", "Gipsrekonstruktion av hällristningspanel"],
-      "diabild": ["diabild", "Scannad diabild"],
+      "diabild": ["Diabild", "Scannad diabild"],
       "dokument": ["Dokument", "Dokument eller brev, oftast från 1900-1970"],
       "dstretch-visualisering": ["DStretch-visualisering", "Rendering av bild från bearbetningsverktyget DStretch"],
       "foto": ["Foto", "Fotografier tagna med modern kamerautrustning"],
