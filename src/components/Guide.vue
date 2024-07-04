@@ -53,7 +53,7 @@
                     </ul>
                   </div>
                 </section>
-                <section v-else v-for="(category, index) in groupedKeywordsSV" @click="logMetaSearch(index)">
+                <section v-else v-for="(category, index) in groupedKeywordsSV">
                   <button @click="logMetaSearch(index)"><h3>{{ index }}</h3></button>
                   <div class="grouped-items">
                     <ul>
