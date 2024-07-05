@@ -6,15 +6,15 @@
           <div class="about-article-sub" :class="{ fullopacityui: visiblePrivacy }">
             <h2>{{ $t('message.privacy') }}</h2>
             <div id="matomo-opt-out"></div>
-          </div>
+             </div>
         </div>
-      </div>
+     
       <button class="close-page-button" @click="$emit('close')">
         <div class="category-button" :class="{ fullopacityui: visiblePrivacy }"
           style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
       </button>
-    </div>
-  </div>
+    </div> 
+  </div></div>
 </template>
 
 <script lang="ts">
@@ -67,7 +67,9 @@ h2 {
   color: var(--page-text);
   line-height: 1;
   width: 500px;
-  height: 100px;
+  height: 50%;
+  overflow-y: scroll;
+  min-height: 300px;
   font-size: 12px;
   z-index: 4000;
   backdrop-filter: blur(5px);
@@ -158,9 +160,9 @@ h2 {
 }
 
 .close-page-button {
-  position: absolute;
+  position: relative;
   z-index: 3000;
-  bottom: 20px;
+  /* bottom: 20px; */
   color: var(--button-text);
   width: 100%;
   height: 80px;
