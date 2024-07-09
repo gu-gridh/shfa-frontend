@@ -6,15 +6,16 @@
           <div class="about-article-sub" :class="{ fullopacityui: visiblePrivacy }">
             <h2>{{ $t('message.privacy') }}</h2>
             <div id="matomo-opt-out"></div>
-             </div>
+          </div> <button class="close-page-button" @click="$emit('close')">
+            <div class="category-button" :class="{ fullopacityui: visiblePrivacy }"
+              style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
+          </button>
         </div>
-     
-      <button class="close-page-button" @click="$emit('close')">
-        <div class="category-button" :class="{ fullopacityui: visiblePrivacy }"
-          style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
-      </button>
-    </div> 
-  </div></div>
+
+
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -39,7 +40,7 @@ export default {
 <style scoped>
 .content {
   /* border:opx; */
-  height: 50%;
+  height: 100%;
 }
 
 li {
@@ -66,10 +67,10 @@ h2 {
   position: fixed;
   color: var(--page-text);
   line-height: 1;
-  width: 500px;
-  height: 50%;
+  width: 60%;
+  max-height: 400px;
   overflow-y: scroll;
-  min-height: 300px;
+  min-height: fit-content;
   font-size: 12px;
   z-index: 4000;
   backdrop-filter: blur(5px);
@@ -85,7 +86,6 @@ h2 {
   background: var(--guide-page-background);
 }
 
-
 .fullopacity {
   /* backdrop-filter:blur(5px); */
   opacity: 1.0;
@@ -93,7 +93,7 @@ h2 {
   transform: scale(1.0);
   translate: -25% 25%;
   background: var(--guide-page-background);
-  height: 30%;
+  height: fit-content;
   width: 40%;
 }
 
@@ -107,7 +107,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
   width: auto;
 }
 
@@ -141,7 +141,7 @@ h2 {
   opacity: 0.0;
   transition: all 0.4s ease-in-out;
   line-height: 1.2;
-  padding-bottom: 120px !important;
+  /* padding-bottom: 120px !important; */
 }
 
 .category-button {
@@ -169,7 +169,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
 }
 
 @media screen and (max-width: 900px) {
@@ -179,6 +179,27 @@ h2 {
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
+  }
+
+  .privacy-container {
+    width: 80%;
+    left: 30%;
+  }
+
+  .fullopacity {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+
+  .privacy-container {
+    width: 80%;
+    left: 30%;
+  }
+
+  .fullopacity {
+    width: 80%;
   }
 }
 
@@ -240,6 +261,15 @@ h2 {
     font-weight: 300;
     transition: all 0.4s ease-in-out;
     line-height: 1.2;
+  }
+
+  .privacy-container {
+    width: 80%;
+    left: 30%;
+  }
+
+  .fullopacity {
+    width: 80%;
   }
 }
 
