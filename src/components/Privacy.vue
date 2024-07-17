@@ -88,7 +88,7 @@ h2 {
 
 .fullopacity {
   /* backdrop-filter:blur(5px); */
-  opacity: 1.0;
+  opacity: 1.0 !important;
   pointer-events: auto;
   transform: scale(1.0);
   translate: -25% 25%;
