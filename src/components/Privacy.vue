@@ -5,7 +5,7 @@
         <div class="rows">
           <div class="about-article-sub" :class="{ fullopacityui: visiblePrivacy }">
             <h2>{{ $t('message.privacy') }}</h2>
-            <div id="matomo-opt-out"></div>
+            <div id="matomo-opt-out"> </div>
           </div> <button class="close-page-button" @click="$emit('close')">
             <div class="category-button" :class="{ fullopacityui: visiblePrivacy }"
               style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
@@ -68,9 +68,10 @@ h2 {
   color: var(--page-text);
   line-height: 1;
   width: 60%;
-  max-height: 400px;
+  height: 300px;
+  /* max-height: 400px; */
   overflow-y: scroll;
-  min-height: fit-content;
+  /* min-height: fit-content; */
   font-size: 12px;
   z-index: 4000;
   backdrop-filter: blur(5px);
@@ -184,6 +185,7 @@ h2 {
   .privacy-container {
     width: 80%;
     left: 30%;
+    height: 100%;
   }
 
   .fullopacity {
@@ -196,6 +198,7 @@ h2 {
   .privacy-container {
     width: 80%;
     left: 30%;
+    height: 300px;
   }
 
   .fullopacity {
@@ -266,6 +269,7 @@ h2 {
   .privacy-container {
     width: 80%;
     left: 30%;
+    height: 300px;
   }
 
   .fullopacity {

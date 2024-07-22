@@ -390,7 +390,8 @@ h2 {
   transition: all 0.5s ease-in-out;
   opacity: 0.0;
   overflow-y: scroll;
-  max-height: max-content;
+  min-height: 100vh;
+  height: 100vh;
   background: var(--guide-page-background);
 }
 
@@ -564,6 +565,12 @@ h2 {
 }
 
 @media (max-width:480px) {
+
+  .about-container {
+    width: 100%;
+    height: 100%;
+  }
+
   .logo-area {
     margin-top: 20px;
   }

@@ -41,24 +41,29 @@
             <div class="sections"> <!-- Empty div for margin -->
               <h2>{{ $t('message.nyckelord') }}</h2>
               <div class="first">
-                <section v-if="$i18n.locale === 'en'" v-for="(category, index) in groupedKeywordsEN" >
-                  <button @click="logMetaSearch(index)"><h3>{{ index }}</h3></button>
+                <section v-if="$i18n.locale === 'en'" v-for="(category, index) in groupedKeywordsEN">
+                  <button @click="logMetaSearch(index)">
+                    <h3>{{ index }}</h3>
+                  </button>
                   <div class="grouped-items">
                     <ul>
                       <li
                         v-for="(value, key) in category.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })"
-                        :key="key" >
-                        <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation }}</button>
+                        :key="key">
+                        <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
+                          }}</button>
                       </li>
                     </ul>
                   </div>
                 </section>
                 <section v-else v-for="(category, index) in groupedKeywordsSV">
-                  <button @click="logMetaSearch(index)"><h3>{{ index }}</h3></button>
+                  <button @click="logMetaSearch(index)">
+                    <h3>{{ index }}</h3>
+                  </button>
                   <div class="grouped-items">
                     <ul>
                       <li v-for="(value, key) in category.sort((a, b) => { return a.text.localeCompare(b.text) })"
-                        :key="key" >
+                        :key="key">
                         <button @click="logMetaSearch(value.text)">{{ value.text }}</button>
                       </li>
                     </ul>
@@ -183,7 +188,7 @@ button:hover {
   color: var(--highlighted-text);
 }
 
-button > h3:hover {
+button>h3:hover {
   color: var(--highlighted-text);
 }
 
@@ -488,6 +493,47 @@ ul {
 }
 
 @media (max-width:480px) {
+
+  .grouped-items {
+    columns: 2;
+  }
+
+  .close-page-button {
+    pointer-events: auto;
+    position: sticky;
+    z-index: 5000;
+    /* bottom: 30px; */
+    top: calc(100vh - 80px);
+    /* padding-bottom: 20px; */
+    color: var(--button-text);
+    background: var(--footer-background);
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .guide-container {
+    position: fixed;
+    color: var(--page-text);
+    line-height: 1;
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    z-index: 4000;
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+    transform: scale(1.5);
+    translate: 0px 100px;
+    transition: all 0.5s ease-in-out;
+    opacity: 0.0;
+    overflow-y: scroll;
+    max-height: max-content;
+    background: var(--guide-page-background);
+  }
+
   .content {
     width: 100%;
   }
