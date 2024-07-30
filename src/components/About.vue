@@ -1,5 +1,5 @@
 <template>
-  <div class="about-container" :class="{ fullopacity: visibleAbout }">
+  <div class="about-container fullopacity">
     <div class="content">
 
       <template v-if="$i18n.locale === 'en'">
@@ -14,7 +14,7 @@
               </h1>
             </div>
 
-            <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }">
+            <div class="about-article-sub fullopacityui">
               <h2>Database Overview</h2>
               <p>SHFA's [Svenskt Hällristningsforskningsarkiv's] image database includes more than 26,000 digitized
                 images that are the result of ongoing work describing and documenting rock carvings since 1627.
@@ -143,7 +143,7 @@
               </div>
 
 
-              <div class="about-article-sub" :class="{ fullopacityui: visibleAbout }">
+              <div class="about-article-sub fullopacityui">
                 <h2>Databasöversikt</h2>
                 <p>Svenskt Hällristningsforskningsarkivs bilddatabas omfattar mer än 26 000 digitaliserade bilder som
                   är
@@ -270,33 +270,34 @@
           </div>
         </div>
       </template>
-
-
-
       <div class="about-logo-top-right"> </div>
-      <button class="close-page-button" @click="$emit('close')">
-        <div class="category-button" :class="{ fullopacityui: visibleAbout }"
-          style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
+      <button class="close-page-button" @click="closePage">
+        <div class="category-button" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">
+          {{ $t('message.close') }}
+        </div>
       </button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Grid from '../Views/Grid.vue';
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 
-export default {
+export default defineComponent({
   name: "aboutview",
-  emits: ['close'],
-  props: {
-    visibleAbout: {
-      type: Boolean,
-      required: true,
-    },
+  setup() {
+    const router = useRouter();
+    
+    const closePage = () => {
+      router.push('/');
+    }
 
-  },
-
-};
+    return {
+      closePage
+    };
+  }
+});
 </script>
 
 <style scoped>
@@ -385,8 +386,6 @@ h2 {
   z-index: 4000;
   backdrop-filter: blur(5px);
   pointer-events: none;
-  transform: scale(1.5);
-  translate: 0px 100px;
   transition: all 0.5s ease-in-out;
   opacity: 0.0;
   overflow-y: scroll;
@@ -419,8 +418,6 @@ h2 {
   backdrop-filter: blur(5px);
   opacity: 1.0;
   pointer-events: auto;
-  transform: scale(1.0);
-  translate: 0px 0px;
   background: var(--guide-page-background);
   height: 100%;
 }

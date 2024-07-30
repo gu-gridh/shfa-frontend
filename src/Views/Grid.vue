@@ -54,18 +54,20 @@
           <!-- <div class="top-button">|</div> -->
         </div>
         <Privacy :visiblePrivacy="visiblePrivacy" :currentLanguage="currentLanguage" @close="visiblePrivacy = false" />
-        <About :visibleAbout="visibleAbout" @close="visibleAbout = false" />
-        <Guide :visibleGuide="visibleGuide" :currentLang="currentLanguage" @close="visibleGuide = false" @keyword-clicked="handleKeywordClick"/>
         <div class="top-links">
           <button class="item" id="privacy-button" @click="visiblePrivacy = true">
             {{ $t('message.privacy') }}<div class="top-link-infobutton"></div></button>
-          <button class="item" @click="visibleGuide = true">
+            <button class="item">
+              <router-link to="/guide">
+                {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div>
+              </router-link>
+            </button>
 
-            {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div></button>
-
-          <button class="item" @click="visibleAbout = true">
-
-            {{ $t('message.aboutArchive') }}<div class="top-link-infobutton"></div></button>
+            <button class="item">
+              <router-link to="/about">
+                {{ $t('message.aboutArchive') }}<div class="top-link-infobutton"></div>
+              </router-link>
+            </button>
 
           <button class="item" v-if="currentLanguage === 'en'">
 
@@ -105,7 +107,6 @@
           <Map @id-selected="selectedId = $event" @reset-id="handleBboxClicked" @update-bbox="bbox = $event"
             @map-clicked="handleMapClicked" ref="mapComponent" v-show="showMap" :coordinates="results" :bbox="bbox"
             :showMap="showMap" />
-
 
           <AdvancedSearch v-show="!showMap" @advanced-search-results="handleAdvancedSearchResults"
             @page-details-updated="updatePageDetails" ref="advancedSearchRef" :currentLang="currentLanguage"
@@ -208,8 +209,6 @@ import Search from "../components/Search.vue";
 import AdvancedSearch from "../components/AdvancedSearch.vue";
 import ImageViewer from "../components/ImageViewer.vue";
 import MetaData from "../components/MetaData.vue";
-import About from "../components/About.vue";
-import Guide from "../components/Guide.vue";
 import Privacy from "../components/Privacy.vue";
 
 export default defineComponent({
@@ -220,8 +219,6 @@ export default defineComponent({
     AdvancedSearch,
     ImageViewer,
     MetaData,
-    About,
-    Guide,
     Privacy,
   },
   watch: {
@@ -240,15 +237,6 @@ export default defineComponent({
       if (this.newIiifFile) {
         this.showThreePanels = true;
         this.IiifFileforImageViewer = this.newIiifFile;
-      }
-      if (
-        to.name === "Home" &&
-        !newSiteId &&
-        !this.newIiifFile &&
-        this.shouldFireInitialFetch
-      ) {
-        this.$refs.mapComponent.fetchImagesClickedInit();
-        this.shouldFireInitialFetch = false;
       }
     },
     selectedId(newId, oldId) {
@@ -300,7 +288,7 @@ export default defineComponent({
   },
   data() {
     return {
-      currentLanguage: "sv", //currentLanguage: this.detectUserLanguage(),
+      currentLanguage: this.detectUserLanguage(),
       windowWidth: window.innerWidth,
       items: [],
       results: [],
@@ -324,8 +312,6 @@ export default defineComponent({
       previousPageUrl: null,
       previousPageUrlAdvanced: null,
       forceRefresh: 0,
-      visibleAbout: false,
-      visibleGuide: false,
       visiblePrivacy: false,
       mapClicked: false,
       currentColour: "dark",
@@ -339,6 +325,8 @@ export default defineComponent({
     };
   },
   mounted() {
+    this.initializeOnHome();
+
     var en_settings = {
       "showIntro": true, "divId": "matomo-opt-out", "useSecureCookies": true, "cookiePath": null, "cookieDomain": null, "cookieSameSite": "Lax", "OptOutComplete": "Opt-out complete; your visits to this website will not be recorded by the Web Analytics tool.", "OptOutCompleteBis": "Note that if you clear your cookies, delete the opt-out cookie, or if you change computers or Web browsers, you will need to perform the opt-out procedure again.", "YouMayOptOut2": "You may choose to prevent this website from aggregating and analyzing the actions you take here.", "YouMayOptOut3": "Doing so will protect your privacy, but will also prevent the owner from learning from your actions and creating a better experience for you and other users.", "OptOutErrorNoCookies": "The tracking opt-out feature requires cookies to be enabled.", "OptOutErrorNotHttps": "The tracking opt-out feature may not work because this site was not loaded over HTTPS. Please reload the page to check if your opt out status changed.", "YouAreNotOptedOut": "You are not opted out.", "UncheckToOptOut": "Uncheck this box to opt-out.", "YouAreOptedOut": "You are currently opted out.", "CheckToOptIn": "Check this box to opt-in."
     };
@@ -456,7 +444,7 @@ export default defineComponent({
     };
     window.addEventListener("resize", this.updateWindowWidth);
 
-    this.$i18n.locale = this.currentLanguage;
+    // this.$i18n.locale = this.currentLanguage;
 
     this.currentColour = this.currentColour;
 
@@ -502,6 +490,18 @@ export default defineComponent({
   },
 
   methods: {
+    initializeOnHome() {
+      const newSiteId = this.$route.params.siteId;
+      const newIiifFile = this.$route.params.iiifFile;
+      if (this.$route.name === "Home" && !newSiteId && !newIiifFile && this.shouldFireInitialFetch) {
+        if (this.$refs.mapComponent) {
+          this.$refs.mapComponent.fetchImagesClickedInit();
+          this.shouldFireInitialFetch = false;
+        } else {
+          console.error("mapComponent is not available");
+        }
+      }
+    },
     resetSplitsAndPanels() {
       if (this.splitInstance) {
         this.splitInstance.setSizes([40, 60, 40]);
@@ -543,6 +543,14 @@ export default defineComponent({
         // Only toggle if on smaller screens
         this.isMenuOpen = !this.isMenuOpen;
       }
+    },
+    detectUserLanguage() {
+      if (this.$i18n && this.$i18n.locale) {
+        return this.$i18n.locale;
+      }
+      const storedLang = localStorage.getItem('userLang');
+      //return the stored language or default to 'sv'
+      return storedLang || 'sv';
     },
     toggleLanguage() {
       this.currentLanguage = this.$i18n.locale === "en" ? "sv" : "en";

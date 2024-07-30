@@ -5,18 +5,14 @@
   <div role="main">
     <!-- Main content -->
     <div id="maincontent" tabindex="-1">
-      <Grid />
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import Grid from './Views/Grid.vue';
-
 export default {
-  components: { Grid, /* Footer */ },
-  mounted() {
-  },
+  name: 'App',
 };
 </script>
 
@@ -42,8 +38,6 @@ body {
 .skip-link:focus {
   top: 10px;
 }
-
-
 
 *::before,
 *::after {

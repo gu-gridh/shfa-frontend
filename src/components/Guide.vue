@@ -1,5 +1,5 @@
 <template>
-  <div class="guide-container" :class="{ fullopacity: visibleGuide }" id='block-text'>
+  <div class="guide-container fullopacityui" id='block-text'>
     <div class="content">
 
 
@@ -14,11 +14,11 @@
             </h1>
           </div>
 
-          <div class="guide-article-main" :class="{ fullopacityui: visibleGuide }" style="margin-bottom: 0px;">
+          <div class="guide-article-main fullopacityui" style="margin-bottom: 0px;">
             <h2>{{ $t('message.sökguide') }}</h2>
           </div>
 
-          <div class="guide-article-main" :class="{ fullopacityui: visibleGuide }" style="padding-top:0px;">{{
+          <div class="guide-article-main fullopacityui" style="padding-top:0px;">{{
     $t('search.searchintro') }} {{ $t('search.searchhelp') }}
             <p class="new-info" v-if="$i18n.locale === 'en'"> A multimodal viewer is available for a selection of meshes
               and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
@@ -37,7 +37,7 @@
               runt i meshen och dess tillhörande visualiseringar.</p>
           </div>
 
-          <div class="guide-article-sub" :class="{ fullopacityui: visibleGuide }">
+          <div class="guide-article-sub fullopacityui">
             <div class="sections"> <!-- Empty div for margin -->
               <h2>{{ $t('message.nyckelord') }}</h2>
               <div class="first">
@@ -106,15 +106,14 @@
         </div>
       </div>
     </div>
-    <button class="close-page-button" @click="$emit('close')">
-      <div class="category-button" :class="{ fullopacityui: visibleGuide }"
+    <button class="close-page-button" @click="closeGuide">
+      <div class="category-button fullopacityui"
         style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
     </button>
   </div>
 </template>
 
 <script lang="ts">
-import Grid from '../Views/Grid.vue';
 export default {
   data() {
     return {
@@ -132,7 +131,9 @@ export default {
     logMetaSearch(item) {
       this.$emit('keyword-clicked', item);
     },
-
+    closeGuide() {
+      this.$router.push('/');
+    },
     fetchKeywords() {
       fetch(`https://diana.dh.gu.se/api/shfa/keywordtag/?depth=2&limit=200`)
         .then((response) => response.json())
@@ -153,10 +154,10 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
-          if (this.currentLang == 'sv') {
+          if (this.$i18n.locale === 'sv')
+          {
             this.sortedDatings = this.data.sort((a, b) => { return a.text.localeCompare(b.text) })
           }
-
           else {
             this.sortedDatings = this.data.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })
           }
@@ -167,17 +168,6 @@ export default {
     },
   },
   name: "guideview",
-  emits: ['close'],
-  props: {
-    currentLang: {
-      type: String,
-      required: true,
-    },
-    visibleGuide: {
-      type: Boolean,
-      required: true,
-    },
-  },
 };
 
 
@@ -303,15 +293,14 @@ ul {
   color: var(--page-text);
   line-height: 1;
   width: 100%;
+  height: 100vh;
   font-size: 12px;
   z-index: 4000;
   backdrop-filter: blur(5px);
-  pointer-events: none;
-  transform: scale(1.5);
-  translate: 0px 100px;
+  pointer-events: auto;
   transition: all 0.5s ease-in-out;
   opacity: 0.0;
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: max-content;
   background: var(--guide-page-background);
 }
@@ -524,9 +513,7 @@ ul {
     font-size: 12px;
     z-index: 4000;
     backdrop-filter: blur(5px);
-    pointer-events: none;
-    transform: scale(1.5);
-    translate: 0px 100px;
+    pointer-events: auto;
     transition: all 0.5s ease-in-out;
     opacity: 0.0;
     overflow-y: scroll;
@@ -648,8 +635,6 @@ a {
   /* backdrop-filter:blur(5px); */
   opacity: 1.0;
   pointer-events: auto;
-  transform: scale(1.0);
-  translate: 0px 0px;
   background: var(--guide-page-background);
   height: 100vh;
 }

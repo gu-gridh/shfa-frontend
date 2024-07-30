@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Grid from './Views/Grid.vue';
+import About from './components/About.vue';
+import Guide from './components/Guide.vue';
 
 const routes = [
   {
@@ -26,6 +28,16 @@ const routes = [
     path: '/image/:iiifFile',
     name: 'IiifFile',
     component: Grid,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About,
+  },
+  {
+    path: '/guide',
+    name: 'Guide',
+    component: Guide,
   },
   {
     path: '/:catchAll(.*)',
