@@ -306,8 +306,12 @@ ul {
 }
 
 .logo-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 30px;
   margin-bottom: 20px;
+  width: 100%; 
 }
 
 #logo-guide {
@@ -316,8 +320,6 @@ ul {
   height: 200px;
   background-color: var(--page-text);
   float: left;
-  margin-left: 80px;
-  margin-top: 35px;
   background: var(--shfa-logo);
   background-repeat: no-repeat;
   background-size: contain;
@@ -480,6 +482,11 @@ ul {
 }
 
 @media (max-width:480px) {
+  .about-title {
+    margin-top: 0px;
+    font-size: 35px;
+    padding-left: 10px;
+  }
 
   .grouped-items {
     columns: 2;
