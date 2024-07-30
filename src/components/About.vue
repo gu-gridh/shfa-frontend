@@ -1,19 +1,15 @@
 <template>
-  <div class="about-container fullopacity">
+  <div class="about-container fullopacityui">
     <div class="content">
-
       <template v-if="$i18n.locale === 'en'">
         <div class="flex-machine">
           <div class="rows">
-
-
             <div class="logo-area">
               <div id="logo-about"></div>
               <h1 class="about-title">
                 <div v-html="$t('message.abouttitle')"></div>
               </h1>
             </div>
-
             <div class="about-article-sub fullopacityui">
               <h2>Database Overview</h2>
               <p>SHFA's [Svenskt Hällristningsforskningsarkiv's] image database includes more than 26,000 digitized
@@ -122,9 +118,6 @@
               <p>Physical Location: Humanisten, University of Gothenburg, Renströmsgatan 6, 412 55 Gothenburg</p>
 
             </div>
-
-
-
           </div>
         </div>
         <div class="about-logo-top-right"> </div>
@@ -141,7 +134,6 @@
                   <div v-html="$t('message.abouttitle')"></div>
                 </h1>
               </div>
-
 
               <div class="about-article-sub fullopacityui">
                 <h2>Databasöversikt</h2>
@@ -270,13 +262,13 @@
           </div>
         </div>
       </template>
-      <div class="about-logo-top-right"> </div>
-      <button class="close-page-button" @click="closePage">
-        <div class="category-button" style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">
+      <!-- <div class="about-logo-top-right"> </div> -->
+    </div>
+    <button class="close-page-button fullopacityui" @click="closePage">
+        <div class="category-button" style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">
           {{ $t('message.close') }}
         </div>
       </button>
-    </div>
   </div>
 </template>
 
@@ -382,21 +374,23 @@ h2 {
   color: var(--page-text);
   line-height: 1;
   width: 100%;
+  height: 100%;
   font-size: 12px;
   z-index: 4000;
   backdrop-filter: blur(5px);
-  pointer-events: none;
+  pointer-events: auto;
   transition: all 0.5s ease-in-out;
   opacity: 0.0;
   overflow-y: scroll;
   max-height: max-content;
-  min-height: 100vh;
-  height: 100vh;
   background: var(--guide-page-background);
 }
 
 .logo-area {
-  margin-top: 30px;
+  display: flex;
+  justify-content: space-around; 
+  align-items: center;
+  margin-top: 20px;
 }
 
 #logo-about {
@@ -404,8 +398,6 @@ h2 {
   width: 210px;
   height: 200px;
   float: left;
-  margin-left: 80px;
-  margin-top: 35px;
   background: var(--shfa-logo);
   background-repeat: no-repeat;
   background-size: contain;
@@ -497,7 +489,7 @@ h2 {
   opacity: 0.0;
   transition: all 0.4s ease-in-out;
   line-height: 1.2;
-  padding-bottom: 120px !important;
+  /* padding-bottom: 120px !important; */
 }
 
 .category-button {
@@ -516,23 +508,22 @@ h2 {
 }
 
 .close-page-button {
+  pointer-events: auto;
   position: sticky;
-  z-index: 3000;
+  z-index: 5000;  
   bottom: 0px;
-  top: calc(100vh - 80px);
-  padding-bottom: 20px;
-  color: var(--button-text);
-  background: var(--footer-background);
+  top: auto;
   width: 100%;
   height: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
+  background: var(--footer-background);
 }
 
 .category-button:hover {
-  background: var(--button-hover);
+  color: var(--highlighted-text);
 }
 
 @media screen and (max-width: 900px) {
@@ -548,7 +539,7 @@ h2 {
 .about-logo-top-right {
   z-index: 1000;
   display: flex;
-  pointer-events: none;
+  pointer-events: auto;
   width: 200px;
   height: 90px;
   position: absolute;

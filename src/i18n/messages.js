@@ -5,7 +5,7 @@ export default {
       resetlayout: "Reset Layout",
       hello: "Hello",
       menuButton: "Menu",
-      aboutArchive: "Archive",
+      aboutArchive: "About",
       aboutSHFA: "About SHFA",
       privacy: "Privacy",
       news: "News",

@@ -108,7 +108,7 @@
     </div>
     <button class="close-page-button" @click="closeGuide">
       <div class="category-button fullopacityui"
-        style="width:auto; padding:5px 15px; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
+        style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
     </button>
   </div>
 </template>
@@ -450,18 +450,16 @@ ul {
 .close-page-button {
   pointer-events: auto;
   position: sticky;
-  z-index: 5000;
+  z-index: 5000;  
   bottom: 0px;
-  top: calc(100vh - 80px);
-  padding-bottom: 20px;
-  color: var(--button-text);
-  background: var(--footer-background);
+  top: auto;     
   width: 100%;
   height: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+  background: var(--footer-background);
 }
 
 .category-button:hover {
