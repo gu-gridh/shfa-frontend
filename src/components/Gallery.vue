@@ -1,118 +1,76 @@
 <template>
-  <div class="gallery-container" :class="{ light: isLight }">
+  <div class="gallery-container">
     <div v-if="store.isLoading" class="loading-animation">
       <img src="/interface/6-dots-rotate.svg" alt="Loading..." />
     </div>
     <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
       <h3 v-if="group.items.length > 0">{{ $t("message." + group.text) }}</h3>
-      <MasonryWall
-        :key="layoutKey"
-        :items="group.items"
-        :ssr-columns="1"
-        :column-width="columnWidth"
-        :gap="10"
-        class="gallery-group"
-      >
+      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="10"
+        class="gallery-group">
         <template #default="{ item, index }">
-          <div
-            class="grid-image card flex items-center justify-center"
-            @click="$emit('image-clicked', item.iiif_file, item.id)"
-          >
-            <img
-              :src="`${item.iiif_file}/full/350,/0/default.jpg`"
-              :alt="`Image ${index}`"
-              @load="
-                item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)
-              "
-              v-on:load.once="item.loaded = true"
-            />
-            <div class="grid-item-info" id="gallery">
-              <div class="grid-item-info-meta">
-                <h5>{{ item.lamning_id }}</h5>
-                <h6>{{ item.raa_id }}</h6>
+          <a href="#image">
+            <div class="grid-image card flex items-center justify-center"
+              @click="$emit('image-clicked', item.iiif_file, item.id)">
+              <button class="avail-3d" v-if="item.vis_group">3D</button>
+              <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" :alt="`Image ${index}`" @load="
+      item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)
+      " v-on:load.once="item.loaded = true" />
+              <div class="grid-item-info" id="gallery">
+                <div class="grid-item-info-meta">
+                  <h5>{{ item.lamning_id || item.placename }}</h5>
+                  <h6 v-if="item.raa_id || item.lokalitet_id || item.askeladden_id">{{ item.raa_id || item.askeladden_id
+      || item.lokalitet_id }}</h6>
+                </div>
               </div>
             </div>
-          </div>
+          </a>
         </template>
       </MasonryWall>
     </div>
     <div class="button-container">
       <!-- Previous buttons -->
       <div class="button-group">
-        <button
-          class="loadMore left"
-          v-if="mapGallery && previousPageUrl && !bboxSearch"
-          @click="fetchPreviousData"
-        >
-        </button>
-        <button
-          class="loadMore left"
-          v-if="
-            !mapGallery &&
-            searchPreviousPageUrl &&
-            !advancedSearch &&
-            !bboxSearch
-          "
-          @click="searchFetchPreviousPage"
-        >
-        </button>
-        <button
-          class="loadMore left"
-          v-if="
-            !mapGallery &&
-            advancedPreviousPageUrl &&
-            advancedSearch &&
-            !bboxSearch
-          "
-          @click="advancedFetchPreviousPage"
-        >
-        </button>
-        <button
-          class="loadMore left"
-          v-if="mapGallery && previousPageUrl && bboxSearch"
-          @click="loadPreviousPageBbox"
-        >
-        </button>
+        <!-- Map Search Previous button -->
+        <button class="loadMore left" v-if="mapGallery && previousPageUrl && !bboxSearch"
+          @click="fetchPreviousData"></button>
+        <!-- Search Previous button -->
+        <button class="loadMore left" v-if="!mapGallery &&
+      searchPreviousPageUrl &&
+      !advancedSearch &&
+      !bboxSearch
+      " @click="searchFetchPreviousPage"></button>
+        <!-- Advanced Search Previous button -->
+        <button class="loadMore left" v-if="!mapGallery &&
+      advancedPreviousPageUrl &&
+      advancedSearch &&
+      !bboxSearch
+      " @click="advancedFetchPreviousPage"></button>
+        <!-- Bbox Search Previous button -->
+        <button class="loadMore left" v-if="mapGallery && previousPageUrl && bboxSearch"
+          @click="loadPreviousPageBbox"></button>
       </div>
 
       <!-- Next buttons -->
       <div class="button-group">
-        <button
-          class="loadMore right"
-          v-if="mapGallery && nextPageUrl && !bboxSearch"
-          @click="fetchData"
-        >
-        </button>
-        <button
-          class="loadMore right"
-          v-if="
-            !mapGallery && searchNextPageUrl && !advancedSearch && !bboxSearch
-          "
-          @click="loadMore"
-        >
-        </button>
-        <button
-          class="loadMore right"
-          v-if="
-            !mapGallery &&
-            searchNextPageUrlAdvanced &&
-            advancedSearch &&
-            !bboxSearch
-          "
-          @click="loadMoreAdvanced"
-        >
-        </button>
-        <button
-          class="loadMore right"
-          v-if="mapGallery && nextPageUrl && bboxSearch"
-          @click="loadNextPageBbox"
-        >
-        </button>
+        <!-- Map Search Next button -->
+        <button class="loadMore right" v-if="mapGallery && nextPageUrl && !bboxSearch" @click="fetchData"></button>
+        <!-- Search Next button -->
+        <button class="loadMore right" v-if="!mapGallery && searchNextPageUrl && !advancedSearch && !bboxSearch
+      " @click="loadMore"></button>
+        <!-- Advanced Search Next button -->
+        <button class="loadMore right" v-if="!mapGallery &&
+      searchNextPageUrlAdvanced &&
+      advancedSearch &&
+      !bboxSearch
+      " @click="loadMoreAdvanced"></button>
+        <!-- Bbox Search Next button -->
+        <button class="loadMore right" v-if="mapGallery && nextPageUrl && bboxSearch"
+          @click="loadNextPageBbox"></button>
       </div>
     </div>
   </div>
 </template>
- 
+
 <script>
 import MasonryWall from "@yeger/vue-masonry-wall";
 import { useStore } from "../stores/store.js";
@@ -132,6 +90,13 @@ export default {
       required: false,
       default: null,
     },
+    forceRefresh: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+
+    /* Props for general searches */
     searchItems: {
       type: Array,
       required: false,
@@ -141,11 +106,22 @@ export default {
       type: Function,
       required: true,
     },
+    searchFetchPreviousPage: {
+      type: Function,
+      required: true,
+    },
     searchNextPageUrl: {
       type: [String, null],
       required: true,
       default: "",
     },
+    searchPreviousPageUrl: {
+      type: [String, null],
+      required: true,
+      default: "",
+    },
+
+    /* Props for advanced searches */
     advancedSearchResults: {
       type: Array,
       required: true,
@@ -154,37 +130,24 @@ export default {
       type: Function,
       required: true,
     },
+    advancedFetchPreviousPage: {
+      type: Function,
+      required: true,
+    },
     searchNextPageUrlAdvanced: {
       type: [String, null],
       required: true,
       default: "",
-    },
-    searchFetchPreviousPage: {
-      type: Function,
-      required: true,
-    },
-    searchPreviousPageUrl: {
-      type: [String, null],
-      required: true,
-      default: "",
-    },
-    advancedFetchPreviousPage: {
-      type: Function,
-      required: true,
     },
     advancedPreviousPageUrl: {
       type: [String, null],
       required: true,
       default: "",
     },
-    forceRefresh: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
   },
   computed: {
     columnWidth() {
+      // calculate gallery column sizes based on device width
       const screenWidth = window.innerWidth;
       let columnWidth;
 
@@ -195,13 +158,13 @@ export default {
       } else if (screenWidth < 1600) {
         columnWidth = 150; // Medium screens (1024px to 1599px)
       } else if (screenWidth < 1800) {
-        columnWidth = 175; // Large screens (1600px to 1799px)
+        columnWidth = 150; // Large screens (1600px to 1799px)
       } else if (screenWidth < 2300) {
-        columnWidth = 200; // Extra large screens (2000px to 2299px)
+        columnWidth = 150; // Extra large screens (2000px to 2299px)
       } else if (screenWidth < 2600) {
-        columnWidth = 250; // Larger screens (2300px to 2599px)
+        columnWidth = 200; // Larger screens (2300px to 2599px)
       } else {
-        columnWidth = 300; // Very large screens (2600px and above)
+        columnWidth = 250; // Very large screens (2600px and above)
       }
       return columnWidth;
     },
@@ -226,7 +189,6 @@ export default {
   data() {
     return {
       mapGallery: false,
-      isLight: false,
       advancedSearch: false,
       bboxSearch: false,
       nextPageUrl: null,
@@ -272,6 +234,7 @@ export default {
       this.fetchImagesClicked(false);
     },
     async fetchImagesClicked(next = true) {
+      // fetch images based on the bbox
       let url;
       this.loadedImagesCount = 0;
       this.store.setLoading(true);
@@ -305,10 +268,14 @@ export default {
           let item = {
             lamning_id: image.site.lamning_id,
             raa_id: image.site.raa_id,
+            placename: image.site.placename,
+            askeladden_id: image.site.askeladden_id,
+            lokalitet_id: image.site.lokalitet_id,
             id: image.id,
             file: image.file,
             type: image.type.id,
             iiif_file: image.iiif_file,
+            vis_group: image.subtype,
           };
 
           let typeIndex = typeMap.findIndex((x) => x.type === type.id);
@@ -344,6 +311,7 @@ export default {
       }
     },
     imageLoaded(event) {
+      // used for refreshing the gallery when the images are loaded
       this.loadedImagesCount += 1;
       // Check if all images are loaded
       if (
@@ -355,7 +323,7 @@ export default {
         });
       }
     },
-    
+
     updatePageDetails() {
       this.$emit("page-details-updated", {
         currentPage: this.currentPage,
@@ -365,18 +333,22 @@ export default {
     },
 
     loadMore() {
+      // load the next page for the general searches
       this.fetchNextPage();
     },
 
-    loadMoreAdvanced() {
-      this.fetchNextPageAdvanced();
-    },
-
     loadPrevious() {
+      // load the previous page for the general searches
       this.searchFetchPreviousPage();
     },
 
+    loadMoreAdvanced() {
+      // load the next page for the advanced searches
+      this.fetchNextPageAdvanced();
+    },
+
     loadPreviousAdvanced() {
+      // load the previous page for the advanced searches
       this.advancedFetchPreviousPage();
     },
 
@@ -394,11 +366,11 @@ export default {
     },
 
     async fetchData() {
+      // fetch data based on point clicked
       this.bboxSearch = false;
       if (this.nextPageUrl) {
-
-        const separator = this.nextPageUrl.includes('?') ? '&' : '?';
-        const urlWithDepth = this.nextPageUrl + separator + 'depth=2';
+        const separator = this.nextPageUrl.includes("?") ? "&" : "?";
+        const urlWithDepth = this.nextPageUrl + separator + "depth=2";
 
         this.store.setLoading(true);
         this.loadedImagesCount = 0;
@@ -427,10 +399,14 @@ export default {
           let item = {
             lamning_id: image.site.lamning_id,
             raa_id: image.site.raa_id,
+            askeladden_id: image.site.askeladden_id,
+            lokalitet_id: image.site.lokalitet_id,
+            placename: image.site.placename,
             id: image.id,
             file: image.file,
             type: image.type.id,
             iiif_file: image.iiif_file,
+            vis_group: image.subtype,
           };
 
           let typeIndex = typeMap.findIndex((x) => x.type === type.id);
@@ -460,6 +436,7 @@ export default {
     },
 
     async fetchPreviousData() {
+      // fetch previous page data based on point clicked
       if (this.previousPageUrl) {
         this.store.setLoading(true);
         this.loadedImagesCount = 0;
@@ -487,10 +464,14 @@ export default {
           let item = {
             lamning_id: image.site.lamning_id,
             raa_id: image.site.raa_id,
+            askeladden_id: image.site.askeladden_id,
+            lokalitet_id: image.site.lokalitet_id,
+            placename: image.site.placename,
             id: image.id,
             file: image.file,
             type: image.type.id,
             iiif_file: image.iiif_file,
+            vis_group: image.subtype,
           };
 
           let typeIndex = typeMap.findIndex((x) => x.type === type.id);
@@ -521,6 +502,7 @@ export default {
   },
   watch: {
     "store.imagesFetchTriggered"(newVal) {
+      // watch the store for when the bbox search button is clicked
       if (newVal) {
         this.nextPageUrl = null;
         this.previousPageUrl = null;
@@ -559,16 +541,39 @@ export default {
   },
 };
 </script>
- 
+
 <style scoped>
+.avail-3d {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  color: var(--popup-text);
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  opacity: 1;
+  background-color: var(--threed-icon);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--threed-icon);
+  z-index: 10;
+}
+
 .loading-animation {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding-top:50px;
+  padding-top: 50px;
   transition: all 0.5s ease-in-out;
-
 }
 
 .loading-animation img {
@@ -579,7 +584,7 @@ export default {
 
 .gallery-container {
   padding-top: 0px;
-  margin-top:-5px;
+  margin-top: -5px;
   padding-bottom: 35px;
   /* padding-left:150px; */
 }
@@ -593,19 +598,15 @@ export default {
 
 h3 {
   font-size: 17px;
-  color: white !important;
+  color: var(--page-text) !important;
   margin: 20px 20px 8px 0px;
-}
-
-.light h3 {
-  color: black !important;
 }
 
 .card {
   background-color: transparent;
   border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0rem 0rem 1rem rgba(0, 0, 0, 0.2) !important;
+  box-shadow: var(--shadow);
 }
 
 .card img {
@@ -619,14 +620,11 @@ h3 {
   transform: scale(1.05);
 }
 
-.grid-image {
-}
-
 .grid-item-info {
   height: 100%;
   width: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
-  color: white;
+  background: var(--image-hover-background);
+  color: var(--page-text);
   position: absolute;
   opacity: 0;
   transition: all 0.5s ease-in-out;
@@ -645,18 +643,14 @@ h3 {
   padding: 10px 10px;
 }
 
-.light .grid-item-info-meta {
-color:black;
-}
-
 .grid-item-info-meta h5 {
-  font-size: 18px;
-  font-weight: 800;
-  line-height: 1;
+  font-size: 20px;
+  font-weight: 550;
+  line-height: 1.5;
 }
 
 .grid-item-info-meta h6 {
-  font-size: 15px;
+  font-size: 17px;
   bottom: 0px;
   line-height: 1;
 }
@@ -667,7 +661,7 @@ color:black;
   font-size: 1.2em;
   border-radius: 50%;
   cursor: pointer;
-  color: white;
+  color: var(--page-text);
   text-align: center;
   width: 35px;
   height: 35px;
@@ -675,7 +669,7 @@ color:black;
 }
 
 .loadMore:hover {
-  background-color: rgb(80, 90, 100);
+  background-color: var(--viewer-button-hover);
 }
 
 .button-container {
@@ -694,7 +688,7 @@ color:black;
 /* Align "Load Previous" buttons to the left */
 .left {
   margin-left: -100px;
-  background: url(../../public/interface/backbuttonwhite.png);
+  background: url(../../interface/backbuttonwhite.png);
   background-size: 35px;
   pointer-events: auto;
 }
@@ -702,7 +696,7 @@ color:black;
 /* Align "Load More" buttons to the right */
 .right {
   margin-left: 170px;
-  background: url(../../public/interface/nextbuttonwhite.png);
+  background: url(../../interface/nextbuttonwhite.png);
   background-size: 35px;
 
   pointer-events: auto;
