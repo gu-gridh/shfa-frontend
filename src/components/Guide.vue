@@ -19,11 +19,11 @@
           </div>
 
           <div class="guide-article-main fullopacityui" style="padding-top:0px;">{{
-    $t('search.searchintro') }} {{ $t('search.searchhelp') }}
+                $t('search.searchintro') }} {{ $t('search.searchhelp') }}
             <p class="new-info" v-if="$i18n.locale === 'en'"> A multimodal viewer is available for a selection of meshes
               and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
               thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
-    $t('message.viewthreed') }}</button>
+                $t('message.viewthreed') }}</button>
               button in the metadata panel. You can find these images by searching for 3d visualisation or orthophoto
               image
               types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
@@ -31,7 +31,7 @@
             <p class="new-info" v-if="$i18n.locale === 'sv'"> För ett urval av meshar och visualiseringar finns ett
               utforskarläge tillgängligt. Detta indikeras av <button class=" avail-3d">3D</button> ikonen i galleriets
               miniatyrbild och <button class="viewer-avail"><span class="viewer-icon"></span>{{
-    $t('message.viewthreed') }}</button> knappen i metadata-panelen. Du kan hitta dessa objekt genom att
+                $t('message.viewthreed') }}</button> knappen i metadata-panelen. Du kan hitta dessa objekt genom att
               söka efter "3D-visualisering" eller
               "ortofoto" bildtyper. Genom att klicka på knappen öppnas utforskaren. På denna nya sida kan du navigera
               runt i meshen och dess tillhörande visualiseringar.</p>
@@ -108,7 +108,8 @@
     </div>
     <button class="close-page-button" @click="closeGuide">
       <div class="category-button fullopacityui"
-        style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
+        style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">{{ $t('message.close')
+        }}</div>
     </button>
   </div>
 </template>
@@ -154,8 +155,7 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
-          if (this.$i18n.locale === 'sv')
-          {
+          if (this.$i18n.locale === 'sv') {
             this.sortedDatings = this.data.sort((a, b) => { return a.text.localeCompare(b.text) })
           }
           else {
@@ -311,7 +311,7 @@ ul {
   align-items: center;
   margin-top: 30px;
   margin-bottom: 20px;
-  width: 100%; 
+  width: 100%;
 }
 
 #logo-guide {
@@ -452,9 +452,9 @@ ul {
 .close-page-button {
   pointer-events: auto;
   position: sticky;
-  z-index: 5000;  
+  z-index: 5000;
   bottom: 0px;
-  top: auto;     
+  top: auto;
   width: 100%;
   height: 80px;
   display: flex;
@@ -482,6 +482,16 @@ ul {
 }
 
 @media (max-width:480px) {
+
+  .avail-3d {
+    font-size: 95%;
+  }
+
+  .viewer-avail {
+    line-height: 1.75;
+    font-size: 95%;
+  }
+
   .about-title {
     margin-top: 0px;
     font-size: 35px;
