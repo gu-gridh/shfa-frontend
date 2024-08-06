@@ -174,7 +174,7 @@ export default {
 </script>
 
 <style scoped>
-li>button:hover {
+td>button:hover,li>button:hover {
   color: var(--highlighted-text);
 }
 
