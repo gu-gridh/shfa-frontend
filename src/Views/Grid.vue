@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top">
-      <a href="https://shfa.dh.gu.se/" target="_blank">
+      <a href="https://shfa.dh.gu.se/">
         <div id="logo-main"></div>
         <h1 class="title">
           <div v-html="$t('message.title')"></div>
