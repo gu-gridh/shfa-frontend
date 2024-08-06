@@ -301,7 +301,7 @@ export default defineComponent({
   line-height: 1;
   text-align: center;
   overflow: hidden;
-  cursor: pointer;
+  cursor: text;
   color: var(--popup-text);
   border-radius: 50%;
   width: 25px;
@@ -312,8 +312,6 @@ export default defineComponent({
   border-style: solid;
   border-color: var(--threed-icon);
   font-size: 80%;
-  cursor: default;
-
 }
 
 .viewer-avail {
@@ -324,11 +322,10 @@ export default defineComponent({
   border-radius: 6px;
   font-size: 80%;
   text-decoration: none;
-  cursor: pointer;
+  cursor: text;
   margin-top: 0px;
   width: max-content;
   height: max-content;
-  cursor: default;
   font-weight: 400;
 }
 

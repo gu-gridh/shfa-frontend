@@ -174,7 +174,7 @@ export default {
 </script>
 
 <style scoped>
-button:hover {
+li>button:hover {
   color: var(--highlighted-text);
 }
 
@@ -194,7 +194,7 @@ button>h3:hover {
   line-height: 1;
   text-align: center;
   overflow: hidden;
-  cursor: pointer;
+  cursor: text;
   color: var(--popup-text);
   border-radius: 50%;
   width: 25px;
@@ -205,7 +205,6 @@ button>h3:hover {
   border-style: solid;
   border-color: var(--threed-icon);
   font-size: 80%;
-  cursor: default;
 }
 
 .viewer-avail {
@@ -217,7 +216,7 @@ button>h3:hover {
   border-radius: 8px;
   font-size: 86%;
   text-decoration: none;
-  cursor: pointer;
+  cursor: text;
   margin-top: 0px;
   width: max-content;
   height: max-content;
@@ -243,6 +242,7 @@ button>h3:hover {
   border-width: 1.4px;
   border-color: var(--button-text);
   border-radius: 50%;
+  cursor: text;
 }
 
 th {
