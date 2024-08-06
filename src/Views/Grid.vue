@@ -587,6 +587,7 @@ export default defineComponent({
     toggleLanguage() {
       this.currentLanguage = this.$i18n.locale === "en" ? "sv" : "en";
       this.$i18n.locale = this.currentLanguage;
+      localStorage.setItem('userLang', this.currentLanguage);
     },
 
     toggleColour() {

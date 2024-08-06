@@ -12,7 +12,7 @@ const app = createApp(App)
 const pinia = createPinia();
 
 const i18n = createI18n({
-  locale: 'en',  // default language
+  locale: 'sv',  // default language
   messages,
   warnHtmlInMessage: 'off', 
 })

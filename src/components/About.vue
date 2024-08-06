@@ -288,6 +288,10 @@ export default defineComponent({
     return {
       closePage
     };
+  },
+  mounted() {
+    const userLang = localStorage.getItem('userLang') || 'sv';
+    this.$i18n.locale = userLang;
   }
 });
 </script>

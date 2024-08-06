@@ -125,6 +125,8 @@ export default {
     }
   },
   mounted() {
+    const userLang = localStorage.getItem('userLang') || 'sv';
+    this.$i18n.locale = userLang;
     this.fetchKeywords()
     this.fetchDatingTags()
   },
