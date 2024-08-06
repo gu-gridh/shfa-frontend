@@ -106,11 +106,11 @@
         </div>
       </div>
     </div>
-    <button class="close-page-button" @click="closeGuide">
+    <!-- <button class="close-page-button" @click="closeGuide">
       <div class="category-button fullopacityui"
         style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">{{ $t('message.close')
         }}</div>
-    </button>
+    </button> -->
   </div>
 </template>
 
@@ -130,7 +130,7 @@ export default {
   },
   methods: {
     logMetaSearch(item) {
-      this.$emit('keyword-clicked', item);
+      localStorage.setItem('searchKeyword', item);
     },
     closeGuide() {
       this.$router.push('/');

@@ -224,8 +224,7 @@ export default {
             maxY = Math.max(maxY, y);
           }
 
-
-          let typeIndex = typeMap.findIndex(x => x.type === type.id);
+          let typeIndex = typeMap.findIndex(x => x.type === (type?.id ?? null));
           if (typeIndex !== -1) {
             typeMap[typeIndex].items.push(item);
           }
@@ -248,7 +247,6 @@ export default {
         //.sort((a, b) => a.order - b.order);
 
         this.searchResults = Array.from(typeMap.values());
-
 
         // Store the next URL for future use
         if (data.next) {

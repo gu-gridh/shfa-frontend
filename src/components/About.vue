@@ -264,11 +264,11 @@
       </template>
       <!-- <div class="about-logo-top-right"> </div> -->
     </div>
-    <button class="close-page-button fullopacityui" @click="closePage">
+    <!-- <button class="close-page-button fullopacityui" @click="closePage">
         <div class="category-button" style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">
           {{ $t('message.close') }}
         </div>
-      </button>
+      </button> -->
   </div>
 </template>
 
