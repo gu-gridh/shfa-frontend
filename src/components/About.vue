@@ -129,13 +129,13 @@
       <template v-else>
         <div class="flex-machine">
           <div class="rows">
-            <div class="content">
+            <!-- <div class="content"> -->
 
               <div class="logo-area">
                 <div id="logo-about"></div>
                 <h1 class="about-title">
-                  <div v-html="$t('message.abouttitle')"></div>
-                </h1>
+                <div v-html="$t('message.abouttitle')"></div>
+              </h1>
               </div>
 
               <div class="about-article-sub fullopacityui">
@@ -266,7 +266,7 @@
               </div>
             </div>
           </div>
-        </div>
+        <!-- </div> -->
       </template>
       <!-- <div class="about-logo-top-right"> </div> -->
     </div>
