@@ -117,6 +117,9 @@
 
               <p>Physical Location: Humanisten, University of Gothenburg, Renströmsgatan 6, 412 55 Gothenburg</p>
 
+              <div class="social-links">Find us on <p><a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE" target="_blank"><button class="facebook-logo"></button></a><a href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button class="instagram-logo"></button></a></p></div>
+              
+
             </div>
           </div>
         </div>
@@ -256,6 +259,9 @@
                   eller frågor om tillgängligheten.</p>
 
                 <p>Fysisk plats: Humanisten, Göteborgs universitet, Renströmsgatan 6, 412 55 Göteborg</p>
+
+                <div class="social-links">Hitta oss på <p><a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE" target="_blank"><button class="facebook-logo"></button></a><a href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button class="instagram-logo"></button></a></p></div>
+              
 
               </div>
             </div>
@@ -610,5 +616,39 @@ h2 {
 
 a {
   font-weight: normal;
+}
+
+.social-links{
+  display: inline-flex;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+.facebook-logo  {
+  display: inline-flex;
+  float: inline-start;
+  /* margin-top: 3px; */
+  height: 50px;
+  width: 50px;
+  background-image: var(--fb-logo-background);
+  /* filter: invert(1); */
+  background-size: 50px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-left: 10px;
+}
+
+
+.instagram-logo {
+  display: inline-flex;
+  float: inline-end;
+  /* margin-top: 3px; */
+  height: 50px;
+  width: 50px;
+  background-image: var(--instagram-logo-background);
+  /* filter: invert(1); */
+  background-size: 50px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-left: 10px;
 }
 </style>
