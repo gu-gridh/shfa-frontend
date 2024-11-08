@@ -117,7 +117,7 @@
 
               <p>Physical Location: Humanisten, University of Gothenburg, Renströmsgatan 6, 412 55 Gothenburg</p>
 
-              <div class="social-links">Find us on <p><a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE" target="_blank"><button class="facebook-logo"></button></a><a href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button class="instagram-logo"></button></a></p></div>
+              <div class="social-links">Find us on <a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE" target="_blank"><button class="facebook-logo"></button></a><a href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button class="instagram-logo"></button></a></div>
               
 
             </div>
@@ -260,7 +260,7 @@
 
                 <p>Fysisk plats: Humanisten, Göteborgs universitet, Renströmsgatan 6, 412 55 Göteborg</p>
 
-                <div class="social-links">Hitta oss på <p><a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE" target="_blank"><button class="facebook-logo"></button></a><a href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button class="instagram-logo"></button></a></p></div>
+                <div class="social-links">Hitta oss på <a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE" target="_blank"><button class="facebook-logo"></button></a><a href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button class="instagram-logo"></button></a></div>
               
 
               </div>
@@ -619,10 +619,12 @@ a {
 }
 
 .social-links{
-  display: inline-flex;
-  align-items: flex-start;
-  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  margin-top: 10px; 
 }
+
 .facebook-logo  {
   display: inline-flex;
   float: inline-start;
@@ -631,7 +633,7 @@ a {
   width: 50px;
   background-image: var(--fb-logo-background);
   /* filter: invert(1); */
-  background-size: 50px;
+  background-size: 40px;
   background-position: center;
   background-repeat: no-repeat;
   margin-left: 10px;
@@ -646,7 +648,7 @@ a {
   width: 50px;
   background-image: var(--instagram-logo-background);
   /* filter: invert(1); */
-  background-size: 50px;
+  background-size: 40px;
   background-position: center;
   background-repeat: no-repeat;
   margin-left: 10px;
