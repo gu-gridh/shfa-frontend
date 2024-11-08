@@ -20,7 +20,7 @@
 
           <div class="guide-article-main fullopacityui" style="padding-top:0px;">{{
                 $t('search.searchintro') }} {{ $t('search.searchhelp') }}
-            <p class="new-info" v-if="$i18n.locale === 'en'"> A multimodal viewer is available for a selection of meshes
+            <p class="new-info" v-if="currentLang === 'en'"> A multimodal viewer is available for a selection of meshes
               and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
               thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
                 $t('message.viewthreed') }}</button>
@@ -28,7 +28,7 @@
               image
               types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
               will be able to navigate around the mesh and associated visualisations.</p>
-            <p class="new-info" v-if="$i18n.locale === 'sv'"> För ett urval av meshar och visualiseringar finns ett
+            <p class="new-info" v-if="currentLang === 'sv'"> För ett urval av meshar och visualiseringar finns ett
               utforskarläge tillgängligt. Detta indikeras av <button class=" avail-3d">3D</button> ikonen i galleriets
               miniatyrbild och <button class="viewer-avail"><span class="viewer-icon"></span>{{
                 $t('message.viewthreed') }}</button> knappen i metadata-panelen. Du kan hitta dessa objekt genom att
@@ -41,7 +41,7 @@
             <div class="sections"> <!-- Empty div for margin -->
               <h2>{{ $t('message.nyckelord') }}</h2>
               <div class="first">
-                <section v-if="$i18n.locale === 'en'" v-for="(category, index) in groupedKeywordsEN">
+                <section v-if="currentLang === 'en'" v-for="(category, index) in groupedKeywordsEN">
                   <button @click="logMetaSearch(index)">
                     <h3>{{ index }}</h3>
                   </button>
@@ -77,7 +77,7 @@
                     <th scope="col">{{ $t('message.bildtyp') }}</th>
                     <th scope="col">{{ $t('message.beskrivning') }}</th>
                   </tr>
-                  <tr v-if="$i18n.locale === 'en'" v-for="(value, key) in this.$i18n.messages.en.imgdescription"
+                  <tr v-if="currentLang === 'en'" v-for="(value, key) in this.$i18n.messages.en.imgdescription"
                     :key="key">
                     <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
                     <td>{{ value[1] }}</td>
@@ -92,10 +92,10 @@
                 <h2>{{ $t('message.datering') }}</h2>
                 <section>
                   <ul>
-                    <li v-if="$i18n.locale === 'en'" v-for="(value, key) in sortedDatings" :key="key">
+                    <li v-if="currentLang === 'en'" v-for="(value, key) in sortedDatings" :key="key">
                       <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation }}</button>
                     </li>
-                    <li v-if="$i18n.locale === 'sv'" v-for="(value, key) in sortedDatings" :key="key">
+                    <li v-if="currentLang === 'sv'" v-for="(value, key) in sortedDatings" :key="key">
                       <button @click="logMetaSearch(value.text)">{{ value.text }}</button>
                     </li>
                   </ul>
@@ -116,6 +116,9 @@
 
 <script lang="ts">
 export default {
+  props:{
+    currentLang: String,
+  },
   data() {
     return {
       data: {},
@@ -125,8 +128,8 @@ export default {
     }
   },
   mounted() {
-    const userLang = localStorage.getItem('userLang') || 'sv';
-    this.$i18n.locale = userLang;
+    // const userLang = localStorage.getItem('userLang') || 'sv';
+    this.$i18n.locale = this.currentLang;
     this.fetchKeywords()
     this.fetchDatingTags()
   },
@@ -157,7 +160,7 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
-          if (this.$i18n.locale === 'sv') {
+          if (this.currentLang === 'sv') {
             this.sortedDatings = this.data.sort((a, b) => { return a.text.localeCompare(b.text) })
           }
           else {

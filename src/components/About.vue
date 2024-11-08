@@ -1,7 +1,7 @@
 <template>
   <div class="about-container fullopacityui">
     <div class="content">
-      <template v-if="$i18n.locale === 'en'">
+      <template v-if="currentLang === 'en'">
         <div class="flex-machine">
           <div class="rows">
             <div class="logo-area">
@@ -298,6 +298,9 @@ export default defineComponent({
   mounted() {
     const userLang = localStorage.getItem('userLang') || 'sv';
     this.$i18n.locale = userLang;
+  },
+  props:{
+    currentLang: String
   }
 });
 </script>

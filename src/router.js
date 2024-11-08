@@ -30,14 +30,16 @@ const routes = [
     component: Grid,
   },
   {
-    path: '/about',
+    path: '/about/:currentLang',
     name: 'About',
     component: About,
+    props: true,
   },
   {
-    path: '/guide',
+    path: '/guide/:currentLang',
     name: 'Guide',
     component: Guide,
+    props: true,
   },
   {
     path: '/:catchAll(.*)',

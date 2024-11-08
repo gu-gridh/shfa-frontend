@@ -58,13 +58,13 @@
           <button class="item" id="privacy-button" @click="visiblePrivacy = true">
             {{ $t('message.privacy') }}<div class="top-link-infobutton"></div></button>
             <button class="item">
-              <router-link to="/guide" target="_blank">
+              <router-link :to="{name:'Guide', params:{currentLang:currentLanguage}}" target="_blank">
                 {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div>
               </router-link>
             </button>
 
             <button class="item">
-              <router-link to="/about" target="_blank">
+              <router-link :to="{name:'About', params:{currentLang:currentLanguage}}" target="_blank">
                 {{ $t('message.aboutArchive') }}<div class="top-link-infobutton"></div>
               </router-link>
             </button>
