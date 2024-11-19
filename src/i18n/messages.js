@@ -93,7 +93,8 @@ export default {
       searchinbbox: 'Search in map view',
       beskrivning: 'Description',
       visualisation: 'Visualisation Overview',
-      viewthreed:  'Open 3D viewer'
+      viewthreed:  'Open 3D viewer',
+      "3D": "3D viewer"
     },
 
     search: {
@@ -115,7 +116,7 @@ export default {
 
     },
 
-    keywords: {
+    keywords: {"3D": "3D mesh",
       "arbetsbild": "Working shot", "arkeologisk undersökning": "Archaeological excavation", "experter": "Expert", "forskningscenter": "Research centre", "informationsskylt": "Information sign",
       "övertäckningsmaterial": "Protective covers", "hällmålningsmiljö": "Rock painting environment", "hällristningsmiljö": "Rock carving environment", "landskapet": "Landscape",
       "vattenöversilad": "Waterlogged", "detalj": "Detail", "färgfält": "Painted areas", "gravristning": "Grave carving", "hällmålning": "Rock painting", "ikritad": "Chalked", "målad": "Painted",
@@ -288,7 +289,8 @@ export default {
       searchinbbox: 'Sök i kartvy',
       beskrivning: 'Beskrivning',
       visualisation: 'Visualiseringsinformation',
-      viewthreed:  'Öppna 3D-vy'
+      viewthreed:  'Öppna 3D-vy',
+      "3D": "3D-vy"
     },
     search: {
       searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar. De motivrelaterade sökorden är arkeologers tolkningar av ristningarna.',
@@ -307,7 +309,7 @@ export default {
       other: 'Andra figurer',
       dating: 'Datering',
     },
-    keywords: {
+    keywords: {"3D": "3D mesh",
       "arbetsbild": "Arbetsbild", "arkeologisk undersökning": "Arkeologisk undersökning", "experter": "Experter", "forskningscenter": "Forskningscenter", "informationsskylt": "Informationsskylt",
       "övertäckningsmaterial": "Övertäckningsmaterial", "hällmålningsmiljö": "Hällmålningsmiljö", "hällristningsmiljö": "Hällristningsmiljö", "landskapet": "Landskapet",
       "vattenöversilad": "Vattenöversilad", "detalj": "Detalj", "färgfält": "Färgfält", "gravristning": "Gravristning", "hällmålning": "Hällmålning", "ikritad": "Ikritad", "målad": "Målad",
