@@ -19,7 +19,7 @@
           </div>
 
           <div class="guide-article-main fullopacityui" style="padding-top:0px;">{{
-                $t('search.searchintro') }} {{ $t('search.searchhelp') }}
+            $t('search.searchintro') }} {{ $t('search.searchhelp') }}
             <p class="new-info" v-if="currentLang === 'en'"> A multimodal viewer is available for a selection of meshes
               and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
               thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
@@ -73,21 +73,25 @@
               <div class="second">
                 <h2>{{ $t('message.bildtyp') }}</h2>
                 <table>
-                  <tr>
-                    <th scope="col">{{ $t('message.bildtyp') }}</th>
-                    <th scope="col">{{ $t('message.beskrivning') }}</th>
-                  </tr>
-                  <tr v-if="currentLang === 'en'" v-for="(value, key) in this.$i18n.messages.en.imgdescription"
-                    :key="key">
-                    <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
-                    <td>{{ value[1] }}</td>
-                  </tr>
-                  <tr v-else v-for="(value, key_sv) in this.$i18n.messages.sv.imgdescription" :key="key_sv">
-                    <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
-                    <td>{{ value[1] }}</td>
-                  </tr>
+                  <thead>
+                    <tr>
+                      <th scope="col">{{ $t('message.bildtyp') }}</th>
+                      <th scope="col">{{ $t('message.beskrivning') }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-if="currentLang === 'en'" v-for="(value, key) in $i18n.messages.en.imgdescription" :key="key">
+                      <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
+                      <td>{{ value[1] }}</td>
+                    </tr>
+                    <tr v-else v-for="(value, key_sv) in $i18n.messages.sv.imgdescription" :key="key_sv">
+                      <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
+                      <td>{{ value[1] }}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
+
               <div class="third">
                 <h2>{{ $t('message.datering') }}</h2>
                 <section>
@@ -116,7 +120,7 @@
 
 <script lang="ts">
 export default {
-  props:{
+  props: {
     currentLang: String,
   },
   data() {
@@ -179,7 +183,8 @@ export default {
 </script>
 
 <style scoped>
-td>button:hover,li>button:hover {
+td>button:hover,
+li>button:hover {
   color: var(--highlighted-text);
 }
 
