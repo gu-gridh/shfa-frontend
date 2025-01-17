@@ -688,7 +688,7 @@ h3 {
 /* Align "Load Previous" buttons to the left */
 .left {
   margin-left: -100px;
-  background: url(../../interface/backbuttonwhite.png);
+  background: url(/interface/backbuttonwhite.png);
   background-size: 35px;
   pointer-events: auto;
 }
@@ -696,7 +696,7 @@ h3 {
 /* Align "Load More" buttons to the right */
 .right {
   margin-left: 170px;
-  background: url(../../interface/nextbuttonwhite.png);
+  background: url(/interface/nextbuttonwhite.png);
   background-size: 35px;
 
   pointer-events: auto;

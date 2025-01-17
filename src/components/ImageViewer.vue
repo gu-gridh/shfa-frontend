@@ -313,7 +313,7 @@ a:active {
 #DownloadButton {
   position: relative;
   top: 10px;
-  background: url(../interface/downloadwhite.png);
+  background: url(/interface/downloadwhite.png);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
