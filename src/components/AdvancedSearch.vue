@@ -271,7 +271,7 @@ export default {
           }
 
           // Block to group images by type
-          let typeIndex = typeMap.findIndex(x => x.type === type.id);
+          let typeIndex = typeMap.findIndex(x => x.type === (type?.id ?? null));
           if (typeIndex !== -1) {
             typeMap[typeIndex].items.push(item);
           }

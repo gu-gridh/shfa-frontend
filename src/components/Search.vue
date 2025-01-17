@@ -100,22 +100,23 @@ export default {
   },
   created() {
     this.coordinateStore = useStore();
+    
     this.defaultSearchResults = [
-      { id: 1, text: 'hällristningsmiljö' },
-      { id: 2, text: 'nattfoto' },
-      { id: 3, text: 'vattenöversilad' },
-      { id: 4, text: 'laserskanning' },
-      { id: 4, text: 'skepp' },
-      { id: 5, text: 'djur' },
-      { id: 6, text: 'vagn' },
-      { id: 7, text: 'vapen' },
-      { id: 8, text: 'krigare' },
-      { id: 9, text: 'människofigur' },
-      { id: 10, text: 'vitlycke' },
-      { id: 11, text: 'skee' },
-      { id: 12, text: 'kalkering' },
-      { id: 13, text: 'frottage' },
-
+      { id: 1, text: "3D"},
+      { id: 2, text: 'hällristningsmiljö' },
+      { id: 3, text: 'nattfoto' },
+      { id: 4, text: 'vattenöversilad' },
+      { id: 5, text: 'laserskanning' },
+      { id: 6, text: 'skepp' },
+      { id: 7, text: 'djur' },
+      { id: 8, text: 'vagn' },
+      { id: 9, text: 'vapen' },
+      { id: 10, text: 'krigare' },
+      { id: 11, text: 'människofigur' },
+      { id: 12, text: 'vitlycke' },
+      { id: 13, text: 'skee' },
+      { id: 14, text: 'kalkering' },
+      { id: 15, text: 'frottage' },
     ];
   },
   methods: {
@@ -159,7 +160,13 @@ export default {
       }
 
       const url = `https://diana.dh.gu.se/api/shfa/search/?q=${query}&depth=1`;
-      await this.fetchResults(url);
+      const url3D = `https://diana.dh.gu.se/api/shfa/null_visualization_group/?depth=1`;
+      if (query === '3D') {
+        await this.fetchResults(url3D);
+      }
+      else {
+        await this.fetchResults(url);
+      }
     },
     async fetchResults(url) {
       try {
@@ -224,8 +231,7 @@ export default {
             maxY = Math.max(maxY, y);
           }
 
-
-          let typeIndex = typeMap.findIndex(x => x.type === type.id);
+          let typeIndex = typeMap.findIndex(x => x.type === (type?.id ?? null));
           if (typeIndex !== -1) {
             typeMap[typeIndex].items.push(item);
           }
@@ -248,7 +254,6 @@ export default {
         //.sort((a, b) => a.order - b.order);
 
         this.searchResults = Array.from(typeMap.values());
-
 
         // Store the next URL for future use
         if (data.next) {

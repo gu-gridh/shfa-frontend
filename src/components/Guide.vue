@@ -19,19 +19,19 @@
           </div>
 
           <div class="guide-article-main fullopacityui" style="padding-top:0px;">{{
-    $t('search.searchintro') }} {{ $t('search.searchhelp') }}
-            <p class="new-info" v-if="$i18n.locale === 'en'"> A multimodal viewer is available for a selection of meshes
+                $t('search.searchintro') }} {{ $t('search.searchhelp') }}
+            <p class="new-info" v-if="currentLang === 'en'"> A multimodal viewer is available for a selection of meshes
               and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
               thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
-    $t('message.viewthreed') }}</button>
+                $t('message.viewthreed') }}</button>
               button in the metadata panel. You can find these images by searching for 3d visualisation or orthophoto
               image
               types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
               will be able to navigate around the mesh and associated visualisations.</p>
-            <p class="new-info" v-if="$i18n.locale === 'sv'"> För ett urval av meshar och visualiseringar finns ett
+            <p class="new-info" v-if="currentLang === 'sv'"> För ett urval av meshar och visualiseringar finns ett
               utforskarläge tillgängligt. Detta indikeras av <button class=" avail-3d">3D</button> ikonen i galleriets
               miniatyrbild och <button class="viewer-avail"><span class="viewer-icon"></span>{{
-    $t('message.viewthreed') }}</button> knappen i metadata-panelen. Du kan hitta dessa objekt genom att
+                $t('message.viewthreed') }}</button> knappen i metadata-panelen. Du kan hitta dessa objekt genom att
               söka efter "3D-visualisering" eller
               "ortofoto" bildtyper. Genom att klicka på knappen öppnas utforskaren. På denna nya sida kan du navigera
               runt i meshen och dess tillhörande visualiseringar.</p>
@@ -41,7 +41,7 @@
             <div class="sections"> <!-- Empty div for margin -->
               <h2>{{ $t('message.nyckelord') }}</h2>
               <div class="first">
-                <section v-if="$i18n.locale === 'en'" v-for="(category, index) in groupedKeywordsEN">
+                <section v-if="currentLang === 'en'" v-for="(category, index) in groupedKeywordsEN">
                   <button @click="logMetaSearch(index)">
                     <h3>{{ index }}</h3>
                   </button>
@@ -77,7 +77,7 @@
                     <th scope="col">{{ $t('message.bildtyp') }}</th>
                     <th scope="col">{{ $t('message.beskrivning') }}</th>
                   </tr>
-                  <tr v-if="$i18n.locale === 'en'" v-for="(value, key) in this.$i18n.messages.en.imgdescription"
+                  <tr v-if="currentLang === 'en'" v-for="(value, key) in this.$i18n.messages.en.imgdescription"
                     :key="key">
                     <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
                     <td>{{ value[1] }}</td>
@@ -92,10 +92,10 @@
                 <h2>{{ $t('message.datering') }}</h2>
                 <section>
                   <ul>
-                    <li v-if="$i18n.locale === 'en'" v-for="(value, key) in sortedDatings" :key="key">
+                    <li v-if="currentLang === 'en'" v-for="(value, key) in sortedDatings" :key="key">
                       <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation }}</button>
                     </li>
-                    <li v-if="$i18n.locale === 'sv'" v-for="(value, key) in sortedDatings" :key="key">
+                    <li v-if="currentLang === 'sv'" v-for="(value, key) in sortedDatings" :key="key">
                       <button @click="logMetaSearch(value.text)">{{ value.text }}</button>
                     </li>
                   </ul>
@@ -106,15 +106,19 @@
         </div>
       </div>
     </div>
-    <button class="close-page-button" @click="closeGuide">
+    <!-- <button class="close-page-button" @click="closeGuide">
       <div class="category-button fullopacityui"
-        style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">{{ $t('message.close') }}</div>
-    </button>
+        style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">{{ $t('message.close')
+        }}</div>
+    </button> -->
   </div>
 </template>
 
 <script lang="ts">
 export default {
+  props:{
+    currentLang: String,
+  },
   data() {
     return {
       data: {},
@@ -124,12 +128,14 @@ export default {
     }
   },
   mounted() {
+    // const userLang = localStorage.getItem('userLang') || 'sv';
+    this.$i18n.locale = this.currentLang;
     this.fetchKeywords()
     this.fetchDatingTags()
   },
   methods: {
     logMetaSearch(item) {
-      this.$emit('keyword-clicked', item);
+      localStorage.setItem('searchKeyword', item);
     },
     closeGuide() {
       this.$router.push('/');
@@ -154,8 +160,7 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
-          if (this.$i18n.locale === 'sv')
-          {
+          if (this.currentLang === 'sv') {
             this.sortedDatings = this.data.sort((a, b) => { return a.text.localeCompare(b.text) })
           }
           else {
@@ -174,7 +179,7 @@ export default {
 </script>
 
 <style scoped>
-button:hover {
+td>button:hover,li>button:hover {
   color: var(--highlighted-text);
 }
 
@@ -194,7 +199,7 @@ button>h3:hover {
   line-height: 1;
   text-align: center;
   overflow: hidden;
-  cursor: pointer;
+  cursor: text;
   color: var(--popup-text);
   border-radius: 50%;
   width: 25px;
@@ -205,7 +210,6 @@ button>h3:hover {
   border-style: solid;
   border-color: var(--threed-icon);
   font-size: 80%;
-  cursor: default;
 }
 
 .viewer-avail {
@@ -217,7 +221,7 @@ button>h3:hover {
   border-radius: 8px;
   font-size: 86%;
   text-decoration: none;
-  cursor: pointer;
+  cursor: text;
   margin-top: 0px;
   width: max-content;
   height: max-content;
@@ -243,6 +247,7 @@ button>h3:hover {
   border-width: 1.4px;
   border-color: var(--button-text);
   border-radius: 50%;
+  cursor: text;
 }
 
 th {
@@ -311,7 +316,7 @@ ul {
   align-items: center;
   margin-top: 30px;
   margin-bottom: 20px;
-  width: 100%; 
+  width: 100%;
 }
 
 #logo-guide {
@@ -452,9 +457,9 @@ ul {
 .close-page-button {
   pointer-events: auto;
   position: sticky;
-  z-index: 5000;  
+  z-index: 5000;
   bottom: 0px;
-  top: auto;     
+  top: auto;
   width: 100%;
   height: 80px;
   display: flex;
@@ -482,6 +487,16 @@ ul {
 }
 
 @media (max-width:480px) {
+
+  .avail-3d {
+    font-size: 95%;
+  }
+
+  .viewer-avail {
+    line-height: 1.75;
+    font-size: 95%;
+  }
+
   .about-title {
     margin-top: 0px;
     font-size: 35px;

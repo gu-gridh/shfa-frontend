@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top">
-      <a href="https://shfa.dh.gu.se/" target="_blank">
+      <a href="https://shfa.dh.gu.se/">
         <div id="logo-main"></div>
         <h1 class="title">
           <div v-html="$t('message.title')"></div>
@@ -58,13 +58,13 @@
           <button class="item" id="privacy-button" @click="visiblePrivacy = true">
             {{ $t('message.privacy') }}<div class="top-link-infobutton"></div></button>
             <button class="item">
-              <router-link to="/guide">
+              <router-link :to="{name:'Guide', params:{currentLang:currentLanguage}}" target="_blank">
                 {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div>
               </router-link>
             </button>
 
             <button class="item">
-              <router-link to="/about">
+              <router-link :to="{name:'About', params:{currentLang:currentLanguage}}" target="_blank">
                 {{ $t('message.aboutArchive') }}<div class="top-link-infobutton"></div>
               </router-link>
             </button>
@@ -136,7 +136,7 @@
                   - @updateShowResults="handleShowResults" Handles the event to show/hide results
                   - @page-details-updated="updatePageDetails"   Updates page details when they change in the Gallery component 
 
-                  - : Binds a dynamic class based on the 'isLight' state for theming
+                  - :Binds a dynamic class based on the 'isLight' state for theming
                   - :siteId="selectedId" : Passes the currently selected site ID to the Gallery component
                   - :forceRefresh="forceRefresh" A number that changes to trigger a refresh in the Gallery component
 
@@ -188,7 +188,6 @@
 
             <ImageViewer v-if="IiifFileforImageViewer" :iiifFile="IiifFileforImageViewer" />
             <MetaData :Id="idForMetaData" :currentLang="currentLanguage" @keyword-clicked="handleKeywordClick" />
-
           </div>
         </transition>
 
@@ -326,6 +325,7 @@ export default defineComponent({
   },
   mounted() {
     this.initializeOnHome();
+    window.addEventListener('storage', this.handleStorageChange);
 
     var en_settings = {
       "showIntro": true, "divId": "matomo-opt-out", "useSecureCookies": true, "cookiePath": null, "cookieDomain": null, "cookieSameSite": "Lax", "OptOutComplete": "Opt-out complete; your visits to this website will not be recorded by the Web Analytics tool.", "OptOutCompleteBis": "Note that if you clear your cookies, delete the opt-out cookie, or if you change computers or Web browsers, you will need to perform the opt-out procedure again.", "YouMayOptOut2": "You may choose to prevent this website from aggregating and analyzing the actions you take here.", "YouMayOptOut3": "Doing so will protect your privacy, but will also prevent the owner from learning from your actions and creating a better experience for you and other users.", "OptOutErrorNoCookies": "The tracking opt-out feature requires cookies to be enabled.", "OptOutErrorNotHttps": "The tracking opt-out feature may not work because this site was not loaded over HTTPS. Please reload the page to check if your opt out status changed.", "YouAreNotOptedOut": "You are not opted out.", "UncheckToOptOut": "Uncheck this box to opt-out.", "YouAreOptedOut": "You are currently opted out.", "CheckToOptIn": "Check this box to opt-in."
@@ -490,9 +490,17 @@ export default defineComponent({
   },
 
   methods: {
+    handleStorageChange(event) {
+      if (event.key === 'searchKeyword' && event.newValue) {
+        const keyword = event.newValue;
+        this.handleKeywordClick(keyword);
+      }
+    },
     initializeOnHome() {
       const newSiteId = this.$route.params.siteId;
       const newIiifFile = this.$route.params.iiifFile;
+      const newQuery = this.$route.params.query;
+
       if (this.$route.name === "Home" && !newSiteId && !newIiifFile && this.shouldFireInitialFetch) {
         if (this.$refs.mapComponent) {
           this.$refs.mapComponent.fetchImagesClickedInit();
@@ -500,6 +508,24 @@ export default defineComponent({
         } else {
           console.error("mapComponent is not available");
         }
+      }
+
+      if (newSiteId) {
+        this.selectedId = newSiteId;
+        this.showResults = true;
+      }
+      if (newQuery && this.isInitialLoad) {
+        if (this.$refs.searchRef) {
+          this.$refs.searchRef.searchKeywordTags(newQuery);
+        } else {
+          console.error("searchRef is not available.");
+        }
+        this.isInitialLoad = false;
+      }
+
+      if (newIiifFile) {
+        this.showThreePanels = true;
+        this.IiifFileforImageViewer = newIiifFile;
       }
     },
     resetSplitsAndPanels() {
@@ -516,7 +542,13 @@ export default defineComponent({
       this.showResults = newValue;
     },
     handleKeywordClick(keyword) {
-      this.$refs.searchRef.updateSearchFromMetadata(keyword);
+      this.$nextTick(() => {
+        if (this.$refs.searchRef) {
+          this.$refs.searchRef.updateSearchFromMetadata(keyword);
+        } else {
+          console.error('searchRef is not available.');
+        }
+      });
     },
     adjustSplitDisplay() {
       // Get the element by its ID
@@ -555,6 +587,7 @@ export default defineComponent({
     toggleLanguage() {
       this.currentLanguage = this.$i18n.locale === "en" ? "sv" : "en";
       this.$i18n.locale = this.currentLanguage;
+      localStorage.setItem('userLang', this.currentLanguage);
     },
 
     toggleColour() {

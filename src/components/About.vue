@@ -1,7 +1,7 @@
 <template>
   <div class="about-container fullopacityui">
     <div class="content">
-      <template v-if="$i18n.locale === 'en'">
+      <template v-if="currentLang === 'en'">
         <div class="flex-machine">
           <div class="rows">
             <div class="logo-area">
@@ -117,6 +117,9 @@
 
               <p>Physical Location: Humanisten, University of Gothenburg, Renströmsgatan 6, 412 55 Gothenburg</p>
 
+              <div class="social-links">Find us on <a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE" target="_blank"><button class="facebook-logo"></button></a><a href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button class="instagram-logo"></button></a></div>
+              
+
             </div>
           </div>
         </div>
@@ -126,13 +129,13 @@
       <template v-else>
         <div class="flex-machine">
           <div class="rows">
-            <div class="content">
+            <!-- <div class="content"> -->
 
               <div class="logo-area">
                 <div id="logo-about"></div>
                 <h1 class="about-title">
-                  <div v-html="$t('message.abouttitle')"></div>
-                </h1>
+                <div v-html="$t('message.abouttitle')"></div>
+              </h1>
               </div>
 
               <div class="about-article-sub fullopacityui">
@@ -257,18 +260,21 @@
 
                 <p>Fysisk plats: Humanisten, Göteborgs universitet, Renströmsgatan 6, 412 55 Göteborg</p>
 
+                <div class="social-links">Hitta oss på <a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE" target="_blank"><button class="facebook-logo"></button></a><a href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button class="instagram-logo"></button></a></div>
+              
+
               </div>
             </div>
           </div>
-        </div>
+        <!-- </div> -->
       </template>
       <!-- <div class="about-logo-top-right"> </div> -->
     </div>
-    <button class="close-page-button fullopacityui" @click="closePage">
+    <!-- <button class="close-page-button fullopacityui" @click="closePage">
         <div class="category-button" style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">
           {{ $t('message.close') }}
         </div>
-      </button>
+      </button> -->
   </div>
 </template>
 
@@ -288,6 +294,13 @@ export default defineComponent({
     return {
       closePage
     };
+  },
+  mounted() {
+    const userLang = localStorage.getItem('userLang') || 'sv';
+    this.$i18n.locale = userLang;
+  },
+  props:{
+    currentLang: String
   }
 });
 </script>
@@ -301,7 +314,7 @@ export default defineComponent({
   line-height: 1;
   text-align: center;
   overflow: hidden;
-  cursor: pointer;
+  cursor: text;
   color: var(--popup-text);
   border-radius: 50%;
   width: 25px;
@@ -312,8 +325,6 @@ export default defineComponent({
   border-style: solid;
   border-color: var(--threed-icon);
   font-size: 80%;
-  cursor: default;
-
 }
 
 .viewer-avail {
@@ -324,11 +335,10 @@ export default defineComponent({
   border-radius: 6px;
   font-size: 80%;
   text-decoration: none;
-  cursor: pointer;
+  cursor: text;
   margin-top: 0px;
   width: max-content;
   height: max-content;
-  cursor: default;
   font-weight: 400;
 }
 
@@ -609,5 +619,41 @@ h2 {
 
 a {
   font-weight: normal;
+}
+
+.social-links{
+  display: flex;
+  align-items: center;
+  align-self: center;
+  margin-top: 10px; 
+}
+
+.facebook-logo  {
+  display: inline-flex;
+  float: inline-start;
+  /* margin-top: 3px; */
+  height: 50px;
+  width: 50px;
+  background-image: var(--fb-logo-background);
+  /* filter: invert(1); */
+  background-size: 40px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-left: 10px;
+}
+
+
+.instagram-logo {
+  display: inline-flex;
+  float: inline-end;
+  /* margin-top: 3px; */
+  height: 50px;
+  width: 50px;
+  background-image: var(--instagram-logo-background);
+  /* filter: invert(1); */
+  background-size: 40px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-left: 10px;
 }
 </style>
