@@ -10,6 +10,8 @@
     "serve": "vite --host 0.0.0.0 --port 5173"
   },
   "dependencies": {
+    "@egjs/vue-infinitegrid": "^4.12.0",
+    "@egjs/vue3-infinitegrid": "^4.12.0",
     "@yeger/vue-masonry-wall": "^3.4.4",
     "daisyui": "^2.51.4",
     "lodash": "^4.17.21",
