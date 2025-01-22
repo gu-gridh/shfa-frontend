@@ -19,12 +19,12 @@ export default {
     components: {
         MasonryInfiniteGrid,
     },
-    emits: [
-        "request-append",
-        "request-prepend",
-        "render-complete",
-        "change-scroll"
-    ],
+    // emits: [
+    //     "request-append",
+    //     "request-prepend",
+    //     "render-complete",
+    //     "change-scroll"
+    // ],
     data() {
         return {
             items: [],
