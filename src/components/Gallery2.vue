@@ -2,7 +2,7 @@
   <div class="grid-container">
     <div v-for="(row, rowIndex) in rows" :key="'row-' + rowIndex" class="row-wrapper">
       <!-- left column - show/hide button -->
-      <div class="button-container">
+      <div class="button-container" :class="{ sticky: row.open }">
         <button class="toggle-btn" @click="toggleRow(rowIndex)">
           {{ row.open ? "Hide" : "Show more" }}
         </button>
@@ -59,7 +59,7 @@
 import { MasonryInfiniteGrid } from "@egjs/vue3-infinitegrid";
 
 export default {
-  name: "TenSeparateMasonries",
+  name: "Gallery2",
   components: {
     MasonryInfiniteGrid,
   },
@@ -170,10 +170,16 @@ export default {
 }
 
 .button-container {
+  /* position: sticky;
+  top: 0;
+  z-index: 10; */
+  height: fit-content;
+}
+
+.sticky {
   position: sticky;
   top: 0;
   z-index: 10;
-  height: fit-content;
 }
 
 .toggle-btn {
