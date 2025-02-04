@@ -1,27 +1,34 @@
 <template>
   <div class="grid-container">
     <div v-for="(row, rowIndex) in rows" :key="'row-' + rowIndex" class="row-wrapper" :id="'row-wrapper-' + rowIndex">
-      <!-- left column - show/hide button -->
+
+    <!-- left column - show/hide button -->
       <div class="button-container" :class="{ sticky: row.open }">
         <button class="toggle-btn" @click="toggleRow(rowIndex)">
           {{ row.open ? "Hide" : "Show more" }}
         </button>
+        <div v-if="row.open" class="row-titles">
+          <ul>
+            <li v-for="other in getOtherRows(rowIndex)" :key="'title-' + other.index"
+              @click="onTitleClick(other.index)">
+              Row #{{ other.index + 1 }}
+            </li>
+          </ul>
+        </div>
       </div>
 
       <!-- right column - gallery -->
       <div class="right-column">
         <h3>Row #{{ rowIndex + 1 }}</h3>
-
         <!-- short preview images - if the row is closed -->
         <div class="short-preview" v-if="!row.open">
           <div v-for="item in row.shortItems" :key="item.key" class="short-item">
             <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
           </div>
         </div>
-
         <!-- infinite scroll gallery - if the row is open -->
         <div v-if="row.open" class="infinite-scroll-container">
-          <masonry-infinite-grid class="masonry-grid" :gap="5" @request-append="(e) => onRequestAppend(e, rowIndex)">
+          <MasonryInfiniteGrid class="masonry-grid" :gap="5" @request-append="(e) => onRequestAppend(e, rowIndex)">
             <div class="item" v-for="(item, i) in row.infiniteItems" :key="item.key"
               :data-grid-groupkey="item.groupKey">
               <div class="thumbnail">
@@ -31,105 +38,114 @@
             </div>
 
             <!-- loading slot -->
-            <template v-slot:loading="{ item }">
+            <template #loading="{ item }">
               <div class="loading" :key="item.key" :data-grid-groupkey="item.groupKey">
                 <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
               </div>
             </template>
-          </masonry-infinite-grid>
+          </MasonryInfiniteGrid>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted, nextTick } from "vue";
 import { MasonryInfiniteGrid } from "@egjs/vue3-infinitegrid";
 
-export default {
-  name: "Gallery2",
-  components: {
-    MasonryInfiniteGrid,
-  },
-  data() {
-    return {
-      rows: [],
-    };
-  },
-  async mounted() {
-    for (let i = 0; i < 10; i++) {
-      //for each row fetch 5 images for the short preview
-      const res = await fetch("https://diana.dh.gu.se/api/shfa/image/?limit=5");
-      const data = await res.json();
+const rows = ref([]);
 
-      //array of the 5 preview items
-      const shortItems = data.results.map((img) => ({
-        key: `preview-${i}-${img.id}`,
-        iiif_file: img.iiif_file,
-      }));
+onMounted(async () => {
+  for (let i = 0; i < 10; i++) {
+    //for each row fetch 5 images for the short preview
+    const res = await fetch("https://diana.dh.gu.se/api/shfa/image/?limit=5");
+    const data = await res.json();
 
-      //each row has its own infinite scroll data
-      this.rows.push({
-        shortItems,
-        open: false,
-        infiniteItems: [],
-        nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
-        currentGroupKey: 0,
-        isFetching: false,
-      });
+    //array of the 5 preview items
+    const shortItems = data.results.map((img) => ({
+      key: `preview-${i}-${img.id}`,
+      iiif_file: img.iiif_file,
+    }));
+
+    //each row has its own infinite scroll data
+    rows.value.push({
+      shortItems,
+      open: false,
+      infiniteItems: [],
+      nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
+      currentGroupKey: 0,
+      isFetching: false,
+    });
+  }
+});
+
+const toggleRow = (rowIndex) => {
+  rows.value.forEach((row, i) => { //close all rows
+    if (i !== rowIndex && row.open) {
+      row.open = false;
     }
-  },
-  methods: {
-    toggleRow(rowIndex) { 
-      this.rows.forEach((row, i) => { //close all rows
-        if (i !== rowIndex && row.open) {
-          row.open = false;
-        }
-      });
+  });
 
-      const row = this.rows[rowIndex]; //toggle current row
-      row.open = !row.open;
+  const row = rows.value[rowIndex]; //toggle current row
+  row.open = !row.open;
 
-      if (!row.open) {
-        this.$nextTick(() => {
-          const rowEl = document.getElementById(`row-wrapper-${rowIndex}`);
-          if (rowEl) {
-            const top = rowEl.offsetTop;
-            window.scrollTo(0, top);
-          }
-        });
+  if (!row.open) {
+    nextTick(() => {
+      const rowEl = document.getElementById(`row-wrapper-${rowIndex}`);
+      if (rowEl) {
+        window.scrollTo(0, rowEl.offsetTop);
       }
-    },
+    });
+  }
+};
 
-    async onRequestAppend(e, rowIndex) {
-      const row = this.rows[rowIndex];
-      if (row.isFetching || !row.nextUrl) return;
+const onRequestAppend = async (e, rowIndex) => {
+  const row = rows.value[rowIndex];
+  if (row.isFetching || !row.nextUrl) return;
 
-      row.isFetching = true;
-      e.wait();
+  row.isFetching = true;
+  e.wait();
 
-      try {
-        const response = await fetch(row.nextUrl);
-        const data = await response.json();
+  try {
+    const response = await fetch(row.nextUrl);
+    const data = await response.json();
 
-        const newItems = data.results.map((img) => ({
-          groupKey: row.currentGroupKey,
-          key: `row${rowIndex}-g${row.currentGroupKey}-${img.id}`,
-          iiif_file: img.iiif_file,
-          info: `id: ${img.id} | year: ${img.year}`,
-        }));
+    const newItems = data.results.map((img) => ({
+      groupKey: row.currentGroupKey,
+      key: `row${rowIndex}-g${row.currentGroupKey}-${img.id}`,
+      iiif_file: img.iiif_file,
+      info: `id: ${img.id} | year: ${img.year}`,
+    }));
 
-        row.currentGroupKey++;
-        row.infiniteItems.push(...newItems);
-        row.nextUrl = data.next;
-      } catch (err) {
-        console.error(err);
-      } finally {
-        row.isFetching = false;
-        e.ready();
-      }
-    },
-  },
+    row.currentGroupKey++;
+    row.infiniteItems.push(...newItems);
+    row.nextUrl = data.next;
+  } catch (err) {
+    console.error(err);
+  } finally {
+    row.isFetching = false;
+    e.ready();
+  }
+};
+
+const onTitleClick = (targetRowIndex) => {
+  const expandedRowIndex = rows.value.findIndex((row) => row.open);
+  if (expandedRowIndex !== -1) {
+    rows.value[expandedRowIndex].open = false;
+  }
+  nextTick(() => {
+    const rowEl = document.getElementById(`row-wrapper-${targetRowIndex}`);
+    if (rowEl) {
+      window.scrollTo(0, rowEl.offsetTop);
+    }
+  });
+};
+
+const getOtherRows = (currentRowIndex) => {
+  return rows.value
+    .map((row, index) => ({ row, index }))
+    .filter((item) => item.index !== currentRowIndex);
 };
 </script>
 
@@ -234,5 +250,21 @@ export default {
   font-weight: bold;
   color: #777;
   height: 30px;
+}
+
+.row-titles ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+
+.row-titles li {
+  cursor: pointer;
+  color: #007bff;
+  margin: 0.5rem 0;
+}
+
+.row-titles li:hover {
+  text-decoration: underline;
 }
 </style>
