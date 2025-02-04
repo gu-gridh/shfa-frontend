@@ -1418,10 +1418,10 @@ export default defineComponent({
 #split-2 {
   background-color: var(--page-background);
   padding: 0px 0px 0px 0px;
-
 }
 
-* {
+/* comment this for instant scroll */
+* { 
   scroll-behavior: smooth;
 }
 

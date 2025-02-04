@@ -1,6 +1,6 @@
 <template>
   <div class="grid-container">
-    <div v-for="(row, rowIndex) in rows" :key="'row-' + rowIndex" class="row-wrapper">
+    <div v-for="(row, rowIndex) in rows" :key="'row-' + rowIndex" class="row-wrapper" :id="'row-wrapper-' + rowIndex">
       <!-- left column - show/hide button -->
       <div class="button-container" :class="{ sticky: row.open }">
         <button class="toggle-btn" @click="toggleRow(rowIndex)">
@@ -12,14 +12,14 @@
       <div class="right-column">
         <h3>Row #{{ rowIndex + 1 }}</h3>
 
-        <!--short preview images - if the row is closed-->
+        <!-- short preview images - if the row is closed -->
         <div class="short-preview" v-if="!row.open">
           <div v-for="item in row.shortItems" :key="item.key" class="short-item">
             <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
           </div>
         </div>
 
-        <!--infinite scroll gallery - if the row is open-->
+        <!-- infinite scroll gallery - if the row is open -->
         <div v-if="row.open" class="infinite-scroll-container">
           <masonry-infinite-grid class="masonry-grid" :gap="5" @request-append="(e) => onRequestAppend(e, rowIndex)">
             <div class="item" v-for="(item, i) in row.infiniteItems" :key="item.key"
@@ -36,18 +36,6 @@
                 <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
               </div>
             </template>
-
-            <!-- placeholder slot -->
-            <!-- <template v-slot:placeholder="{ item }">
-              <div
-                class="placeholder"
-                :key="item.key"
-                :data-grid-groupkey="item.groupKey"
-              >
-                <div class="loader">Loading placeholder...</div>
-              </div>
-            </template> -->
-
           </masonry-infinite-grid>
         </div>
       </div>
@@ -92,7 +80,7 @@ export default {
     }
   },
   methods: {
-    toggleRow(rowIndex) {
+    toggleRow(rowIndex) { 
       this.rows.forEach((row, i) => { //close all rows
         if (i !== rowIndex && row.open) {
           row.open = false;
@@ -101,6 +89,16 @@ export default {
 
       const row = this.rows[rowIndex]; //toggle current row
       row.open = !row.open;
+
+      if (!row.open) {
+        this.$nextTick(() => {
+          const rowEl = document.getElementById(`row-wrapper-${rowIndex}`);
+          if (rowEl) {
+            const top = rowEl.offsetTop;
+            window.scrollTo(0, top);
+          }
+        });
+      }
     },
 
     async onRequestAppend(e, rowIndex) {
@@ -109,10 +107,6 @@ export default {
 
       row.isFetching = true;
       e.wait();
-
-      // add placeholders
-      // const nextGroupKey = row.currentGroupKey + 1;
-      // e.currentTarget.appendPlaceholders(5, nextGroupKey);
 
       try {
         const response = await fetch(row.nextUrl);
@@ -170,9 +164,6 @@ export default {
 }
 
 .button-container {
-  /* position: sticky;
-  top: 0;
-  z-index: 10; */
   height: fit-content;
 }
 
@@ -202,7 +193,7 @@ export default {
 }
 
 .short-item img {
-  width: 120px;
+  width: 200px;
   height: auto;
   border-radius: 4px;
   background: #eee;
