@@ -1,55 +1,60 @@
-<template>
-  <div class="grid-container">
-    <div v-for="(row, rowIndex) in rows" :key="'row-' + rowIndex" class="row-wrapper" :id="'row-wrapper-' + rowIndex">
-      <div class="button-container" :class="{ sticky: row.open }">
-        <button class="toggle-btn" @click="toggleRow(rowIndex)">
-          {{ row.open ? "Hide" : "Show more" }}
-        </button>
-        <div v-if="row.open" class="row-titles">
-          <ul>
-            <li v-for="other in getOtherRows(rowIndex)" :key="'title-' + other.index"
-              @click="onTitleClick(other.index)">
-              Row #{{ other.index + 1 }}
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="right-column">
-        <h3>Row #{{ rowIndex + 1 }}</h3>
-        <div class="short-preview" v-if="!row.open">
-          <div v-for="item in row.shortItems" :key="item.key" class="short-item">
-            <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
+  <template>
+    <div class="grid-container">
+      <div v-for="(row, rowIndex) in rows" :key="'row-' + rowIndex" class="row-wrapper" :id="'row-wrapper-' + rowIndex">
+        <div class="button-container" :class="{ sticky: row.open }">
+          <button class="toggle-btn" @click="toggleRow(rowIndex)">
+            {{ row.open ? "Hide" : "Show more" }}
+          </button>
+          <div v-if="row.open" class="row-titles">
+            <ul>
+              <li v-for="other in getOtherRows(rowIndex)" :key="'title-' + other.index"
+                @click="onTitleClick(other.index)">
+                Row #{{ other.index + 1 }}
+              </li>
+            </ul>
           </div>
         </div>
-        <div v-if="row.open" class="infinite-scroll-container">
-          <MasonryInfiniteGrid 
-            class="masonry-grid" 
-            :gap="1" 
-            :useWindow="false"
-            :scrollContainer="'#split-1'"
-            :threshold="100"
-            @request-append="(e) => onRequestAppend(e, rowIndex)"
-          >
-            <div class="item" v-for="(item, i) in row.infiniteItems" :key="item.key"
-              :data-grid-groupkey="item.groupKey">
-              <div class="thumbnail">
-                <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="shfa image" />
-              </div>
-              <div class="info">{{ item.info }}</div>
-            </div>
 
-            <template #loading="{ item }">
-              <div class="loading" :key="item.key" :data-grid-groupkey="item.groupKey">
-                <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
+        <div class="right-column">
+          <h3 style="margin-bottom: 1rem;">Row #{{ rowIndex + 1 }}</h3>
+          <div class="short-preview" v-if="!row.open">
+            <div v-for="item in row.shortItems" :key="item.key" class="short-item">
+              <div class="image-wrapper">
+                <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
+                <div class="metadata-overlay">
+                  <div class="metadata-content">
+                    {{ item.info || `ID: ${item.id}` }}
+                  </div>
+                </div>
               </div>
-            </template>
-          </MasonryInfiniteGrid>
+            </div>
+          </div>
+          <div v-if="row.open" class="infinite-scroll-container">
+            <MasonryInfiniteGrid class="masonry-grid" :gap="1" :useWindow="false" :scrollContainer="'#split-1'"
+              :threshold="100" @request-append="(e) => onRequestAppend(e, rowIndex)">
+              <div class="item" v-for="(item, i) in row.infiniteItems" :key="item.key"
+                :data-grid-groupkey="item.groupKey">
+                <div class="image-wrapper">
+                  <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="shfa image" />
+                  <div class="metadata-overlay">
+                    <div class="metadata-content">
+                      {{ item.info }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <template #loading="{ item }">
+                <div class="loading" :key="item.key" :data-grid-groupkey="item.groupKey">
+                  <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
+                </div>
+              </template>
+            </MasonryInfiniteGrid>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</template>
+  </template>
 
 <script setup>
 import { ref, onMounted, nextTick } from "vue";
@@ -185,7 +190,6 @@ const getOtherRows = (currentRowIndex) => {
 .row-wrapper {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 5rem;
   align-items: start;
 }
 
@@ -206,10 +210,13 @@ const getOtherRows = (currentRowIndex) => {
   padding: 0.5rem 1rem;
   cursor: pointer;
   width: 100%;
+  margin-top: 1rem;
 }
 
 .right-column {
   flex: 1;
+  padding-left: 1rem;
+  padding-top: 1rem;
 }
 
 .short-preview {
@@ -221,8 +228,6 @@ const getOtherRows = (currentRowIndex) => {
 .short-item img {
   width: 200px;
   height: auto;
-  border-radius: 4px;
-  background: #eee;
   object-fit: cover;
 }
 
@@ -237,21 +242,7 @@ const getOtherRows = (currentRowIndex) => {
 .item {
   display: inline-block;
   width: 150px;
-}
-
-.thumbnail {
-  overflow: hidden;
-  border-radius: 8px;
-  font-size: 0;
-  height: calc(100% - 30px);
-}
-
-.thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 8px;
-  background: #eee;
+  padding: 0.5rem;
 }
 
 .info {
@@ -276,5 +267,36 @@ const getOtherRows = (currentRowIndex) => {
 
 .row-titles li:hover {
   text-decoration: underline;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.metadata-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--image-hover-background, rgba(0, 0, 0, 0.7));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-wrapper:hover .metadata-overlay {
+  opacity: 0.9;
+}
+
+.metadata-content {
+  color: var(--page-text, #fff);
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9rem;
 }
 </style>
