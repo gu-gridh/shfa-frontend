@@ -19,7 +19,7 @@
           <h3 style="margin-bottom: 1rem;">Row #{{ rowIndex + 1 }}</h3>
           <div class="short-preview" v-if="!row.open">
             <div v-for="item in row.shortItems" :key="item.key" class="short-item">
-              <div class="image-wrapper">
+              <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
                 <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
                 <div class="metadata-overlay">
                   <div class="metadata-content">
@@ -29,13 +29,14 @@
               </div>
             </div>
           </div>
+
           <div v-if="row.open" class="infinite-scroll-container">
-            <MasonryInfiniteGrid class="masonry-grid" :gap="1" :useWindow="false" :scrollContainer="'#split-1'"
-              :threshold="100" @request-append="(e) => onRequestAppend(e, rowIndex)">
+            <MasonryInfiniteGrid class="masonry-grid" :gap="1" :scrollContainer="'#split-1'"
+              :threshold="100" :column="0" @request-append="(e) => onRequestAppend(e, rowIndex)">
               <div class="item" v-for="(item, i) in row.infiniteItems" :key="item.key"
                 :data-grid-groupkey="item.groupKey">
-                <div class="image-wrapper">
-                  <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="shfa image" />
+                <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
+                  <img :src="`${item.iiif_file}/full/150,/0/default.jpg`" />
                   <div class="metadata-overlay">
                     <div class="metadata-content">
                       {{ item.info }}
@@ -72,7 +73,9 @@ onMounted(async () => {
 
     const shortItems = data.results.map((img) => ({
       key: `preview-${i}-${img.id}`,
+      id: img.id,
       iiif_file: img.iiif_file,
+      info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ''}`
     }));
 
     rows.value.push({
@@ -111,7 +114,6 @@ const toggleRow = (rowIndex) => {
 };
 
 const onRequestAppend = async (e, rowIndex) => {
-  console.log("onRequestAppend triggered", rowIndex);
   const row = rows.value[rowIndex];
   if (row.isFetching || !row.nextUrl) return;
 
@@ -125,8 +127,9 @@ const onRequestAppend = async (e, rowIndex) => {
     const newItems = data.results.map((img) => ({
       groupKey: row.currentGroupKey,
       key: `row${rowIndex}-g${row.currentGroupKey}-${img.id}`,
+      id: img.id,
       iiif_file: img.iiif_file,
-      info: `id: ${img.id} | year: ${img.year}`,
+      info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ''}`
     }));
 
     row.currentGroupKey++;
@@ -162,6 +165,7 @@ const getOtherRows = (currentRowIndex) => {
     .map((row, index) => ({ row, index }))
     .filter((item) => item.index !== currentRowIndex);
 };
+
 </script>
 
 <style scoped>
@@ -226,7 +230,6 @@ const getOtherRows = (currentRowIndex) => {
 }
 
 .short-item img {
-  width: 200px;
   height: auto;
   object-fit: cover;
 }
@@ -241,7 +244,6 @@ const getOtherRows = (currentRowIndex) => {
 
 .item {
   display: inline-block;
-  width: 150px;
   padding: 0.5rem;
 }
 
@@ -273,6 +275,7 @@ const getOtherRows = (currentRowIndex) => {
   position: relative;
   width: 100%;
   height: auto;
+  cursor: pointer;
 }
 
 .metadata-overlay {
