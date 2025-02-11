@@ -1,64 +1,82 @@
-  <template>
-    <div class="grid-container">
-      <div v-for="(row, rowIndex) in rows" :key="'row-' + rowIndex" class="row-wrapper" :id="'row-wrapper-' + rowIndex">
-        <div class="button-container" :class="{ sticky: row.open }">
-          <button class="toggle-btn" @click="toggleRow(rowIndex)">
-            {{ row.open ? "Hide" : "Show more" }}
-          </button>
-          <div v-if="row.open" class="row-titles">
-            <ul>
-              <li v-for="other in getOtherRows(rowIndex)" :key="'title-' + other.index"
-                @click="onTitleClick(other.index)">
-                Row #{{ other.index + 1 }}
-              </li>
-            </ul>
-          </div>
+<template>
+  <div class="grid-container">
+    <div
+      v-for="(row, visibleIndex) in visibleRows"
+      :key="'row-' + row.originalIndex"
+      class="row-wrapper"
+      :id="'row-wrapper-' + row.originalIndex"
+    >
+      <div class="button-container" :class="{ sticky: row.open }">
+        <button class="toggle-btn" @click="toggleRow(row.originalIndex)">
+          {{ row.open ? "Hide" : "Show more" }}
+        </button>
+        <div v-if="row.open" class="row-titles">
+          <ul>
+            <li
+              v-for="other in getOtherRows(row.originalIndex)"
+              :key="'title-' + other.index"
+              @click="onTitleClick(other.index)"
+            >
+              Row #{{ other.index + 1 }}
+            </li>
+          </ul>
         </div>
+      </div>
 
-        <div class="right-column">
-          <h3 style="margin-bottom: 1rem;">Row #{{ rowIndex + 1 }}</h3>
-          <div class="short-preview" v-if="!row.open">
-            <div v-for="item in row.shortItems" :key="item.key" class="short-item">
-              <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
-                <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
-                <div class="metadata-overlay">
-                  <div class="metadata-content">
-                    {{ item.info || `ID: ${item.id}` }}
-                  </div>
+      <div class="right-column">
+        <h3 style="margin-bottom: 1rem;">Row #{{ row.originalIndex + 1 }}</h3>
+        <div class="short-preview" v-if="!row.open">
+          <div v-for="item in row.shortItems" :key="item.key" class="short-item">
+            <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
+              <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
+              <div class="metadata-overlay">
+                <div class="metadata-content">
+                  {{ item.info || `ID: ${item.id}` }}
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div v-if="row.open" class="infinite-scroll-container">
-            <MasonryInfiniteGrid class="masonry-grid" :gap="1" :scrollContainer="'#split-1'"
-              :threshold="100" :column="0" @request-append="(e) => onRequestAppend(e, rowIndex)">
-              <div class="item" v-for="(item, i) in row.infiniteItems" :key="item.key"
-                :data-grid-groupkey="item.groupKey">
-                <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
-                  <img :src="`${item.iiif_file}/full/150,/0/default.jpg`" />
-                  <div class="metadata-overlay">
-                    <div class="metadata-content">
-                      {{ item.info }}
-                    </div>
+        <div v-if="row.open" class="infinite-scroll-container">
+          <MasonryInfiniteGrid
+            class="masonry-grid"
+            :gap="1"
+            :scrollContainer="'#split-1'"
+            :threshold="100"
+            :column="0"
+            @request-append="(e) => onRequestAppend(e, row.originalIndex)"
+          >
+            <div
+              class="item"
+              v-for="(item, i) in row.infiniteItems"
+              :key="item.key"
+              :data-grid-groupkey="item.groupKey"
+            >
+              <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
+                <img :src="`${item.iiif_file}/full/150,/0/default.jpg`" />
+                <div class="metadata-overlay">
+                  <div class="metadata-content">
+                    {{ item.info }}
                   </div>
                 </div>
               </div>
+            </div>
 
-              <template #loading="{ item }">
-                <div class="loading" :key="item.key" :data-grid-groupkey="item.groupKey">
-                  <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
-                </div>
-              </template>
-            </MasonryInfiniteGrid>
-          </div>
+            <template #loading="{ item }">
+              <div class="loading" :key="item.key" :data-grid-groupkey="item.groupKey">
+                <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
+              </div>
+            </template>
+          </MasonryInfiniteGrid>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, computed } from "vue";
 import { MasonryInfiniteGrid } from "@egjs/vue3-infinitegrid";
 
 const rows = ref([]);
@@ -79,6 +97,7 @@ onMounted(async () => {
     }));
 
     rows.value.push({
+      originalIndex: i,
       shortItems,
       open: false,
       infiniteItems: [],
@@ -89,49 +108,49 @@ onMounted(async () => {
   }
 });
 
-const toggleRow = (rowIndex) => {
-  rows.value.forEach((row, i) => {
-    if (i !== rowIndex && row.open) {
+const visibleRows = computed(() => {
+  const anyExpanded = rows.value.some((row) => row.open);
+  return anyExpanded ? rows.value.filter((row) => row.open) : rows.value;
+});
+
+const toggleRow = (originalIndex) => {
+  rows.value.forEach((row) => {
+    if (row.originalIndex !== originalIndex && row.open) {
       row.open = false;
     }
   });
-
-  const row = rows.value[rowIndex];
-  row.open = !row.open;
-
-  if (!row.open) {
-    nextTick(() => {
-      const rowEl = document.getElementById(`row-wrapper-${rowIndex}`);
-      const container = document.getElementById('split-1');
-      if (rowEl && container) {
-        container.scrollTo({
-          top: rowEl.offsetTop - container.offsetTop,
-          behavior: 'smooth'
-        });
-      }
-    });
+  const row = rows.value.find((r) => r.originalIndex === originalIndex);
+  if (row) {
+    row.open = !row.open;
+    if (!row.open) {
+      nextTick(() => {
+        const rowEl = document.getElementById(`row-wrapper-${originalIndex}`);
+        const container = document.getElementById("split-1");
+        if (rowEl && container) {
+          container.scrollTo({
+            top: rowEl.offsetTop - container.offsetTop,
+          });
+        }
+      });
+    }
   }
 };
 
-const onRequestAppend = async (e, rowIndex) => {
-  const row = rows.value[rowIndex];
-  if (row.isFetching || !row.nextUrl) return;
-
+const onRequestAppend = async (e, originalIndex) => {
+  const row = rows.value.find((r) => r.originalIndex === originalIndex);
+  if (!row || row.isFetching || !row.nextUrl) return;
   row.isFetching = true;
   e.wait();
-
   try {
     const response = await fetch(row.nextUrl);
     const data = await response.json();
-
     const newItems = data.results.map((img) => ({
       groupKey: row.currentGroupKey,
-      key: `row${rowIndex}-g${row.currentGroupKey}-${img.id}`,
+      key: `row${originalIndex}-g${row.currentGroupKey}-${img.id}`,
       id: img.id,
       iiif_file: img.iiif_file,
       info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ''}`
     }));
-
     row.currentGroupKey++;
     row.infiniteItems.push(...newItems);
     row.nextUrl = data.next;
@@ -143,29 +162,27 @@ const onRequestAppend = async (e, rowIndex) => {
   }
 };
 
-const onTitleClick = (targetRowIndex) => {
-  const expandedRowIndex = rows.value.findIndex((row) => row.open);
-  if (expandedRowIndex !== -1) {
-    rows.value[expandedRowIndex].open = false;
+const onTitleClick = (targetOriginalIndex) => {
+  const expandedRow = rows.value.find((row) => row.open);
+  if (expandedRow) {
+    expandedRow.open = false;
   }
   nextTick(() => {
-    const rowEl = document.getElementById(`row-wrapper-${targetRowIndex}`);
-    const container = document.getElementById('split-1');
+    const rowEl = document.getElementById(`row-wrapper-${targetOriginalIndex}`);
+    const container = document.getElementById("split-1");
     if (rowEl && container) {
       container.scrollTo({
         top: rowEl.offsetTop - container.offsetTop,
-        behavior: 'smooth'
       });
     }
   });
 };
 
-const getOtherRows = (currentRowIndex) => {
+const getOtherRows = (currentOriginalIndex) => {
   return rows.value
-    .map((row, index) => ({ row, index }))
-    .filter((item) => item.index !== currentRowIndex);
+    .map((row) => ({ row, index: row.originalIndex }))
+    .filter((item) => item.index !== currentOriginalIndex);
 };
-
 </script>
 
 <style scoped>
