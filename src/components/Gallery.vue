@@ -77,6 +77,7 @@ import { MasonryInfiniteGrid } from "@egjs/vue3-infinitegrid";
 
 const rows = ref([]);
 const scrollContainer = ref(null);
+const emit = defineEmits(['image-clicked', 'row-clicked']);
 
 onMounted(async () => {
   scrollContainer.value = document.getElementById(".flex-grow.overflow-auto.main-color");
@@ -165,6 +166,7 @@ const onTitleClick = (targetOriginalIndex) => {
       container.scrollTo({
         top: rowEl.offsetTop - container.offsetTop,
       });
+      emit('row-clicked');
     }
   });
 };

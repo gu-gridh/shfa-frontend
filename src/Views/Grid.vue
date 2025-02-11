@@ -153,7 +153,7 @@
                   - :advancedPreviousPageUrl="previousPageUrlAdvanced" URL for fetching the previous page of advanced search results
                 -->
 
-                <Gallery @image-clicked="onImageClicked" @updateShowResults="handleShowResults"
+                <Gallery @image-clicked="onImageClicked" @updateShowResults="handleShowResults" @row-clicked="closeThreePanels"
                   @page-details-updated="updatePageDetails" :siteId="selectedId" :forceRefresh="forceRefresh"
                   :searchItems="searchItems" :fetchNextPage="fetchNextPage" :searchFetchPreviousPage="fetchPreviousPage"
                   :searchNextPageUrl="nextPageUrl" :searchPreviousPageUrl="previousPageUrl"
