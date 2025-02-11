@@ -2,7 +2,6 @@
   <div class="grid-container">
     <div
       v-for="(row, visibleIndex) in visibleRows"
-      :key="'row-' + row.originalIndex"
       class="row-wrapper"
       :id="'row-wrapper-' + row.originalIndex"
     >
@@ -14,7 +13,6 @@
           <ul>
             <li
               v-for="other in getOtherRows(row.originalIndex)"
-              :key="'title-' + other.index"
               @click="onTitleClick(other.index)"
             >
               Row #{{ other.index + 1 }}
@@ -26,7 +24,7 @@
       <div class="right-column">
         <h3 style="margin-bottom: 1rem;">Row #{{ row.originalIndex + 1 }}</h3>
         <div class="short-preview" v-if="!row.open">
-          <div v-for="item in row.shortItems" :key="item.key" class="short-item">
+          <div v-for="item in row.shortItems" class="short-item">
             <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
               <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
               <div class="metadata-overlay">
@@ -50,7 +48,6 @@
             <div
               class="item"
               v-for="(item, i) in row.infiniteItems"
-              :key="item.key"
             >
               <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
                 <img :src="`${item.iiif_file}/full/150,/0/default.jpg`" />
@@ -63,7 +60,7 @@
             </div>
 
             <template #loading="{ item }">
-              <div class="loading" :key="item.key">
+              <div class="loading">
                 <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
               </div>
             </template>
@@ -89,7 +86,6 @@ onMounted(async () => {
     const data = await res.json();
 
     const shortItems = data.results.map((img) => ({
-      key: `preview-${i}-${img.id}`,
       id: img.id,
       iiif_file: img.iiif_file,
       info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ''}`
