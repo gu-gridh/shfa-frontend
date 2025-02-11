@@ -1421,9 +1421,9 @@ export default defineComponent({
 }
 
 /* comment this for instant scroll */
-* { 
+/* { 
   scroll-behavior: smooth;
-}
+} */
 
 #split-2::-webkit-scrollbar {
   width: 0px !important;

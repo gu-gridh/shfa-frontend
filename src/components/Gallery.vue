@@ -51,7 +51,6 @@
               class="item"
               v-for="(item, i) in row.infiniteItems"
               :key="item.key"
-              :data-grid-groupkey="item.groupKey"
             >
               <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
                 <img :src="`${item.iiif_file}/full/150,/0/default.jpg`" />
@@ -64,7 +63,7 @@
             </div>
 
             <template #loading="{ item }">
-              <div class="loading" :key="item.key" :data-grid-groupkey="item.groupKey">
+              <div class="loading" :key="item.key">
                 <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
               </div>
             </template>
@@ -102,7 +101,6 @@ onMounted(async () => {
       open: false,
       infiniteItems: [],
       nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
-      currentGroupKey: 0,
       isFetching: false,
     });
   }
@@ -145,13 +143,10 @@ const onRequestAppend = async (e, originalIndex) => {
     const response = await fetch(row.nextUrl);
     const data = await response.json();
     const newItems = data.results.map((img) => ({
-      groupKey: row.currentGroupKey,
-      key: `row${originalIndex}-g${row.currentGroupKey}-${img.id}`,
       id: img.id,
       iiif_file: img.iiif_file,
       info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ''}`
     }));
-    row.currentGroupKey++;
     row.infiniteItems.push(...newItems);
     row.nextUrl = data.next;
   } catch (err) {
