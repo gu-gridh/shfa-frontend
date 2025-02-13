@@ -42,7 +42,7 @@
             :gap="1"
             :scrollContainer="'#split-1'"
             :threshold="100"
-            :column="0"
+            :useResizeObserver="true"
             @request-append="(e) => onRequestAppend(e, row.originalIndex)"
           >
             <div
