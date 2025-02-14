@@ -100,16 +100,15 @@
         <div id="split-0" class="flex-grow flex flex-col "
           :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
 
-          <Search @toggle-map="toggleMap" @search-completed="updateItems" @page-details-updated="updatePageDetails"
-            @metadata-route="updatePreviousRoute" ref="searchRef"
+          <Search @toggle-map="toggleMap" ref="searchRef" @search-term="handleSearchTerm"
           />
 
           <Map @id-selected="selectedId = $event" @reset-id="handleBboxClicked" @update-bbox="bbox = $event"
             @map-clicked="handleMapClicked" ref="mapComponent" v-show="showMap" :coordinates="results" :bbox="bbox"
             :showMap="showMap" />
 
-          <AdvancedSearch v-show="!showMap" @advanced-search-results="handleAdvancedSearchResults"
-            @page-details-updated="updatePageDetails" ref="advancedSearchRef" :currentLang="currentLanguage"
+          <AdvancedSearch v-show="!showMap" @advanced-search-params="handleAdvancedSearchResults"
+            ref="advancedSearchRef" :currentLang="currentLanguage"
           />
 
           <button v-show="showMap" id="reset-layout-mapview" @click="resetSplitsAndPanels">{{
@@ -637,7 +636,7 @@ export default defineComponent({
     },
     handleAdvancedSearchResults(results) {
       this.advancedSearchResults = results;
-      this.selectedId = null; // Reset selectedId
+      this.selectedId = null;
       this.showResults = true;
       this.$refs.searchRef.clearSearchField();
       this.$router.push({
@@ -645,11 +644,11 @@ export default defineComponent({
       });
       this.showImageGallery();
     },
-    updatePageDetails({ currentPage, totalPages, totalResults }) {
-      this.currentPage = currentPage;
-      this.totalPages = totalPages;
-      this.totalResults = totalResults;
-    },
+    handleSearchTerm(searchTerm) {
+      this.searchItems = searchTerm; 
+      this.showResults = true;
+      this.showImageGallery();
+    }
   },
 });
 </script>

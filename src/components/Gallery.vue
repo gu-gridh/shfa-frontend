@@ -72,8 +72,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, computed } from "vue";
+import { ref, onMounted, nextTick, computed, watch } from "vue";
 import { MasonryInfiniteGrid } from "@egjs/vue3-infinitegrid";
+
+const props = defineProps({
+  searchItems: {
+    type: Array,
+    default: () => []
+  },
+  advancedSearchResults: {
+    type: Array,
+    default: () => []
+  }
+});
 
 const rows = ref([]);
 const scrollContainer = ref(null);
@@ -176,6 +187,14 @@ const getOtherRows = (currentOriginalIndex) => {
     .map((row) => ({ row, index: row.originalIndex }))
     .filter((item) => item.index !== currentOriginalIndex);
 };
+
+watch(() => props.searchItems, (newValue) => {
+  console.log('Regular Search Items:', newValue);
+});
+
+watch(() => props.advancedSearchResults, (newValue) => {
+  console.log('Advanced Search Results:', newValue);
+});
 </script>
 
 <style scoped>
