@@ -101,8 +101,8 @@
           :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
 
           <Search @toggle-map="toggleMap" @search-completed="updateItems" @page-details-updated="updatePageDetails"
-            @metadata-route="updatePreviousRoute" ref="searchRef" :updateNextPageUrl="updateNextPageUrl"
-            :updatePreviousPageUrl="updatePreviousPageUrl" />
+            @metadata-route="updatePreviousRoute" ref="searchRef"
+          />
 
           <Map @id-selected="selectedId = $event" @reset-id="handleBboxClicked" @update-bbox="bbox = $event"
             @map-clicked="handleMapClicked" ref="mapComponent" v-show="showMap" :coordinates="results" :bbox="bbox"
@@ -110,9 +110,7 @@
 
           <AdvancedSearch v-show="!showMap" @advanced-search-results="handleAdvancedSearchResults"
             @page-details-updated="updatePageDetails" ref="advancedSearchRef" :currentLang="currentLanguage"
-            :updateNextPageUrlAdvanced="updateNextPageUrlAdvanced"
-            :updatePreviousPageUrlAdvanced="updatePreviousPageUrlAdvanced" />
-
+          />
 
           <button v-show="showMap" id="reset-layout-mapview" @click="resetSplitsAndPanels">{{
             $t('message.resetlayout') }}</button>
@@ -127,39 +125,11 @@
 
           <div class="">
             <div class="">
-
               <div v-show="showGallery">
-
-                <!--
-                  Gallery Component Attributes:
-                  - @image-clicked="onImageClicked" Listens for an 'image-clicked' event and calls 'onImageClicked' method
-                  - @updateShowResults="handleShowResults" Handles the event to show/hide results
-                  - @page-details-updated="updatePageDetails"   Updates page details when they change in the Gallery component 
-
-                  - :Binds a dynamic class based on the 'isLight' state for theming
-                  - :siteId="selectedId" : Passes the currently selected site ID to the Gallery component
-                  - :forceRefresh="forceRefresh" A number that changes to trigger a refresh in the Gallery component
-
-                  - :searchItems="searchItems"   Passes search items to the Gallery for display
-                  - :fetchNextPage="fetchNextPage" Function to fetch the next page of search results
-                  - :searchFetchPreviousPage="fetchPreviousPage" Function to fetch the previous page of search results
-                  - :searchNextPageUrl="nextPageUrl" URL for fetching the next page of search results
-                  - :searchPreviousPageUrl="previousPageUrl" URL for fetching the previous page of search results
-
-                  - :advancedSearchResults="advancedSearchResults" Passes advanced search results to the Gallery
-                  - :fetchNextPageAdvanced="fetchNextPageAdvanced" Function to fetch the next page of advanced search results
-                  - :advancedFetchPreviousPage="fetchPreviousPageAdvanced" Function to fetch the previous page of advanced search results
-                  - :searchNextPageUrlAdvanced="nextPageUrlAdvanced" URL for fetching the next page of advanced search results
-                  - :advancedPreviousPageUrl="previousPageUrlAdvanced" URL for fetching the previous page of advanced search results
-                -->
-
-                <Gallery @image-clicked="onImageClicked" @updateShowResults="handleShowResults" @row-clicked="closeThreePanels"
-                  @page-details-updated="updatePageDetails" :siteId="selectedId" :forceRefresh="forceRefresh"
-                  :searchItems="searchItems" :fetchNextPage="fetchNextPage" :searchFetchPreviousPage="fetchPreviousPage"
-                  :searchNextPageUrl="nextPageUrl" :searchPreviousPageUrl="previousPageUrl"
-                  :advancedSearchResults="advancedSearchResults" :fetchNextPageAdvanced="fetchNextPageAdvanced"
-                  :advancedFetchPreviousPage="fetchPreviousPageAdvanced"
-                  :searchNextPageUrlAdvanced="nextPageUrlAdvanced" :advancedPreviousPageUrl="previousPageUrlAdvanced" />
+                <Gallery @image-clicked="onImageClicked" @row-clicked="closeThreePanels" 
+                  :searchItems="searchItems" 
+                  :advancedSearchResults="advancedSearchResults" 
+                   />
               </div>
               <div style="display:flex; align-items: center; justify-content: center;">
                 <div class="ui-results" v-show="showResults" style="width:220px; font-size:0.9em; padding:5px 5px;">
@@ -230,7 +200,6 @@ export default defineComponent({
         this.showResults = true;
       }
       if (newQuery && this.isInitialLoad) {
-        this.$refs.searchRef.searchKeywordTags(newQuery);
         this.isInitialLoad = false;
       }
       if (this.newIiifFile) {
@@ -306,11 +275,6 @@ export default defineComponent({
       showResults: false,
       showMap: true,
       showGallery: true,
-      nextPageUrl: null,
-      nextPageUrlAdvanced: null,
-      previousPageUrl: null,
-      previousPageUrlAdvanced: null,
-      forceRefresh: 0,
       visiblePrivacy: false,
       mapClicked: false,
       currentColour: "dark",
@@ -516,7 +480,6 @@ export default defineComponent({
       }
       if (newQuery && this.isInitialLoad) {
         if (this.$refs.searchRef) {
-          this.$refs.searchRef.searchKeywordTags(newQuery);
         } else {
           console.error("searchRef is not available.");
         }
@@ -672,18 +635,6 @@ export default defineComponent({
         });
       }
     },
-    fetchNextPage() {
-      this.$refs.searchRef.fetchNextPage();
-    },
-    fetchNextPageAdvanced() {
-      this.$refs.advancedSearchRef.fetchNextPage();
-    },
-    updateNextPageUrl(newUrl) {
-      this.nextPageUrl = newUrl;
-    },
-    updateNextPageUrlAdvanced(newUrl) {
-      this.nextPageUrlAdvanced = newUrl;
-    },
     handleAdvancedSearchResults(results) {
       this.advancedSearchResults = results;
       this.selectedId = null; // Reset selectedId
@@ -693,18 +644,6 @@ export default defineComponent({
         name: "Search",
       });
       this.showImageGallery();
-    },
-    fetchPreviousPage() {
-      this.$refs.searchRef.fetchPreviousPage();
-    },
-    updatePreviousPageUrl(url) {
-      this.previousPageUrl = url;
-    },
-    fetchPreviousPageAdvanced() {
-      this.$refs.advancedSearchRef.fetchPreviousPage();
-    },
-    updatePreviousPageUrlAdvanced(url) {
-      this.previousPageUrlAdvanced = url;
     },
     updatePageDetails({ currentPage, totalPages, totalResults }) {
       this.currentPage = currentPage;

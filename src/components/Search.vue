@@ -10,11 +10,8 @@
           <input type="search" id="search" name="search"
             :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'" class=""
             :value="searchQuery" @input="updateSearchQuery($event.target.value)" @keydown="handleBackspace($event)"
-            @keydown.enter="triggerSearch" autocomplete="off" />
-          <!--   <button class="toggle-map-btn" @click="$emit('toggle-map')">
-            Advanced Search
-          </button> -->
-          <button class="search-button-round" id="search-button" @click="triggerSearch">
+            @keydown.enter="emitSearch" autocomplete="off" />
+          <button class="search-button-round" id="search-button" @click="emitSearch">
           </button>
         </div>
       </div>
@@ -27,7 +24,7 @@
       </div>
     </div>
   </div>
-  <div class="search-switcher" style="display:flex;  align-items: left; justify-content: left;">
+  <div class="search-switcher" style="display:flex; align-items: left; justify-content: left;">
     <div class="ui-mode map-switch-margin" id="map-toggle">
       <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
         {{ $t('message.karta') }}
@@ -36,305 +33,88 @@
         @click="togglePanel('Advanced Search')">
         {{ $t('message.avanceradsökning') }}
       </button>
-
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import useSearchTracking from '../composables/useSearchTracking.js'
-import { useStore } from '../stores/store.js';
+import useSearchTracking from '../composables/useSearchTracking.js';
 
-export default {
-  name: 'Search',
-  emits: ['toggle-map', 'search-completed', 'page-details-updated', 'metadata-route'],
-  data() {
-    return {
-      searchQuery: '',
-      searchResults: [],
-      selectedKeywords: [],
-      defaultSearchResults: [],
-      previousPageUrl: null,
-      nextPageUrl: null,
-      count: 0,
-      activePanel: 'Map Interface',
-    };
-  },
-  setup() {
-    const router = useRouter();
+const router = useRouter();
+const searchQuery = ref('');
+const selectedKeywords = ref([]);
+const activePanel = ref('Map Interface');
 
-    return { router };
-  },
-  props: {
-    updateNextPageUrl: {
-      type: Function,
-      required: true,
-    },
-    updatePreviousPageUrl: {
-      type: Function,
-      required: true,
-    },
-  },
-  computed: {
-    currentKeywordName() {
-      return this.selectedKeywords.length > 0 ? this.selectedKeywords[0].text : '';
-    },
-    totalPages() {
-      return Math.ceil(this.count / 25);
-    },
-    currentPage() {
-      if (this.nextPageUrl) {
-        const url = new URL(this.nextPageUrl);
-        const offset = url.searchParams.get("offset");
-        return (offset / 25);
-      } else if (this.previousPageUrl) {
-        const url = new URL(this.previousPageUrl);
-        const offset = url.searchParams.get("offset");
-        return (offset / 25) + 2;
-      } else {
-        // Default to 1 if no next or previous page
-        return 1;
-      }
-    }
-  },
-  created() {
-    this.coordinateStore = useStore();
-    
-    this.defaultSearchResults = [
-      { id: 1, text: "3D"},
-      { id: 2, text: 'hällristningsmiljö' },
-      { id: 3, text: 'nattfoto' },
-      { id: 4, text: 'vattenöversilad' },
-      { id: 5, text: 'laserskanning' },
-      { id: 6, text: 'skepp' },
-      { id: 7, text: 'djur' },
-      { id: 8, text: 'vagn' },
-      { id: 9, text: 'vapen' },
-      { id: 10, text: 'krigare' },
-      { id: 11, text: 'människofigur' },
-      { id: 12, text: 'vitlycke' },
-      { id: 13, text: 'skee' },
-      { id: 14, text: 'kalkering' },
-      { id: 15, text: 'frottage' },
-    ];
-  },
-  methods: {
-    updateSearchFromMetadata(term) {
-      this.clearSearchField();
-      this.searchQuery = term;
-      this.$router.push({ name: 'SearchQuery', params: { query: this.searchQuery } })
-        .then(() => {
-          const currentRoute = this.$route.fullPath;
-          this.$emit('metadata-route', currentRoute);
-        })
-        .catch(err => {
-          console.error(err);
-        });
+const emit = defineEmits(['toggle-map', 'search-term']);
 
-      this.searchKeywordTags(term);
-    },
-    clearSearchField() {
-      this.searchQuery = '';
-      this.selectedKeywords = [];
-    },
-    updatePageDetails() {
-      this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
-    },
-    triggerSearch() {
-      const query = this.selectedKeywords.length > 0
-        ? this.selectedKeywords[0].text
-        : this.searchQuery;
+const defaultSearchResults = [
+  { id: 1, text: "3D"},
+  { id: 2, text: 'hällristningsmiljö' },
+  { id: 3, text: 'nattfoto' },
+  { id: 4, text: 'vattenöversilad' },
+  { id: 5, text: 'laserskanning' },
+  { id: 6, text: 'skepp' },
+  { id: 7, text: 'djur' },
+  { id: 8, text: 'vagn' },
+  { id: 9, text: 'vapen' },
+  { id: 10, text: 'krigare' },
+  { id: 11, text: 'människofigur' },
+  { id: 12, text: 'vitlycke' },
+  { id: 13, text: 'skee' },
+  { id: 14, text: 'kalkering' },
+  { id: 15, text: 'frottage' },
+];
 
-      this.$router.push({ name: 'SearchQuery', params: { query: query } });
+const emitSearch = () => {
+  const query = selectedKeywords.value.length > 0
+    ? selectedKeywords.value[0].text
+    : searchQuery.value;
 
-      this.searchKeywordTags(query);
-      const { trackSearch } = useSearchTracking();
-      trackSearch(query);
-    },
-    async searchKeywordTags(query) {
-      this.searchResults = []; // clear previous results
-
-      if (!query) {
-        return;
-      }
-
-      const url = `https://diana.dh.gu.se/api/shfa/search/?q=${query}&depth=1`;
-      const url3D = `https://diana.dh.gu.se/api/shfa/null_visualization_group/?depth=1`;
-      if (query === '3D') {
-        await this.fetchResults(url3D);
-      }
-      else {
-        await this.fetchResults(url);
-      }
-    },
-    async fetchResults(url) {
-      try {
-        this.coordinateStore.setLoading(true);
-        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-        const response = await fetch(url);
-        const data = await response.json();
-        this.count = data.count; // Update the total count
-
-        const specificOrder = [
-          { type: 957, text: 'ortofotografi', order: 1 },
-          { type: 965, text: 'översiktsbild', order: 1 },
-          { type: 943, text: 'threedvisualization', order: 2 },
-          { type: 958, text: 'threedsm', order: 3 },
-          { type: 959, text: 'threedlaserscanning', order: 4 },
-          { type: 961, text: 'miljöbild', order: 5 },
-          { type: 964, text: 'nattfoto', order: 6 },
-          { type: 942, text: 'fotografi', order: 7 },
-          { type: 949, text: 'diabild', order: 8 },
-          { type: 947, text: 'negativfärg', order: 9 },
-          { type: 948, text: 'negativsvart', order: 10 },
-          { type: 960, text: 'printscreen', order: 11 },
-          { type: 956, text: 'photosfm', order: 12 },
-          { type: 954, text: 'dstretch', order: 13 },
-          { type: 941, text: 'frottage', order: 14 },
-          { type: 946, text: 'grafik', order: 15 },
-          { type: 944, text: 'kalkering', order: 16 },
-          { type: 951, text: 'ritning', order: 17 },
-          { type: 955, text: 'kalkeringpapper', order: 18 },
-          { type: 945, text: 'avgjutning', order: 19 },
-          { type: 952, text: 'dokument', order: 20 },
-          { type: 953, text: 'karta', order: 21 },
-          { type: 950, text: 'tidnings', order: 22 },
-          { type: 962, text: 'arbetsbild', order: 23 },
-        ]
-
-        // Map the specificOrder array to an object where the keys are the types
-        let typeMap = specificOrder.map(order => ({
-          ...order,
-          items: [],
-        }));
-
-        // Iterate over the results and map them into the correct groups
-        for (let image of data.results) {
-          let type = image.type;
-          let item = {
-            id: image.id ?? null,
-            lamning_id: image?.site?.lamning_id ?? null,
-            raa_id: image?.site?.raa_id ?? null,
-            type: image?.type?.id ?? null,
-            iiif_file: image.iiif_file ?? null,
-            coordinates: image?.site?.coordinates?.coordinates ?? null,
-            vis_group: image?.group,
-          };
-
-          const coords = image?.site?.coordinates?.coordinates;
-          if (coords) {
-            const [x, y] = coords;
-            minX = Math.min(minX, x);
-            maxX = Math.max(maxX, x);
-            minY = Math.min(minY, y);
-            maxY = Math.max(maxY, y);
-          }
-
-          let typeIndex = typeMap.findIndex(x => x.type === (type?.id ?? null));
-          if (typeIndex !== -1) {
-            typeMap[typeIndex].items.push(item);
-          }
-        }
-
-        if (minX !== Infinity && maxX !== -Infinity && minY !== Infinity && maxY !== -Infinity) {
-          const boundingBox = {
-            topLeft: [minX, maxY],
-            topRight: [maxX, maxY],
-            bottomLeft: [minX, minY],
-            bottomRight: [maxX, minY],
-          };
-          this.coordinateStore.setBoundingBox(boundingBox);
-        } else {
-          console.log('No valid coordinates found. Skipping setting the bounding box.');
-        }
-
-        // Filter out the groups with no items and sort the image groups by the specified order
-        this.searchResults = typeMap.filter(group => group.items.length > 0)
-        //.sort((a, b) => a.order - b.order);
-
-        this.searchResults = Array.from(typeMap.values());
-
-        // Store the next URL for future use
-        if (data.next) {
-          this.nextPageUrl = data.next.replace('http://', 'https://');
-          this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
-          this.updateNextPageUrl(this.nextPageUrl);  // Update the parent's nextPageUrl state
-        } else {
-          this.nextPageUrl = null;
-          this.updateNextPageUrl(null);  // Update the parent's nextPageUrl state
-        }
-
-        if (data.previous) {
-          this.previousPageUrl = data.previous.replace('http://', 'https://');
-          this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
-          this.updatePreviousPageUrl(this.previousPageUrl);  // Update the parent's previousPageUrl state
-        } else {
-          this.previousPageUrl = null;
-          this.updatePreviousPageUrl(null);  // Update the parent's previousPageUrl state
-        }
-
-
-      } catch (error) {
-        console.error(error);
-      } finally {
-        // After all data is loaded, emit the contents of searchResults
-        this.coordinateStore.setLoading(false);
-        this.$emit('search-completed', this.searchResults);
-        this.updatePageDetails();
-      }
-    },
-    async fetchNextPage() {
-      if (this.nextPageUrl) {
-        await this.fetchResults(this.nextPageUrl);
-      } else {
-        console.log("No more pages to fetch.");
-      }
-    },
-    async fetchPreviousPage() {
-      if (this.previousPageUrl) {
-        await this.fetchResults(this.previousPageUrl);
-      } else {
-        console.log("No previous pages to fetch.");
-      }
-    },
-
-    selectResult(result) {
-      if (this.selectedKeywords.length > 0) {
-        // Add the currently selected keyword back to the defaultSearchResults
-        //const currentKeyword = this.selectedKeywords[0];
-        // this.defaultSearchResults.splice(currentKeyword.position, 0, currentKeyword);
-      }
-      // Replace the currently selected keyword with the new one
-      this.selectedKeywords = [result];
-      this.searchQuery = ''; // Empty the search box
-      const index = this.defaultSearchResults.findIndex(item => item.id === result.id);
-      if (index !== -1) {
-        //this.defaultSearchResults.splice(index, 1); // Remove from suggestions
-      }
-      this.triggerSearch();
-    },
-    deselectKeyword(keyword) {
-      // Add the deselected keyword back to its original position in the defaultSearchResults
-      //this.defaultSearchResults.splice(keyword.position, 0, keyword);
-      this.selectedKeywords = []; // Remove from selected
-    },
-    updateSearchQuery(value) {
-      this.searchQuery = value;
-    },
-    togglePanel(panelName) {
-      if (this.activePanel !== panelName) {
-        this.activePanel = panelName;
-        this.$emit('toggle-map');
-      }
-    },
-    handleBackspace(event) {
-      if (event.key === 'Backspace' && this.searchQuery === '') {
-        this.deselectKeyword(this.selectedKeywords[this.selectedKeywords.length - 1]);
-      }
-    },
-  },
+  if (query) {
+    emit('search-term', query);
+    router.push({ name: 'SearchQuery', params: { query } });
+    const { trackSearch } = useSearchTracking();
+    trackSearch(query);
+  }
 };
+
+const selectResult = (result) => {
+  selectedKeywords.value = [result];
+  searchQuery.value = '';
+  emitSearch();
+};
+
+const deselectKeyword = () => {
+  selectedKeywords.value = [];
+};
+
+const updateSearchQuery = (value) => {
+  searchQuery.value = value;
+};
+
+const togglePanel = (panelName) => {
+  if (activePanel.value !== panelName) {
+    activePanel.value = panelName;
+    emit('toggle-map');
+  }
+};
+
+const handleBackspace = (event) => {
+  if (event.key === 'Backspace' && searchQuery.value === '') {
+    deselectKeyword();
+  }
+};
+
+const clearSearchField = () => {
+  searchQuery.value = '';
+  selectedKeywords.value = [];
+};
+
+defineExpose({
+  clearSearchField
+});
 </script>
 
 <style scoped>
