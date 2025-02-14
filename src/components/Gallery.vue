@@ -87,6 +87,10 @@ const props = defineProps({
   bboxSearch: {
     type: Array,
     default: () => []
+  },
+  selectedSiteId: {
+    type: [Number, String],
+    default: null
   }
 });
 
@@ -199,8 +203,13 @@ watch(() => props.searchItems, (newValue) => {
 watch(() => props.advancedSearchResults, (newValue) => {
   console.log('Advanced Search Results:', newValue);
 });
+
 watch(() => props.bboxSearch, (newValue) => {
   console.log('Bbox Search:', newValue);
+});
+
+watch(() => props.selectedSiteId, (newValue) => {
+  console.log('Selected Site ID:', newValue);
 });
 </script>
 

@@ -107,7 +107,8 @@
             ref="mapComponent"
             v-show="showMap"
             @bbox-search="handleBboxSearch" 
-            @map-clicked="handleMapClicked" 
+            @map-clicked="handleMapClicked"
+            @id-selected="selectedId = $event"
             :coordinates="results" 
             :bbox="bbox"
             :showMap="showMap" 
@@ -137,6 +138,7 @@
                   :searchItems="searchItems" 
                   :advancedSearchResults="advancedSearchResults"
                   :bboxSearch="bboxResults"
+                  :selectedSiteId="selectedId"
                 />
               </div>
               <div style="display:flex; align-items: center; justify-content: center;">
@@ -202,10 +204,6 @@ export default defineComponent({
       const newSiteId = to.params.siteId;
       this.newIiifFile = to.params.iiifFile;
       const newQuery = to.params.query;
-      if (newSiteId) {
-        this.selectedId = newSiteId;
-        this.showResults = true;
-      }
       if (newQuery && this.isInitialLoad) {
         this.isInitialLoad = false;
       }
