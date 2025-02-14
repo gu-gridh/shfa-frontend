@@ -15,21 +15,23 @@
               v-for="other in getOtherRows(row.originalIndex)"
               @click="onTitleClick(other.index)"
             >
-              Row #{{ other.index + 1 }}
+              {{ other.title }}
             </li>
           </ul>
         </div>
       </div>
 
       <div class="right-column">
-        <h3 style="margin-bottom: 1rem;">Row #{{ row.originalIndex + 1 }}</h3>
+        <h3 style="margin-bottom: 1rem;">
+          {{ row.type_translation ? row.type_translation : `Row #${row.originalIndex + 1}` }}
+        </h3>
         <div class="short-preview" v-if="!row.open">
           <div v-for="item in row.shortItems" class="short-item">
             <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
               <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
               <div class="metadata-overlay">
                 <div class="metadata-content">
-                  {{ item.info || `ID: ${item.id}` }}
+                  {{ item.info }}
                 </div>
               </div>
             </div>
@@ -45,10 +47,7 @@
             :useResizeObserver="true"
             @request-append="(e) => onRequestAppend(e, row.originalIndex)"
           >
-            <div
-              class="item"
-              v-for="(item, i) in row.infiniteItems"
-            >
+            <div class="item" v-for="(item, i) in row.infiniteItems">
               <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
                 <img :src="`${item.iiif_file}/full/150,/0/default.jpg`" />
                 <div class="metadata-overlay">
@@ -72,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, computed, watch } from "vue";
+import { ref, onMounted, nextTick, computed, watch, reactive } from "vue";
 import { MasonryInfiniteGrid } from "@egjs/vue3-infinitegrid";
 
 const props = defineProps({
@@ -96,30 +95,96 @@ const props = defineProps({
 
 const rows = ref([]);
 const scrollContainer = ref(null);
-const emit = defineEmits(['image-clicked', 'row-clicked']);
+const emit = defineEmits(["image-clicked", "row-clicked"]);
 
-onMounted(async () => {
-  scrollContainer.value = document.getElementById(".flex-grow.overflow-auto.main-color");
+//track the last update for each filter type
+const filterTimestamps = reactive({
+  search: 0,
+  advanced: 0,
+  bbox: 0,
+  site: 0
+});
 
-  for (let i = 0; i < 10; i++) {
-    const res = await fetch("https://diana.dh.gu.se/api/shfa/image/?limit=5");
-    const data = await res.json();
+//compute which filter is the most recent
+const activeFilter = computed(() => {
+  let max = 0;
+  let filter = null;
+  for (const key in filterTimestamps) {
+    if (filterTimestamps[key] > max) {
+      max = filterTimestamps[key];
+      filter = key;
+    }
+  }
+  return filter;
+});
 
-    const shortItems = data.results.map((img) => ({
-      id: img.id,
-      iiif_file: img.iiif_file,
-      info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ''}`
-    }));
 
-    rows.value.push({
-      originalIndex: i,
-      shortItems,
-      open: false,
-      infiniteItems: [],
-      nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
-      isFetching: false,
+//TEMP helper function to format the iiif url
+const formatIiifUrl = (url) => {
+  if (url.startsWith("http")) return url;
+  return "https://img.dh.gu.se/diana/static/" + url;
+};
+
+// build the gallery api url based on the most recent filter update
+const buildGalleryUrl = () => {
+  let url = "https://diana.dh.gu.se/api/shfa/gallery/";
+  const params = new URLSearchParams();
+
+  const filter = activeFilter.value;
+  if (filter === "site" && props.selectedSiteId) {
+    params.append("site", props.selectedSiteId);
+  } else if (filter === "search" && props.searchItems && props.searchItems.toString().trim() !== "") {
+    params.append("search_type", "general");
+    params.append("q", props.searchItems);
+  } else if (filter === "bbox" && props.bboxSearch && Array.isArray(props.bboxSearch) && props.bboxSearch.length === 4) {
+    params.append("in_bbox", props.bboxSearch.join(","));
+    params.append("depth", "2");
+  } else if (filter === "advanced" && props.advancedSearchResults && typeof props.advancedSearchResults === "object") {
+    params.append("search_type", "advanced");
+    Object.keys(props.advancedSearchResults).forEach(key => {
+      const value = props.advancedSearchResults[key];
+      if (value && value.toString().trim() !== "") {
+        params.append(key, value);
+      }
     });
   }
+  const queryString = params.toString();
+  if (queryString) {
+    url += "?" + queryString;
+  }
+  return url;
+};
+
+//fetch the gallery short items from the api
+const fetchGallery = async () => {
+  const url = buildGalleryUrl();
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    rows.value = data.map((section, index) => ({
+      originalIndex: index,
+      shortItems: section.images.map((img) => ({
+        id: img.id,
+        iiif_file: formatIiifUrl(img.iiif_file),
+        info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ""}`
+      })),
+      open: false,
+      infiniteItems: [],
+      //expanded row 
+      nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
+      isFetching: false,
+      type: section.type,
+      type_translation: section.type_translation,
+      count: section.count
+    }));
+  } catch (err) {
+    console.error("Error fetching gallery:", err);
+  }
+};
+
+onMounted(async () => {
+  scrollContainer.value = document.querySelector(".flex-grow.overflow-auto.main-color");
+  await fetchGallery();
 });
 
 const visibleRows = computed(() => {
@@ -160,8 +225,8 @@ const onRequestAppend = async (e, originalIndex) => {
     const data = await response.json();
     const newItems = data.results.map((img) => ({
       id: img.id,
-      iiif_file: img.iiif_file,
-      info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ''}`
+      iiif_file: formatIiifUrl(img.iiif_file),
+      info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ""}`
     }));
     row.infiniteItems.push(...newItems);
     row.nextUrl = data.next;
@@ -174,6 +239,7 @@ const onRequestAppend = async (e, originalIndex) => {
 };
 
 const onTitleClick = (targetOriginalIndex) => {
+  //close the expanded row if open
   const expandedRow = rows.value.find((row) => row.open);
   if (expandedRow) {
     expandedRow.open = false;
@@ -182,35 +248,59 @@ const onTitleClick = (targetOriginalIndex) => {
     const rowEl = document.getElementById(`row-wrapper-${targetOriginalIndex}`);
     const container = document.getElementById("split-1");
     if (rowEl && container) {
+      const containerRect = container.getBoundingClientRect();
+      const rowRect = rowEl.getBoundingClientRect();
+      const scrollOffset = container.scrollTop + (rowRect.top - containerRect.top);
       container.scrollTo({
-        top: rowEl.offsetTop - container.offsetTop,
+        top: scrollOffset,
       });
-      emit('row-clicked');
+      emit("row-clicked");
     }
   });
 };
 
 const getOtherRows = (currentOriginalIndex) => {
   return rows.value
-    .map((row) => ({ row, index: row.originalIndex }))
-    .filter((item) => item.index !== currentOriginalIndex);
+    .filter((row) => row.originalIndex !== currentOriginalIndex)
+    .map((row) => ({
+      index: row.originalIndex,
+      title: row.type_translation ? row.type_translation : `Row #${row.originalIndex + 1}`
+    }));
 };
 
-watch(() => props.searchItems, (newValue) => {
-  console.log('Regular Search Items:', newValue);
-});
-
-watch(() => props.advancedSearchResults, (newValue) => {
-  console.log('Advanced Search Results:', newValue);
-});
-
-watch(() => props.bboxSearch, (newValue) => {
-  console.log('Bbox Search:', newValue);
-});
-
-watch(() => props.selectedSiteId, (newValue) => {
-  console.log('Selected Site ID:', newValue);
-});
+//watchers update the corresponding timestamp and refetch the gallery
+watch(
+  () => props.searchItems,
+  (newVal) => {
+    console.log("Regular Search Items:", newVal);
+    filterTimestamps.search = Date.now();
+    fetchGallery();
+  }
+);
+watch(
+  () => props.advancedSearchResults,
+  (newVal) => {
+    console.log("Advanced Search Results:", newVal);
+    filterTimestamps.advanced = Date.now();
+    fetchGallery();
+  }
+);
+watch(
+  () => props.bboxSearch,
+  (newVal) => {
+    console.log("Bbox Search:", newVal);
+    filterTimestamps.bbox = Date.now();
+    fetchGallery();
+  }
+);
+watch(
+  () => props.selectedSiteId,
+  (newVal) => {
+    console.log("Selected Site ID:", newVal);
+    filterTimestamps.site = Date.now();
+    fetchGallery();
+  }
+);
 </script>
 
 <style scoped>
@@ -258,7 +348,7 @@ watch(() => props.selectedSiteId, (newValue) => {
   border: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  width: 100%;
+  width: 100px;
   margin-top: 1rem;
 }
 
@@ -277,6 +367,7 @@ watch(() => props.selectedSiteId, (newValue) => {
 .short-item img {
   height: auto;
   object-fit: cover;
+  max-width: 150px;
 }
 
 .infinite-scroll-container {
@@ -309,7 +400,6 @@ watch(() => props.selectedSiteId, (newValue) => {
 .row-titles li {
   cursor: pointer;
   color: #007bff;
-  margin: 0.5rem 0;
 }
 
 .row-titles li:hover {
