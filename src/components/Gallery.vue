@@ -77,15 +77,15 @@ import { MasonryInfiniteGrid } from "@egjs/vue3-infinitegrid";
 
 const props = defineProps({
   searchItems: {
-    type: Array,
+    type: [Array, String, Object],
     default: () => []
   },
   advancedSearchResults: {
-    type: Array,
+    type: [Array, Object],
     default: () => []
   },
   bboxSearch: {
-    type: Array,
+    type: [Array, Object],
     default: () => []
   },
   selectedSiteId: {
