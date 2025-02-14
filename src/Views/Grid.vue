@@ -466,7 +466,7 @@ export default defineComponent({
         this.handleKeywordClick(keyword);
       }
     },
-    initializeOnHome() {
+    initializeOnHome() { //logic for initial load and fetching
       const newSiteId = this.$route.params.siteId;
       const newIiifFile = this.$route.params.iiifFile;
       const newQuery = this.$route.params.query;
@@ -476,7 +476,7 @@ export default defineComponent({
           this.$refs.mapComponent.fetchImagesClickedInit();
           this.shouldFireInitialFetch = false;
         } else {
-          console.error("mapComponent is not available");
+          console.error("Map component is not available");
         }
       }
 
@@ -486,6 +486,7 @@ export default defineComponent({
       }
       if (newQuery && this.isInitialLoad) {
         if (this.$refs.searchRef) {
+          this.searchItems = newQuery;
         } else {
           console.error("searchRef is not available.");
         }
