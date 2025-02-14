@@ -83,6 +83,10 @@ const props = defineProps({
   advancedSearchResults: {
     type: Array,
     default: () => []
+  },
+  bboxSearch: {
+    type: Array,
+    default: () => []
   }
 });
 
@@ -194,6 +198,9 @@ watch(() => props.searchItems, (newValue) => {
 
 watch(() => props.advancedSearchResults, (newValue) => {
   console.log('Advanced Search Results:', newValue);
+});
+watch(() => props.bboxSearch, (newValue) => {
+  console.log('Bbox Search:', newValue);
 });
 </script>
 

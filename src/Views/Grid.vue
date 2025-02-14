@@ -103,9 +103,15 @@
           <Search @toggle-map="toggleMap" ref="searchRef" @search-term="handleSearchTerm"
           />
 
-          <Map @id-selected="selectedId = $event" @reset-id="handleBboxClicked" @update-bbox="bbox = $event"
-            @map-clicked="handleMapClicked" ref="mapComponent" v-show="showMap" :coordinates="results" :bbox="bbox"
-            :showMap="showMap" />
+          <Map 
+            ref="mapComponent"
+            v-show="showMap"
+            @bbox-search="handleBboxSearch" 
+            @map-clicked="handleMapClicked" 
+            :coordinates="results" 
+            :bbox="bbox"
+            :showMap="showMap" 
+          />
 
           <AdvancedSearch v-show="!showMap" @advanced-search-params="handleAdvancedSearchResults"
             ref="advancedSearchRef" :currentLang="currentLanguage"
@@ -125,10 +131,13 @@
           <div class="">
             <div class="">
               <div v-show="showGallery">
-                <Gallery @image-clicked="onImageClicked" @row-clicked="closeThreePanels" 
+                <Gallery 
+                  @image-clicked="onImageClicked" 
+                  @row-clicked="closeThreePanels" 
                   :searchItems="searchItems" 
-                  :advancedSearchResults="advancedSearchResults" 
-                   />
+                  :advancedSearchResults="advancedSearchResults"
+                  :bboxSearch="bboxResults"
+                />
               </div>
               <div style="display:flex; align-items: center; justify-content: center;">
                 <div class="ui-results" v-show="showResults" style="width:220px; font-size:0.9em; padding:5px 5px;">
@@ -164,7 +173,6 @@
       </div>
     </div>
     <!-- End of Container -->
-
   </div>
 </template>
 
@@ -284,6 +292,7 @@ export default defineComponent({
       shouldFireInitialFetch: true,
       newIiifFile: null,
       splitInstance: null,
+      bboxResults: [],
     };
   },
   mounted() {
@@ -567,7 +576,8 @@ export default defineComponent({
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
       this.showImageGallery();
     },
-    handleBboxClicked() {
+    handleBboxSearch(bbox) {
+      this.bboxResults = bbox;
       this.selectedId = null;
       this.$refs.searchRef.clearSearchField();
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
@@ -575,7 +585,7 @@ export default defineComponent({
     },
     updateItems(newItems) {
       this.searchItems = newItems;
-      this.selectedId = null; // Reset selectedId
+      this.selectedId = null;
       this.showResults = true;
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
       this.showImageGallery();

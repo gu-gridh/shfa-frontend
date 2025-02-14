@@ -13,8 +13,8 @@
         <p id="askeladden_id"></p>
         <p v-if="isSwedish" id="fornsok_header">
           <span class="link-button"></span><a v-if="isSwedish" id="fornsok_link"> {{
-      $t("message.checkfornsök")
-    }}</a>
+            $t("message.checkfornsök")
+            }}</a>
         </p>
         <p>
           <span class="link-button"></span><a id="extmap_link" target="_blank"> {{ $t("message.maplink") }}</a>
@@ -161,10 +161,10 @@ export default {
   },
   mounted() {
     try {
-      this.initMap(); // Initialize the map on component mount
+      this.initMap();
       this.$nextTick(() => {
-        this.updateCoordinates(); // Update the map markers on component mount
-        this.fetchAdditionalData(); // Fetch additional data from the provided API endpoint
+        this.updateCoordinates();
+        this.fetchAdditionalData();
       });
     } catch (error) {
       console.error("Error in mounted hook:", error);
@@ -176,7 +176,6 @@ export default {
     }
   },
   created() {
-    // Watch the 'boundingBox' field in the store for changes
     watch(
       () => this.coordinateStore.boundingBox,
       (newBoundingBox, oldBoundingBox) => {
@@ -202,7 +201,6 @@ export default {
         if (newVisibility && this.coordinateStore.boundingBox) {
           this.$nextTick(() => {
             if (this.map) {
-              // Update the map size
               this.map.updateSize();
             }
             this.focusOnBoundingBox(this.coordinateStore.boundingBox);
@@ -213,14 +211,13 @@ export default {
     results: {
       deep: true,
       handler() {
-        this.updateCoordinates(); // Update the map markers when results change
+        this.updateCoordinates();
       },
       expandedMap: false,
     },
   },
   methods: {
     expandMap() {
-      //Toggle expansion
       this.expandedMap = !this.expandedMap;
       if (this.expandedMap) {
         document.body.classList.add("map-expanded");
@@ -235,17 +232,10 @@ export default {
     },
 
     fetchImagesClicked() {
-      this.coordinateStore.setImagesFetchTriggered(true);
-      this.$emit('reset-id');
-      this.$router.push({
-        name: 'Search',
-      });
-      // const outExt = transformExtent(
-      //   this.map.getView().calculateExtent(this.map.getSize()),
-      //   "EPSG:3857",
-      //   "EPSG:4326"
-      // );
-      // console.log(outExt)
+      const extent = this.map.getView().calculateExtent(this.map.getSize());
+      const bbox = transformExtent(extent, "EPSG:3857", "EPSG:4326");
+      this.$emit("bbox-search", bbox);
+      this.$router.push({ name: 'Search' });
     },
 
     focusOnBoundingBox(boundingBox) {
@@ -280,21 +270,6 @@ export default {
         console.warn("Invalid bounding box or map object.");
       }
     },
-
-    fetchImageData(imageId) {
-      return fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${imageId}&depth=1`)
-        .then(response => {
-          if (!response.ok) throw new Error('Network response was not ok');
-          return response.json();
-        })
-        .then(data => {
-          if (data.results.length > 0) {
-            return data.results[0].site.coordinates.coordinates; // return the coordinates
-          }
-          throw new Error('No data found');
-        });
-    },
-
     setRandomLocation() {
       const randomLocation = this.locations[Math.floor(Math.random() * this.locations.length)];
       const transformedExtent = transformExtent(
@@ -307,18 +282,14 @@ export default {
       });
       this.map.getView().setZoom(randomLocation.zoom);
     },
-
     focusOnCoordinates(lon, lat) {
       if (this.map) {
         const coordinates = fromLonLat([lon, lat]);
         this.map
           .getView()
           .animate({ center: coordinates, zoom: 18, duration: 1050 });
-        // this.map.getView().setCenter(coordinates);
-        // this.map.getView().setZoom(17)
       }
     },
-
     async fetchAdditionalData(url, pagesToFetch = 1) {
       if (!url) {
         url = "https://diana.dh.gu.se/api/shfa/geojson/site/?page_size=1000";
@@ -348,22 +319,17 @@ export default {
 
             this.updateCoordinates(additionalResults);
 
-            // Merge the filteredAdditionalResults with the cachedResults
             this.cachedResults.push(...additionalResults);
 
-            // Increment the pagesFetched counter
             pagesFetched++;
 
-            // If there's a next page, fetch it
             if (data.next) {
               const fixedNextUrl = data.next.replace("http://", "https://");
               if (pagesFetched % pagesToFetch === 0) {
-                // If pages fetched is a multiple of pagesToFetch, add a delay
                 await delay(1000);
               }
               await fetchData(fixedNextUrl);
             } else {
-              // Call updateCoordinates after all pages have been fetched
               this.updateCoordinates(this.cachedResults);
             }
           } else {
@@ -377,26 +343,8 @@ export default {
       await fetchData(url);
     },
 
-    updateBbox() {
-      // Get the bounding box coordinates of the current view and emit them to the parent component
-      const extent = this.map.getView().calculateExtent(this.map.getSize());
-      const bottomLeft = toLonLat([extent[0], extent[1]]);
-      const topRight = toLonLat([extent[2], extent[3]]);
-      const newBbox = [bottomLeft[0], bottomLeft[1], topRight[0], topRight[1]];
-      this.$emit("update-bbox", newBbox);
-      this.coordinateStore.setBboxFetch(newBbox);
-
-      //console.log('Bounding Box:', newBbox);
-      // const currentZoom = this.map.getView().getZoom();
-      // console.log('Current Zoom Level:', currentZoom);
-
-      this.bboxUpdated = true;
-    },
-
     initMap() {
-      //Based on the OpenLayers example
       const container = document.getElementById("popup");
-      // const content = document.getElementById('popup-content');
       const raaContent = document.getElementById("raa_id");
       const lamningContent = document.getElementById("lamning_id");
       const lokalitetContent = document.getElementById("lokalitet_id");
@@ -415,7 +363,6 @@ export default {
         // },
       });
 
-      //Button to make popup invisible
       closebutton.onclick = function () {
         container.style.visibility = "collapse";
         closebutton.blur();
@@ -441,13 +388,7 @@ export default {
       const match = path.match(/^\/image\/(\d+)$/); //check if address contains image + extract ID
 
       if (match) {
-        const imageId = match[1];
-        this.fetchImageData(imageId).then(coordinates => {
-          this.focusOnCoordinates(coordinates[0], coordinates[1]);
-        }).catch(error => {
-          console.error("Error fetching image data:", error);
-          this.setRandomLocation();
-        });
+        this.setRandomLocation();
       } else {
         this.setRandomLocation();
       }
@@ -456,9 +397,7 @@ export default {
         this.map.addControl(new Zoom());
       }
 
-      this.updateBbox();
       const markerColour = getComputedStyle(document.getElementById("map")).getPropertyValue("--map-markers");
-      // Initialize the WebGL map marker style
       const webGLStyle = {
         symbol: {
           symbolType: "image",
@@ -483,19 +422,15 @@ export default {
           return;
         }
         this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
-          // Get the properties of the feature (in this case, we're extracting 'lamning_id', 'raa_id', and 'id')
           const lamning_id = feature.get("lamning_id");
           const raa_id = feature.get("raa_id");
           const id = feature.get("id");
           const ksamsok_id = feature.get("ksamsok_id");
           const coords = feature.get("coords");
-
           const extent = feature.getGeometry().getExtent();
-
           const lokalitet_id = feature.get("lokalitet_id");
           const askeladden_id = feature.get("askeladden_id");
           const placename = feature.get("placename");
-
           const fornsokLink = document.getElementById("fornsok_link");
           const fornsokHeaderElement = document.getElementById("fornsok_header");
 
@@ -525,13 +460,10 @@ export default {
         });
       });
 
-      // Add 'click' event listener
       this.map.on("click", (event) => {
-        // Use the hit detection mechanism
         this.map.forEachFeatureAtPixel(
           event.pixel,
           (feature) => {
-            // Get the properties of the feature (in this case, we're extracting 'lamning_id', 'raa_id', and 'id')
             const lamning_id = feature.get("lamning_id");
             const raa_id = feature.get("raa_id");
             const id = feature.get("id");
@@ -541,12 +473,9 @@ export default {
             const askeladden_id = feature.get("askeladden_id");
             const placename = feature.get("placename");
 
-
             this.clickedId = id;
             this.clickedLamningId = lamning_id;
             this.clickedRaaId = raa_id;
-
-
             this.$emit("map-clicked");
             this.$emit("id-selected", id);
 
@@ -588,23 +517,11 @@ export default {
             overlay.setPosition(extent);
           },
           {
-            layerFilter: (layer) => layer === this.vectorLayer, // Ensure we're only checking features in our WebGLPointsLayer
-            hitTolerance: 10, // Increase or decrease this value for a larger or smaller hit detection area
+            layerFilter: (layer) => layer === this.vectorLayer,
+            hitTolerance: 10,
           }
         );
       });
-
-      this.map.on("movestart", () => {
-        this.bboxUpdated = false;
-      });
-
-      // Add 'moveend' event listener to the map to update the bounding box
-      this.map.on(
-        "moveend",
-        debounce(() => {
-          this.updateBbox();
-        }, 1000)
-      ); // Adjust the delay in milliseconds as needed
     },
 
     updateCoordinates() {
@@ -805,16 +722,13 @@ export default {
   }
 
   .ol-zoom-in {
-
     top: 20px;
   }
 
   .ol-zoom-out {
-
     top: 60px;
   }
 }
-
 
 .ol-full-screen {
   display: none;
@@ -937,20 +851,8 @@ export default {
 #fornsok_link,
 #extmap_link {
   color: var(--popup-text);
-  /* background-position: left;
-  background-size: 14px;
-  background-image: var(--popup-link-button);
-  background-repeat: no-repeat; */
   padding: 10px;
   min-width: max-content;
-  /* border-radius: 8px;
-  background-image: var(--popup-link-button);
-  background-size: 18px;
-  background-position: left;
-  background-repeat: no-repeat;
-  border-width: 1.4px;
-  border-color: var(--top-link-button-border);
-  border-radius: 50%; */
 }
 
 .ol-popup:after,
@@ -987,6 +889,5 @@ export default {
 
 .ol-popup-closer:after {
   content: "✖";
-  /* color:white */
 }
 </style>
