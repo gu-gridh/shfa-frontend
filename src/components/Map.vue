@@ -190,7 +190,11 @@ export default {
         document.body.classList.remove("map-expanded");
       }
     },
-
+    getCurrentBbox() {
+      const extent = this.map.getView().calculateExtent(this.map.getSize());
+      const bbox = transformExtent(extent, "EPSG:3857", "EPSG:4326");
+      return bbox;
+    },
     fetchImagesClicked() {
       const extent = this.map.getView().calculateExtent(this.map.getSize());
       const bbox = transformExtent(extent, "EPSG:3857", "EPSG:4326");
