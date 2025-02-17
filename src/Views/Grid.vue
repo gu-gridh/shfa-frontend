@@ -473,7 +473,7 @@ export default defineComponent({
 
       if (this.$route.name === "Home" && !newSiteId && !newIiifFile && this.shouldFireInitialFetch) {
         if (this.$refs.mapComponent) {
-          this.$refs.mapComponent.fetchImagesClickedInit();
+          // this.$refs.mapComponent.fetchImagesClickedInit();
           this.shouldFireInitialFetch = false;
         } else {
           console.error("Map component is not available");
