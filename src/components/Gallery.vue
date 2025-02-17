@@ -44,7 +44,6 @@
             :gap="1"
             :scrollContainer="'#split-1'"
             :threshold="100"
-            :useResizeObserver="true"
             @request-append="(e) => onRequestAppend(e, row.originalIndex)"
           >
             <div class="item" v-for="(item, i) in row.infiniteItems">

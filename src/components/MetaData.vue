@@ -312,9 +312,9 @@ export default {
             this.formattedPeopleEN = new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
             this.fetchDescription();
             const coordinates = this.data?.site?.coordinates?.coordinates;
-            if (coordinates) {
-              this.coordinateStore.setCoordinates(coordinates);
-            }
+            // if (coordinates) {
+            //   this.coordinateStore.setCoordinates(coordinates);
+            // }
           })
           .catch((error) => {
             console.error('Error fetching image data:', error);

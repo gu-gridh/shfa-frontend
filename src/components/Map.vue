@@ -33,12 +33,9 @@ import { fromLonLat } from "ol/proj";
 import VectorSource from "ol/source/Vector";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
-import { toLonLat } from "ol/proj";
-import { debounce } from "lodash";
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
 import Overlay from "ol/Overlay";
 import Zoom from "ol/control/Zoom";
-import { watch } from "vue";
 import { useStore } from "../stores/store.js";
 import { transformExtent } from "ol/proj";
 
@@ -175,39 +172,7 @@ export default {
       this.map.un("moveend", this.updateBbox);
     }
   },
-  created() {
-    watch(
-      () => this.coordinateStore.boundingBox,
-      (newBoundingBox, oldBoundingBox) => {
-        if (newBoundingBox) {
-          this.focusOnBoundingBox(newBoundingBox);
-        }
-      }
-    );
-    watch(
-      () => this.coordinateStore.coordinates,
-      (newCoordinates, oldCoordinates) => {
-        if (newCoordinates && newCoordinates.length === 2) {
-          const [lon, lat] = newCoordinates;
-          this.focusOnCoordinates(lon, lat);
-        }
-      }
-    );
-  },
   watch: {
-    showMap: {
-      immediate: true,
-      handler(newVisibility) {
-        if (newVisibility && this.coordinateStore.boundingBox) {
-          this.$nextTick(() => {
-            if (this.map) {
-              this.map.updateSize();
-            }
-            this.focusOnBoundingBox(this.coordinateStore.boundingBox);
-          });
-        }
-      },
-    },
     results: {
       deep: true,
       handler() {
@@ -226,11 +191,6 @@ export default {
       }
     },
 
-    fetchImagesClickedInit() {
-      this.coordinateStore.setImagesFetchTriggered(true);
-      this.$emit('reset-id');
-    },
-
     fetchImagesClicked() {
       const extent = this.map.getView().calculateExtent(this.map.getSize());
       const bbox = transformExtent(extent, "EPSG:3857", "EPSG:4326");
@@ -240,7 +200,7 @@ export default {
 
     focusOnBoundingBox(boundingBox) {
       if (this.map && boundingBox) {
-        // Extract the bounding box coordinates in the format [minLon, minLat, maxLon, maxLat]
+        //extract the bounding box coordinates in the format [minLon, minLat, maxLon, maxLat]
         const extent = [
           boundingBox.bottomLeft[0],
           boundingBox.bottomLeft[1],
@@ -248,14 +208,14 @@ export default {
           boundingBox.topRight[1],
         ];
 
-        // Transform the extent to the map's projection
+        //transform the extent to the map's projection
         const transformedExtent = transformExtent(
           extent,
           "EPSG:4326",
           "EPSG:3857"
         );
 
-        // Fit the map view to the extent
+        //fit the map view to the extent
         this.map.getView().fit(transformedExtent, {
           size: this.map.getSize(),
           padding: [5, 5, 5, 5], // optional padding in pixels
@@ -264,7 +224,6 @@ export default {
           minResolution: 5.0, //limit resolution so landmarks in basemap are still visible
         });
 
-        // Trigger a manual map render
         this.map.renderSync();
       } else {
         console.warn("Invalid bounding box or map object.");
@@ -356,11 +315,6 @@ export default {
       const overlay = new Overlay({
         element: container,
         positioning: "center-center",
-        // autoPan: {
-        //   animation: {
-        //     duration: 200,
-        //   },
-        // },
       });
 
       closebutton.onclick = function () {
@@ -522,6 +476,18 @@ export default {
           }
         );
       });
+
+      // this.map.on("movestart", () => {
+      //   this.bboxUpdated = false;
+      // });
+
+      //check
+      // this.map.on(
+      //   "moveend",
+      //   debounce(() => {
+      //     this.updateBbox();
+      //   }, 1000)
+      // );
     },
 
     updateCoordinates() {
