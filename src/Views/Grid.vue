@@ -108,7 +108,7 @@
             v-show="showMap"
             @bbox-search="handleBboxSearch" 
             @map-clicked="handleMapClicked"
-            @id-selected="selectedId = $event"
+            @id-selected="handleSiteSelection"
             :coordinates="results" 
             :bbox="bbox"
             :showMap="showMap" 
@@ -560,33 +560,17 @@ export default defineComponent({
       this.$i18n.locale = this.currentLanguage;
       localStorage.setItem('userLang', this.currentLanguage);
     },
-
     toggleColour() {
       this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
       this.targetTheme = (this.targetTheme === 'dark') ? 'light' : 'dark';
       document.documentElement.setAttribute('style-theme', this.targetTheme);
       return this.currentColour && this.targetTheme;
     },
-
     handleMapClicked() {
       this.forceRefresh++;
       this.mapClicked = true;
       this.showResults = true;
       this.$refs.searchRef.clearSearchField();
-      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
-      this.showImageGallery();
-    },
-    handleBboxSearch(bbox) {
-      this.bboxResults = bbox;
-      this.selectedId = null;
-      this.$refs.searchRef.clearSearchField();
-      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
-      this.showImageGallery();
-    },
-    updateItems(newItems) {
-      this.searchItems = newItems;
-      this.selectedId = null;
-      this.showResults = true;
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
       this.showImageGallery();
     },
@@ -645,7 +629,10 @@ export default defineComponent({
       }
     },
     handleAdvancedSearchResults(results) {
-      this.advancedSearchResults = results;
+      this.advancedSearchResults = null;
+      this.$nextTick(() => {
+        this.advancedSearchResults = results;
+      });
       this.selectedId = null;
       this.showResults = true;
       this.$refs.searchRef.clearSearchField();
@@ -655,9 +642,34 @@ export default defineComponent({
       this.showImageGallery();
     },
     handleSearchTerm(searchTerm) {
-      this.searchItems = searchTerm; 
+      this.searchItems = null;
+      this.$nextTick(() => {
+        this.searchItems = searchTerm;
+      });
+      this.selectedId = null;
+      this.showResults = true;
+      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
+      this.showImageGallery();
+    },
+    handleBboxSearch(bbox) {
+      this.bboxResults = null;
+      this.$nextTick(() => {
+        this.bboxResults = bbox;
+      });
+      this.selectedId = null;
+      this.showResults = true;
+      this.$refs.searchRef.clearSearchField();
+      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
+      this.showImageGallery();
+    },
+    handleSiteSelection(siteId) {
+      this.selectedId = null;  
+      this.$nextTick(() => {
+        this.selectedId = siteId;
+      });
       this.showResults = true;
       this.showImageGallery();
+
     }
   },
 });

@@ -183,7 +183,6 @@ const fetchGallery = async () => {
 
 onMounted(async () => {
   scrollContainer.value = document.querySelector(".flex-grow.overflow-auto.main-color");
-  await fetchGallery();
 });
 
 const visibleRows = computed(() => {
