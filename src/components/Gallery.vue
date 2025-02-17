@@ -41,9 +41,10 @@
         <div v-if="row.open" class="infinite-scroll-container">
           <MasonryInfiniteGrid
             class="masonry-grid"
-            :gap="1"
+            :gap="10"
             :scrollContainer="'#split-1'"
             :threshold="100"
+            :columnSize="150"
             @request-append="(e) => onRequestAppend(e, row.originalIndex)"
           >
             <div class="item" v-for="(item, i) in row.infiniteItems">
