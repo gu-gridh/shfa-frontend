@@ -114,13 +114,13 @@ const updateSearchFromMetadata = (term) => {
   clearSearchField();
   searchQuery.value = term;
   router.push({ name: 'SearchQuery', params: { query: searchQuery.value } })
-    .then(() => {
-      const currentRoute = router.currentRoute.value.fullPath;
-      emit('metadata-route', currentRoute);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+    // .then(() => {
+    //   const currentRoute = router.currentRoute.value.fullPath;
+    //   emit('metadata-route', currentRoute);
+    // })
+    // .catch(err => {
+    //   console.error(err);
+    // });
 };
 
 defineExpose({
