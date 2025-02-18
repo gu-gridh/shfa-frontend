@@ -139,17 +139,16 @@
                   :advancedSearchResults="advancedSearchResults"
                   :bboxSearch="bboxResults"
                   :selectedSiteId="selectedId"
+                  :currentLanguage="currentLanguage"
                 />
               </div>
-              <div style="display:flex; align-items: center; justify-content: center;">
-                <div class="ui-results" v-show="showResults" style="width:220px; font-size:0.9em; padding:5px 5px;">
+              <!-- <div style="display:flex; align-items: center; justify-content: center;">
+                <div class="ui-results" v-show="showResults" style="width:120px; font-size:0.9em; padding:5px 5px;">
                   <div style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}:
                   <p style="color:var(--total-results); display:inline;"> {{ totalResults }}</p>
                   </div>
-                  ({{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }})
                 </div>
-
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

@@ -23,7 +23,7 @@
 
       <div class="right-column">
         <h3 style="margin-bottom: 1rem;">
-          {{ row.type_translation ? row.type_translation : `Row #${row.originalIndex + 1}` }}
+          {{ getRowTitle(row) }}
           <span v-if="row.count"> ({{ row.count }})</span>
         </h3>
         <div class="short-preview" v-if="!row.open">
@@ -91,6 +91,10 @@ const props = defineProps({
   selectedSiteId: {
     type: [Number, String],
     default: null
+  },
+  currentLanguage: {
+    type: String,
+    default: "sv"
   }
 });
 
@@ -170,11 +174,11 @@ const fetchGallery = async () => {
       })),
       open: false,
       infiniteItems: [],
-      //expanded row
+      // expanded row
       nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
       isFetching: false,
-      type: section.type,
-      type_translation: section.type_translation,
+      type: section.type,                     //Swedish
+      type_translation: section.type_translation, //English 
       count: section.count
     }));
   } catch (err) {
@@ -238,7 +242,7 @@ const onRequestAppend = async (e, originalIndex) => {
 };
 
 const onTitleClick = (targetOriginalIndex) => {
-  //close the expanded row if open
+  // close the expanded row if open
   const expandedRow = rows.value.find((row) => row.open);
   if (expandedRow) {
     expandedRow.open = false;
@@ -258,18 +262,21 @@ const onTitleClick = (targetOriginalIndex) => {
   });
 };
 
+//return the correct title based on the currentLanguage prop
+const getRowTitle = (row) => {
+  return props.currentLanguage === "en" ? row.type_translation : row.type;
+};
+
 const getOtherRows = (currentOriginalIndex) => {
   return rows.value
     .filter((row) => row.originalIndex !== currentOriginalIndex)
     .map((row) => ({
       index: row.originalIndex,
-      title: row.type_translation
-        ? `${row.type_translation} (${row.count})`
-        : `Row #${row.originalIndex + 1}`
+      title: `${getRowTitle(row)} (${row.count})`
     }));
 };
 
-//watchers update the corresponding timestamp and refetch the gallery
+// watchers update the corresponding timestamp and refetch the gallery
 watch(
   () => props.searchItems,
   (newVal) => {
