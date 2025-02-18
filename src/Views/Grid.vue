@@ -57,17 +57,17 @@
         <div class="top-links">
           <button class="item" id="privacy-button" @click="visiblePrivacy = true">
             {{ $t('message.privacy') }}<div class="top-link-infobutton"></div></button>
-            <button class="item">
-              <router-link :to="{name:'Guide', params:{currentLang:currentLanguage}}" target="_blank">
-                {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div>
-              </router-link>
-            </button>
+          <button class="item">
+            <router-link :to="{ name: 'Guide', params: { currentLang: currentLanguage } }" target="_blank">
+              {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div>
+            </router-link>
+          </button>
 
-            <button class="item">
-              <router-link :to="{name:'About', params:{currentLang:currentLanguage}}" target="_blank">
-                {{ $t('message.aboutArchive') }}<div class="top-link-infobutton"></div>
-              </router-link>
-            </button>
+          <button class="item">
+            <router-link :to="{ name: 'About', params: { currentLang: currentLanguage } }" target="_blank">
+              {{ $t('message.aboutArchive') }}<div class="top-link-infobutton"></div>
+            </router-link>
+          </button>
 
           <button class="item" v-if="currentLanguage === 'en'">
 
@@ -100,23 +100,13 @@
         <div id="split-0" class="flex-grow flex flex-col "
           :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
 
-          <Search @toggle-map="toggleMap" ref="searchRef" @search-term="handleSearchTerm"
-          />
+          <Search @toggle-map="toggleMap" ref="searchRef" @search-term="handleSearchTerm" />
 
-          <Map 
-            ref="mapComponent"
-            v-show="showMap"
-            @bbox-search="handleBboxSearch" 
-            @map-clicked="handleMapClicked"
-            @id-selected="handleSiteSelection"
-            :coordinates="results" 
-            :bbox="bbox"
-            :showMap="showMap" 
-          />
+          <Map ref="mapComponent" v-show="showMap" @bbox-search="handleBboxSearch" @map-clicked="handleMapClicked"
+            @id-selected="handleSiteSelection" :coordinates="results" :bbox="bbox" :showMap="showMap" />
 
           <AdvancedSearch v-show="!showMap" @advanced-search-params="handleAdvancedSearchResults"
-            ref="advancedSearchRef" :currentLang="currentLanguage"
-          />
+            ref="advancedSearchRef" :currentLang="currentLanguage" />
 
           <button v-show="showMap" id="reset-layout-mapview" @click="resetSplitsAndPanels">{{
             $t('message.resetlayout') }}</button>
@@ -132,23 +122,10 @@
           <div class="">
             <div class="">
               <div v-show="showGallery">
-                <Gallery 
-                  @image-clicked="onImageClicked" 
-                  @row-clicked="closeThreePanels" 
-                  :searchItems="searchItems" 
-                  :advancedSearchResults="advancedSearchResults"
-                  :bboxSearch="bboxResults"
-                  :selectedSiteId="selectedId"
-                  :currentLanguage="currentLanguage"
-                />
+                <Gallery @image-clicked="onImageClicked" @row-clicked="closeThreePanels" :searchItems="searchItems"
+                  :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults" :selectedSiteId="selectedId"
+                  :currentLanguage="currentLanguage" />
               </div>
-              <!-- <div style="display:flex; align-items: center; justify-content: center;">
-                <div class="ui-results" v-show="showResults" style="width:120px; font-size:0.9em; padding:5px 5px;">
-                  <div style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}:
-                  <p style="color:var(--total-results); display:inline;"> {{ totalResults }}</p>
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
         </div>
@@ -157,7 +134,8 @@
         <transition name="slide">
           <div id="split-2" class="flex-grow main-color overflow-auto"
             :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }" v-show="showThreePanels">
-            <div id="image" v-if="shouldShowPanel1" style="width:0%;height:0px; position:relative; top:0px; margin-left:0px;"></div>
+            <div id="image" v-if="shouldShowPanel1"
+              style="width:0%;height:0px; position:relative; top:0px; margin-left:0px;"></div>
             <button @click="closeThreePanels" class="close-button">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24"
                 stroke="currentColor">
@@ -451,7 +429,7 @@ export default defineComponent({
       if (this.windowWidth <= 1250) {
         return !this.showThreePanels;
       }
-      return true; // always show on larger screens
+      return true; //always show on larger screens
     },
   },
   beforeDestroy() {
@@ -459,6 +437,28 @@ export default defineComponent({
   },
 
   methods: {
+    updateSiteCoordinates(newId) {
+      if (newId) {
+        fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${newId}&depth=1`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data.results && data.results[0] && data.results[0].site && data.results[0].site.coordinates) {
+              const coordinates = data.results[0].site.coordinates.coordinates;
+              if (!this.mapClicked && this.$refs.mapComponent) {
+                this.$refs.mapComponent.focusOnCoordinates(...coordinates);
+              }
+            }
+          })
+          .catch(e => {
+            console.error("failed to fetch new site coordinates:", e);
+          });
+      }
+    },
     handleStorageChange(event) {
       if (event.key === 'searchKeyword' && event.newValue) {
         const keyword = event.newValue;
@@ -479,7 +479,6 @@ export default defineComponent({
           console.error("Map component is not available");
         }
       }
-
       if (newSiteId) {
         this.selectedId = newSiteId;
         this.showResults = true;
@@ -492,8 +491,8 @@ export default defineComponent({
         }
         this.isInitialLoad = false;
       }
-
       if (newIiifFile) {
+        this.updateSiteCoordinates(newIiifFile);
         this.showThreePanels = true;
         this.IiifFileforImageViewer = newIiifFile;
       }
@@ -521,7 +520,6 @@ export default defineComponent({
       });
     },
     adjustSplitDisplay() {
-      // Get the element by its ID
       const splitElement = document.getElementById("split-1");
       if (!splitElement) return;
 
@@ -542,7 +540,7 @@ export default defineComponent({
     },
     toggleMenu() {
       if (window.innerWidth <= 1024) {
-        // Only toggle if on smaller screens
+        //only toggle if on smaller screens
         this.isMenuOpen = !this.isMenuOpen;
       }
     },
@@ -662,7 +660,7 @@ export default defineComponent({
       this.showImageGallery();
     },
     handleSiteSelection(siteId) {
-      this.selectedId = null;  
+      this.selectedId = null;
       this.$nextTick(() => {
         this.selectedId = siteId;
       });
@@ -731,55 +729,6 @@ export default defineComponent({
     display: none;
   }
 }
-
-/* #resetSplitButton {
-  position: absolute;
-  bottom: 50px;
-  left: 60px;
-  padding: 4px 10px;
-  z-index: 100;
-  width: 110px;
-  height: auto;
-  cursor: pointer;
-  border-radius: 6px !important;
-  background-color: var(--button-background);
-  color: var(--button-text);
-  font-size: 100%;
-  height: 32px; */
-
-/* position: absolute;
-  left: 8px;
-  transform: translateX(25%) translateY(100%);
-  bottom: 50px;
-  padding: 5px 15px 5px 15px;
-  z-index: 100;
-  width: max-content;
-  width: auto;
-  height: auto;
-  cursor: pointer;
-  border-radius: 8px !important;
-  background-color: var(--button-background);
-  /* background: var(--underlay); */
-/* backdrop-filter: blur(5px); */
-/* color: rgb(235, 234, 234); */
-/* color: var(--button-text);
-  font-size: 1.1rem;
-  font-weight: 450;
-  isolation: isolate;  */
-/* } */
-
-/* @media (max-width: 1023px) {
-  #resetSplitButton {
-    display: none;
-  }
-}
-
-#resetSplitButton:hover {
-  background-color: var(--button-hover);
-  cursor: pointer;
-  color: var(--page-text);
-  mix-blend-mode: normal;
-} */
 
 .flip-fade-enter-active,
 .flip-fade-leave-active {
