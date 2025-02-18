@@ -46,9 +46,7 @@ const router = useRouter();
 const searchQuery = ref('');
 const selectedKeywords = ref([]);
 const activePanel = ref('Map Interface');
-
 const emit = defineEmits(['toggle-map', 'search-term']);
-
 const defaultSearchResults = [
   { id: 1, text: "3D"},
   { id: 2, text: 'hällristningsmiljö' },
@@ -112,14 +110,26 @@ const clearSearchField = () => {
   selectedKeywords.value = [];
 };
 
+const updateSearchFromMetadata = (term) => {
+  clearSearchField();
+  searchQuery.value = term;
+  router.push({ name: 'SearchQuery', params: { query: searchQuery.value } })
+    .then(() => {
+      const currentRoute = router.currentRoute.value.fullPath;
+      emit('metadata-route', currentRoute);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
 defineExpose({
-  clearSearchField
+  clearSearchField,
+  updateSearchFromMetadata
 });
 </script>
 
 <style scoped>
-body {}
-
 #search-interface {
   font-size: 100%;
   padding-top: 2px;

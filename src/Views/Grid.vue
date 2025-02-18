@@ -517,11 +517,19 @@ export default defineComponent({
     handleShowResults(newValue) {
       this.showResults = newValue;
     },
-    handleKeywordClick(keyword) {
+    handleKeywordClick(keyword) { //when a metadata item is clicked in the image viewer
       this.$nextTick(() => {
         if (this.$refs.searchRef) {
-          this.$refs.searchRef.updateSearchFromMetadata(keyword);
-        } else {
+        this.searchItems = null;
+        this.$nextTick(() => {
+          this.searchItems = keyword;
+          this.$refs.searchRef.updateSearchFromMetadata(keyword); //sets the text in the search bar, updates router
+        });
+        this.selectedId = null;
+        this.showResults = true;
+        this.$refs.advancedSearchRef.clearAdvancedSearchFields();
+        this.showImageGallery();
+      } else {
           console.error('searchRef is not available.');
         }
       });
@@ -618,7 +626,6 @@ export default defineComponent({
     onImageClicked(iiifFile, id) {
       this.selectedIiifFile = id;
       this.idForMetaData = id;
-
       this.toggleThreePanels();
       if (!this.$route.fullPath.includes("image")) {
         this.previousRoute = this.$route.fullPath;
@@ -673,7 +680,6 @@ export default defineComponent({
       });
       this.showResults = true;
       this.showImageGallery();
-
     }
   },
 });
