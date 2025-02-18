@@ -24,6 +24,7 @@
       <div class="right-column">
         <h3 style="margin-bottom: 1rem;">
           {{ row.type_translation ? row.type_translation : `Row #${row.originalIndex + 1}` }}
+          <span v-if="row.count"> ({{ row.count }})</span>
         </h3>
         <div class="short-preview" v-if="!row.open">
           <div v-for="item in row.shortItems" class="short-item">
@@ -97,7 +98,7 @@ const rows = ref([]);
 const scrollContainer = ref(null);
 const emit = defineEmits(["image-clicked", "row-clicked"]);
 
-//track the last update for each filter type
+// track the last update for each filter type
 const filterTimestamps = reactive({
   search: 0,
   advanced: 0,
@@ -105,7 +106,7 @@ const filterTimestamps = reactive({
   site: 0
 });
 
-//compute which filter is the most recent
+// compute which filter is the most recent
 const activeFilter = computed(() => {
   let max = 0;
   let filter = null;
@@ -118,8 +119,7 @@ const activeFilter = computed(() => {
   return filter;
 });
 
-
-//TEMP helper function to format the iiif url
+// TEMP helper function to format the iiif url
 const formatIiifUrl = (url) => {
   if (url.startsWith("http")) return url;
   return "https://img.dh.gu.se/diana/static/" + url;
@@ -155,7 +155,7 @@ const buildGalleryUrl = () => {
   return url;
 };
 
-//fetch the gallery short items from the api
+// fetch the gallery short items from the api
 const fetchGallery = async () => {
   const url = buildGalleryUrl();
   try {
@@ -170,7 +170,7 @@ const fetchGallery = async () => {
       })),
       open: false,
       infiniteItems: [],
-      //expanded row 
+      //expanded row
       nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
       isFetching: false,
       type: section.type,
@@ -263,7 +263,9 @@ const getOtherRows = (currentOriginalIndex) => {
     .filter((row) => row.originalIndex !== currentOriginalIndex)
     .map((row) => ({
       index: row.originalIndex,
-      title: row.type_translation ? row.type_translation : `Row #${row.originalIndex + 1}`
+      title: row.type_translation
+        ? `${row.type_translation} (${row.count})`
+        : `Row #${row.originalIndex + 1}`
     }));
 };
 
