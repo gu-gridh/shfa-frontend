@@ -41,6 +41,7 @@
 
         <div v-if="row.open" class="infinite-scroll-container">
           <MasonryInfiniteGrid
+            ref="masonryRef"
             class="masonry-grid"
             :gap="10"
             :scrollContainer="'#split-1'"
@@ -95,12 +96,17 @@ const props = defineProps({
   currentLanguage: {
     type: String,
     default: "sv"
+  },
+  showThreePanels: {
+    type: Boolean,
+    default: false
   }
 });
 
 const rows = ref([]);
 const scrollContainer = ref(null);
 const emit = defineEmits(["image-clicked", "row-clicked"]);
+const masonryRef = ref(null);
 
 // track the last update for each filter type
 const filterTimestamps = reactive({
@@ -186,8 +192,24 @@ const fetchGallery = async () => {
   }
 };
 
-onMounted(async () => {
-  scrollContainer.value = document.querySelector(".flex-grow.overflow-auto.main-color");
+onMounted(() => {
+  //update the masonry layout when the panel changes width
+  const resizeObserver = new ResizeObserver(() => {
+    if (masonryRef.value && masonryRef.value.length) {
+      if (!props.showThreePanels) {
+        nextTick(() => {
+          const gridInstance = masonryRef.value[0];
+          console.log('Updating masonry layout');
+          gridInstance.renderItems({ useOrgResize: true });
+        });
+      }
+    }
+  });
+
+  const container = document.querySelector('#split-1');
+  if (container) {
+    resizeObserver.observe(container);
+  }
 });
 
 const visibleRows = computed(() => {

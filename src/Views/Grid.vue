@@ -122,9 +122,16 @@
           <div class="">
             <div class="">
               <div v-show="showGallery">
-                <Gallery @image-clicked="onImageClicked" @row-clicked="closeThreePanels" :searchItems="searchItems"
-                  :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults" :selectedSiteId="selectedId"
-                  :currentLanguage="currentLanguage" />
+                <Gallery 
+                  @image-clicked="onImageClicked" 
+                  @row-clicked="closeThreePanels" 
+                  :searchItems="searchItems" 
+                  :advancedSearchResults="advancedSearchResults"
+                  :bboxSearch="bboxResults"
+                  :selectedSiteId="selectedId"
+                  :currentLanguage="currentLanguage"
+                  :showThreePanels="showThreePanels"
+                />
               </div>
             </div>
           </div>
