@@ -415,10 +415,17 @@ watch(
   margin-bottom: 0.5rem;
 }
 
+.short-item {
+  flex: 0 1 200px;  
+  aspect-ratio: 1;
+  min-width: 0;
+  max-width: 200px; 
+}
+
 .short-item img {
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  max-width: 150px;
 }
 
 .infinite-scroll-container {
