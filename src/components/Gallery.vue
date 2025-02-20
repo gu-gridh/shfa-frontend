@@ -51,6 +51,8 @@
               :scrollContainer="'#split-1'"
               :threshold="100"
               :columnSize="150"
+              :useRoundedSize="false"
+              :useTransform="true"
               @request-append="(e) => onRequestAppend(e, row.originalIndex)"
             >
               <div class="item" v-for="(item, i) in row.infiniteItems">
