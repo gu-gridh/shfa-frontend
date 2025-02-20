@@ -187,11 +187,10 @@ const fetchGallery = async () => {
       })),
       open: false,
       infiniteItems: [],
-      // expanded row
       nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
       isFetching: false,
-      type: section.type,                     //Swedish
-      type_translation: section.type_translation, //English
+      type: section.type,                     // Swedish
+      type_translation: section.type_translation, // English
       count: section.count
     }));
   } catch (err) {
@@ -202,7 +201,7 @@ const fetchGallery = async () => {
 };
 
 onMounted(() => {
-  //update the masonry layout when the panel changes width
+  // update the masonry layout when the panel changes width
   const resizeObserver = new ResizeObserver(() => {
     if (masonryRef.value && masonryRef.value.length) {
       if (!props.showThreePanels) {
@@ -234,7 +233,13 @@ const toggleRow = (originalIndex) => {
   const row = rows.value.find((r) => r.originalIndex === originalIndex);
   if (row) {
     row.open = !row.open;
-    if (!row.open) {
+    if (row.open) {
+      row.infiniteItems = [];
+      const baseUrl = buildGalleryUrl();
+      const urlObj = new URL(baseUrl);
+      urlObj.searchParams.set("image_type", getRowTitle(row));
+      row.nextUrl = urlObj.toString();
+    } else {
       nextTick(() => {
         const rowEl = document.getElementById(`row-wrapper-${originalIndex}`);
         const container = document.getElementById("split-1");
@@ -308,7 +313,7 @@ const getOtherRows = (currentOriginalIndex) => {
 
 const emit = defineEmits(["image-clicked", "row-clicked"]);
 
-// watchers update the corresponding timestamp and refetch the gallery
+//watchers update the corresponding timestamp and refetch the gallery
 watch(
   () => props.searchItems,
   (newVal) => {

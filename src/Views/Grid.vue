@@ -398,8 +398,6 @@ export default defineComponent({
     };
     window.addEventListener("resize", this.updateWindowWidth);
 
-    // this.$i18n.locale = this.currentLanguage;
-
     this.currentColour = this.currentColour;
 
     this.targetTheme = this.targetTheme;
