@@ -237,7 +237,7 @@ const toggleRow = (originalIndex) => {
       row.infiniteItems = [];
       const baseUrl = buildGalleryUrl();
       const urlObj = new URL(baseUrl);
-      urlObj.searchParams.set("image_type", getRowTitle(row));
+      urlObj.searchParams.set("category_type", getRowTitle(row));
       row.nextUrl = urlObj.toString();
     } else {
       nextTick(() => {
