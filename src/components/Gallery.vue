@@ -1,57 +1,39 @@
 <template>
-  <div class="grid-container">
-    <div
-      v-for="(row, visibleIndex) in visibleRows"
-      class="row-wrapper"
-      :id="'row-wrapper-' + row.originalIndex"
-    >
-      <div class="button-container" :class="{ sticky: row.open }">
-        <button class="toggle-btn" @click="toggleRow(row.originalIndex)">
-          {{ row.open ? "Hide" : "Show more" }}
-        </button>
-        <div v-if="row.open" class="row-titles">
-          <ul>
-            <li
-              v-for="other in getOtherRows(row.originalIndex)"
-              @click="onTitleClick(other.index)"
-            >
-              {{ other.title }}
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="right-column">
-        <h3 style="margin-bottom: 1rem;">
-          {{ getRowTitle(row) }}
-          <span v-if="row.count"> ({{ row.count }})</span>
-        </h3>
-        <div class="short-preview" v-if="!row.open">
-          <div v-for="item in row.shortItems" class="short-item">
-            <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
-              <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
-              <div class="metadata-overlay">
-                <div class="metadata-content">
-                  {{ item.info }}
-                </div>
-              </div>
-            </div>
+  <div>
+    <div v-if="isGalleryLoading" class="loading-indicator">
+      <!-- put indicator here -->
+    </div>
+    <div v-else class="grid-container">
+      <div
+        v-for="(row, visibleIndex) in visibleRows"
+        class="row-wrapper"
+        :id="'row-wrapper-' + row.originalIndex"
+      >
+        <div class="button-container" :class="{ sticky: row.open }">
+          <button class="toggle-btn" @click="toggleRow(row.originalIndex)">
+            {{ row.open ? "Hide" : "Show more" }}
+          </button>
+          <div v-if="row.open" class="row-titles">
+            <ul>
+              <li
+                v-for="other in getOtherRows(row.originalIndex)"
+                @click="onTitleClick(other.index)"
+              >
+                {{ other.title }}
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div v-if="row.open" class="infinite-scroll-container">
-          <MasonryInfiniteGrid
-            ref="masonryRef"
-            class="masonry-grid"
-            :gap="10"
-            :scrollContainer="'#split-1'"
-            :threshold="100"
-            :columnSize="150"
-            @request-append="(e) => onRequestAppend(e, row.originalIndex)"
-          >
-            <div class="item" v-for="(item, i) in row.infiniteItems">
+        <div class="right-column">
+          <h3 style="margin-bottom: 1rem;">
+            {{ getRowTitle(row) }}
+            <span v-if="row.count"> ({{ row.count }})</span>
+          </h3>
+          <div class="short-preview" v-if="!row.open">
+            <div v-for="item in row.shortItems" class="short-item">
               <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
-                <img :src="`${item.iiif_file}/full/150,/0/default.jpg`" />
+                <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
                 <div class="metadata-overlay">
                   <div class="metadata-content">
                     {{ item.info }}
@@ -59,13 +41,36 @@
                 </div>
               </div>
             </div>
+          </div>
 
-            <template #loading="{ item }">
-              <div class="loading">
-                <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
+          <div v-if="row.open" class="infinite-scroll-container">
+            <MasonryInfiniteGrid
+              ref="masonryRef"
+              class="masonry-grid"
+              :gap="10"
+              :scrollContainer="'#split-1'"
+              :threshold="100"
+              :columnSize="150"
+              @request-append="(e) => onRequestAppend(e, row.originalIndex)"
+            >
+              <div class="item" v-for="(item, i) in row.infiniteItems">
+                <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
+                  <img :src="`${item.iiif_file}/full/150,/0/default.jpg`" />
+                  <div class="metadata-overlay">
+                    <div class="metadata-content">
+                      {{ item.info }}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </template>
-          </MasonryInfiniteGrid>
+
+              <template #loading="{ item }">
+                <div class="loading">
+                  <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
+                </div>
+              </template>
+            </MasonryInfiniteGrid>
+          </div>
         </div>
       </div>
     </div>
@@ -104,8 +109,7 @@ const props = defineProps({
 });
 
 const rows = ref([]);
-const scrollContainer = ref(null);
-const emit = defineEmits(["image-clicked", "row-clicked"]);
+const isGalleryLoading = ref(true);
 const masonryRef = ref(null);
 
 // track the last update for each filter type
@@ -167,6 +171,7 @@ const buildGalleryUrl = () => {
 
 // fetch the gallery short items from the api
 const fetchGallery = async () => {
+  isGalleryLoading.value = true;
   const url = buildGalleryUrl();
   try {
     const res = await fetch(url);
@@ -184,11 +189,13 @@ const fetchGallery = async () => {
       nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
       isFetching: false,
       type: section.type,                     //Swedish
-      type_translation: section.type_translation, //English 
+      type_translation: section.type_translation, //English
       count: section.count
     }));
   } catch (err) {
     console.error("Error fetching gallery:", err);
+  } finally {
+    isGalleryLoading.value = false;
   }
 };
 
@@ -199,14 +206,13 @@ onMounted(() => {
       if (!props.showThreePanels) {
         nextTick(() => {
           const gridInstance = masonryRef.value[0];
-          console.log('Updating masonry layout');
           gridInstance.renderItems({ useOrgResize: true });
         });
       }
     }
   });
 
-  const container = document.querySelector('#split-1');
+  const container = document.querySelector("#split-1");
   if (container) {
     resizeObserver.observe(container);
   }
@@ -232,7 +238,7 @@ const toggleRow = (originalIndex) => {
         const container = document.getElementById("split-1");
         if (rowEl && container) {
           container.scrollTo({
-            top: rowEl.offsetTop - container.offsetTop,
+            top: rowEl.offsetTop - container.offsetTop
           });
         }
       });
@@ -277,7 +283,7 @@ const onTitleClick = (targetOriginalIndex) => {
       const rowRect = rowEl.getBoundingClientRect();
       const scrollOffset = container.scrollTop + (rowRect.top - containerRect.top);
       container.scrollTo({
-        top: scrollOffset,
+        top: scrollOffset
       });
       emit("row-clicked");
     }
@@ -297,6 +303,8 @@ const getOtherRows = (currentOriginalIndex) => {
       title: `${getRowTitle(row)} (${row.count})`
     }));
 };
+
+const emit = defineEmits(["image-clicked", "row-clicked"]);
 
 // watchers update the corresponding timestamp and refetch the gallery
 watch(
@@ -334,6 +342,12 @@ watch(
 </script>
 
 <style scoped>
+.loading-indicator {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
 .loading-icon {
   width: 50px;
   height: 50px;
