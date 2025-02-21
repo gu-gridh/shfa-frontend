@@ -419,7 +419,6 @@ watch(
 
 .short-item {
   flex: 0 1 200px;  
-  aspect-ratio: 1;
   min-width: 0;
   max-width: 200px; 
 }
