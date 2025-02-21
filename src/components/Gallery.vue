@@ -178,21 +178,23 @@ const fetchGallery = async () => {
   try {
     const res = await fetch(url);
     const data = await res.json();
-    rows.value = data.map((section, index) => ({
-      originalIndex: index,
-      shortItems: section.images.map((img) => ({
-        id: img.id,
-        iiif_file: formatIiifUrl(img.iiif_file),
-        info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ""}`
-      })),
-      open: false,
-      infiniteItems: [],
-      nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
-      isFetching: false,
-      type: section.type,                     // Swedish
-      type_translation: section.type_translation, // English
-      count: section.count
-    }));
+    if (Array.isArray(data.results)) {
+      rows.value = data.results.map((section, index) => ({
+        originalIndex: index,
+        shortItems: (section.images || []).map((img) => ({
+          id: img.id,
+          iiif_file: formatIiifUrl(img.iiif_file),
+          info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ""}`
+        })),
+        open: false,
+        infiniteItems: [],
+        nextUrl: "https://diana.dh.gu.se/api/shfa/image/?limit=25",
+        isFetching: false,
+        type: section.type,                     // Swedish
+        type_translation: section.type_translation, // English
+        count: section.count
+      }));
+    }
   } catch (err) {
     console.error("Error fetching gallery:", err);
   } finally {
