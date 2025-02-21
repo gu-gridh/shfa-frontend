@@ -408,6 +408,7 @@ export default defineComponent({
     this.splitInstance = Split(["#split-0", "#split-1", "#split-2"], {
       sizes: [40, 60, 40],
       minSize: [500, 300],
+      maxSize: [Infinity, Infinity, 700],
       direction: direction,
       dragInterval: 1,
       gutterSize: 10,
