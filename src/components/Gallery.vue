@@ -26,7 +26,7 @@
         </div>
 
         <div class="right-column">
-          <h3 style="margin-bottom: 1rem;">
+          <h3 :id="'row-title-' + row.originalIndex" style="margin-bottom: 1rem;">
             {{ getRowTitle(row) }}
             <span v-if="row.count"> ({{ row.count }})</span>
           </h3>
@@ -284,18 +284,10 @@ const onTitleClick = (targetOriginalIndex) => {
   if (expandedRow) {
     expandedRow.open = false;
   }
+
   nextTick(() => {
-    const rowEl = document.getElementById(`row-wrapper-${targetOriginalIndex}`);
-    const container = document.getElementById("split-1");
-    if (rowEl && container) {
-      const containerRect = container.getBoundingClientRect();
-      const rowRect = rowEl.getBoundingClientRect();
-      const scrollOffset = container.scrollTop + (rowRect.top - containerRect.top);
-      container.scrollTo({
-        top: scrollOffset
-      });
-      emit("row-clicked");
-    }
+    window.location.hash = `row-title-${targetOriginalIndex}`;
+    emit("row-clicked");
   });
 };
 
@@ -390,7 +382,6 @@ watch(
 }
 
 .sticky {
-  position: sticky;
   top: 0;
   z-index: 10;
 }
