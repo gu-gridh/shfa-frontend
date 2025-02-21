@@ -43,13 +43,13 @@
             </div>
           </div>
 
-          <div v-if="row.open" class="infinite-scroll-container">
+          <div v-if="row.open" class="infinite-scroll-container" :class="{ open: row.open }">
             <MasonryInfiniteGrid
               ref="masonryRef"
               class="masonry-grid"
               :gap="10"
-              :scrollContainer="'#split-1'"
-              :threshold="100"
+              :scrollContainer="'.infinite-scroll-container'"
+              :threshold="1000"
               :columnSize="150"
               :useRoundedSize="false"
               :useTransform="true"
@@ -286,7 +286,10 @@ const onTitleClick = (targetOriginalIndex) => {
   }
 
   nextTick(() => {
-    window.location.hash = `row-title-${targetOriginalIndex}`;
+    const targetElement = document.getElementById(`row-title-${targetOriginalIndex}`);
+    if (targetElement) {
+      targetElement.scrollIntoView({block: "start"});
+    }
     emit("row-clicked");
   });
 };
@@ -422,6 +425,13 @@ watch(
 
 .infinite-scroll-container {
   margin-top: 1rem;
+}
+
+.infinite-scroll-container.open {
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: none;  
+  -ms-overflow-style: none; 
 }
 
 .masonry-grid {
