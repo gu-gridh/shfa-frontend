@@ -315,6 +315,9 @@ watch(
   () => props.searchItems,
   (newVal) => {
     console.log("Regular Search Items:", newVal);
+    if (newVal === null) {
+      return;
+    }
     filterTimestamps.search = Date.now();
     fetchGallery();
   }
@@ -323,6 +326,9 @@ watch(
   () => props.advancedSearchResults,
   (newVal) => {
     console.log("Advanced Search Results:", newVal);
+    if (newVal === null) {
+      return;
+    }
     filterTimestamps.advanced = Date.now();
     fetchGallery();
   }
@@ -331,6 +337,9 @@ watch(
   () => props.bboxSearch,
   (newVal) => {
     console.log("Bbox Search:", newVal);
+    if (newVal === null) {
+      return;
+    }
     filterTimestamps.bbox = Date.now();
     fetchGallery();
   }
@@ -339,6 +348,9 @@ watch(
   () => props.selectedSiteId,
   (newVal) => {
     console.log("Selected Site ID:", newVal);
+    if (newVal === null) {
+      return;
+    }
     filterTimestamps.site = Date.now();
     fetchGallery();
   }
