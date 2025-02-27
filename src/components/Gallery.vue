@@ -31,7 +31,7 @@
           <h3 :id="'row-title-' + row.originalIndex" style="margin-bottom: 1rem;">
             {{ getRowTitle(row) }}
             <span v-if="row.count" style="padding-right: 20px;"> ({{ row.count }})</span>
-            <button class="toggle-btn" @click="toggleRow(row.originalIndex)">
+            <button v-if="row.shortItems.length >= 5" class="toggle-btn" @click="toggleRow(row.originalIndex)">
               {{ row.open ? "Hide" : "Show more" }}
             </button>
           </h3>

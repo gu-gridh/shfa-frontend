@@ -121,4 +121,9 @@ function onRequestAppend(e) {
     text-align: center;
     padding: 1rem 0;
 }
+
+.loading-icon {
+  width: 50px;
+  height: 50px;
+}
 </style>
