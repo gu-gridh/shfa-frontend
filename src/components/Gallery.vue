@@ -12,11 +12,8 @@
         class="row-wrapper"
         :id="'row-wrapper-' + row.originalIndex"
       >
-        <div class="button-container" :class="{ sticky: row.open }">
-          <button class="toggle-btn" @click="toggleRow(row.originalIndex)">
-            {{ row.open ? "Hide" : "Show more" }}
-          </button>
-          <div v-if="row.open" class="row-titles">
+        <div v-if="row.open" class="button-container" :class="{ sticky: row.open }">
+          <div class="row-titles">
             <ul>
               <li
                 v-for="other in getOtherRows(row.originalIndex)"
@@ -32,7 +29,10 @@
         <div class="right-column">
           <h3 :id="'row-title-' + row.originalIndex" style="margin-bottom: 1rem;">
             {{ getRowTitle(row) }}
-            <span v-if="row.count"> ({{ row.count }})</span>
+            <span v-if="row.count" style="padding-right: 20px;"> ({{ row.count }})</span>
+            <button class="toggle-btn" @click="toggleRow(row.originalIndex)">
+              {{ row.open ? "Hide" : "Show more" }}
+            </button>
           </h3>
 
           <div class="short-preview" v-if="!row.open">
@@ -223,16 +223,6 @@ const toggleRow = (originalIndex) => {
     const urlObj = new URL(baseUrl);
     urlObj.searchParams.set("category_type", getRowTitle(row));
     row.nextUrl = urlObj.toString();
-  } else {
-    nextTick(() => {
-      const rowEl = document.getElementById(`row-wrapper-${originalIndex}`);
-      const container = document.getElementById("split-1");
-      if (rowEl && container) {
-        container.scrollTo({
-          top: rowEl.offsetTop - container.offsetTop
-        });
-      }
-    });
   }
 };
 
@@ -365,7 +355,7 @@ watch(
 }
 
 .sticky {
-  top: 0;
+  margin-top: 60px;
   z-index: 10;
 }
 
@@ -373,10 +363,11 @@ watch(
   background: #333;
   color: #fff;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   cursor: pointer;
   width: 100px;
-  margin-top: 1rem;
+  font-size: 15px;
+  border-radius: 5px;
 }
 
 .right-column {
