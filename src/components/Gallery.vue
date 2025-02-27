@@ -1,11 +1,14 @@
 <template>
   <div>
+    <!-- loading indicator-->
     <div v-if="isGalleryLoading" class="loading-indicator">
-      <!-- put indicator here -->
+      Loading...
     </div>
+
     <div v-else class="grid-container">
       <div
         v-for="(row, visibleIndex) in visibleRows"
+        :key="row.originalIndex"
         class="row-wrapper"
         :id="'row-wrapper-' + row.originalIndex"
       >
@@ -17,6 +20,7 @@
             <ul>
               <li
                 v-for="other in getOtherRows(row.originalIndex)"
+                :key="other.index"
                 @click="onTitleClick(other.index)"
               >
                 {{ other.title }}
@@ -30,10 +34,21 @@
             {{ getRowTitle(row) }}
             <span v-if="row.count"> ({{ row.count }})</span>
           </h3>
+
           <div class="short-preview" v-if="!row.open">
-            <div v-for="item in row.shortItems" class="short-item">
-              <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
-                <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" alt="preview" />
+            <div
+              v-for="item in row.shortItems"
+              :key="item.id"
+              class="short-item"
+            >
+              <div
+                class="image-wrapper"
+                @click="$emit('image-clicked', item.iiif_file, item.id)"
+              >
+                <img
+                  :src="`${item.iiif_file}/full/350,/0/default.jpg`"
+                  alt="preview"
+                />
                 <div class="metadata-overlay">
                   <div class="metadata-content">
                     {{ item.info }}
@@ -43,36 +58,13 @@
             </div>
           </div>
 
-          <div v-if="row.open" class="infinite-scroll-container" :class="{ open: row.open }">
-            <MasonryInfiniteGrid
-              ref="masonryRef"
-              class="masonry-grid"
-              :gap="10"
-              :scrollContainer="'.infinite-scroll-container'"
-              :threshold="1000"
-              :columnSize="150"
-              :useRoundedSize="false"
-              :useTransform="true"
-              @request-append="(e) => onRequestAppend(e, row.originalIndex)"
-            >
-              <div class="item" v-for="(item, i) in row.infiniteItems">
-                <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
-                  <img :src="`${item.iiif_file}/full/150,/0/default.jpg`" />
-                  <div class="metadata-overlay">
-                    <div class="metadata-content">
-                      {{ item.info }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <template #loading="{ item }">
-                <div class="loading">
-                  <img src="/interface/6-dots-rotate.svg" alt="loading indicator" class="loading-icon" />
-                </div>
-              </template>
-            </MasonryInfiniteGrid>
-          </div>
+          <ExpandedRow
+            v-if="row.open"
+            :row="row"
+            :onRequestAppendParent="onRequestAppend"
+            :showThreePanels="showThreePanels"
+            @image-clicked="(payload) => $emit('image-clicked', payload.file, payload.id)"
+          />
         </div>
       </div>
     </div>
@@ -81,7 +73,7 @@
 
 <script setup>
 import { ref, onMounted, nextTick, computed, watch, reactive } from "vue";
-import { MasonryInfiniteGrid } from "@egjs/vue3-infinitegrid";
+import ExpandedRow from "./ExpandedRow.vue";
 
 const props = defineProps({
   searchItems: {
@@ -110,11 +102,11 @@ const props = defineProps({
   }
 });
 
+const emit = defineEmits(["image-clicked", "row-clicked"]);
 const rows = ref([]);
 const isGalleryLoading = ref(true);
-const masonryRef = ref(null);
 
-// track the last update for each filter type
+//track the last update for each filter type
 const filterTimestamps = reactive({
   search: 0,
   advanced: 0,
@@ -122,7 +114,7 @@ const filterTimestamps = reactive({
   site: 0
 });
 
-// compute which filter is the most recent
+//compute which filter is the most recent
 const activeFilter = computed(() => {
   let max = 0;
   let filter = null;
@@ -135,13 +127,13 @@ const activeFilter = computed(() => {
   return filter;
 });
 
-// TEMP helper function to format the iiif url
+//format the iiif url
 const formatIiifUrl = (url) => {
   if (url.startsWith("http")) return url;
   return "https://img.dh.gu.se/diana/static/" + url;
 };
 
-// build the gallery api url based on the most recent filter update
+//build the gallery api url based on the most recent filter
 const buildGalleryUrl = () => {
   let url = "https://diana.dh.gu.se/api/shfa/gallery/";
   const params = new URLSearchParams();
@@ -157,13 +149,14 @@ const buildGalleryUrl = () => {
     params.append("depth", "2");
   } else if (filter === "advanced" && props.advancedSearchResults && typeof props.advancedSearchResults === "object") {
     params.append("search_type", "advanced");
-    Object.keys(props.advancedSearchResults).forEach(key => {
+    Object.keys(props.advancedSearchResults).forEach((key) => {
       const value = props.advancedSearchResults[key];
       if (value && value.toString().trim() !== "") {
         params.append(key, value);
       }
     });
   }
+
   const queryString = params.toString();
   if (queryString) {
     url += "?" + queryString;
@@ -171,7 +164,7 @@ const buildGalleryUrl = () => {
   return url;
 };
 
-// fetch the gallery short items from the api
+//fetch the initial short items (the collapsed "preview" rows)
 const fetchGallery = async () => {
   isGalleryLoading.value = true;
   const url = buildGalleryUrl();
@@ -202,62 +195,52 @@ const fetchGallery = async () => {
   }
 };
 
-onMounted(() => {
-  // update the masonry layout when the panel changes width
-  const resizeObserver = new ResizeObserver(() => {
-    if (masonryRef.value && masonryRef.value.length) {
-      if (!props.showThreePanels) {
-        nextTick(() => {
-          const gridInstance = masonryRef.value[0];
-          gridInstance.renderItems({ useOrgResize: true });
-        });
-      }
-    }
-  });
-
-  const container = document.querySelector("#split-1");
-  if (container) {
-    resizeObserver.observe(container);
-  }
-});
-
+//only show open rows if any row is open, otherwise show all
 const visibleRows = computed(() => {
   const anyExpanded = rows.value.some((row) => row.open);
   return anyExpanded ? rows.value.filter((row) => row.open) : rows.value;
 });
 
+//toggle a row open/closed
 const toggleRow = (originalIndex) => {
+  //close any other open rows first
   rows.value.forEach((row) => {
     if (row.originalIndex !== originalIndex && row.open) {
       row.open = false;
     }
   });
+
   const row = rows.value.find((r) => r.originalIndex === originalIndex);
-  if (row) {
-    row.open = !row.open;
-    if (row.open) {
-      row.infiniteItems = [];
-      const baseUrl = buildGalleryUrl();
-      const urlObj = new URL(baseUrl);
-      urlObj.searchParams.set("category_type", getRowTitle(row));
-      row.nextUrl = urlObj.toString();
-    } else {
-      nextTick(() => {
-        const rowEl = document.getElementById(`row-wrapper-${originalIndex}`);
-        const container = document.getElementById("split-1");
-        if (rowEl && container) {
-          container.scrollTo({
-            top: rowEl.offsetTop - container.offsetTop
-          });
-        }
-      });
-    }
+  if (!row) return;
+
+  row.open = !row.open;
+
+  if (row.open) {
+    //clear out any old items
+    row.infiniteItems = [];
+
+    const baseUrl = buildGalleryUrl();
+    const urlObj = new URL(baseUrl);
+    urlObj.searchParams.set("category_type", getRowTitle(row));
+    row.nextUrl = urlObj.toString();
+  } else {
+    nextTick(() => {
+      const rowEl = document.getElementById(`row-wrapper-${originalIndex}`);
+      const container = document.getElementById("split-1");
+      if (rowEl && container) {
+        container.scrollTo({
+          top: rowEl.offsetTop - container.offsetTop
+        });
+      }
+    });
   }
 };
 
+//called from child: fetch more items for the infinite grid
 const onRequestAppend = async (e, originalIndex) => {
   const row = rows.value.find((r) => r.originalIndex === originalIndex);
   if (!row || row.isFetching || !row.nextUrl) return;
+
   row.isFetching = true;
   e.wait();
   try {
@@ -268,30 +251,39 @@ const onRequestAppend = async (e, originalIndex) => {
       iiif_file: formatIiifUrl(img.iiif_file),
       info: `ID: ${img.id}${img.year ? ` | Year: ${img.year}` : ""}`
     }));
+
     row.infiniteItems.push(...newItems);
     row.nextUrl = data.next;
   } catch (err) {
-    console.error(err);
+    console.error("error fetching additional items:", err);
   } finally {
     row.isFetching = false;
     e.ready();
   }
 };
 
+//handle click on a title from other rows when a row is expanded
 const onTitleClick = (targetOriginalIndex) => {
-  // close the expanded row if open
+  //close the expanded row if open
   const expandedRow = rows.value.find((row) => row.open);
   if (expandedRow) {
     expandedRow.open = false;
   }
 
-  nextTick(() => {
-    const targetElement = document.getElementById(`row-title-${targetOriginalIndex}`);
-    if (targetElement) {
-      targetElement.scrollIntoView({block: "start"});
-    }
-    emit("row-clicked");
-  });
+  const targetRow = rows.value.find((r) => r.originalIndex === targetOriginalIndex);
+  if (targetRow) {
+    //clear out any old infiniteItems
+    targetRow.infiniteItems = [];
+
+    const baseUrl = buildGalleryUrl();
+    const urlObj = new URL(baseUrl);
+    urlObj.searchParams.set("category_type", getRowTitle(targetRow));
+    targetRow.nextUrl = urlObj.toString();
+
+    targetRow.open = true;
+  }
+
+  emit("row-clicked");
 };
 
 //return the correct title based on the currentLanguage prop
@@ -299,6 +291,7 @@ const getRowTitle = (row) => {
   return props.currentLanguage === "en" ? row.type_translation : row.type;
 };
 
+//return list of other rows to display in the row-titles
 const getOtherRows = (currentOriginalIndex) => {
   return rows.value
     .filter((row) => row.originalIndex !== currentOriginalIndex)
@@ -308,16 +301,11 @@ const getOtherRows = (currentOriginalIndex) => {
     }));
 };
 
-const emit = defineEmits(["image-clicked", "row-clicked"]);
-
 //watchers update the corresponding timestamp and refetch the gallery
 watch(
   () => props.searchItems,
   (newVal) => {
-    console.log("Regular Search Items:", newVal);
-    if (newVal === null) {
-      return;
-    }
+    if (newVal === null) return;
     filterTimestamps.search = Date.now();
     fetchGallery();
   }
@@ -325,10 +313,7 @@ watch(
 watch(
   () => props.advancedSearchResults,
   (newVal) => {
-    console.log("Advanced Search Results:", newVal);
-    if (newVal === null) {
-      return;
-    }
+    if (newVal === null) return;
     filterTimestamps.advanced = Date.now();
     fetchGallery();
   }
@@ -336,10 +321,7 @@ watch(
 watch(
   () => props.bboxSearch,
   (newVal) => {
-    console.log("Bbox Search:", newVal);
-    if (newVal === null) {
-      return;
-    }
+    if (newVal === null) return;
     filterTimestamps.bbox = Date.now();
     fetchGallery();
   }
@@ -347,10 +329,7 @@ watch(
 watch(
   () => props.selectedSiteId,
   (newVal) => {
-    console.log("Selected Site ID:", newVal);
-    if (newVal === null) {
-      return;
-    }
+    if (newVal === null) return;
     filterTimestamps.site = Date.now();
     fetchGallery();
   }
@@ -367,17 +346,6 @@ watch(
 .loading-icon {
   width: 50px;
   height: 50px;
-}
-
-.placeholder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 250px;
-  height: calc(100% - 30px);
-  background-color: #fafafa;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
 }
 
 .grid-container {
@@ -424,9 +392,8 @@ watch(
 }
 
 .short-item {
-  flex: 0 1 200px;  
-  min-width: 0;
-  max-width: 200px; 
+  flex: 0 1 200px;
+  max-width: 200px;
 }
 
 .short-item img {
@@ -455,18 +422,14 @@ watch(
   padding: 0.5rem;
 }
 
-.info {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  color: #777;
-  height: 30px;
+.row-titles {
+  margin-top: 1rem;
 }
 
 .row-titles ul {
   list-style: none;
   padding: 0;
-  margin: 1rem 0 0 0;
+  margin: 0;
 }
 
 .row-titles li {
