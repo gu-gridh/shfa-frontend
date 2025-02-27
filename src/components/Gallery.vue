@@ -18,7 +18,8 @@
               <li
                 v-for="other in getOtherRows(row.originalIndex)"
                 :key="other.index"
-                @click="onTitleClick(other.index)"
+                @click="!other.isCurrent && onTitleClick(other.index)"
+                :class="{ 'non-clickable': other.isCurrent }"
               >
                 {{ other.title }}
               </li>
@@ -252,7 +253,7 @@ const onRequestAppend = async (e, originalIndex) => {
   }
 };
 
-//handle click on a title from other rows when a row is expanded
+//handle click on a title from the row-titles when a row is expanded
 const onTitleClick = (targetOriginalIndex) => {
   //close the expanded row if open
   const expandedRow = rows.value.find((row) => row.open);
@@ -283,12 +284,11 @@ const getRowTitle = (row) => {
 
 //return list of other rows to display in the row-titles
 const getOtherRows = (currentOriginalIndex) => {
-  return rows.value
-    .filter((row) => row.originalIndex !== currentOriginalIndex)
-    .map((row) => ({
-      index: row.originalIndex,
-      title: `${getRowTitle(row)} (${row.count})`
-    }));
+  return rows.value.map((row) => ({
+    index: row.originalIndex,
+    title: `${getRowTitle(row)} (${row.count})`,
+    isCurrent: row.originalIndex === currentOriginalIndex
+  }));
 };
 
 //watchers update the corresponding timestamp and refetch the gallery
@@ -428,7 +428,12 @@ watch(
   color: #007bff;
 }
 
-.row-titles li:hover {
+.row-titles li.non-clickable {
+  cursor: default;
+  color: inherit;
+}
+
+.row-titles li:hover:not(.non-clickable) {
   text-decoration: underline;
 }
 
