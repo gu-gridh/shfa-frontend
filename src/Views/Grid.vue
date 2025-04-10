@@ -116,25 +116,25 @@
 
         </div>
         <!-- Panel 2 -->
-        <div id="split-1" class="flex-grow overflow-auto main-color " v-show="shouldShowPanel1"
+        <div id="split-1" class="flex-grow overflow-auto main-color" v-show="shouldShowPanel1"
           :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
 
-          <div class="">
-            <div class="">
-              <div v-show="showGallery">
-                <Gallery 
-                  @image-clicked="onImageClicked" 
-                  @row-clicked="closeThreePanels" 
-                  :searchItems="searchItems" 
-                  :advancedSearchResults="advancedSearchResults"
-                  :bboxSearch="bboxResults"
-                  :selectedSiteId="selectedId"
-                  :currentLanguage="currentLanguage"
-                  :showThreePanels="showThreePanels"
-                />
-              </div>
-            </div>
+          <div class="toggle-button-group">
+            <button :class="{ active: activeTab === 'gallery' }" @click="activeTab = 'gallery'">
+              Gallery
+            </button>
+            <button :class="{ active: activeTab === 'summary' }" @click="activeTab = 'summary'">
+              Summary
+            </button>
           </div>
+
+          <Gallery v-show="activeTab === 'gallery'" @image-clicked="onImageClicked" @row-clicked="closeThreePanels"
+            :searchItems="searchItems" :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults"
+            :selectedSiteId="selectedId" :currentLanguage="currentLanguage" :showThreePanels="showThreePanels" />
+
+          <Summary v-show="activeTab === 'summary'" :searchItems="searchItems"
+            :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults" :selectedSiteId="selectedId"
+            :activeTab="activeTab" />
         </div>
 
         <!-- Panel 3 -->
@@ -162,11 +162,13 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
+import { ref } from "vue";
 import Map from "../components/Map.vue";
 import { defineComponent } from "vue";
 import Split from "split.js";
 import Gallery from "../components/Gallery.vue";
+import Summary from "../components/Summary.vue";
 import Search from "../components/Search.vue";
 import AdvancedSearch from "../components/AdvancedSearch.vue";
 import ImageViewer from "../components/ImageViewer.vue";
@@ -177,11 +179,19 @@ export default defineComponent({
   components: {
     Map,
     Gallery,
+    Summary,
     Search,
     AdvancedSearch,
     ImageViewer,
     MetaData,
     Privacy,
+  },
+  setup() {
+    const activeTab = ref('gallery')
+
+    return {
+      activeTab,
+    };
   },
   watch: {
     $route(to, from) {
@@ -519,16 +529,16 @@ export default defineComponent({
     handleKeywordClick(keyword) { //when a metadata item is clicked in the image viewer
       this.$nextTick(() => {
         if (this.$refs.searchRef) {
-        this.searchItems = null;
-        this.$nextTick(() => {
-          this.searchItems = keyword;
-          this.$refs.searchRef.updateSearchFromMetadata(keyword); //sets the text in the search bar, updates router
-        });
-        this.selectedId = null;
-        this.showResults = true;
-        this.$refs.advancedSearchRef.clearAdvancedSearchFields();
-        this.showImageGallery();
-      } else {
+          this.searchItems = null;
+          this.$nextTick(() => {
+            this.searchItems = keyword;
+            this.$refs.searchRef.updateSearchFromMetadata(keyword); //sets the text in the search bar, updates router
+          });
+          this.selectedId = null;
+          this.showResults = true;
+          this.$refs.advancedSearchRef.clearAdvancedSearchFields();
+          this.showImageGallery();
+        } else {
           console.error('searchRef is not available.');
         }
       });
@@ -1684,5 +1694,31 @@ h2 input:not(:placeholder-shown) {
   padding: 1px;
   color: var(--header-text);
   cursor: pointer;
+}
+
+.toggle-button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+  border-radius: 20px;
+  padding: 4px 8px;
+  margin: 10px auto;
+  width: fit-content;
+}
+
+.toggle-button-group button {
+  background: none;
+  border: none;
+  border-radius: 8px !important;
+  color: #fff;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.toggle-button-group button.active {
+  background-color: var(--popup-background);
+  border-radius: 25px;
 }
 </style>
