@@ -139,10 +139,7 @@
 
         <!-- Panel 3 -->
         <transition name="slide">
-          <div id="split-2" class="flex-grow main-color overflow-auto"
-            :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }" v-show="showThreePanels">
-            <div id="image" v-if="shouldShowPanel1"
-              style="width:0%;height:0px; position:relative; top:0px; margin-left:0px;"></div>
+          <div id="split-2" class="main-color overflow-auto" :class="{ 'hidden': !showThreePanels }">
             <button @click="closeThreePanels" class="close-button">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24"
                 stroke="currentColor">
@@ -415,25 +412,17 @@ export default defineComponent({
     const vm = this;
     const direction = window.innerWidth <= 1024 ? "vertical" : "horizontal";
 
-    this.splitInstance = Split(["#split-0", "#split-1", "#split-2"], {
-      sizes: [40, 60, 40],
+    this.splitInstance = Split(["#split-0", "#split-1"], {
+      sizes: [40, 60],
       minSize: [500, 300],
-      maxSize: [Infinity, Infinity, 700],
-      direction: direction,
-      dragInterval: 1,
-      gutterSize: 10,
-      gutterAlign: "start",
-      gutter: function (index, direction) {
-        const gutter = document.createElement("div");
-        gutter.className = "gutter";
-        gutter.id = "gutter-" + index;
-        if (index === 1) {
-          gutter.classList.add("gutter-2");
-        } else {
-          gutter.style.display = vm.showThreePanels ? "block" : "none";
-        }
-        return gutter;
-      },
+      // gutterSize: 10,
+      direction: window.innerWidth <= 1024 ? "vertical" : "horizontal",
+      // gutter: function (index, direction) {
+      //   const gutter = document.createElement("div");
+      //   gutter.className = "gutter";
+      //   gutter.id = "gutter-" + index;
+      //   return gutter;
+      // },
     });
 
     if (window.location.pathname.includes("image")) {
@@ -515,7 +504,7 @@ export default defineComponent({
     },
     resetSplitsAndPanels() {
       if (this.splitInstance) {
-        this.splitInstance.setSizes([40, 60, 40]);
+        this.splitInstance.setSizes([40, 60]);
         this.showThreePanels = false;
         this.showImageGallery();
       }
@@ -549,15 +538,15 @@ export default defineComponent({
 
       splitElement.style.display = "none";
 
-      const gutterElement = document.getElementById("gutter-1");
-      if (gutterElement) {
-        gutterElement.style.display = "none";
-      }
+      // const gutterElement = document.getElementById("gutter-1");
+      // if (gutterElement) {
+      //   gutterElement.style.display = "none";
+      // }
 
-      const gutterElement2 = document.getElementById("gutter-2");
-      if (gutterElement2) {
-        gutterElement2.style.display = "none";
-      }
+      // const gutterElement2 = document.getElementById("gutter-2");
+      // if (gutterElement2) {
+      //   gutterElement2.style.display = "none";
+      // }
     },
     updateWindowWidth() {
       this.windowWidth = window.innerWidth;
@@ -616,15 +605,15 @@ export default defineComponent({
         splitElement.style.display = "block";
       }
 
-      const gutterElement = document.getElementById("gutter-1");
-      if (gutterElement && this.showThreePanels) {
-        gutterElement.style.display = "block";
-      }
+      // const gutterElement = document.getElementById("gutter-1");
+      // if (gutterElement && this.showThreePanels) {
+      //   gutterElement.style.display = "block";
+      // }
 
-      const gutterElement2 = document.getElementById("gutter-2");
-      if (gutterElement && this.showThreePanels) {
-        gutterElement2.style.display = "block";
-      }
+      // const gutterElement2 = document.getElementById("gutter-2");
+      // if (gutterElement && this.showThreePanels) {
+      //   gutterElement2.style.display = "block";
+      // }
     },
     handleRouteChange() {
       this.IiifFileforImageViewer = this.newIiifFile;
@@ -695,6 +684,31 @@ export default defineComponent({
 </script>
 
 <style>
+.gutter {
+  display: none;
+}
+
+.split-container .flex {
+  position: relative;
+}
+
+#split-2 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 40%;
+  z-index: 10;
+  background-color: rgb(39 39 39);
+  overflow: auto;
+  /* transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; */
+}
+
+#split-2.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
 #reset-layout-mapview {
   position: absolute;
   left: 60px;
@@ -1229,7 +1243,6 @@ export default defineComponent({
 }
 
 /* End of menu style */
-
 @media (max-width: 350px) {
   .menu-show-button {
     margin-right: 15px;
@@ -1326,11 +1339,11 @@ export default defineComponent({
   /* box-shadow: var(--split-shadow); */
 }
 
-@media (min-width: 1024px) and (max-width: 1250px) {
+/* @media (min-width: 1024px) and (max-width: 1250px) {
   #gutter-2 {
     display: none !important;
   }
-}
+} */
 
 @media (max-width: 1024px) {
   #split-1 {
@@ -1345,10 +1358,10 @@ export default defineComponent({
   width: 0px !important;
 }
 
-#split-2 {
+/* #split-2 {
   background-color: var(--page-background);
   padding: 0px 0px 0px 0px;
-}
+} */
 
 /* comment this for instant scroll */
 /* { 
@@ -1498,17 +1511,17 @@ h2 input:not(:placeholder-shown) {
   transform: translateX(0);
 }
 
-.gutter {
+/* .gutter {
   background-color: var(--ui-hover);
   cursor: ew-resize;
-}
+} */
 
-.gutter-2 {
+/* .gutter-2 {
   background-color: var(--ui-hover);
   cursor: ew-resize;
-}
+} */
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
   .gutter {
     display: none;
   }
@@ -1516,11 +1529,12 @@ h2 input:not(:placeholder-shown) {
   .gutter-2 {
     display: none;
   }
-}
+} */
 
 #split-2 {
   z-index: 0;
   min-width: 420px !important;
+  box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .close-button {

@@ -355,6 +355,7 @@ watch(
 }
 
 .sticky {
+  max-width: 130px;
   margin-top: 60px;
   z-index: 10;
 }
