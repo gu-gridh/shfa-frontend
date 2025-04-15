@@ -1,6 +1,6 @@
 <template>
     <div class="infinite-scroll-container" v-if="row.open">
-        <MasonryInfiniteGrid ref="masonryRef" class="masonry-grid" :gap="10" :scrollContainer="'.infinite-scroll-container'" 
+        <MasonryInfiniteGrid ref="masonryRef" class="masonry-grid" :gap="10" :useRecycle="true" :scrollContainer="'.infinite-scroll-container'" 
             :threshold="1000" :columnSize="150" :useRoundedSize="false" :useTransform="true" @request-append="onRequestAppend">
             <div class="item" v-for="(item, i) in row.infiniteItems" :key="i">
                 <div class="image-wrapper" @click="$emit('image-clicked', { file: item.iiif_file, id: item.id })">
@@ -45,24 +45,24 @@ const emit = defineEmits(["image-clicked"]);
 const masonryRef = ref(null);
 
 onMounted(() => {
-    const resizeObserver = new ResizeObserver(() => {
-        if (masonryRef.value) {
-            if (!props.showThreePanels) {
-                nextTick(() => {
-                    const gridInstance = masonryRef.value;
-                    if (gridInstance && gridInstance.renderItems) {
-                        gridInstance.renderItems({ useOrgResize: true });
-                    }
-                });
-            }
-        }
+    // const resizeObserver = new ResizeObserver(() => {
+    //     if (masonryRef.value) {
+    //         if (!props.showThreePanels) {
+    //             nextTick(() => {
+    //                 const gridInstance = masonryRef.value;
+    //                 if (gridInstance && gridInstance.renderItems) {
+    //                     gridInstance.renderItems({ useOrgResize: true });
+    //                 }
+    //             });
+    //         }
+    //     }
 
-    });
+    // });
 
-    const container = document.querySelector("#split-1");
-    if (container) {
-        resizeObserver.observe(container);
-    }
+    // const container = document.querySelector("#split-1");
+    // if (container) {
+    //     resizeObserver.observe(container);
+    // }
 });
 
 function onRequestAppend(e) {
