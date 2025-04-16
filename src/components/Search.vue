@@ -5,7 +5,7 @@
         <div class="input-wrapper" id="search-wrapper">
           <div v-for="keyword in selectedKeywords" :key="keyword.id" class="tag-example-search" id="search-selected"
             @click="deselectKeyword(keyword)">
-            {{ $t('message.' + keyword.text) }}
+            {{currentLang=='sv' ? keyword.text : keyword.english_translation}}
           </div>
           <input type="search" id="search" name="search"
             :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'" class=""
@@ -20,7 +20,7 @@
       <div class="filter-text">{{ $t('message.sökförslag') }}</div>
       <div v-for="result in defaultSearchResults" :key="result.id" class="tag-example" :id="result.text"
         @click="selectResult(result)">
-        {{ $t('message.' + result.text) }}
+        {{currentLang=='sv' ? result.text : result.english_translation}}
       </div>
     </div>
   </div>
@@ -47,23 +47,23 @@ const searchQuery = ref('');
 const selectedKeywords = ref([]);
 const activePanel = ref('Map Interface');
 const emit = defineEmits(['toggle-map', 'search-term']);
-const defaultSearchResults = [
-  { id: 1, text: "3D"},
-  { id: 2, text: 'hällristningsmiljö' },
-  { id: 3, text: 'nattfoto' },
-  { id: 4, text: 'vattenöversilad' },
-  { id: 5, text: 'laserskanning' },
-  { id: 6, text: 'skepp' },
-  { id: 7, text: 'djur' },
-  { id: 8, text: 'vagn' },
-  { id: 9, text: 'vapen' },
-  { id: 10, text: 'krigare' },
-  { id: 11, text: 'människofigur' },
-  { id: 12, text: 'vitlycke' },
-  { id: 13, text: 'skee' },
-  { id: 14, text: 'kalkering' },
-  { id: 15, text: 'frottage' },
-];
+// const defaultSearchResults = [
+//   { id: 1, text: "3D"},
+//   { id: 2, text: 'hällristningsmiljö' },
+//   { id: 3, text: 'nattfoto' },
+//   { id: 4, text: 'vattenöversilad' },
+//   { id: 5, text: 'laserskanning' },
+//   { id: 6, text: 'skepp' },
+//   { id: 7, text: 'djur' },
+//   { id: 8, text: 'vagn' },
+//   { id: 9, text: 'vapen' },
+//   { id: 10, text: 'krigare' },
+//   { id: 11, text: 'människofigur' },
+//   { id: 12, text: 'vitlycke' },
+//   { id: 13, text: 'skee' },
+//   { id: 14, text: 'kalkering' },
+//   { id: 15, text: 'frottage' },
+// ];
 
 const emitSearch = () => {
   const query = selectedKeywords.value.length > 0
@@ -127,6 +127,17 @@ defineExpose({
   clearSearchField,
   updateSearchFromMetadata
 });
+
+defineProps({
+  defaultSearchResults: {
+    type: [Array, String, Object],
+    default: () => []
+  },
+  currentLang: {
+    type: String,
+    required: true
+  }
+})
 </script>
 
 <style scoped>

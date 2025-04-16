@@ -100,7 +100,7 @@
         <div id="split-0" class="flex-grow flex flex-col "
           :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
 
-          <Search @toggle-map="toggleMap" ref="searchRef" @search-term="handleSearchTerm" />
+          <Search @toggle-map="toggleMap" ref="searchRef" @search-term="handleSearchTerm" :defaultSearchResults="defaultSearchResults" :currentLang="currentLanguage"/>
 
           <Map ref="mapComponent" v-show="showMap" @bbox-search="handleBboxSearch" @map-clicked="handleMapClicked"
             @id-selected="handleSiteSelection" :coordinates="results" :bbox="bbox" :showMap="showMap" />
@@ -282,11 +282,14 @@ export default defineComponent({
       newIiifFile: null,
       splitInstance: null,
       bboxResults: [],
+      defaultSearchResults: [],
     };
   },
   mounted() {
     this.initializeOnHome();
     window.addEventListener('storage', this.handleStorageChange);
+
+    this.fetchSearchTerms()
 
     var en_settings = {
       "showIntro": true, "divId": "matomo-opt-out", "useSecureCookies": true, "cookiePath": null, "cookieDomain": null, "cookieSameSite": "Lax", "OptOutComplete": "Opt-out complete; your visits to this website will not be recorded by the Web Analytics tool.", "OptOutCompleteBis": "Note that if you clear your cookies, delete the opt-out cookie, or if you change computers or Web browsers, you will need to perform the opt-out procedure again.", "YouMayOptOut2": "You may choose to prevent this website from aggregating and analyzing the actions you take here.", "YouMayOptOut3": "Doing so will protect your privacy, but will also prevent the owner from learning from your actions and creating a better experience for you and other users.", "OptOutErrorNoCookies": "The tracking opt-out feature requires cookies to be enabled.", "OptOutErrorNotHttps": "The tracking opt-out feature may not work because this site was not loaded over HTTPS. Please reload the page to check if your opt out status changed.", "YouAreNotOptedOut": "You are not opted out.", "UncheckToOptOut": "Uncheck this box to opt-out.", "YouAreOptedOut": "You are currently opted out.", "CheckToOptIn": "Check this box to opt-in."
@@ -442,6 +445,16 @@ export default defineComponent({
   },
 
   methods: {
+    fetchSearchTerms() {
+      fetch("https://diana.dh.gu.se/api/shfa/keywordtag/?limit=150")
+        .then((response) => response.json())
+        .then((json) => {
+          this.data = json.results;
+          this.defaultSearchResults = this.data.sort(() => 0.5 - Math.random()).slice(1,15)
+        }).catch((error) => {
+          console.error('Error fetching keyword data:', error);
+        });
+    },
     updateSiteCoordinates(newId) {
       if (newId) {
         fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${newId}&depth=1`)
