@@ -149,7 +149,7 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
-          this.data_clean =this.data.map(a => a.category ? a : Object.assign(a,{"category":"Uncategorised"})) //handle keywords with null category
+          this.data_clean =this.data.map(a => a.category ? a : Object.assign(a,{"category":"Okategoriserade", "category_translation":"Uncategorised"})) //handle keywords with null category
           this.sortedSV = this.data_clean.sort((a, b) => { return a.category.localeCompare(b.category) })
           this.groupedKeywordsSV = Object.groupBy(this.sortedSV, ({ category }) => category)
           this.sortedEN = this.data.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) })
