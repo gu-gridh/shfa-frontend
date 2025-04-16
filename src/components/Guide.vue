@@ -152,7 +152,7 @@ export default {
           this.data_clean =this.data.map(a => a.category && a.category_translation ? a : Object.assign(a,{"category":"Okategoriserade", "category_translation":"Uncategorised"})) //handle keywords with null category
           this.sortedSV = this.data_clean.sort((a, b) => { return a.category.localeCompare(b.category) })
           this.groupedKeywordsSV = Object.groupBy(this.sortedSV, ({ category }) => category)
-          this.sortedEN = this.data.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) })
+          this.sortedEN = this.data_clean.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) })
           this.groupedKeywordsEN = Object.groupBy(this.sortedEN, ({ category_translation }) => category_translation)
         })
         .catch((error) => {
