@@ -149,9 +149,9 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
-          this.sortedSV = this.data.sort((a, b) => { return a.category.localeCompare(b.category) })
+          this.data_clean =this.data.map(a => a.category ? a : Object.assign(a,{"category":"Uncategorised"})) //handle keywords with null category
+          this.sortedSV = this.data_clean.sort((a, b) => { return a.category.localeCompare(b.category) })
           this.groupedKeywordsSV = Object.groupBy(this.sortedSV, ({ category }) => category)
-
           this.sortedEN = this.data.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) })
           this.groupedKeywordsEN = Object.groupBy(this.sortedEN, ({ category_translation }) => category_translation)
         })
@@ -160,7 +160,7 @@ export default {
         });
     },
     fetchDatingTags() {
-      fetch(`https://diana.dh.gu.se/api/shfa/datingtag/?depth=2&limit=25`)
+      fetch(`https://diana.dh.gu.se/api/shfa/datingtag/?depth=2&limit=30`)
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
