@@ -36,10 +36,11 @@ const routes = [
     props: true,
   },
   {
-    path: '/guide/:currentLang',
+    path: '/guide/',
     name: 'Guide',
     component: Guide,
-    props: true,
+    // props: true,
+    props: { currentLanguage: localStorage.userLang, currentColourMode: localStorage.userColour }
   },
   {
     path: '/:catchAll(.*)',

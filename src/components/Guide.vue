@@ -9,11 +9,35 @@
         <div class="flex-machine">
           <div class="logo-area">
             <div id="logo-guide"></div>
-            <h1 class="about-title">
+            
+      
+        <div class="languages">
+          <div class="version">Version 1.3</div>
+
+          <transition name="flip-fade" mode="out-in">
+            <div class="top-button" @click="toggleLanguage" id="language-button">
+              {{currentLang=='sv' ? 'English' : 'Svenska'}}
+            </div>
+          </transition>
+
+          <transition name="flip-fade" mode="out-in">
+            <div class="top-button" @click="toggleColour">
+              <div id="colour-mode" class="material-symbols-outlined" >
+                {{currentColour=='light' ? 'dark_mode' : 'light_mode'}}
+              </div>
+              
+            </div>
+          </transition>
+          </div>
+      
+
+
+        <h1 class="about-title">
               <div v-html="$t('message.abouttitle')"></div>
             </h1>
           </div>
 
+            
           <div class="guide-article-main fullopacityui" style="margin-bottom: 0px;">
             <h2>{{ $t('message.sökguide') }}</h2>
           </div>
@@ -110,18 +134,14 @@
         </div>
       </div>
     </div>
-    <!-- <button class="close-page-button" @click="closeGuide">
-      <div class="category-button fullopacityui"
-        style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">{{ $t('message.close')
-        }}</div>
-    </button> -->
   </div>
 </template>
 
 <script lang="ts">
 export default {
   props: {
-    currentLang: String,
+    currentLanguage: String,
+    currentColourMode: String,
   },
   data() {
     return {
@@ -129,6 +149,10 @@ export default {
       groupedKeywordsSV: {},
       groupedKeywordsEN: {},
       sortedDatings: {},
+      currentLang: this.$props.currentLanguage,
+      currentColour: this.$props.currentColourMode,
+      targetTheme: this.$props.currentColourMode,
+
     }
   },
   mounted() {
@@ -136,8 +160,21 @@ export default {
     this.$i18n.locale = this.currentLang;
     this.fetchKeywords()
     this.fetchDatingTags()
+
   },
   methods: {
+    toggleLanguage() {
+      this.currentLang = this.$i18n.locale === "en" ? "sv" : "en";
+      this.$i18n.locale = this.currentLang;
+      localStorage.setItem('userLang', this.currentLang);
+    },
+    toggleColour() {
+      this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
+      this.targetTheme = (this.targetTheme === 'dark') ? 'light' : 'dark';
+      document.documentElement.setAttribute('style-theme', this.targetTheme);
+      localStorage.setItem('userColour', this.currentColour);
+      return this.currentColour && this.targetTheme;
+    },
     logMetaSearch(item) {
       localStorage.setItem('searchKeyword', item);
     },
@@ -317,11 +354,12 @@ ul {
 
 .logo-area {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
   margin-top: 30px;
   margin-bottom: 20px;
   width: 100%;
+  padding: 0px 0px 0px 100px;
 }
 
 #logo-guide {

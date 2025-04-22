@@ -58,7 +58,7 @@
           <button class="item" id="privacy-button" @click="visiblePrivacy = true">
             {{ $t('message.privacy') }}<div class="top-link-infobutton"></div></button>
           <button class="item">
-            <router-link :to="{ name: 'Guide', params: { currentLang: currentLanguage } }" target="_blank">
+            <router-link :to="{ name: 'Guide' }" target="_blank">
               {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div>
             </router-link>
           </button>
@@ -587,6 +587,7 @@ export default defineComponent({
       this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
       this.targetTheme = (this.targetTheme === 'dark') ? 'light' : 'dark';
       document.documentElement.setAttribute('style-theme', this.targetTheme);
+      localStorage.setItem('userColour', this.currentColour);
       return this.currentColour && this.targetTheme;
     },
     handleMapClicked() {
