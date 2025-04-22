@@ -394,7 +394,7 @@ ul {
 .logo-area {
   display: flex;
   justify-content: left;
-  align-items: left;
+  align-items: center;
   margin-top: 30px;
   margin-bottom: 20px;
   width: 100%;

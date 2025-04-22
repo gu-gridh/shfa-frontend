@@ -2,14 +2,28 @@
   <div class="about-container fullopacityui">
     <div class="content">
       <template v-if="currentLang === 'en'">
-        <div class="flex-machine">
-          <div class="rows">
-            <div class="logo-area">
-              <div id="logo-about"></div>
-              <h1 class="about-title">
-                <div v-html="$t('message.abouttitle')"></div>
-              </h1>
-            </div>
+        <div class="rows">
+
+
+<div class="flex-machine">
+  <div class="settings-menu">
+  <div class="version">Version 1.3</div>
+    <div class="top-button" @click="toggleLanguage" id="language-button">
+      Svenska
+    </div>
+    <div class="top-button" @click="toggleColour">
+      <div id="colour-mode" class="material-symbols-outlined" >
+        {{currentColour=='light' ? 'dark_mode' : 'light_mode'}}
+      </div>
+    </div>
+  </div>
+  <div class="logo-area">
+    <div id="logo-guide"></div>
+
+<h1 class="about-title">
+      <div v-html="$t('message.abouttitle')"></div>
+    </h1>
+  </div>
             <div class="about-article-sub fullopacityui">
               <h2>Database Overview</h2>
               <p>SHFA's [Svenskt Hällristningsforskningsarkiv's] image database includes more than 26,000 digitized
@@ -127,16 +141,28 @@
       </template>
 
       <template v-else>
-        <div class="flex-machine">
-          <div class="rows">
-            <!-- <div class="content"> -->
+        <div class="rows">
 
-              <div class="logo-area">
-                <div id="logo-about"></div>
-                <h1 class="about-title">
-                <div v-html="$t('message.abouttitle')"></div>
-              </h1>
-              </div>
+
+<div class="flex-machine">
+  <div class="settings-menu">
+  <div class="version">Version 1.3</div>
+    <div class="top-button" @click="toggleLanguage" id="language-button">
+      English
+    </div>
+    <div class="top-button" @click="toggleColour">
+      <div id="colour-mode" class="material-symbols-outlined" >
+        {{currentColour=='light' ? 'dark_mode' : 'light_mode'}}
+      </div>
+    </div>
+  </div>
+  <div class="logo-area">
+    <div id="logo-guide"></div>
+
+<h1 class="about-title">
+      <div v-html="$t('message.abouttitle')"></div>
+    </h1>
+  </div>
 
               <div class="about-article-sub fullopacityui">
                 <h2>Databasöversikt</h2>
@@ -300,12 +326,105 @@ export default defineComponent({
     this.$i18n.locale = userLang;
   },
   props:{
-    currentLang: String
+    currentLanguage: String,
+    currentColourMode: String,
+  },
+  data() {
+    return {
+      currentLang: this.$props.currentLanguage,
+      currentColour: this.$props.currentColourMode,
+      targetTheme: this.$props.currentColourMode,
+    }
+  },
+  methods: {
+    toggleLanguage() {
+      this.currentLang = this.$i18n.locale === "en" ? "sv" : "en";
+      this.$i18n.locale = this.currentLang;
+      localStorage.setItem('userLang', this.currentLang);
+    },
+    toggleColour() {
+      this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
+      this.targetTheme = (this.targetTheme === 'dark') ? 'light' : 'dark';
+      document.documentElement.setAttribute('style-theme', this.targetTheme);
+      localStorage.setItem('userColour', this.currentColour);
+      return this.currentColour && this.targetTheme;
+    },
   }
 });
 </script>
 
 <style scoped>
+.settings-menu {
+  float: inline-end;
+  padding: 0px 100px;
+  /* right: 185px; */
+  font-size: 1.2em;
+  font-weight: 400;
+  color: var(--settings-text);
+  /* position: absolute; */
+  /* padding-right: 10px; */
+  margin-top: 0px;
+  cursor: default;
+}
+.top-button {
+  width:max-content;
+  height: 32px;
+  line-height: 32px;
+  float: right;
+  text-align: left;
+  margin-left: 0px;
+  padding: 0px 10px 0px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.top-button:hover {
+  background-color: var(--button-hover-light)
+}
+
+.version {
+  font-size: 15px;
+  text-align: right;
+  margin-right: 9px;
+  margin-top: 10px;
+  color: var(--settings-text);
+}
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 100,
+    'wght' 200,
+    'GRAD' 0,
+    'opsz' 24;
+  /* vertical-align: middle; */
+  padding: 1px;
+  color: var(--settings-text);
+  cursor: pointer;
+  /* line-height: 32px; */
+}
+.logo-area {
+  display: flex;
+  justify-content: left;
+  /* align-items: left; */
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 0px 0px 0px 100px;
+}
+
+#logo-guide {
+  position: relative;
+  width: 210px;
+  height: 200px;
+  background-color: var(--page-text);
+  float: left;
+  background: var(--shfa-logo);
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.7;
+  transition: all 0.8s ease-in-out;
+}
+
 .avail-3d {
   background-size: 100%;
   background-repeat: no-repeat;
@@ -394,13 +513,6 @@ h2 {
   overflow-y: scroll;
   max-height: max-content;
   background: var(--guide-page-background);
-}
-
-.logo-area {
-  display: flex;
-  justify-content: space-around; 
-  align-items: center;
-  margin-top: 20px;
 }
 
 #logo-about {

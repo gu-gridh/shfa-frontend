@@ -30,13 +30,14 @@ const routes = [
     component: Grid,
   },
   {
-    path: '/about/:currentLang',
+    path: '/about',
     name: 'About',
     component: About,
-    props: true,
+    // props: true,
+    props: { currentLanguage: localStorage.userLang, currentColourMode: localStorage.userColour }
   },
   {
-    path: '/guide/',
+    path: '/guide',
     name: 'Guide',
     component: Guide,
     // props: true,
