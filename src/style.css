@@ -142,6 +142,7 @@ div.split-container>div>div:nth-child(4) {
   --threed-icon: #4588ca;
   --fb-logo-background: url("../src/assets/Facebook_Logo_Secondary.png");
   --instagram-logo-background: url("../src/assets/Instagram_Glyph_White.png");
+  --settings-text: rgba(255, 255, 255, 1);
 }
 
 html[style-theme='dark'] {
@@ -224,6 +225,7 @@ html[style-theme='dark'] {
   --threed-icon: #4588ca;
   --fb-logo-background: url("../src/assets/Facebook_Logo_Secondary.png");
   --instagram-logo-background: url("../src/assets/Instagram_Glyph_White.png");
+  --settings-text: rgba(255, 255, 255, 1);
 }
 
 html[style-theme='light'] {
@@ -306,6 +308,7 @@ html[style-theme='light'] {
   --threed-icon: #4588ca;
   --fb-logo-background: url("../src/assets/Facebook_Logo_Primary.png");
   --instagram-logo-background: url("../src/assets/Instagram_Glyph_Black.png");
+  --settings-text: rgba(0, 0, 0, 1);
 }
 
 @media (prefers-contrast:more) or (prefers-reduced-transparency) {
@@ -388,5 +391,6 @@ html[style-theme='light'] {
     --threed-icon: #3e79b4;
     --fb-logo-background: url("../src/assets/Facebook_Logo_Primary.png");
     --instagram-logo-background: url("../src/assets/Instagram_Glyph_Black.png");
+    --settings-text: rgba(0, 0, 0, 1);
   }
 }

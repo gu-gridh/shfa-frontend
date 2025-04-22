@@ -7,31 +7,20 @@
 
 
         <div class="flex-machine">
-          <div class="logo-area">
-            <div id="logo-guide"></div>
-            
-      
-        <div class="languages">
+          <div class="settings-menu">
           <div class="version">Version 1.3</div>
-
-          <transition name="flip-fade" mode="out-in">
             <div class="top-button" @click="toggleLanguage" id="language-button">
               {{currentLang=='sv' ? 'English' : 'Svenska'}}
             </div>
-          </transition>
-
-          <transition name="flip-fade" mode="out-in">
             <div class="top-button" @click="toggleColour">
               <div id="colour-mode" class="material-symbols-outlined" >
                 {{currentColour=='light' ? 'dark_mode' : 'light_mode'}}
               </div>
-              
             </div>
-          </transition>
           </div>
-      
-
-
+          <div class="logo-area">
+            <div id="logo-guide"></div>
+    
         <h1 class="about-title">
               <div v-html="$t('message.abouttitle')"></div>
             </h1>
@@ -158,6 +147,8 @@ export default {
   mounted() {
     // const userLang = localStorage.getItem('userLang') || 'sv';
     this.$i18n.locale = this.currentLang;
+    document.documentElement.setAttribute('style-theme', this.targetTheme);
+
     this.fetchKeywords()
     this.fetchDatingTags()
 
@@ -220,6 +211,54 @@ export default {
 </script>
 
 <style scoped>
+.settings-menu {
+  float: inline-end;
+  padding: 0px 100px;
+  /* right: 185px; */
+  font-size: 1.2em;
+  font-weight: 400;
+  color: var(--settings-text);
+  /* position: absolute; */
+  /* padding-right: 10px; */
+  margin-top: 0px;
+  cursor: default;
+}
+.top-button {
+  width:max-content;
+  height: 32px;
+  line-height: 32px;
+  float: right;
+  text-align: left;
+  margin-left: 0px;
+  padding: 0px 10px 0px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.top-button:hover {
+  background-color: var(--button-hover-light)
+}
+
+.version {
+  font-size: 15px;
+  text-align: right;
+  margin-right: 9px;
+  margin-top: 10px;
+  color: var(--settings-text);
+}
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 100,
+    'wght' 200,
+    'GRAD' 0,
+    'opsz' 24;
+  /* vertical-align: middle; */
+  padding: 1px;
+  color: var(--settings-text);
+  cursor: pointer;
+  /* line-height: 32px; */
+}
+
 td>button:hover,
 li>button:hover {
   color: var(--highlighted-text);
