@@ -153,8 +153,9 @@ const buildGalleryUrl = () => {
     Object.keys(props.advancedSearchResults).forEach((key) => {
       const value = props.advancedSearchResults[key];
       if (value && value.toString().trim() !== "") {
+        if (key !== 'group') {
         params.append(key, value);
-      }
+      } else {params.append('site_name',value)}}
     });
   }
 
@@ -162,6 +163,7 @@ const buildGalleryUrl = () => {
   if (queryString) {
     url += "?" + queryString;
   }
+  console.log(url)
   return url;
 };
 

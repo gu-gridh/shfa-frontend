@@ -98,7 +98,7 @@ const handleSearchButtonClick = () => {
     'keyword',
     'dating_tag',
     'institution_name',
-    'models'
+    'group'
   ];
 
   searchQuery.value.forEach((query, index) => {
@@ -221,14 +221,13 @@ const fetchSuggestions = async (query, index, nextPage = null) => {
         }));
         break;
       case 6: //models
-      newResults = data.results.flatMap(result => {
-        const { placename, raa_id, lamning_id } = result.site;
-        const suggestions = [];
-        if (raa_id) suggestions.push({ id: result.id + '-raa', text: raa_id });
-        if (lamning_id) suggestions.push({ id: result.id + '-lamning', text: lamning_id });
-        if (placename) suggestions.push({ id: result.id + '-placename', text: placename });
-        console.log(suggestions)
-        return suggestions;
+        newResults = data.results.flatMap(result => {
+          const { placename, raa_id, lamning_id } = result.site;
+          const suggestions = [];
+          if (raa_id) suggestions.push({ id: result.group.id, text: raa_id });
+          if (lamning_id) suggestions.push({ id: result.group.id, text: lamning_id });
+          if (placename) suggestions.push({ id: result.group.id, text: placename });
+          return suggestions;
         });
         break;
     }
