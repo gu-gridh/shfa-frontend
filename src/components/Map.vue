@@ -38,6 +38,10 @@ import Overlay from "ol/Overlay";
 import Zoom from "ol/control/Zoom";
 import { useStore } from "../stores/store.js";
 import { transformExtent } from "ol/proj";
+import LayerSwitcher from 'ol-layerswitcher';
+import 'ol-layerswitcher/dist/ol-layerswitcher.css';
+import LayerGroup from 'ol/layer/Group';
+import TileWMS from 'ol/source/TileWMS.js';
 
 export default {
   name: "MapComponent",
@@ -326,14 +330,54 @@ export default {
         closebutton.blur();
         return false;
       };
+// Create a list of the SGU shore displacement data for relevant years
+      const sgu_layers = [
+        new TileLayer({
+          source: new TileWMS({
+            url: '',
+            attributions: 'Source: Sveriges geologiska Undersökning',
+            params: {'LAYERS': ``, 'TILED': true},
+            serverType: 'geoserver',
+                          }),
+          title: '1100 cal BP',
+          visible: false,
+                        }),
+        new TileLayer({
+          source: new TileWMS({
+            url: '',
+            attributions: 'Source: Sveriges geologiska Undersökning',
+            params: {'LAYERS': ``, 'TILED': true},
+            serverType: 'geoserver',
+                          }),
+          title: '1000 cal BP',
+          visible: false,
+                        }),
+      ];
 
       this.map = new Map({
         target: "map",
         layers: [
-          new TileLayer({
-            className: "grey",
-            source: new OSM(),
+          new LayerGroup({
+            title: 'Open Street Map',
+            type: 'base',
+            visible: true,
+            layers: [
+            new TileLayer({
+              className: "grey",
+              source: new OSM(),
+            }),
+            ],
           }),
+          new LayerGroup({
+            title: 'SGU Strandförskjutningsmodell',
+            combine: false,
+            visible: false,
+            layers: sgu_layers,
+            openInLayerSwitcher: true,
+            fold: 'close',
+            label: '',
+            collapseLabel: ''
+          })
         ],
         view: new View({
           center: fromLonLat([11.35, 58.73]),
@@ -341,6 +385,13 @@ export default {
         }),
         overlays: [overlay],
       });
+
+      var layerSwitcher = new LayerSwitcher({
+          activationMode: 'click',
+          // reverse: true,
+          groupSelectStyle: 'children'
+        });
+        this.map.addControl(layerSwitcher);
 
       const path = window.location.pathname;
       const match = path.match(/^\/image\/(\d+)$/); //check if address contains image + extract ID
@@ -371,10 +422,10 @@ export default {
         source: pointSource,
         style: webGLStyle,
         className: "markers",
+        zIndex:100
       });
 
       this.map.addLayer(this.vectorLayer);
-
       this.map.on("pointermove", (event) => {
         if (event.dragging) {
           return;
@@ -523,6 +574,60 @@ export default {
 </script>
 
 <style>
+.layer-switcher {
+  top: 20px;
+}
+.layer-switcher .panel {
+  text-align: justify;
+  color: var(--popup-text);
+  line-height: 1.2;
+  background-color: var(--popup-background);
+  opacity: 100%;
+  box-shadow: var(--shadow);
+  padding: 8px 18px 8px 38px;
+  border-radius: 4px;
+  min-width: max-content;
+  block-size: fit-content;
+  font-family: "Barlow Condensed", sans-serif !important;
+  max-width: max-content;
+  min-height: max-content;
+  cursor: pointer;
+  border: 0.5px;
+}
+
+.layer-switcher button, .layer-switcher button:focus {
+  background-color: var(--viewer-button-background);
+  background-image: var(--map-layers-icon);
+  background-size: 24px;
+  background-position: center;
+  opacity: 1 !important;
+}
+
+.layer-switcher button:hover {
+  background-color: var(--viewer-button-background);
+  background-image: var(--map-layers-icon);
+  background-size: 24px;
+  background-position: center;
+}
+
+.layer-switcher.shown.layer-switcher-activation-mode-click button {
+  background-color: var(--viewer-button-background);
+  background-image: var(--collapse-layers-icon);
+  background-size: 24px;
+  background-position: center;
+}
+
+button[title="Collapse legend"] {
+  background-color: var(--viewer-button-background);
+  background-image: var(--expand-layers-icon) !important;
+  background-size: 14px !important;
+  font-size: 0px;
+}
+
+input[type="checkbox" i] {
+  accent-color: var(--highlighted-text);
+}
+
 #search-bbox-button {
   position: absolute;
   left: 50%;

@@ -143,6 +143,9 @@ div.split-container>div>div:nth-child(4) {
   --fb-logo-background: url("../src/assets/Facebook_Logo_Secondary.png");
   --instagram-logo-background: url("../src/assets/Instagram_Glyph_White.png");
   --settings-text: rgba(255, 255, 255, 1);
+  --map-layers-icon: url("../src/assets/openseadragon/layers.png");
+  --expand-layers-icon: url("../src/assets/openseadragon/expand.png");
+  --collapse-layers-icon: url("../src/assets/openseadragon/collapse.png");
 }
 
 html[style-theme='dark'] {
@@ -226,6 +229,9 @@ html[style-theme='dark'] {
   --fb-logo-background: url("../src/assets/Facebook_Logo_Secondary.png");
   --instagram-logo-background: url("../src/assets/Instagram_Glyph_White.png");
   --settings-text: rgba(255, 255, 255, 1);
+  --map-layers-icon: url("../src/assets/openseadragon/layers.png");
+  --expand-layers-icon: url("../src/assets/openseadragon/expand.png");
+  --collapse-layers-icon: url("../src/assets/openseadragon/collapse.png");
 }
 
 html[style-theme='light'] {
@@ -309,6 +315,9 @@ html[style-theme='light'] {
   --fb-logo-background: url("../src/assets/Facebook_Logo_Primary.png");
   --instagram-logo-background: url("../src/assets/Instagram_Glyph_Black.png");
   --settings-text: rgba(0, 0, 0, 1);
+  --map-layers-icon: url("../src/assets/openseadragon/layers.png");
+  --expand-layers-icon: url("../src/assets/openseadragon/expand.png");
+  --collapse-layers-icon: url("../src/assets/openseadragon/collapse.png");
 }
 
 @media (prefers-contrast:more) or (prefers-reduced-transparency) {
@@ -392,5 +401,8 @@ html[style-theme='light'] {
     --fb-logo-background: url("../src/assets/Facebook_Logo_Primary.png");
     --instagram-logo-background: url("../src/assets/Instagram_Glyph_Black.png");
     --settings-text: rgba(0, 0, 0, 1);
+    --map-layers-icon: url("../src/assets/openseadragon/layers.png");
+    --expand-layers-icon: url("../src/assets/openseadragon/expand.png");
+    --collapse-layers-icon: url("../src/assets/openseadragon/collapse.png");
   }
 }
