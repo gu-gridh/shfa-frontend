@@ -11,6 +11,7 @@
               $t('message.nyckelord'),
               $t('message.datering'),
               'Institution',
+              $t('message.3D'),
             ][index]
           }}
         </div>
@@ -28,6 +29,7 @@
               $t('message.söknyckelord'),
               $t('message.sökdatering'),
               $t('message.sökinstitutioner'),
+              $t('message.sök3D'),
             ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
             @keydown="handleBackspace($event, index)" autocomplete="off" />
         </div>
@@ -62,11 +64,11 @@ const props = defineProps({
 
 const emit = defineEmits(['advanced-search-params']);
 
-const searchQuery = ref(['', '', '', '', '', '']);
-const searchResults = ref([[], [], [], [], [], []]);
-const selectedKeywords = ref([[], [], [], [], [], []]);
+const searchQuery = ref(['', '', '', '', '', '', '']);
+const searchResults = ref([[], [], [], [], [], [], []]);
+const selectedKeywords = ref([[], [], [], [], [], [], []]);
 const hoveredResultIndex = ref(-1);
-const infiniteScrollUrls = ref(Array(6).fill(null));
+const infiniteScrollUrls = ref(Array(7).fill(null));
 
 //api URLs for autocomplete
 const apiUrls = computed(() => {
@@ -78,12 +80,13 @@ const apiUrls = computed(() => {
     `https://diana.dh.gu.se/api/shfa/search/keywords/${langParam}keyword=`,
     `https://diana.dh.gu.se/api/shfa/search/dating/${langParam}dating_tag=`,
     'https://diana.dh.gu.se/api/shfa/search/institution/?institution_name=',
+    'https://diana.dh.gu.se/api/shfa/null_visualization_group/?depth=1&site='
   ];
 });
 
 const clearAdvancedSearchFields = () => {
-  searchQuery.value = ['', '', '', '', '', ''];
-  selectedKeywords.value = [[], [], [], [], [], []];
+  searchQuery.value = ['', '', '', '', '', '', ''];
+  selectedKeywords.value = [[], [], [], [], [], [], []];
 };
 
 const handleSearchButtonClick = () => {
@@ -94,7 +97,8 @@ const handleSearchButtonClick = () => {
     'image_type',
     'keyword',
     'dating_tag',
-    'institution_name'
+    'institution_name',
+    'models'
   ];
 
   searchQuery.value.forEach((query, index) => {
@@ -215,6 +219,17 @@ const fetchSuggestions = async (query, index, nextPage = null) => {
           id: result.id,
           text: result.name
         }));
+        break;
+      case 6: //models
+      newResults = data.results.flatMap(result => {
+        const { placename, raa_id, lamning_id } = result.site;
+        const suggestions = [];
+        if (raa_id) suggestions.push({ id: result.id + '-raa', text: raa_id });
+        if (lamning_id) suggestions.push({ id: result.id + '-lamning', text: lamning_id });
+        if (placename) suggestions.push({ id: result.id + '-placename', text: placename });
+        console.log(suggestions)
+        return suggestions;
+        });
         break;
     }
 
