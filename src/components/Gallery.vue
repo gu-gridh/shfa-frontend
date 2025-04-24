@@ -139,11 +139,29 @@ const getOtherRows = idx => rows.value.map(r => ({
 }))
 
 function toggleRow(idx) {
-  rows.value.forEach(r => { if (r.originalIndex !== idx) r.open = false })
+  //close all other rows & reset them
+  rows.value.forEach(r => {
+    if (r.originalIndex !== idx) {
+      r.open = false
+      r.infiniteItems = []
+      r.nextUrl = null
+      r.isFetching = false
+    }
+  })
+
   const row = rows.value.find(r => r.originalIndex === idx)
   if (!row) return
+
+  if (!row.open) {
+    row.infiniteItems = []
+    row.nextUrl = null
+    row.isFetching = false
+  }
+
   row.open = !row.open
-  if (row.open && !row.nextUrl) {
+
+  //fetch first page once
+  if (row.open) {
     const url = new URL(buildGalleryUrl())
     url.searchParams.set('category_type', getRowTitle(row))
     row.nextUrl = url.toString()
