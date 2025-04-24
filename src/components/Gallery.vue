@@ -47,7 +47,6 @@
                   <div class="metadata-overlay">
                     <div class="metadata-content">{{ item.info }}</div>
                   </div>
-                  <span class="index">{{ index }}</span>
                 </div>
               </template>
             </RecycleScroller>
@@ -69,8 +68,8 @@ const props = defineProps({
   bboxSearch: [Array, Object],
   selectedSiteId: [Number, String],
   currentLanguage: { type: String, default: 'sv' },
-  showThreePanels: Boolean
 })
+
 const emit = defineEmits(['image-clicked', 'row-clicked'])
 
 const cols = 5
@@ -195,6 +194,10 @@ fetchGallery()
 </script>
 
 <style scoped>
+.item:hover .metadata-overlay {
+  opacity: 0.9;
+}
+
 .loading-indicator {
   text-align: center;
   padding: 2rem;
@@ -256,19 +259,20 @@ fetchGallery()
   cursor: pointer;
   width: 100px;
   font-size: 15px;
+  margin-left: 1rem;
   border-radius: 5px;
 }
 
 .short-preview {
   display: flex;
   gap: 1rem;
-  margin-bottom: 0.5rem;
-  overflow-x: auto;
-  padding-bottom: 6px;
+  scrollbar-width: none;
+  overflow: hidden;
 }
 
 .short-item {
-  flex: 0 0 200px
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .image-wrapper {
@@ -330,16 +334,6 @@ fetchGallery()
   max-height: 300px;
 }
 
-.index {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  padding: 2px 6px;
-  background: rgba(255, 255, 255, .85);
-  border-radius: 4px;
-  font-size: 12px;
-}
-
 .scroller::-webkit-scrollbar,
 .short-preview::-webkit-scrollbar {
   width: 0;
@@ -347,10 +341,6 @@ fetchGallery()
 }
 
 .scroller {
-  scrollbar-width: none
-}
-
-.short-preview {
   scrollbar-width: none
 }
 </style>
