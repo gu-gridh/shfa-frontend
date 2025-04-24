@@ -7,7 +7,7 @@
           <div class="row-titles">
             <ul>
               <li v-for="other in getOtherRows(row.originalIndex)"
-                @click="!other.isCurrent && onTitleClick(other.index)" :class="{ 'non-clickable': other.isCurrent }">
+              @click="!other.isCurrent && onTitleClick(other.index)" :class="{ 'non-clickable': other.isCurrent }">
                 {{ other.title }}
               </li>
             </ul>
@@ -20,7 +20,7 @@
             <span v-if="row.count"> ({{ row.count }})</span>
             <button v-if="row.shortItems.length >= 5" class="toggle-btn" @click="toggleRow(row.originalIndex)">
               {{ row.open ? 'Hide' : 'Show more' }}
-            </button>
+              </button>
           </h3>
 
           <!-- preview thumbnails -->
@@ -62,6 +62,21 @@ import { ref, reactive, computed, watch, nextTick } from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
+function getInitialCols () {
+  if (typeof window === 'undefined') return 5
+
+  const w = window.innerWidth        
+  const minColWidth = 300            
+  const colsByWidth = Math.max(1, Math.floor(w / minColWidth))
+
+  if (w < 900)      return 1                    
+  return colsByWidth
+}
+
+const cols = getInitialCols()
+const thumbSize = 150
+const bufferPx = thumbSize * 6
+
 const props = defineProps({
   searchItems: [Array, String, Object],
   advancedSearchResults: [Array, Object],
@@ -72,9 +87,6 @@ const props = defineProps({
 
 const emit = defineEmits(['image-clicked', 'row-clicked'])
 
-const cols = 5
-const thumbSize = 150
-const bufferPx = thumbSize * 6
 const rows = ref([])
 const isGalleryLoading = ref(true)
 
