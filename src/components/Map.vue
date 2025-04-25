@@ -39,6 +39,7 @@ import Zoom from "ol/control/Zoom";
 import { useStore } from "../stores/store.js";
 import { transformExtent } from "ol/proj";
 import LayerSwitcher from 'ol-layerswitcher';
+// import LayerSwitcher from "ol-ext/control/LayerSwitcher"
 import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import LayerGroup from 'ol/layer/Group';
 import TileWMS from 'ol/source/TileWMS.js';
@@ -331,28 +332,29 @@ export default {
         return false;
       };
 // Create a list of the SGU shore displacement data for relevant years
-      const sgu_layers = [
-        new TileLayer({
+      let sgu_layers = []
+      const start_bp = 1000
+      const stop_bp = 4000
+      const interval = 100
+      const strand_years = Array.from({ length: Math.ceil((stop_bp - start_bp) / interval)+1 },(_, i) => stop_bp - i * interval,);
+// Loop through the years to create a raster layer
+      strand_years.forEach((year,index) => {
+        var layer = new TileLayer({
           source: new TileWMS({
-            url: '',
-            attributions: 'Source: Sveriges geologiska Undersökning',
-            params: {'LAYERS': ``, 'TILED': true},
-            serverType: 'geoserver',
+            url: 'https://maps3.sgu.se/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap',
+            attributions: `<a href="https://resource.sgu.se/dokument/produkter/strandforskjutningsmodell-beskrivning.pdf" target="_blank">Source: Sveriges geologiska undersökning</a>`,
+            params: {'LAYERS': `strand:SE.GOV.SGU.STRANDFORSKJUTNINGSMODELL.${year}BP`, 'TILED': true},
+            serverType: 'geoserver'
                           }),
-          title: '1100 cal BP',
+          title: `${year} cal BP`,
           visible: false,
-                        }),
-        new TileLayer({
-          source: new TileWMS({
-            url: '',
-            attributions: 'Source: Sveriges geologiska Undersökning',
-            params: {'LAYERS': ``, 'TILED': true},
-            serverType: 'geoserver',
-                          }),
-          title: '1000 cal BP',
-          visible: false,
-                        }),
-      ];
+          opacity: ((strand_years.length-index)/100)+0.4, //make lower layers less transparent to view multiple layers at once
+          zIndex:index,
+          className: "dark" //make layers easier to see with transparency on since we're using WMS layers without SLD
+                        })
+        sgu_layers.push(layer)
+                      }
+        )
 
       this.map = new Map({
         target: "map",
@@ -407,13 +409,13 @@ export default {
       }
 
       const markerColour = getComputedStyle(document.getElementById("map")).getPropertyValue("--map-markers");
-      const webGLStyle = {
+      var webGLStyle = {
         symbol: {
           symbolType: "image",
           color: markerColour,
           size: [20, 30],
           offset: [0, 10],
-          src: "/interface/assets/marker-white.svg",
+          src: "/interface/assets/marker-white.svg"
         },
       };
 
@@ -422,8 +424,9 @@ export default {
         source: pointSource,
         style: webGLStyle,
         className: "markers",
-        zIndex:100
+        zIndex:1000
       });
+      
 
       this.map.addLayer(this.vectorLayer);
       this.map.on("pointermove", (event) => {
@@ -609,6 +612,11 @@ export default {
   background-size: 24px;
   background-position: center;
 }
+
+.layer-switcher.shown {
+    max-height: 200px;
+    overflow-y: scroll;
+  }
 
 .layer-switcher.shown.layer-switcher-activation-mode-click button {
   background-color: var(--viewer-button-background);
@@ -847,6 +855,10 @@ input[type="checkbox" i] {
 
 #map .grey {
   filter: grayscale(100%) contrast(110%);
+}
+
+#map .dark {
+  filter: brightness(55%) contrast(150%) saturate(200%);
 }
 
 @media (max-width: 350px) {
