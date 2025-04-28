@@ -118,7 +118,7 @@ const buildGalleryUrl = () => {
   } else if (f === 'search' && props.searchItems?.toString().trim()) {
     p.append('search_type', 'general'); p.append('q', props.searchItems)
   } else if (f === 'bbox' && Array.isArray(props.bboxSearch) && props.bboxSearch.length === 4) {
-    p.append('in_bbox', props.bboxSearch.join(',')); p.append('depth', '2')
+    p.append('in_bbox', props.bboxSearch.join(','));
   } else if (f === 'advanced' && props.advancedSearchResults && typeof props.advancedSearchResults === 'object') {
     p.append('search_type', 'advanced')
     Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
