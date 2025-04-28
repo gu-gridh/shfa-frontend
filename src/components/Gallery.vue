@@ -7,7 +7,7 @@
           <div class="row-titles">
             <ul>
               <li v-for="other in getOtherRows(row.originalIndex)"
-              @click="!other.isCurrent && onTitleClick(other.index)" :class="{ 'non-clickable': other.isCurrent }">
+                @click="!other.isCurrent && onTitleClick(other.index)" :class="{ 'non-clickable': other.isCurrent }">
                 {{ other.title }}
               </li>
             </ul>
@@ -20,7 +20,7 @@
             <span v-if="row.count"> ({{ row.count }})</span>
             <button v-if="row.shortItems.length >= 5" class="toggle-btn" @click="toggleRow(row.originalIndex)">
               {{ row.open ? 'Hide' : 'Show more' }}
-              </button>
+            </button>
           </h3>
 
           <!-- preview thumbnails -->
@@ -37,13 +37,20 @@
 
           <!-- expanded virtual grid -->
           <div v-else class="scroll-wrapper" :aria-label="'Images for ' + getRowTitle(row)">
-            <RecycleScroller :ref="el => (row.scrollerRef = el)" class="scroller" :items="row.infiniteItems"
-              :item-size="thumbSize" :item-secondary-size="thumbSize" :grid-items="cols" :buffer="bufferPx"
-              :type-field="'category'" :key-field="'uuid'" :emit-update="true"
-              @update="(_, __, ___, end) => handleRowUpdate(end, row)">
+            <RecycleScroller 
+              :ref="el => (row.scrollerRef = el)" class="scroller" 
+              :items="row.infiniteItems"
+              :item-size="thumbSize" 
+              :item-secondary-size="thumbSize" 
+              :grid-items="cols" 
+              :buffer="bufferPx"
+              :type-field="'category'" 
+              :key-field="'uuid'" :emit-update="true"
+              @update="(_, __, ___, end) => handleRowUpdate(end, row)"
+            >
               <template #default="{ item, index }">
-                <div class="item" @click="$emit('image-clicked', item.iiif_file, item.id)">
-                  <img :src="item.iiif_file + '/full/' + thumbSize + ',/0/default.jpg'" :alt="'Image ' + index" />
+                <div class="item" :key="item.uuid" @click="$emit('image-clicked', item.iiif_file, item.id)">
+                  <LazyThumb :src="item.iiif_file + '/full/' + thumbSize + ',/0/default.jpg'" :alt="'Image ' + index" />
                   <div class="metadata-overlay">
                     <div class="metadata-content">{{ item.info }}</div>
                   </div>
@@ -58,18 +65,19 @@
 </template>
 
 <script setup>
+import LazyThumb from './LazyThumb.vue'
 import { ref, reactive, computed, watch, nextTick } from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
-function getInitialCols () {
+function getInitialCols() {
   if (typeof window === 'undefined') return 5
 
-  const w = window.innerWidth        
-  const minColWidth = 300            
+  const w = window.innerWidth
+  const minColWidth = 300
   const colsByWidth = Math.max(1, Math.floor(w / minColWidth))
 
-  if (w < 900)      return 1                    
+  if (w < 900) return 1
   return colsByWidth
 }
 
