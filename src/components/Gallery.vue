@@ -27,9 +27,13 @@
           <div v-if="!row.open" class="short-preview" :aria-label="'Preview images for ' + getRowTitle(row)">
             <div v-for="item in row.shortItems" class="short-item">
               <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
+                <span v-if="item.is3d" class="badge-3d">3D</span>
                 <img :src="item.iiif_file + '/full/200,/0/default.jpg'" alt="preview" />
                 <div class="metadata-overlay">
-                  <div class="metadata-content">{{ item.info }}</div>
+                  <div class="metadata-content">
+                    <div v-if="item.lamning">{{ item.lamning }}</div>
+                    <div v-if="item.raa">{{ item.raa }}</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -50,9 +54,13 @@
             >
               <template #default="{ item, index }">
                 <div class="item" :key="item.uuid" @click="$emit('image-clicked', item.iiif_file, item.id)">
+                  <span v-if="item.is3d" class="badge-3d">3D</span>
                   <LazyThumb :src="item.iiif_file + '/full/' + thumbSize + ',/0/default.jpg'" :alt="'Image ' + index" />
                   <div class="metadata-overlay">
-                    <div class="metadata-content">{{ item.info }}</div>
+                    <div class="metadata-content">
+                      <div v-if="item.lamning">{{ item.lamning }}</div>
+                      <div v-if="item.raa">{{ item.raa }}</div>
+                    </div>
                   </div>
                 </div>
               </template>
@@ -79,6 +87,13 @@ function getInitialCols() {
 
   if (w < 900) return 1
   return colsByWidth
+}
+
+const DEPTH = 1
+const withDepth = urlString => {
+  const u = new URL(urlString)
+  u.searchParams.set('depth', DEPTH)
+  return u.toString()
 }
 
 const cols = getInitialCols()
@@ -110,7 +125,7 @@ const activeFilter = computed(
 
 const buildGalleryUrl = () => {
   const base = 'https://diana.dh.gu.se/api/shfa/gallery/'
-  const p = new URLSearchParams()
+  const p = new URLSearchParams({ depth: DEPTH })
   const f = activeFilter.value
 
   if (f === 'site' && props.selectedSiteId) {
@@ -135,9 +150,11 @@ async function fetchGallery() {
     rows.value = (results || []).map((sec, idx) => ({
       originalIndex: idx,
       shortItems: (sec.images || []).map(img => ({
-        id: img.id,
+        id:   img.id,
         iiif_file: formatIiif(img.iiif_file),
-        info: 'ID: ' + img.id + (img.year ? ' | Year: ' + img.year : '')
+        lamning:   img.site?.lamning_id || '',
+        raa:       img.site?.raa_id     || '',
+        is3d:      img.type?.id === 943,
       })),
       open: false,
       scrollerRef: null,
@@ -184,7 +201,7 @@ function toggleRow(idx) {
   if (row.open) {
     const url = new URL(buildGalleryUrl())
     url.searchParams.set('category_type', getRowTitle(row))
-    row.nextUrl = url.toString()
+    row.nextUrl = withDepth(url)
     fetchNextPage(row)
   }
 }
@@ -199,9 +216,11 @@ async function fetchNextPage(row) {
       uuid: crypto.randomUUID(),
       category: row.originalIndex,
       iiif_file: formatIiif(img.iiif_file),
-      info: 'ID: ' + img.id + (img.year ? ' | Year: ' + img.year : '')
+      lamning: img.site?.lamning_id || '',
+      raa:     img.site?.raa_id     || '',
+      is3d:    img.type?.id === 943,
     })))
-    row.nextUrl = next
+    row.nextUrl = next ? withDepth(next) : null
   } finally {
     row.isFetching = false
     await nextTick()
@@ -232,6 +251,24 @@ fetchGallery()
 </script>
 
 <style scoped>
+.badge-3d {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--button-background-accent);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
 .item:hover .metadata-overlay {
   opacity: 0.9;
 }
