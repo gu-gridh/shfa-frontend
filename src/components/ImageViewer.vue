@@ -59,52 +59,40 @@ export default {
   },
   methods: {
     toggleFullScreenPageMode(bool) {
-      // Toggles full screen and full page modes
+      //toggles full screen and full page modes
       OpenSeadragon.supportsFullScreen = bool;
       OpenSeadragon.supportsFullPage = !bool;
     },
     async fetchImageData() {
-      if (!this.iiifFile) {
-        return;
-      }
-      try {
-        const response = await fetch(
-          `https://diana.dh.gu.se/api/shfa/image/?id=${this.iiifFile}&depth=1`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        const iiifFile = data.results[0].iiif_file;
-        const download = data.results[0].file;
-        const lamning_id = data.results[0].site.lamning_id;
-        const raa_id = data.results[0].site.raa_id;
-        const placename = data.results[0].site.placename;
-        const creator = data.results[0].author?.name || 'Unknown';
-        const img_id = data.results[0].id;
-        const threed_available = data.results[0].group;
-        // const year = data.results[0].year;
-        this.link_3d = threed_available ? true : false;
-        this.query_3d = threed_available ? data.results[0].group.text : null;
-        this.completeUrl = download;
-        this.lamning_id = lamning_id;
-        this.raa_id = raa_id;
-        this.placename = placename;
-        this.creator = creator;
-        this.img_id = img_id;
-        // this.year = year;
+      if (!this.iiifFile) return;
 
-        if (this.viewer) {
-          this.viewer.open(`${iiifFile}/info.json`);
-        } else {
-          // If viewer doesn't exist, initialize a new one
-          this.initOpenSeadragon(iiifFile);
+      try {
+        const resp = await fetch(
+          `https://diana.dh.gu.se/api/shfa/image/?id=${encodeURIComponent(this.iiifFile)}&depth=1`
+        );
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+        const first = (await resp.json()).results?.[0];
+        if (!first) {
+          console.warn('No image returned for', this.iiifFile);
+          return;
         }
-      } catch (error) {
-        console.error("Fetch error:", error);
+        const site = first.site ?? {};
+        this.completeUrl = first.file;
+        this.lamning_id = site.lamning_id ?? '';
+        this.raa_id = site.raa_id ?? '';
+        this.placename = site.placename ?? '';
+        this.creator = first.author?.name || 'Unknown';
+        this.img_id = first.id;
+        this.link_3d = !!first.group;
+        this.query_3d = first.group?.text ?? null;
+        const infoUrl = `${first.iiif_file}/info.json`;
+        this.viewer ? this.viewer.open(infoUrl) : this.initOpenSeadragon(first.iiif_file);
+
+      } catch (err) {
+        console.error('Fetch error:', err);
       }
     },
-
     open3dViewer() {
       const threedUrl = `https://shfa.dh.gu.se/viewer/?q=${this.query_3d}/mesh`;
       window.open(threedUrl, "_blank");
