@@ -78,17 +78,6 @@ import { ref, reactive, computed, watch, nextTick } from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
-function getInitialCols() {
-  if (typeof window === 'undefined') return 5
-
-  const w = window.innerWidth
-  const minColWidth = 300
-  const colsByWidth = Math.max(1, Math.floor(w / minColWidth))
-
-  if (w < 900) return 1
-  return colsByWidth
-}
-
 const DEPTH = 1
 const withDepth = urlString => {
   const u = new URL(urlString)
@@ -96,9 +85,22 @@ const withDepth = urlString => {
   return u.toString()
 }
 
-const cols = getInitialCols()
 const thumbSize = 150
+const gap       = 16 
+const minColW   = 300 
 const bufferPx = thumbSize * 6
+
+function getInitialCols () {
+  if (typeof window === 'undefined') return 5
+
+  const w = window.innerWidth
+  if (w < 900) return 1
+
+  const cols = Math.floor( (w + gap) / (minColW + gap) )
+  return Math.max(1, cols)
+}
+
+const cols = getInitialCols()
 
 const props = defineProps({
   searchItems: [Array, String, Object],
@@ -381,7 +383,8 @@ fetchGallery()
   color: #fff;
   text-align: center;
   padding: 10px;
-  font-size: .9rem
+  font-size: .9rem;
+  cursor: pointer;
 }
 
 .scroll-wrapper {
