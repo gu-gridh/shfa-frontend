@@ -2,7 +2,7 @@
   <div>
     <div v-if="isGalleryLoading" class="loading-indicator">Loading…</div>
     <div v-else class="grid-container">
-      <div v-for="row in visibleRows" class="row-wrapper" :id="'row-wrapper-' + row.originalIndex">
+      <div v-for="row in visibleRows" :key="row.originalIndex" class="row-wrapper" :id="'row-wrapper-' + row.originalIndex">
         <div v-if="row.open" class="button-container sticky">
           <div class="row-titles">
             <ul>
@@ -50,7 +50,7 @@
               :buffer="bufferPx"
               :type-field="'category'" 
               :key-field="'uuid'" :emit-update="true"
-              @update="(_, __, ___, end) => handleRowUpdate(end, row)"
+              @update="(_, __, ___, end) => onScrollerUpdate(end, row)"
             >
               <template #default="{ item, index }">
                 <div class="item" :key="item.uuid" @click="$emit('image-clicked', item.iiif_file, item.id)">
@@ -145,6 +145,22 @@ const buildGalleryUrl = () => {
   return base + (p.toString() ? '?' + p.toString() : '')
 }
 
+const getRowTitle = r => props.currentLanguage === 'en' ? r.type_translation : r.type
+const getOtherRows = idx => rows.value.map(r => ({
+  index: r.originalIndex,
+  title: getRowTitle(r) + ' (' + r.count + ')',
+  isCurrent: r.originalIndex === idx
+}))
+
+const handleRowUpdate = (endIdx, row) => {
+  if (endIdx >= row.infiniteItems.length - cols) fetchNextPage(row)
+}
+
+const visibleRows = computed(() => {
+  const anyOpen = rows.value.some(r => r.open)
+  return anyOpen ? rows.value.filter(r => r.open) : rows.value
+})
+
 async function fetchGallery() {
   isGalleryLoading.value = true
   try {
@@ -169,13 +185,6 @@ async function fetchGallery() {
     }))
   } finally { isGalleryLoading.value = false }
 }
-
-const getRowTitle = r => props.currentLanguage === 'en' ? r.type_translation : r.type
-const getOtherRows = idx => rows.value.map(r => ({
-  index: r.originalIndex,
-  title: getRowTitle(r) + ' (' + r.count + ')',
-  isCurrent: r.originalIndex === idx
-}))
 
 function toggleRow(idx) {
   //close all other rows & reset them
@@ -230,19 +239,27 @@ async function fetchNextPage(row) {
   }
 }
 
-const handleRowUpdate = (endIdx, row) => {
-  if (endIdx >= row.infiniteItems.length - cols) fetchNextPage(row)
+function onScrollerUpdate(endIdx, row) {
+  //fetch more when near the end
+  handleRowUpdate(endIdx, row)
+
+  //log how many item‐views are currently mounted
+  nextTick(() => {
+    const container = row.scrollerRef?.$el
+    if (!container) return
+    const activeCount = container.querySelectorAll(
+      '.vue-recycle-scroller__item-view'
+    ).length
+    console.log(
+      `Row ${row.originalIndex}: ${activeCount} item‐views currently rendered`
+    )
+  })
 }
 
 function onTitleClick(idx) {
   toggleRow(idx)
   emit('row-clicked')
 }
-
-const visibleRows = computed(() => {
-  const anyOpen = rows.value.some(r => r.open)
-  return anyOpen ? rows.value.filter(r => r.open) : rows.value
-})
 
 watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search = Date.now(); fetchGallery() } })
 watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamps.advanced = Date.now(); fetchGallery() } })
