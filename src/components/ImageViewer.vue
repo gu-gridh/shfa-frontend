@@ -24,11 +24,11 @@
             <div id="DownloadButton" class="NavButton" @click="downloadImage"></div>
           </a>
         </li>
-        <!-- <li v-if="link_3d">
+        <li v-if="link_3d">
           <a id="threedViewer">
             <div id="threedViewerButton" class="NavButton" @click="open3dViewer">3D</div>
           </a>
-        </li> -->
+        </li>
       </ul>
     </div>
   </div>
