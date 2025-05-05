@@ -134,7 +134,7 @@
 
           <Summary v-show="activeTab === 'summary'" :searchItems="searchItems"
             :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults" :selectedSiteId="selectedId"
-            :activeTab="activeTab" />
+            :activeTab="activeTab" @summaryClick="handleKeywordClick" />
         </div>
 
         <!-- Panel 3 -->

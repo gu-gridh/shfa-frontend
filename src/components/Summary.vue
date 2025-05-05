@@ -5,8 +5,12 @@
       <div class="row-wrapper">
         <div class="button-container sticky">
           <ul class="row-titles">
-            <li v-for="(row, idx) in rows" :key="row.id" :class="{ 'non-clickable': idx === openRowIndex }"
-              @click="idx !== openRowIndex && openRow(idx)">
+            <li
+              v-for="(row, idx) in rows"
+              :key="row.id"
+              :class="{ 'non-clickable': idx === openRowIndex }"
+              @click="idx !== openRowIndex && openRow(idx)"
+            >
               {{ row.title }}
             </li>
           </ul>
@@ -17,7 +21,12 @@
           </h3>
           <div class="scroll-wrapper">
             <ul class="scroller">
-              <li v-for="item in currentRow.items" :key="item.key" class="item">
+              <li
+                v-for="item in currentRow.items"
+                :key="item.key"
+                class="item"
+                @click="triggerSearch(item.label)"
+              >
                 {{ item.label }} ({{ item.count }})
               </li>
             </ul>
@@ -30,6 +39,8 @@
 
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
+
+const emit = defineEmits(['summaryClick'])
 
 const props = defineProps({
   searchItems: [Array, String, Object],
@@ -139,6 +150,10 @@ async function fetchSummary() {
   }
 }
 
+function triggerSearch(item) {
+  emit('summaryClick', item)
+}
+
 watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search = Date.now(); props.activeTab === 'summary' && fetchSummary() } })
 watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamps.advanced = Date.now(); props.activeTab === 'summary' && fetchSummary() } })
 watch(() => props.bboxSearch, v => { if (v != null) { filterTimestamps.bbox = Date.now(); props.activeTab === 'summary' && fetchSummary() } })
@@ -229,5 +244,10 @@ if (props.activeTab === 'summary') fetchSummary()
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.item:hover {
+  color: var(--ui-hover);
+  cursor: pointer;
 }
 </style>
