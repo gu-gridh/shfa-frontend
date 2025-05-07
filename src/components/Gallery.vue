@@ -77,7 +77,9 @@ import LazyThumb from './LazyThumb.vue'
 import { ref, reactive, computed, watch, nextTick } from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import { useStore } from "../stores/store.js";
 
+const store = useStore()
 const DEPTH = 1
 const withDepth = urlString => {
   const u = new URL(urlString)
@@ -221,16 +223,23 @@ async function fetchNextPage(row) {
   if (row.isFetching || !row.nextUrl) return
   row.isFetching = true
   try {
-    const { results, next } = await (await fetch(row.nextUrl)).json()
-    row.infiniteItems.push(...results.map(img => ({
-      id: img.id,
-      uuid: crypto.randomUUID(),
-      category: row.originalIndex,
-      iiif_file: formatIiif(img.iiif_file),
-      lamning: img.site?.lamning_id || '',
-      raa:     img.site?.raa_id     || '',
-      is3d:    img.type?.id === 943,
-    })))
+    const res   = await fetch(row.nextUrl)
+    const data  = await res.json()
+    const { results = [], next, bbox } = data
+
+    store.setBbox(bbox)
+
+    row.infiniteItems.push(
+      ...results.map(img => ({
+        id: img.id,
+        uuid: crypto.randomUUID(),
+        category: row.originalIndex,
+        iiif_file: formatIiif(img.iiif_file),
+        lamning: img.site?.lamning_id || '',
+        raa:     img.site?.raa_id     || '',
+        is3d:    img.type?.id === 943
+      }))
+    )
     row.nextUrl = next ? withDepth(next) : null
   } finally {
     row.isFetching = false

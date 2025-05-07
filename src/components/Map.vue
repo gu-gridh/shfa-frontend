@@ -42,6 +42,7 @@ import LayerSwitcher from 'ol-layerswitcher';
 // import LayerSwitcher from "ol-ext/control/LayerSwitcher"
 import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import LayerGroup from 'ol/layer/Group';
+import debounce from 'lodash/debounce'
 import TileWMS from 'ol/source/TileWMS.js';
 
 export default {
@@ -162,6 +163,7 @@ export default {
     };
   },
   mounted() {
+    this.debouncedFitToBbox = debounce(this._fitToBbox, 500)
     try {
       this.initMap();
       this.$nextTick(() => {
@@ -185,6 +187,12 @@ export default {
       },
       expandedMap: false,
     },
+    'coordinateStore.currentBbox': {
+      handler(bbox) {
+        if (bbox) this.debouncedFitToBbox(bbox)
+      },
+      deep: false
+    }
   },
   methods: {
     expandMap() {
@@ -194,6 +202,12 @@ export default {
       } else {
         document.body.classList.remove("map-expanded");
       }
+    },
+    _fitToBbox(bbox) { //used to move the map to the bounding box when you scroll down in the gallery
+      this.focusOnBoundingBox({
+        bottomLeft: [bbox[0], bbox[1]],
+        topRight:   [bbox[2], bbox[3]]
+      })
     },
     getCurrentBbox() {
       const extent = this.map.getView().calculateExtent(this.map.getSize());
