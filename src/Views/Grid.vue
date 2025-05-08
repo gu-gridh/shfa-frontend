@@ -1657,7 +1657,6 @@ h2 input:not(:placeholder-shown) {
   }
 
   /* Metadata settings */
-
   #metadata-container {
     font-size: 100%;
   }

@@ -2,7 +2,8 @@
   <div>
     <div v-if="isGalleryLoading" class="loading-indicator">Loading…</div>
     <div v-else class="grid-container">
-      <div v-for="row in visibleRows" :key="row.originalIndex" class="row-wrapper" :id="'row-wrapper-' + row.originalIndex">
+      <div v-for="row in visibleRows" :key="row.originalIndex" class="row-wrapper"
+        :id="'row-wrapper-' + row.originalIndex">
         <div v-if="row.open" class="button-container sticky">
           <div class="row-titles">
             <ul>
@@ -13,7 +14,7 @@
             </ul>
           </div>
         </div>
-
+        
         <div class="right-column">
           <h3 :id="'row-title-' + row.originalIndex" class="row-heading">
             {{ getRowTitle(row) }}
@@ -49,13 +50,14 @@
               :grid-items="cols" 
               :buffer="bufferPx"
               :type-field="'category'" 
-              :key-field="'uuid'" :emit-update="true"
-              @update="(_, __, ___, end) => onScrollerUpdate(end, row)"
-            >
-              <template #default="{ item, index }">
-                <div class="item" :key="item.uuid" @click="$emit('image-clicked', item.iiif_file, item.id)">
+              :key-field="'uuid'" 
+              :emit-update="true"
+              @update="(_, __, ___, end) => onScrollerUpdate(end, row)">
+              <template #default="{ item, index, active }">
+                <div class="item" @click="$emit('image-clicked', item.iiif_file, item.id)">
                   <span v-if="item.is3d" class="badge-3d">3D</span>
-                  <LazyThumb :src="item.iiif_file + '/full/' + thumbSize + ',/0/default.jpg'" :alt="'Image ' + index" />
+                  <LazyThumb v-if="active" :src="`${item.iiif_file}/full/${thumbSize},/0/default.jpg`"
+                    :alt="`Image ${index}`" :key="item.uuid" />
                   <div class="metadata-overlay">
                     <div class="metadata-content">
                       <div v-if="item.lamning">{{ item.lamning }}</div>
@@ -88,17 +90,17 @@ const withDepth = urlString => {
 }
 
 const thumbSize = 150
-const gap       = 16 
-const minColW   = 300 
+const gap = 16
+const minColW = 300
 const bufferPx = thumbSize * 6
 
-function getInitialCols () {
+function getInitialCols() {
   if (typeof window === 'undefined') return 5
 
   const w = window.innerWidth
   if (w < 900) return 1
 
-  const cols = Math.floor( (w + gap) / (minColW + gap) )
+  const cols = Math.floor((w + gap) / (minColW + gap))
   return Math.max(1, cols)
 }
 
@@ -170,11 +172,11 @@ async function fetchGallery() {
     rows.value = (results || []).map((sec, idx) => ({
       originalIndex: idx,
       shortItems: (sec.images || []).map(img => ({
-        id:   img.id,
+        id: img.id,
         iiif_file: formatIiif(img.iiif_file),
-        lamning:   img.site?.lamning_id || '',
-        raa:       img.site?.raa_id     || '',
-        is3d:      img.type?.id === 943,
+        lamning: img.site?.lamning_id || '',
+        raa: img.site?.raa_id || '',
+        is3d: img.type?.id === 943,
       })),
       open: false,
       scrollerRef: null,
@@ -223,8 +225,8 @@ async function fetchNextPage(row) {
   if (row.isFetching || !row.nextUrl) return
   row.isFetching = true
   try {
-    const res   = await fetch(row.nextUrl)
-    const data  = await res.json()
+    const res = await fetch(row.nextUrl)
+    const data = await res.json()
     const { results = [], next, bbox } = data
 
     store.setBbox(bbox)
@@ -236,8 +238,8 @@ async function fetchNextPage(row) {
         category: row.originalIndex,
         iiif_file: formatIiif(img.iiif_file),
         lamning: img.site?.lamning_id || '',
-        raa:     img.site?.raa_id     || '',
-        is3d:    img.type?.id === 943
+        raa: img.site?.raa_id || '',
+        is3d: img.type?.id === 943
       }))
     )
     row.nextUrl = next ? withDepth(next) : null

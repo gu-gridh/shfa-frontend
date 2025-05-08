@@ -1,6 +1,6 @@
 <template>
     <div class="thumb" :class="{ loaded }">
-        <img v-show="loaded" :src="src" :alt="alt" @load="loaded = true" />
+        <img :src="src" :alt="alt" @load="loaded = true" />
     </div>
 </template>
 
