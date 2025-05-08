@@ -1653,7 +1653,6 @@ h2 input:not(:placeholder-shown) {
   }
 
   #app .search-container .input-wrapper {
-    height: 50px !important;
     gap: 5px !important;
   }
 
