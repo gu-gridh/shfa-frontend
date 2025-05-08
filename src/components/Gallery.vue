@@ -87,19 +87,25 @@ const withDepth = urlString => {
   return u.toString()
 }
 
-const thumbSize = 150
-const gap       = 16 
-const minColW   = 300 
+const thumbSize = 170
 const bufferPx = thumbSize * 6
 
 function getInitialCols () {
-  if (typeof window === 'undefined') return 5
-
+  if (typeof window === 'undefined') return 4
+  let maxCols
   const w = window.innerWidth
-  if (w < 900) return 1
-
-  const cols = Math.floor( (w + gap) / (minColW + gap) )
-  return Math.max(1, cols)
+  if (w < 600) {
+    maxCols = 1
+  } else if (w < 900) {
+    maxCols = 3
+  } else if (w < 1920) {
+    maxCols = 4
+  } else if (w < 2560) {
+    maxCols = 5
+  } else {
+    maxCols = 7
+  }
+  return maxCols
 }
 
 const cols = getInitialCols()
