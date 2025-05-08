@@ -41,20 +41,25 @@
         </div>
       </div>
 
-      <button class="clear-button" :id="$t('message.clearbutton')" @click="clearAdvancedSearchFields">
-        {{ $t('message.clearbutton') }}
-      </button>
-      <button class="search-button" :id="$t('message.searchbutton')" @click="handleSearchButtonClick">
-        {{ $t('message.searchbutton') }}
-      </button>
+      <div class="action‑row">
+        <button class="clear-button" :id="$t('message.clearbutton')" @click="clearAdvancedSearchFields">
+          {{ $t('message.clearbutton') }}
+        </button>
+
+        <button class="search-button" :id="$t('message.searchbutton')" @click="handleSearchButtonClick">
+          {{ $t('message.searchbutton') }}
+        </button>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, nextTick, onMounted } from 'vue';
+import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue';
 import useSearchTracking from '../composables/useSearchTracking.js';
 
+const MAX_KEYWORDS = 3;
 const props = defineProps({
   currentLang: {
     type: String,
@@ -102,7 +107,15 @@ const handleSearchButtonClick = () => {
   ];
 
   searchQuery.value.forEach((query, index) => {
-    const value = query || (selectedKeywords.value[index][0]?.text) || '';
+    let value = '';
+
+    if (index === 3) { //keyword
+      const texts = selectedKeywords.value[3].map(k => k.text);
+      value = query || texts.join(',');
+    } else {
+      value = query || (selectedKeywords.value[index][0]?.text) || '';
+    }
+
     if (value) {
       searchParams[fieldNames[index]] = value;
     }
@@ -115,7 +128,17 @@ const handleSearchButtonClick = () => {
 };
 
 const selectResult = (result, index) => {
-  selectedKeywords.value[index] = [result];
+  if (index === 3) { //keyword
+    const bucket = selectedKeywords.value[3];
+    if (
+      !bucket.some(k => k.id === result.id) &&
+      bucket.length < MAX_KEYWORDS
+    ) {
+      bucket.push(result);
+    }
+  } else {
+    selectedKeywords.value[index] = [result];
+  }
   searchResults.value[index] = [];
   searchQuery.value[index] = '';
 };
@@ -142,9 +165,9 @@ const handleBackspace = (event, index) => {
 
 const onInputFocus = async (index) => {
   searchResults.value = searchResults.value.map((_, i) => i === index ? searchResults.value[i] : []);
-  
-  if (!searchQuery.value[index] && !selectedKeywords.value[index].length) {
-    await fetchSuggestions('', index);
+
+  if (!searchResults.value[index].length) {
+    await fetchSuggestions(searchQuery.value[index], index);
   }
 };
 
@@ -255,8 +278,19 @@ const unhoverResult = (index) => {
   }
 };
 
+const handleClickOutside = (e) => {
+  if (!e.target.closest('.suggestions')) {
+    searchResults.value = searchResults.value.map(() => []);
+  }
+};
+
 onMounted(() => {
   setupScrollListener();
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
 });
 
 defineExpose({
@@ -318,7 +352,7 @@ defineExpose({
   background-color: var(--selected-option);
   vertical-align: middle;
   color: var(--button-text);
-  /* min-height: 10px; */
+  margin: 4px 4px;
 }
 
 .input-wrapper {
@@ -436,5 +470,17 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 #label-wrapper {
   color: var(--page-text);
+}
+
+.action‑row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  grid-column: 1 / -1;
+}
+
+.search-button,
+.clear-button {
+  margin: 20px 0 0 0;
 }
 </style>
