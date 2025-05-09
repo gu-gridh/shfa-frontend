@@ -74,7 +74,7 @@
 
 <script setup>
 import LazyThumb from './LazyThumb.vue'
-import { ref, reactive, computed, watch, nextTick } from 'vue'
+import { ref, reactive, computed, watch, nextTick, onMounted } from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import { useStore } from "../stores/store.js";
@@ -87,28 +87,27 @@ const withDepth = urlString => {
   return u.toString()
 }
 
-const thumbSize = 170
-const bufferPx = thumbSize * 6
+const thumbSize = 180
+const bufferPx = thumbSize * 2
+const cols = ref(1)
 
-function getInitialCols () {
-  if (typeof window === 'undefined') return 4
-  let maxCols
-  const w = window.innerWidth
-  if (w < 600) {
-    maxCols = 1
-  } else if (w < 900) {
-    maxCols = 3
-  } else if (w < 1920) {
-    maxCols = 4
-  } else if (w < 2560) {
-    maxCols = 5
-  } else {
-    maxCols = 7
-  }
-  return maxCols
+async function getInitialCols () {
+  await nextTick()
+  if (typeof window === 'undefined') return 1
+
+  const el = document.getElementById('split-1')
+  if (!el) return 1
+
+  const splitWidth = el.clientWidth
+
+  const OFFSETS  = 190
+
+  const usable = splitWidth - OFFSETS
+  // console.log('split-1 width:', splitWidth, 'usable:', usable)
+
+  const count = Math.floor((usable) / (thumbSize))
+  return Math.max(1, count)
 }
-
-const cols = getInitialCols()
 
 const props = defineProps({
   searchItems: [Array, String, Object],
@@ -161,7 +160,7 @@ const getOtherRows = idx => rows.value.map(r => ({
 }))
 
 const handleRowUpdate = (endIdx, row) => {
-  if (endIdx >= row.infiniteItems.length - cols) fetchNextPage(row)
+  if (endIdx >= row.infiniteItems.length - cols.value) fetchNextPage(row)
 }
 
 const visibleRows = computed(() => {
@@ -275,6 +274,10 @@ function onTitleClick(idx) {
   toggleRow(idx)
   emit('row-clicked')
 }
+
+onMounted(async () => {
+  cols.value = await getInitialCols()
+})
 
 watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search = Date.now(); fetchGallery() } })
 watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamps.advanced = Date.now(); fetchGallery() } })
