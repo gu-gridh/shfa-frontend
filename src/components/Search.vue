@@ -141,7 +141,11 @@ watch(searchQuery, v => {
 });
 
 const selectSuggestion = item => {
-  selectedKeywords.value = [{ id: Date.now(), text: item.value }];
+selectedKeywords.value = [{
+    id: Date.now(),
+    text: item.value,
+    english_translation: item.value //to fix
+  }];
   searchQuery.value = '';
   suggestions.value = [];
   isDropdownOpen.value = false;
