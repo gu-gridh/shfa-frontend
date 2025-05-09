@@ -56,8 +56,20 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue';
+import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue';
 import useSearchTracking from '../composables/useSearchTracking.js';
+import { useStore } from '../stores/store.js'
+
+const store = useStore() 
+
+const fieldIndexBySource = { //mapping search results to advanced search field
+  site: 0,
+  'rock carving': 0,
+  people: 1,
+  type: 2, 
+  keywords: 3,
+  institution: 5
+}
 
 const MAX_KEYWORDS = 3;
 const props = defineProps({
@@ -292,6 +304,32 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
 });
+
+watch( //assigns search results to the advanced search field
+  () => store.selectedKeyword,
+  kw => {
+    if (!kw) return
+    const idx = fieldIndexBySource[kw.source]
+    if (idx === undefined) return 
+
+    const tag = { id: Date.now(), text: kw.value }
+
+    if (idx === 3) {
+      const bucket = selectedKeywords.value[3]
+      if (
+        !bucket.some(k => k.text === tag.text) &&
+        bucket.length < MAX_KEYWORDS
+      ) {
+        bucket.push(tag)
+      }
+    } else {
+      selectedKeywords.value[idx] = [tag]
+    }
+
+    searchQuery.value[idx] = ''
+  },
+  { immediate: true }
+)
 
 defineExpose({
   clearAdvancedSearchFields
