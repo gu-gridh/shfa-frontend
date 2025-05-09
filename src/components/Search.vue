@@ -2,17 +2,25 @@
   <div v-bind="$attrs">
     <div id="search-interface" class="">
       <div class="input-unpad mb-0" id="search-main">
-        <div class="input-wrapper" id="search-wrapper">
-          <div v-for="keyword in selectedKeywords" :key="keyword.id" class="tag-example-search" id="search-selected"
-            @click="deselectKeyword(keyword)">
-            {{currentLang=='sv' ? keyword.text : keyword.english_translation}}
+        <div class="autocomplete-container">
+
+          <div class="input-wrapper" id="search-wrapper">
+            <div v-for="keyword in selectedKeywords" :key="keyword.id" class="tag-example-search" id="search-selected"
+              @click="deselectKeyword(keyword)">
+              {{ currentLang == 'sv' ? keyword.text : keyword.english_translation }}
+            </div>
+            <input type="search" id="search" name="search"
+              :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'" class=""
+              :value="searchQuery" @input="updateSearchQuery($event.target.value)" @keydown="handleBackspace($event)"
+              @keydown.enter="emitSearch" autocomplete="off" />
+            <button class="search-button-round" id="search-button" @click="emitSearch">
+            </button>
           </div>
-          <input type="search" id="search" name="search"
-            :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'" class=""
-            :value="searchQuery" @input="updateSearchQuery($event.target.value)" @keydown="handleBackspace($event)"
-            @keydown.enter="emitSearch" autocomplete="off" />
-          <button class="search-button-round" id="search-button" @click="emitSearch">
-          </button>
+          <div v-show="isDropdownOpen && suggestions.length" class="suggestions suggestions-top">
+            <div v-for="item in suggestions" :key="item.value" class="tag-example" @click="selectSuggestion(item)">
+              {{ item.value }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -20,7 +28,7 @@
       <div class="filter-text">{{ $t('message.sökförslag') }}</div>
       <div v-for="result in defaultSearchResults" :key="result.id" class="tag-example" :id="result.text"
         @click="selectResult(result)">
-        {{currentLang=='sv' ? result.text : result.english_translation}}
+        {{ currentLang == 'sv' ? result.text : result.english_translation }}
       </div>
     </div>
   </div>
@@ -38,32 +46,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import useSearchTracking from '../composables/useSearchTracking.js';
+import { useStore } from '../stores/store.js';
 
+const store = useStore();
 const router = useRouter();
 const searchQuery = ref('');
 const selectedKeywords = ref([]);
 const activePanel = ref('Map Interface');
 const emit = defineEmits(['toggle-map', 'search-term']);
-// const defaultSearchResults = [
-//   { id: 1, text: "3D"},
-//   { id: 2, text: 'hällristningsmiljö' },
-//   { id: 3, text: 'nattfoto' },
-//   { id: 4, text: 'vattenöversilad' },
-//   { id: 5, text: 'laserskanning' },
-//   { id: 6, text: 'skepp' },
-//   { id: 7, text: 'djur' },
-//   { id: 8, text: 'vagn' },
-//   { id: 9, text: 'vapen' },
-//   { id: 10, text: 'krigare' },
-//   { id: 11, text: 'människofigur' },
-//   { id: 12, text: 'vitlycke' },
-//   { id: 13, text: 'skee' },
-//   { id: 14, text: 'kalkering' },
-//   { id: 15, text: 'frottage' },
-// ];
+
+const suggestions = ref([]);
+const isDropdownOpen = ref(false);
+let abortCtrl;
+let debounceTimer;
 
 const emitSearch = () => {
   const query = selectedKeywords.value.length > 0
@@ -114,14 +112,50 @@ const updateSearchFromMetadata = (term) => {
   clearSearchField();
   searchQuery.value = term;
   router.push({ name: 'SearchQuery', params: { query: searchQuery.value } })
-    // .then(() => {
-    //   const currentRoute = router.currentRoute.value.fullPath;
-    //   emit('metadata-route', currentRoute);
-    // })
-    // .catch(err => {
-    //   console.error(err);
-    // });
 };
+
+const fetchAutocomplete = async q => {
+  if (abortCtrl) abortCtrl.abort();
+  abortCtrl = new AbortController();
+  try {
+    const res = await fetch(
+      `https://diana.dh.gu.se/api/shfa/search/autocomplete/?q=${encodeURIComponent(q)}`,
+      { signal: abortCtrl.signal }
+    );
+    if (!res.ok) return;
+    suggestions.value = await res.json();
+    isDropdownOpen.value = true;
+  } catch (err) {
+    if (err.name !== 'AbortError') console.error(err);
+  }
+};
+
+watch(searchQuery, v => {
+  if (!v.trim()) {
+    suggestions.value = [];
+    isDropdownOpen.value = false;
+    return;
+  }
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => fetchAutocomplete(v.trim()), 250);
+});
+
+const selectSuggestion = item => {
+  selectedKeywords.value = [{ id: Date.now(), text: item.value }];
+  searchQuery.value = '';
+  suggestions.value = [];
+  isDropdownOpen.value = false;
+  store.setSelectedKeyword({ value: item.value, source: item.source })
+  emitSearch();
+};
+
+const onClickOutside = e => {
+  const wrapper = document.getElementById('search-wrapper');
+  if (wrapper && !wrapper.contains(e.target)) isDropdownOpen.value = false;
+};
+
+onMounted(() => document.addEventListener('click', onClickOutside));
+onUnmounted(() => document.removeEventListener('click', onClickOutside));
 
 defineExpose({
   clearSearchField,
@@ -141,6 +175,29 @@ defineProps({
 </script>
 
 <style scoped>
+.autocomplete-container {
+  position: relative;
+  display: block;
+}
+
+.suggestions,
+.suggestions-top {
+  position: absolute;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  max-height: 170px;
+  background: var(--autocomplete-background);
+  box-shadow: var(--shadow);
+  border-radius: 0 0 5px 5px;
+  z-index: 2001;
+  contain: paint;
+}
+
+.suggestions {
+  padding-top: 8px;
+}
+
 #search-interface {
   font-size: 100%;
   padding-top: 2px;
