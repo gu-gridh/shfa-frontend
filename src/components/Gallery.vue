@@ -392,13 +392,14 @@ fetchGallery()
 .short-preview {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
   scrollbar-width: none;
   overflow: hidden;
 }
 
 .short-item {
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 0 1 calc(20% - 0.8rem);
+  min-width: 150px; 
 }
 
 .image-wrapper {
