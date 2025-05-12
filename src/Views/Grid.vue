@@ -64,7 +64,7 @@
           </button>
 
           <button class="item">
-            <router-link :to="{ name: 'About', params: { currentLang: currentLanguage } }" target="_blank">
+            <router-link :to="{ name: 'About' }" target="_blank">
               {{ $t('message.aboutArchive') }}<div class="top-link-infobutton"></div>
             </router-link>
           </button>
@@ -1560,8 +1560,6 @@ h2 input:not(:placeholder-shown) {
     margin-left: 12px;
   }
 }
-
-
 
 #app .search-container .tag-example-search {
   background-color: var(--button-background);
