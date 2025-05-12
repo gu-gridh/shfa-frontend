@@ -33,6 +33,9 @@
                   <div class="metadata-content">
                     <div v-if="item.lamning">{{ item.lamning }}</div>
                     <div v-if="item.raa">{{ item.raa }}</div>
+                    <div v-if="item.askeladden || item.lokalitet">{{ item.askeladden }}</div>
+                    <div v-if="!item.askeladden && item.lokalitet">{{ item.lokalitet }}</div>
+                    <div v-if="item.international">{{ item.placename }}</div>
                   </div>
                 </div>
               </div>
@@ -60,6 +63,9 @@
                     <div class="metadata-content">
                       <div v-if="item.lamning">{{ item.lamning }}</div>
                       <div v-if="item.raa">{{ item.raa }}</div>
+                      <div v-if="item.askeladden || item.lokalitet">{{ item.askeladden }}</div>
+                      <div v-if="!item.askeladden && item.lokalitet">{{ item.lokalitet }}</div>
+                      <div v-if="item.international">{{ item.placename }}</div>
                     </div>
                   </div>
                 </div>
@@ -179,6 +185,10 @@ async function fetchGallery() {
         iiif_file: formatIiif(img.iiif_file),
         lamning:   img.site?.lamning_id || '',
         raa:       img.site?.raa_id     || '',
+        askeladden: img.site?.askeladden_id     || '',
+        lokalitet: img.site?.lokalitet_id     || '',
+        placename: img.site?.placename     || '',
+        international: img.site?.internationl_site     || '',
         is3d:      img.type?.id === 943,
       })),
       open: false,
@@ -242,6 +252,10 @@ async function fetchNextPage(row) {
         iiif_file: formatIiif(img.iiif_file),
         lamning: img.site?.lamning_id || '',
         raa:     img.site?.raa_id     || '',
+        askeladden: img.site?.askeladden_id     || '',
+        lokalitet: img.site?.lokalitet_id     || '',
+        placename: img.site?.placename     || '',
+        international: img.site?.internationl_site     || '',
         is3d:    img.type?.id === 943
       }))
     )
