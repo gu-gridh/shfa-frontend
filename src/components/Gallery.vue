@@ -53,7 +53,7 @@
               :buffer="bufferPx"
               :type-field="'category'" 
               :key-field="'uuid'" :emit-update="true"
-              @update="(_, __, ___, end) => onScrollerUpdate(end, row)"
+              @update="(start, end) => onScrollerUpdate(start, end, row)"
             >
               <template #default="{ item, index }">
                 <div class="item" :key="item.uuid" @click="$emit('image-clicked', item.iiif_file, item.id)">
@@ -196,6 +196,7 @@ async function fetchGallery() {
       infiniteItems: [],
       nextUrl: null,
       isFetching: false,
+      pageMeta: [],
       type: sec.type,
       type_translation: sec.type_translation,
       count: sec.count
@@ -242,7 +243,7 @@ async function fetchNextPage(row) {
     const data  = await res.json()
     const { results = [], next, bbox } = data
 
-    store.setBbox(bbox)
+    const start = row.infiniteItems.length
 
     row.infiniteItems.push(
       ...results.map(img => ({
@@ -259,6 +260,10 @@ async function fetchNextPage(row) {
         is3d:    img.type?.id === 943
       }))
     )
+
+    const end = row.infiniteItems.length - 1
+    row.pageMeta.push({ start, end, bbox })
+
     row.nextUrl = next ? withDepth(next) : null
   } finally {
     row.isFetching = false
@@ -267,21 +272,16 @@ async function fetchNextPage(row) {
   }
 }
 
-function onScrollerUpdate(endIdx, row) {
+function onScrollerUpdate (startIdx, endIdx, row) {
   //fetch more when near the end
   handleRowUpdate(endIdx, row)
 
-  //log how many item‐views are currently mounted
-  nextTick(() => {
-    const container = row.scrollerRef?.$el
-    if (!container) return
-    const activeCount = container.querySelectorAll(
-      '.vue-recycle-scroller__item-view'
-    ).length
-    console.log(
-      `Row ${row.originalIndex}: ${activeCount} item‐views currently rendered`
-    )
-  })
+  const meta = row.pageMeta.find(p =>
+    startIdx >= p.start && startIdx <= p.end
+  )
+  if (meta && store.currentBbox !== meta.bbox) {
+    store.setBbox(meta.bbox)
+  }
 }
 
 function onTitleClick(idx) {
