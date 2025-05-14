@@ -71,7 +71,7 @@ const fieldIndexBySource = { //mapping search results to advanced search field
   institution: 5
 }
 
-const MAX_KEYWORDS = 3;
+const MAX_TAGS = 5;
 const props = defineProps({
   currentLang: {
     type: String,
@@ -119,18 +119,10 @@ const handleSearchButtonClick = () => {
   ];
 
   searchQuery.value.forEach((query, index) => {
-    let value = '';
+    const texts = selectedKeywords.value[index].map(k => k.text);
+    const value = query || texts.join(',');
 
-    if (index === 3) { //keyword
-      const texts = selectedKeywords.value[3].map(k => k.text);
-      value = query || texts.join(',');
-    } else {
-      value = query || (selectedKeywords.value[index][0]?.text) || '';
-    }
-
-    if (value) {
-      searchParams[fieldNames[index]] = value;
-    }
+    if (value) searchParams[fieldNames[index]] = value;
   });
 
   emit('advanced-search-params', searchParams);
@@ -140,17 +132,15 @@ const handleSearchButtonClick = () => {
 };
 
 const selectResult = (result, index) => {
-  if (index === 3) { //keyword
-    const bucket = selectedKeywords.value[3];
-    if (
-      !bucket.some(k => k.id === result.id) &&
-      bucket.length < MAX_KEYWORDS
-    ) {
-      bucket.push(result);
-    }
-  } else {
-    selectedKeywords.value[index] = [result];
+  const bucket = selectedKeywords.value[index];
+
+  if (
+    !bucket.some(k => k.id === result.id) &&
+    bucket.length < MAX_TAGS
+  ) {
+    bucket.push(result);
   }
+
   searchResults.value[index] = [];
   searchQuery.value[index] = '';
 };
@@ -168,10 +158,10 @@ const updateSearchQuery = async (value, index) => {
 
 const handleBackspace = (event, index) => {
   if (event.key === 'Backspace' && searchQuery.value[index] === '') {
-    deselectKeyword(
-      selectedKeywords.value[index][selectedKeywords.value[index].length - 1],
-      index
-    );
+    const bucket = selectedKeywords.value[index];
+    if (bucket.length) {
+      deselectKeyword(bucket[bucket.length - 1], index);
+    }
   }
 };
 
@@ -304,28 +294,25 @@ onUnmounted(() => {
 watch( //assigns search results to the advanced search field
   () => store.selectedKeyword,
   kw => {
-    if (!kw) return
-    const idx = fieldIndexBySource[kw.source]
-    if (idx === undefined) return 
+    if (!kw) return;
 
-    const tag = { id: Date.now(), text: kw.value }
+    const idx = fieldIndexBySource[kw.source];
+    if (idx === undefined) return;
 
-    if (idx === 3) {
-      const bucket = selectedKeywords.value[3]
-      if (
-        !bucket.some(k => k.text === tag.text) &&
-        bucket.length < MAX_KEYWORDS
-      ) {
-        bucket.push(tag)
-      }
-    } else {
-      selectedKeywords.value[idx] = [tag]
+    const tag = { id: Date.now(), text: kw.value };
+    const bucket = selectedKeywords.value[idx];
+
+    if (
+      !bucket.some(k => k.text === tag.text) &&
+      bucket.length < MAX_TAGS
+    ) {
+      bucket.push(tag);
     }
 
-    searchQuery.value[idx] = ''
+    searchQuery.value[idx] = '';
   },
   { immediate: true }
-)
+);
 
 defineExpose({
   clearAdvancedSearchFields
