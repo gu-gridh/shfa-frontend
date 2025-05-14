@@ -33,7 +33,7 @@
             ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
             @keydown="handleBackspace($event, index)" autocomplete="off" />
         </div>
-        <div v-show="searchResults[index].length" class="suggestions" @scroll="onSuggestionsScroll(index, $event)">
+        <div v-if="searchResults[index].length" class="suggestions" @scroll="onSuggestionsScroll(index, $event)">
           <div v-for="result in searchResults[index]" :key="result.id" class="tag-example"
             @click="selectResult(result, index)" @mouseover="hoverResult(index)" @mouseout="unhoverResult(index)">
             {{ result.text }}
