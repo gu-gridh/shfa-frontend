@@ -5,32 +5,22 @@
       <div class="row-wrapper">
         <div class="button-container sticky">
           <ul class="row-titles">
-            <li
-              v-for="(row, idx) in rows"
-              :key="row.id"
-              :class="{ 'non-clickable': idx === openRowIndex }"
-              @click="idx !== openRowIndex && openRow(idx)"
-            >
+            <li v-for="(row, idx) in rows" :key="row.id" :class="{ 'non-clickable': idx === openRowIndex }"
+              @click="idx !== openRowIndex && openRow(idx)">
               {{ row.title }}
             </li>
           </ul>
         </div>
         <div class="right-column" v-if="currentRow">
-          <h3 class="row-heading">
-            {{ currentRow.title }}
-          </h3>
-          <div class="scroll-wrapper">
-            <ul class="scroller">
-              <li
-                v-for="item in currentRow.items"
-                :key="item.key"
-                class="item"
-                @click="triggerSearch(item.label)"
-              >
-                {{ item.label }} ({{ item.count }})
-              </li>
-            </ul>
-          </div>
+          <h3 class="row-heading">{{ currentRow.title }}</h3>
+
+          <YearHistogram v-if="currentRow.id === 'years'" :data="summary.year" @selectRange="triggerSearch" />
+
+          <ul v-else class="scroller">
+            <li v-for="item in currentRow.items" :key="item.key" class="item" @click="triggerSearch(item.label)">
+              {{ item.label }} ({{ item.count }})
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -39,6 +29,7 @@
 
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
+import YearHistogram from '../components/Histogram.vue'
 
 const emit = defineEmits(['summaryClick'])
 
@@ -111,6 +102,16 @@ function buildRows() {
     title: 'Site',
     items: makeItems(summary.value.site, o => o.raa_id || 'Unknown site'),
     count: summary.value.site.reduce((n, o) => n + o.count, 0)
+  })
+  rowsArr.push({
+    id: 'years',
+    title: 'Years',
+    items: (summary.value.year || []).map((o, i) => ({
+      key: `year-${o.year}-${i}`,
+      label: String(o.year),
+      count: o.count
+    })),
+    count: (summary.value.year || []).reduce((n, o) => n + o.count, 0)
   })
 
   rows.value = rowsArr.filter(r => r.items.length)
