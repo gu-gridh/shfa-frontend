@@ -33,7 +33,7 @@
             ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
             @keydown="handleBackspace($event, index)" autocomplete="off" />
         </div>
-        <div v-show="searchResults[index].length" class="suggestions">
+        <div v-show="searchResults[index].length" class="suggestions" @scroll="onSuggestionsScroll(index, $event)">
           <div v-for="result in searchResults[index]" :key="result.id" class="tag-example"
             @click="selectResult(result, index)" @mouseover="hoverResult(index)" @mouseout="unhoverResult(index)">
             {{ result.text }}
@@ -183,19 +183,6 @@ const onInputFocus = async (index) => {
   }
 };
 
-const setupScrollListener = () => {
-  nextTick(() => {
-    const suggestionBoxes = document.querySelectorAll('.suggestions');
-    suggestionBoxes.forEach((box, index) => {
-      box.addEventListener('scroll', () => {
-        if (isScrolledToBottom(box) && infiniteScrollUrls.value[index] !== null) {
-          fetchSuggestions('', index, infiniteScrollUrls.value[index]);
-        }
-      });
-    });
-  });
-};
-
 const isScrolledToBottom = (element) => {
   return element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
 };
@@ -296,8 +283,17 @@ const handleClickOutside = (e) => {
   }
 };
 
+function onSuggestionsScroll (idx, e) {
+  const el = e.target
+  if (
+    el.scrollHeight - el.scrollTop <= el.clientHeight + 1 &&
+    infiniteScrollUrls.value[idx]
+  ) {
+    fetchSuggestions('', idx, infiniteScrollUrls.value[idx])
+  }
+}
+
 onMounted(() => {
-  setupScrollListener();
   document.addEventListener('click', handleClickOutside);
 });
 
@@ -401,6 +397,9 @@ defineExpose({
   border-radius: 5px;
   padding: 0px 7px;
   border: 1px solid var(--input-border);
+  max-height: 80px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 input[type="search"] {
