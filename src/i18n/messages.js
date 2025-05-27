@@ -192,7 +192,6 @@ export default {
       "negativ, svart/vit": ["Negative (Black/White)", "Photograph scanned from a negative, in black and white"],
       "ortofoto (sfm)": ["Orthophoto", "Orthophoto derived from an SfM model"],
       "översiktsbild": ["Overview photo", "Overview of a panel and the surrounding area"],
-      "printscreen av lasermodel": ["Printscreen of laser scan model", "Printscreen of a laser scan model displayed in processing software"],
       "ritning": ["Drawing", "Pencil sketches of rock panels"],
       "tidningsartikel": ["Newspaper article", "Newspaper article, often from the early-mid 20th century"],
     },
@@ -367,7 +366,6 @@ export default {
       "negativ, svart/vit": ["Negativ (Svart/Vit)", "Fotografi scannat från svartvitt negativ"],
       "ortofoto (sfm)": ["Ortofoto (SfM)", "Ortofoto baserat på SfM-modell"],
       "översiktsbild": ["Översiktsbild", "Översiktsbild av panel med omgivning"],
-      "printscreen av lasermodel": ["Skärmbild av laserscannad modell", "Skärmbild av laserscannad modell visad med hjälp av mjukvara"],
       "ritning": ["Ritning", "Skiss av stenhäll"],
       "tidningsartikel": ["Tidningsartikel", "Tidningsartikel, oftast från 1900-1970"]
     },
