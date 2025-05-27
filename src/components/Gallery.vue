@@ -343,8 +343,9 @@ fetchGallery()
 }
 
 .button-container.sticky {
-  max-width: 130px;
-  margin-top: 60px
+  max-width: auto;
+  min-width:160px;
+  margin-top: 65px
 }
 
 .row-titles ul {
@@ -355,16 +356,34 @@ fetchGallery()
 
 .row-titles li {
   cursor: pointer;
-  color: #007bff;
+  color: white;
+  opacity:0.6;
+}
+
+h3{
+  font-weight: 600;
+  font-size:120%;
+}
+
+h3 span{
+  font-weight: 300;
+  font-size:100%;
+}
+
+.row-titles li:hover {
+  font-size:120%;
 }
 
 .row-titles li.non-clickable {
   cursor: default;
-  color: inherit
+  color: inherit;
+  font-size:120%;
+  opacity:1.0;
 }
 
+
 .row-titles li:hover:not(.non-clickable) {
-  text-decoration: underline
+ /*  text-decoration: underline */
 }
 
 .right-column {
@@ -374,19 +393,26 @@ fetchGallery()
 }
 
 .row-heading {
-  margin-bottom: 1rem
+  margin-bottom: 1rem;
+  height:30px;
 }
 
 .toggle-btn {
   background: #333;
   color: #fff;
   border: none;
-  padding: 0.5rem 0;
+  padding: 0.3rem 1.0rem;
   cursor: pointer;
-  width: 100px;
+  width: auto;;
   font-size: 15px;
   margin-left: 1rem;
   border-radius: 5px;
+  margin-top:-5px;
+}
+
+.toggle-btn:hover {
+  background: #222;
+
 }
 
 .short-preview {

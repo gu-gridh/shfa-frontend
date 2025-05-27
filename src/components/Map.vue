@@ -602,14 +602,15 @@ export default {
   opacity: 100%;
   box-shadow: var(--shadow);
   padding: 8px 18px 8px 38px;
-  border-radius: 4px;
+
   min-width: max-content;
   block-size: fit-content;
   font-family: "Barlow Condensed", sans-serif !important;
   max-width: max-content;
   min-height: max-content;
   cursor: pointer;
-  border: 0.5px;
+  border-radius: 12px;
+  border-width: 0px;
 }
 
 .layer-switcher button, .layer-switcher button:focus {
@@ -918,11 +919,11 @@ input[type="checkbox" i] {
   text-align: justify;
   position: absolute;
   color: var(--popup-text);
-  line-height: 1.2;
+  line-height: 1.5;
   background-color: var(--popup-background);
   opacity: 100%;
   box-shadow: var(--shadow);
-  padding: 8px 18px 8px 38px;
+  padding: 8px 18px 12px 18px;
   border-radius: 8px;
   bottom: 38px;
   left: -48px;
@@ -984,8 +985,12 @@ input[type="checkbox" i] {
 .ol-popup-closer {
   text-decoration: none;
   position: absolute;
-  top: 10%;
-  left: 12px;
+  top: 5px;
+  right: 15px;
+}
+
+.ol-popup-closer:Hover {
+  opacity:0.5;
 }
 
 .ol-popup-closer:after {

@@ -1708,9 +1708,9 @@ h2 input:not(:placeholder-shown) {
   justify-content: center;
   align-items: center;
   background-color: #333;
-  border-radius: 20px;
-  padding: 4px 8px;
-  margin: 10px auto;
+  border-radius: 10px;
+  padding: 4px 4px;
+  margin: 30px auto 10px auto;
   width: fit-content;
 }
 
@@ -1719,7 +1719,7 @@ h2 input:not(:placeholder-shown) {
   border: none;
   border-radius: 8px !important;
   color: #fff;
-  padding: 8px 16px;
+  padding: 4px 16px;
   cursor: pointer;
   font-size: 1.1rem;
 }
