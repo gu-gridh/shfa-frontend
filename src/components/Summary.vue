@@ -184,11 +184,12 @@ if (props.activeTab === 'summary') fetchSummary()
 }
 
 .button-container.sticky {
-  max-width: 150px;
-  margin-top: 60px
+  max-width: auto;
+  min-width:120px;
+  margin-top: 65px
 }
 
-.row-titles {
+.row-titles ul {
   margin: 0;
   padding: 0;
   list-style: none
@@ -196,23 +197,37 @@ if (props.activeTab === 'summary') fetchSummary()
 
 .row-titles li {
   cursor: pointer;
-  color: #007bff;
-  margin-bottom: .25rem
+  color: white;
+  opacity:0.6;
+  margin-bottom:5px;
+}
+
+h3{
+  font-weight: 600;
+  font-size:120%;
+}
+
+h3 span{
+  font-weight: 300;
+  font-size:100%;
+}
+
+.row-titles li:hover {
+  transform:scale(1.2) translate(10px);
 }
 
 .row-titles li.non-clickable {
   cursor: default;
-  color: inherit
-}
-
-.row-titles li:hover:not(.non-clickable) {
-  text-decoration: underline
+  color: inherit;
+  transform:scale(1.2) translate(10px);
+  opacity:1.0;
 }
 
 .right-column {
   flex: 1;
   padding-left: 1rem;
-  padding-top: 1rem
+  padding-top: 1rem;
+
 }
 
 .row-heading {
@@ -224,12 +239,23 @@ if (props.activeTab === 'summary') fetchSummary()
 }
 
 .scroller {
-  max-height: 70vh;
+
   overflow-y: auto;
   scrollbar-width: none;
   margin: 0;
   padding: 0;
-  list-style: none
+  list-style: none;
+  columns:2;
+  width:100%;
+  max-width:100%;
+}
+
+@media (max-width: 1500px) {
+.scroller {
+
+
+columns:1;
+}
 }
 
 .scroller::-webkit-scrollbar {
@@ -239,7 +265,7 @@ if (props.activeTab === 'summary') fetchSummary()
 
 .item {
   padding: 0 .25rem;
-  border-bottom: 1px solid #e7e7e7;
+  border-bottom: 1px dotted #717171;
   height: 36px;
   line-height: 36px;
   white-space: nowrap;

@@ -341,7 +341,7 @@ let acc_date = date.toLocaleString("en-GB", options);
 }
 
 .metadata-panel-title {
-  font-size: 130%;
+  font-size: 100%;
   text-align: left;
   color: var(--page-text);
   font-weight: 300;
@@ -610,8 +610,8 @@ ul {
   color: var(--button-text);
   /* background-color: var(--button-background); */
   background-color: var(--threed-icon);
-  border-radius: 8px;
-  font-size: 86%;
+  border-radius: 6px;
+  font-size: 1.1em;
   text-decoration: none;
   cursor: pointer;
   margin-top: 0px;

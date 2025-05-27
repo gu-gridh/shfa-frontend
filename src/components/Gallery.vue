@@ -358,6 +358,7 @@ fetchGallery()
   cursor: pointer;
   color: white;
   opacity:0.6;
+  margin-bottom:5px;
 }
 
 h3{
@@ -371,13 +372,13 @@ h3 span{
 }
 
 .row-titles li:hover {
-  font-size:120%;
+  transform:scale(1.2) translate(13px);
 }
 
 .row-titles li.non-clickable {
   cursor: default;
   color: inherit;
-  font-size:120%;
+  transform:scale(1.2) translate(13px);
   opacity:1.0;
 }
 
