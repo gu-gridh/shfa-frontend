@@ -1,6 +1,8 @@
 <template>
   <div id="map">
     <div class="expand-map-widget" ref="expandWidget" @click="expandMap"></div>
+    <div class="zoom-warning" id="zoom-message">{{ $t("message.zoommap")
+      }}</div>
     <button id="search-bbox-button" v-if="bboxUpdated" @click="fetchImagesClicked()">{{ $t("message.searchinbbox")
       }}</button>
     <div id="popup" class="ol-popup">
@@ -334,6 +336,8 @@ export default {
       const placenameContent = document.getElementById("placename");
       const closebutton = document.getElementById("popup-closer");
 
+      const zoomMessage = document.getElementById("zoom-message");
+
       //Overlay that anchors the popups
       const overlay = new Overlay({
         element: container,
@@ -345,6 +349,8 @@ export default {
         closebutton.blur();
         return false;
       };
+
+      
 // Create a list of the SGU shore displacement data for relevant years
       let sgu_layers = []
       const start_bp = 1000
@@ -357,14 +363,16 @@ export default {
           source: new TileWMS({
             url: 'https://maps3.sgu.se/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap',
             attributions: `<a href="https://resource.sgu.se/dokument/produkter/strandforskjutningsmodell-beskrivning.pdf" target="_blank">Source: Sveriges geologiska undersökning</a>`,
-            params: {'LAYERS': `strand:SE.GOV.SGU.STRANDFORSKJUTNINGSMODELL.${year}BP`, 'TILED': true},
+            params: {'LAYERS': `strand:SE.GOV.SGU.STRANDFORSKJUTNINGSMODELL.${year}BP`, 'TILED': true, 'WIDTH':768,'HEIGHT':'1024'},
             serverType: 'geoserver'
                           }),
           title: `${year} cal BP`,
           visible: false,
           opacity: ((strand_years.length-index)/100)+0.4, //make lower layers less transparent to view multiple layers at once
           zIndex:index,
-          className: "dark" //make layers easier to see with transparency on since we're using WMS layers without SLD
+          maxResolution: 7250,
+          minResolution: 10,
+          className: "dark",//make layers easier to see with transparency on since we're using WMS layers without SLD
                         })
         sgu_layers.push(layer)
                       }
@@ -373,17 +381,11 @@ export default {
       this.map = new Map({
         target: "map",
         layers: [
-          new LayerGroup({
-            title: 'Open Street Map',
-            type: 'base',
-            visible: true,
-            layers: [
             new TileLayer({
               className: "grey",
               source: new OSM(),
             }),
-            ],
-          }),
+            
           new LayerGroup({
             title: 'SGU Strandförskjutningsmodell',
             combine: false,
@@ -408,6 +410,31 @@ export default {
           groupSelectStyle: 'children'
         });
         this.map.addControl(layerSwitcher);
+
+
+      //Display notice for users to zoom in if they are outside the resolution range of the SGU layers when at least one of them is visible
+      const sgu_group = LayerSwitcher.getGroupsAndLayers(this.map)
+
+      sgu_group[0].on('change:visible', (event) => {
+        var maxRes = sgu_group[1].getMaxResolution()
+
+        //Display message if out of range when a layer is first turned on
+        if (sgu_group[0].getVisible() && this.map.getView().getResolution() > maxRes) {
+          zoomMessage.style.visibility = 'visible'
+        }
+
+        //Check whether resolution is in range while after zooming
+        if (sgu_group[0].getVisible()) {
+          this.map.on('moveend', (event) => {
+            if (this.map.getView().getResolution() > maxRes) {
+              zoomMessage.style.visibility = 'visible'
+            }
+            else { zoomMessage.style.visibility = 'hidden'}
+        })
+        }
+      })
+
+
 
       const path = window.location.pathname;
       const match = path.match(/^\/image\/(\d+)$/); //check if address contains image + extract ID
@@ -995,5 +1022,22 @@ input[type="checkbox" i] {
 
 .ol-popup-closer:after {
   content: "✖";
+}
+
+.zoom-warning {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50%;
+  padding: 5px 10px 5px 10px;
+  z-index: 100;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+  border-radius: 8px !important;
+  background-color: var(--popup-background);
+  backdrop-filter: blur(5px);
+  color: var(--popup-text);
+  visibility: hidden;
 }
 </style>
