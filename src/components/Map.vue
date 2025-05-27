@@ -363,7 +363,7 @@ export default {
           source: new TileWMS({
             url: 'https://maps3.sgu.se/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap',
             attributions: `<a href="https://resource.sgu.se/dokument/produkter/strandforskjutningsmodell-beskrivning.pdf" target="_blank">Source: Sveriges geologiska undersökning</a>`,
-            params: {'LAYERS': `strand:SE.GOV.SGU.STRANDFORSKJUTNINGSMODELL.${year}BP`, 'TILED': true, 'WIDTH':768,'HEIGHT':'1024'},
+            params: {'LAYERS': `strand:SE.GOV.SGU.STRANDFORSKJUTNINGSMODELL.${year}BP`, 'TILED': true},
             serverType: 'geoserver'
                           }),
           title: `${year} cal BP`,
