@@ -7,7 +7,7 @@
       <div class="toolbar-bottom-mini">
 
         <a id="home" href="#home">
-          <div id="Home" class="NavButton"></div>
+          <div id="Home" class="NavButton" title="Fit image to view"></div>
         </a>
         <a id="zoom-in" href="#zoom-in">
           <div id="ZoomIn" class="NavButton"></div>
