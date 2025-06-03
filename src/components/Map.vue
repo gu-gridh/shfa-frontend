@@ -676,7 +676,7 @@ export default {
 button[title="Collapse legend"] {
     background-color: transparent!important;
   background-image: var(--close-layers-icon) !important;
-  background-size: 14px !important;
+  background-size: 12px !important;
   font-size: 0px;
   left:290px!important;
    top:-2px!important;
