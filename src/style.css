@@ -143,9 +143,10 @@ div.split-container>div>div:nth-child(4) {
   --fb-logo-background: url("../src/assets/Facebook_Logo_Secondary.png");
   --instagram-logo-background: url("../src/assets/Instagram_Glyph_White.png");
   --settings-text: rgba(255, 255, 255, 1);
-  --map-layers-icon: url("../src/assets/openseadragon/layers.png");
-  --expand-layers-icon: url("../src/assets/openseadragon/expand.png");
-  --collapse-layers-icon: url("../src/assets/openseadragon/collapse.png");
+  --map-layers-icon: url("../src/assets/layer_white.svg");
+  --close-layers-icon: url("../src/assets/close_white.svg");
+  --expand-layers-icon: url("../src/assets/arrow_collapsed_menu_white.svg");
+  --collapse-layers-icon: url("../src/assets/arrow_expanded_menu_white.svg");
 }
 
 html[style-theme='dark'] {

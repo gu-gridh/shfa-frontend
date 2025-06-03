@@ -450,10 +450,11 @@ h3 span{
   justify-content: center;
   opacity: 0;
   transition: opacity .3s ease;
+  backdrop-filter: blur(5px);
 }
 
 .image-wrapper:hover .metadata-overlay {
-  opacity: .9
+  opacity: .6
 }
 
 .metadata-content {
@@ -468,17 +469,15 @@ h3 span{
   margin-top: 1rem
 }
 
-.scroller {
+/* .scroller {
   max-height: 80vh;
   overflow-y: auto;
-}
+} */
 
 .item {
   position: relative;
   width: 100%;
   height: 100%;
-  padding: .25rem;
-  box-sizing: border-box;
 }
 
 .item img {

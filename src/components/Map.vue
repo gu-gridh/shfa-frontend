@@ -620,6 +620,7 @@ export default {
 <style>
 .layer-switcher {
   top: 20px;
+  overflow:auto!important;
 }
 .layer-switcher .panel {
   text-align: justify;
@@ -628,7 +629,7 @@ export default {
   background-color: var(--popup-background);
   opacity: 100%;
   box-shadow: var(--shadow);
-  padding: 8px 18px 8px 38px;
+  padding: 8px 18px 8px 22px;
 
   min-width: max-content;
   block-size: fit-content;
@@ -638,6 +639,8 @@ export default {
   cursor: pointer;
   border-radius: 12px;
   border-width: 0px;
+  margin-right:-5px;
+   margin-top:-5px;
 }
 
 .layer-switcher button, .layer-switcher button:focus {
@@ -656,22 +659,28 @@ export default {
 }
 
 .layer-switcher.shown {
-    max-height: 200px;
-    overflow-y: scroll;
+    max-height: 250px;
+   
+     overflow:visible!important;
+      overflow-y: scroll;
   }
 
 .layer-switcher.shown.layer-switcher-activation-mode-click button {
   background-color: var(--viewer-button-background);
   background-image: var(--collapse-layers-icon);
-  background-size: 24px;
-  background-position: center;
+  background-size: 14px;
+  background-position: center!important;
+  margin-left:-5px!important;
 }
 
 button[title="Collapse legend"] {
-  background-color: var(--viewer-button-background);
-  background-image: var(--expand-layers-icon) !important;
+    background-color: transparent!important;
+  background-image: var(--close-layers-icon) !important;
   background-size: 14px !important;
   font-size: 0px;
+  left:290px!important;
+   top:-2px!important;
+  position:absolute!important;
 }
 
 input[type="checkbox" i] {
