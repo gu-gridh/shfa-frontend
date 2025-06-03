@@ -653,7 +653,7 @@ export default {
 }
 
 .layer-switcher button:hover {
-  background-color: var(--viewer-button-background);
+  background-color: var(--button-hover);
   background-image: var(--map-layers-icon);
   background-size: 24px;
   background-position: center;
@@ -684,6 +684,7 @@ button[title="Collapse legend"] {
    top:-2px!important;
   position:absolute!important;
 }
+
 
 input[type="checkbox" i] {
   accent-color: var(--highlighted-text);
