@@ -653,7 +653,7 @@ export default {
 }
 
 .layer-switcher button:hover {
-  background-color: var(--button-hover);
+  background-color: var(--viewer-button-hover);
   background-image: var(--map-layers-icon);
   background-size: 24px;
   background-position: center;
@@ -709,7 +709,7 @@ input[type="checkbox" i] {
 }
 
 #search-bbox-button:hover {
-  background: var(--search-button-light-bkgrnd) no-repeat 4px 50%;
+  
   background-size: 32px 32px;
   bottom: 20px;
   padding: 5px 15px 5px 38px;
@@ -718,7 +718,7 @@ input[type="checkbox" i] {
   height: auto;
   cursor: pointer;
   border-radius: 8px !important;
-  background-color: var(--button-hover);
+  background-color: var(--viewer-button-hover);
   backdrop-filter: blur(5px);
   color: var(--button-text);
 }
