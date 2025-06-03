@@ -626,7 +626,7 @@ export default {
   text-align: justify;
   color: var(--popup-text);
   line-height: 1.2;
-  background-color: var(--popup-background);
+  background-color: rgba(40,40,40,0.9);
   opacity: 100%;
   box-shadow: var(--shadow);
   padding: 8px 18px 8px 22px;
@@ -641,6 +641,7 @@ export default {
   border-width: 0px;
   margin-right:-5px;
    margin-top:-5px;
+   backdrop-filter: blur(5px);
 }
 
 .layer-switcher button, .layer-switcher button:focus {
@@ -666,11 +667,12 @@ export default {
   }
 
 .layer-switcher.shown.layer-switcher-activation-mode-click button {
-  background-color: var(--viewer-button-background);
+  background-color: transparent!important;
   background-image: var(--collapse-layers-icon);
   background-size: 14px;
   background-position: center!important;
   margin-left:-5px!important;
+ 
 }
 
 button[title="Collapse legend"] {
