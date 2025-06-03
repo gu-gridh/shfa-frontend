@@ -730,7 +730,7 @@
 
   #reset-layout-mapview:hover {
     opacity: 0.9;
-    background-color: var(--button-hover);
+    background-color: var(--viewer-button-hover);
     color: var(--button-text);
   }
 
