@@ -620,13 +620,14 @@ export default {
 </script>
 
 <style>
+/* handle long text for international sites */
 #placename{
   text-wrap: stable;
   text-align: left;
 }
 .layer-switcher {
   top: 20px;
-  overflow:auto!important;
+  /* overflow:auto!important; */
 }
 .layer-switcher .panel {
   text-align: justify;
@@ -646,8 +647,8 @@ export default {
   border-radius: 12px;
   border-width: 0px;
   margin-right:-5px;
-   margin-top:-5px;
-   backdrop-filter: blur(5px);
+  margin-top:-5px;
+  backdrop-filter: blur(5px);
 }
 
 .layer-switcher button, .layer-switcher button:focus {
@@ -666,11 +667,27 @@ export default {
 }
 
 .layer-switcher.shown {
-    max-height: 250px;
-   
-     overflow:visible!important;
-      overflow-y: scroll;
-  }
+  max-height: 250px;
+  border-radius: 12px;
+  border-width: 0px;
+
+  /* Scroll to access all layer options */
+  overflow:scroll!important;
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.layer-switcher.shown::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fix rounded corners on layer menu */
+.layer-switcher.shown.layer-switcher-activation-mode-click {
+  padding-left: 0px;
+}
 
 .layer-switcher.shown.layer-switcher-activation-mode-click button {
   background-color: transparent!important;
