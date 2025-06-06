@@ -432,6 +432,8 @@ export default {
             else { zoomMessage.style.visibility = 'hidden'}
         })
         }
+
+        else { zoomMessage.style.visibility = 'hidden' }
       })
 
 
