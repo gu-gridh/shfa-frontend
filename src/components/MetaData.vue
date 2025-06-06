@@ -4,12 +4,11 @@
 
       <div class="metadata-panel-title">
 
-        <h1 v-if="data.site && data.site?.raa_id && data.site?.lamning_id">{{ data.site.lamning_id }} | {{
-          data.site.raa_id
-        }} </h1>
-
-        <h1 v-if="data.site && !data.site?.raa_id && data.site?.lamning_id"> {{ data.site.lamning_id }}</h1>
-        <h1 v-if="data.site && data.site?.internationl_site"> {{ data.site.placename }}</h1>
+        <h1 v-if="!data.site?.internationl_site">
+          <span v-if="data.site?.lamning_id" @click="logMetaSearch(data.site.lamning_id)">{{ data.site.lamning_id}}</span>
+          <span v-if="data.site?.lamning_id && data.site?.raa_id"> | </span>
+          <span v-if="data.site?.raa_id" @click="logMetaSearch(data.site.raa_id)">{{ data.site.raa_id}}</span></h1>
+        <h1 v-if="data.site?.internationl_site" @click="logMetaSearch(data.site.placename)"> {{ data.site.placename }}</h1>
         <div v-if="data.site && data.group" class="button-container">
           <button class="viewer-button" @click="open3dViewer(data.group.text)"><span class="viewer-icon"></span>{{
           $t('message.viewthreed') }}</button>
@@ -474,6 +473,7 @@ h1 {
   /* padding-left: 25px; */
   margin-top: 20px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 h2 {
