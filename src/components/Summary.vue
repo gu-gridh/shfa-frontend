@@ -94,7 +94,7 @@ function buildRows() {
     id: 'geographic',
     title: 'Geographic',
     items: makeItems(summary.value.geographic, o =>
-      `Municipality: ${o.municipality} / Parish: ${o.parish} / Province: ${o.province} / Country: ${o.country}`),
+      `Parish: ${o.parish} / Municipality: ${o.municipality} / Province: ${o.province} / Country: ${o.country}`),
     count: summary.value.geographic.reduce((n, o) => n + o.count, 0)
   })
   rowsArr.push({
