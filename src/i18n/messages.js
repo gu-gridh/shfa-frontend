@@ -96,7 +96,9 @@ export default {
       visualisation: 'Visualisation Overview',
       viewthreed:  'Open 3D viewer',
       "3D": "3D viewer",
-      zoommap: "Zoom in to view SGU's shore displacement model"
+      zoommap: "Zoom in to view SGU's shore displacement model",
+      geographic: "Region",
+      geographicsearch: "Search by parish, municipality, etc..."
     },
 
     search: {
@@ -293,7 +295,9 @@ export default {
       visualisation: 'Visualiseringsinformation',
       viewthreed:  'Öppna 3D-vy',
       "3D": "3D-vy",
-      zoommap: "Zooma in för att se SGU:s strandförskjutningsmodell"
+      zoommap: "Zooma in för att se SGU:s strandförskjutningsmodell",
+      geographic: "Geografiskt Område",
+      geographicsearch: "Sök efter socken, kommun, etc..."
     },
     search: {
       searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar. De motivrelaterade sökorden är arkeologers tolkningar av ristningarna.',

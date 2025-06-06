@@ -12,6 +12,7 @@
               $t('message.datering'),
               'Institution',
               $t('message.3D'),
+              $t('message.geographic')
             ][index]
           }}
         </div>
@@ -30,6 +31,7 @@
               $t('message.sökdatering'),
               $t('message.sökinstitutioner'),
               $t('message.sök3D'),
+              $t('message.geographicsearch'),
             ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
             @keydown="handleBackspace($event, index)" autocomplete="off" />
         </div>
@@ -81,11 +83,11 @@ const props = defineProps({
 
 const emit = defineEmits(['advanced-search-params']);
 
-const searchQuery = ref(['', '', '', '', '', '', '']);
-const searchResults = ref([[], [], [], [], [], [], []]);
-const selectedKeywords = ref([[], [], [], [], [], [], []]);
+const searchQuery = ref(['', '', '', '', '', '', '', '']);
+const searchResults = ref([[], [], [], [], [], [], [], []]);
+const selectedKeywords = ref([[], [], [], [], [], [], [], []]);
 const hoveredResultIndex = ref(-1);
-const infiniteScrollUrls = ref(Array(7).fill(null));
+const infiniteScrollUrls = ref(Array(8).fill(null));
 
 //api URLs for autocomplete
 const apiUrls = computed(() => {
@@ -97,13 +99,14 @@ const apiUrls = computed(() => {
     `https://diana.dh.gu.se/api/shfa/search/keywords/${langParam}keyword=`,
     `https://diana.dh.gu.se/api/shfa/search/dating/${langParam}dating_tag=`,
     'https://diana.dh.gu.se/api/shfa/search/institution/?institution_name=',
-    'https://diana.dh.gu.se/api/shfa/null_visualization_group/?depth=1&site='
+    'https://diana.dh.gu.se/api/shfa/null_visualization_group/?depth=1&type=943&site=',
+    'https://diana.dh.gu.se/api/shfa/search/region/?region_name='
   ];
 });
 
 const clearAdvancedSearchFields = () => {
-  searchQuery.value = ['', '', '', '', '', '', ''];
-  selectedKeywords.value = [[], [], [], [], [], [], []];
+  searchQuery.value = ['', '', '', '', '', '', '', ''];
+  selectedKeywords.value = [[], [], [], [], [], [], [], []];
 };
 
 const handleSearchButtonClick = () => {
@@ -115,7 +118,8 @@ const handleSearchButtonClick = () => {
     'keyword',
     'dating_tag',
     'institution_name',
-    'group'
+    'group',
+    'region_name'
   ];
 
   searchQuery.value.forEach((query, index) => {
@@ -242,6 +246,14 @@ const fetchSuggestions = async (query, index, nextPage = null) => {
           return suggestions;
         });
         break;
+      case 7: //geography
+        newResults = data.results.flatMap(result => {
+          const suggestions = [];
+          suggestions.push({ id: result.municipality, text: result.municipality });
+          if (!result.internationl_site) suggestions.push({ id: result.parish, text: `${result.parish}, ${result.municipality || result.province || 'Unknown'}` });
+          return suggestions;
+        });
+        break
     }
 
     if (newResults) {

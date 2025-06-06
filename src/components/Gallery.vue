@@ -152,7 +152,8 @@ const buildGalleryUrl = () => {
   } else if (f === 'advanced' && props.advancedSearchResults && typeof props.advancedSearchResults === 'object') {
     p.append('search_type', 'advanced')
     Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
-      if (v?.toString().trim()) p.append(k === 'group' ? 'site_name' : k, v)
+      // needs to be updated!!
+      if (v?.toString().trim()) p.append(k === 'group' ? 'site_name' : k, v) 
     })
   }
   return base + (p.toString() ? '?' + p.toString() : '')
