@@ -83,12 +83,13 @@
           this.lamning_id = site.lamning_id ?? '';
           this.raa_id = site.raa_id ?? '';
           this.placename = site.placename ?? '';
-          this.creator = first.author?.name || 'Unknown';
+          // this.creator = first.author?.name || 'Unknown';
           this.img_id = first.id;
           this.link_3d = !!first.group;
           this.query_3d = first.group?.text ?? null;
           const infoUrl = `${first.iiif_file}/info.json`;
           this.viewer ? this.viewer.open(infoUrl) : this.initOpenSeadragon(first.iiif_file);
+          this.people = first.people?.map(people => people?.name.replace(',','').replace(', ','')).join('')
 
         } catch (err) {
           console.error('Fetch error:', err);
@@ -103,7 +104,7 @@
         const lamning_id = this.lamning_id;
         const raa_id = this.raa_id;
         const placename = this.placename;
-        const creator = this.creator.replace(", ", "_");
+        const authors = this.people;
         const img_id = this.img_id;
         // const year = this.year;
 
@@ -112,7 +113,7 @@
           .then((blob) => {
             const url = window.URL.createObjectURL(blob);
             const imgId = imageUrl.split("/").pop();
-            const downloadName = `${creator}_${lamning_id || raa_id || placename
+            const downloadName = `${authors}_${lamning_id || raa_id || placename
               }_SHFAid${img_id}`;
             const a = document.createElement("a");
             a.style.display = "none";
