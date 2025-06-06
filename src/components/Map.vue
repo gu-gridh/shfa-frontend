@@ -622,6 +622,7 @@ export default {
 <style>
 #placename{
   text-wrap: stable;
+  text-align: left;
 }
 .layer-switcher {
   top: 20px;
