@@ -618,6 +618,9 @@ export default {
 </script>
 
 <style>
+#placename{
+  text-wrap: stable;
+}
 .layer-switcher {
   top: 20px;
   overflow:auto!important;
@@ -966,7 +969,8 @@ input[type="checkbox" i] {
   border-radius: 8px;
   bottom: 38px;
   left: -48px;
-  min-width: max-content;
+  min-width: 180px;
+  /* min-width: max-content; */
   block-size: fit-content;
   font-family: "Barlow Condensed", sans-serif !important;
   max-width: max-content;
