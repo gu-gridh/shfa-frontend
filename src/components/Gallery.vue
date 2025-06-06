@@ -383,9 +383,9 @@ h3 span{
 }
 
 
-.row-titles li:hover:not(.non-clickable) {
- /*  text-decoration: underline */
-}
+/* .row-titles li:hover:not(.non-clickable) {
+  text-decoration: underline
+} */
 
 .right-column {
   flex: 1;
