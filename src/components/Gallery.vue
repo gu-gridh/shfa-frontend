@@ -189,7 +189,7 @@ async function fetchGallery() {
         lokalitet: img.site?.lokalitet_id     || '',
         placename: img.site?.placename     || '',
         international: img.site?.internationl_site     || '',
-        is3d:    img.type?.id === 943
+        is3d:      img.group,
       })),
       open: false,
       scrollerRef: null,
@@ -257,7 +257,7 @@ async function fetchNextPage(row) {
         lokalitet: img.site?.lokalitet_id     || '',
         placename: img.site?.placename     || '',
         international: img.site?.internationl_site     || '',
-        is3d:    img.type?.id === 943
+        is3d:    img.group
       }))
     )
 
