@@ -189,7 +189,7 @@ async function fetchGallery() {
         lokalitet: img.site?.lokalitet_id     || '',
         placename: img.site?.placename     || '',
         international: img.site?.internationl_site     || '',
-        is3d:      img.group,
+        is3d:    img.type?.id === 943
       })),
       open: false,
       scrollerRef: null,
@@ -257,7 +257,7 @@ async function fetchNextPage(row) {
         lokalitet: img.site?.lokalitet_id     || '',
         placename: img.site?.placename     || '',
         international: img.site?.internationl_site     || '',
-        is3d:    img.group
+        is3d:    img.type?.id === 943
       }))
     )
 
@@ -356,7 +356,6 @@ fetchGallery()
 
 .row-titles li {
   cursor: pointer;
-  color: white;
   opacity:0.6;
   margin-bottom:5px;
 }
@@ -469,10 +468,10 @@ h3 span{
   margin-top: 1rem
 }
 
-/* .scroller {
+.scroller {
   max-height: 80vh;
   overflow-y: auto;
-} */
+}
 
 .item {
   position: relative;
