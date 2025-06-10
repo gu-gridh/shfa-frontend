@@ -344,7 +344,7 @@ fetchGallery()
 
 .button-container.sticky {
   max-width: auto;
-  min-width:150px;
+
   margin-top: 65px
 }
 
@@ -372,13 +372,13 @@ h3 span{
 }
 
 .row-titles li:hover {
-  transform:scale(1.2) translate(-13px);
+  transform:scale(1.2) translate(-6px);
 }
 
 .row-titles li.non-clickable {
   cursor: default;
   color: inherit;
-  transform:scale(1.2) translate(-13px);
+  transform:scale(1.2) translate(-6px);
   opacity:1.0;
 }
 
