@@ -1709,25 +1709,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #333;
-    border-radius: 10px;
-    padding: 4px 4px;
-    margin: 30px auto 10px auto;
     width: fit-content;
+  margin-top:50px;
+      font-size: 1.2rem;
+      font-weight:500;
+      width:100%;
   }
 
   .toggle-button-group button {
     background: none;
     border: none;
-    border-radius: 8px !important;
     color: #fff;
-    padding: 4px 16px;
     cursor: pointer;
-    font-size: 1.1rem;
+margin-right:30px;
+
   }
 
   .toggle-button-group button.active {
-    background-color: var(--popup-background);
-    border-radius: 25px;
+    color: var(--highlighted-text);
   }
+
+
 </style>

@@ -695,6 +695,7 @@ export default {
   background-size: 14px;
   background-position: center!important;
   margin-left:-5px!important;
+
  
 }
 
@@ -703,7 +704,7 @@ button[title="Collapse legend"] {
   background-image: var(--close-layers-icon) !important;
   background-size: 12px !important;
   font-size: 0px;
-  left:290px!important;
+  left:255px!important;
    top:-2px!important;
   position:absolute!important;
 }

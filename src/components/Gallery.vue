@@ -372,13 +372,13 @@ h3 span{
 }
 
 .row-titles li:hover {
-  transform:scale(1.2) translate(-6px);
+  transform:scale(1.1) translate(-6px);
 }
 
 .row-titles li.non-clickable {
   cursor: default;
   color: inherit;
-  transform:scale(1.2) translate(-6px);
+  transform:scale(1.1) translate(-6px);
   opacity:1.0;
 }
 
