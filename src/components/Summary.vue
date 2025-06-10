@@ -200,6 +200,7 @@ if (props.activeTab === 'summary') fetchSummary()
   color: white;
   opacity:0.6;
   margin-bottom:5px;
+  text-align: right;
 }
 
 h3{
@@ -213,19 +214,19 @@ h3 span{
 }
 
 .row-titles li:hover {
-  transform:scale(1.2) translate(10px);
+  transform:scale(1.2) translate(-10px);
 }
 
 .row-titles li.non-clickable {
   cursor: default;
   color: inherit;
-  transform:scale(1.2) translate(10px);
+  transform:scale(1.2) translate(-10px);
   opacity:1.0;
 }
 
 .right-column {
   flex: 1;
-  padding-left: 1rem;
+  padding-left: 2rem;
   padding-top: 1rem;
 
 }

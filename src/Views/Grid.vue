@@ -1333,7 +1333,7 @@
 
   #split-1 {
     background-color: var(--page-background);
-    padding: 0px 20px 0px 40px;
+    padding: 0px 20px 0px 30px;
     min-width: 200px;
     border-width: 0px 0px 0px 1px;
     border-style: dotted;

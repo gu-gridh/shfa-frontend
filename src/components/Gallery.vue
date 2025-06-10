@@ -344,7 +344,7 @@ fetchGallery()
 
 .button-container.sticky {
   max-width: auto;
-  min-width:160px;
+  min-width:150px;
   margin-top: 65px
 }
 
@@ -358,6 +358,7 @@ fetchGallery()
   cursor: pointer;
   opacity:0.6;
   margin-bottom:5px;
+  text-align: right;
 }
 
 h3{
@@ -371,13 +372,13 @@ h3 span{
 }
 
 .row-titles li:hover {
-  transform:scale(1.2) translate(13px);
+  transform:scale(1.2) translate(-13px);
 }
 
 .row-titles li.non-clickable {
   cursor: default;
   color: inherit;
-  transform:scale(1.2) translate(13px);
+  transform:scale(1.2) translate(-13px);
   opacity:1.0;
 }
 
@@ -388,7 +389,7 @@ h3 span{
 
 .right-column {
   flex: 1;
-  padding-left: 1rem;
+  padding-left: 2rem;
   padding-top: 1rem
 }
 
