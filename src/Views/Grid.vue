@@ -1725,6 +1725,11 @@ margin-right:30px;
 
   }
 
+  .toggle-button-group button:hover {
+ color: var(--notice-text)!important;
+
+  }
+
   .toggle-button-group button.active {
     color: var(--highlighted-text);
   }
