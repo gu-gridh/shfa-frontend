@@ -197,7 +197,7 @@ defineProps({
   z-index: 2001;
   contain: paint;
   padding: 10px;
-  margin-top:-4px;
+  margin-top:-6px;
   box-shadow: var(--shadow-suggestion);
 }
 
