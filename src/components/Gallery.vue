@@ -345,7 +345,8 @@ fetchGallery()
 .button-container.sticky {
   max-width: auto;
  min-width:100px;
-  margin-top: 58px
+  margin-top: 58px;
+  color:var(--page-text);
 }
 
 .row-titles ul {
@@ -396,6 +397,7 @@ h3 span{
 .row-heading {
   margin-bottom: 1rem;
   height:30px;
+  color:var(--page-text);
 }
 
 .toggle-btn {

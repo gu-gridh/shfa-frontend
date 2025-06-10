@@ -1719,7 +1719,7 @@
   .toggle-button-group button {
     background: none;
     border: none;
-    color: #fff;
+    color:var(--page-text);
     cursor: pointer;
 margin-right:30px;
 
