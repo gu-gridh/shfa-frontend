@@ -750,10 +750,11 @@ input[type="checkbox" i] {
 #map {
   z-index: 40;
   /* Fixes border-radius in Safari. */
-  width: 100%;
+  width: calc(100% - 10px);
   height: 100%;
   min-height: 200px;
   margin-top: 10px !important;
+  margin-left: 5px !important;
   margin-bottom: 40px !important;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
