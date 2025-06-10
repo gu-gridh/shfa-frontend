@@ -89,7 +89,7 @@ div.split-container>div>div:nth-child(4) {
   --about-emphasised-text: white;
   --placeholder-text: #ffffffc5;
   --input-background: #1d192c;
-  --input-wrapper-background: #2D2D2D;
+   --input-wrapper-background: rgb(50, 50, 50);
   --main-input-wrapper-background: linear-gradient(to bottom, rgba(35, 35, 35, 1.0) 0%, rgba(50, 50, 50, 1.0) 100%);
   --input-border: var(--input-wrapper-background);
   --input-hover: #1a094c;
@@ -105,6 +105,7 @@ div.split-container>div>div:nth-child(4) {
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+    --shadow-suggestion: 0 10px 10px 0px rgba(0, 0, 0, 0.3);
   --menu-background: rgba(220, 220, 220, 0.9);
   --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.30) !important;
@@ -176,7 +177,7 @@ html[style-theme='dark'] {
   --about-emphasised-text: white;
   --placeholder-text: #ffffffc5;
   --input-background: #1d192c;
-  --input-wrapper-background: #2D2D2D;
+  --input-wrapper-background: rgb(50, 50, 50);
   --main-input-wrapper-background: linear-gradient(to bottom, rgba(35, 35, 35, 1.0) 0%, rgba(50, 50, 50, 1.0) 100%);
   --input-border: var(--input-wrapper-background);
   --input-hover: #1a094c;
@@ -192,6 +193,7 @@ html[style-theme='dark'] {
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+    --shadow-suggestion: 0 10px 10px 0px rgba(0, 0, 0, 0.3);
   --menu-background: rgba(220, 220, 220, 0.9);
   --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.30) !important;
@@ -262,7 +264,7 @@ html[style-theme='light'] {
   --about-emphasised-text: black;
   --placeholder-text: #000000d5;
   --input-background: #1d192c;
-  --input-wrapper-background: var(--page-background);
+  --input-wrapper-background: rgba(230, 230, 230, 1.0);
   --main-input-wrapper-background: linear-gradient(to bottom, rgba(200, 200, 200, 1.0) 0%, rgba(230, 230, 230, 1.0) 100%);
   --input-border: #000;
   --input-hover: #1a094c;
@@ -277,6 +279,7 @@ html[style-theme='light'] {
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 15px 0 rgba(0, 0, 0, 0.5);
+  --shadow-suggestion: 0 10px 10px 0px rgba(0, 0, 0, 0.3);
   --menu-background: rgba(220, 220, 220, 0.9);
   --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.20) !important;

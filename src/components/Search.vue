@@ -191,12 +191,14 @@ defineProps({
   left: 0;
   right: 0;
   overflow-y: auto;
-  max-height: 170px;
+  max-height: 300px;
   background: var(--autocomplete-background);
-  box-shadow: var(--shadow);
   border-radius: 0 0 5px 5px;
   z-index: 2001;
   contain: paint;
+  padding: 10px;
+  margin-top:-4px;
+  box-shadow: var(--shadow-suggestion);
 }
 
 .suggestions {
@@ -341,7 +343,7 @@ defineProps({
   width: 100%;
   box-sizing: border-box;
   font-size: 0.95rem;
-  border: 1px solid var(--input-border);
+  border: 0px solid var(--input-border);
 }
 
 
