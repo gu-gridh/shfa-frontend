@@ -8,6 +8,7 @@
             <div v-for="keyword in selectedKeywords" :key="keyword.id" class="tag-example-search" id="search-selected"
               @click="deselectKeyword(keyword)">
               {{ currentLang == 'sv' ? keyword.text : keyword.english_translation }}
+              <span class="remove-icon">&times;</span>
             </div>
             <input type="search" id="search" name="search"
               :placeholder="selectedKeywords.length > 0 ? '' : $t('message.sökarkiv') + '...'" class=""
@@ -284,7 +285,7 @@ defineProps({
 .tag-example-search {
   float: left;
   background-color: var(--button-background);
-  padding: 0.2em 0.3em;
+  padding: 0.2em 0.5em 0.2em 0.5em!important;
   font-size: 1.2em;
   border-radius: 5px;
   margin-left: 10px;
@@ -294,6 +295,17 @@ defineProps({
   /* max-height: 32px; */
   color: var(--button-text);
   font-weight: 300;
+}
+
+.tag-example-search:hover {
+  background-color: var(--button-hover)!important;
+}
+
+.remove-icon {
+  margin-left: 8px;
+  font-weight: bold;
+  font-size:1.1em!important;
+  line-height: 1.0;
 }
 
 #search-selected {
@@ -405,4 +417,7 @@ input:focus {
 .item.active {
   color: var(--highlighted-text);
 }
+
+
+
 </style>
