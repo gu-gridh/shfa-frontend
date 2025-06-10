@@ -1065,17 +1065,18 @@ input[type="checkbox" i] {
   position: absolute;
   left: 50%;
   text-align: center;
+  font-weight:500;
   transform: translateX(-50%);
-  top: 50%;
-  padding: 5px 10px 5px 10px;
+  bottom: 70px;
+  padding: 8px 15px 8px 15px;
   z-index: 100;
   width: auto;
   height: auto;
   cursor: pointer;
   border-radius: 8px !important;
-  background-color: var(--popup-background);
+  background-color: rgba(255,255,255,0.6);
   backdrop-filter: blur(5px);
-  color: var(--popup-text);
+  color: black;
   visibility: hidden;
 }
 </style>
