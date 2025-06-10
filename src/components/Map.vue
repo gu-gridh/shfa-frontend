@@ -1064,6 +1064,7 @@ input[type="checkbox" i] {
 .zoom-warning {
   position: absolute;
   left: 50%;
+  text-align: center;
   transform: translateX(-50%);
   top: 50%;
   padding: 5px 10px 5px 10px;
