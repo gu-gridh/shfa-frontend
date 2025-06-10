@@ -344,8 +344,8 @@ fetchGallery()
 
 .button-container.sticky {
   max-width: auto;
-
-  margin-top: 65px
+ min-width:100px;
+  margin-top: 58px
 }
 
 .row-titles ul {
