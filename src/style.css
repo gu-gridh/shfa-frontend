@@ -64,7 +64,7 @@ div.split-container>div>div:nth-child(4) {
 
 :root {
   --page-background: rgb(60, 60, 60);
-  --page-background-accent: rgb(55, 55, 55);
+  --page-background-accent: rgb(48, 48, 48);
   --footer-background: #232323;
   --header-background: #d7d7d7;
   --header-text: black;
@@ -151,7 +151,7 @@ div.split-container>div>div:nth-child(4) {
 
 html[style-theme='dark'] {
   --page-background: rgb(60, 60, 60);
-  --page-background-accent: rgb(55, 55, 55);
+   --page-background-accent: rgb(48, 48, 48);
   --footer-background: #232323;
   --header-background: #d7d7d7;
   --header-text: black;
@@ -238,7 +238,7 @@ html[style-theme='dark'] {
 
 html[style-theme='light'] {
   --page-background: rgb(250, 250, 250);
-  --page-background-accent: rgb(245, 245, 245);
+  --page-background-accent: rgb(230, 230, 230);
   --footer-background: #dadada;
   --header-background: #d7d7d7;
   --header-text: black;
