@@ -253,7 +253,11 @@ function onScrollerUpdate(startIdx, endIdx, row) {
   const meta = row.pageMeta.find(p =>
     startIdx >= p.start && startIdx <= p.end
   )
-  if (meta && store.currentBbox !== meta.bbox) {
+   if (
+    meta &&
+    store.currentBbox !== meta.bbox &&
+    activeFilter.value !== 'site'
+  ) {
     store.setBbox(meta.bbox)
   }
 }
