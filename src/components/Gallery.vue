@@ -1,13 +1,15 @@
 <template>
   <div>
     <div v-if="isGalleryLoading" class="loading-indicator">Loading…</div>
+
     <div v-else class="grid-container">
-      <div v-for="row in visibleRows" :key="row.originalIndex" class="row-wrapper" :id="'row-wrapper-' + row.originalIndex">
+      <div v-for="row in visibleRows" :key="row.originalIndex" class="row-wrapper"
+        :id="'row-wrapper-' + row.originalIndex">
         <div v-if="row.open" class="button-container sticky">
           <div class="row-titles">
             <ul>
-              <li v-for="other in getOtherRows(row.originalIndex)"
-                @click="!other.isCurrent && onTitleClick(other.index)" :class="{ 'non-clickable': other.isCurrent }">
+              <li v-for="other in getOtherRows(row.originalIndex)" :class="{ 'non-clickable': other.isCurrent }"
+                @click="!other.isCurrent && onTitleClick(other.index)">
                 {{ other.title }}
               </li>
             </ul>
@@ -18,43 +20,13 @@
           <h3 :id="'row-title-' + row.originalIndex" class="row-heading">
             {{ getRowTitle(row) }}
             <span v-if="row.count"> ({{ row.count }})</span>
-            <button v-if="row.shortItems.length >= 5" class="toggle-btn" @click="toggleRow(row.originalIndex)">
-              {{ row.open ? 'Hide' : 'Show more' }}
-            </button>
           </h3>
 
-          <!-- preview thumbnails -->
-          <div v-if="!row.open" class="short-preview" :aria-label="'Preview images for ' + getRowTitle(row)">
-            <div v-for="item in row.shortItems" class="short-item">
-              <div class="image-wrapper" @click="$emit('image-clicked', item.iiif_file, item.id)">
-                <span v-if="item.is3d" class="badge-3d">3D</span>
-                <img :src="item.iiif_file + '/full/200,/0/default.jpg'" alt="preview" />
-                <div class="metadata-overlay">
-                  <div class="metadata-content">
-                    <div v-if="item.lamning">{{ item.lamning }}</div>
-                    <div v-if="item.raa">{{ item.raa }}</div>
-                    <div v-if="item.askeladden || item.lokalitet">{{ item.askeladden }}</div>
-                    <div v-if="!item.askeladden && item.lokalitet">{{ item.lokalitet }}</div>
-                    <div v-if="item.international">{{ item.placename }}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- expanded virtual grid -->
-          <div v-else class="scroll-wrapper" :aria-label="'Images for ' + getRowTitle(row)">
-            <RecycleScroller 
-              :ref="el => (row.scrollerRef = el)" class="scroller" 
-              :items="row.infiniteItems"
-              :item-size="thumbSize" 
-              :item-secondary-size="thumbSize" 
-              :grid-items="cols" 
-              :buffer="bufferPx"
-              :type-field="'category'" 
-              :key-field="'uuid'" :emit-update="true"
-              @update="(start, end) => onScrollerUpdate(start, end, row)"
-            >
+          <div v-if="row.open" class="scroll-wrapper" :aria-label="'Images for ' + getRowTitle(row)">
+            <RecycleScroller :ref="el => (row.scrollerRef = el)" class="scroller" :items="row.infiniteItems"
+              :item-size="thumbSize" :item-secondary-size="thumbSize" :grid-items="cols" :buffer="bufferPx"
+              :type-field="'category'" :key-field="'uuid'" :emit-update="true"
+              @update="(start, end) => onScrollerUpdate(start, end, row)">
               <template #default="{ item, index }">
                 <div class="item" :key="item.uuid" @click="$emit('image-clicked', item.iiif_file, item.id)">
                   <span v-if="item.is3d" class="badge-3d">3D</span>
@@ -63,9 +35,15 @@
                     <div class="metadata-content">
                       <div v-if="item.lamning">{{ item.lamning }}</div>
                       <div v-if="item.raa">{{ item.raa }}</div>
-                      <div v-if="item.askeladden || item.lokalitet">{{ item.askeladden }}</div>
-                      <div v-if="!item.askeladden && item.lokalitet">{{ item.lokalitet }}</div>
-                      <div v-if="item.international">{{ item.placename }}</div>
+                      <div v-if="item.askeladden || item.lokalitet">
+                        {{ item.askeladden }}
+                      </div>
+                      <div v-if="!item.askeladden && item.lokalitet">
+                        {{ item.lokalitet }}
+                      </div>
+                      <div v-if="item.international">
+                        {{ item.placename }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -79,39 +57,37 @@
 </template>
 
 <script setup>
-import LazyThumb from './LazyThumb.vue'
 import { ref, reactive, computed, watch, nextTick, onMounted } from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-import { useStore } from "../stores/store.js";
+import LazyThumb from './LazyThumb.vue'
+import { useStore } from '../stores/store.js'
 
 const store = useStore()
 const DEPTH = 1
+const thumbSize = 180
+const bufferPx = thumbSize * 2
+const cols = ref(1)
+const rows = ref([])
+const isGalleryLoading = ref(true)
+const emit = defineEmits(['image-clicked', 'row-clicked'])
+
 const withDepth = urlString => {
   const u = new URL(urlString)
   u.searchParams.set('depth', DEPTH)
   return u.toString()
 }
 
-const thumbSize = 180
-const bufferPx = thumbSize * 2
-const cols = ref(1)
-
-async function getInitialCols () {
+async function getInitialCols() {
   await nextTick()
   if (typeof window === 'undefined') return 1
 
   const el = document.getElementById('split-1')
   if (!el) return 1
 
-  const splitWidth = el.clientWidth
-
-  const OFFSETS  = 190
-
-  const usable = splitWidth - OFFSETS
-  // console.log('split-1 width:', splitWidth, 'usable:', usable)
-
-  const count = Math.floor((usable) / (thumbSize))
+  const OFFSETS = 190
+  const usable = el.clientWidth - OFFSETS
+  const count = Math.floor(usable / thumbSize)
   return Math.max(1, count)
 }
 
@@ -120,22 +96,21 @@ const props = defineProps({
   advancedSearchResults: [Array, Object],
   bboxSearch: [Array, Object],
   selectedSiteId: [Number, String],
-  currentLanguage: { type: String, default: 'sv' },
+  currentLanguage: { type: String, default: 'sv' }
 })
 
-const emit = defineEmits(['image-clicked', 'row-clicked'])
-
-const rows = ref([])
-const isGalleryLoading = ref(true)
-
 const formatIiif = url =>
-  url.startsWith('http') ? url : 'https://img.dh.gu.se/diana/static/' + url
+  url.startsWith('http')
+    ? url
+    : 'https://img.dh.gu.se/diana/static/' + url
 
 const filterTimestamps = reactive({
   search: 0, advanced: 0, bbox: 0, site: 0
 })
+
 const activeFilter = computed(
-  () => Object.entries(filterTimestamps).sort((a, b) => b[1] - a[1])[0]?.[0]
+  () => Object.entries(filterTimestamps)
+    .sort((a, b) => b[1] - a[1])[0]?.[0]
 )
 
 const buildGalleryUrl = () => {
@@ -146,22 +121,27 @@ const buildGalleryUrl = () => {
   if (f === 'site' && props.selectedSiteId) {
     p.append('site', props.selectedSiteId)
   } else if (f === 'search' && props.searchItems?.toString().trim()) {
-    p.append('search_type', 'general'); p.append('q', props.searchItems)
+    p.append('search_type', 'general')
+    p.append('q', props.searchItems)
   } else if (f === 'bbox' && Array.isArray(props.bboxSearch) && props.bboxSearch.length === 4) {
-    p.append('in_bbox', props.bboxSearch.join(','));
+    p.append('in_bbox', props.bboxSearch.join(','))
   } else if (f === 'advanced' && props.advancedSearchResults && typeof props.advancedSearchResults === 'object') {
     p.append('search_type', 'advanced')
     Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
-      if (v?.toString().trim()) p.append(k === 'group' ? 'site_name' : k, v) 
+      if (v?.toString().trim()) p.append(k === 'group' ? 'site_name' : k, v)
     })
   }
+
   return base + (p.toString() ? '?' + p.toString() : '')
 }
 
-const getRowTitle = r => props.currentLanguage === 'en' ? r.type_translation : r.type
+const getRowTitle = r => props.currentLanguage === 'en'
+  ? r.type_translation
+  : r.type
+
 const getOtherRows = idx => rows.value.map(r => ({
   index: r.originalIndex,
-  title: getRowTitle(r) + ' (' + r.count + ')',
+  title: `${getRowTitle(r)} (${r.count})`,
   isCurrent: r.originalIndex === idx
 }))
 
@@ -178,19 +158,9 @@ async function fetchGallery() {
   isGalleryLoading.value = true
   try {
     const { results } = await (await fetch(buildGalleryUrl())).json()
+
     rows.value = (results || []).map((sec, idx) => ({
       originalIndex: idx,
-      shortItems: (sec.images || []).map(img => ({
-        id:   img.id,
-        iiif_file: formatIiif(img.iiif_file),
-        lamning:   img.site?.lamning_id || '',
-        raa:       img.site?.raa_id     || '',
-        askeladden: img.site?.askeladden_id     || '',
-        lokalitet: img.site?.lokalitet_id     || '',
-        placename: img.site?.placename     || '',
-        international: img.site?.internationl_site     || '',
-        is3d:      img.group,
-      })),
       open: false,
       scrollerRef: null,
       infiniteItems: [],
@@ -201,11 +171,16 @@ async function fetchGallery() {
       type_translation: sec.type_translation,
       count: sec.count
     }))
-  } finally { isGalleryLoading.value = false }
+
+    if (rows.value.length) {
+      toggleRow(0)
+    }
+  } finally {
+    isGalleryLoading.value = false
+  }
 }
 
 function toggleRow(idx) {
-  //close all other rows & reset them
   rows.value.forEach(r => {
     if (r.originalIndex !== idx) {
       r.open = false
@@ -226,7 +201,6 @@ function toggleRow(idx) {
 
   row.open = !row.open
 
-  //fetch first page once
   if (row.open) {
     const url = new URL(buildGalleryUrl())
     url.searchParams.set('category_type', getRowTitle(row))
@@ -237,10 +211,11 @@ function toggleRow(idx) {
 
 async function fetchNextPage(row) {
   if (row.isFetching || !row.nextUrl) return
+
   row.isFetching = true
   try {
-    const res   = await fetch(row.nextUrl)
-    const data  = await res.json()
+    const res = await fetch(row.nextUrl)
+    const data = await res.json()
     const { results = [], next, bbox } = data
 
     const start = row.infiniteItems.length
@@ -252,12 +227,12 @@ async function fetchNextPage(row) {
         category: row.originalIndex,
         iiif_file: formatIiif(img.iiif_file),
         lamning: img.site?.lamning_id || '',
-        raa:     img.site?.raa_id     || '',
-        askeladden: img.site?.askeladden_id     || '',
-        lokalitet: img.site?.lokalitet_id     || '',
-        placename: img.site?.placename     || '',
-        international: img.site?.internationl_site     || '',
-        is3d:    img.group
+        raa: img.site?.raa_id || '',
+        askeladden: img.site?.askeladden_id || '',
+        lokalitet: img.site?.lokalitet_id || '',
+        placename: img.site?.placename || '',
+        international: img.site?.internationl_site || '',
+        is3d: img.group
       }))
     )
 
@@ -272,8 +247,7 @@ async function fetchNextPage(row) {
   }
 }
 
-function onScrollerUpdate (startIdx, endIdx, row) {
-  //fetch more when near the end
+function onScrollerUpdate(startIdx, endIdx, row) {
   handleRowUpdate(endIdx, row)
 
   const meta = row.pageMeta.find(p =>
@@ -327,153 +301,85 @@ fetchGallery()
 .loading-indicator {
   text-align: center;
   padding: 2rem;
-  font-size: 1.2rem
+  font-size: 1.2rem;
 }
 
 .grid-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem
+  gap: 2rem;
 }
 
 .row-wrapper {
   display: grid;
   grid-template-columns: auto 1fr;
-  align-items: start
+  align-items: start;
 }
 
 .button-container.sticky {
-  max-width: auto;
- min-width:100px;
+  min-width: 100px;
   margin-top: 58px;
-  color:var(--page-text);
+  color: var(--page-text);
 }
 
 .row-titles ul {
   margin: 0;
   padding: 0;
-  list-style: none
+  list-style: none;
 }
 
 .row-titles li {
   cursor: pointer;
-  opacity:0.6;
-  margin-bottom:5px;
+  opacity: 0.6;
+  margin-bottom: 5px;
   text-align: right;
 }
 
-h3{
-  font-weight: 600;
-  font-size:120%;
-}
-
-h3 span{
-  font-weight: 300;
-  font-size:100%;
-}
-
 .row-titles li:hover {
-  transform:scale(1.1) translate(-6px);
+  transform: scale(1.1) translate(-6px);
 }
 
 .row-titles li.non-clickable {
   cursor: default;
-  color: inherit;
-  transform:scale(1.1) translate(-6px);
-  opacity:1.0;
+  opacity: 1;
+  transform: scale(1.1) translate(-6px);
 }
 
+h3 {
+  font-weight: 600;
+  font-size: 120%;
+}
 
-/* .row-titles li:hover:not(.non-clickable) {
-  text-decoration: underline
-} */
+h3 span {
+  font-weight: 300;
+  font-size: 100%;
+}
 
 .right-column {
   flex: 1;
   padding-left: 2rem;
-  padding-top: 1rem
+  padding-top: 1rem;
 }
 
 .row-heading {
   margin-bottom: 1rem;
-  height:30px;
-  color:var(--page-text);
-}
-
-.toggle-btn {
-  background: #333;
-  color: #fff;
-  border: none;
-  padding: 0.3rem 1.0rem;
-  cursor: pointer;
-  width: auto;;
-  font-size: 15px;
-  margin-left: 1rem;
-  border-radius: 5px;
-  margin-top:-5px;
-}
-
-.toggle-btn:hover {
-  background: #222;
-
-}
-
-.short-preview {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  scrollbar-width: none;
-  overflow: hidden;
-}
-
-.short-item {
-  flex: 0 1 calc(20% - 0.8rem);
-  min-width: 150px; 
-}
-
-.image-wrapper {
-  position: relative;
-  width: 100%;
-  cursor: pointer;
-}
-
-.image-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover
-}
-
-.metadata-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, .7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity .3s ease;
-  backdrop-filter: blur(5px);
-}
-
-.image-wrapper:hover .metadata-overlay {
-  opacity: .6
-}
-
-.metadata-content {
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-  font-size: .9rem;
-  cursor: pointer;
+  height: 30px;
+  color: var(--page-text);
 }
 
 .scroll-wrapper {
-  margin-top: 1rem
+  margin-top: 1rem;
 }
 
 .scroller {
   max-height: 80vh;
   overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .item {
@@ -490,13 +396,27 @@ h3 span{
   max-height: 300px;
 }
 
-.scroller::-webkit-scrollbar,
-.short-preview::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+.metadata-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .3s ease;
+  backdrop-filter: blur(5px);
 }
 
-.scroller {
-  scrollbar-width: none
+.image-wrapper:hover .metadata-overlay {
+  opacity: .6;
+}
+
+.metadata-content {
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  font-size: .9rem;
+  cursor: pointer;
 }
 </style>
