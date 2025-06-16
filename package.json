@@ -12,6 +12,7 @@
   "dependencies": {
     "@egjs/vue-infinitegrid": "^4.12.0",
     "@egjs/vue3-infinitegrid": "^4.12.0",
+    "@yeger/vue-masonry-wall": "^5.0.20",
     "lodash": "^4.17.21",
     "micromatch": "^4.0.8",
     "ol": "^7.5.1",

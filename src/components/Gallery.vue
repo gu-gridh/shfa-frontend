@@ -1,7 +1,6 @@
 <template>
   <div>
     <div v-if="isGalleryLoading" class="loading-indicator">Loading…</div>
-
     <div v-else class="grid-container">
       <div v-for="row in visibleRows" :key="row.originalIndex" class="row-wrapper"
         :id="'row-wrapper-' + row.originalIndex">
@@ -19,18 +18,17 @@
         <div class="right-column">
           <h3 :id="'row-title-' + row.originalIndex" class="row-heading">
             {{ getRowTitle(row) }}
-            <span v-if="row.count"> ({{ row.count }})</span>
+            <span v-if="row.count">({{ row.count }})</span>
           </h3>
 
           <div v-if="row.open" class="scroll-wrapper" :aria-label="'Images for ' + getRowTitle(row)">
-            <RecycleScroller :ref="el => (row.scrollerRef = el)" class="scroller" :items="row.infiniteItems"
-              :item-size="thumbSize" :item-secondary-size="thumbSize" :grid-items="cols" :buffer="bufferPx"
-              :type-field="'category'" :key-field="'uuid'" :emit-update="true"
-              @update="(start, end) => onScrollerUpdate(start, end, row)">
+            <MasonryWall :items="row.infiniteItems" :column-width="thumbSize" :gap="10" class="masonry-wall">
               <template #default="{ item, index }">
-                <div class="item" :key="item.uuid" @click="$emit('image-clicked', item.iiif_file, item.id)">
+                <div :key="item.uuid" class="item" :style="`height:${(item.height / item.width) * thumbSize}px`"
+                  @click="$emit('image-clicked', item.iiif_file, item.id)">
                   <span v-if="item.is3d" class="badge-3d">3D</span>
-                  <LazyThumb :src="item.iiif_file + '/full/' + thumbSize + ',/0/default.jpg'" :alt="'Image ' + index" />
+                  <img :src="`${item.iiif_file}/full/${thumbSize},/0/default.jpg`" :alt="`Image ${index}`"
+                    loading="lazy" />
                   <div class="metadata-overlay">
                     <div class="metadata-content">
                       <div v-if="item.lamning">{{ item.lamning }}</div>
@@ -48,7 +46,16 @@
                   </div>
                 </div>
               </template>
-            </RecycleScroller>
+            </MasonryWall>
+
+            <div class="next-page-wrapper">
+              <button v-if="row.prevUrl" class="next-page-btn" :disabled="row.isFetching" @click="fetchPrevPage(row)">
+                Previous page
+              </button>
+              <button v-if="row.nextUrl" class="next-page-btn" :disabled="row.isFetching" @click="fetchNextPage(row)">
+                {{ row.isFetching ? 'Loading…' : 'Next page' }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -57,38 +64,22 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch, nextTick, onMounted } from 'vue'
-import { RecycleScroller } from 'vue-virtual-scroller'
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-import LazyThumb from './LazyThumb.vue'
+import { ref, reactive, computed, watch } from 'vue'
+import MasonryWall from '@yeger/vue-masonry-wall'
 import { useStore } from '../stores/store.js'
 
 const store = useStore()
 const DEPTH = 1
 const thumbSize = 180
-const bufferPx = thumbSize * 2
-const cols = ref(1)
 const rows = ref([])
 const isGalleryLoading = ref(true)
+
 const emit = defineEmits(['image-clicked', 'row-clicked'])
 
 const withDepth = urlString => {
   const u = new URL(urlString)
   u.searchParams.set('depth', DEPTH)
   return u.toString()
-}
-
-async function getInitialCols() {
-  await nextTick()
-  if (typeof window === 'undefined') return 1
-
-  const el = document.getElementById('split-1')
-  if (!el) return 1
-
-  const OFFSETS = 190
-  const usable = el.clientWidth - OFFSETS
-  const count = Math.floor(usable / thumbSize)
-  return Math.max(1, count)
 }
 
 const props = defineProps({
@@ -100,16 +91,11 @@ const props = defineProps({
 })
 
 const formatIiif = url =>
-  url.startsWith('http')
-    ? url
-    : 'https://img.dh.gu.se/diana/static/' + url
+  url.startsWith('http') ? url : 'https://img.dh.gu.se/diana/static/' + url
 
-const filterTimestamps = reactive({
-  search: 0, advanced: 0, bbox: 0, site: 0
-})
-
-const activeFilter = computed(
-  () => Object.entries(filterTimestamps)
+const filterTimestamps = reactive({ search: 0, advanced: 0, bbox: 0, site: 0 })
+const activeFilter = computed(() =>
+  Object.entries(filterTimestamps)
     .sort((a, b) => b[1] - a[1])[0]?.[0]
 )
 
@@ -131,23 +117,17 @@ const buildGalleryUrl = () => {
       if (v?.toString().trim()) p.append(k === 'group' ? 'site_name' : k, v)
     })
   }
-
   return base + (p.toString() ? '?' + p.toString() : '')
 }
 
-const getRowTitle = r => props.currentLanguage === 'en'
-  ? r.type_translation
-  : r.type
+const getRowTitle = r =>
+  props.currentLanguage === 'en' ? r.type_translation : r.type
 
 const getOtherRows = idx => rows.value.map(r => ({
   index: r.originalIndex,
   title: `${getRowTitle(r)} (${r.count})`,
   isCurrent: r.originalIndex === idx
 }))
-
-const handleRowUpdate = (endIdx, row) => {
-  if (endIdx >= row.infiniteItems.length - cols.value) fetchNextPage(row)
-}
 
 const visibleRows = computed(() => {
   const anyOpen = rows.value.some(r => r.open)
@@ -162,19 +142,16 @@ async function fetchGallery() {
     rows.value = (results || []).map((sec, idx) => ({
       originalIndex: idx,
       open: false,
-      scrollerRef: null,
       infiniteItems: [],
       nextUrl: null,
+      prevUrl: null,
       isFetching: false,
-      pageMeta: [],
       type: sec.type,
       type_translation: sec.type_translation,
       count: sec.count
     }))
 
-    if (rows.value.length) {
-      toggleRow(0)
-    }
+    if (rows.value.length) toggleRow(0)
   } finally {
     isGalleryLoading.value = false
   }
@@ -186,6 +163,7 @@ function toggleRow(idx) {
       r.open = false
       r.infiniteItems = []
       r.nextUrl = null
+      r.prevUrl = null
       r.isFetching = false
     }
   })
@@ -198,7 +176,6 @@ function toggleRow(idx) {
     row.nextUrl = null
     row.isFetching = false
   }
-
   row.open = !row.open
 
   if (row.open) {
@@ -209,56 +186,42 @@ function toggleRow(idx) {
   }
 }
 
-async function fetchNextPage(row) {
-  if (row.isFetching || !row.nextUrl) return
+const fetchNextPage = row => fetchPage(row, row.nextUrl)
+const fetchPrevPage = row => fetchPage(row, row.prevUrl)
 
+async function fetchPage(row, url) {
+  if (row.isFetching || !url) return
   row.isFetching = true
   try {
-    const res = await fetch(row.nextUrl)
-    const data = await res.json()
-    const { results = [], next, bbox } = data
+    const res = await fetch(url)
+    if (!res.ok) return (row.nextUrl = row.prevUrl = null)
 
-    const start = row.infiniteItems.length
+    const { results = [], next, previous, bbox } = await res.json()
 
-    row.infiniteItems.push(
-      ...results.map(img => ({
-        id: img.id,
-        uuid: crypto.randomUUID(),
-        category: row.originalIndex,
-        iiif_file: formatIiif(img.iiif_file),
-        lamning: img.site?.lamning_id || '',
-        raa: img.site?.raa_id || '',
-        askeladden: img.site?.askeladden_id || '',
-        lokalitet: img.site?.lokalitet_id || '',
-        placename: img.site?.placename || '',
-        international: img.site?.internationl_site || '',
-        is3d: img.group
-      }))
-    )
+    row.infiniteItems = results.map(img => ({
+      id: img.id,
+      uuid: crypto.randomUUID(),
+      category: row.originalIndex,
+      iiif_file: formatIiif(img.iiif_file),
+      width: img.width,
+      height: img.height,
+      lamning: img.site?.lamning_id || '',
+      raa: img.site?.raa_id || '',
+      askeladden: img.site?.askeladden_id || '',
+      lokalitet: img.site?.lokalitet_id || '',
+      placename: img.site?.placename || '',
+      international: img.site?.internationl_site || '',
+      is3d: img.group
+    }))
 
-    const end = row.infiniteItems.length - 1
-    row.pageMeta.push({ start, end, bbox })
+    row.nextUrl = next || null
+    row.prevUrl = previous || null
 
-    row.nextUrl = next ? withDepth(next) : null
+    if (bbox && store.currentBbox !== bbox && activeFilter.value !== 'site') {
+      store.setBbox(bbox)
+    }
   } finally {
     row.isFetching = false
-    await nextTick()
-    row.scrollerRef?.updateVisibleItems(true)
-  }
-}
-
-function onScrollerUpdate(startIdx, endIdx, row) {
-  handleRowUpdate(endIdx, row)
-
-  const meta = row.pageMeta.find(p =>
-    startIdx >= p.start && startIdx <= p.end
-  )
-   if (
-    meta &&
-    store.currentBbox !== meta.bbox &&
-    activeFilter.value !== 'site'
-  ) {
-    store.setBbox(meta.bbox)
   }
 }
 
@@ -266,10 +229,6 @@ function onTitleClick(idx) {
   toggleRow(idx)
   emit('row-clicked')
 }
-
-onMounted(async () => {
-  cols.value = await getInitialCols()
-})
 
 watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search = Date.now(); fetchGallery() } })
 watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamps.advanced = Date.now(); fetchGallery() } })
@@ -280,6 +239,37 @@ fetchGallery()
 </script>
 
 <style scoped>
+.masonry-wall {
+  width: 100%;
+}
+
+.next-page-wrapper {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.next-page-btn {
+  padding: .6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: .9rem;
+  background: var(--button-background-accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.next-page-btn:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+.end-of-pages {
+  display: block;
+  margin-top: .5rem;
+  font-size: .85rem;
+  opacity: .6;
+}
+
 .badge-3d {
   position: absolute;
   top: 6px;
@@ -298,8 +288,19 @@ fetchGallery()
   z-index: 2;
 }
 
-.item:hover .metadata-overlay {
-  opacity: 0.9;
+.metadata-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .3s ease;
+  backdrop-filter: blur(5px);
+  pointer-events: none;
 }
 
 .loading-indicator {
@@ -388,32 +389,17 @@ h3 span {
 
 .item {
   position: relative;
-  width: 100%;
-  height: 100%;
+  overflow: hidden;
+}
+
+.item:hover .metadata-overlay {
+  opacity: .9;
 }
 
 .item img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
-  background: #eee;
-  max-height: 300px;
-}
-
-.metadata-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, .7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity .3s ease;
-  backdrop-filter: blur(5px);
-}
-
-.image-wrapper:hover .metadata-overlay {
-  opacity: .6;
 }
 
 .metadata-content {
