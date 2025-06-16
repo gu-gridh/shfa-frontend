@@ -28,7 +28,7 @@
 
           <h3 :id="'row-title-' + row.originalIndex" class="row-heading">
             {{ getRowTitle(row) }}
-            <span v-if="row.count">: {{ row.count }} items</span>
+            <span v-if="row.count"> <span class="title-tag"> {{ row.count }} items</span> </span>
           </h3>
 
 
@@ -268,17 +268,19 @@
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
     border-radius: 6px;
-    margin-left: -3px;
-    max-width:180px;
-display:contents;
-  }
+
+  display:contents;
+  } 
 
   .next-page-btn {
-display:inline;
-    width: 100px;
-    color: #fff;
+    display:block;
+    float:left;
     cursor: pointer;
-margin-right:20px;
+  margin-right:20px;
+    color: var(--page-text);
+    font-weight: 500;
+    margin-top:-5px;
+   margin-bottom:15px;
   }
  .next-page-btn:hover {
 color: var(--ui-hover);
@@ -377,6 +379,8 @@ color: var(--ui-hover);
     transform: scale(1.1) translate(-6px);
   }
 
+
+
   h3 {
     font-weight: 600;
     font-size: 120%;
@@ -397,6 +401,23 @@ color: var(--ui-hover);
     margin-bottom: 1rem;
     height: 30px;
     color: var(--page-text);
+        pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+    .title-tag{
+    background-color:rgb(40,40,40);
+    border-radius:6px;
+    margin-left:5px;
+    font-size:0.7em;
+    padding:5px 10px;
+    font-weight:500;
+    color:white;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+
   }
 
   .scroll-wrapper {
