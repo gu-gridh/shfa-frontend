@@ -301,21 +301,25 @@ color: var(--ui-hover);
 
   .badge-3d {
     position: absolute;
-    top: 6px;
-    right: 6px;
-    width: 26px;
-    height: 26px;
+    top: 5px;
+    right: 5px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+    color: var(--popup-text);
     border-radius: 50%;
-    background: var(--button-background-accent);
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    z-index: 2;
+    width: 25px;
+    height: 25px;
+    opacity: 1;
+    background-color: var(--threed-icon);
+    z-index: 10;
   }
+
 
   .metadata-overlay {
     position: absolute;
