@@ -237,7 +237,25 @@ export default {
       groupedKeywordsEN: {},
       formattedPeopleSV: '',
       formattedPeopleEN: '',
+      pg_title: '',
+      author_meta: ''
     };
+  },
+  head() {
+    return {
+      link: {rel:"schema.DC", href:"http://purl.org/dc/elements/1.1/"},
+      meta: [
+    { name: 'citation_title', content: () => this.pg_title }, 
+    { name: 'citation_author', content: () => this.author_meta},
+    { name: 'dcterms.type', content: 'Illustration'},
+    { name: 'citation_year', content: () => this.data.year},
+    { name: 'citation_publisher', content: 'SHFA'},
+    { name: 'dcterms.medium', content: 'Image'},
+    { name: 'dcterms.publisher', content: 'SHFA'},
+    { name: 'dcterms.rights', content: 'CC-BY'},
+    { name: 'dcterms.identifier', content: () => this.data.id}
+  ]
+    }
   },
   mounted() {
     // Fetch ID from URL and populate data
@@ -273,6 +291,10 @@ export default {
           this.formattedPeopleSV = new Intl.ListFormat("sv", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
           this.formattedPeopleEN = new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
           this.fetchDescription();
+          this.pg_title = `${this.data.type.english_translation} of ${ this.data.site.lamning_id || this.data.raa_id ||
+          this.data.site.placename } - SHFA`;
+          this.author_meta = this.data.people?.map(people => people?.name).join(';');
+
 
         }).catch((error) => {
           console.error('Error fetching image data:', error);
@@ -311,6 +333,10 @@ export default {
             this.formattedPeopleEN = new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
             this.fetchDescription();
             const coordinates = this.data?.site?.coordinates?.coordinates;
+            this.pg_title = `${this.data.type.english_translation} of ${ this.data.site.lamning_id || this.data.raa_id ||
+            this.data.site.placename } - SHFA`;
+            this.author_meta = this.data.people?.map(people => people?.name).join(';');
+
             // if (coordinates) {
             //   this.coordinateStore.setCoordinates(coordinates);
             // }
