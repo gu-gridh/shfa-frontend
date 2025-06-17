@@ -35,7 +35,7 @@
               Previous page
             </div>
             <div v-if="row.nextUrl" class="next-page-btn" :disabled="row.isFetching" @click="fetchNextPage(row)">
-              {{ row.isFetching ? 'Loading…' : 'Next page' }}
+              Next page
             </div>
           </div>
 

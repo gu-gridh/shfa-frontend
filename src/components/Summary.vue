@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="grid-container">
+    <div v-if="isLoading" class="loading-indicator">Loading summary…</div>
+    <div v-else class="grid-container">
       <div class="row-wrapper">
         <div class="button-container sticky">
           <ul class="row-titles">
@@ -24,7 +25,7 @@
 
           <YearHistogram v-if="currentRow.id === 'years'" :data="summary.year" @selectRange="triggerSearch" />
 
-          <ul v-else class="scroller">
+          <ul v-else class="scroller" :class="{ 'single-column': currentRow.id === 'geographic' }">
             <li v-for="item in currentRow.items" :key="item.key" class="item" @click="triggerSearch(item.label)">
               {{ item.label }} ({{ item.count }})
             </li>
@@ -277,21 +278,22 @@ h3 span {
 }
 
 .scroller {
-
-  overflow-y: auto;
-  scrollbar-width: none;
-  margin: 0;
-  padding: 0;
-  list-style: none;
   columns: 2;
   width: 100%;
   max-width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.scroller.single-column {
+  columns: 1 !important;
 }
 
 @media (max-width: 1500px) {
   .scroller {
-
-
     columns: 1;
   }
 }
