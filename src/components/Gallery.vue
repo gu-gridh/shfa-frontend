@@ -331,6 +331,9 @@ margin-top:3px; */
     display: flex;
     justify-content: center;
     align-items: center;
+    pointer-events:none;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   .gallery-page-button {
@@ -357,6 +360,11 @@ opacity:0.5;
 pointer-events: none;
   }
 
+  .gallery-page-button:disabled {
+    opacity: .5;
+    cursor: default;
+  }
+
   .next-page-btn {
     background-image: url(https://data.dh.gu.se/ui-icons/arrow_next_white.png);
     padding-right: 30px;
@@ -378,10 +386,7 @@ pointer-events: none;
     opacity: 0.5;
   }
 
-  .next-page-btn:disabled {
-    opacity: .5;
-    cursor: default;
-  }
+  
 
   .end-of-pages {
     display: block;
@@ -450,6 +455,8 @@ pointer-events: none;
     color: var(--page-text);
     padding-left: 15px;
   }
+
+
 
   .row-titles ul {
     margin: 0;
@@ -549,5 +556,18 @@ pointer-events: none;
     padding: 10px;
     font-size: .9rem;
     cursor: pointer;
+  }
+
+      @media (max-width: 900px) {
+   
+  .button-container.sticky {
+    display:none;
+  }
+   .right-column {
+    width:calc(100vw - 40px);
+    padding-left: 0.5rem;
+    padding-top: 0rem;
+
+  }
   }
 </style>
