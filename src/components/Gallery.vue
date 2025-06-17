@@ -355,7 +355,7 @@ color: var(--ui-hover);
   }
 
   .button-container.sticky {
-    min-width: 100px;
+    min-width: 50px;
     margin-top: 58px;
     color: var(--page-text);
   }
