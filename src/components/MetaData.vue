@@ -374,7 +374,8 @@ let acc_date = date.toLocaleString("en-GB", options);
 }
 
 .general-text {
-  font-size: 120%;
+  font-size: 110%;
+  line-height: 1.2;
   text-align: left;
   color: var(--page-text);
   font-weight: 300;
@@ -441,7 +442,7 @@ let acc_date = date.toLocaleString("en-GB", options);
   /* width: 120px; */
   color: var(--page-text);
   font-weight: 500;
-  font-size: 120%;
+  font-size: 110%;
   flex: 1;
   white-space: wrap;
   padding-right: 5px;
@@ -462,7 +463,7 @@ let acc_date = date.toLocaleString("en-GB", options);
 .info-label {
   /* width: 120px; */
   font-weight: 400;
-  font-size: 1.2em;
+  font-size: 1.1em;
   /* flex: 2; */
   text-align: left;
   white-space: wrap;
