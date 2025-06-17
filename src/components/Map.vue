@@ -1013,13 +1013,13 @@ input[type="checkbox" i] {
   border-width: 1.4px;
   border-color: var(--top-link-button-border);
   border-radius: 50%;
+
 }
 
 #fornsok_link,
 #extmap_link {
   color: var(--popup-text);
-  padding: 10px;
-  min-width: max-content;
+  padding: 5px;
 }
 
 .ol-popup:after,
