@@ -179,7 +179,7 @@ if (props.activeTab === 'summary') fetchSummary()
   justify-content: left;
   align-items: center;
   width: fit-content;
-  margin-top: 50px;
+  margin-top: 30px;
   margin-bottom: 20px;
   font-size: 1.2rem;
   font-weight: 500;
@@ -224,7 +224,7 @@ if (props.activeTab === 'summary') fetchSummary()
 .button-container.sticky {
   max-width: auto;
   min-width: 100px;
-  margin-top: 120px
+  margin-top: 143px
 }
 
 .row-titles ul {
