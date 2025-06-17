@@ -223,7 +223,7 @@ if (props.activeTab === 'summary') fetchSummary()
 
 .button-container.sticky {
   max-width: auto;
-  min-width: 100px;
+  min-width: 70px;
   margin-top: 143px
 }
 
