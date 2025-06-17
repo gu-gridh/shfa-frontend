@@ -87,7 +87,7 @@ import { useStore } from '../stores/store.js'
 
 const store = useStore()
 const DEPTH = 1
-const thumbSize = 180
+const thumbSize = 150
 const rows = ref([])
 const isGalleryLoading = ref(true)
 const emit = defineEmits(['image-clicked', 'row-clicked', 'update-tab'])
