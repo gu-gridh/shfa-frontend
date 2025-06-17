@@ -392,7 +392,7 @@ fetchGallery()
 }
 
 .button-container.sticky {
-  min-width: 50px;
+  min-width:50px;
   margin-top: 133px;
   color: var(--page-text);
 }
@@ -411,13 +411,14 @@ fetchGallery()
 }
 
 .row-titles li:hover {
-  transform: scale(1.1) translate(-6px);
+  transform: scale(1.05) translate(-3px);
 }
 
 .row-titles li.non-clickable {
   cursor: default;
   opacity: 1;
-  transform: scale(1.1) translate(-6px);
+
+
 }
 
 h3 {
@@ -432,7 +433,7 @@ h3 span {
 
 .right-column {
   flex: 1;
-  padding-left: 2rem;
+  padding-left: 1.6rem;
   padding-top: 1rem;
 }
 
