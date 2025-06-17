@@ -119,23 +119,13 @@
         <!-- Panel 2 -->
         <div id="split-1" class="flex-grow overflow-auto main-color" v-show="shouldShowPanel1"
           :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
-
-          <div class="toggle-button-group">
-            <button :class="{ active: activeTab === 'gallery' }" @click="activeTab = 'gallery'">
-              Gallery
-            </button>
-            <button :class="{ active: activeTab === 'summary' }" @click="activeTab = 'summary'">
-              Summary
-            </button>
-          </div>
-
           <Gallery v-show="activeTab === 'gallery'" @image-clicked="onImageClicked" @row-clicked="closeThreePanels"
             :searchItems="searchItems" :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults"
-            :selectedSiteId="selectedId" :currentLanguage="currentLanguage" :showThreePanels="showThreePanels" />
+            :selectedSiteId="selectedId" :activeTab="activeTab" :currentLanguage="currentLanguage" :showThreePanels="showThreePanels" @update-tab="activeTab = $event" />
 
           <Summary v-show="activeTab === 'summary'" :searchItems="searchItems"
             :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults" :selectedSiteId="selectedId"
-            :activeTab="activeTab" @summaryClick="handleKeywordClick" />
+            :activeTab="activeTab" @summaryClick="handleKeywordClick" @update-tab="activeTab = $event" />
         </div>
 
         <!-- Panel 3 -->
@@ -246,7 +236,7 @@
         }
 
         if (newValue && !this.shouldShowPanel1) {
-          // Check if on mobile
+          //check if on mobile
           const panel = document.getElementById("split-1");
           if (panel) {
             window.scrollTo(0, 400);
@@ -1081,7 +1071,6 @@
   }
 
   @media (min-width: 1025px) {
-
     .menu-show-button,
     .menu-close-button {
       display: none;
@@ -1166,7 +1155,6 @@
         backdrop-filter: blur(8px);
       }
     }
-
 
     .languages {
       right: 20px;
@@ -1704,35 +1692,4 @@
     color: var(--header-text);
     cursor: pointer;
   }
-
-  .toggle-button-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-  margin-top:50px;
-      font-size: 1.2rem;
-      font-weight:500;
-      width:100%;
-  }
-
-  .toggle-button-group button {
-    background: none;
-    border: none;
-    color:var(--page-text);
-    cursor: pointer;
-margin-right:30px;
-
-  }
-
-  .toggle-button-group button:hover {
- color: var(--notice-text)!important;
-
-  }
-
-  .toggle-button-group button.active {
-    color: var(--highlighted-text);
-  }
-
-
 </style>

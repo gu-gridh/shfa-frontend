@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div v-if="isLoading" class="loading-indicator">Loading summary…</div>
-    <div v-else class="grid-container">
+    <div class="grid-container">
       <div class="row-wrapper">
         <div class="button-container sticky">
           <ul class="row-titles">
@@ -12,6 +11,15 @@
           </ul>
         </div>
         <div class="right-column" v-if="currentRow">
+          <div class="toggle-button-group">
+            <button :class="{ active: props.activeTab === 'gallery' }" @click="emit('update-tab', 'gallery')">
+              Gallery
+            </button>
+            <button :class="{ active: props.activeTab === 'summary' }" @click="emit('update-tab', 'summary')">
+              Summary
+            </button>
+          </div>
+
           <h3 class="row-heading">{{ currentRow.title }}</h3>
 
           <YearHistogram v-if="currentRow.id === 'years'" :data="summary.year" @selectRange="triggerSearch" />
@@ -31,7 +39,7 @@
 import { ref, reactive, computed, watch } from 'vue'
 import YearHistogram from '../components/Histogram.vue'
 
-const emit = defineEmits(['summaryClick'])
+const emit = defineEmits(['summaryClick', 'update-tab'])
 
 const props = defineProps({
   searchItems: [Array, String, Object],
@@ -165,6 +173,35 @@ if (props.activeTab === 'summary') fetchSummary()
 </script>
 
 <style scoped>
+.toggle-button-group {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: fit-content;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  width: 100%;
+}
+
+.toggle-button-group button {
+  background: none;
+  border: none;
+  color: var(--page-text);
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.toggle-button-group button:hover {
+  color: var(--notice-text) !important;
+
+}
+
+.toggle-button-group button.active {
+  color: var(--highlighted-text);
+}
+
 .loading-indicator {
   text-align: center;
   padding: 2rem;
@@ -185,8 +222,8 @@ if (props.activeTab === 'summary') fetchSummary()
 
 .button-container.sticky {
   max-width: auto;
-  min-width:100px;
-  margin-top: 65px
+  min-width: 100px;
+  margin-top: 120px
 }
 
 .row-titles ul {
@@ -198,30 +235,30 @@ if (props.activeTab === 'summary') fetchSummary()
 .row-titles li {
   cursor: pointer;
   color: white;
-  opacity:0.6;
-  margin-bottom:5px;
+  opacity: 0.6;
+  margin-bottom: 5px;
   text-align: right;
 }
 
-h3{
+h3 {
   font-weight: 600;
-  font-size:120%;
+  font-size: 120%;
 }
 
-h3 span{
+h3 span {
   font-weight: 300;
-  font-size:100%;
+  font-size: 100%;
 }
 
 .row-titles li:hover {
-  transform:scale(1.2) translate(-10px);
+  transform: scale(1.2) translate(-10px);
 }
 
 .row-titles li.non-clickable {
   cursor: default;
   color: inherit;
-  transform:scale(1.2) translate(-10px);
-  opacity:1.0;
+  transform: scale(1.2) translate(-10px);
+  opacity: 1.0;
 }
 
 .right-column {
@@ -246,17 +283,17 @@ h3 span{
   margin: 0;
   padding: 0;
   list-style: none;
-  columns:2;
-  width:100%;
-  max-width:100%;
+  columns: 2;
+  width: 100%;
+  max-width: 100%;
 }
 
 @media (max-width: 1500px) {
-.scroller {
+  .scroller {
 
 
-columns:1;
-}
+    columns: 1;
+  }
 }
 
 .scroller::-webkit-scrollbar {
