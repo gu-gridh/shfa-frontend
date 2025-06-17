@@ -224,7 +224,8 @@ if (props.activeTab === 'summary') fetchSummary()
 .button-container.sticky {
   max-width: auto;
   min-width: 70px;
-  margin-top: 143px
+  margin-top: 143px;
+
 }
 
 .row-titles ul {
@@ -235,7 +236,7 @@ if (props.activeTab === 'summary') fetchSummary()
 
 .row-titles li {
   cursor: pointer;
-  color: white;
+    color: var(--page-text);
   opacity: 0.6;
   margin-bottom: 5px;
   text-align: right;
@@ -257,7 +258,7 @@ h3 span {
 
 .row-titles li.non-clickable {
   cursor: default;
-  color: inherit;
+    color: var(--page-text);
   transform: scale(1.2) translate(-10px);
   opacity: 1.0;
 }
@@ -270,7 +271,8 @@ h3 span {
 }
 
 .row-heading {
-  margin-bottom: 1rem
+  margin-bottom: 1rem;
+    color: var(--page-text);
 }
 
 .scroll-wrapper {
@@ -286,6 +288,7 @@ h3 span {
   margin: 0;
   overflow-y: auto;
   scrollbar-width: none;
+    color: var(--page-text);
 }
 
 .scroller.single-column {
