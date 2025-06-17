@@ -27,7 +27,15 @@
 
           <h3 :id="'row-title-' + row.originalIndex" class="row-heading">
             {{ getRowTitle(row) }}
-            <span v-if="row.count"> <span class="title-tag"> {{ row.count }} items</span> </span>
+            <span v-if="row.count" class="heading-count-wrapper">
+              <span class="title-tag">{{ row.count }} items</span>
+              <img
+                v-if="isGalleryLoading || row.isFetching"
+                src="/interface/6-dots-rotate.svg"
+                alt="Loading..."
+                class="inline-spinner"
+              />
+            </span>
           </h3>
 
           <div class="next-page-wrapper">
@@ -248,6 +256,20 @@ fetchGallery()
 </script>
 
 <style scoped>
+.heading-count-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.inline-spinner {
+  width: 25px;
+  height: 25px;
+  opacity: 0.8;
+  filter: invert(1); /* white */
+}
+
 .toggle-button-group {
   display: flex;
   justify-content: left;
