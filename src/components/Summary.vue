@@ -223,9 +223,9 @@ if (props.activeTab === 'summary') fetchSummary()
 
 .button-container.sticky {
   max-width: auto;
-  min-width: 70px;
+  min-width: 100px;
   margin-top: 143px;
-
+ padding-left:25px;
 }
 
 .row-titles ul {
@@ -253,13 +253,13 @@ h3 span {
 }
 
 .row-titles li:hover {
-  transform: scale(1.2) translate(-10px);
+  transform: scale(1.05) translate(-3px);
 }
 
 .row-titles li.non-clickable {
   cursor: default;
     color: var(--page-text);
-  transform: scale(1.2) translate(-10px);
+
   opacity: 1.0;
 }
 
