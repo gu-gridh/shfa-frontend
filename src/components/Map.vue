@@ -18,6 +18,11 @@
             $t("message.checkfornsök")
             }}</a>
         </p>
+        <p v-if="isNorwegian" id="kulturminnesok_header">
+          <span class="link-button"></span><a v-if="isNorwegian" id="kulturminnesok_link"> {{
+            $t("message.checkkulturminnesok")
+            }}</a>
+        </p>
         <p>
           <span class="link-button"></span><a id="extmap_link" target="_blank"> {{ $t("message.maplink") }}</a>
         </p>
@@ -68,7 +73,8 @@ export default {
       vectorLayer: null,
       clickedRaaId: null,
       bboxUpdated: true,
-      isSwedish: true,
+      isSwedish: null,
+      isNorwegian: null,
       results: [],
       cachedResults: [],
       coordinateStore: useStore(),
@@ -299,8 +305,9 @@ export default {
               lokalitet_id: feature.properties.lokalitet_id ?? null,
               askeladden_id: feature.properties.askeladden_id ?? null,
               placename: feature.properties.placename ?? null,
+              international: feature.properties.internationl_site ?? null,
             }));
-
+            
             this.updateCoordinates(additionalResults);
 
             this.cachedResults.push(...additionalResults);
@@ -486,13 +493,28 @@ export default {
           const lokalitet_id = feature.get("lokalitet_id");
           const askeladden_id = feature.get("askeladden_id");
           const placename = feature.get("placename");
+          const international = feature.get("international");
           const fornsokLink = document.getElementById("fornsok_link");
           const fornsokHeaderElement = document.getElementById("fornsok_header");
+          const kulturminnesokLink = document.getElementById("kulturminnesok_link");
+          const kulturminnesokHeaderElement = document.getElementById("kulturminnesok_header");
 
-          if (placename) {
-            this.isSwedish = false;
+          if (!raa_id && !lamning_id) {
+            this.isSwedish = false; 
+            this.isNorwegian = false;
+            if (askeladden_id) {
+              this.isNorwegian = true
+              if (kulturminnesokHeaderElement && kulturminnesokLink) {
+              const kulturminnesokHeader = kulturminnesokHeaderElement.getElementsByTagName("a")[0];
+              if (kulturminnesokHeader) {
+                kulturminnesokHeader.setAttribute("target", "_blank");
+                kulturminnesokHeader.setAttribute("href", `https://kulturminnesok.no/ra/lokalitet/${lokalitet_id}`);
+              }
+            }
+          }
           } else {
             this.isSwedish = true;
+            this.isNorwegian =false;
             if (fornsokHeaderElement && fornsokLink) {
               const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
               if (fornsokHeader) {
@@ -527,6 +549,7 @@ export default {
             const lokalitet_id = feature.get("lokalitet_id");
             const askeladden_id = feature.get("askeladden_id");
             const placename = feature.get("placename");
+            const international = feature.get("international");
 
             this.clickedId = id;
             this.clickedLamningId = lamning_id;
@@ -545,20 +568,33 @@ export default {
 
             const fornsokHeaderElement = document.getElementById("fornsok_header");
             const fornsokLink = document.getElementById("fornsok_link");
+            const kulturminnesokLink = document.getElementById("kulturminnesok_link");
+            const kulturminnesokHeaderElement = document.getElementById("kulturminnesok_header");
 
-            if (fornsokHeaderElement) {
-              const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
-              if (fornsokHeader) {
-                if (placename) {
-                  this.isSwedish = false;
-                }
-                if (fornsokLink) {
-                  this.isSwedish = true;
-                  fornsokHeader.setAttribute("target", "_blank");
-                  fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
-                }
+            if (!raa_id && !lamning_id) {
+            this.isSwedish = false;
+            this.isNorwegian =false; 
+            if (askeladden_id) {
+              this.isNorwegian = true
+              if (kulturminnesokHeaderElement && kulturminnesokLink) {
+              const kulturminnesokHeader = kulturminnesokHeaderElement.getElementsByTagName("a")[0];
+              if (kulturminnesokHeader) {
+                kulturminnesokHeader.setAttribute("target", "_blank");
+                kulturminnesokHeader.setAttribute("href", `https://kulturminnesok.no/ra/lokalitet/${lokalitet_id}`);
               }
             }
+          }
+          } else {
+            this.isSwedish = true;
+            this.isNorwegian =false;
+            if (fornsokHeaderElement && fornsokLink) {
+              const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
+              if (fornsokHeader) {
+                fornsokHeader.setAttribute("target", "_blank");
+                fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
+              }
+            }
+          }
 
             raaContent.innerHTML = raa_id;
             lamningContent.innerHTML = lamning_id;
@@ -608,6 +644,7 @@ export default {
         feature.set("placename", result.placename);
         feature.set("askeladden_id", result.askeladden_id);
         feature.set("lokalitet_id", result.lokalitet_id);
+        feature.set("international",result.internationl_site);
         return feature;
       });
 
@@ -1011,6 +1048,7 @@ input[type="checkbox" i] {
 }
 
 #fornsok_link,
+#kulturminnesok_link,
 #extmap_link {
   color: var(--popup-text);
   padding: 5px;

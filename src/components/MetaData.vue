@@ -192,7 +192,7 @@
           </div>
         </div>
       </div>
-      <div class="metadata-container" v-if="data.site && data.site.ksamsok_id">
+      <div class="metadata-container" v-if="data.site && data.site.ksamsok_id || data.kulturminnesokLink">
         <div class="tag-label">{{ $t('message.description') }}</div>
         <div class="metadata-item-container-1col">
           <div v-if="data.site && data.site.ksamsok_id" class="metadata">
@@ -205,6 +205,18 @@
             <div class="general-text" id="description">
               {{ data.description }}
             </div>
+          </div>
+          
+          <!-- show description and link for Norwegian data -->
+          <div v-if="data.kulturminnesokLink" class="metadata">
+            <div class="button-container">
+              <a :href="data.kulturminnesokLink" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit"><span
+                  class="visit-icon"></span>{{$t('message.checkkulturminnesok') }}</a>
+            </div>
+          </div>
+          <div class="disclaimer" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
+          <div class="general-text" id="description">
+            {{ data.description }}
           </div>
         </div>
       </div>
@@ -294,8 +306,6 @@ export default {
           this.pg_title = `${this.data.type.english_translation} of ${ this.data.site.lamning_id || this.data.raa_id ||
           this.data.site.placename } - SHFA`;
           this.author_meta = this.data.people?.map(people => people?.name).join(';');
-
-
         }).catch((error) => {
           console.error('Error fetching image data:', error);
         });
@@ -311,6 +321,19 @@ export default {
             this.data.description = descriptionNode ? descriptionNode.textContent : null;
           });
       }
+      //Fetch Norwegian data
+      if (this.data.site && this.data.site.askeladden_id) {
+        fetch(`https://api.ra.no/LokaliteterEnkeltminnerOgSikringssoner/collections/enkeltminner/items?kulturminneId=${this.data.site.askeladden_id}&f=json`)
+        .then((response) => response.json())
+          .then((json) => {
+            this.result = json.features[0];
+            this.data.description = this.result.properties.informasjon;
+            this.data.kulturminnesokLink = this.result.properties.linkKulturminnesøk;
+          })
+          .catch((error) => {
+            console.error('Error fetching Riksantivaren data:', error);
+          });
+      }
     },
     getFornsokUrl() {
       if (this.data.site && this.data.site.ksamsok_id) {
@@ -318,7 +341,7 @@ export default {
       } else {
         return '';
       }
-    }
+    },
   },
   watch: {
     Id(newId, oldId) {
@@ -336,7 +359,7 @@ export default {
             this.pg_title = `${this.data.type.english_translation} of ${ this.data.site.lamning_id || this.data.raa_id ||
             this.data.site.placename } - SHFA`;
             this.author_meta = this.data.people?.map(people => people?.name).join(';');
-
+            
             // if (coordinates) {
             //   this.coordinateStore.setCoordinates(coordinates);
             // }
