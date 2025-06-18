@@ -486,135 +486,134 @@
   }
 
   .row-count {
-      display: inline;
-      font-family: monospace;
-      text-align: right;
-      overflow: hidden;
-          width: 0px;
-       min-width:0px;
-         max-width:0px;
-      margin-left: 0px;
-      font-size: 0.9em;
-      font-weight: 600;
-      padding-top: 5px;
-      margin-left: 5px;
-      color: var(--page-text);
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-select: none;
-      transition: all .2s ease;
-   
+    display: inline;
+    font-family: monospace;
+    text-align: right;
+    overflow: hidden;
+    width: 0px;
+    min-width:0px;
+    max-width:0px;
+    margin-left: 0px;
+    font-size: 1.1em;
+    font-weight: 600;
+    padding-top: 5px;
+    margin-left: 5px;
+    color: var(--page-text);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: all .2s ease;
     }
 
-    .row-titles li:hover {
-      transform: scale(1.05) translate(-3px);
-    }
+  .row-titles li:hover {
+    transform: scale(1.05) translate(-3px);
+  }
 
-    .row-titles li:hover .row-text {
-      overflow: visible;
-    }
+  .row-titles li:hover .row-text {
+    overflow: visible;
+  }
 
-    .row-titles li:hover .row-count {
-      max-width: auto;
-    }
+  .row-titles li:hover .row-count {
+    max-width: auto;
+  }
 
-    .button-container.sticky:hover .row-count {
-       width: 20px;
-       min-width:20px;
-             max-width:30px;
-               margin-left: 10px;
-    }
+  .button-container.sticky:hover .row-count {
+    width: 20px;
+    min-width:20px;
+    max-width:30px;
+    margin-left: 10px;
+  }
 
-    .row-titles li.non-clickable {
-      cursor: default;
-      opacity: 1;
-    }
+  .row-titles li.non-clickable {
+    cursor: default;
+    opacity: 1;
+  }
 
-    h3 {
-      font-weight: 600;
-      font-size: 120%;
-    }
+  h3 {
+    font-weight: 600;
+    font-size: 120%;
+  }
 
-    h3 span {
-      font-weight: 300;
-      font-size: 100%;
+  h3 span {
+    font-weight: 300;
+    font-size: 100%;
+  }
+
+  .right-column {
+    flex: 1;
+    padding-left: 1.2rem;
+    padding-top: 1rem;
+  }
+
+  .row-heading {
+    height: auto;
+    color: var(--page-text);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .title-tag {
+    background-color: rgb(40, 40, 40);
+    border-radius: 6px;
+    margin-left: 0px;
+    font-size: 0.7em;
+    padding: 5px 10px;
+    font-weight: 500;
+    color: white;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .scroll-wrapper {
+    margin-top: 1rem;
+  }
+
+  .scroller {
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .scroller::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .item {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .item:hover .metadata-overlay {
+    opacity: .9;
+  }
+
+  .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .metadata-content {
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: .9rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+
+    .button-container.sticky {
+      display: none;
     }
 
     .right-column {
-      flex: 1;
-      padding-left: 1.2rem;
-      padding-top: 1rem;
+      width: calc(100vw - 40px);
+      padding-left: 0.5rem;
+      padding-top: 0rem;
     }
-
-    .row-heading {
-      height: auto;
-      color: var(--page-text);
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    .title-tag {
-      background-color: rgb(40, 40, 40);
-      border-radius: 6px;
-      margin-left: 0px;
-      font-size: 0.7em;
-      padding: 5px 10px;
-      font-weight: 500;
-      color: white;
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    .scroll-wrapper {
-      margin-top: 1rem;
-    }
-
-    .scroller {
-      max-height: 80vh;
-      overflow-y: auto;
-      scrollbar-width: none;
-    }
-
-    .scroller::-webkit-scrollbar {
-      width: 0;
-      height: 0;
-    }
-
-    .item {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .item:hover .metadata-overlay {
-      opacity: .9;
-    }
-
-    .item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .metadata-content {
-      color: #fff;
-      text-align: center;
-      padding: 10px;
-      font-size: .9rem;
-      cursor: pointer;
-    }
-
-    @media (max-width: 900px) {
-
-      .button-container.sticky {
-        display: none;
-      }
-
-      .right-column {
-        width: calc(100vw - 40px);
-        padding-left: 0.5rem;
-        padding-top: 0rem;
-      }
-    }
+  }
 </style>
