@@ -192,7 +192,7 @@
           </div>
         </div>
       </div>
-      <div class="metadata-container" v-if="data.site && data.site.ksamsok_id || data.kulturminnesokLink">
+      <div class="metadata-container" v-if="data.site && data.site.ksamsok_id">
         <div class="tag-label">{{ $t('message.description') }}</div>
         <div class="metadata-item-container-1col">
           <div v-if="data.site && data.site.ksamsok_id" class="metadata">
@@ -206,18 +206,22 @@
               {{ data.description }}
             </div>
           </div>
-          
-          <!-- show description and link for Norwegian data -->
-          <div v-if="data.kulturminnesokLink" class="metadata">
-            <div class="button-container">
-              <a :href="data.kulturminnesokLink" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit"><span
-                  class="visit-icon"></span>{{$t('message.checkkulturminnesok') }}</a>
-            </div>
+        </div>
+      </div>
+
+    <!-- show description and link for Norwegian data -->
+    <div class="metadata-container" v-if="data.site && data.kulturminnesokLink">
+        <div class="tag-label">{{ $t('message.description') }}</div>
+        <div class="metadata-item-container-1col"></div>
+        <div v-if="data.kulturminnesokLink" class="metadata">
+          <div class="button-container">
+            <a :href="data.kulturminnesokLink" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit"><span
+                class="visit-icon"></span>{{$t('message.checkkulturminnesok') }}</a>
           </div>
-          <div class="disclaimer" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
-          <div class="general-text" id="description">
-            {{ data.description }}
-          </div>
+        </div>
+        <div class="disclaimer" id="disclaimer">{{ $t('message.norwaydescriptiontext') }}</div>
+        <div class="general-text" id="description">
+          {{ data.description }}
         </div>
       </div>
     </div>
