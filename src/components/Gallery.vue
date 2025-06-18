@@ -466,7 +466,6 @@
     display: flex;
     justify-content: right;
     align-items: center;
-    ;
     margin-bottom: 2px;
   }
 
@@ -494,7 +493,7 @@
     min-width:0px;
     max-width:0px;
     margin-left: 0px;
-    font-size: 1.1em;
+    font-size: 0.9em;
     font-weight: 600;
     padding-top: 5px;
     margin-left: 5px;
@@ -503,7 +502,7 @@
     user-select: none;
     -webkit-user-select: none;
     transition: all .2s ease;
-    }
+  }
 
   .row-titles li:hover {
     transform: scale(1.05) translate(-3px);
