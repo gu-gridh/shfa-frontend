@@ -9,7 +9,11 @@
             <ul>
               <li v-for="other in getOtherRows(row.originalIndex)" :class="{ 'non-clickable': other.isCurrent }"
                 @click="!other.isCurrent && onTitleClick(other.index)">
-                {{ other.title }}
+                 
+                <div class="row-text">{{ other.title }}</div>  
+                
+                <div class="row-count">{{ other.count }}</div>
+               
               </li>
             </ul>
           </div>
@@ -145,7 +149,8 @@
 
   const getOtherRows = idx => rows.value.map(r => ({
     index: r.originalIndex,
-    title: `${getRowTitle(r)} (${r.count})`,
+    title: `${getRowTitle(r)}`,
+    count: `${r.count}`,
     isCurrent: r.originalIndex === idx
   }))
 
@@ -462,24 +467,80 @@ pointer-events: none;
     margin: 0;
     padding: 0;
     list-style: none;
+ 
+   
   }
 
   .row-titles li {
     cursor: pointer;
     opacity: 0.6;
-    margin-bottom: 5px;
+  
     text-align: right;
+    display:flex;
+    justify-content: right;
+    align-items: center;;
+    margin-bottom:2px;
+  }
+
+    .row-text{
+     float:right;
+     overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    max-width:110px;
+    transition: all .3s ease;
+     font-weight: 500;
+  }
+
+      .row-divider{
+
+     display:none;
+  }
+
+
+     .row-count{
+      display:inline;
+font-family: monospace;
+text-align: right;
+overflow:hidden;
+width:auto;
+
+    min-width:20px;
+    margin-left: 0px;
+    font-size: 0.9em;
+
+    font-weight: 600;
+padding-top:5px;
+    margin-left:10px;
+    color: white;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+
+         transition: all .3s ease;
+display:none;
   }
 
   .row-titles li:hover {
     transform: scale(1.05) translate(-3px);
   }
 
+   .row-titles li:hover .row-text {
+
+  }
+
+     .row-titles li:hover .row-count {
+     max-width:auto;
+  }
+
+    .button-container.sticky:hover .row-count {
+display:block;
+    }
+
+
   .row-titles li.non-clickable {
     cursor: default;
     opacity: 1;
-
-
   }
 
   h3 {
@@ -494,7 +555,7 @@ pointer-events: none;
 
   .right-column {
     flex: 1;
-    padding-left: 1.6rem;
+    padding-left: 1.2rem;
     padding-top: 1rem;
   }
 
