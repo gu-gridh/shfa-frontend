@@ -512,7 +512,7 @@ width:auto;
     font-weight: 600;
 padding-top:5px;
     margin-left:10px;
-    color: white;
+       color: var(--page-text);
     pointer-events: none;
     user-select: none;
     -webkit-user-select: none;
