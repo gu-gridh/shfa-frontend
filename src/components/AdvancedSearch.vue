@@ -380,7 +380,6 @@ defineExpose({
   cursor: pointer;
 }
 
-
 .tag-example-search {
   background-color: var(--selected-option);
   vertical-align: middle;

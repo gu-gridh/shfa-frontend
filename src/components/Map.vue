@@ -625,10 +625,12 @@ export default {
   text-wrap: stable;
   text-align: left;
 }
+
 .layer-switcher {
   top: 20px;
   /* overflow:auto!important; */
 }
+
 .layer-switcher .panel {
   text-align: justify;
   color: var(--popup-text);
@@ -637,7 +639,6 @@ export default {
   opacity: 100%;
   box-shadow: var(--shadow);
   padding: 8px 18px 8px 22px;
-
   min-width: max-content;
   block-size: fit-content;
   font-family: "Barlow Condensed", sans-serif !important;
@@ -670,10 +671,8 @@ export default {
   max-height: 250px;
   border-radius: 12px;
   border-width: 0px;
-
   /* Scroll to access all layer options */
   overflow:scroll!important;
-
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
@@ -695,8 +694,6 @@ export default {
   background-size: 14px;
   background-position: center!important;
   margin-left:-5px!important;
-
- 
 }
 
 button[title="Collapse legend"] {
@@ -708,7 +705,6 @@ button[title="Collapse legend"] {
    top:-2px!important;
   position:absolute!important;
 }
-
 
 input[type="checkbox" i] {
   accent-color: var(--highlighted-text);
@@ -733,7 +729,6 @@ input[type="checkbox" i] {
 }
 
 #search-bbox-button:hover {
-  
   background-size: 32px 32px;
   bottom: 20px;
   padding: 5px 15px 5px 38px;
@@ -1013,7 +1008,6 @@ input[type="checkbox" i] {
   border-width: 1.4px;
   border-color: var(--top-link-button-border);
   border-radius: 50%;
-
 }
 
 #fornsok_link,

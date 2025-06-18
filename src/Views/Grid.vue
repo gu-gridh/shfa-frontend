@@ -1567,8 +1567,6 @@
     box-shadow: var(--menu-shadow);
   }
 
-
-
   .flex-grow.overflow-auto.main-color::-webkit-scrollbar {
     display: none;
   }

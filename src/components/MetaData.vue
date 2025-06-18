@@ -630,7 +630,6 @@ ul {
   font-size: 120%;
 }
 
-
 .viewer-button {
   /* display: relative; */
   padding: 4px 8px 4px 10px;
