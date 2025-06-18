@@ -526,7 +526,7 @@ display:none;
   }
 
    .row-titles li:hover .row-text {
-
+    overflow: visible;
   }
 
      .row-titles li:hover .row-count {
