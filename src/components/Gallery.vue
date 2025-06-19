@@ -572,7 +572,7 @@ fetchGallery()
   max-width: 0px;
   margin-left: 0px;
   font-size: 1.0em;
-  font-weight: 600;
+  font-weight: 400;
   padding-top: 3px;
   margin-left: 5px;
   color: var(--page-text);
