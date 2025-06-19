@@ -571,9 +571,9 @@ fetchGallery()
   min-width: 0px;
   max-width: 0px;
   margin-left: 0px;
-  font-size: 0.9em;
+  font-size: 1.0em;
   font-weight: 600;
-  padding-top: 5px;
+  padding-top: 3px;
   margin-left: 5px;
   color: var(--page-text);
   pointer-events: none;
@@ -595,9 +595,9 @@ fetchGallery()
 }
 
 .button-container.sticky:hover .row-count {
-  width: 20px;
+  width: 24px;
   min-width: 20px;
-  max-width: 30px;
+  max-width: 35px;
   margin-left: 10px;
 }
 
