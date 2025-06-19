@@ -40,8 +40,12 @@
                 <li v-for="other in getOtherRows(row.originalIndex)" :key="other.index"
                   :class="{ 'non-clickable': other.isCurrent }"
                   @click="!other.isCurrent && onTitleClick(other.index); row.mobileMenuOpen = false">
-                  <span class="row-text">{{ other.title }}</span>
-                  <span class="row-count">{{ other.count }}</span>
+                  <div class="row-entry">
+                    <span class="row-text">
+                      {{ other.title }}
+                      <span class="row-count">{{ other.count }}</span>
+                    </span>
+                  </div>
                 </li>
               </ul>
             </transition>
@@ -315,11 +319,15 @@ fetchGallery()
 }
 
 .mobile-menu-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 0.35rem 0;
   cursor: pointer;
+}
+
+.row-entry {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  width: 100%;
 }
 
 .mobile-menu-list li.non-clickable {
@@ -695,6 +703,22 @@ h3 span {
     width: calc(100vw - 40px);
     padding-left: 0.5rem;
     padding-top: 0rem;
+  }
+
+  .mobile-menu-list .row-count {
+    display: inline;
+    margin-left: 6px;
+    font-family: monospace;
+    font-size: 0.9em;
+    color: var(--page-text);
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .mobile-menu-list .row-text {
+    white-space: normal;
+    overflow: visible;
+    max-width: none;
   }
 }
 </style>
