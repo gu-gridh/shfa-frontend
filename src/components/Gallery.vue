@@ -9,11 +9,8 @@
             <ul>
               <li v-for="other in getOtherRows(row.originalIndex)" :class="{ 'non-clickable': other.isCurrent }"
                 @click="!other.isCurrent && onTitleClick(other.index)">
-
                 <div class="row-text">{{ other.title }}</div>
-
                 <div class="row-count">{{ other.count }}</div>
-
               </li>
             </ul>
           </div>
@@ -28,20 +25,39 @@
               Summary
             </button>
           </div>
+
+          <!-- mobile dropdown -->
+          <div v-if="row.open" class="mobile-row-menu">
+            <button class="mobile-menu-toggle" @click="row.mobileMenuOpen = !row.mobileMenuOpen">
+              <span>{{ getRowTitle(row) }}</span>
+              <svg :class="{ rotate: row.mobileMenuOpen }" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" />
+              </svg>
+            </button>
+
+            <transition name="slide-fade">
+              <ul v-show="row.mobileMenuOpen" class="mobile-menu-list">
+                <li v-for="other in getOtherRows(row.originalIndex)" :key="other.index"
+                  :class="{ 'non-clickable': other.isCurrent }"
+                  @click="!other.isCurrent && onTitleClick(other.index); row.mobileMenuOpen = false">
+                  <span class="row-text">{{ other.title }}</span>
+                  <span class="row-count">{{ other.count }}</span>
+                </li>
+              </ul>
+            </transition>
+          </div>
+
           <div class="title-area">
             <h3 :id="'row-title-' + row.originalIndex" class="row-heading">
               {{ getRowTitle(row) }}
               <span v-if="row.count" class="heading-count-wrapper">
                 <span class="title-tag">{{ row.count }} items</span>
-
               </span>
-
             </h3>
 
             <div v-if="row.prevUrl || row.nextUrl" class="next-page-wrapper">
               <div class="gallery-page-button prev-page-btn" :disabled="row.isFetching"
                 :class="{ 'page-button-disabled': !row.prevUrl }" @click="fetchPrevPage(row)">
-
               </div>
               <div class="gallery-page-info" :disabled="row.isFetching">
                 <!--  Please add the page counter from the old gallery -->
@@ -90,529 +106,594 @@
 </template>
 
 <script setup>
-  import { ref, reactive, computed, watch } from 'vue'
-  import MasonryWall from '@yeger/vue-masonry-wall'
-  import { useStore } from '../stores/store.js'
+import { ref, reactive, computed, watch } from 'vue'
+import MasonryWall from '@yeger/vue-masonry-wall'
+import { useStore } from '../stores/store.js'
 
-  const store = useStore()
-  const DEPTH = 1
-  const thumbSize = 150
-  const rows = ref([])
-  const isGalleryLoading = ref(true)
-  const emit = defineEmits(['image-clicked', 'row-clicked', 'update-tab'])
+const store = useStore()
+const DEPTH = 1
+const thumbSize = 150
+const rows = ref([])
+const isGalleryLoading = ref(true)
+const emit = defineEmits(['image-clicked', 'row-clicked', 'update-tab'])
 
-  const withDepth = urlString => {
-    const u = new URL(urlString)
-    u.searchParams.set('depth', DEPTH)
-    return u.toString()
-  }
+const withDepth = urlString => {
+  const u = new URL(urlString)
+  u.searchParams.set('depth', DEPTH)
+  return u.toString()
+}
 
-  const props = defineProps({
-    activeTab: { type: String, default: 'gallery' },
-    searchItems: [Array, String, Object],
-    advancedSearchResults: [Array, Object],
-    bboxSearch: [Array, Object],
-    selectedSiteId: [Number, String],
-    currentLanguage: { type: String, default: 'sv' }
-  })
+const props = defineProps({
+  activeTab: { type: String, default: 'gallery' },
+  searchItems: [Array, String, Object],
+  advancedSearchResults: [Array, Object],
+  bboxSearch: [Array, Object],
+  selectedSiteId: [Number, String],
+  currentLanguage: { type: String, default: 'sv' }
+})
 
-  const formatIiif = url =>
-    url.startsWith('http') ? url : 'https://img.dh.gu.se/diana/static/' + url
+const formatIiif = url =>
+  url.startsWith('http') ? url : 'https://img.dh.gu.se/diana/static/' + url
 
-  const filterTimestamps = reactive({ search: 0, advanced: 0, bbox: 0, site: 0 })
-  const activeFilter = computed(() =>
-    Object.entries(filterTimestamps)
-      .sort((a, b) => b[1] - a[1])[0]?.[0]
-  )
+const filterTimestamps = reactive({ search: 0, advanced: 0, bbox: 0, site: 0 })
+const activeFilter = computed(() =>
+  Object.entries(filterTimestamps)
+    .sort((a, b) => b[1] - a[1])[0]?.[0]
+)
 
-  const buildGalleryUrl = () => {
-    const base = 'https://diana.dh.gu.se/api/shfa/gallery/'
-    const p = new URLSearchParams({ depth: DEPTH })
-    const f = activeFilter.value
+const buildGalleryUrl = () => {
+  const base = 'https://diana.dh.gu.se/api/shfa/gallery/'
+  const p = new URLSearchParams({ depth: DEPTH })
+  const f = activeFilter.value
 
-    if (f === 'site' && props.selectedSiteId) {
-      p.append('site', props.selectedSiteId)
-    } else if (f === 'search' && props.searchItems?.toString().trim()) {
-      p.append('search_type', 'general')
-      p.append('q', props.searchItems)
-    } else if (f === 'bbox' && Array.isArray(props.bboxSearch) && props.bboxSearch.length === 4) {
-      p.append('in_bbox', props.bboxSearch.join(','))
-    } else if (f === 'advanced' && props.advancedSearchResults && typeof props.advancedSearchResults === 'object') {
-      p.append('search_type', 'advanced')
-      Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
-        if (v?.toString().trim()) p.append(k === 'group' ? 'site_name' : k, v)
-      })
-    }
-    return base + (p.toString() ? '?' + p.toString() : '')
-  }
-
-  const getRowTitle = r =>
-    props.currentLanguage === 'en' ? r.type_translation : r.type
-
-  const getOtherRows = idx => rows.value.map(r => ({
-    index: r.originalIndex,
-    title: `${getRowTitle(r)}`,
-    count: `${r.count}`,
-    isCurrent: r.originalIndex === idx
-  }))
-
-  const visibleRows = computed(() => {
-    const anyOpen = rows.value.some(r => r.open)
-    return anyOpen ? rows.value.filter(r => r.open) : rows.value
-  })
-
-  async function fetchGallery() {
-    isGalleryLoading.value = true
-    try {
-      const { results } = await (await fetch(buildGalleryUrl())).json()
-
-      rows.value = (results || []).map((sec, idx) => ({
-        originalIndex: idx,
-        open: false,
-        infiniteItems: [],
-        nextUrl: null,
-        prevUrl: null,
-        isFetching: false,
-        type: sec.type,
-        type_translation: sec.type_translation,
-        count: sec.count
-      }))
-
-      if (rows.value.length) toggleRow(0)
-    } finally {
-      isGalleryLoading.value = false
-    }
-  }
-
-  function toggleRow(idx) {
-    rows.value.forEach(r => {
-      if (r.originalIndex !== idx) {
-        r.open = false
-        r.infiniteItems = []
-        r.nextUrl = null
-        r.prevUrl = null
-        r.isFetching = false
-      }
+  if (f === 'site' && props.selectedSiteId) {
+    p.append('site', props.selectedSiteId)
+  } else if (f === 'search' && props.searchItems?.toString().trim()) {
+    p.append('search_type', 'general')
+    p.append('q', props.searchItems)
+  } else if (f === 'bbox' && Array.isArray(props.bboxSearch) && props.bboxSearch.length === 4) {
+    p.append('in_bbox', props.bboxSearch.join(','))
+  } else if (f === 'advanced' && props.advancedSearchResults && typeof props.advancedSearchResults === 'object') {
+    p.append('search_type', 'advanced')
+    Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
+      if (v?.toString().trim()) p.append(k === 'group' ? 'site_name' : k, v)
     })
-
-    const row = rows.value.find(r => r.originalIndex === idx)
-    if (!row) return
-
-    if (!row.open) {
-      row.infiniteItems = []
-      row.nextUrl = null
-      row.isFetching = false
-    }
-    row.open = !row.open
-
-    if (row.open) {
-      const url = new URL(buildGalleryUrl())
-      url.searchParams.set('category_type', getRowTitle(row))
-      row.nextUrl = withDepth(url)
-      fetchNextPage(row)
-    }
   }
+  return base + (p.toString() ? '?' + p.toString() : '')
+}
 
-  const fetchNextPage = row => fetchPage(row, row.nextUrl)
-  const fetchPrevPage = row => fetchPage(row, row.prevUrl)
+const getRowTitle = r =>
+  props.currentLanguage === 'en' ? r.type_translation : r.type
 
-  async function fetchPage(row, url) {
-    if (row.isFetching || !url) return
-    row.isFetching = true
-    try {
-      const res = await fetch(url)
-      if (!res.ok) return (row.nextUrl = row.prevUrl = null)
+const getOtherRows = idx => rows.value.map(r => ({
+  index: r.originalIndex,
+  title: `${getRowTitle(r)}`,
+  count: `${r.count}`,
+  isCurrent: r.originalIndex === idx
+}))
 
-      const { results = [], next, previous, bbox } = await res.json()
+const visibleRows = computed(() => {
+  const anyOpen = rows.value.some(r => r.open)
+  return anyOpen ? rows.value.filter(r => r.open) : rows.value
+})
 
-      row.infiniteItems = results.map(img => ({
-        id: img.id,
-        uuid: crypto.randomUUID(),
-        category: row.originalIndex,
-        iiif_file: formatIiif(img.iiif_file),
-        width: img.width,
-        height: img.height,
-        lamning: img.site?.lamning_id || '',
-        raa: img.site?.raa_id || '',
-        askeladden: img.site?.askeladden_id || '',
-        lokalitet: img.site?.lokalitet_id || '',
-        placename: img.site?.placename || '',
-        international: img.site?.internationl_site || '',
-        is3d: img.group
-      }))
+async function fetchGallery() {
+  isGalleryLoading.value = true
+  try {
+    const { results } = await (await fetch(buildGalleryUrl())).json()
+    rows.value = (results || []).map((sec, idx) => ({
+      originalIndex: idx,
+      open: false,
+      mobileMenuOpen: false,
+      infiniteItems: [],
+      nextUrl: null,
+      prevUrl: null,
+      isFetching: false,
+      type: sec.type,
+      type_translation: sec.type_translation,
+      count: sec.count
+    }))
 
-      row.nextUrl = next || null
-      row.prevUrl = previous || null
+    if (rows.value.length) toggleRow(0)
+  } finally {
+    isGalleryLoading.value = false
+  }
+}
 
-      if (bbox && store.currentBbox !== bbox && activeFilter.value !== 'site') {
-        store.setBbox(bbox)
-      }
-    } finally {
-      row.isFetching = false
+function toggleRow(idx) {
+  rows.value.forEach(r => {
+    if (r.originalIndex !== idx) {
+      r.open = false
+      r.mobileMenuOpen = false
+      r.infiniteItems = []
+      r.nextUrl = null
+      r.prevUrl = null
+      r.isFetching = false
     }
+  })
+
+  const row = rows.value.find(r => r.originalIndex === idx)
+  if (!row) return
+
+  if (!row.open) {
+    row.infiniteItems = []
+    row.nextUrl = null
+    row.isFetching = false
   }
+  row.open = !row.open
 
-  function onTitleClick(idx) {
-    toggleRow(idx)
-    emit('row-clicked')
+  if (row.open) {
+    const url = new URL(buildGalleryUrl())
+    url.searchParams.set('category_type', getRowTitle(row))
+    row.nextUrl = withDepth(url)
+    fetchNextPage(row)
   }
+}
 
-  watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search = Date.now(); fetchGallery() } })
-  watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamps.advanced = Date.now(); fetchGallery() } })
-  watch(() => props.bboxSearch, v => { if (v != null) { filterTimestamps.bbox = Date.now(); fetchGallery() } })
-  watch(() => props.selectedSiteId, v => { if (v != null) { filterTimestamps.site = Date.now(); fetchGallery() } })
+const fetchNextPage = row => fetchPage(row, row.nextUrl)
+const fetchPrevPage = row => fetchPage(row, row.prevUrl)
 
-  fetchGallery()
+async function fetchPage(row, url) {
+  if (row.isFetching || !url) return
+  row.isFetching = true
+  try {
+    const res = await fetch(url)
+    if (!res.ok) return (row.nextUrl = row.prevUrl = null)
+
+    const { results = [], next, previous, bbox } = await res.json()
+
+    row.infiniteItems = results.map(img => ({
+      id: img.id,
+      uuid: crypto.randomUUID(),
+      category: row.originalIndex,
+      iiif_file: formatIiif(img.iiif_file),
+      width: img.width,
+      height: img.height,
+      lamning: img.site?.lamning_id || '',
+      raa: img.site?.raa_id || '',
+      askeladden: img.site?.askeladden_id || '',
+      lokalitet: img.site?.lokalitet_id || '',
+      placename: img.site?.placename || '',
+      international: img.site?.internationl_site || '',
+      is3d: img.group
+    }))
+
+    row.nextUrl = next || null
+    row.prevUrl = previous || null
+
+    if (bbox && store.currentBbox !== bbox && activeFilter.value !== 'site') {
+      store.setBbox(bbox)
+    }
+  } finally {
+    row.isFetching = false
+  }
+}
+
+function onTitleClick(idx) {
+  toggleRow(idx)
+  emit('row-clicked')
+}
+
+watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search = Date.now(); fetchGallery() } })
+watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamps.advanced = Date.now(); fetchGallery() } })
+watch(() => props.bboxSearch, v => { if (v != null) { filterTimestamps.bbox = Date.now(); fetchGallery() } })
+watch(() => props.selectedSiteId, v => { if (v != null) { filterTimestamps.site = Date.now(); fetchGallery() } })
+
+fetchGallery()
 </script>
 
 <style scoped>
-  .heading-count-wrapper {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-left: 0.5rem;
-  }
+.mobile-row-menu {
+  margin-bottom: 1rem;
+}
 
-  .inline-spinner {
-    width: 25px;
-    height: 25px;
-    opacity: 0.8;
-    filter: invert(1);
-    /* white */
-  }
+.mobile-menu-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  border: none;
+  background: none;
+  color: var(--page-text);
+  cursor: pointer;
+}
 
-  .toggle-button-group {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    width: fit-content;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    font-weight: 500;
-    width: 100%;
-  }
+.mobile-menu-toggle svg {
+  transition: transform .25s ease;
+}
 
-  .toggle-button-group button {
-    background: none;
-    border: none;
-    color: var(--page-text);
-    cursor: pointer;
-    margin-right: 30px;
-  }
+.mobile-menu-toggle svg.rotate {
+  transform: rotate(180deg);
+}
 
-  .toggle-button-group button:hover {
-    color: var(--notice-text) !important;
-  }
+.mobile-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0 0.5rem;
+}
 
-  .toggle-button-group button.active {
-    color: var(--highlighted-text);
-  }
+.mobile-menu-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  cursor: pointer;
+}
 
-  .masonry-wall {
-    width: 100%;
-  }
+.mobile-menu-list li.non-clickable {
+  cursor: default;
+  opacity: 1;
+}
 
-  .title-area {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all .25s ease;
+}
 
-  .next-page-wrapper {
-    margin-left: 10px;
-    /* background-color: rgba(40,40,40,1);
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+@media (min-width: 901px) {
+  .mobile-row-menu {
+    display: none;
+  }
+}
+
+.heading-count-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.inline-spinner {
+  width: 25px;
+  height: 25px;
+  opacity: 0.8;
+  filter: invert(1);
+  /* white */
+}
+
+.toggle-button-group {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: fit-content;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  width: 100%;
+}
+
+.toggle-button-group button {
+  background: none;
+  border: none;
+  color: var(--page-text);
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.toggle-button-group button:hover {
+  color: var(--notice-text) !important;
+}
+
+.toggle-button-group button.active {
+  color: var(--highlighted-text);
+}
+
+.masonry-wall {
+  width: 100%;
+}
+
+.title-area {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.next-page-wrapper {
+  margin-left: 10px;
+  /* background-color: rgba(40,40,40,1);
     border-radius:6px;
     padding:5px 5px;
     margin-top:3px; */
-  }
+}
 
-  .gallery-page-info {
-    float: left;
-    margin-left: 5px;
-    margin-right: 5px;
-    font-weight: 500;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-select: none;
-  }
+.gallery-page-info {
+  float: left;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-weight: 500;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
 
-  .gallery-page-button {
-    float: left;
-    cursor: pointer;
-    margin-left: 5px;
-    margin-right: 5px;
-    font-weight: 500;
-    position: relative;
-    background-size: 35px !important;
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.gallery-page-button {
+  float: left;
+  cursor: pointer;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-weight: 500;
+  position: relative;
+  background-size: 35px !important;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .page-button-disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
+.page-button-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
 
-  .gallery-page-button:disabled {
-    opacity: .5;
-    cursor: default;
-  }
+.gallery-page-button:disabled {
+  opacity: .5;
+  cursor: default;
+}
 
-  .next-page-btn {
-    background-image: url(https://data.dh.gu.se/ui-icons/arrow_next_white.png);
-    padding-right: 30px;
-    background-position: right -4px;
-    height: 25px;
-    width: 25px;
-  }
+.next-page-btn {
+  background-image: url(https://data.dh.gu.se/ui-icons/arrow_next_white.png);
+  padding-right: 30px;
+  background-position: right -4px;
+  height: 25px;
+  width: 25px;
+}
 
-  .prev-page-btn {
-    background-image: url(https://data.dh.gu.se/ui-icons/arrow_prev_white.png);
-    padding-left: 30px;
-    background-position: left -4px;
-    height: 25px;
-    width: 25px;
-  }
+.prev-page-btn {
+  background-image: url(https://data.dh.gu.se/ui-icons/arrow_prev_white.png);
+  padding-left: 30px;
+  background-position: left -4px;
+  height: 25px;
+  width: 25px;
+}
 
-  .gallery-page-button:hover {
-    opacity: 0.5;
-  }
+.gallery-page-button:hover {
+  opacity: 0.5;
+}
 
-  .end-of-pages {
-    display: block;
-    margin-top: .5rem;
-    font-size: .85rem;
-    opacity: .6;
-  }
+.end-of-pages {
+  display: block;
+  margin-top: .5rem;
+  font-size: .85rem;
+  opacity: .6;
+}
 
-  .badge-3d {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    font-weight: 500;
-    line-height: 1.5;
-    text-align: center;
-    overflow: hidden;
-    cursor: pointer;
-    color: var(--popup-text);
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    opacity: 1;
-    background-color: var(--threed-icon);
-    z-index: 10;
-  }
+.badge-3d {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  color: var(--popup-text);
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  opacity: 1;
+  background-color: var(--threed-icon);
+  z-index: 10;
+}
 
-  .metadata-overlay {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, .7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity .3s ease;
-    backdrop-filter: blur(5px);
-    pointer-events: none;
-  }
+.metadata-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .3s ease;
+  backdrop-filter: blur(5px);
+  pointer-events: none;
+}
 
-  .loading-indicator {
-    text-align: center;
-    padding: 5px 10px 10px 5px;
-    font-size: 1.2rem;
-  }
+.loading-indicator {
+  text-align: center;
+  padding: 5px 10px 10px 5px;
+  font-size: 1.2rem;
+}
 
-  .grid-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 
-  .row-wrapper {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: start;
-  }
+.row-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+}
 
-  .button-container.sticky {
-    min-width: 50px;
-    margin-top: 133px;
-    color: var(--page-text);
-    padding-left: 15px;
-  }
+.button-container.sticky {
+  min-width: 50px;
+  margin-top: 133px;
+  color: var(--page-text);
+  padding-left: 15px;
+}
 
-  .row-titles ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+.row-titles ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-  .row-titles li {
-    cursor: pointer;
-    opacity: 0.6;
-    text-align: right;
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    margin-bottom: 2px;
-  }
+.row-titles li {
+  cursor: pointer;
+  opacity: 0.6;
+  text-align: right;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-bottom: 2px;
+}
 
-  .row-text {
-    float: right;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 110px;
-    min-width: 50px;
-    transition: all .3s ease;
-    font-weight: 400;
-  }
+.row-text {
+  float: right;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 110px;
+  min-width: 50px;
+  transition: all .3s ease;
+  font-weight: 400;
+}
 
-  .row-divider {
+.row-divider {
+  display: none;
+}
+
+.row-count {
+  display: inline;
+  font-family: monospace;
+  text-align: right;
+  overflow: hidden;
+  width: 0px;
+  min-width: 0px;
+  max-width: 0px;
+  margin-left: 0px;
+  font-size: 0.9em;
+  font-weight: 600;
+  padding-top: 5px;
+  margin-left: 5px;
+  color: var(--page-text);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: all .2s ease;
+}
+
+.row-titles li:hover {
+  transform: scale(1.05) translate(-3px);
+}
+
+.row-titles li:hover .row-text {
+  overflow: visible;
+}
+
+.row-titles li:hover .row-count {
+  max-width: auto;
+}
+
+.button-container.sticky:hover .row-count {
+  width: 20px;
+  min-width: 20px;
+  max-width: 30px;
+  margin-left: 10px;
+}
+
+.row-titles li.non-clickable {
+  cursor: default;
+  opacity: 1;
+}
+
+h3 {
+  font-weight: 600;
+  font-size: 120%;
+}
+
+h3 span {
+  font-weight: 300;
+  font-size: 100%;
+}
+
+.right-column {
+  flex: 1;
+  padding-left: 1.2rem;
+  padding-top: 1rem;
+}
+
+.row-heading {
+  height: auto;
+  color: var(--page-text);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.title-tag {
+  background-color: rgb(40, 40, 40);
+  border-radius: 6px;
+  margin-left: 0px;
+  font-size: 0.7em;
+  padding: 5px 10px;
+  font-weight: 500;
+  color: white;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scroll-wrapper {
+  margin-top: 1rem;
+}
+
+.scroller {
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.item {
+  position: relative;
+  overflow: hidden;
+}
+
+.item:hover .metadata-overlay {
+  opacity: .9;
+}
+
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.metadata-content {
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  font-size: .9rem;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .button-container.sticky { /* hide old sidebar */
     display: none;
   }
 
-  .row-count {
-    display: inline;
-    font-family: monospace;
-    text-align: right;
-    overflow: hidden;
-    width: 0px;
-    min-width:0px;
-    max-width:0px;
-    margin-left: 0px;
-    font-size: 0.9em;
-    font-weight: 600;
-    padding-top: 5px;
-    margin-left: 5px;
-    color: var(--page-text);
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-select: none;
-    transition: all .2s ease;
-  }
-
-  .row-titles li:hover {
-    transform: scale(1.05) translate(-3px);
-  }
-
-  .row-titles li:hover .row-text {
-    overflow: visible;
-  }
-
-  .row-titles li:hover .row-count {
-    max-width: auto;
-  }
-
-  .button-container.sticky:hover .row-count {
-    width: 20px;
-    min-width:20px;
-    max-width:30px;
-    margin-left: 10px;
-  }
-
-  .row-titles li.non-clickable {
-    cursor: default;
-    opacity: 1;
-  }
-
-  h3 {
-    font-weight: 600;
-    font-size: 120%;
-  }
-
-  h3 span {
-    font-weight: 300;
-    font-size: 100%;
+  .mobile-row-menu { /* show dropdown */
+    display: block;
   }
 
   .right-column {
-    flex: 1;
-    padding-left: 1.2rem;
-    padding-top: 1rem;
+    width: calc(100vw - 40px);
+    padding-left: 0.5rem;
+    padding-top: 0rem;
   }
-
-  .row-heading {
-    height: auto;
-    color: var(--page-text);
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-
-  .title-tag {
-    background-color: rgb(40, 40, 40);
-    border-radius: 6px;
-    margin-left: 0px;
-    font-size: 0.7em;
-    padding: 5px 10px;
-    font-weight: 500;
-    color: white;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-
-  .scroll-wrapper {
-    margin-top: 1rem;
-  }
-
-  .scroller {
-    max-height: 80vh;
-    overflow-y: auto;
-    scrollbar-width: none;
-  }
-
-  .scroller::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
-
-  .item {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .item:hover .metadata-overlay {
-    opacity: .9;
-  }
-
-  .item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .metadata-content {
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    font-size: .9rem;
-    cursor: pointer;
-  }
-
-  @media (max-width: 900px) {
-
-    .button-container.sticky {
-      display: none;
-    }
-
-    .right-column {
-      width: calc(100vw - 40px);
-      padding-left: 0.5rem;
-      padding-top: 0rem;
-    }
-  }
+}
 </style>
