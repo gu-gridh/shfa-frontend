@@ -628,13 +628,14 @@ h3 span {
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
+  font-weight:400;
 }
 
 .title-tag {
   background-color: rgb(40, 40, 40);
   border-radius: 6px;
   margin-left: 0px;
-  font-size: 0.7em;
+  font-size: 0.8em;
   padding: 5px 10px;
   font-weight: 500;
   color: white;

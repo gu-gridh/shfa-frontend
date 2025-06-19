@@ -273,6 +273,7 @@ h3 span {
 .row-heading {
   margin-bottom: 1rem;
     color: var(--page-text);
+      font-weight:400;
 }
 
 .scroll-wrapper {
