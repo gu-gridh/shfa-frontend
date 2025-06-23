@@ -609,7 +609,7 @@ fetchGallery()
 
 .button-container.sticky:hover .row-count {
   width: auto;
-  min-width: 20px;
+  min-width: 24px;
   max-width: 40px;
   margin-left: 10px;
 }
