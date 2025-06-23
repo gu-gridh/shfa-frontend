@@ -59,19 +59,18 @@
               </span>
             </h3>
 
-            <div v-if="row.prevUrl || row.nextUrl" class="next-page-wrapper">
+            <div class="next-page-wrapper">
               <div class="gallery-page-button prev-page-btn" :disabled="row.isFetching"
                 :class="{ 'page-button-disabled': !row.prevUrl }" @click="fetchPrevPage(row)">
               </div>
               <div class="gallery-page-info" :disabled="row.isFetching">
-                <!--  Please add the page counter from the old gallery -->
-                Page # of #
+                Page {{ row.currentPage }}&nbsp;of&nbsp;{{ row.totalPages }}
               </div>
               <div class="gallery-page-button next-page-btn" :disabled="row.isFetching"
                 :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)">
-
               </div>
             </div>
+            
             <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
               class="inline-spinner" />
           </div>
@@ -195,7 +194,9 @@ async function fetchGallery() {
       isFetching: false,
       type: sec.type,
       type_translation: sec.type_translation,
-      count: sec.count
+      count: sec.count,
+      currentPage: 1,
+      totalPages: Math.max(1, Math.ceil(sec.count / 25))
     }))
 
     if (rows.value.length) toggleRow(0)
@@ -230,6 +231,7 @@ function toggleRow(idx) {
     const url = new URL(buildGalleryUrl())
     url.searchParams.set('category_type', getRowTitle(row))
     row.nextUrl = withDepth(url)
+    row.currentPage = 1
     fetchNextPage(row)
   }
 }
@@ -264,6 +266,9 @@ async function fetchPage(row, url) {
 
     row.nextUrl = next || null
     row.prevUrl = previous || null
+
+    const pageParam = new URL(url).searchParams.get('page')
+    row.currentPage = pageParam ? Number(pageParam) : 1
 
     if (bbox && store.currentBbox !== bbox && activeFilter.value !== 'site') {
       store.setBbox(bbox)
