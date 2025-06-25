@@ -33,8 +33,8 @@
       </div>
     </div>
   </div>
-  <div class="search-switcher" style="display:flex; align-items: left; justify-content: left;">
-    <div class="ui-mode map-switch-margin" id="map-toggle">
+  <div class="search-switcher" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+    <div class="ui-mode map-switch-margin" id="map-toggle" style="display: flex; gap: 10px;">
       <button class="item" :class="{ 'active': activePanel === 'Map Interface' }" @click="togglePanel('Map Interface')">
         {{ $t('message.karta') }}
       </button>
@@ -43,7 +43,15 @@
         {{ $t('message.avanceradsökning') }}
       </button>
     </div>
+
+    <div v-if="activePanel === 'Advanced Search'" style="display: flex; align-items: center; gap: 8px;">
+      <span>Operator:</span>
+      <button class="toggle-map-btn" @click="store.toggleSearchOperator">
+        {{ store.searchOperator }}
+      </button>
+    </div>
   </div>
+
 </template>
 
 <script setup>
@@ -142,7 +150,7 @@ watch(searchQuery, v => {
 });
 
 const selectSuggestion = item => {
-selectedKeywords.value = [{
+  selectedKeywords.value = [{
     id: Date.now(),
     text: item.value,
     english_translation: item.value //to fix
@@ -197,7 +205,7 @@ defineProps({
   z-index: 2001;
   contain: paint;
   padding: 10px;
-  margin-top:-6px;
+  margin-top: -6px;
   box-shadow: var(--shadow-suggestion);
 }
 
@@ -211,7 +219,6 @@ defineProps({
 }
 
 .map-switch-margin {
-  margin-top: 30px;
   font-size: 1.1em;
   margin-left: -6px;
   color: var(--page-text);
@@ -221,6 +228,10 @@ defineProps({
   background-color: transparent;
   backdrop-filter: none;
   z-index: 0;
+}
+
+.search-switcher {
+  padding-top: 10px;
 }
 
 .search-button-round {
@@ -286,7 +297,7 @@ defineProps({
 .tag-example-search {
   float: left;
   background-color: var(--button-background);
-  padding: 0.2em 0.5em 0.2em 0.5em!important;
+  padding: 0.2em 0.5em 0.2em 0.5em !important;
   font-size: 1.2em;
   border-radius: 5px;
   margin-left: 10px;
@@ -299,13 +310,13 @@ defineProps({
 }
 
 .tag-example-search:hover {
-  background-color: var(--button-hover)!important;
+  background-color: var(--button-hover) !important;
 }
 
 .remove-icon {
   margin-left: 8px;
   font-weight: bold;
-  font-size:1.1em!important;
+  font-size: 1.1em !important;
   line-height: 1.0;
 }
 
@@ -399,9 +410,8 @@ input:focus {
   background-color: var(--button-background);
   color: var(--page-text);
   border: none;
-  padding: 10px 10px;
+  padding: 5px 5px;
   margin-left: 10px;
-  margin-right: 10px;
   font-size: 1rem;
   cursor: pointer;
   border-radius: 5px;
@@ -418,7 +428,4 @@ input:focus {
 .item.active {
   color: var(--highlighted-text);
 }
-
-
-
 </style>

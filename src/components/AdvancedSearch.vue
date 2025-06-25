@@ -58,11 +58,12 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import useSearchTracking from '../composables/useSearchTracking.js';
 import { useStore } from '../stores/store.js'
 
 const store = useStore() 
+const operatorParam = computed(() => store.searchOperator);
 
 const fieldIndexBySource = { //mapping search results to advanced search field
   site: 0,
@@ -129,6 +130,9 @@ const handleSearchButtonClick = () => {
     if (value) searchParams[fieldNames[index]] = value;
   });
 
+  searchParams.operator = operatorParam.value;   //"and" or "or"
+  const queryString = new URLSearchParams(searchParams).toString();
+
   emit('advanced-search-params', searchParams);
 
   const { trackSearch } = useSearchTracking();
@@ -177,9 +181,9 @@ const onInputFocus = async (index) => {
   }
 };
 
-const isScrolledToBottom = (element) => {
-  return element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
-};
+// const isScrolledToBottom = (element) => {
+//   return element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
+// };
 
 const fetchSuggestions = async (query, index, nextPage = null) => {
   try {
