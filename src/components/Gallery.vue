@@ -37,18 +37,21 @@
             </button>
 
             <transition name="slide-fade">
-              <ul v-show="row.mobileMenuOpen" class="mobile-menu-list">
-                <li v-for="other in getOtherRows(row.originalIndex)" :key="other.index"
-                  :class="{ 'non-clickable': other.isCurrent }"
-                  @click="!other.isCurrent && onTitleClick(other.index); row.mobileMenuOpen = false">
-                  <div class="row-entry">
-                    <span class="row-text">
-                      {{ other.title }}
-                      <span class="row-count">{{ other.count }}</span>
-                    </span>
-                  </div>
-                </li>
-              </ul>
+              <div v-show="row.mobileMenuOpen">
+                <ul class="mobile-menu-list">
+                  <li v-for="other in getOtherRows(row.originalIndex)" :key="other.index"
+                    :class="{ 'non-clickable': other.isCurrent }"
+                    @click="!other.isCurrent && onTitleClick(other.index); row.mobileMenuOpen = false">
+                    <div class="row-entry">
+                      <span class="row-text">
+                        {{ other.title }}
+                        <span class="row-count">{{ other.count }}</span>
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+                <div class="total-count">{{ totalGalleryCount }} results</div>
+              </div>
             </transition>
           </div>
 
@@ -71,7 +74,7 @@
                 :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)">
               </div>
             </div>
-            
+
             <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
               class="inline-spinner" />
           </div>
@@ -646,7 +649,7 @@ h3 span {
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
-  font-weight:400;
+  font-weight: 400;
 }
 
 .title-tag {
@@ -736,6 +739,13 @@ h3 span {
     white-space: normal;
     overflow: visible;
     max-width: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .mobile-menu-list+.total-count {
+    text-align: left;
+    font-size: 0.9rem;
   }
 }
 </style>

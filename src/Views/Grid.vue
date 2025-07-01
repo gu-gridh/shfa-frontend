@@ -724,7 +724,7 @@
     color: var(--button-text);
   }
 
-  @media (max-width: 1023px) {
+  @media (max-width: 1024px) {
     #reset-layout-mapview {
       display: none;
     }
@@ -1367,7 +1367,7 @@
 
   @media (max-width: 1024px) {
     #map {
-      top: -60px;
+      /* top: -60px; */
       height: 75vw;
       width: 100%;
     }
