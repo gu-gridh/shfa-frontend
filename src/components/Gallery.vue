@@ -13,6 +13,8 @@
                 <div class="row-count">{{ other.count }}</div>
               </li>
             </ul>
+            <div class="row-divider"></div>
+            <div class="total-count">{{ totalGalleryCount }} results</div>
           </div>
         </div>
 
@@ -142,6 +144,10 @@ const filterTimestamps = reactive({ search: 0, advanced: 0, bbox: 0, site: 0 })
 const activeFilter = computed(() =>
   Object.entries(filterTimestamps)
     .sort((a, b) => b[1] - a[1])[0]?.[0]
+)
+
+const totalGalleryCount = computed(() =>
+  rows.value.reduce((sum, r) => sum + (r.count || 0), 0)
 )
 
 const buildGalleryUrl = () => {
@@ -693,6 +699,19 @@ h3 span {
   padding: 10px;
   font-size: .9rem;
   cursor: pointer;
+}
+
+.row-divider {
+  border-top: 1px solid var(--page-text);
+  opacity: .35;
+  margin: 6px 0;
+}
+
+.total-count {
+  font-family: monospace;
+  font-weight: 600;
+  text-align: right;
+  color: var(--page-text);
 }
 
 @media (max-width: 900px) {
