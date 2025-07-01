@@ -13,7 +13,6 @@
                 <div class="row-count">{{ other.count }}</div>
               </li>
             </ul>
-            <div class="row-divider"></div>
             <div class="total-count">{{ totalGalleryCount }} results</div>
           </div>
         </div>
@@ -699,12 +698,6 @@ h3 span {
   padding: 10px;
   font-size: .9rem;
   cursor: pointer;
-}
-
-.row-divider {
-  border-top: 1px solid var(--page-text);
-  opacity: .35;
-  margin: 6px 0;
 }
 
 .total-count {
