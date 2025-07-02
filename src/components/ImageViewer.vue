@@ -90,7 +90,6 @@
           const infoUrl = `${first.iiif_file}/info.json`;
           this.viewer ? this.viewer.open(infoUrl) : this.initOpenSeadragon(first.iiif_file);
           this.people = first.people?.map(people => people?.name.replace(',','').replace(', ','')).join('')
-
         } catch (err) {
           console.error('Fetch error:', err);
         }
@@ -112,17 +111,20 @@
           .then((response) => response.blob())
           .then((blob) => {
             const url = window.URL.createObjectURL(blob);
-            const imgId = imageUrl.split("/").pop();
+            // const imgId = imageUrl.split("/").pop();
             const downloadName = `${authors}_${lamning_id || raa_id || placename
               }_SHFAid${img_id}`;
             const a = document.createElement("a");
             a.style.display = "none";
             a.href = url;
-            a.download = downloadName || "carving.jpg"; // Use the extracted file name or a default
+            a.download = downloadName || "carving.jpg"; //use the extracted file name or a default
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
+            if (this.$matomo) { //track download with matomo if available
+              this.$matomo.trackLink(imageUrl, 'download');
+            }
           })
           .catch(() => console.error("Could not download the image"));
       },
@@ -359,7 +361,6 @@
     transform: scale(1.07);
 }
 
-
 /* 
   #FullPage:hover,
   #ZoomIn:hover,
@@ -492,7 +493,6 @@
     cursor: pointer;
     background-color:transparent;
   }
-
 
   #Prev,
   #Next {
