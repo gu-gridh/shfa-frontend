@@ -549,7 +549,7 @@ fetchGallery()
   min-width: 50px;
   margin-top: 133px;
   color: var(--page-text);
-  padding-left: 15px;
+  padding-left: 18px;
 }
 
 .row-titles ul {
@@ -639,7 +639,7 @@ h3 span {
 
 .right-column {
   flex: 1;
-  padding-left: 1.2rem;
+  padding-left: 1.5rem;
   padding-top: 1rem;
 }
 
