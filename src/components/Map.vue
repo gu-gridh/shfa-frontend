@@ -788,7 +788,7 @@ input[type="checkbox" i] {
   min-height: 200px;
   margin-top: 10px !important;
   margin-left: 5px !important;
-  /* margin-bottom: 40px !important; */
+  margin-bottom: 40px !important;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
   box-shadow: var(--shadow-map);
