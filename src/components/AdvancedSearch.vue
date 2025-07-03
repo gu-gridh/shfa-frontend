@@ -514,7 +514,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 .action‑row {
   display: flex;
   gap: 10px;
-  justify-content: center;
+  justify-content: right;
   grid-column: 1 / -1;
 }
 
