@@ -733,10 +733,10 @@
   #reset-layout-searchview {
     float: left;
     display: block;
-    /* margin-top: 10px;
-  margin-bottom: 10px; */
-    /* font-size: 1.2rem; */
-    padding: 5px 20px;
+    margin-top: -34px;
+   /* margin-bottom: 10px; 
+   font-size: 1.2rem; */
+    padding: 5px 15px 5px 15px;
     background-color: var(--button-background);
     color: var(--button-text);
     border: none;
