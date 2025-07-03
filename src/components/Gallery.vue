@@ -13,7 +13,7 @@
                 <div class="row-count">{{ other.count }}</div>
               </li>
             </ul>
-            <div class="total-count">{{ totalGalleryCount }} results</div>
+            <div class="total-count">{{ totalGalleryCount }} totalt</div>
           </div>
         </div>
 
@@ -604,7 +604,7 @@ fetchGallery()
 }
 
 .row-titles li:hover {
-  transform: scale(1.05) translate(-3px);
+  transform: scale(1.02) translate(-1px);
 }
 
 .row-titles li:hover .row-text {
@@ -704,10 +704,14 @@ h3 span {
 }
 
 .total-count {
-  font-family: monospace;
   font-weight: 600;
   text-align: right;
   color: var(--page-text);
+  margin-top:10px;
+  margin-right:5px;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
 }
 
 @media (max-width: 900px) {
