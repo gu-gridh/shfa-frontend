@@ -249,7 +249,8 @@ export default {
         //fit the map view to the extent
         this.map.getView().fit(transformedExtent, {
           size: this.map.getSize(),
-          padding: [5, 5, 5, 5], // optional padding in pixels
+          padding: [50, 50, 50, 50], // optional padding in pixels
+          maxZoom: 5,
           constrainResolution: false, // allow intermediate zoom levels
           duration: 1000, //slow zoom for better user experience
           minResolution: 5.0, //limit resolution so landmarks in basemap are still visible
