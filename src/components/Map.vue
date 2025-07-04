@@ -38,8 +38,11 @@ import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import { fromLonLat } from "ol/proj";
 import VectorSource from "ol/source/Vector";
+import VectorLayer from 'ol/layer/Vector.js';
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
+import Polygon from 'ol/geom/Polygon.js';
+import {fromExtent} from 'ol/geom/Polygon.js';
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
 import Overlay from "ol/Overlay";
 import Zoom from "ol/control/Zoom";
@@ -249,12 +252,20 @@ export default {
         //fit the map view to the extent
         this.map.getView().fit(transformedExtent, {
           size: this.map.getSize(),
-          padding: [50, 50, 50, 50], // optional padding in pixels
+          padding: [5, 5, 5, 5], // optional padding in pixels
           maxZoom: 5,
           constrainResolution: false, // allow intermediate zoom levels
           duration: 1000, //slow zoom for better user experience
           minResolution: 5.0, //limit resolution so landmarks in basemap are still visible
         });
+
+        //const bboxExtent = [[[transformedExtent[0],transformedExtent[1]],[transformedExtent[0],transformedExtent[3]],
+        //[transformedExtent[2],transformedExtent[3]],[transformedExtent[2],transformedExtent[1]],[transformedExtent[0],transformedExtent[1]]]]
+
+        if (this.bboxLayer && this.bboxLayer.getSource().getFeatures().length > 0) {
+                  this.bboxLayer.getSource().clear()
+                }
+        this.bboxLayer.getSource().addFeature(new Feature(fromExtent(transformedExtent)))
 
         this.map.renderSync();
       } else {
@@ -386,14 +397,21 @@ export default {
                       }
         )
 
+      this.bboxLayer = new VectorLayer({
+          source: new VectorSource({
+          features: []//[new Feature(new Polygon(bboxExtent))],
+        }),
+          zIndex: 2000,
+        });
+
       this.map = new Map({
         target: "map",
         layers: [
-            new TileLayer({
+          new TileLayer({
               className: "grey",
               source: new OSM(),
             }),
-            
+          this.bboxLayer,
           new LayerGroup({
             title: 'SGU Strandförskjutningsmodell',
             combine: false,
