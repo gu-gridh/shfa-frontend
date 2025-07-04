@@ -6,7 +6,7 @@
     </div>
 
     <div v-if="exportable" class="btn-row">
-      <button @click="downloadImage">PNG</button>
+      <button @click="downloadImage">SVG</button>
       <button @click="downloadCSV">CSV</button>
     </div>
   </div>
