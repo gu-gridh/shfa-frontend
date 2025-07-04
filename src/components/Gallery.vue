@@ -641,6 +641,7 @@ h3 span {
   flex: 1;
   padding-left: 1.5rem;
   padding-top: 1rem;
+  padding-bottom:30px;
 }
 
 .row-heading {
@@ -727,6 +728,7 @@ h3 span {
     width: calc(100vw - 40px);
     padding-left: 0.5rem;
     padding-top: 0rem;
+    padding-bottom:150px;
   }
 
   .mobile-menu-list .row-count {
