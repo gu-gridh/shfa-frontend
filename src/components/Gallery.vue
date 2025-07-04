@@ -728,7 +728,7 @@ h3 span {
     width: calc(100vw - 40px);
     padding-left: 0.5rem;
     padding-top: 0rem;
-    min-height:400px;
+    min-height:320px;
   }
 
   .mobile-menu-list .row-count {
