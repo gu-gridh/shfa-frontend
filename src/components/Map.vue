@@ -788,7 +788,7 @@ input[type="checkbox" i] {
   min-height: 200px;
   margin-top: 10px !important;
   margin-left: 5px !important;
-  margin-bottom: 40px !important;
+  margin-bottom: 0px;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
   box-shadow: var(--shadow-map);
@@ -799,6 +799,13 @@ input[type="checkbox" i] {
   background-color: var(--page-background) !important;
   transition: all 0.5s ease-in-out;
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
+}
+
+/* only apply bottom margin to tablets and above */
+@media (min-width: 1025px) {
+  #map {
+    margin-bottom: 40px;
+  }
 }
 
 .map-expanded #map {
