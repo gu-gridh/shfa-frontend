@@ -25,11 +25,9 @@
 
           <YearHistogram v-if="currentRow.id === 'years'" :data="summary.year" @selectRange="triggerSearch" />
 
-          <ul v-else class="scroller" :class="{ 'single-column': currentRow.id === 'geographic' }">
-            <li v-for="item in currentRow.items" :key="item.key" class="item" @click="triggerSearch(item.label)">
-              {{ item.label }} ({{ item.count }})
-            </li>
-          </ul>
+          <BarChart v-else :data="currentRow.items" :title="currentRow.title" :exportable="true"
+            @select="triggerSearch" />
+
         </div>
       </div>
     </div>
@@ -39,6 +37,7 @@
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
 import YearHistogram from '../components/Histogram.vue'
+import BarChart from '../components/BarChart.vue'
 
 const emit = defineEmits(['summaryClick', 'update-tab'])
 
@@ -196,7 +195,6 @@ if (props.activeTab === 'summary') fetchSummary()
 
 .toggle-button-group button:hover {
   color: var(--notice-text) !important;
-
 }
 
 .toggle-button-group button.active {
@@ -225,7 +223,7 @@ if (props.activeTab === 'summary') fetchSummary()
   max-width: auto;
   min-width: 100px;
   margin-top: 143px;
- padding-left:25px;
+  padding-left: 25px;
 }
 
 .row-titles ul {
@@ -236,7 +234,7 @@ if (props.activeTab === 'summary') fetchSummary()
 
 .row-titles li {
   cursor: pointer;
-    color: var(--page-text);
+  color: var(--page-text);
   opacity: 0.6;
   margin-bottom: 5px;
   text-align: right;
@@ -258,8 +256,7 @@ h3 span {
 
 .row-titles li.non-clickable {
   cursor: default;
-    color: var(--page-text);
-
+  color: var(--highlighted-text);
   opacity: 1.0;
 }
 
@@ -267,13 +264,12 @@ h3 span {
   flex: 1;
   padding-left: 2rem;
   padding-top: 1rem;
-
 }
 
 .row-heading {
   margin-bottom: 1rem;
-    color: var(--page-text);
-      font-weight:400;
+  color: var(--page-text);
+  font-weight: 400;
 }
 
 .scroll-wrapper {
@@ -289,7 +285,7 @@ h3 span {
   margin: 0;
   overflow-y: auto;
   scrollbar-width: none;
-    color: var(--page-text);
+  color: var(--page-text);
 }
 
 .scroller.single-column {

@@ -624,7 +624,8 @@ fetchGallery()
 
 .row-titles li.non-clickable {
   cursor: default;
-  opacity: 1;
+  color: var(--highlighted-text);
+  opacity: 1.0;
 }
 
 h3 {
