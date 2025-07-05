@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="isLoading" class="loading-indicator">Loading summary…</div>
+        <div v-if="isLoading" class="loading-container">
+    <div  class="loading-indicator">Loading summary…  </div>
+      <img src="/interface/6-dots-rotate.svg" alt="Loading..."class="inline-spinner" />
+      </div>
     <div v-else class="grid-container">
       <div class="row-wrapper">
         <div class="button-container sticky">
@@ -173,6 +176,14 @@ if (props.activeTab === 'summary') fetchSummary()
 </script>
 
 <style scoped>
+  .inline-spinner {
+  width: 55px;
+  height: 55px;
+  opacity: 0.8;
+  filter: invert(1);
+  /* white */
+}
+
 .toggle-button-group {
   display: flex;
   justify-content: left;
@@ -201,10 +212,19 @@ if (props.activeTab === 'summary') fetchSummary()
   color: var(--highlighted-text);
 }
 
+.loading-container{
+  width:100%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top:50px;
+}
+
 .loading-indicator {
   text-align: center;
   padding: 2rem;
-  font-size: 1.2rem
+  font-size: 1.2rem;
 }
 
 .grid-container {
