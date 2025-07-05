@@ -128,9 +128,13 @@ function save(url, name) {
   padding-right: 20px;
   padding-bottom: 20px;
   justify-content: flex-end;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events:none;
 }
 
 .btn-row button {
   color: var(--highlighted-text);
+   pointer-events:auto;
 }
 </style>
