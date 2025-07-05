@@ -6,6 +6,7 @@
     </div>
 
     <div v-if="exportable" class="btn-row">
+        <div class="btn-row-title">Download</div>
       <button @click="downloadImage">SVG</button>
       <button @click="downloadCSV">CSV</button>
     </div>
@@ -51,7 +52,7 @@ function rebuild() {
 
   option.value = {
     grid: {
-      left: 0,          
+      left: 2,          
       right: 24,
       top: 8,
       bottom: 20,
@@ -67,7 +68,7 @@ function rebuild() {
       data: labels,
       axisLabel: {
         interval: 0,
-        align: 'right',          
+        align: 'right',         
         margin: 8,
         formatter: v => v
       }
@@ -127,5 +128,9 @@ function save(url, name) {
   padding-right: 20px;
   padding-bottom: 20px;
   justify-content: flex-end;
+}
+
+.btn-row button {
+  color: var(--highlighted-text);
 }
 </style>
