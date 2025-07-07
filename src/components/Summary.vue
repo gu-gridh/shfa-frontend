@@ -26,8 +26,7 @@
 
           <h3 class="row-heading">{{ currentRow.title }}</h3>
 
-          <YearHistogram v-if="currentRow.id === 'years'" :data="summary.year" @selectRange="triggerSearch" />
-
+          <LineChart v-if="currentRow.id === 'years'" :data="summary.year" :title="currentRow.title" :exportable="true" />
           <BarChart v-else :data="currentRow.items" :title="currentRow.title" :exportable="true"
             @select="triggerSearch" />
 
@@ -39,8 +38,8 @@
 
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
-import YearHistogram from '../components/Histogram.vue'
 import BarChart from '../components/BarChart.vue'
+import LineChart from '../components/LineChart.vue'
 
 const emit = defineEmits(['summaryClick', 'update-tab'])
 
