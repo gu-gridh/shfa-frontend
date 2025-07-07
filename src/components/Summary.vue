@@ -111,7 +111,7 @@ function buildRows() {
   rowsArr.push({
     id: 'site',
     title: 'Site',
-    items: makeItems(summary.value.site, o => o.raa_id || 'Unknown site'),
+    items: makeItems(summary.value.site, o => o.raa_id || o.lamning_id || `${o.askeladden_id}: ${o.placename}` || o.placename || 'Unknown site'),
     count: summary.value.site.reduce((n, o) => n + o.count, 0)
   })
   rowsArr.push({
