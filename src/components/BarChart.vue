@@ -97,7 +97,8 @@ async function downloadImage() {
 
 function downloadCSV() {
   const csv = ['Label,Count', ...props.data.map(d => `"${d.label}",${d.count}`)].join('\n')
-  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }))
+  const BOM = '\uFEFF';
+  const url = URL.createObjectURL(new Blob([BOM + csv], { type: 'text/csv;charset=utf-8' }))
   save(url, (props.title || 'chart') + '.csv')
 }
 
