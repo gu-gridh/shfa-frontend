@@ -6,7 +6,7 @@
     </div>
 
     <div v-if="exportable" class="btn-row">
-        <div class="btn-row-title">Download</div>
+      <div class="btn-row-title">Download</div>
       <button @click="downloadImage">SVG</button>
       <button @click="downloadCSV">CSV</button>
     </div>
@@ -23,6 +23,8 @@ use([SVGRenderer, Bar, GridComponent, TooltipComponent])
 
 import VueECharts from 'vue-echarts'
 
+const isMobile = window.matchMedia('(max-width:900px)').matches
+
 const props = defineProps({
   data: { type: Array, default: () => [] },
   title: { type: String, default: '' },
@@ -30,8 +32,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['select'])
 
-const TOP_N = 50 //show only the top 50 rows
-const BAR_H = 28 //px per bar
+const TOP_N = isMobile ? 25 : 50
+const BAR_H = isMobile ? 20 : 28 //px per bar
 const MIN_CHART_HEIGHT = 300
 
 const chartHeight = computed(() =>
@@ -52,24 +54,27 @@ function rebuild() {
 
   option.value = {
     grid: {
-      left: 2,          
+      left: 2,
       right: 24,
       top: 8,
       bottom: 20,
-      containLabel: true   
+      containLabel: true
     },
     tooltip: {
       trigger: 'axis', axisPointer: { type: 'shadow' },
       formatter: p => `<strong>${p[0].name}</strong><br/>${p[0].value}`
     },
-    xAxis: { type: 'value' },
+    xAxis: { type: 'value', splitNumber: isMobile ? 3 : 8 },
     yAxis: {
       type: 'category',
       data: labels,
       axisLabel: {
         interval: 0,
-        align: 'right',         
+        align: 'right',
         margin: 8,
+        overflow: isMobile ? 'truncate' : 'none',
+        width: isMobile ? 60 : null,
+        ellipsis: '…',
         formatter: v => v
       }
     },
@@ -131,11 +136,11 @@ function save(url, name) {
   justify-content: flex-end;
   user-select: none;
   -webkit-user-select: none;
-  pointer-events:none;
+  pointer-events: none;
 }
 
 .btn-row button {
   color: var(--highlighted-text);
-   pointer-events:auto;
+  pointer-events: auto;
 }
 </style>

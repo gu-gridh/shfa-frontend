@@ -19,6 +19,8 @@ import { GridComponent, TooltipComponent } from 'echarts/components'
 
 use([SVGRenderer, LineChart, GridComponent, TooltipComponent])
 
+const isMobile = window.matchMedia('(max-width:900px)').matches
+
 const props = defineProps({
     data: { type: Array, default: () => [] },
     title: { type: String, default: 'chart' },
@@ -39,7 +41,13 @@ function rebuild() {
     const counts = seriesData.value.map(d => d.count)
 
     option.value = {
-        grid: { left: 40, right: 20, top: 20, bottom: 40 },
+        grid: {
+            left: isMobile ? 18 : 40,
+            right: isMobile ? 8 : 20,
+            top: 12,
+            bottom: isMobile ? 24 : 40,
+            containLabel: true
+        },
         tooltip: { trigger: 'axis' },
         xAxis: { type: 'category', data: years, boundaryGap: false },
         yAxis: { type: 'value' },
