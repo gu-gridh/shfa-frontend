@@ -41,6 +41,7 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from 'ol/layer/Vector.js';
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
+import Polygon from "ol/geom/Polygon.js";
 import { fromExtent } from 'ol/geom/Polygon.js';
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
 import Overlay from "ol/Overlay";
@@ -258,8 +259,10 @@ export default {
           minResolution: 5.0, //limit resolution so landmarks in basemap are still visible
         });
 
-        //const bboxExtent = [[[transformedExtent[0],transformedExtent[1]],[transformedExtent[0],transformedExtent[3]],
-        //[transformedExtent[2],transformedExtent[3]],[transformedExtent[2],transformedExtent[1]],[transformedExtent[0],transformedExtent[1]]]]
+        //buffer the bounding box for display
+        const bboxExtent = [[[transformedExtent[0]-5,transformedExtent[1]-5],[transformedExtent[0]-5,transformedExtent[3]+5],
+        [transformedExtent[2]+5,transformedExtent[3]+5],[transformedExtent[2]+5,transformedExtent[1]-5],
+        [transformedExtent[0]-5,transformedExtent[1]-5]]]
         
         //clear any existing rendered bboxes
         if (this.bboxLayer && this.bboxLayer.getSource().getFeatures().length > 0) {
@@ -267,7 +270,7 @@ export default {
         }
 
         //add the new bbbox to map using transformed [minLon, minLat, maxLon, maxLat]
-        this.bboxLayer.getSource().addFeature(new Feature(fromExtent(transformedExtent)))
+        this.bboxLayer.getSource().addFeature(new Feature(new Polygon(bboxExtent)))
 
         this.map.renderSync();
       } else {
