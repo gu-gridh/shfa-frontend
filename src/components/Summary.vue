@@ -104,14 +104,14 @@ function buildRows() {
   rowsArr.push({
     id: 'geographic',
     title: 'Geographic',
-    items: makeItems(summary.value.geographic, o =>
-      `Parish: ${o.parish} / Municipality: ${o.municipality} / Province: ${o.province} / Country: ${o.country}`),
+    items: makeItems(summary.value.geographic, o => {if (o.country === 'SVERIGE') {return `${o.parish || 'Unknown Parish'}, ${o.municipality || o.province}, ${o.country}`} //use parish and municipality info sweden, only include region if no municipality is available
+  else {return `${o.municipality}, ${o.country}`}}),
     count: summary.value.geographic.reduce((n, o) => n + o.count, 0)
   })
   rowsArr.push({
     id: 'site',
     title: 'Site',
-    items: makeItems(summary.value.site, o => o.raa_id || o.lamning_id || `${o.askeladden_id}: ${o.placename}` || o.placename || 'Unknown site'),
+    items: makeItems(summary.value.site, o => o.raa_id || o.lamning_id || `${o.askeladden_id}: ${o.placename}` || o.placename || 'Unknown site'), //use lamningnr on new swedish sites, include placename with norwegian id for better context, use placename everywhere else
     count: summary.value.site.reduce((n, o) => n + o.count, 0)
   })
   rowsArr.push({
