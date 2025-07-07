@@ -41,15 +41,14 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from 'ol/layer/Vector.js';
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
-import Polygon from 'ol/geom/Polygon.js';
-import {fromExtent} from 'ol/geom/Polygon.js';
+import { fromExtent } from 'ol/geom/Polygon.js';
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
 import Overlay from "ol/Overlay";
 import Zoom from "ol/control/Zoom";
 import { useStore } from "../stores/store.js";
 import { transformExtent } from "ol/proj";
 import LayerSwitcher from 'ol-layerswitcher';
-// import LayerSwitcher from "ol-ext/control/LayerSwitcher"
+import { Style, Fill, Stroke } from 'ol/style';
 import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import LayerGroup from 'ol/layer/Group';
 import debounce from 'lodash/debounce'
@@ -217,7 +216,7 @@ export default {
     _fitToBbox(bbox) { //used to move the map to the bounding box when you scroll down in the gallery
       this.focusOnBoundingBox({
         bottomLeft: [bbox[0], bbox[1]],
-        topRight:   [bbox[2], bbox[3]]
+        topRight: [bbox[2], bbox[3]]
       })
     },
     getCurrentBbox() {
@@ -263,8 +262,8 @@ export default {
         //[transformedExtent[2],transformedExtent[3]],[transformedExtent[2],transformedExtent[1]],[transformedExtent[0],transformedExtent[1]]]]
 
         if (this.bboxLayer && this.bboxLayer.getSource().getFeatures().length > 0) {
-                  this.bboxLayer.getSource().clear()
-                }
+          this.bboxLayer.getSource().clear()
+        }
         this.bboxLayer.getSource().addFeature(new Feature(fromExtent(transformedExtent)))
 
         this.map.renderSync();
@@ -319,7 +318,7 @@ export default {
               placename: feature.properties.placename ?? null,
               international: feature.properties.internationl_site ?? null,
             }));
-            
+
             this.updateCoordinates(additionalResults);
 
             this.cachedResults.push(...additionalResults);
@@ -369,48 +368,55 @@ export default {
         return false;
       };
 
-      
-// Create a list of the SGU shore displacement data for relevant years
+
+      // Create a list of the SGU shore displacement data for relevant years
       let sgu_layers = []
       const start_bp = 1000
       const stop_bp = 4000
       const interval = 100
-      const strand_years = Array.from({ length: Math.ceil((stop_bp - start_bp) / interval)+1 },(_, i) => stop_bp - i * interval,);
-// Loop through the years to create a raster layer
-      strand_years.forEach((year,index) => {
+      const strand_years = Array.from({ length: Math.ceil((stop_bp - start_bp) / interval) + 1 }, (_, i) => stop_bp - i * interval,);
+      // Loop through the years to create a raster layer
+      strand_years.forEach((year, index) => {
         var layer = new TileLayer({
           source: new TileWMS({
             url: 'https://maps3.sgu.se/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap',
             attributions: `<a href="https://resource.sgu.se/dokument/produkter/strandforskjutningsmodell-beskrivning.pdf" target="_blank">Source: Sveriges geologiska undersökning</a>`,
-            params: {'LAYERS': `strand:SE.GOV.SGU.STRANDFORSKJUTNINGSMODELL.${year}BP`, 'TILED': true},
+            params: { 'LAYERS': `strand:SE.GOV.SGU.STRANDFORSKJUTNINGSMODELL.${year}BP`, 'TILED': true },
             serverType: 'geoserver'
-                          }),
+          }),
           title: `${year} cal BP`,
           visible: false,
-          opacity: ((strand_years.length-index)/100)+0.4, //make lower layers less transparent to view multiple layers at once
-          zIndex:index,
+          opacity: ((strand_years.length - index) / 100) + 0.4, //make lower layers less transparent to view multiple layers at once
+          zIndex: index,
           maxResolution: 7250,
           minResolution: 10,
           className: "dark",//make layers easier to see with transparency on since we're using WMS layers without SLD
-                        })
+        })
         sgu_layers.push(layer)
-                      }
-        )
+      }
+      )
 
       this.bboxLayer = new VectorLayer({
-          source: new VectorSource({
-          features: []//[new Feature(new Polygon(bboxExtent))],
+        source: new VectorSource({ features: [] }),
+        style: new Style({
+          stroke: new Stroke({
+            color: '#ff6600',
+            width: 2
+          }),
+          fill: new Fill({
+            color: 'rgba(0,0,0,0)'  //transparent
+          })
         }),
-          zIndex: 2000,
-        });
+        zIndex: 2000,
+      });
 
       this.map = new Map({
         target: "map",
         layers: [
           new TileLayer({
-              className: "grey",
-              source: new OSM(),
-            }),
+            className: "grey",
+            source: new OSM(),
+          }),
           this.bboxLayer,
           new LayerGroup({
             title: 'SGU Strandförskjutningsmodell',
@@ -431,12 +437,11 @@ export default {
       });
 
       var layerSwitcher = new LayerSwitcher({
-          activationMode: 'click',
-          // reverse: true,
-          groupSelectStyle: 'children'
-        });
-        this.map.addControl(layerSwitcher);
-
+        activationMode: 'click',
+        // reverse: true,
+        groupSelectStyle: 'children'
+      });
+      this.map.addControl(layerSwitcher);
 
       //Display notice for users to zoom in if they are outside the resolution range of the SGU layers when at least one of them is visible
       const sgu_group = LayerSwitcher.getGroupsAndLayers(this.map)
@@ -455,14 +460,12 @@ export default {
             if (this.map.getView().getResolution() > maxRes) {
               zoomMessage.style.visibility = 'visible'
             }
-            else { zoomMessage.style.visibility = 'hidden'}
-        })
+            else { zoomMessage.style.visibility = 'hidden' }
+          })
         }
 
         else { zoomMessage.style.visibility = 'hidden' }
       })
-
-
 
       const path = window.location.pathname;
       const match = path.match(/^\/image\/(\d+)$/); //check if address contains image + extract ID
@@ -493,9 +496,9 @@ export default {
         source: pointSource,
         style: webGLStyle,
         className: "markers",
-        zIndex:1000
+        zIndex: 1000
       });
-      
+
 
       this.map.addLayer(this.vectorLayer);
       this.map.on("pointermove", (event) => {
@@ -519,21 +522,21 @@ export default {
           const kulturminnesokHeaderElement = document.getElementById("kulturminnesok_header");
 
           if (!raa_id && !lamning_id) {
-            this.isSwedish = false; 
+            this.isSwedish = false;
             this.isNorwegian = false;
             if (askeladden_id) {
               this.isNorwegian = true
               if (kulturminnesokHeaderElement && kulturminnesokLink) {
-              const kulturminnesokHeader = kulturminnesokHeaderElement.getElementsByTagName("a")[0];
-              if (kulturminnesokHeader) {
-                kulturminnesokHeader.setAttribute("target", "_blank");
-                kulturminnesokHeader.setAttribute("href", `https://kulturminnesok.no/ra/lokalitet/${lokalitet_id}`);
+                const kulturminnesokHeader = kulturminnesokHeaderElement.getElementsByTagName("a")[0];
+                if (kulturminnesokHeader) {
+                  kulturminnesokHeader.setAttribute("target", "_blank");
+                  kulturminnesokHeader.setAttribute("href", `https://kulturminnesok.no/ra/lokalitet/${lokalitet_id}`);
+                }
               }
             }
-          }
           } else {
             this.isSwedish = true;
-            this.isNorwegian =false;
+            this.isNorwegian = false;
             if (fornsokHeaderElement && fornsokLink) {
               const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
               if (fornsokHeader) {
@@ -553,7 +556,11 @@ export default {
           ).href = `https://www.google.com/maps/place/${coords}`;
           container.style.visibility = "visible";
           overlay.setPosition(extent);
-        });
+        },
+          {
+            layerFilter: (layer) => layer === this.vectorLayer,
+            hitTolerance: 10,
+          });
       });
 
       this.map.on("click", (event) => {
@@ -591,29 +598,29 @@ export default {
             const kulturminnesokHeaderElement = document.getElementById("kulturminnesok_header");
 
             if (!raa_id && !lamning_id) {
-            this.isSwedish = false;
-            this.isNorwegian =false; 
-            if (askeladden_id) {
-              this.isNorwegian = true
-              if (kulturminnesokHeaderElement && kulturminnesokLink) {
-              const kulturminnesokHeader = kulturminnesokHeaderElement.getElementsByTagName("a")[0];
-              if (kulturminnesokHeader) {
-                kulturminnesokHeader.setAttribute("target", "_blank");
-                kulturminnesokHeader.setAttribute("href", `https://kulturminnesok.no/ra/lokalitet/${lokalitet_id}`);
+              this.isSwedish = false;
+              this.isNorwegian = false;
+              if (askeladden_id) {
+                this.isNorwegian = true
+                if (kulturminnesokHeaderElement && kulturminnesokLink) {
+                  const kulturminnesokHeader = kulturminnesokHeaderElement.getElementsByTagName("a")[0];
+                  if (kulturminnesokHeader) {
+                    kulturminnesokHeader.setAttribute("target", "_blank");
+                    kulturminnesokHeader.setAttribute("href", `https://kulturminnesok.no/ra/lokalitet/${lokalitet_id}`);
+                  }
+                }
+              }
+            } else {
+              this.isSwedish = true;
+              this.isNorwegian = false;
+              if (fornsokHeaderElement && fornsokLink) {
+                const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
+                if (fornsokHeader) {
+                  fornsokHeader.setAttribute("target", "_blank");
+                  fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
+                }
               }
             }
-          }
-          } else {
-            this.isSwedish = true;
-            this.isNorwegian =false;
-            if (fornsokHeaderElement && fornsokLink) {
-              const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
-              if (fornsokHeader) {
-                fornsokHeader.setAttribute("target", "_blank");
-                fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
-              }
-            }
-          }
 
             raaContent.innerHTML = raa_id;
             lamningContent.innerHTML = lamning_id;
@@ -663,7 +670,7 @@ export default {
         feature.set("placename", result.placename);
         feature.set("askeladden_id", result.askeladden_id);
         feature.set("lokalitet_id", result.lokalitet_id);
-        feature.set("international",result.internationl_site);
+        feature.set("international", result.internationl_site);
         return feature;
       });
 
@@ -677,7 +684,7 @@ export default {
 
 <style>
 /* handle long text for international sites */
-#placename{
+#placename {
   text-wrap: stable;
   text-align: left;
 }
@@ -691,7 +698,7 @@ export default {
   text-align: justify;
   color: var(--popup-text);
   line-height: 1.2;
-  background-color: rgba(40,40,40,0.9);
+  background-color: rgba(40, 40, 40, 0.9);
   opacity: 100%;
   box-shadow: var(--shadow);
   padding: 8px 18px 8px 22px;
@@ -703,12 +710,13 @@ export default {
   cursor: pointer;
   border-radius: 12px;
   border-width: 0px;
-  margin-right:-5px;
-  margin-top:-5px;
+  margin-right: -5px;
+  margin-top: -5px;
   backdrop-filter: blur(5px);
 }
 
-.layer-switcher button, .layer-switcher button:focus {
+.layer-switcher button,
+.layer-switcher button:focus {
   background-color: var(--viewer-button-background);
   background-image: var(--map-layers-icon);
   background-size: 24px;
@@ -728,10 +736,12 @@ export default {
   border-radius: 12px;
   border-width: 0px;
   /* Scroll to access all layer options */
-  overflow:scroll!important;
+  overflow: scroll !important;
   /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -745,21 +755,21 @@ export default {
 }
 
 .layer-switcher.shown.layer-switcher-activation-mode-click button {
-  background-color: transparent!important;
+  background-color: transparent !important;
   background-image: var(--collapse-layers-icon);
   background-size: 14px;
-  background-position: center!important;
-  margin-left:-5px!important;
+  background-position: center !important;
+  margin-left: -5px !important;
 }
 
 button[title="Collapse legend"] {
-    background-color: transparent!important;
+  background-color: transparent !important;
   background-image: var(--close-layers-icon) !important;
   background-size: 12px !important;
   font-size: 0px;
-  left:255px!important;
-   top:-2px!important;
-  position:absolute!important;
+  left: 255px !important;
+  top: -2px !important;
+  position: absolute !important;
 }
 
 input[type="checkbox" i] {
@@ -1113,7 +1123,7 @@ input[type="checkbox" i] {
 }
 
 .ol-popup-closer:Hover {
-  opacity:0.5;
+  opacity: 0.5;
 }
 
 .ol-popup-closer:after {
@@ -1124,7 +1134,7 @@ input[type="checkbox" i] {
   position: absolute;
   left: 50%;
   text-align: center;
-  font-weight:500;
+  font-weight: 500;
   transform: translateX(-50%);
   bottom: 70px;
   padding: 8px 15px 8px 15px;
@@ -1133,7 +1143,7 @@ input[type="checkbox" i] {
   height: auto;
   cursor: pointer;
   border-radius: 8px !important;
-  background-color: rgba(255,255,255,0.6);
+  background-color: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(5px);
   color: black;
   visibility: hidden;
