@@ -73,6 +73,7 @@ function rebuild() {
         align: 'right',
         margin: 8,
         overflow: isMobile ? 'truncate' : 'none',
+        color: "var(--page-text)",
         width: isMobile ? 60 : null,
         ellipsis: '…',
         formatter: v => v
