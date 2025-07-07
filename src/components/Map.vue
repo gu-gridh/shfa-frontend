@@ -260,10 +260,13 @@ export default {
 
         //const bboxExtent = [[[transformedExtent[0],transformedExtent[1]],[transformedExtent[0],transformedExtent[3]],
         //[transformedExtent[2],transformedExtent[3]],[transformedExtent[2],transformedExtent[1]],[transformedExtent[0],transformedExtent[1]]]]
-
+        
+        //clear any existing rendered bboxes
         if (this.bboxLayer && this.bboxLayer.getSource().getFeatures().length > 0) {
           this.bboxLayer.getSource().clear()
         }
+
+        //add the new bbbox to map using transformed [minLon, minLat, maxLon, maxLat]
         this.bboxLayer.getSource().addFeature(new Feature(fromExtent(transformedExtent)))
 
         this.map.renderSync();
@@ -400,8 +403,8 @@ export default {
         source: new VectorSource({ features: [] }),
         style: new Style({
           stroke: new Stroke({
-            color: '#ff6600',
-            width: 2
+            color: '#1861ac',
+            width: 3
           }),
           fill: new Fill({
             color: 'rgba(0,0,0,0)'  //transparent
