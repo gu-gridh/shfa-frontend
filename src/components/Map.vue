@@ -249,8 +249,15 @@ export default {
           "EPSG:3857"
         );
 
+        //buffer the bounding box for display
+        const bufferedExtent = [transformedExtent[0]-10,transformedExtent[1]-10,transformedExtent[2]+10,transformedExtent[3]+10]
+
+        //const bboxExtent = [[[transformedExtent[0]-5,transformedExtent[1]-5],[transformedExtent[0]-5,transformedExtent[3]+5],
+        //[transformedExtent[2]+5,transformedExtent[3]+5],[transformedExtent[2]+5,transformedExtent[1]-5],
+        //[transformedExtent[0]-5,transformedExtent[1]-5]]]
+
         //fit the map view to the extent
-        this.map.getView().fit(transformedExtent, {
+        this.map.getView().fit(bufferedExtent, {
           size: this.map.getSize(),
           padding: [5, 5, 5, 5], // optional padding in pixels
           maxZoom: 5,
@@ -259,10 +266,6 @@ export default {
           minResolution: 5.0, //limit resolution so landmarks in basemap are still visible
         });
 
-        //buffer the bounding box for display
-        const bboxExtent = [[[transformedExtent[0]-5,transformedExtent[1]-5],[transformedExtent[0]-5,transformedExtent[3]+5],
-        [transformedExtent[2]+5,transformedExtent[3]+5],[transformedExtent[2]+5,transformedExtent[1]-5],
-        [transformedExtent[0]-5,transformedExtent[1]-5]]]
         
         //clear any existing rendered bboxes
         if (this.bboxLayer && this.bboxLayer.getSource().getFeatures().length > 0) {
@@ -270,7 +273,7 @@ export default {
         }
 
         //add the new bbbox to map using transformed [minLon, minLat, maxLon, maxLat]
-        this.bboxLayer.getSource().addFeature(new Feature(new Polygon(bboxExtent)))
+        this.bboxLayer.getSource().addFeature(new Feature(fromExtent(bufferedExtent)))
 
         this.map.renderSync();
       } else {
