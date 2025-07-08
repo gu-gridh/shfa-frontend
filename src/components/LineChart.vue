@@ -90,7 +90,14 @@ watch(() => [props.data, props.zeroes], rebuild, { immediate: true })
 .chart-shell {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: calc(100% + 40px);
+    margin-left:-40px;
+}
+@media (max-width: 900px) {
+.chart-shell {
+    width: calc(100%);
+    margin-left:-15px;
+}
 }
 
 .btn-row {
