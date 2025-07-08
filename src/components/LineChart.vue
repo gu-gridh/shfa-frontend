@@ -4,6 +4,7 @@
         <div v-if="exportable" class="btn-row">
             <div class="btn-row-title">Download</div>
             <button @click="downloadImage">SVG</button>
+            <div class="btn-row-title">|</div>
             <button @click="downloadCSV">CSV</button>
         </div>
     </div>
