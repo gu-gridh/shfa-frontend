@@ -49,7 +49,7 @@ function rebuild() {
             containLabel: true
         },
         tooltip: { trigger: 'axis' },
-        xAxis: { type: 'category', data: years, boundaryGap: false },
+        xAxis: { type: 'category', data: years, boundaryGap: true},
         yAxis: { type: 'value' },
         series: [{ type: 'line', data: counts, smooth: true, symbolSize: 6 }]
     }

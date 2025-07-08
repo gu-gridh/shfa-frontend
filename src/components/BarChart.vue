@@ -64,7 +64,7 @@ function rebuild() {
       trigger: 'axis', axisPointer: { type: 'shadow' },
       formatter: p => `<strong>${p[0].name}</strong><br/>${p[0].value}`
     },
-    xAxis: { type: 'value', splitNumber: isMobile ? 3 : 8 },
+    xAxis: { type: 'value', splitNumber: isMobile ? 2 : 8 },
     yAxis: {
       type: 'category',
       data: labels,
