@@ -410,7 +410,8 @@ export default {
         style: new Style({
           stroke: new Stroke({
             color: '#1861ac',
-            width: 3
+            lineDash: [1,5],
+            width: 1.5
           }),
           fill: new Fill({
             color: 'rgba(0,0,0,0)'  //transparent
