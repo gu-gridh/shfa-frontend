@@ -93,13 +93,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-if="currentLang === 'en'" v-for="(value, key) in $i18n.messages.en.imgdescription" :key="key">
-                      <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
-                      <td>{{ value[1] }}</td>
+                    <tr v-if="currentLang === 'en'" v-for="(value, key) in sortedImageTypes" :key="key">
+                      <td><button @click="logMetaSearch(value.english_translation)">{{ value.english_translation }}</button></td>
+                      <td>{{ value.english_description }}</td>
                     </tr>
-                    <tr v-else v-for="(value, key_sv) in $i18n.messages.sv.imgdescription" :key="key_sv">
-                      <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
-                      <td>{{ value[1] }}</td>
+                    <tr v-if="currentLang === 'sv'" v-for="(value, key) in sortedImageTypes" :key="key">
+                      <td><button @click="logMetaSearch(value.text)">{{ value.text }}</button></td>
+                      <td>{{ value.description }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -138,6 +138,7 @@ export default {
       groupedKeywordsSV: {},
       groupedKeywordsEN: {},
       sortedDatings: {},
+      sortedImageTypes: {},
       currentLang: this.$props.currentLanguage,
       currentColour: this.$props.currentColourMode,
       targetTheme: this.$props.currentColourMode,
@@ -150,6 +151,7 @@ export default {
     document.documentElement.setAttribute('style-theme', this.targetTheme);
 
     this.fetchKeywords()
+    this.fetchImageTypes()
     this.fetchDatingTags()
 
   },
@@ -182,6 +184,22 @@ export default {
           this.groupedKeywordsSV = Object.groupBy(this.sortedSV, ({ category }) => category)
           this.sortedEN = this.data_clean.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) })
           this.groupedKeywordsEN = Object.groupBy(this.sortedEN, ({ category_translation }) => category_translation)
+        })
+        .catch((error) => {
+          console.error('Error fetching keyword data:', error);
+        });
+    },
+    fetchImageTypes() {
+      fetch(`https://diana.dh.gu.se/api/shfa/imagetypetag/?depth=1&limit=30`)
+        .then((response) => response.json())
+        .then((json) => {
+          this.data = json.results;
+          if (this.currentLang === 'sv') {
+            this.sortedImageTypes = this.data.sort((a, b) => { return a.text.localeCompare(b.text) })
+          }
+          else {
+            this.sortedImageTypes = this.data.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })
+          }
         })
         .catch((error) => {
           console.error('Error fetching keyword data:', error);
