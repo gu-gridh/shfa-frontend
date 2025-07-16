@@ -311,8 +311,6 @@ watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search =
 watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamps.advanced = Date.now(); fetchGallery() } })
 watch(() => props.bboxSearch, v => { if (v != null) { filterTimestamps.bbox = Date.now(); fetchGallery() } })
 watch(() => props.selectedSiteId, v => { if (v != null) { filterTimestamps.site = Date.now(); fetchGallery() } })
-
-fetchGallery()
 </script>
 
 <style scoped>
