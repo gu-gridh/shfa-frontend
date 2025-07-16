@@ -4,7 +4,6 @@ export const useStore = defineStore('store', {
   state: () => ({
     currentBbox: null,
     selectedKeyword: null,
-    searchOperator: 'AND',
   }),
 
   actions: {
@@ -15,9 +14,6 @@ export const useStore = defineStore('store', {
       if (keyword && keyword.value && keyword.source) {
         this.selectedKeyword = keyword
       }
-    },
-    toggleSearchOperator() {
-      this.searchOperator = this.searchOperator === 'AND' ? 'OR' : 'AND';
     }
   }
 })

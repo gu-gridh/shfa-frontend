@@ -22,6 +22,7 @@
             @click="deselectKeyword(keyword, index)">
             {{ keyword.text }}
           </div>
+
           <input type="search" @click="onInputFocus(index)" :id="'search' + index" :name="'search' + index"
             :placeholder="selectedKeywords[index].length ? '' : [
               $t('message.searchsite'),
@@ -34,6 +35,15 @@
               $t('message.geographicsearch'),
             ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
             @keydown="handleBackspace($event, index)" autocomplete="off" />
+
+            <span v-if="toggleFields.includes(index)" class="op-group">
+              <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'OR' }"
+                @click.stop="fieldOperator[index] = 'OR'">OR</span>
+
+              <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'AND' }"
+                @click.stop="fieldOperator[index] = 'AND'">AND</span>
+            </span>
+
         </div>
         <div v-if="searchResults[index].length" class="suggestions" @scroll="onSuggestionsScroll(index, $event)">
           <div v-for="result in searchResults[index]" :key="result.id" class="tag-example"
@@ -58,18 +68,28 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue';
 import useSearchTracking from '../composables/useSearchTracking.js';
 import { useStore } from '../stores/store.js'
 
-const store = useStore() 
-const operatorParam = computed(() => store.searchOperator);
+const store = useStore()
+const toggleFields = [1, 3, 4]
+
+const fieldOperator = reactive({
+  1: 'OR',
+  3: 'OR',
+  4: 'OR'
+})
+
+// function toggleOperator(idx) {
+//   fieldOperator[idx] = fieldOperator[idx] === 'OR' ? 'AND' : 'OR'
+// }
 
 const fieldIndexBySource = { //mapping search results to advanced search field
   site: 0,
   'rock carving': 0,
   people: 1,
-  type: 2, 
+  type: 2,
   keywords: 3,
   institution: 5
 }
@@ -129,9 +149,6 @@ const handleSearchButtonClick = () => {
 
     if (value) searchParams[fieldNames[index]] = value;
   });
-
-  searchParams.operator = operatorParam.value;   //"and" or "or"
-  const queryString = new URLSearchParams(searchParams).toString();
 
   emit('advanced-search-params', searchParams);
 
@@ -289,7 +306,7 @@ const handleClickOutside = (e) => {
   }
 };
 
-function onSuggestionsScroll (idx, e) {
+function onSuggestionsScroll(idx, e) {
   const el = e.target
   if (
     el.scrollHeight - el.scrollTop <= el.clientHeight + 1 &&
@@ -521,5 +538,31 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 .search-button,
 .clear-button {
   margin: 20px 0 0 0;
+}
+
+.op-group {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.operator-toggle {
+  font-size: .75rem;
+  font-weight: 600;
+  user-select: none;
+  padding: 2px 6px 1px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: .5px;
+  color: #999;
+  transition: opacity .2s;
+}
+
+.operator-toggle.active {
+  color: #4da3ff;
+}
+
+.operator-toggle:hover {
+  opacity: .8
 }
 </style>

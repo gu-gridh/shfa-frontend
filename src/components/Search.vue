@@ -45,10 +45,6 @@
     </div>
 
     <div v-if="activePanel === 'Advanced Search'" style="display: flex; align-items: center; gap: 8px;">
-      <span>Operator:</span>
-      <button class="toggle-map-btn" @click="store.toggleSearchOperator">
-        {{ store.searchOperator }}
-      </button>
     </div>
   </div>
 
