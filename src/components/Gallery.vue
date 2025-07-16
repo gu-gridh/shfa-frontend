@@ -152,6 +152,23 @@ const totalGalleryCount = computed(() =>
   rows.value.reduce((sum, r) => sum + (r.count || 0), 0)
 )
 
+const buildCategoryUrl = () => {
+  const base = 'https://diana.dh.gu.se/api/shfa/type_categorized/'
+  const p = new URLSearchParams()
+  const f = activeFilter.value
+
+  if (f === 'site' && props.selectedSiteId) p.append('site', props.selectedSiteId)
+  else if (f === 'search' && props.searchItems?.toString().trim()) { p.append('search_type', 'general'); p.append('q', props.searchItems) }
+  else if (f === 'bbox' && Array.isArray(props.bboxSearch)) p.append('in_bbox', props.bboxSearch.join(','))
+  else if (f === 'advanced' && props.advancedSearchResults) {
+    p.append('search_type', 'advanced')
+    Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
+      if (v?.toString().trim()) p.append(k === 'group' ? 'site_name' : k, v)
+    })
+  }
+  return base + (p.toString() ? '?' + p.toString() : '')
+}
+
 const buildGalleryUrl = () => {
   const base = 'https://diana.dh.gu.se/api/shfa/gallery/'
   const p = new URLSearchParams({ depth: DEPTH })
@@ -191,8 +208,8 @@ const visibleRows = computed(() => {
 async function fetchGallery() {
   isGalleryLoading.value = true
   try {
-    const { results } = await (await fetch(buildGalleryUrl())).json()
-    rows.value = (results || []).map((sec, idx) => ({
+    const { categories } = await (await fetch(buildCategoryUrl())).json()
+    rows.value = (categories || []).map((sec, idx) => ({
       originalIndex: idx,
       open: false,
       mobileMenuOpen: false,
@@ -237,7 +254,7 @@ function toggleRow(idx) {
 
   if (row.open) {
     const url = new URL(buildGalleryUrl())
-    url.searchParams.set('category_type', getRowTitle(row))
+    url.searchParams.set('category_type', row.type)
     row.nextUrl = withDepth(url)
     row.currentPage = 1
     fetchNextPage(row)
@@ -641,7 +658,7 @@ h3 span {
   flex: 1;
   padding-left: 1.5rem;
   padding-top: 1rem;
-  padding-bottom:30px;
+  padding-bottom: 30px;
 }
 
 .row-heading {
@@ -708,8 +725,8 @@ h3 span {
   font-weight: 600;
   text-align: right;
   color: var(--page-text);
-  margin-top:10px;
-  margin-right:5px;
+  margin-top: 10px;
+  margin-right: 5px;
   user-select: none;
   -webkit-user-select: none;
   pointer-events: none;
@@ -728,7 +745,7 @@ h3 span {
     width: calc(100vw - 40px);
     padding-left: 0.5rem;
     padding-top: 0rem;
-    min-height:320px;
+    min-height: 320px;
   }
 
   .mobile-menu-list .row-count {
