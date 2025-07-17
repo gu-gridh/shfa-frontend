@@ -118,7 +118,7 @@ import MasonryWall from '@yeger/vue-masonry-wall'
 import { useStore } from '../stores/store.js'
 
 const store = useStore()
-const DEPTH = 1
+const DEPTH = 0
 const thumbSize = 150
 const rows = ref([])
 const isGalleryLoading = ref(true)
