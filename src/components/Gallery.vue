@@ -273,20 +273,25 @@ async function fetchPage(row, url) {
 
     const { results = [], next, previous, bbox } = await res.json()
 
-    row.infiniteItems = results.map(img => ({
-      id: img.id,
-      category: row.originalIndex,
-      iiif_file: formatIiif(img.iiif_file),
-      width: img.width,
-      height: img.height,
-      lamning: img.site?.lamning_id || '',
-      raa: img.site?.raa_id || '',
-      askeladden: img.site?.askeladden_id || '',
-      lokalitet: img.site?.lokalitet_id || '',
-      placename: img.site?.placename || '',
-      international: img.site?.internationl_site || '',
-      is3d: img.group
-    }))
+    row.infiniteItems = results.map(img => {
+      const p = img.site?.properties ?? {};
+
+      return {
+        id: img.id,
+        category: row.originalIndex,
+        iiif_file: formatIiif(img.iiif_file),
+        width: img.width,
+        height: img.height,
+        lamning: p.lamning_id ?? '',
+        raa: p.raa_id ?? '',
+        askeladden: p.askeladden_id ?? '',
+        lokalitet: p.lokalitet_id ?? '',
+        placename: p.placename ?? '',
+        international: p.internationl_site ?? '',
+
+        is3d: img.group
+      };
+    });
 
     row.nextUrl = next || null
     row.prevUrl = previous || null
