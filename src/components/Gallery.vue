@@ -191,7 +191,7 @@ const buildGalleryUrl = () => {
 }
 
 const getRowTitle = r =>
-  props.currentLanguage === 'en' ? r.type_translation : r.type
+  (props.currentLanguage === 'en' ? r.type_translation : r.type) || ''
 
 const getOtherRows = idx => rows.value.map(r => ({
   index: r.originalIndex,
@@ -209,7 +209,9 @@ async function fetchGallery() {
   isGalleryLoading.value = true
   try {
     const { categories } = await (await fetch(buildCategoryUrl())).json()
-    rows.value = (categories || []).map((sec, idx) => ({
+    rows.value = (categories || [])
+    .filter(sec => getRowTitle(sec))
+    .map((sec, idx) => ({
       originalIndex: idx,
       open: false,
       mobileMenuOpen: false,

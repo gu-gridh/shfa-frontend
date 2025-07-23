@@ -610,6 +610,7 @@
       closeThreePanels() {
         this.showThreePanels = false;
         this.showImageGallery();
+        document.getElementById('gutter-2').style.display = 'none';
         if (this.previousRoute) {
           this.handleRouteChange(this.$route);
         }
