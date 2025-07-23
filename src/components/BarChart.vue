@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, computed } from 'vue'
+import { ref, watch, nextTick, computed, onMounted, onUnmounted } from 'vue'
 import { use } from 'echarts/core'
 import { SVGRenderer } from 'echarts/renderers'
 import { BarChart as Bar } from 'echarts/charts'
@@ -115,6 +115,30 @@ function save(url, name) {
   a.download = name
   a.click()
 }
+
+let resizeObserver = null
+
+onMounted(() => {
+  resizeObserver = new ResizeObserver(() => {
+    nextTick(() => {
+      const inst = chartRef.value?.chart
+      if (inst) {
+        inst.resize()
+      }
+    })
+  })
+
+  const chartContainer = document.querySelector('.chart-shell')
+  if (chartContainer) {
+    resizeObserver.observe(chartContainer)
+  }
+})
+
+onUnmounted(() => {
+  if (resizeObserver) {
+    resizeObserver.disconnect()
+  }
+})
 </script>
 
 <style scoped>

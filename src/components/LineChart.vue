@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, nextTick } from 'vue'
+import { ref, watch, computed, nextTick, onMounted, onUnmounted } from 'vue'
 import VueECharts from 'vue-echarts'
 import { use } from 'echarts/core'
 import { SVGRenderer } from 'echarts/renderers'
@@ -33,6 +33,30 @@ const seriesData = computed(() => binData(props.data))
 const option = ref({})
 const chartRef = ref(null)
 
+let resizeObserver = null
+
+onMounted(() => {
+    resizeObserver = new ResizeObserver(() => {
+        nextTick(() => {
+            const inst = chartRef.value?.chart
+            if (inst) {
+                inst.resize()
+            }
+        })
+    })
+
+    const chartContainer = document.querySelector('.chart-shell')
+    if (chartContainer) {
+        resizeObserver.observe(chartContainer)
+    }
+})
+
+onUnmounted(() => {
+    if (resizeObserver) {
+        resizeObserver.disconnect()
+    }
+})
+
 function binData(arr) {
     return [...arr].sort((a, b) => a.year - b.year)
 }
@@ -50,7 +74,7 @@ function rebuild() {
             containLabel: true
         },
         tooltip: { trigger: 'axis' },
-        xAxis: { type: 'category', data: years, boundaryGap: true},
+        xAxis: { type: 'category', data: years, boundaryGap: true },
         yAxis: { type: 'value' },
         series: [{ type: 'line', data: counts, smooth: true, symbolSize: 6 }]
     }
@@ -91,13 +115,14 @@ watch(() => [props.data, props.zeroes], rebuild, { immediate: true })
     display: flex;
     flex-direction: column;
     width: calc(100% + 40px);
-    margin-left:-40px;
+    margin-left: -40px;
 }
+
 @media (max-width: 900px) {
-.chart-shell {
-    width: calc(100%);
-    margin-left:-15px;
-}
+    .chart-shell {
+        width: calc(100%);
+        margin-left: -15px;
+    }
 }
 
 .btn-row {
