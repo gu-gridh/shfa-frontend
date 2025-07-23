@@ -73,10 +73,9 @@
               <div class="gallery-page-button next-page-btn" :disabled="row.isFetching"
                 :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)">
               </div>
+              <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
+                class="inline-spinner" />
             </div>
-
-            <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
-              class="inline-spinner" />
           </div>
 
           <div v-if="row.open" class="scroll-wrapper" :aria-label="'Images for ' + getRowTitle(row)">
@@ -210,21 +209,21 @@ async function fetchGallery() {
   try {
     const { categories } = await (await fetch(buildCategoryUrl())).json()
     rows.value = (categories || [])
-    .filter(sec => getRowTitle(sec))
-    .map((sec, idx) => ({
-      originalIndex: idx,
-      open: false,
-      mobileMenuOpen: false,
-      infiniteItems: [],
-      nextUrl: null,
-      prevUrl: null,
-      isFetching: false,
-      type: sec.type,
-      type_translation: sec.type_translation,
-      count: sec.count,
-      currentPage: 1,
-      totalPages: Math.max(1, Math.ceil(sec.count / 25))
-    }))
+      .filter(sec => getRowTitle(sec))
+      .map((sec, idx) => ({
+        originalIndex: idx,
+        open: false,
+        mobileMenuOpen: false,
+        infiniteItems: [],
+        nextUrl: null,
+        prevUrl: null,
+        isFetching: false,
+        type: sec.type,
+        type_translation: sec.type_translation,
+        count: sec.count,
+        currentPage: 1,
+        totalPages: Math.max(1, Math.ceil(sec.count / 25))
+      }))
 
     if (rows.value.length) toggleRow(0)
   } finally {
@@ -396,9 +395,8 @@ watch(() => props.selectedSiteId, v => { if (v != null) { filterTimestamps.site 
 .inline-spinner {
   width: 25px;
   height: 25px;
-  opacity: 0.8;
   filter: invert(1);
-  /* white */
+  opacity: .8;
 }
 
 .toggle-button-group {
@@ -435,16 +433,26 @@ watch(() => props.selectedSiteId, v => { if (v != null) { filterTimestamps.site 
 
 .title-area {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
+  gap: 0.4rem;
 }
 
 .next-page-wrapper {
-  margin-left: 10px;
-  /* background-color: rgba(40,40,40,1);
-    border-radius:6px;
-    padding:5px 5px;
-    margin-top:3px; */
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  align-items: center;
+  gap: .3rem;
+}
+
+@media (max-width: 1024px) {
+  .next-page-wrapper {
+    flex: 1 1 100%;
+    justify-content: center;
+    margin-left: 0;
+    margin-top: 0.35rem;
+  }
 }
 
 .gallery-page-info {
@@ -667,12 +675,8 @@ h3 span {
 }
 
 .row-heading {
-  height: auto;
-  color: var(--page-text);
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-select: none;
-  font-weight: 400;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .title-tag {
