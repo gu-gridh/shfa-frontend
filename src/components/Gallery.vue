@@ -84,7 +84,7 @@
                 <div :key="item.id" class="item" :style="`height:${(item.height / item.width) * thumbSize}px`"
                   @click="$emit('image-clicked', item.iiif_file, item.id)">
                   <span v-if="item.is3d" class="badge-3d">3D</span>
-                  <img :src="`${item.iiif_file}/full/${thumbSize},/0/default.jpg`" :alt="`Image ${index}`"
+                  <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`"
                     :style="`background-color:var(--gallery-image-background)`" loading="lazy" />
                   <div class="metadata-overlay">
                     <div class="metadata-content">
@@ -289,7 +289,6 @@ async function fetchPage(row, url) {
         lokalitet: p.lokalitet_id ?? '',
         placename: p.placename ?? '',
         international: p.internationl_site ?? '',
-
         is3d: img.group
       };
     });
