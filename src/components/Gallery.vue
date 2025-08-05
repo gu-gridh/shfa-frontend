@@ -64,6 +64,8 @@
             </h3>
 
             <div class="next-page-wrapper">
+               <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
+                class="inline-spinner" />
               <div class="gallery-page-button prev-page-btn" :disabled="row.isFetching"
                 :class="{ 'page-button-disabled': !row.prevUrl }" @click="fetchPrevPage(row)">
               </div>
@@ -73,8 +75,7 @@
               <div class="gallery-page-button next-page-btn" :disabled="row.isFetching"
                 :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)">
               </div>
-              <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
-                class="inline-spinner" />
+             
             </div>
           </div>
 
