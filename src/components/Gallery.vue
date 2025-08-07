@@ -64,7 +64,7 @@
             </h3>
 
             <div class="next-page-wrapper">
-               <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
+              <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
                 class="inline-spinner" />
               <div class="gallery-page-button prev-page-btn" :disabled="row.isFetching"
                 :class="{ 'page-button-disabled': !row.prevUrl }" @click="fetchPrevPage(row)">
@@ -75,12 +75,13 @@
               <div class="gallery-page-button next-page-btn" :disabled="row.isFetching"
                 :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)">
               </div>
-             
+
             </div>
           </div>
 
           <div v-if="row.open" class="scroll-wrapper" :aria-label="'Images for ' + getRowTitle(row)">
-            <MasonryWall :items="row.infiniteItems" :column-width="thumbSize" :gap="10" class="masonry-wall">
+            <MasonryWall :key="layoutVersion" :items="row.infiniteItems" :column-width="thumbSize" :gap="10"
+              class="masonry-wall">
               <template #default="{ item, index }">
                 <div :key="item.id" class="item" :style="`height:${(item.height / item.width) * thumbSize}px`"
                   @click="$emit('image-clicked', item.iiif_file, item.id)">
@@ -113,7 +114,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, reactive, computed, watch, nextTick } from 'vue'
 import MasonryWall from '@yeger/vue-masonry-wall'
 import { useStore } from '../stores/store.js'
 
@@ -123,6 +124,7 @@ const thumbSize = 150
 const rows = ref([])
 const isGalleryLoading = ref(true)
 const emit = defineEmits(['image-clicked', 'row-clicked', 'update-tab'])
+const layoutVersion = ref(0)
 
 const withDepth = urlString => {
   const u = new URL(urlString)
@@ -204,6 +206,10 @@ const visibleRows = computed(() => {
   const anyOpen = rows.value.some(r => r.open)
   return anyOpen ? rows.value.filter(r => r.open) : rows.value
 })
+
+function forceRelayout() {
+  nextTick(() => layoutVersion.value++)
+}
 
 async function fetchGallery() {
   isGalleryLoading.value = true
@@ -317,6 +323,8 @@ watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search =
 watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamps.advanced = Date.now(); fetchGallery() } })
 watch(() => props.bboxSearch, v => { if (v != null) { filterTimestamps.bbox = Date.now(); fetchGallery() } })
 watch(() => props.selectedSiteId, v => { if (v != null) { filterTimestamps.site = Date.now(); fetchGallery() } })
+
+defineExpose({ forceRelayout })
 </script>
 
 <style scoped>
@@ -742,11 +750,13 @@ h3 span {
 }
 
 @media (max-width: 900px) {
-  .button-container.sticky { /* hide old sidebar */
+  .button-container.sticky {
+    /* hide old sidebar */
     display: none;
   }
 
-  .mobile-row-menu { /* show dropdown */
+  .mobile-row-menu {
+    /* show dropdown */
     display: block;
   }
 
