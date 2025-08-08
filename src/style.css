@@ -416,3 +416,5 @@ html[style-theme='light'] {
   --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
   }
 }
+
+html, body { overflow-x: hidden; }

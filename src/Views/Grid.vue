@@ -97,8 +97,7 @@
     <div class="split-container main-color">
       <div class="flex height">
         <!-- Panel 1 -->
-        <div id="split-0" class="flex-grow flex flex-col "
-          :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
+        <div id="split-0" class="flex-grow flex flex-col">
 
           <Search @toggle-map="toggleMap" ref="searchRef" @search-term="handleSearchTerm"
             :defaultSearchResults="defaultSearchResults" :currentLang="currentLanguage" />
@@ -117,8 +116,7 @@
 
         </div>
         <!-- Panel 2 -->
-        <div id="split-1" class="flex-grow overflow-auto main-color" v-show="shouldShowPanel1"
-          :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
+        <div id="split-1" class="flex-grow overflow-auto main-color" v-show="shouldShowPanel1">
           <Gallery ref="gallery" v-show="activeTab === 'gallery'" @image-clicked="onImageClicked"
             @row-clicked="closeThreePanels" :searchItems="searchItems" :advancedSearchResults="advancedSearchResults"
             :bboxSearch="bboxResults" :selectedSiteId="selectedId" :activeTab="activeTab"
@@ -131,10 +129,8 @@
 
         <!-- Panel 3 -->
         <transition name="slide" @after-enter="onPanel3Done" @after-leave="onPanel3Done">
-          <div id="split-2" v-show="showThreePanels" :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }"
-            class="flex-grow main-color overflow-auto">
-            <div id="image" v-if="shouldShowPanel1"
-              style="width:0%;height:0px; position:relative; top:0px; margin-left:0px;"></div>
+          <div id="split-2" v-show="showThreePanels" class="flex-grow main-color overflow-auto">
+            <div id="imageAnchor" style="width:0%;height:0px; position:relative; top:0px; margin-left:0px;"></div>
             <button @click="closeThreePanels" class="close-button">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24"
                 stroke="currentColor">
@@ -234,14 +230,6 @@ export default defineComponent({
       if (this.windowSize && window.location.pathname.includes("search")) {
         this.windowSize = false;
         return;
-      }
-
-      if (newValue && !this.shouldShowPanel1) {
-        //check if on mobile
-        const panel = document.getElementById("split-1");
-        if (panel) {
-          window.scrollTo(0, 400);
-        }
       }
     },
   },
@@ -657,7 +645,9 @@ export default defineComponent({
           },
         });
       }
-      document.getElementById("image").scrollIntoView();
+      this.$nextTick(() => {
+        document.getElementById("imageAnchor")?.scrollIntoView()
+      })
     },
     handleAdvancedSearchResults(results) {
       this.advancedSearchResults = null;
@@ -1365,8 +1355,12 @@ export default defineComponent({
 @media (max-width: 1024px) {
   #split-2 {
     width: 100% !important;
-    padding-right: 10px !important;
-    padding-left: 20px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  #split-2 {
+    min-width: 420px !important;
   }
 }
 
@@ -1397,11 +1391,6 @@ export default defineComponent({
   #split-1 {
     padding: 0px 15px 0px 15px !important;
     border-width: 0px;
-  }
-
-  #split-2 {
-    width: 100% !important;
-    padding: 0px 15px 15px 0px !important;
   }
 }
 
@@ -1523,7 +1512,6 @@ h2 input:not(:placeholder-shown) {
 
 #split-2 {
   z-index: 0;
-  min-width: 420px !important;
   background-color: var(--page-background);
   padding: 0px 0px 0px 0px;
 }
