@@ -138,7 +138,8 @@
               </svg>
             </button>
 
-            <ImageViewer v-if="IiifFileforImageViewer" :key="IiifFileforImageViewer" :iiifFile="IiifFileforImageViewer" />
+            <ImageViewer v-if="IiifFileforImageViewer" :key="IiifFileforImageViewer"
+              :iiifFile="IiifFileforImageViewer" />
             <MetaData :Id="idForMetaData" :currentLang="currentLanguage" @keyword-clicked="handleKeywordClick" />
           </div>
         </transition>
@@ -630,24 +631,25 @@ export default defineComponent({
         this.$router.push(this.previousRoute);
       }
     },
-    onImageClicked(iiifFile, id) {
+    onImageClicked(_iiifFile, id) {
+      this.toggleThreePanels();
+      const val = String(id);
+      this.IiifFileforImageViewer = val;
       this.selectedIiifFile = id;
       this.idForMetaData = id;
-      this.toggleThreePanels();
+
       if (!this.$route.fullPath.includes("image")) {
         this.previousRoute = this.$route.fullPath;
       }
-      if (this.IiifFileforImageViewer) {
-        this.$router.replace({
-          name: "IiifFile",
-          params: {
-            iiifFile: this.IiifFileforImageViewer,
-          },
-        });
-      }
+
+      this.$router.replace({
+        name: "IiifFile",
+        params: { iiifFile: val },
+      });
+
       this.$nextTick(() => {
-        document.getElementById("imageAnchor")?.scrollIntoView()
-      })
+        document.getElementById("imageAnchor")?.scrollIntoView();
+      });
     },
     handleAdvancedSearchResults(results) {
       this.advancedSearchResults = null;
