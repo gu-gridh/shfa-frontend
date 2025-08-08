@@ -138,7 +138,7 @@
               </svg>
             </button>
 
-            <ImageViewer v-if="IiifFileforImageViewer" :iiifFile="IiifFileforImageViewer" />
+            <ImageViewer v-if="IiifFileforImageViewer" :key="IiifFileforImageViewer" :iiifFile="IiifFileforImageViewer" />
             <MetaData :Id="idForMetaData" :currentLang="currentLanguage" @keyword-clicked="handleKeywordClick" />
           </div>
         </transition>

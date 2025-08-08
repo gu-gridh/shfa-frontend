@@ -490,7 +490,7 @@ export default {
         this.map.addControl(new Zoom());
       }
 
-      const markerColour = getComputedStyle(document.getElementById("map")).getPropertyValue("--map-markers");
+      const markerColour = '#F0C02E';
       var webGLStyle = {
         symbol: {
           symbolType: "image",
