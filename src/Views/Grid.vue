@@ -130,7 +130,7 @@
         <!-- Panel 3 -->
         <transition name="slide" @after-enter="onPanel3Done" @after-leave="onPanel3Done">
           <div id="split-2" v-show="showThreePanels" class="flex-grow main-color overflow-auto">
-            <div id="imageAnchor" style="width:0%;height:0px; position:relative; top:0px; margin-left:0px;"></div>
+            <div id="imageAnchor" style="width:0%; height:160px; position:relative; margin-top:-160px; margin-left:0px;"></div>
             <button @click="closeThreePanels" class="close-button">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24"
                 stroke="currentColor">
