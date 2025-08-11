@@ -1370,7 +1370,7 @@ export default defineComponent({
   #map {
     /* top: -60px; */
     height: 75vw;
-    width: 100%;
+    /* width: 100%; */
   }
 }
 
