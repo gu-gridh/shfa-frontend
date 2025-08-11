@@ -118,7 +118,7 @@
         <!-- Panel 2 -->
         <div id="split-1" class="flex-grow overflow-auto main-color" v-show="shouldShowPanel1">
           <Gallery ref="gallery" v-show="activeTab === 'gallery'" @image-clicked="onImageClicked"
-            @row-clicked="closeThreePanels" :searchItems="searchItems" :advancedSearchResults="advancedSearchResults"
+            :searchItems="searchItems" :advancedSearchResults="advancedSearchResults"
             :bboxSearch="bboxResults" :selectedSiteId="selectedId" :activeTab="activeTab"
             :currentLanguage="currentLanguage" :showThreePanels="showThreePanels" @update-tab="activeTab = $event" />
 

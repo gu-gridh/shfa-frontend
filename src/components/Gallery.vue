@@ -123,7 +123,7 @@ const DEPTH = 0
 const thumbSize = 150
 const rows = ref([])
 const isGalleryLoading = ref(true)
-const emit = defineEmits(['image-clicked', 'row-clicked', 'update-tab'])
+const emit = defineEmits(['image-clicked', 'update-tab'])
 const layoutVersion = ref(0)
 
 const withDepth = urlString => {
@@ -316,7 +316,6 @@ async function fetchPage(row, url) {
 
 function onTitleClick(idx) {
   toggleRow(idx)
-  emit('row-clicked')
 }
 
 watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search = Date.now(); fetchGallery() } })
