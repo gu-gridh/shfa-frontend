@@ -110,7 +110,13 @@ function buildRows() {
   rowsArr.push({
     id: 'site',
     title: 'Site',
-    items: makeItems(summary.value.site, o => o.raa_id || o.lamning_id || `${o.askeladden_id}: ${o.placename}` || o.placename || 'Unknown site'), //use lamningnr on new swedish sites, include placename with norwegian id for better context, use placename everywhere else
+    items: makeItems(summary.value.site, o =>
+      o.raa_id ||
+      o.lamning_id ||
+      (o.askeladden_id && o.placename && `${o.askeladden_id}: ${o.placename}`) ||
+      o.placename ||
+      'Unknown site'
+    ), //use lamningnr on new swedish sites, include placename with norwegian id for better context, use placename everywhere else
     count: summary.value.site.reduce((n, o) => n + o.count, 0)
   })
   rowsArr.push({
