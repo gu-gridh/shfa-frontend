@@ -162,7 +162,12 @@ async function fetchSummary() {
 }
 
 function triggerSearch(item) {
-  emit('summaryClick', item)
+  if (currentRow.value?.id !== 'geographic') return emit('summaryClick', item)
+
+  const w = s => String(s ?? '').split(',')[0].trim().split(/\s+/)[0]
+  emit('summaryClick',
+    typeof item === 'object' ? { ...item, label: w(item?.label) } : w(item)
+  )
 }
 
 watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search = Date.now(); props.activeTab === 'summary' && fetchSummary() } })
