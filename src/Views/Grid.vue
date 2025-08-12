@@ -10,11 +10,9 @@
       <div id="gu-logo-bg">
         <div v-if="currentLanguage === 'sv'" id="gu-logo-sv"></div>
         <div v-else id="gu-logo-en"></div>
-
       </div>
-      <button @click="toggleMenu" class="menu-show-button">
-        <!--  {{ $t('message.menuButton') }} -->
-      </button>
+
+      <button @click="toggleMenu" class="menu-show-button"></button>
 
       <!-- This controls the menu on small screens -->
       <div class="main-menu" v-show="isMenuOpen">
@@ -31,11 +29,9 @@
             <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage"
               id="language-button">
               Svenska
-
             </div>
             <div v-else class="top-button" key="svenska" @click="toggleLanguage" id="language-button">
               English
-
             </div>
           </transition>
 
@@ -51,7 +47,6 @@
             </div>
           </transition>
 
-          <!-- <div class="top-button">|</div> -->
         </div>
         <Privacy :visiblePrivacy="visiblePrivacy" :currentLanguage="currentLanguage" @close="visiblePrivacy = false" />
         <div class="top-links">
@@ -69,23 +64,25 @@
             </router-link>
           </button>
 
-          <button class="item" v-if="currentLanguage === 'en'">
+            <button class="item">
+            <router-link :to="{ name: 'Contact' }" target="_blank">
+              {{ $t('message.contact') }}<div class="top-link-infobutton"></div>
+            </router-link>
+          </button>
 
+          <button class="item" v-if="currentLanguage === 'en'">
             <a href="https://www.gu.se/en/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div
                 class="top-link-button"></div></a> </button>
 
           <button class="item" v-else>
-
             <a href="https://www.gu.se/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button">
               </div></a> </button>
 
           <button class="item" v-if="currentLanguage === 'en'">
-
             <a href="https://www.gu.se/en/shfa/research" target="_blank">{{ $t('message.news') }}<div
                 class="top-link-button"></div></a></button>
 
           <button class="item" v-else>
-
             <a href="https://www.gu.se/shfa/forskning" target="_blank">{{ $t('message.news') }}<div
                 class="top-link-button"></div></a></button>
         </div>
@@ -1135,19 +1132,18 @@ export default defineComponent({
     width: 100%;
     position: absolute;
     background-color: var(--menu-background);
-    height: 440px;
+    height: 500px;
     box-shadow: var(--menu-shadow);
     backdrop-filter: blur(8px);
   }
 
   @media (max-width: 600px) {
-
     .main-menu {
       display: block;
       width: 100%;
       position: absolute;
       background-color: var(--menu-background);
-      height: 440px;
+      height: 500px;
       box-shadow: none;
       backdrop-filter: blur(8px);
     }

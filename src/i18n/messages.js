@@ -3,6 +3,7 @@ export default {
   en: {
     message: {
       resetlayout: "Reset Layout",
+      contact: "Contact",
       hello: "Hello",
       menuButton: "Menu",
       aboutArchive: "About",
@@ -149,6 +150,7 @@ export default {
   sv: {
     message: {
       resetlayout: "Återställ layout",
+      contact: "Kontakt",
       hello: "Hej",
       menuButton: "Meny",
       aboutArchive: "Om arkivet",
