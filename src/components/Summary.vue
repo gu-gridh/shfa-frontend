@@ -164,7 +164,7 @@ async function fetchSummary() {
 function triggerSearch(item) {
   if (currentRow.value?.id !== 'geographic') return emit('summaryClick', item)
 
-  const w = s => String(s ?? '').split(',')[0].trim().split(/\s+/)[0]
+  const w = s => String(s ?? '').split(',')[0].trim()
   emit('summaryClick',
     typeof item === 'object' ? { ...item, label: w(item?.label) } : w(item)
   )
