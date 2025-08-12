@@ -69,6 +69,7 @@ function rebuild() {
     yAxis: {
       type: 'category',
       data: labels,
+      triggerEvent: true,
       axisLabel: {
         interval: 0,
         align: 'right',
@@ -88,7 +89,13 @@ function rebuild() {
     if (!inst) return
     inst.resize()
     inst.off('click')
-    inst.on('click', p => emit('select', p.name))
+    inst.on('click', p => {
+      const label =
+        p.componentType === 'series' ? p.name :
+        p.componentType === 'yAxis'  ? p.value :
+        null
+      if (label != null) emit('select', label)
+    })
   })
 }
 
