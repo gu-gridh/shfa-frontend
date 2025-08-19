@@ -83,7 +83,7 @@
             <MasonryWall :key="layoutVersion" :items="row.infiniteItems" :column-width="thumbSize" :gap="10"
               class="masonry-wall">
               <template #default="{ item, index }">
-                <div :key="item.id" class="item" :style="`height:${(item.height / item.width) * thumbSize}px`"
+                <div :key="item.id" class="item" :style="{ aspectRatio: `${item.width} / ${item.height}` }"
                   @click="$emit('image-clicked', item.iiif_file, item.id)">
                   <span v-if="item.is3d" class="badge-3d">3D</span>
                   <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`"
