@@ -1,9 +1,9 @@
 <template>
   <div>
-        <div v-if="isLoading" class="loading-container">
-    <div  class="loading-indicator">Loading summary…  </div>
-      <img src="/interface/6-dots-rotate.svg" alt="Loading..."class="inline-spinner" />
-      </div>
+    <div v-if="isLoading" class="loading-container">
+      <div class="loading-indicator">Loading summary… </div>
+      <img src="/interface/6-dots-rotate.svg" alt="Loading..." class="inline-spinner" />
+    </div>
     <div v-else class="grid-container">
       <div class="row-wrapper">
         <div class="button-container sticky">
@@ -26,7 +26,8 @@
 
           <h3 class="row-heading">{{ currentRow.title }}</h3>
 
-          <LineChart v-if="currentRow.id === 'years'" :data="summary.year" :title="currentRow.title" :exportable="true" />
+          <LineChart v-if="currentRow.id === 'years'" :data="summary.year" :title="currentRow.title"
+            :exportable="true" />
           <BarChart v-else :data="currentRow.items" :title="currentRow.title" :exportable="true"
             @select="triggerSearch" />
 
@@ -103,8 +104,10 @@ function buildRows() {
   rowsArr.push({
     id: 'geographic',
     title: 'Geographic',
-    items: makeItems(summary.value.geographic, o => {if (o.country === 'SVERIGE') {return `${o.parish || 'Unknown Parish'}, ${o.municipality || o.province}, ${o.country}`} //use parish and municipality info sweden, only include region if no municipality is available
-  else {return `${o.municipality}, ${o.country}`}}),
+    items: makeItems(summary.value.geographic, o => {
+      if (o.country === 'SVERIGE') { return `${o.parish || 'Unknown Parish'}, ${o.municipality || o.province}, ${o.country}` } //use parish and municipality info sweden, only include region if no municipality is available
+      else { return `${o.municipality}, ${o.country}` }
+    }),
     count: summary.value.geographic.reduce((n, o) => n + o.count, 0)
   })
   rowsArr.push({
@@ -186,12 +189,11 @@ if (props.activeTab === 'summary') fetchSummary()
 </script>
 
 <style scoped>
-  .inline-spinner {
+.inline-spinner {
   width: 55px;
   height: 55px;
   opacity: 0.8;
-  filter: invert(1);
-  /* white */
+  filter: invert(1); /* white */
 }
 
 .toggle-button-group {
@@ -222,13 +224,13 @@ if (props.activeTab === 'summary') fetchSummary()
   color: var(--highlighted-text);
 }
 
-.loading-container{
-  width:100%;
-  display:flex;
+.loading-container {
+  width: 100%;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top:50px;
+  margin-top: 50px;
 }
 
 .loading-indicator {

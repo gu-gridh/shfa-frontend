@@ -1,6 +1,6 @@
 <template>
   <div class="chart-shell">
-    <div class="echart-wrapper">
+    <div class="echart-wrapper" v-if="!isMobile">
       <VueECharts :option="option" renderer="svg" :style="{ height: chartHeight + 'px', width: '100%' }"
         ref="chartRef" />
     </div>
@@ -16,25 +16,23 @@
 
 <script setup>
 import { ref, watch, nextTick, computed, onMounted, onUnmounted } from 'vue'
-import { use } from 'echarts/core'
+import * as echarts from 'echarts/core'
 import { SVGRenderer } from 'echarts/renderers'
 import { BarChart as Bar } from 'echarts/charts'
 import { GridComponent, TooltipComponent } from 'echarts/components'
-use([SVGRenderer, Bar, GridComponent, TooltipComponent])
-
 import VueECharts from 'vue-echarts'
 
-const isMobile = window.matchMedia('(max-width:900px)').matches
+echarts.use([SVGRenderer, Bar, GridComponent, TooltipComponent])
 
+const isMobile = ref(window.innerWidth < 1025)
 const props = defineProps({
   data: { type: Array, default: () => [] },
   title: { type: String, default: '' },
   exportable: { type: Boolean, default: true }
 })
-const emit = defineEmits(['select'])
 
-const TOP_N = isMobile ? 25 : 50
-const BAR_H = isMobile ? 20 : 28 //px per bar
+const TOP_N = 50;
+const BAR_H = 28; //px per bar
 const MIN_CHART_HEIGHT = 300
 
 const chartHeight = computed(() =>
@@ -43,6 +41,7 @@ const chartHeight = computed(() =>
 
 const chartRef = ref(null)
 const option = ref({})
+const emit = defineEmits(['select'])
 
 function rebuild() {
   const topData = [...props.data]
@@ -65,7 +64,7 @@ function rebuild() {
       trigger: 'axis', axisPointer: { type: 'shadow' },
       formatter: p => `<strong>${p[0].name}</strong><br/>${p[0].value}`
     },
-    xAxis: { type: 'value', splitNumber: isMobile ? 2 : 8 },
+    xAxis: { type: 'value', splitNumber: 8 },
     yAxis: {
       type: 'category',
       data: labels,
@@ -74,9 +73,8 @@ function rebuild() {
         interval: 0,
         align: 'right',
         margin: 8,
-        overflow: isMobile ? 'truncate' : 'none',
+        overflow: 'none',
         color: "var(--page-text)",
-        width: isMobile ? 60 : null,
         ellipsis: '…',
         formatter: v => v
       }
@@ -103,10 +101,34 @@ watch(() => props.data, rebuild, { immediate: true })
 
 async function downloadImage() {
   await nextTick()
-  const inst = chartRef.value?.chart
-  if (!inst) return
-  const url = inst.getDataURL({ type: 'svg', pixelRatio: 2, background: '#fff' })
+  const exportWidth  = Math.max(640, document.documentElement.clientWidth)   
+  const exportHeight = Math.max(
+    MIN_CHART_HEIGHT,
+    BAR_H * Math.min(TOP_N, props.data.length)
+  )
+  const url = exportOffscreenSVG(option.value, exportWidth, exportHeight)
   save(url, (props.title || 'chart') + '.svg')
+}
+
+function exportOffscreenSVG(opt, width, height) {
+  const tmp = document.createElement('div')
+  tmp.style.position = 'fixed'
+  tmp.style.left = '-10000px'
+  tmp.style.top = '-10000px'
+  tmp.style.width = width + 'px'
+  tmp.style.height = height + 'px'
+  document.body.appendChild(tmp)
+
+  const inst = echarts.init(tmp, null, { renderer: 'svg', width, height })
+  try {
+    inst.setOption(opt, true)
+    inst.resize({ width, height })
+    const url = inst.getDataURL({ type: 'svg', background: '#fff' })
+    return url
+  } finally {
+    inst.dispose()
+    document.body.removeChild(tmp)
+  }
 }
 
 function downloadCSV() {
@@ -175,5 +197,15 @@ onUnmounted(() => {
 .btn-row button {
   color: var(--highlighted-text);
   pointer-events: auto;
+}
+
+@media (max-width: 1025px) {
+  .chart-shell {
+    font-size: 1.5rem;
+  }
+  .btn-row {
+    justify-content: center;  
+    padding-right: 0;
+  }
 }
 </style>

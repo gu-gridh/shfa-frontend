@@ -410,7 +410,6 @@ defineExpose({ forceRelayout })
   display: flex;
   justify-content: left;
   align-items: center;
-  width: fit-content;
   margin-top: 30px;
   margin-bottom: 20px;
   font-size: 1.2rem;
