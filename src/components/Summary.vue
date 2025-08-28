@@ -24,6 +24,32 @@
             </button>
           </div>
 
+          <!-- mobile dropdown -->
+          <div class="mobile-row-menu">
+            <button class="mobile-menu-toggle" @click="mobileMenuOpen = !mobileMenuOpen">
+              <span>{{ currentRowTitle }}</span>
+              <svg :class="{ rotate: mobileMenuOpen }" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" />
+              </svg>
+            </button>
+
+            <transition name="slide-fade">
+              <div v-show="mobileMenuOpen">
+                <ul class="mobile-menu-list">
+                  <li v-for="r in otherRows" :key="r.index" :class="{ 'non-clickable': r.isCurrent }"
+                    @click="!r.isCurrent && (openRow(r.index), mobileMenuOpen = false)">
+                    <div class="row-entry">
+                      <span class="row-text">
+                        {{ r.title }}
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </transition>
+          </div>
+
           <h3 class="row-heading">{{ currentRow.title }}</h3>
 
           <LineChart v-if="currentRow.id === 'years'" :data="summary.year" :title="currentRow.title"
@@ -43,6 +69,16 @@ import BarChart from '../components/BarChart.vue'
 import LineChart from '../components/LineChart.vue'
 
 const emit = defineEmits(['summaryClick', 'update-tab'])
+const mobileMenuOpen = ref(false)
+const currentRowTitle = computed(() => currentRow.value?.title || '')
+
+const otherRows = computed(() =>
+  rows.value.map((r, i) => ({
+    index: i,
+    title: r.title,
+    isCurrent: i === openRowIndex.value
+  }))
+)
 
 const props = defineProps({
   searchItems: [Array, String, Object],
@@ -184,6 +220,7 @@ watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamp
 watch(() => props.bboxSearch, v => { if (v != null) { filterTimestamps.bbox = Date.now(); props.activeTab === 'summary' && fetchSummary() } })
 watch(() => props.selectedSiteId, v => { if (v != null) { filterTimestamps.site = Date.now(); props.activeTab === 'summary' && fetchSummary() } })
 watch(() => props.activeTab, n => { if (n === 'summary') fetchSummary() })
+watch(openRowIndex, () => { mobileMenuOpen.value = false })
 
 if (props.activeTab === 'summary') fetchSummary()
 </script>
@@ -200,7 +237,6 @@ if (props.activeTab === 'summary') fetchSummary()
   display: flex;
   justify-content: left;
   align-items: center;
-  width: fit-content;
   margin-top: 30px;
   margin-bottom: 20px;
   font-size: 1.2rem;
@@ -242,7 +278,7 @@ if (props.activeTab === 'summary') fetchSummary()
 .grid-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem
+  gap: 2rem;
 }
 
 .row-wrapper {
@@ -277,10 +313,10 @@ h3 {
   font-size: 120%;
 }
 
-h3 span {
+/* h3 span {
   font-weight: 300;
   font-size: 100%;
-}
+} */
 
 .row-titles li:hover {
   transform: scale(1.05) translate(-3px);
@@ -304,49 +340,89 @@ h3 span {
   font-weight: 400;
 }
 
-.scroll-wrapper {
-  margin-top: 1rem
+.mobile-row-menu {
+  margin-bottom: 1rem;
 }
 
-.scroller {
-  columns: 2;
-  width: 100%;
-  max-width: 100%;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  overflow-y: auto;
-  scrollbar-width: none;
-  color: var(--page-text);
-}
-
-.scroller.single-column {
-  columns: 1 !important;
-}
-
-@media (max-width: 1500px) {
-  .scroller {
-    columns: 1;
+@media (min-width: 901px) {
+  .mobile-row-menu {
+    display: none;
   }
 }
 
-.scroller::-webkit-scrollbar {
-  width: 0;
-  height: 0
+@media (max-width: 900px) {
+  .button-container.sticky {
+    display: none;
+  }
 }
 
-.item {
-  padding: 0 .25rem;
-  border-bottom: 1px dotted #717171;
-  height: 36px;
-  line-height: 36px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.item:hover {
-  color: var(--ui-hover);
+.mobile-menu-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  border: none;
+  background: none;
+  color: var(--page-text);
   cursor: pointer;
+}
+
+.mobile-menu-toggle svg {
+  transition: transform .25s ease;
+}
+
+.mobile-menu-toggle svg.rotate {
+  transform: rotate(180deg);
+}
+
+.mobile-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0 0.5rem;
+}
+
+.mobile-menu-list li {
+  padding: 0.35rem 0;
+  cursor: pointer;
+}
+
+.mobile-menu-list li.non-clickable {
+  cursor: default;
+  opacity: 1;
+}
+
+.row-entry {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.mobile-menu-list .row-text {
+  white-space: normal;
+  overflow: visible;
+  max-width: none;
+}
+
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all .25s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+@media (max-width: 900px) {
+  .right-column {
+    width: calc(100vw - 40px);
+    padding-left: 0.5rem;
+    padding-top: 0rem;
+    min-height: 320px;
+  }
 }
 </style>
