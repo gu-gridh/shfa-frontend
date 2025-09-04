@@ -6,7 +6,7 @@ export default {
       contact: "Contact",
       hello: "Hello",
       menuButton: "Menu",
-      aboutArchive: "About",
+      aboutArchive: "Archive Info",
       aboutSHFA: "About SHFA",
       privacy: "Privacy",
       news: "News",
