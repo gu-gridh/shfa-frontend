@@ -36,13 +36,13 @@
             ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
             @keydown="handleBackspace($event, index)" autocomplete="off" />
 
-            <span v-if="toggleFields.includes(index)" class="op-group">
-              <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'OR' }"
-                @click.stop="fieldOperator[index] = 'OR'">OR</span>
+          <span v-if="toggleFields.includes(index)" class="op-group">
+            <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'OR' }"
+              @click.stop="fieldOperator[index] = 'OR'">OR</span>
 
-              <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'AND' }"
-                @click.stop="fieldOperator[index] = 'AND'">AND</span>
-            </span>
+            <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'AND' }"
+              @click.stop="fieldOperator[index] = 'AND'">AND</span>
+          </span>
 
         </div>
         <div v-if="searchResults[index].length" class="suggestions" @scroll="onSuggestionsScroll(index, $event)">
@@ -80,10 +80,6 @@ const fieldOperator = reactive({
   3: 'OR',
   4: 'OR'
 })
-
-// function toggleOperator(idx) {
-//   fieldOperator[idx] = fieldOperator[idx] === 'OR' ? 'AND' : 'OR'
-// }
 
 const fieldIndexBySource = { //mapping search results to advanced search field
   site: 0,
@@ -131,7 +127,6 @@ const clearAdvancedSearchFields = () => {
 };
 
 const handleSearchButtonClick = () => {
-  const searchParams = {};
   const fieldNames = [
     'site_name',
     'author_name',
@@ -143,17 +138,35 @@ const handleSearchButtonClick = () => {
     'region_name'
   ];
 
+  const params = new URLSearchParams();
+
   searchQuery.value.forEach((query, index) => {
     const texts = selectedKeywords.value[index].map(k => k.text);
     const value = query || texts.join(',');
-
-    if (value) searchParams[fieldNames[index]] = value;
+    if (value) params.set(fieldNames[index], value);
   });
 
+  if (params.has('author_name')) {
+    params.set('author_operator', fieldOperator[1]); //and/or
+  }
+  if (params.has('keyword')) {
+    params.set('keyword_operator', fieldOperator[3]);
+  }
+  if (params.has('dating_tag')) {
+    params.set('dating_operator', fieldOperator[4]);
+  }
+
+  const searchParams = Object.fromEntries(params.entries());
   emit('advanced-search-params', searchParams);
 
+  //LOGGING
+  const base = 'https://diana.dh.gu.se/api/shfa/type_categorized/?search_type=advanced';
+  const qs = params.toString();
+  const finalUrl = qs ? `${base}&${qs}` : base;
+  console.log('[AdvancedSearch] Final API URL:', finalUrl);
+
   const { trackSearch } = useSearchTracking();
-  trackSearch(new URLSearchParams(searchParams).toString());
+  trackSearch(qs);
 };
 
 const selectResult = (result, index) => {
@@ -197,10 +210,6 @@ const onInputFocus = async (index) => {
     await fetchSuggestions(searchQuery.value[index], index);
   }
 };
-
-// const isScrolledToBottom = (element) => {
-//   return element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
-// };
 
 const fetchSuggestions = async (query, index, nextPage = null) => {
   try {
@@ -264,9 +273,9 @@ const fetchSuggestions = async (query, index, nextPage = null) => {
         newResults = feats.flatMap(f => {
           const p = f?.properties || {};
           const out = [];
-          if (p.raa_id)     out.push({ id: `group:raa:${p.raa_id}`,     text: p.raa_id });
+          if (p.raa_id) out.push({ id: `group:raa:${p.raa_id}`, text: p.raa_id });
           if (p.lamning_id) out.push({ id: `group:lamning:${p.lamning_id}`, text: p.lamning_id });
-          if (p.placename)  out.push({ id: `group:place:${p.placename}`, text: p.placename });
+          if (p.placename) out.push({ id: `group:place:${p.placename}`, text: p.placename });
           return out;
         });
         break;
