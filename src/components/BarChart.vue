@@ -126,8 +126,10 @@ function rebuild() {
     inst.resize()
     inst.off('click')
     inst.on('click', p => {
-      const label = p.axisValue ?? null
-      if (label != null) emit('select', label)
+      if (p.componentType === 'yAxis') {
+        const label = p.value
+        if (label) emit('select', label)
+      }
     })
   })
 }
