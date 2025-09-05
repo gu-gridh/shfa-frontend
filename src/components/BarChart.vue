@@ -7,9 +7,9 @@
 
     <div v-if="exportable" class="btn-row">
       <div class="btn-row-title">Download</div>
-      <button @click="downloadImage">SVG</button>
+      <button type="button" @click="downloadImage">SVG</button>
       <div class="btn-row-title">|</div>
-      <button @click="downloadCSV">CSV</button>
+      <button type="button" @click="downloadCSV">CSV</button>
     </div>
   </div>
 </template>
@@ -135,31 +135,50 @@ function rebuild() {
 watch(() => props.data, rebuild, { immediate: true })
 
 async function downloadImage() {
-  await nextTick()
+  const name = (props.title || 'chart') + '.svg'
   const exportWidth = 800
-  const exportHeight = Math.max(
-    MIN_CHART_HEIGHT,
-    BAR_H * Math.min(TOP_N, props.data.length)
-  )
-  const url = exportOffscreenSVG(option.value, exportWidth, exportHeight)
-  save(url, (props.title || 'chart') + '.svg')
+  const exportHeight = Math.max(MIN_CHART_HEIGHT, BAR_H * Math.min(TOP_N, props.data.length))
+
+  const inst = chartRef.value?.chart
+  const useOffscreen = isMobile.value || !inst
+
+  if (useOffscreen) { //mobile - render offscreen
+    const blobUrl = await exportOffscreenSVG(option.value, exportWidth, exportHeight)
+    save(blobUrl, name)
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 1500)
+  } else { //desktop - use existing instance
+    const dataUrl = inst.getDataURL({ type: 'svg', background: '#fff' })
+    const blob = await (await fetch(dataUrl)).blob()
+    const blobUrl = URL.createObjectURL(blob)
+    save(blobUrl, name)
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 1500)
+  }
 }
 
-function exportOffscreenSVG(opt, width, height) {
+async function exportOffscreenSVG(opt, width, height) {
   const tmp = document.createElement('div')
-  tmp.style.position = 'fixed'
-  tmp.style.left = '-10000px'
-  tmp.style.top = '-10000px'
-  tmp.style.width = width + 'px'
-  tmp.style.height = height + 'px'
+  Object.assign(tmp.style, {
+    position: 'fixed', left: '-10000px', top: '-10000px',
+    width: width + 'px', height: height + 'px'
+  })
   document.body.appendChild(tmp)
 
   const inst = echarts.init(tmp, null, { renderer: 'svg', width, height })
+
   try {
-    inst.setOption(opt, true)
-    inst.resize({ width, height })
-    const url = inst.getDataURL({ type: 'svg', background: '#fff' })
-    return url
+    const blobUrl = await new Promise((resolve, reject) => {
+      inst.on('finished', async () => {
+        try {
+          const dataUrl = inst.getDataURL({ type: 'svg', background: '#fff' })
+          const blob = await (await fetch(dataUrl)).blob()
+          resolve(URL.createObjectURL(blob))
+        } catch (e) {
+          reject(e)
+        }
+      })
+      inst.setOption(opt, true)
+    })
+    return blobUrl
   } finally {
     inst.dispose()
     document.body.removeChild(tmp)
@@ -187,7 +206,11 @@ function save(url, name) {
   const a = document.createElement('a')
   a.href = url
   a.download = name
+  a.rel = 'noopener'
+  document.body.appendChild(a)
   a.click()
+  document.body.removeChild(a)
+  setTimeout(() => URL.revokeObjectURL(url), 1500)
 }
 
 let resizeObserver = null
