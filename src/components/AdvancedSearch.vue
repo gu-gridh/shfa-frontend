@@ -120,7 +120,7 @@ const apiUrls = computed(() => {
     `https://diana.dh.gu.se/api/shfa/search/keywords/${langParam}keyword=`,
     `https://diana.dh.gu.se/api/shfa/search/dating/${langParam}dating_tag=`,
     'https://diana.dh.gu.se/api/shfa/search/institution/?institution_name=',
-    'https://diana.dh.gu.se/api/shfa/null_visualization_group/?depth=1&type=943&site=',
+    'https://diana.dh.gu.se/api/shfa/search/visualization_group/?site_name=',
     'https://diana.dh.gu.se/api/shfa/search/region/?region_name='
   ];
 });
@@ -257,14 +257,17 @@ const fetchSuggestions = async (query, index, nextPage = null) => {
           text: result.name
         }));
         break;
-      case 6: //models
-        newResults = data.results.flatMap(result => {
-          const { placename, raa_id, lamning_id } = result.site;
-          const suggestions = [];
-          if (raa_id) suggestions.push({ id: result.group.id, text: raa_id });
-          if (lamning_id) suggestions.push({ id: result.group.id, text: lamning_id });
-          if (placename) suggestions.push({ id: result.group.id, text: placename });
-          return suggestions;
+      case 6: //3d models
+        const feats = Array.isArray(data?.results?.features)
+          ? data.results.features
+          : [];
+        newResults = feats.flatMap(f => {
+          const p = f?.properties || {};
+          const out = [];
+          if (p.raa_id)     out.push({ id: `group:raa:${p.raa_id}`,     text: p.raa_id });
+          if (p.lamning_id) out.push({ id: `group:lamning:${p.lamning_id}`, text: p.lamning_id });
+          if (p.placename)  out.push({ id: `group:place:${p.placename}`, text: p.placename });
+          return out;
         });
         break;
       case 7: //geography
