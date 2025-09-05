@@ -17,34 +17,37 @@
           }}
         </div>
         <div class="input-wrapper">
-          <div v-for="keyword in selectedKeywords[index]" :key="keyword.id" class="tag-example-search" :id="keyword"
-            style="background-color: var(--selected-option); opacity:1; background: var(--selected-option); color: var(--button-text)"
-            @click="deselectKeyword(keyword, index)">
-            {{ keyword.text }}
+          <div class="input-left">
+            <div v-for="keyword in selectedKeywords[index]" :key="keyword.id" class="tag-example-search" :id="keyword"
+              @click="deselectKeyword(keyword, index)">
+              {{ keyword.text }}
+            </div>
+
+            <input type="search" @click="onInputFocus(index)" :id="'search' + index" :name="'search' + index"
+              :placeholder="selectedKeywords[index].length ? '' : [
+                $t('message.searchsite'),
+                $t('message.sökauthor'),
+                $t('message.sökbildtyp'),
+                $t('message.söknyckelord'),
+                $t('message.sökdatering'),
+                $t('message.sökinstitutioner'),
+                $t('message.sök3D'),
+                $t('message.geographicsearch'),
+              ][index]" :value="query" @input="updateSearchQuery($event.target.value, index)"
+              @keydown="handleBackspace($event, index)" autocomplete="off" />
           </div>
 
-          <input type="search" @click="onInputFocus(index)" :id="'search' + index" :name="'search' + index"
-            :placeholder="selectedKeywords[index].length ? '' : [
-              $t('message.searchsite'),
-              $t('message.sökauthor'),
-              $t('message.sökbildtyp'),
-              $t('message.söknyckelord'),
-              $t('message.sökdatering'),
-              $t('message.sökinstitutioner'),
-              $t('message.sök3D'),
-              $t('message.geographicsearch'),
-            ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
-            @keydown="handleBackspace($event, index)" autocomplete="off" />
+          <div v-if="toggleFields.includes(index)" class="input-right">
+            <span class="op-group">
+              <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'OR' }"
+                @click.stop="fieldOperator[index] = 'OR'">OR</span>
 
-          <span v-if="toggleFields.includes(index)" class="op-group">
-            <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'OR' }"
-              @click.stop="fieldOperator[index] = 'OR'">OR</span>
-
-            <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'AND' }"
-              @click.stop="fieldOperator[index] = 'AND'">AND</span>
-          </span>
-
+              <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'AND' }"
+                @click.stop="fieldOperator[index] = 'AND'">AND</span>
+            </span>
+          </div>
         </div>
+
         <div v-if="searchResults[index].length" class="suggestions" @scroll="onSuggestionsScroll(index, $event)">
           <div v-for="result in searchResults[index]" :key="result.id" class="tag-example"
             @click="selectResult(result, index)" @mouseover="hoverResult(index)" @mouseout="unhoverResult(index)">
@@ -422,15 +425,29 @@ defineExpose({
 
 .input-wrapper {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   background-color: var(--input-wrapper-background);
-  border-radius: 5px;
-  padding: 0px 7px;
   border: 1px solid var(--input-border);
-  max-height: 80px;
-  overflow-y: auto;
+  border-radius: 5px;
+}
+
+.input-left {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 0;
+  max-height: none;
+  overflow-y: visible;
   overflow-x: hidden;
+}
+
+.input-right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  padding-top: 2px;
+  padding-right: 2px;
 }
 
 input[type="search"] {
@@ -555,7 +572,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 .op-group {
   display: flex;
   gap: 4px;
-  margin-left: auto;
+  white-space: nowrap;
 }
 
 .operator-toggle {
