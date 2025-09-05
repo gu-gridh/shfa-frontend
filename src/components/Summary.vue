@@ -134,7 +134,12 @@ function buildRows() {
   rowsArr.push({
     id: 'motifs',
     title: 'Motifs',
-    items: makeItems(summary.value.motifs, o => o.motif || o['figurative motif']),
+    items: (summary.value.motifs || []).map((o, i) => ({
+      key: `${o.motif || o['figurative motif']}-${i}`,
+      label: o.motif || o['figurative motif'],
+      count: o.count,
+      figurative: !!o.figurative
+    })), 
     count: summary.value.motifs.reduce((n, o) => n + o.count, 0)
   })
   rowsArr.push({

@@ -19,10 +19,10 @@ import { ref, watch, nextTick, computed, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts/core'
 import { SVGRenderer } from 'echarts/renderers'
 import { BarChart as Bar } from 'echarts/charts'
-import { GridComponent, TooltipComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
 import VueECharts from 'vue-echarts'
 
-echarts.use([SVGRenderer, Bar, GridComponent, TooltipComponent])
+echarts.use([SVGRenderer, Bar, GridComponent, TooltipComponent, LegendComponent])
 
 const isMobile = ref(window.innerWidth < 1025)
 const props = defineProps({
@@ -50,19 +50,32 @@ function rebuild() {
     .reverse()
 
   const labels = topData.map(d => d.label)
-  const values = topData.map(d => d.count)
+  const hasFig = topData.some(d => typeof d.figurative === 'boolean')
 
   option.value = {
     grid: {
       left: 2,
       right: 24,
-      top: 8,
+      top: hasFig ? 36 : 8,  //extra space when the legend shows
       bottom: 20,
       containLabel: true
     },
+    legend: hasFig ? {
+      top: 6,
+      right: 5,
+      textStyle: { color: 'var(--page-text)' },
+      itemWidth: 14,
+      itemHeight: 10,
+      data: ['Figurative', 'Non-figurative']
+    } : undefined,
     tooltip: {
-      trigger: 'axis', axisPointer: { type: 'shadow' },
-      formatter: p => `<strong>${p[0].name}</strong><br/>${p[0].value}`
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: params => {
+        const list = Array.isArray(params) ? params : [params]
+        const nz = list.find(i => i.value > 0) || list[0]
+        return `<strong>${nz.name}</strong><br/>${nz.value}`
+      }
     },
     xAxis: { type: 'value', splitNumber: 8 },
     yAxis: {
@@ -74,12 +87,37 @@ function rebuild() {
         align: 'right',
         margin: 8,
         overflow: 'none',
-        color: "var(--page-text)",
+        color: 'var(--page-text)',
         ellipsis: '…',
         formatter: v => v
       }
     },
-    series: [{ type: 'bar', data: values, barWidth: '60%' }]
+    series: hasFig
+      ? [
+        {
+          name: 'Figurative',
+          type: 'bar',
+          stack: 'one',
+          barWidth: '60%',
+          itemStyle: { color: 'var(--figurative-color, #3b82f6)' },
+          data: topData.map(d => (d.figurative ? d.count : 0))
+        },
+        {
+          name: 'Non-figurative',
+          type: 'bar',
+          stack: 'one',
+          barWidth: '60%',
+          itemStyle: { color: 'var(--nonfigurative-color, #a855f7)' },
+          data: topData.map(d => (!d.figurative ? d.count : 0))
+        }
+      ]
+      : [
+        {
+          type: 'bar',
+          barWidth: '60%',
+          data: topData.map(d => d.count)
+        }
+      ]
   }
 
   nextTick(() => {
@@ -88,10 +126,7 @@ function rebuild() {
     inst.resize()
     inst.off('click')
     inst.on('click', p => {
-      const label =
-        p.componentType === 'series' ? p.name :
-        p.componentType === 'yAxis'  ? p.value :
-        null
+      const label = p.axisValue ?? null
       if (label != null) emit('select', label)
     })
   })
@@ -101,7 +136,7 @@ watch(() => props.data, rebuild, { immediate: true })
 
 async function downloadImage() {
   await nextTick()
-  const exportWidth  = Math.max(640, document.documentElement.clientWidth)   
+  const exportWidth = 800
   const exportHeight = Math.max(
     MIN_CHART_HEIGHT,
     BAR_H * Math.min(TOP_N, props.data.length)
@@ -132,8 +167,18 @@ function exportOffscreenSVG(opt, width, height) {
 }
 
 function downloadCSV() {
-  const csv = ['Label,Count', ...props.data.map(d => `"${d.label}",${d.count}`)].join('\n')
-  const BOM = '\uFEFF';
+  const hasFig = props.data.some(d => typeof d.figurative === 'boolean')
+
+  const header = hasFig ? 'Label,Count,Figurative' : 'Label,Count'
+  const rows = props.data.map(d => {
+    const base = `"${d.label}",${d.count}`
+    if (!hasFig) return base
+    const figText = d.figurative ? 'Figurative' : 'Non-figurative'
+    return `${base},${figText}`
+  })
+
+  const csv = [header, ...rows].join('\n')
+  const BOM = '\uFEFF'
   const url = URL.createObjectURL(new Blob([BOM + csv], { type: 'text/csv;charset=utf-8' }))
   save(url, (props.title || 'chart') + '.csv')
 }
@@ -203,8 +248,9 @@ onUnmounted(() => {
   .chart-shell {
     font-size: 1.5rem;
   }
+
   .btn-row {
-    justify-content: center;  
+    justify-content: center;
     padding-right: 0;
   }
 }
