@@ -162,11 +162,7 @@ const handleSearchButtonClick = () => {
   const searchParams = Object.fromEntries(params.entries());
   emit('advanced-search-params', searchParams);
 
-  //LOGGING
-  const base = 'https://diana.dh.gu.se/api/shfa/type_categorized/?search_type=advanced';
   const qs = params.toString();
-  const finalUrl = qs ? `${base}&${qs}` : base;
-  console.log('[AdvancedSearch] Final API URL:', finalUrl);
 
   const { trackSearch } = useSearchTracking();
   trackSearch(qs);

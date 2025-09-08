@@ -117,7 +117,9 @@ function rebuild() {
           barWidth: '60%',
           data: topData.map(d => d.count)
         }
-      ]
+      ],
+      emphasis: { disabled: true },
+
   }
 
   nextTick(() => {
