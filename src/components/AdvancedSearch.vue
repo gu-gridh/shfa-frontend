@@ -90,7 +90,8 @@ const fieldIndexBySource = { //mapping search results to advanced search field
   people: 1,
   type: 2,
   keywords: 3,
-  institution: 5
+  institution: 5,
+  'dating tag': 4,  
 }
 
 const MAX_TAGS = 5;
