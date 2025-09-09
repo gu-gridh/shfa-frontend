@@ -54,9 +54,8 @@
 
           <LineChart v-if="currentRow.id === 'years'" :data="summary.year" :title="currentRow.title"
             :exportable="true" />
-          <BarChart v-else :data="currentRow.items" :title="currentRow.title" :exportable="true"
+          <BarChart v-else :data="localizedItems" :title="currentRow.title" :exportable="true"
             @select="triggerSearch" />
-
         </div>
       </div>
     </div>
@@ -80,12 +79,24 @@ const otherRows = computed(() =>
   }))
 )
 
+const localizedItems = computed(() => {
+  const row = currentRow.value
+  if (!row) return []
+  return row.items.map(it => ({
+    ...it,
+    label: (it.sv || it.en)
+      ? (props.currentLanguage === 'sv' ? it.sv : it.en)
+      : it.label
+  }))
+})
+
 const props = defineProps({
   searchItems: [Array, String, Object],
   advancedSearchResults: [Array, Object],
   bboxSearch: [Array, Object],
   selectedSiteId: [Number, String],
-  activeTab: { type: String, default: 'gallery' }
+  activeTab: { type: String, default: 'gallery' },
+  currentLanguage: { type: String, default: 'sv' }
 })
 
 const isLoading = ref(false)
@@ -128,18 +139,29 @@ function buildRows() {
   rowsArr.push({
     id: 'types',
     title: 'Types',
-    items: makeItems(summary.value.types, o => o.type),
+    items: (summary.value.types || []).map((o, i) => ({
+      key: `${o.type}-${i}`,
+      sv: o.type,
+      en: o.translation || o.type,
+      value: o.type,
+      count: o.count
+    })),
     count: summary.value.types.reduce((n, o) => n + o.count, 0)
   })
   rowsArr.push({
     id: 'motifs',
     title: 'Motifs',
-    items: (summary.value.motifs || []).map((o, i) => ({
-      key: `${o.motif || o['figurative motif']}-${i}`,
-      label: o.motif || o['figurative motif'],
-      count: o.count,
-      figurative: !!o.figurative
-    })), 
+    items: (summary.value.motifs || []).map((o, i) => {
+      const base = o.motif || o['figurative motif'] || ''
+      return {
+        key: `${base}-${i}`,
+        sv: base,
+        en: o.translation || base,
+        value: base,
+        count: o.count,
+        figurative: !!o.figurative
+      }
+    }),
     count: summary.value.motifs.reduce((n, o) => n + o.count, 0)
   })
   rowsArr.push({
