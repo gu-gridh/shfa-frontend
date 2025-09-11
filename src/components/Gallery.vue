@@ -159,7 +159,12 @@ const buildCategoryUrl = () => {
   else if (f === 'advanced' && props.advancedSearchResults) {
     p.append('search_type', 'advanced')
     Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
-      if (v?.toString().trim()) p.append(k === 'group' ? 'site_name' : k, v)
+      const key = k === 'group' ? 'site_name' : k
+      if (Array.isArray(v)) {
+        v.forEach(x => x && p.append(key, String(x).trim()))  //multiple region_name
+      } else if (v?.toString().trim()) {
+        p.append(key, v)
+      }
     })
   }
   return base + (p.toString() ? '?' + p.toString() : '')
@@ -180,7 +185,12 @@ const buildGalleryUrl = () => {
   } else if (f === 'advanced' && props.advancedSearchResults && typeof props.advancedSearchResults === 'object') {
     p.append('search_type', 'advanced')
     Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
-      if (v?.toString().trim()) p.append(k === 'group' ? 'site_name' : k, v)
+      const key = k === 'group' ? 'site_name' : k
+      if (Array.isArray(v)) {
+        v.forEach(x => x && p.append(key, String(x).trim()))  //multiple region_name
+      } else if (v?.toString().trim()) {
+        p.append(key, v)
+      }
     })
   }
   return base + (p.toString() ? '?' + p.toString() : '')

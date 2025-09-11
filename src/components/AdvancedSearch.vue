@@ -145,9 +145,17 @@ const handleSearchButtonClick = () => {
   const params = new URLSearchParams();
 
   searchQuery.value.forEach((query, index) => {
-    const texts = selectedKeywords.value[index].map(k => k.text);
-    const value = query || texts.join(',');
-    if (value) params.set(fieldNames[index], value);
+    if (index === 7) {
+      //add one region_name param per region
+      const regions = selectedKeywords.value[7].map(k => k.text);
+      const typed = (searchQuery.value[7] || '').trim();
+      if (!regions.length && typed) regions.push(typed);
+      regions.forEach(r => params.append('region_name', r));
+    } else {
+      const texts = selectedKeywords.value[index].map(k => k.text);
+      const value = query || texts.join(',');
+      if (value) params.set(fieldNames[index], value);
+    }
   });
 
   if (params.has('author_name')) {
@@ -161,7 +169,8 @@ const handleSearchButtonClick = () => {
   }
 
   const searchParams = Object.fromEntries(params.entries());
-  
+  const regions = params.getAll('region_name');
+  if (regions.length) searchParams.region_name = regions;
   emit('advanced-search-params', searchParams);
 
   const qs = params.toString();
@@ -286,8 +295,8 @@ const fetchSuggestions = async (query, index, nextPage = null) => {
             .filter(Boolean)
             .join(', ');
           return {
-            id: region,  
-            text: region, 
+            id: region,
+            text: region,
             region
           };
         });

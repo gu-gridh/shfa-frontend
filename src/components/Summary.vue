@@ -209,18 +209,28 @@ function buildSummaryUrl() {
   const p = new URLSearchParams()
   const f = activeFilter.value
 
-  if (f === 'site' && props.selectedSiteId) p.append('site', props.selectedSiteId)
-  else if (f === 'search' && props.searchItems?.toString().trim()) {
-    p.append('search_type', 'general'); p.append('q', props.searchItems)
-  }
-  else if (f === 'bbox' && Array.isArray(props.bboxSearch) && props.bboxSearch.length === 4) {
-    p.append('in_bbox', props.bboxSearch.join(',')); p.append('depth', '2')
-  }
-  else if (f === 'advanced' && props.advancedSearchResults && typeof props.advancedSearchResults === 'object') {
+  if (f === 'site' && props.selectedSiteId) {
+    p.append('site', props.selectedSiteId)
+  } else if (f === 'search' && props.searchItems?.toString().trim()) {
+    p.append('search_type', 'general')
+    p.append('q', props.searchItems)
+  } else if (f === 'bbox' && Array.isArray(props.bboxSearch) && props.bboxSearch.length === 4) {
+    p.append('in_bbox', props.bboxSearch.join(','))
+    p.append('depth', '2')
+  } else if (f === 'advanced' && props.advancedSearchResults && typeof props.advancedSearchResults === 'object') {
     p.append('search_type', 'advanced')
-    Object.entries(props.advancedSearchResults).forEach(([k, v]) => v?.toString().trim() && p.append(k, v))
+    Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
+      const key = k === 'group' ? 'site_name' : k
+      if (Array.isArray(v)) {
+        v.forEach(x => x && p.append(key, String(x).trim())) //multiple region_name
+      } else if (v?.toString().trim()) {
+        p.append(key, v)
+      }
+    })
   }
-  return base + (p.toString() ? '?' + p.toString() : '')
+
+  const qs = p.toString()
+  return base + (qs ? '?' + qs : '')
 }
 
 async function fetchSummary() {
