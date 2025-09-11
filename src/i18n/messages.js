@@ -2,6 +2,8 @@
 export default {
   en: {
     message: {
+      items: "items",
+      summary: 'Summary',
       creators: 'Creators',
       institutions: 'Institutions',
       types: 'Types',
@@ -154,6 +156,8 @@ export default {
   },
   sv: {
     message: {
+      items: "träffar",
+      summary: 'Sammanfattning',
       creators: 'Upphovspersoner',
       institutions: 'Institutioner',
       types: 'Typer',

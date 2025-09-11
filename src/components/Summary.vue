@@ -17,10 +17,10 @@
         <div class="right-column" v-if="currentRow">
           <div class="toggle-button-group">
             <button :class="{ active: props.activeTab === 'gallery' }" @click="emit('update-tab', 'gallery')">
-              Gallery
+               {{ $t('message.galleri') }}
             </button>
             <button :class="{ active: props.activeTab === 'summary' }" @click="emit('update-tab', 'summary')">
-              Summary
+              {{ $t('message.summary') }}
             </button>
           </div>
 
@@ -50,7 +50,7 @@
             </transition>
           </div>
 
-          <h3 class="row-heading">{{ currentRow.title }}</h3>
+          <h3 class="row-heading"> {{ $t(`message.${currentRow.id}`) }}</h3> 
 
           <LineChart v-if="currentRow.id === 'years'" :data="summary.year" :title="currentRow.title"
             :exportable="true" />

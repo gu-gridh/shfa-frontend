@@ -13,17 +13,16 @@
                 <div class="row-count">{{ other.count }}</div>
               </li>
             </ul>
-            <div class="total-count">{{ totalGalleryCount }} totalt</div>
           </div>
         </div>
 
         <div class="right-column">
           <div class="toggle-button-group">
             <button :class="{ active: props.activeTab === 'gallery' }" @click="emit('update-tab', 'gallery')">
-              Gallery
+              {{ $t('message.galleri') }}
             </button>
             <button :class="{ active: props.activeTab === 'summary' }" @click="emit('update-tab', 'summary')">
-              Summary
+              {{ $t('message.summary') }}
             </button>
           </div>
 
@@ -50,7 +49,6 @@
                     </div>
                   </li>
                 </ul>
-                <div class="total-count">{{ totalGalleryCount }} results</div>
               </div>
             </transition>
           </div>
@@ -59,7 +57,7 @@
             <h3 :id="'row-title-' + row.originalIndex" class="row-heading">
               {{ getRowTitle(row) }}
               <span v-if="row.count" class="heading-count-wrapper">
-                <span class="title-tag">{{ row.count }} items</span>
+                <span class="title-tag">{{ row.count }} {{ $t('message.items') }}</span>
               </span>
             </h3>
 
@@ -70,7 +68,7 @@
                 :class="{ 'page-button-disabled': !row.prevUrl }" @click="fetchPrevPage(row)">
               </div>
               <div class="gallery-page-info" :disabled="row.isFetching">
-                Page {{ row.currentPage }}&nbsp;of&nbsp;{{ row.totalPages }}
+                {{ $t('message.sida') }} {{ row.currentPage }}&nbsp;{{ $t('message.av') }}&nbsp;{{ row.totalPages }}
               </div>
               <div class="gallery-page-button next-page-btn" :disabled="row.isFetching"
                 :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)">
@@ -148,10 +146,6 @@ const filterTimestamps = reactive({ search: 0, advanced: 0, bbox: 0, site: 0 })
 const activeFilter = computed(() =>
   Object.entries(filterTimestamps)
     .sort((a, b) => b[1] - a[1])[0]?.[0]
-)
-
-const totalGalleryCount = computed(() =>
-  rows.value.reduce((sum, r) => sum + (r.count || 0), 0)
 )
 
 const buildCategoryUrl = () => {
