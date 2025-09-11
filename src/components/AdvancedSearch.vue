@@ -91,10 +91,10 @@ const fieldIndexBySource = { //mapping search results to advanced search field
   type: 2,
   keywords: 3,
   institution: 5,
-  'dating tag': 4,  
+  'dating tag': 4,
 }
 
-const MAX_TAGS = 5;
+const MAX_TAGS = 3;
 const props = defineProps({
   currentLang: {
     type: String,
@@ -161,6 +161,7 @@ const handleSearchButtonClick = () => {
   }
 
   const searchParams = Object.fromEntries(params.entries());
+  
   emit('advanced-search-params', searchParams);
 
   const qs = params.toString();
@@ -280,13 +281,17 @@ const fetchSuggestions = async (query, index, nextPage = null) => {
         });
         break;
       case 7: //geography
-        newResults = data.results.flatMap(result => {
-          const suggestions = [];
-          suggestions.push({ id: result.municipality, text: result.municipality });
-          if (!result.internationl_site) suggestions.push({ id: result.parish, text: `${result.parish}, ${result.municipality || result.province || 'Unknown'}` });
-          return suggestions;
+        newResults = (data.results || []).map(r => {
+          const region = [r.parish, r.municipality, r.province, r.country]
+            .filter(Boolean)
+            .join(', ');
+          return {
+            id: region,  
+            text: region, 
+            region
+          };
         });
-        break
+        break;
     }
 
     if (newResults) {
