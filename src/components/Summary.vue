@@ -10,7 +10,7 @@
           <ul class="row-titles">
             <li v-for="(row, idx) in rows" :key="row.id" :class="{ 'non-clickable': idx === openRowIndex }"
               @click="idx !== openRowIndex && openRow(idx)">
-              {{ row.title }}
+                {{ $t(`message.${row.id}`) }}
             </li>
           </ul>
         </div>

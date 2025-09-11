@@ -2,6 +2,11 @@
 export default {
   en: {
     message: {
+      creators: 'Creators',
+      institutions: 'Institutions',
+      types: 'Types',
+      motifs: 'Motifs',
+      years: 'Years',
       resetlayout: "Reset Layout",
       contact: "Contact",
       hello: "Hello",
@@ -149,6 +154,11 @@ export default {
   },
   sv: {
     message: {
+      creators: 'Upphovspersoner',
+      institutions: 'Institutioner',
+      types: 'Typer',
+      motifs: 'Motiv',
+      years: 'År',
       resetlayout: "Återställ layout",
       contact: "Kontakt",
       hello: "Hej",
