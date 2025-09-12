@@ -2,6 +2,7 @@
 export default {
   en: {
     message: {
+      download: "Download",
       items: "items",
       summary: 'Summary',
       creators: 'Creators',
@@ -156,6 +157,7 @@ export default {
   },
   sv: {
     message: {
+      download: "Ladda ner",
       items: "träffar",
       summary: 'Sammanfattning',
       creators: 'Upphovspersoner',

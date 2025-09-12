@@ -6,7 +6,7 @@
     </div>
 
     <div v-if="exportable" class="btn-row">
-      <div class="btn-row-title">Download</div>
+      <div class="btn-row-title">{{ $t(`message.download`) }}</div>
       <button type="button" @click="downloadImage">SVG</button>
       <div class="btn-row-title">|</div>
       <button type="button" @click="downloadCSV">CSV</button>
