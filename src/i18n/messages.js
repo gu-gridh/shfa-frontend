@@ -2,6 +2,14 @@
 export default {
   en: {
     message: {
+      name: "Name",
+      email: "Email",
+      subject: "Subject",
+      yourMessage: "Your Message",
+      sendMessage: "Send Message",
+      thanks: "Thanks for your message.",
+      error: "Something went wrong — please try again.",
+      sending: "Sending...",
       download: "Download",
       items: "items",
       summary: 'Summary',
@@ -157,6 +165,14 @@ export default {
   },
   sv: {
     message: {
+      name: "Namn",
+      email: "E-post",
+      subject: "Ämne",
+      yourMessage: "Ditt meddelande",
+      sendMessage: "Skicka meddelande",
+      thanks: "Tack för ditt meddelande.",
+      error: "Något gick fel — försök igen.",
+      sending: "Skickar...",
       download: "Ladda ner",
       items: "träffar",
       summary: 'Sammanfattning',
