@@ -757,7 +757,7 @@ h3 span {
 
 .no-results {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   padding: 2rem 0;
 }
 
@@ -772,8 +772,8 @@ h3 span {
 }
 
 .no-results__icon {
-  width: 75px;
-  height: 75px;
+  width: 50px;
+  height: 50px;
   margin-top: 1rem;
   background-image: var(--no-results-icon);
   background-size: contain;
