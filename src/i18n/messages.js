@@ -2,6 +2,8 @@
 export default {
   en: {
     message: {
+      figurative: "Figurative",
+      nonfigurative: "Non-figurative",
       name: "Name",
       email: "Email",
       subject: "Subject",
@@ -165,6 +167,8 @@ export default {
   },
   sv: {
     message: {
+      figurative: "Figurativ",
+      nonfigurative: "Non-figurativ",
       name: "Namn",
       email: "E-post",
       subject: "Ämne",

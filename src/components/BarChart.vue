@@ -21,6 +21,8 @@ import { SVGRenderer } from 'echarts/renderers'
 import { BarChart as Bar } from 'echarts/charts'
 import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
 import VueECharts from 'vue-echarts'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n() 
 
 echarts.use([SVGRenderer, Bar, GridComponent, TooltipComponent, LegendComponent])
 
@@ -66,7 +68,7 @@ function rebuild() {
       textStyle: { color: 'var(--page-text)' },
       itemWidth: 14,
       itemHeight: 10,
-      data: ['Figurative', 'Non-figurative']
+       data: [t('message.figurative'), t('message.nonfigurative')]
     } : undefined,
     tooltip: {
       trigger: 'axis',
@@ -95,7 +97,7 @@ function rebuild() {
     series: hasFig
       ? [
         {
-          name: 'Figurative',
+          name: t('message.figurative'),
           type: 'bar',
           stack: 'one',
           barWidth: '60%',
@@ -103,7 +105,7 @@ function rebuild() {
           data: topData.map(d => (d.figurative ? d.count : 0))
         },
         {
-          name: 'Non-figurative',
+          name: t('message.nonfigurative'),
           type: 'bar',
           stack: 'one',
           barWidth: '60%',

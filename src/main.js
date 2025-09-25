@@ -13,9 +13,10 @@ const pinia = createPinia();
 const head = createHead();
 
 const i18n = createI18n({
+  legacy: false,
   locale: 'sv',  // default language
   messages,
-  warnHtmlInMessage: 'off', 
+  warnHtmlMessage: false, 
 })
 
 app.use(router)
