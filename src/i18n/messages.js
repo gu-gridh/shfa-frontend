@@ -2,6 +2,7 @@
 export default {
   en: {
     message: {
+      summaryDisclaimer: "Note: Data review is in progress, results and quality may vary until the review is complete.",
       noResults: "No results found. Please adjust your search.",
       figurative: "Figurative",
       nonfigurative: "Non-figurative",
@@ -168,6 +169,7 @@ export default {
   },
   sv: {
     message: {
+      summaryDisclaimer: "OBS: Uppgifterna granskas för närvarande. Resultaten och kvaliteten kan variera tills granskningen är klar.",
       noResults: "Inga resultat hittades. Vänligen justera ditt sökande.",
       figurative: "Figurativ",
       nonfigurative: "Non-figurativ",

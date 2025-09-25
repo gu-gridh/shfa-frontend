@@ -52,6 +52,8 @@
 
           <h3 class="row-heading"> {{ $t(`message.${currentRow.id}`) }}</h3> 
 
+          <h4 class="disclaimer">{{$t('message.summaryDisclaimer')}}</h4>
+
           <LineChart v-if="currentRow.id === 'years'" :data="summary.year" :title="currentRow.title"
             :exportable="true" />
           <BarChart v-else :data="localizedItems" :title="currentRow.title" :exportable="true"
@@ -379,6 +381,12 @@ h3 {
 
 .mobile-row-menu {
   margin-bottom: 1rem;
+}
+
+.disclaimer {
+  margin-bottom: 10px;
+  color: var(--disclaimer-text);
+  font-size: 90%;
 }
 
 @media (min-width: 901px) {
