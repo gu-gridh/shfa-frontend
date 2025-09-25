@@ -88,10 +88,12 @@ function rebuild() {
       data: labels,
       triggerEvent: true,
       axisLabel: {
+        width: 180,
+        lineHeight: 14,
         interval: 0,
         align: 'right',
         margin: 8,
-        overflow: 'none',
+        overflow: 'break',
         color: 'var(--page-text)',
         ellipsis: '…',
         formatter: v => v
