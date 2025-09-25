@@ -1,6 +1,10 @@
 <template>
   <div>
     <div v-if="isGalleryLoading" class="loading-indicator"></div>
+    <div v-if="!isGalleryLoading && rows.length === 0" class="no-results">
+      {{ $t('message.noResults') }}
+      <div class="no-results__icon" role="img" aria-label="No results"></div>
+    </div>
     <div v-else class="grid-container">
       <div v-for="row in visibleRows" :key="row.originalIndex" class="row-wrapper"
         :id="'row-wrapper-' + row.originalIndex">
@@ -749,6 +753,32 @@ h3 span {
   user-select: none;
   -webkit-user-select: none;
   pointer-events: none;
+}
+
+.no-results {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 2rem 0;
+}
+
+.no-results {
+  color: var(--page-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.no-results__icon {
+  width: 75px;
+  height: 75px;
+  margin-top: 1rem;
+  background-image: var(--no-results-icon);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 @media (max-width: 900px) {

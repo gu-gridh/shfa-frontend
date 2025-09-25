@@ -2,6 +2,7 @@
 export default {
   en: {
     message: {
+      noResults: "No results found. Please adjust your search.",
       figurative: "Figurative",
       nonfigurative: "Non-figurative",
       name: "Name",
@@ -167,6 +168,7 @@ export default {
   },
   sv: {
     message: {
+      noResults: "Inga resultat hittades. Vänligen justera ditt sökande.",
       figurative: "Figurativ",
       nonfigurative: "Non-figurativ",
       name: "Namn",

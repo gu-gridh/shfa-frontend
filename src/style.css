@@ -132,6 +132,9 @@ div.split-container>div>div:nth-child(4) {
   --search-button: url(/interface/searchbuttonwhite.png);
   --search-button-light-bkgrnd: url(/interface/searchbutton.png);
   --search-button-dark-bkgrnd: url(/interface/searchbuttonwhite.png);
+  --no-results-icon-dark: url("./assets/noresults_black.png");
+  --no-results-icon-light: url("./assets/noresults_white.png");
+   --no-results-icon: var(--no-results-icon-light);
   --selected-option: #5c5c5c;
   --autocomplete-background: var(--input-wrapper-background);
   --disclaimer-text: #c8e1fa;
@@ -274,6 +277,7 @@ html[style-theme='light'] {
   --gu-logo-en: url("../src/assets/gu_logo.png");
   --gu-logo-sv: url("../src/assets/gu_logo_sv.png");
   --shfa-logo: url("../src/assets/shfa_logo_downscale.png");
+   --no-results-icon: var(--no-results-icon-dark);
   --guide-page-background: #ffffff;
   --gallery-nav-text: #5dadc8;
   --gallery-nav-background: #1b1b1b99;
