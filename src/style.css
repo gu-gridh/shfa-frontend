@@ -89,7 +89,7 @@ div.split-container>div>div:nth-child(4) {
   --about-emphasised-text: white;
   --placeholder-text: #ffffffc5;
   --input-background: #1d192c;
-    --input-wrapper-background: rgb(48, 48, 48);
+  --input-wrapper-background: rgb(48, 48, 48);
   --main-input-wrapper-background: linear-gradient(to bottom, rgba(35, 35, 35, 1.0) 0%, rgba(50, 50, 50, 1.0) 100%);
   --input-border: var(--input-wrapper-background);
   --input-hover: #1a094c;
@@ -105,7 +105,7 @@ div.split-container>div>div:nth-child(4) {
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 20px 0 rgba(0, 0, 0, 0.5);
-    --shadow-suggestion: 0 10px 10px 0px rgba(0, 0, 0, 0.3);
+  --shadow-suggestion: 0 10px 10px 0px rgba(0, 0, 0, 0.3);
   --menu-background: rgba(220, 220, 220, 0.9);
   --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.30) !important;
@@ -134,7 +134,7 @@ div.split-container>div>div:nth-child(4) {
   --search-button-dark-bkgrnd: url(/interface/searchbuttonwhite.png);
   --no-results-icon-dark: url("./assets/noresults_black.png");
   --no-results-icon-light: url("./assets/noresults_white.png");
-   --no-results-icon: var(--no-results-icon-light);
+  --no-results-icon: var(--no-results-icon-light);
   --selected-option: #5c5c5c;
   --autocomplete-background: var(--input-wrapper-background);
   --disclaimer-text: #c8e1fa;
@@ -151,12 +151,14 @@ div.split-container>div>div:nth-child(4) {
   --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
   --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
   --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
- --gallery-image-background: rgb(50,50,50);
+  --gallery-image-background: rgb(50,50,50);
+  --figurative-color: #5070dd;
+  --nonfigurative-color: #a07cc7;
 }
 
 html[style-theme='dark'] {
   --page-background: rgb(60, 60, 60);
-   --page-background-accent: rgb(48, 48, 48);
+  --page-background-accent: rgb(48, 48, 48);
   --footer-background: #232323;
   --header-background: #d7d7d7;
   --header-text: black;
@@ -197,7 +199,7 @@ html[style-theme='dark'] {
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 20px 0 rgba(0, 0, 0, 0.5);
-    --shadow-suggestion: 0 10px 10px 0px rgba(0, 0, 0, 0.3);
+  --shadow-suggestion: 0 10px 10px 0px rgba(0, 0, 0, 0.3);
   --menu-background: rgba(220, 220, 220, 0.9);
   --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.30) !important;
@@ -240,7 +242,9 @@ html[style-theme='dark'] {
   --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
   --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
   --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
-   --gallery-image-background: rgb(50,50,50);
+  --gallery-image-background: rgb(50,50,50);
+  --figurative-color: #5070dd;
+  --nonfigurative-color: #a07cc7;
 }
 
 html[style-theme='light'] {
@@ -277,7 +281,7 @@ html[style-theme='light'] {
   --gu-logo-en: url("../src/assets/gu_logo.png");
   --gu-logo-sv: url("../src/assets/gu_logo_sv.png");
   --shfa-logo: url("../src/assets/shfa_logo_downscale.png");
-   --no-results-icon: var(--no-results-icon-dark);
+  --no-results-icon: var(--no-results-icon-dark);
   --guide-page-background: #ffffff;
   --gallery-nav-text: #5dadc8;
   --gallery-nav-background: #1b1b1b99;
@@ -330,7 +334,9 @@ html[style-theme='light'] {
   --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
   --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
   --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
-   --gallery-image-background: rgb(230,230,230);
+  --gallery-image-background: rgb(230,230,230);
+  --figurative-color: #5070dd;
+  --nonfigurative-color: #a07cc7;
 }
 
 @media (prefers-contrast:more) or (prefers-reduced-transparency) {
@@ -414,10 +420,12 @@ html[style-theme='light'] {
     --fb-logo-background: url("../src/assets/Facebook_Logo_Primary.png");
     --instagram-logo-background: url("../src/assets/Instagram_Glyph_Black.png");
     --settings-text: rgba(0, 0, 0, 1);
-  --map-layers-icon: url("https://data.dh.gu.se/ui-icons/layer_white.svg");
-  --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
-  --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
-  --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
+    --map-layers-icon: url("https://data.dh.gu.se/ui-icons/layer_white.svg");
+    --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
+    --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
+    --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
+    --figurative-color: #5070dd;
+    --nonfigurative-color: #a07cc7;
   }
 }
 

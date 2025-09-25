@@ -57,16 +57,19 @@ function rebuild() {
   option.value = {
     grid: {
       left: 2,
-      right: 24,
-      top: hasFig ? 36 : 8,  //extra space when the legend shows
+      right: hasFig ? '15%' : 24, //extra space when the legend shows
+      top: 8,  
       bottom: 20,
       containLabel: true
     },
     legend: hasFig ? {
-      top: 6,
-      right: 5,
+      top: 0,
+      right: 2,
+      orient: 'vertical',
       textStyle: { color: 'var(--page-text)' },
-      itemWidth: 14,
+      backgroundColor: 'rgba(50, 50, 50, 0.5)',
+      borderRadius: 6,
+      itemWidth: 12,
       itemHeight: 10,
        data: [t('message.figurative'), t('message.nonfigurative')]
     } : undefined,
@@ -101,7 +104,7 @@ function rebuild() {
           type: 'bar',
           stack: 'one',
           barWidth: '60%',
-          itemStyle: { color: 'var(--figurative-color, #3b82f6)' },
+          itemStyle: { color: 'var(--figurative-color)' },
           data: topData.map(d => (d.figurative ? d.count : 0))
         },
         {
@@ -109,7 +112,7 @@ function rebuild() {
           type: 'bar',
           stack: 'one',
           barWidth: '60%',
-          itemStyle: { color: 'var(--nonfigurative-color, #a855f7)' },
+          itemStyle: { color: 'var(--nonfigurative-color)' },
           data: topData.map(d => (!d.figurative ? d.count : 0))
         }
       ]
