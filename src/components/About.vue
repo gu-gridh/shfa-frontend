@@ -5,25 +5,24 @@
         <div class="rows">
 
 
-<div class="flex-machine">
-  <div class="settings-menu">
-  <div class="version">Version 1.3</div>
-    <div class="top-button" @click="toggleLanguage" id="language-button">
-      Svenska
-    </div>
-    <div class="top-button" @click="toggleColour">
-      <div id="colour-mode" class="material-symbols-outlined" >
-        {{currentColour=='light' ? 'dark_mode' : 'light_mode'}}
-      </div>
-    </div>
-  </div>
-  <div class="logo-area">
-    <div id="logo-guide"></div>
+          <div class="flex-machine">
+            <div class="settings-menu">
+              <div class="version-badge">Version 1.3</div>
+              <div class="top-button" @click="toggleLanguage" id="language-button">
+                Svenska
+              </div>
+              <div class="top-button" @click="toggleColour">
+                <div id="colour-mode" class="material-symbols-outlined">
+                  {{ currentColour == 'light' ? 'dark_mode' : 'light_mode' }}
+                </div>
+              </div>
+            </div>
+            <div class="logo-area">
+              <div id="logo-guide"></div>
 
-<h1 class="about-title">
-      <div v-html="$t('message.abouttitle')"></div>
-    </h1>
-  </div>
+              <h1 class="about-title" v-html="$t('message.abouttitle')"></h1>
+
+            </div>
             <div class="about-article-sub fullopacityui">
               <h2>Database Overview</h2>
               <p>SHFA's [Svenskt Hällristningsforskningsarkiv's] image database includes more than 26,000 digitized
@@ -53,7 +52,7 @@
                 In the detailed view, the metadata, external information, and download link are available. If an image
                 has a 3D mesh associated with it, a <button class=" avail-3d">3D</button> icon on the gallery
                 thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
-    $t('message.viewthreed') }}</button>
+                  $t('message.viewthreed') }}</button>
                 button in the image viewer. Clicking the button will open the multimodal viewer for the group of
                 mesh(es) and visualisation(s) in a new window.</p><br>
 
@@ -131,8 +130,11 @@
 
               <p>Physical Location: Humanisten, University of Gothenburg, Renströmsgatan 6, 412 55 Gothenburg</p>
 
-              <div class="social-links">Find us on <a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE" target="_blank"><button class="facebook-logo"></button></a><a href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button class="instagram-logo"></button></a></div>
-              
+              <div class="social-links">Find us on <a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE"
+                  target="_blank"><button class="facebook-logo"></button></a><a
+                  href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button
+                    class="instagram-logo"></button></a></div>
+
 
             </div>
           </div>
@@ -144,154 +146,156 @@
         <div class="rows">
 
 
-<div class="flex-machine">
-  <div class="settings-menu">
-  <div class="version">Version 1.3</div>
-    <div class="top-button" @click="toggleLanguage" id="language-button">
-      English
-    </div>
-    <div class="top-button" @click="toggleColour">
-      <div id="colour-mode" class="material-symbols-outlined" >
-        {{currentColour=='light' ? 'dark_mode' : 'light_mode'}}
-      </div>
-    </div>
-  </div>
-  <div class="logo-area">
-    <div id="logo-guide"></div>
-
-<h1 class="about-title">
-      <div v-html="$t('message.abouttitle')"></div>
-    </h1>
-  </div>
-
-              <div class="about-article-sub fullopacityui">
-                <h2>Databasöversikt</h2>
-                <p>Svenskt Hällristningsforskningsarkivs bilddatabas omfattar mer än 26 000 digitaliserade bilder som
-                  är
-                  resultatet av pågående arbete
-                  med att beskriva och dokumentera hällristningar sedan 1627. Dessa data kommer i första hand från
-                  Sverige
-                  men även från Danmark, Norge,
-                  Italien, Spanien och andra delar av världen. Databasen innehåller bilder av dokumentationsresultaten
-                  samt
-                  dokumentationsprocessen, från
-                  historisk dokumentation till aktuella digitala metoder. Mer information om dokumentationsprocessen
-                  finns
-                  på
-                  <a href='https://www.gu.se/shfa'>Om SHFA</a>.
-                </p><br>
-                <h2>Webbportalmigrering</h2>
-                <p>Denna plattform för SHFA-databasen har utvecklats av Göteborgs infrastruktur för digital humaniora
-                  (GRIDH) och syftar till att erbjuda
-                  förbättrade metoder för att söka i databasen och visa digital dokumentation. Migreringen från SHFAs
-                  tidigare webbportal (utvecklad av
-                  Miljödata AB) är komplett. Hittills har bilderna av hällristningsplatser i Sverige överförts.
-                  3D-dokumentation finns tillgänglig för ett urval av platser och kommer att fortsätta att göras
-                  tillgänglig.</p>
-                <br>
-
-                <h2>Sökning i databasen</h2>
-                <p>Genom att använda den föreslagna nyckelordssökningen kan du komma åt bilder av vanliga
-                  dokumentationsmetoder och motiv. Med kartan eller
-                  avancerade sökalternativ kan du hämta resultat för detaljerade sökningar. Varje sökning visar ett
-                  galleri
-                  med bilder som kan ses mer
-                  detaljerat genom att klicka på miniatyrbilden. I den detaljerade vyn är metadata, extern information
-                  och
-                  nedladdningslänk tillgängliga. Om en bild har ett 3D-mesh kopplat till sig, en <button
-                    class=" avail-3d">3D</button> ikon på galleriminiatyren och <button class="viewer-avail"><span
-                      class="viewer-icon"></span>{{
-    $t('message.viewthreed') }}</button>
-                  knappen i metadatasektionen. Om du klickar på knappen öppnas den multimodal viewer för gruppen av
-                  maskor och
-                  visualiseringar i ett nytt fönster.</p><br>
-
-                <h2>Visualiseringar</h2>
-                <p>Bilderna taggade som 3D-visualiseringar genererades från mesh-filer med <a
-                    href="https://tvt.dh.gu.se" target="_blank">Topography Visualisation Toolbox (TVT)</a> eller Digital
-                  Frottage-arbetsflödet i <a href="https://www.sciencedirect.com/science/article/pii/S2352409X19302329"
-                    target="_blank">Horn et al. (2019)</a>. Om det är tillgängligt, finns en länk till det använda
-                  verktyget i metadata under bildvisaren.</p><br>
-
-                <h2>Utveckling</h2>
-                <p>Den webbsidan och databaslösningen har utvecklats av GRIDH, se <a
-                    href="https://github.com/gu-gridh/shfa-frontend?tab=readme-ov-file#overview" target="_blank">GitHub
-                    repository</a> för mer detaljer.
-                  Den multimodal viewer använder flera öppen källkod bibliotek som beskrivs i den <a
-                    href="https://github.com/gu-gridh/multimodal-viewer?tab=readme-ov-file#multimodal-viewer"
-                    target="_blank">GitHub repository</a>.</p><br>
-
-                <h2>Att referera bilderna</h2>
-                <p>Bilder i databasen är fritt tillgängliga för utskrift och nedladdning. Den föreslagna referensen för
-                  varje bild finns i den detaljerade vyn, men du kan formatera om den till din föredragna stil med hjälp
-                  av
-                  bildens metadata. Om du tidigare refererat till en bild med hjälp av ID-numret från vår tidigare
-                  websida
-                  och
-                  vill ha bildens nuvarande unika bild-id, vänligen mejla oss information om tidigare ID för
-                  bilden/bilderna
-                  du
-                  är intresserad av så återkommer vi med nuvarande ID-nummer. Meddela
-                  oss på <a href=mailto:shfa@gu.se>shfa@gu.se</a> och ange en länk till <a
-                    href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> när du
-                  publicerar bilder från databasen. Upphovsrätten gäller etablerade principer som bland annat innefattar
-                  fotografens frivilliga rätt.
-                  Bilderna är skyddade av en creative commons-licens (CC BY 4.0). För mer information, besök creative
-                  commons egen webbplats på:
-                  <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a>
-                </p><br>
-
-                <h2>Att referera till plattformen</h2>
-                <p>Bridge, Tristan, Karimi, Aram, Westin, Jonathan, Green, Ashely & Humlesjö, Siska
-                  "gu-gridh/shfa-frontend:
-                  v.1.3 3rd
-                  public release" Github, 12 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
-
-                <h2>Integritetspolicy</h2>
-                <p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att
-                  användarupplevelsen. Den spårade datan inkluderar information om IP-addressen, vilken typ av enhet som
-                  använts, under
-                  hur lång tid besöket varat, förstagångsbesökare på webbplatsen, återkommande besök och en uppskattning
-                  om
-                  varifrån besöker kommer.</p><br>
-                <h2>Tillgänglighetsredogörelse</h2>
-                <p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>. Webbsidan visas i ett mer
-                  tillgängligt format med högre kontrast och/eller minskad transparens för användare som föredrar det.
-                  <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
-                    (WCAG)</a> definierar krav på designers och utvecklare för att förbättra tillgängligheten för
-                  personer
-                  med funktionsnedsättning. Den definierar tre nivåer av överensstämmelse: nivå A, nivå AA och nivå AAA.
-                  SHFAs webbportal överensstämmer delvis med WCAG 2.2 nivå A. Det innebär att vissa delar av innehållet
-                  inte
-                  helt överensstämmer med tillgänglighetsstandarden. Tillgängligheten på SHFAs webbportal är beroende av
-                  följande tekniker för att fungera med speciella
-                  webbläsare och eventuella hjälpmedel eller plugins installerade på din dator:
-                </p>
-                <ul>
-                  <li>HTML</li>
-                  <li>CSS</li>
-                  <li>JavaScript</li>
-                </ul>
-                <p>GRIDH har gjort en självskattning av SHFAs webbportal. Redogörelsen uppdaterades senast 2024-05-28.
-                </p>
-                <br>
-                <h2>Kontaktinformation</h2>
-
-                <p>Vänligen kontakta SHFA via <a href=mailto:shfa@gu.se>shfa@gu.se</a> för frågor om informationen samt
-                  för
-                  förfrågningar om tillägg av information.</p>
-                <p>Vänligen kontakta GRIDH via <a href=mailto:gridh@gu.se>gridh@gu.se</a> för att rapportera tekniska
-                  frågor
-                  eller frågor om tillgängligheten.</p>
-
-                <p>Fysisk plats: Humanisten, Göteborgs universitet, Renströmsgatan 6, 412 55 Göteborg</p>
-
-                <div class="social-links">Hitta oss på <a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE" target="_blank"><button class="facebook-logo"></button></a><a href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button class="instagram-logo"></button></a></div>
-              
-
+          <div class="flex-machine">
+            <div class="settings-menu">
+              <div class="version-badge">Version 1.3</div>
+              <div class="top-button" @click="toggleLanguage" id="language-button">
+                English
+              </div>
+              <div class="top-button" @click="toggleColour">
+                <div id="colour-mode" class="material-symbols-outlined">
+                  {{ currentColour == 'light' ? 'dark_mode' : 'light_mode' }}
+                </div>
               </div>
             </div>
+            <div class="logo-area">
+              <div id="logo-guide"></div>
+
+              <h1 class="about-title" v-html="$t('message.abouttitle')"></h1>
+
+            </div>
+
+            <div class="about-article-sub fullopacityui">
+              <h2>Databasöversikt</h2>
+              <p>Svenskt Hällristningsforskningsarkivs bilddatabas omfattar mer än 26 000 digitaliserade bilder som
+                är
+                resultatet av pågående arbete
+                med att beskriva och dokumentera hällristningar sedan 1627. Dessa data kommer i första hand från
+                Sverige
+                men även från Danmark, Norge,
+                Italien, Spanien och andra delar av världen. Databasen innehåller bilder av dokumentationsresultaten
+                samt
+                dokumentationsprocessen, från
+                historisk dokumentation till aktuella digitala metoder. Mer information om dokumentationsprocessen
+                finns
+                på
+                <a href='https://www.gu.se/shfa'>Om SHFA</a>.
+              </p><br>
+              <h2>Webbportalmigrering</h2>
+              <p>Denna plattform för SHFA-databasen har utvecklats av Göteborgs infrastruktur för digital humaniora
+                (GRIDH) och syftar till att erbjuda
+                förbättrade metoder för att söka i databasen och visa digital dokumentation. Migreringen från SHFAs
+                tidigare webbportal (utvecklad av
+                Miljödata AB) är komplett. Hittills har bilderna av hällristningsplatser i Sverige överförts.
+                3D-dokumentation finns tillgänglig för ett urval av platser och kommer att fortsätta att göras
+                tillgänglig.</p>
+              <br>
+
+              <h2>Sökning i databasen</h2>
+              <p>Genom att använda den föreslagna nyckelordssökningen kan du komma åt bilder av vanliga
+                dokumentationsmetoder och motiv. Med kartan eller
+                avancerade sökalternativ kan du hämta resultat för detaljerade sökningar. Varje sökning visar ett
+                galleri
+                med bilder som kan ses mer
+                detaljerat genom att klicka på miniatyrbilden. I den detaljerade vyn är metadata, extern information
+                och
+                nedladdningslänk tillgängliga. Om en bild har ett 3D-mesh kopplat till sig, en <button
+                  class=" avail-3d">3D</button> ikon på galleriminiatyren och <button class="viewer-avail"><span
+                    class="viewer-icon"></span>{{
+                      $t('message.viewthreed') }}</button>
+                knappen i metadatasektionen. Om du klickar på knappen öppnas den multimodal viewer för gruppen av
+                maskor och
+                visualiseringar i ett nytt fönster.</p><br>
+
+              <h2>Visualiseringar</h2>
+              <p>Bilderna taggade som 3D-visualiseringar genererades från mesh-filer med <a href="https://tvt.dh.gu.se"
+                  target="_blank">Topography Visualisation Toolbox (TVT)</a> eller Digital
+                Frottage-arbetsflödet i <a href="https://www.sciencedirect.com/science/article/pii/S2352409X19302329"
+                  target="_blank">Horn et al. (2019)</a>. Om det är tillgängligt, finns en länk till det använda
+                verktyget i metadata under bildvisaren.</p><br>
+
+              <h2>Utveckling</h2>
+              <p>Den webbsidan och databaslösningen har utvecklats av GRIDH, se <a
+                  href="https://github.com/gu-gridh/shfa-frontend?tab=readme-ov-file#overview" target="_blank">GitHub
+                  repository</a> för mer detaljer.
+                Den multimodal viewer använder flera öppen källkod bibliotek som beskrivs i den <a
+                  href="https://github.com/gu-gridh/multimodal-viewer?tab=readme-ov-file#multimodal-viewer"
+                  target="_blank">GitHub repository</a>.</p><br>
+
+              <h2>Att referera bilderna</h2>
+              <p>Bilder i databasen är fritt tillgängliga för utskrift och nedladdning. Den föreslagna referensen för
+                varje bild finns i den detaljerade vyn, men du kan formatera om den till din föredragna stil med hjälp
+                av
+                bildens metadata. Om du tidigare refererat till en bild med hjälp av ID-numret från vår tidigare
+                websida
+                och
+                vill ha bildens nuvarande unika bild-id, vänligen mejla oss information om tidigare ID för
+                bilden/bilderna
+                du
+                är intresserad av så återkommer vi med nuvarande ID-nummer. Meddela
+                oss på <a href=mailto:shfa@gu.se>shfa@gu.se</a> och ange en länk till <a
+                  href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> när du
+                publicerar bilder från databasen. Upphovsrätten gäller etablerade principer som bland annat innefattar
+                fotografens frivilliga rätt.
+                Bilderna är skyddade av en creative commons-licens (CC BY 4.0). För mer information, besök creative
+                commons egen webbplats på:
+                <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a>
+              </p><br>
+
+              <h2>Att referera till plattformen</h2>
+              <p>Bridge, Tristan, Karimi, Aram, Westin, Jonathan, Green, Ashely & Humlesjö, Siska
+                "gu-gridh/shfa-frontend:
+                v.1.3 3rd
+                public release" Github, 12 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
+
+              <h2>Integritetspolicy</h2>
+              <p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att
+                användarupplevelsen. Den spårade datan inkluderar information om IP-addressen, vilken typ av enhet som
+                använts, under
+                hur lång tid besöket varat, förstagångsbesökare på webbplatsen, återkommande besök och en uppskattning
+                om
+                varifrån besöker kommer.</p><br>
+              <h2>Tillgänglighetsredogörelse</h2>
+              <p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>. Webbsidan visas i ett mer
+                tillgängligt format med högre kontrast och/eller minskad transparens för användare som föredrar det.
+                <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
+                  (WCAG)</a> definierar krav på designers och utvecklare för att förbättra tillgängligheten för
+                personer
+                med funktionsnedsättning. Den definierar tre nivåer av överensstämmelse: nivå A, nivå AA och nivå AAA.
+                SHFAs webbportal överensstämmer delvis med WCAG 2.2 nivå A. Det innebär att vissa delar av innehållet
+                inte
+                helt överensstämmer med tillgänglighetsstandarden. Tillgängligheten på SHFAs webbportal är beroende av
+                följande tekniker för att fungera med speciella
+                webbläsare och eventuella hjälpmedel eller plugins installerade på din dator:
+              </p>
+              <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+              </ul>
+              <p>GRIDH har gjort en självskattning av SHFAs webbportal. Redogörelsen uppdaterades senast 2024-05-28.
+              </p>
+              <br>
+              <h2>Kontaktinformation</h2>
+
+              <p>Vänligen kontakta SHFA via <a href=mailto:shfa@gu.se>shfa@gu.se</a> för frågor om informationen samt
+                för
+                förfrågningar om tillägg av information.</p>
+              <p>Vänligen kontakta GRIDH via <a href=mailto:gridh@gu.se>gridh@gu.se</a> för att rapportera tekniska
+                frågor
+                eller frågor om tillgängligheten.</p>
+
+              <p>Fysisk plats: Humanisten, Göteborgs universitet, Renströmsgatan 6, 412 55 Göteborg</p>
+
+              <div class="social-links">Hitta oss på <a href="https://www.facebook.com/SHFARockArt/?locale=sv_SE"
+                  target="_blank"><button class="facebook-logo"></button></a><a
+                  href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button
+                    class="instagram-logo"></button></a></div>
+
+
+            </div>
           </div>
+        </div>
         <!-- </div> -->
       </template>
       <!-- <div class="about-logo-top-right"> </div> -->
@@ -312,7 +316,7 @@ export default defineComponent({
   name: "aboutview",
   setup() {
     const router = useRouter();
-    
+
     const closePage = () => {
       router.push('/');
     }
@@ -325,7 +329,7 @@ export default defineComponent({
     const userLang = localStorage.getItem('userLang') || 'sv';
     this.$i18n.locale = userLang;
   },
-  props:{
+  props: {
     currentLanguage: String,
     currentColourMode: String,
   },
@@ -355,22 +359,24 @@ export default defineComponent({
 
 <style scoped>
 .settings-menu {
-  float: inline-end;
-  padding: 0px 100px;
-  /* right: 185px; */
-  font-size: 1.2em;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 5000;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 24px;
+  font-size: 1.2rem;
   font-weight: 400;
   color: var(--settings-text);
-  /* position: absolute; */
-  /* padding-right: 10px; */
-  margin-top: 0px;
   cursor: default;
 }
+
 .top-button {
-  width:max-content;
+  width: max-content;
   height: 32px;
   line-height: 32px;
-  float: right;
   text-align: left;
   margin-left: 0px;
   padding: 0px 10px 0px 10px;
@@ -382,13 +388,19 @@ export default defineComponent({
   background-color: var(--button-hover-light)
 }
 
-.version {
+.version-badge {
+  position: fixed;
+  left: 12px;
+  z-index: 5001;
   font-size: 15px;
-  text-align: right;
-  margin-right: 9px;
-  margin-top: 10px;
+  line-height: 1.5;
   color: var(--settings-text);
+  padding: 12px 24px;
+  border-radius: 6px;
+  background: transparent;
+  margin: 0;
 }
+
 .material-symbols-outlined {
   font-variation-settings:
     'FILL' 100,
@@ -401,23 +413,21 @@ export default defineComponent({
   cursor: pointer;
   /* line-height: 32px; */
 }
+
 .logo-area {
   display: flex;
-  justify-content: left;
-  /* align-items: left; */
+  justify-content: center;
   align-items: center;
-  margin-top: 30px;
-  margin-bottom: 20px;
+  gap: 16px;
+  margin: 24px 0 40px;
   width: 100%;
-  padding: 0px 0px 0px 100px;
+  padding: 0;
 }
 
 #logo-guide {
   position: relative;
   width: 210px;
   height: 200px;
-  background-color: var(--page-text);
-  float: left;
   background: var(--shfa-logo);
   background-repeat: no-repeat;
   background-size: contain;
@@ -499,6 +509,7 @@ h2 {
 }
 
 .about-container {
+  padding: 80px 0 0;
   position: fixed;
   color: var(--page-text);
   line-height: 1;
@@ -513,18 +524,6 @@ h2 {
   overflow-y: scroll;
   max-height: max-content;
   background: var(--guide-page-background);
-}
-
-#logo-about {
-  position: relative;
-  width: 210px;
-  height: 200px;
-  float: left;
-  background: var(--shfa-logo);
-  background-repeat: no-repeat;
-  background-size: contain;
-  opacity: 0.7;
-  transition: all 0.8s ease-in-out;
 }
 
 
@@ -632,7 +631,7 @@ h2 {
 .close-page-button {
   pointer-events: auto;
   position: sticky;
-  z-index: 5000;  
+  z-index: 5000;
   bottom: 0px;
   top: auto;
   width: 100%;
@@ -686,12 +685,6 @@ h2 {
     margin-top: 20px;
   }
 
-  #logo-about {
-    width: 120px;
-    height: 100px;
-    margin-left: 0px;
-  }
-
   .about-title {
     margin-top: 0px;
     font-size: 35px;
@@ -733,14 +726,14 @@ a {
   font-weight: normal;
 }
 
-.social-links{
+.social-links {
   display: flex;
   align-items: center;
   align-self: center;
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 
-.facebook-logo  {
+.facebook-logo {
   display: inline-flex;
   float: inline-start;
   /* margin-top: 3px; */
