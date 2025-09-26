@@ -21,6 +21,7 @@
             <div v-for="keyword in selectedKeywords[index]" :key="keyword.id" class="tag-example-search" :id="keyword"
               @click="deselectKeyword(keyword, index)">
               {{ keyword.text }}
+              <span class="remove-icon">&times;</span>
             </div>
 
             <input type="search" @click="onInputFocus(index)" :id="'search' + index" :name="'search' + index"
@@ -604,5 +605,12 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 .operator-toggle:hover {
   opacity: .8
+}
+
+.remove-icon {
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 1.1em !important;
+  line-height: 1.0;
 }
 </style>
