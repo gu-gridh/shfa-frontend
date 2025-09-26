@@ -65,7 +65,9 @@
               </span>
             </h3>
 
-            <div class="next-page-wrapper">
+            <div :ref="el => observeTop(el, row)" style="height:1px"></div>
+
+            <div class="next-page-wrapper" v-show="!row.topOutOfView">
               <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
                 class="inline-spinner" />
               <div class="gallery-page-button prev-page-btn" :disabled="row.isFetching"
@@ -109,6 +111,18 @@
               </template>
             </MasonryWall>
           </div>
+          <div class="next-page-wrapper bottom-align" v-show="row.topOutOfView">
+            <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
+              class="inline-spinner" />
+            <div class="gallery-page-button prev-page-btn" :disabled="row.isFetching"
+              :class="{ 'page-button-disabled': !row.prevUrl }" @click="fetchPrevPage(row)"></div>
+            <div class="gallery-page-info" :disabled="row.isFetching">
+              {{ $t('message.sida') }} {{ row.currentPage }}&nbsp;{{ $t('message.av') }}&nbsp;{{ row.totalPages }}
+            </div>
+            <div class="gallery-page-button next-page-btn" :disabled="row.isFetching"
+              :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)"></div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -116,7 +130,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch, nextTick } from 'vue'
+import { ref, reactive, computed, watch, nextTick, onBeforeUnmount } from 'vue'
 import MasonryWall from '@yeger/vue-masonry-wall'
 import { useStore } from '../stores/store.js'
 
@@ -127,6 +141,7 @@ const rows = ref([])
 const isGalleryLoading = ref(true)
 const emit = defineEmits(['image-clicked', 'update-tab'])
 const layoutVersion = ref(0)
+const topObservers = new Map()
 
 const withDepth = urlString => {
   const u = new URL(urlString)
@@ -215,6 +230,25 @@ const visibleRows = computed(() => {
   return anyOpen ? rows.value.filter(r => r.open) : rows.value
 })
 
+//show another set of page buttons when user scrolls down
+function observeTop(el, row) {
+  const key = row.originalIndex
+  if (topObservers.has(key)) {
+    topObservers.get(key).disconnect()
+    topObservers.delete(key)
+  }
+  if (!el) return
+
+  const root = el.closest('.scroll-wrapper') || null
+
+  const io = new IntersectionObserver(
+    ([entry]) => { row.topOutOfView = !entry.isIntersecting },
+    { root, threshold: 0 }
+  )
+  io.observe(el)
+  topObservers.set(key, io)
+}
+
 function forceRelayout() {
   nextTick(() => layoutVersion.value++)
 }
@@ -237,7 +271,8 @@ async function fetchGallery() {
         type_translation: sec.type_translation,
         count: sec.count,
         currentPage: 1,
-        totalPages: Math.max(1, Math.ceil(sec.count / 25))
+        totalPages: Math.max(1, Math.ceil(sec.count / 25)),
+        topOutOfView: false,
       }))
 
     if (rows.value.length) toggleRow(0)
@@ -269,6 +304,7 @@ function toggleRow(idx) {
   row.open = !row.open
 
   if (row.open) {
+    row.topOutOfView = false;
     const url = new URL(buildGalleryUrl())
     url.searchParams.set('category_type', row.type)
     row.nextUrl = withDepth(url)
@@ -325,6 +361,11 @@ async function fetchPage(row, url) {
 function onTitleClick(idx) {
   toggleRow(idx)
 }
+
+onBeforeUnmount(() => {
+  topObservers.forEach(o => o.disconnect())
+  topObservers.clear()
+})
 
 watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search = Date.now(); fetchGallery() } })
 watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamps.advanced = Date.now(); fetchGallery() } })
@@ -820,6 +861,16 @@ h3 span {
   .mobile-menu-list+.total-count {
     text-align: left;
     font-size: 0.9rem;
+  }
+}
+
+.bottom-align {
+  justify-content: end;
+}
+
+@media (max-width: 1024px) {
+  .bottom-align {
+    justify-content: center !important;
   }
 }
 </style>
