@@ -229,7 +229,6 @@ export default {
 
 .version-badge {
     position: fixed;
-    top: 12px;
     left: 12px;
     z-index: 5001;
     font-size: 15px;

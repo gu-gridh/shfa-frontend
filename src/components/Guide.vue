@@ -1,32 +1,27 @@
 <template>
   <div class="guide-container fullopacityui" id='block-text'>
     <div class="content">
-
-
       <div class="rows">
-
-
         <div class="flex-machine">
           <div class="settings-menu">
-          <div class="version">Version 1.3</div>
+            <div class="version-badge">Version 1.3</div>
             <div class="top-button" @click="toggleLanguage" id="language-button">
-              {{currentLang=='sv' ? 'English' : 'Svenska'}}
+              {{ currentLang == 'sv' ? 'English' : 'Svenska' }}
             </div>
             <div class="top-button" @click="toggleColour">
-              <div id="colour-mode" class="material-symbols-outlined" >
-                {{currentColour=='light' ? 'dark_mode' : 'light_mode'}}
+              <div id="colour-mode" class="material-symbols-outlined">
+                {{ currentColour == 'light' ? 'dark_mode' : 'light_mode' }}
               </div>
             </div>
           </div>
           <div class="logo-area">
             <div id="logo-guide"></div>
-    
-        <h1 class="about-title">
-              <div v-html="$t('message.abouttitle')"></div>
-            </h1>
+
+            <h1 class="about-title" v-html="$t('message.abouttitle')"></h1>
+
           </div>
 
-            
+
           <div class="guide-article-main fullopacityui" style="margin-bottom: 0px;">
             <h2>{{ $t('message.sökguide') }}</h2>
           </div>
@@ -64,7 +59,7 @@
                         v-for="(value, key) in category.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })"
                         :key="key">
                         <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                          }}</button>
+                        }}</button>
                       </li>
                     </ul>
                   </div>
@@ -94,7 +89,8 @@
                   </thead>
                   <tbody>
                     <tr v-if="currentLang === 'en'" v-for="(value, key) in sortedImageTypes" :key="key">
-                      <td><button @click="logMetaSearch(value.english_translation)">{{ value.english_translation }}</button></td>
+                      <td><button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
+                          }}</button></td>
                       <td>{{ value.english_description }}</td>
                     </tr>
                     <tr v-if="currentLang === 'sv'" v-for="(value, key) in sortedImageTypes" :key="key">
@@ -179,7 +175,7 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
-          this.data_clean =this.data.map(a => a.category && a.category_translation ? a : Object.assign(a,{"category":"Okategoriserade", "category_translation":"Uncategorised"})) //handle keywords with null category
+          this.data_clean = this.data.map(a => a.category && a.category_translation ? a : Object.assign(a, { "category": "Okategoriserade", "category_translation": "Uncategorised" })) //handle keywords with null category
           this.sortedSV = this.data_clean.sort((a, b) => { return a.category.localeCompare(b.category) })
           this.groupedKeywordsSV = Object.groupBy(this.sortedSV, ({ category }) => category)
           this.sortedEN = this.data_clean.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) })
@@ -230,51 +226,79 @@ export default {
 
 <style scoped>
 .settings-menu {
-  float: inline-end;
-  padding: 0px 100px;
-  /* right: 185px; */
-  font-size: 1.2em;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 5000;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 24px;
+  font-size: 1.2rem;
   font-weight: 400;
   color: var(--settings-text);
-  /* position: absolute; */
-  /* padding-right: 10px; */
-  margin-top: 0px;
   cursor: default;
 }
+
 .top-button {
-  width:max-content;
+  width: max-content;
   height: 32px;
   line-height: 32px;
   float: right;
   text-align: left;
-  margin-left: 0px;
-  padding: 0px 10px 0px 10px;
+  margin-left: 0;
+  padding: 0 10px;
   border-radius: 8px;
   cursor: pointer;
 }
 
 .top-button:hover {
-  background-color: var(--button-hover-light)
+  background-color: var(--button-hover-light);
 }
 
-.version {
-  font-size: 15px;
-  text-align: right;
-  margin-right: 9px;
-  margin-top: 10px;
-  color: var(--settings-text);
-}
 .material-symbols-outlined {
   font-variation-settings:
     'FILL' 100,
     'wght' 200,
     'GRAD' 0,
     'opsz' 24;
-  /* vertical-align: middle; */
   padding: 1px;
   color: var(--settings-text);
   cursor: pointer;
-  /* line-height: 32px; */
+}
+
+.version-badge {
+  line-height: 1.5;
+  margin: 0;
+  position: fixed;
+  left: 12px;
+  z-index: 5001;
+  font-size: 15px;
+  color: var(--settings-text);
+  padding: 12px 24px;
+  border-radius: 6px;
+  background: transparent;
+}
+
+.logo-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0 40px;
+  width: 100%;
+  padding: 0;
+}
+
+#logo-guide {
+  position: relative;
+  width: 210px;
+  height: 200px;
+  background: var(--shfa-logo);
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.7;
+  transition: all 0.8s ease-in-out;
 }
 
 td>button:hover,
@@ -312,10 +336,8 @@ button>h3:hover {
 }
 
 .viewer-avail {
-  /* display: relative; */
   padding: 4px 8px 4px 10px;
   color: var(--button-text);
-  /* background-color: var(--button-background); */
   background-color: var(--threed-icon);
   border-radius: 8px;
   font-size: 86%;
@@ -325,10 +347,6 @@ button>h3:hover {
   width: max-content;
   height: max-content;
   font-weight: 400;
-  /* background-image: var(--link-button);
-  background-size: 20px;
-  background-position: 10px 8px;
-  background-repeat: no-repeat; */
 }
 
 .viewer-icon {
@@ -393,6 +411,7 @@ ul {
 } */
 
 .guide-container {
+  padding: 80px 0 0;
   position: fixed;
   color: var(--page-text);
   line-height: 1;
@@ -407,29 +426,6 @@ ul {
   overflow-y: auto;
   max-height: max-content;
   background: var(--guide-page-background);
-}
-
-.logo-area {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  margin-top: 30px;
-  margin-bottom: 20px;
-  width: 100%;
-  padding: 0px 0px 0px 100px;
-}
-
-#logo-guide {
-  position: relative;
-  width: 210px;
-  height: 200px;
-  background-color: var(--page-text);
-  float: left;
-  background: var(--shfa-logo);
-  background-repeat: no-repeat;
-  background-size: contain;
-  opacity: 0.7;
-  transition: all 0.8s ease-in-out;
 }
 
 .flex-machine {
@@ -587,6 +583,20 @@ ul {
 }
 
 @media (max-width:480px) {
+  .logo-area {
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding-left: 0;
+  }
+
+  #logo-guide {
+    width: 120px;
+    height: 100px;
+    margin-right: 10px;
+    margin-left: 0px;
+    margin-top: 0px;
+  }
 
   .avail-3d {
     font-size: 95%;
@@ -645,21 +655,9 @@ ul {
     width: 100%;
   }
 
-  .logo-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 80px;
-  }
-
   .guide-container .fullopacity {
     margin-top: 0px;
     margin-bottom: 0px;
-  }
-
-  #logo-guide {
-    margin-left: 0px;
-    margin-top: 0px;
   }
 
   .second tr {
@@ -703,16 +701,6 @@ ul {
     font-size: 1em;
     overflow-x: hidden;
     word-wrap: break-word;
-  }
-
-  .logo-area {
-    margin-top: 20px;
-  }
-
-  #logo-guide {
-    width: 120px;
-    height: 100px;
-    margin-left: 10px;
   }
 
   .title {
