@@ -34,8 +34,8 @@ const props = defineProps({
 })
 
 const TOP_N = 50;
-const BAR_H = 28; //px per bar
-const MIN_CHART_HEIGHT = 300
+const BAR_H = 48; //px per bar
+const MIN_CHART_HEIGHT = 325
 
 const chartHeight = computed(() =>
   Math.max(MIN_CHART_HEIGHT, BAR_H * Math.min(TOP_N, props.data.length))
