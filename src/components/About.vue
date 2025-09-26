@@ -342,7 +342,7 @@ export default defineComponent({
   },
   methods: {
     toggleLanguage() {
-      this.currentLang = this.$i18n.locale === "en" ? "sv" : "en";
+      this.currentLang = (this.$i18n.locale === "en") ? "sv" : "en";
       this.$i18n.locale = this.currentLang;
       localStorage.setItem('userLang', this.currentLang);
     },
