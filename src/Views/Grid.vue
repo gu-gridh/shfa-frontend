@@ -1543,7 +1543,6 @@ h2 input:not(:placeholder-shown) {
 }
 
 #app .search-container .tag-example-search {
-  background-color: var(--button-background);
   padding: 0px 10px;
   font-size: 1em;
   font-weight: 400;
@@ -1554,8 +1553,8 @@ h2 input:not(:placeholder-shown) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--page-text);
-  box-shadow: var(--menu-shadow);
+  color: var(--button-text);
+  box-shadow: var(--shadow);
 }
 
 .flex-grow.overflow-auto.main-color::-webkit-scrollbar {
