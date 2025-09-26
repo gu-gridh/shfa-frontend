@@ -106,7 +106,7 @@ function rebuild() {
           type: 'bar',
           stack: 'one',
           barWidth: '60%',
-          itemStyle: { color: 'var(--figurative-color)' },
+          itemStyle: { color: 'var(--figurative-color, #5070dd)' },
           data: topData.map(d => (d.figurative ? d.count : 0))
         },
         {
@@ -114,7 +114,7 @@ function rebuild() {
           type: 'bar',
           stack: 'one',
           barWidth: '60%',
-          itemStyle: { color: 'var(--nonfigurative-color)' },
+          itemStyle: { color: 'var(--nonfigurative-color, #a07cc7)' },
           data: topData.map(d => (!d.figurative ? d.count : 0))
         }
       ]
