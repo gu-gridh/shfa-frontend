@@ -4,6 +4,12 @@
       <div class="loading-indicator">Loading summary… </div>
       <img src="/interface/6-dots-rotate.svg" alt="Loading..." class="inline-spinner" />
     </div>
+
+      <div v-else-if="rows.length === 0" class="no-results">
+      {{ $t('message.noResults') }}
+      <div class="no-results__icon" role="img" aria-label="No results"></div>
+    </div>
+
     <div v-else class="grid-container">
       <div class="row-wrapper">
         <div class="button-container sticky">
@@ -470,5 +476,26 @@ h3 {
     padding-top: 0rem;
     min-height: 320px;
   }
+}
+
+.no-results {
+  color: var(--page-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.no-results__icon {
+  width: 50px;
+  height: 50px;
+  margin-top: 1rem;
+  background-image: var(--no-results-icon);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 </style>
