@@ -91,8 +91,8 @@ const fieldIndexBySource = { //mapping search results to advanced search field
   people: 1,
   type: 2,
   keywords: 3,
-  institution: 5,
   'dating tag': 4,
+  institution: 5,
 }
 
 const MAX_TAGS = 3;
@@ -139,7 +139,7 @@ const handleSearchButtonClick = () => {
     'keyword',
     'dating_tag',
     'institution_name',
-    'group',
+    '3d_site',
     'region_name'
   ];
 
@@ -155,7 +155,14 @@ const handleSearchButtonClick = () => {
     } else {
       const texts = selectedKeywords.value[index].map(k => k.text);
       const value = query || texts.join(',');
-      if (value) params.set(fieldNames[index], value);
+      if (value) {
+        params.set(fieldNames[index], value);
+
+        //when 3D has a value
+        if (index === 6) {
+          params.append('image_type', '3d-visualisering');
+        }
+      }
     }
   });
 
