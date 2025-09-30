@@ -160,7 +160,7 @@ const handleSearchButtonClick = () => {
 
         //when 3D has a value
         if (index === 6) {
-          params.append('image_type', '3d-visualisering&Ortofoto (SfM)');
+          params.append('image_type', '3d-visualisering&Ortofoto (SfM)&keyword_operator=OR');
         }
       }
     }
