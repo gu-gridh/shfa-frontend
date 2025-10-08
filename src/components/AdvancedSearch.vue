@@ -159,9 +159,9 @@ const handleSearchButtonClick = () => {
         params.set(fieldNames[index], value);
 
         //when 3D has a value
-        if (index === 6) {
-          params.append('image_type', '3d-visualisering&Ortofoto (SfM)');
-        }
+        // if (index === 6) {
+        //   params.append('image_type', '3d-visualisering&Ortofoto (SfM)');
+        // }
       }
     }
   });
