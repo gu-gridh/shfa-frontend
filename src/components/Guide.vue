@@ -171,7 +171,7 @@ export default {
       this.$router.push('/');
     },
     fetchKeywords() {
-      fetch(`https://diana.dh.gu.se/api/shfa/keywordtag/?depth=2&limit=200`)
+      fetch(`https://shfa.dh.gu.se/api/keywordtag/?depth=2&limit=200`)
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
@@ -186,7 +186,7 @@ export default {
         });
     },
     fetchImageTypes() {
-      fetch(`https://diana.dh.gu.se/api/shfa/imagetypetag/?depth=1&limit=30`)
+      fetch(`https://shfa.dh.gu.se/api/imagetypetag/?depth=1&limit=30`)
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
@@ -202,7 +202,7 @@ export default {
         });
     },
     fetchDatingTags() {
-      fetch(`https://diana.dh.gu.se/api/shfa/datingtag/?depth=2&limit=30`)
+      fetch(`https://shfa.dh.gu.se/api/datingtag/?depth=2&limit=30`)
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;

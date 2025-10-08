@@ -291,7 +291,7 @@ export default {
       }
     },
     fetchData(id) {
-      fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${id}&depth=1`)
+      fetch(`https://shfa.dh.gu.se/api/image/?id=${id}&depth=1`)
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results[0];
@@ -347,7 +347,7 @@ export default {
   watch: {
     Id(newId, oldId) {
       if (newId !== oldId) {
-        fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${newId}&depth=1`)
+        fetch(`https://shfa.dh.gu.se/api/image/?id=${newId}&depth=1`)
           .then((response) => response.json())
           .then((json) => {
             this.data = json.results[0];

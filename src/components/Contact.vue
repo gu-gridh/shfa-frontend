@@ -99,7 +99,7 @@ export default {
             this.submitting = true
             this.status = ''
 
-            const SUBMIT_ENDPOINT = 'https://diana.dh.gu.se/shfa/contact/'
+            const SUBMIT_ENDPOINT = 'https://shfa.dh.gu.se/contact/'
             const jsonPayload = {
                 name: this.form.name,
                 email: this.form.email,

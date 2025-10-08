@@ -159,7 +159,7 @@ const props = defineProps({
 })
 
 const formatIiif = url =>
-  url.startsWith('http') ? url : 'https://img.dh.gu.se/diana/static/' + url
+  url.startsWith('http') ? url : 'https://img.dh.gu.se/shfa/static/' + url
 
 const filterTimestamps = reactive({ search: 0, advanced: 0, bbox: 0, site: 0 })
 const activeFilter = computed(() =>
@@ -168,7 +168,7 @@ const activeFilter = computed(() =>
 )
 
 const buildCategoryUrl = () => {
-  const base = 'https://diana.dh.gu.se/api/shfa/type_categorized/'
+  const base = 'https://shfa.dh.gu.se/api/type_categorized/'
   const p = new URLSearchParams()
   const f = activeFilter.value
 
@@ -190,7 +190,7 @@ const buildCategoryUrl = () => {
 }
 
 const buildGalleryUrl = () => {
-  const base = 'https://diana.dh.gu.se/api/shfa/gallery/'
+  const base = 'https://shfa.dh.gu.se/api/gallery/'
   const p = new URLSearchParams({ depth: DEPTH })
   const f = activeFilter.value
 

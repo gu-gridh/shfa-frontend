@@ -69,7 +69,7 @@
 
         try {
           const resp = await fetch(
-            `https://diana.dh.gu.se/api/shfa/image/?id=${encodeURIComponent(this.iiifFile)}&depth=1`
+            `https://shfa.dh.gu.se/api/image/?id=${encodeURIComponent(this.iiifFile)}&depth=1`
           );
           if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 

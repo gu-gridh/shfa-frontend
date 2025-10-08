@@ -213,7 +213,7 @@ function buildRows() {
 function openRow(idx) { openRowIndex.value = idx }
 
 function buildSummaryUrl() {
-  const base = 'https://diana.dh.gu.se/api/shfa/summary/'
+  const base = 'https://shfa.dh.gu.se/api/summary/'
   const p = new URLSearchParams()
   const f = activeFilter.value
 

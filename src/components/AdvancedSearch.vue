@@ -115,14 +115,14 @@ const infiniteScrollUrls = ref(Array(8).fill(null));
 const apiUrls = computed(() => {
   const langParam = `?language=${props.currentLang}&`;
   return [
-    'https://diana.dh.gu.se/api/shfa/search/site/?site_name=',
-    `https://diana.dh.gu.se/api/shfa/search/author/${langParam}auhtor_name=`,
-    `https://diana.dh.gu.se/api/shfa/search/type/${langParam}image_type=`,
-    `https://diana.dh.gu.se/api/shfa/search/keywords/${langParam}keyword=`,
-    `https://diana.dh.gu.se/api/shfa/search/dating/${langParam}dating_tag=`,
-    'https://diana.dh.gu.se/api/shfa/search/institution/?institution_name=',
-    'https://diana.dh.gu.se/api/shfa/search/visualization_group/?site_name=',
-    'https://diana.dh.gu.se/api/shfa/search/region/?region_name='
+    'https://shfa.dh.gu.se/api/search/site/?site_name=',
+    `https://shfa.dh.gu.se/api/search/author/${langParam}auhtor_name=`,
+    `https://shfa.dh.gu.se/api/search/type/${langParam}image_type=`,
+    `https://shfa.dh.gu.se/api/search/keywords/${langParam}keyword=`,
+    `https://shfa.dh.gu.se/api/search/dating/${langParam}dating_tag=`,
+    'https://shfa.dh.gu.se/api/search/institution/?institution_name=',
+    'https://shfa.dh.gu.se/api/search/visualization_group/?site_name=',
+    'https://shfa.dh.gu.se/api/search/region/?region_name='
   ];
 });
 
