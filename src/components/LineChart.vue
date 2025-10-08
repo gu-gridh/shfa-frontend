@@ -77,9 +77,15 @@ function rebuild() {
             }  
         },
         yAxis: { type: 'value',
-            color: '#b0b0b0',
+            color: props.textColor,
             axisLabel: {
                 color: props.textColor,
+            },
+            axisLine: {
+                lineStyle: {color: props.textColor}
+            },
+            splitLine: {
+                lineStyle: {color: props.textColor, opacity: 0.3}
             }  
         },
         series: [{ type: 'line', data: counts, smooth: true, symbolSize: 6 }]

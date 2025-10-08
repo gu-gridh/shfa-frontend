@@ -91,7 +91,13 @@ function rebuild() {
       splitNumber: 8, 
       axisLabel: {
         color: props.textColor,
-      } 
+      },
+      axisLine: {
+        lineStyle: {color: props.textColor}
+      },
+      splitLine: {
+        lineStyle: {color: props.textColor, opacity: 0.3}
+      }
     },
     yAxis: {
       type: 'category',
@@ -107,6 +113,9 @@ function rebuild() {
         color: props.textColor,
         ellipsis: '…',
         formatter: v => v
+      },
+      axisLine: {
+        lineStyle: {color: props.textColor}
       }
     },
     series: hasFig
