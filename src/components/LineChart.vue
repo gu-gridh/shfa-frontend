@@ -72,13 +72,13 @@ function rebuild() {
             data: years, 
             boundaryGap: true,
             axisLabel: {
-                textStyle: { color: '#b0b0b0' },
+               color: '#b0b0b0',
             }  
         },
         yAxis: { type: 'value',
             color: '#b0b0b0',
             axisLabel: {
-                textStyle: { color: '#b0b0b0' },
+                color: '#b0b0b0',
             }  
         },
         series: [{ type: 'line', data: counts, smooth: true, symbolSize: 6 }]

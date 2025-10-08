@@ -89,7 +89,7 @@ function rebuild() {
     xAxis: { type: 'value', 
       splitNumber: 8, 
       axisLabel: {
-        textStyle: { color: '#b0b0b0' },
+        color: '#b0b0b0',
       } 
     },
     yAxis: {
@@ -104,7 +104,6 @@ function rebuild() {
         margin: 8,
         overflow: 'break',
         color: '#b0b0b0',
-        textStyle: { color: '#b0b0b0' },
         ellipsis: '…',
         formatter: v => v
       }
