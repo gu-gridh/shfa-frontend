@@ -152,8 +152,8 @@ div.split-container>div>div:nth-child(4) {
   --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
   --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
   --gallery-image-background: rgb(50,50,50);
-  --figurative-color: #5070dd;
-  --nonfigurative-color: #a07cc7;
+  --figurative-color: #719fbf;
+  --nonfigurative-color: #7e75a0;
 }
 
 html[style-theme='dark'] {
@@ -243,8 +243,8 @@ html[style-theme='dark'] {
   --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
   --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
   --gallery-image-background: rgb(50,50,50);
-  --figurative-color: #5070dd;
-  --nonfigurative-color: #a07cc7;
+  --figurative-color: #719fbf;
+  --nonfigurative-color: #7e75a0;
 }
 
 html[style-theme='light'] {
@@ -335,8 +335,8 @@ html[style-theme='light'] {
   --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
   --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
   --gallery-image-background: rgb(230,230,230);
-  --figurative-color: #5070dd;
-  --nonfigurative-color: #a07cc7;
+  --figurative-color: #719fbf;
+  --nonfigurative-color: #7e75a0;
 }
 
 @media (prefers-contrast:more) or (prefers-reduced-transparency) {
@@ -424,8 +424,8 @@ html[style-theme='light'] {
     --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
     --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
     --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
-    --figurative-color: #5070dd;
-    --nonfigurative-color: #a07cc7;
+    --figurative-color: #719fbf;
+    --nonfigurative-color: #7e75a0;
   }
 }
 

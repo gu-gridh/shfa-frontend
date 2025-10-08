@@ -1,9 +1,9 @@
 <template>
     <div class="chart-shell">
-        <VueECharts :option="option" renderer="svg" :style="{ height: '260px', width: '100%' }" ref="chartRef" />
+        <VueECharts :option="option" renderer="png" :style="{ height: '260px', width: '100%' }" ref="chartRef" />
         <div v-if="exportable" class="btn-row">
             <div class="btn-row-title">{{ $t(`message.download`) }}</div>
-            <button type="button" @click="downloadImage">SVG</button>
+            <button type="button" @click="downloadImage">PNG</button>
             <div class="btn-row-title">|</div>
             <button type="button" @click="downloadCSV">CSV</button>
         </div>
@@ -15,11 +15,11 @@ import { ref, watch, computed, nextTick, onMounted, onUnmounted } from 'vue'
 import VueECharts from 'vue-echarts'
 import * as echarts from 'echarts/core'
 import { use } from 'echarts/core'
-import { SVGRenderer } from 'echarts/renderers'
+import { CanvasRenderer } from 'echarts/renderers'
 import { LineChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent } from 'echarts/components'
 
-use([SVGRenderer, LineChart, GridComponent, TooltipComponent])
+use([CanvasRenderer, LineChart, GridComponent, TooltipComponent])
 
 const isMobile = window.matchMedia('(max-width:900px)').matches
 
@@ -63,9 +63,24 @@ function rebuild() {
             bottom: isMobile ? 24 : 40,
             containLabel: true
         },
+        color: [
+        '#719fbf',
+        '#7e75a0',
+        ],
         tooltip: { trigger: 'axis' },
-        xAxis: { type: 'category', data: years, boundaryGap: true },
-        yAxis: { type: 'value' },
+        xAxis: { type: 'category', 
+            data: years, 
+            boundaryGap: true,
+            axisLabel: {
+                textStyle: { color: '#b0b0b0' },
+            }  
+        },
+        yAxis: { type: 'value',
+            color: '#b0b0b0',
+            axisLabel: {
+                textStyle: { color: '#b0b0b0' },
+            }  
+        },
         series: [{ type: 'line', data: counts, smooth: true, symbolSize: 6 }]
     }
 
@@ -75,7 +90,7 @@ function rebuild() {
 watch(() => props.data, rebuild, { immediate: true })
 
 async function downloadImage() {
-    const name = (props.title || 'chart') + '.svg'
+    const name = (props.title || 'chart') + '.png'
     const exportWidth = 800
     const exportHeight = 260
 
@@ -83,11 +98,11 @@ async function downloadImage() {
     const useOffscreen = isMobile || !inst
 
     if (useOffscreen) { //mobile - render offscreen
-        const blobUrl = await exportOffscreenSVG(option.value, exportWidth, exportHeight)
+        const blobUrl = await exportOffscreenPNG(option.value, exportWidth, exportHeight)
         save(blobUrl, name)
         setTimeout(() => URL.revokeObjectURL(blobUrl), 1500)
     } else {  //desktop - use existing instance
-        const dataUrl = inst.getDataURL({ type: 'svg', background: '#fff' })
+        const dataUrl = inst.getDataURL({ type: 'image/png', background: '#fff', pixelRatio: 12 })
         const blob = await (await fetch(dataUrl)).blob()
         const blobUrl = URL.createObjectURL(blob)
         save(blobUrl, name)
@@ -95,7 +110,7 @@ async function downloadImage() {
     }
 }
 
-async function exportOffscreenSVG(opt, width, height) {
+async function exportOffscreenPNG(opt, width, height) {
     const tmp = document.createElement('div')
     Object.assign(tmp.style, {
         position: 'fixed', left: '-10000px', top: '-10000px',
@@ -103,12 +118,12 @@ async function exportOffscreenSVG(opt, width, height) {
     })
     document.body.appendChild(tmp)
 
-    const inst = echarts.init(tmp, null, { renderer: 'svg', width, height })
+    const inst = echarts.init(tmp, null, { renderer: 'canvas', width, height })
     try {
         const blobUrl = await new Promise((resolve, reject) => {
             inst.on('finished', async () => {
                 try {
-                    const dataUrl = inst.getDataURL({ type: 'svg', background: '#fff' })
+                    const dataUrl = inst.getDataURL({ type: 'image/png', background: '#fff', pixelRatio: 12 })
                     const blob = await (await fetch(dataUrl)).blob()
                     resolve(URL.createObjectURL(blob))
                 } catch (e) { reject(e) }
@@ -174,5 +189,6 @@ function save(url, name) {
 .btn-row-title {
     margin-right: 0.25rem;
     font-weight: 500;
+    color: var(--page-text);
 }
 </style>
