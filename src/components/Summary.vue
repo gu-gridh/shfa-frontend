@@ -61,8 +61,8 @@
           <h4 class="disclaimer">{{$t('message.summaryDisclaimer')}}</h4>
 
           <LineChart v-if="currentRow.id === 'years'" :data="summary.year" :title="currentRow.title"
-            :exportable="true" />
-          <BarChart v-else :data="localizedItems" :title="currentRow.title" :exportable="true"
+            :exportable="true" :textColor="textColor" />
+          <BarChart v-else :data="localizedItems" :title="currentRow.title" :exportable="true" :textColor="textColor"
             @select="triggerSearch" />
         </div>
       </div>
@@ -98,13 +98,18 @@ const localizedItems = computed(() => {
   }))
 })
 
+const textColor = computed(() => {
+  return props.currentColor === 'dark' ? 'white' : 'black'
+})
+
 const props = defineProps({
   searchItems: [Array, String, Object],
   advancedSearchResults: [Array, Object],
   bboxSearch: [Array, Object],
   selectedSiteId: [Number, String],
   activeTab: { type: String, default: 'gallery' },
-  currentLanguage: { type: String, default: 'sv' }
+  currentLanguage: { type: String, default: 'sv' },
+  currentColor: { type: String, default: 'dark'}
 })
 
 const isLoading = ref(false)

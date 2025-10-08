@@ -26,7 +26,8 @@ const isMobile = window.matchMedia('(max-width:900px)').matches
 const props = defineProps({
     data: { type: Array, default: () => [] },
     title: { type: String, default: 'chart' },
-    exportable: { type: Boolean, default: true }
+    exportable: { type: Boolean, default: true },
+    textColor: { type: String, default: 'blue' }
 })
 
 const seriesData = computed(() => binData(props.data))
@@ -72,13 +73,13 @@ function rebuild() {
             data: years, 
             boundaryGap: true,
             axisLabel: {
-               color: '#b0b0b0',
+               color: props.textColor,
             }  
         },
         yAxis: { type: 'value',
             color: '#b0b0b0',
             axisLabel: {
-                color: '#b0b0b0',
+                color: props.textColor,
             }  
         },
         series: [{ type: 'line', data: counts, smooth: true, symbolSize: 6 }]
@@ -87,7 +88,7 @@ function rebuild() {
     nextTick(() => chartRef.value?.chart?.resize())
 }
 
-watch(() => props.data, rebuild, { immediate: true })
+watch(() => [props.data, props.textColor], rebuild, { immediate: true })
 
 async function downloadImage() {
     const name = (props.title || 'chart') + '.png'

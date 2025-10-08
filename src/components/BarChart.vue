@@ -30,7 +30,8 @@ const isMobile = ref(window.innerWidth < 1025)
 const props = defineProps({
   data: { type: Array, default: () => [] },
   title: { type: String, default: '' },
-  exportable: { type: Boolean, default: true }
+  exportable: { type: Boolean, default: true },
+  textColor: { type: String, default: 'white'}
 })
 
 const TOP_N = 50;
@@ -56,7 +57,7 @@ function rebuild() {
 
   option.value = {
     grid: {
-      left: 2,
+      left: 10,
       right: hasFig ? '15%' : 24, //extra space when the legend shows
       top: 8,  
       bottom: 20,
@@ -70,8 +71,8 @@ function rebuild() {
       top: 0,
       right: 2,
       orient: 'vertical',
-      textStyle: { color: '#b0b0b0' },
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      textStyle: { color: props.textColor },
+      backgroundColor: 'rgba(0, 0, 0, 0.15)',
       borderRadius: 6,
       itemWidth: 12,
       itemHeight: 10,
@@ -89,7 +90,7 @@ function rebuild() {
     xAxis: { type: 'value', 
       splitNumber: 8, 
       axisLabel: {
-        color: '#b0b0b0',
+        color: props.textColor,
       } 
     },
     yAxis: {
@@ -97,13 +98,13 @@ function rebuild() {
       data: labels,
       triggerEvent: true,
       axisLabel: {
-        width: 180,
+        width: 150,
         lineHeight: 14,
         interval: 0,
         align: 'right',
-        margin: 8,
+        margin: 12,
         overflow: 'break',
-        color: '#b0b0b0',
+        color: props.textColor,
         ellipsis: '…',
         formatter: v => v
       }
@@ -115,7 +116,6 @@ function rebuild() {
           type: 'bar',
           stack: 'one',
           barWidth: '60%',
-          // itemStyle: { color: 'var(--figurative-color, #5070dd)' },
           data: topData.map(d => (d.figurative ? d.count : 0))
         },
         {
@@ -123,7 +123,6 @@ function rebuild() {
           type: 'bar',
           stack: 'one',
           barWidth: '60%',
-          // itemStyle: { color: 'var(--nonfigurative-color, #a07cc7)' },
           data: topData.map(d => (!d.figurative ? d.count : 0))
         }
       ]
@@ -152,7 +151,7 @@ function rebuild() {
   })
 }
 
-watch(() => props.data, rebuild, { immediate: true })
+watch(() => [props.data,props.textColor], rebuild, { immediate: true })
 
 async function downloadImage() {
   const name = (props.title || 'chart') + '.png'
