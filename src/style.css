@@ -261,14 +261,14 @@ html[style-theme='light'] {
   --button-hover-light: #c3c3c3;
   --page-text: black;
   --button-text: white;
-  --highlighted-text: #2bc0f6;
+  --highlighted-text: #5190be;
   --popup-background: #1f1f1f;
   --popup-text: white;
   --map-markers: #0c5270eb;
   --image-hover-background: linear-gradient(rgba(255, 255, 255, 0.3) 30%, rgba(255, 255, 255, 0.8) 100%);
   --image-hover-text: black;
   --metadata-text: black;
-  --notice-text: #82cae9;
+  --notice-text: #719fbf;
   --emphasised-text: #244e60;
   --about-emphasised-text: black;
   --placeholder-text: #000000d5;
@@ -283,7 +283,7 @@ html[style-theme='light'] {
   --shfa-logo: url("../src/assets/shfa_logo_downscale.png");
   --no-results-icon: var(--no-results-icon-dark);
   --guide-page-background: #ffffff;
-  --gallery-nav-text: #5dadc8;
+  --gallery-nav-text: #719fbf;
   --gallery-nav-background: #1b1b1b99;
   --link-color: #50169b;
   --base: black !important;
@@ -321,7 +321,7 @@ html[style-theme='light'] {
   --disclaimer-text: #243f4a;
   --default-gradient: none;
   --results-text: white;
-  --total-results: #82cae9;
+  --total-results: #719fbf;
   --clickable-metadata: #1e333c;
   --overlaid-button-background: #1b1b1b;
   --underlay: white;
@@ -361,7 +361,7 @@ html[style-theme='light'] {
     --image-hover-background: linear-gradient(rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 1) 100%);
     --image-hover-text: black;
     --metadata-text: black;
-    --notice-text: #82cae9;
+    --notice-text: #719fbf;
     --emphasised-text: #2a527a;
     --about-emphasised-text: black;
     --placeholder-text: #000000;
