@@ -65,28 +65,30 @@ function rebuild() {
             containLabel: true
         },
         color: [
-        '#719fbf',
-        '#7e75a0',
+            '#719fbf',
+            '#7e75a0',
         ],
         tooltip: { trigger: 'axis' },
-        xAxis: { type: 'category', 
-            data: years, 
+        xAxis: {
+            type: 'category',
+            data: years,
             boundaryGap: true,
             axisLabel: {
-               color: props.textColor,
-            }  
+                color: props.textColor,
+            }
         },
-        yAxis: { type: 'value',
+        yAxis: {
+            type: 'value',
             color: props.textColor,
             axisLabel: {
                 color: props.textColor,
             },
             axisLine: {
-                lineStyle: {color: props.textColor}
+                lineStyle: { color: props.textColor }
             },
             splitLine: {
-                lineStyle: {color: props.textColor, opacity: 0.3}
-            }  
+                lineStyle: { color: props.textColor, opacity: 0.3 }
+            }
         },
         series: [{ type: 'line', data: counts, smooth: true, symbolSize: 6 }]
     }
@@ -109,7 +111,7 @@ async function downloadImage() {
         save(blobUrl, name)
         setTimeout(() => URL.revokeObjectURL(blobUrl), 1500)
     } else {  //desktop - use existing instance
-        const dataUrl = inst.getDataURL({ type: 'image/png', background: '#fff', pixelRatio: 4 })
+        const dataUrl = inst.getDataURL({ type: 'image/png', pixelRatio: 4 })
         const blob = await (await fetch(dataUrl)).blob()
         const blobUrl = URL.createObjectURL(blob)
         save(blobUrl, name)
@@ -130,7 +132,7 @@ async function exportOffscreenPNG(opt, width, height) {
         const blobUrl = await new Promise((resolve, reject) => {
             inst.on('finished', async () => {
                 try {
-                    const dataUrl = inst.getDataURL({ type: 'image/png', background: '#fff' })
+                    const dataUrl = inst.getDataURL({ type: 'image/png' })
                     const blob = await (await fetch(dataUrl)).blob()
                     resolve(URL.createObjectURL(blob))
                 } catch (e) { reject(e) }
