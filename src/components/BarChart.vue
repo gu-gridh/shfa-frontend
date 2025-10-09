@@ -22,7 +22,7 @@ import { BarChart as Bar } from 'echarts/charts'
 import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
 import VueECharts from 'vue-echarts'
 import { useI18n } from 'vue-i18n'
-const { t } = useI18n() 
+const { t } = useI18n()
 
 echarts.use([CanvasRenderer, Bar, GridComponent, TooltipComponent, LegendComponent])
 
@@ -31,7 +31,7 @@ const props = defineProps({
   data: { type: Array, default: () => [] },
   title: { type: String, default: '' },
   exportable: { type: Boolean, default: true },
-  textColor: { type: String, default: 'white'}
+  textColor: { type: String, default: 'white' }
 })
 
 const TOP_N = 50;
@@ -59,13 +59,15 @@ function rebuild() {
     grid: {
       left: 10,
       right: hasFig ? '15%' : 24, //extra space when the legend shows
-      top: 8,  
+      top: 8,
       bottom: 20,
-      containLabel: true
+      outerBounds: {
+        includeLabels: true
+      }
     },
     color: [
-    '#719fbf',
-    '#7e75a0',
+      '#719fbf',
+      '#7e75a0',
     ],
     legend: hasFig ? {
       top: 0,
@@ -76,7 +78,6 @@ function rebuild() {
       borderRadius: 6,
       itemWidth: 12,
       itemHeight: 10,
-       data: [t('message.figurative'), t('message.nonfigurative')]
     } : undefined,
     tooltip: {
       trigger: 'axis',
@@ -87,16 +88,17 @@ function rebuild() {
         return `<strong>${nz.name}</strong><br/>${nz.value}`
       }
     },
-    xAxis: { type: 'value', 
-      splitNumber: 8, 
+    xAxis: {
+      type: 'value',
+      splitNumber: 8,
       axisLabel: {
         color: props.textColor,
       },
       axisLine: {
-        lineStyle: {color: props.textColor}
+        lineStyle: { color: props.textColor }
       },
       splitLine: {
-        lineStyle: {color: props.textColor, opacity: 0.3}
+        lineStyle: { color: props.textColor, opacity: 0.3 }
       }
     },
     yAxis: {
@@ -115,7 +117,7 @@ function rebuild() {
         formatter: v => v
       },
       axisLine: {
-        lineStyle: {color: props.textColor}
+        lineStyle: { color: props.textColor }
       }
     },
     series: hasFig
@@ -142,7 +144,7 @@ function rebuild() {
           data: topData.map(d => d.count)
         }
       ],
-      emphasis: { disabled: true },
+    emphasis: { disabled: true },
 
   }
 
@@ -160,7 +162,7 @@ function rebuild() {
   })
 }
 
-watch(() => [props.data,props.textColor], rebuild, { immediate: true })
+watch(() => [props.data, props.textColor], rebuild, { immediate: true })
 
 async function downloadImage() {
   const name = (props.title || 'chart') + '.png'
@@ -279,9 +281,9 @@ onUnmounted(() => {
 }
 
 .btn-row-title {
-    margin-right: 0.25rem;
-    font-weight: 500;
-    color: var(--page-text);
+  margin-right: 0.25rem;
+  font-weight: 500;
+  color: var(--page-text);
 }
 
 .btn-row {
