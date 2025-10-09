@@ -730,6 +730,7 @@ h3 span {
 }
 
 .row-heading {
+  color: var(--page-text); 
   flex: 1 1 auto;
   min-width: 0;
 }

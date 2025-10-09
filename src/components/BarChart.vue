@@ -69,7 +69,8 @@ function rebuild() {
       '#719fbf',
       '#7e75a0',
     ],
-    legend: hasFig ? {
+    legend: {
+      show: hasFig,
       top: 0,
       right: 2,
       orient: 'vertical',
@@ -78,7 +79,7 @@ function rebuild() {
       borderRadius: 6,
       itemWidth: 12,
       itemHeight: 10,
-    } : undefined,
+    },
     tooltip: {
       trigger: 'axis',
       axisPointer: { type: 'shadow' },
