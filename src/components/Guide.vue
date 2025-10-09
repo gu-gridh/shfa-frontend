@@ -27,86 +27,118 @@
           </div>
 
           <div class="guide-article-main fullopacityui">
-            <div class="new-info" v-if="currentLang === 'en'"> This guide outlines how to search the archive, 
-              how to locate 3D data, and the available options for keyword, dating, and image type searches.  All 
+            <div class="new-info" v-if="currentLang === 'en'"> This guide outlines how to search the archive,
+              how to locate 3D data, and the available options for keyword, dating, and image type searches. All
               motif descriptions and dating are archaeologists' interpretations.
-          </div>
-          <div class="new-info" v-if="currentLang === 'sv'"> Denna guide beskriver hur man söker i arkivet, hur man 
-            hittar 3D-data och vilka alternativ som finns för sökningar på nyckelord, datum och bildtyp.  
-            Alla motivbeskrivningar och datum är tolkningar av arkeologer.
-          </div>
-
-          <div class="new-info" v-if="currentLang === 'en'"> 
-            <p>For a quick search, click on one of the suggested keywords below the main search field or type a search term (e.g., Bottna, animal, etc.) in 
-               the search field and hit enter.  If entering free text in the search bar, we recommend using the keywords below for the best results.  
-            </p>
-            <p>To search for all images from a site, use the map view to click on a point or select the site in the advanced search options.  
-               The site IDs are displayed when you hover over the map and the map will zoom to a point when selected.
-            </p>
-            <p> For more advanced searches with multiple parameters, click on the <span class="ui-text">Advanced Search</span> menu.   In this menu, when you start typing 
-                in each field the suggested available keywords are displayed below the search box. Some fields allow you to combine multiple 
-                search terms (indicated by <span class="ui-text">AND</span> and <span class="ui-text">OR</span> buttons).
-            </p> 
-            <div class="indented">
-            <p>Selecting <span class="ui-text">AND</span> searches for images that are tagged with all the keywords selected. 
-            <br></br><span class="example">A keyword search for Damage, Ship or Boat, and Cupmarks will only return images that are tagged with all three</span> 
-            </p>
-            <p>Selecting <span class="ui-text">OR</span> searches for images that are tagged with any the keywords selected. 
-            <br></br><span class="example">A creator search for SHFA, Lødøen, Trond, and Horn, Christian will return images tagged with at least one of the creators</span> 
-            </p>
-            <p>Fields without <span class="ui-text">AND</span> and <span class="ui-text">OR</span> buttons are automatically <span class="ui-text">OR</span> searches. 
-            <br></br><span class="example">Selecting sites Tanum 1:1, Askum 67:1, and Skee 622:1 will return images of any of these sites</span>
-            </p>
-            <p>
-             If you add keywords to multiple search fields, these are combined into an <span class="ui-text">AND</span> search. 
-            <br></br><span class="example">Selecting site Tanum 1:1 and creator Horn, Christian will return all images of Tanum 1:1 by Christian Horn</span>
-            </p>
             </div>
-          </div>
-
-
-          <div class="new-info" v-if="currentLang === 'sv'"> 
-            <p>För en snabb sökning, klicka på ett av de föreslagna nyckelorden 
-            under huvudfältet eller skriv in ett sökord (t.ex. Bottna, djur, etc.) i sökfältet och tryck på Enter.  Om du skriver 
-            in fri text i sökfältet rekommenderar vi att du använder nyckelorden nedan för bästa resultat.  
-            </p>
-            <p>För att söka efter alla bilder från en plats, använd kartvyn för att klicka på en punkt eller välj platsen i de 
-            avancerade sökalternativen. Fornlämning-ID:n visas när du håller muspekaren över kartan och kartan zoomar in på 
-            en punkt när den väljs.  
-            </p>
-            <p>För mer avancerade sökningar med flera parametrar, klicka på menyn <span class="ui-text">Avancerad Sökning</span>.  I den här menyn 
-            visas föreslagna tillgängliga nyckelord under sökrutan när du börjar skriva i varje fält. I vissa fält kan du kombinera 
-            flera söktermer (markeras med knapparna <span class="ui-text">AND</span> och <span class="ui-text">OR</span>).
-            </p> 
-            <div class="indented">
-            <p>Om du väljer <span class="ui-text">AND</span> söks efter bilder som är taggade med alla valda nyckelord. 
-            <br></br><span class="example">En nyckelordssökning på Damage, Ship eller Boat, och Cupmarks ger endast bilder som är taggade med alla tre</span> 
-            </p>
-            <p>Om du väljer <span class="ui-text">OR</span> söks efter bilder som är taggade med något av de valda nyckelorden. 
-            <br></br><span class="example">En upphovspersonsökning på SHFA, Lødøen, Trond, och Horn, Christian ger bilder som är taggade med minst en av upphovspersoner</span> 
-            </p>
-            <p>Fält utan knapparna <span class="ui-text">AND</span> och <span class="ui-text">OR</span> är automatiskt <span class="ui-text">OR</span>-sökningar. 
-            <br></br><span class="example">Om du väljer fornlämningar Tanum 1:1, Askum 67:1 och Skee 622:1 visas bilder från någon av dessa platser</span>
-            </p>
-            <p>
-            Om du lägger till nyckelord i flera sökfält kombineras dessa till en <span class="ui-text">AND</span>-sökning. 
-            <br></br><span class="example">Om du väljer platsen Tanum 1:1 och upphovsperson Horn, Christian får du alla bilder av Tanum 1:1 av Christian Horn</span>
-            </p>
+            <div class="new-info" v-if="currentLang === 'sv'"> Denna guide beskriver hur man söker i arkivet, hur man
+              hittar 3D-data och vilka alternativ som finns för sökningar på nyckelord, datum och bildtyp.
+              Alla motivbeskrivningar och datum är tolkningar av arkeologer.
             </div>
-          </div>
+
+            <div class="new-info" v-if="currentLang === 'en'">
+              <p>For a quick search, click on one of the suggested keywords below the main search field or type a search
+                term (e.g., Bottna, animal, etc.) in
+                the search field and hit enter. If entering free text in the search bar, we recommend using the keywords
+                below for the best results.
+              </p>
+              <p>To search for all images from a site, use the map view to click on a point or select the site in the
+                advanced search options.
+                The site IDs are displayed when you hover over the map and the map will zoom to a point when selected.
+              </p>
+              <p> For more advanced searches with multiple parameters, click on the <span class="ui-text">Advanced
+                  Search</span> menu. In this menu, when you start typing
+                in each field the suggested available keywords are displayed below the search box. Some fields allow you
+                to combine multiple
+                search terms (indicated by <span class="ui-text">AND</span> and <span class="ui-text">OR</span>
+                buttons).
+              </p>
+              <div class="indented">
+                <p>Selecting <span class="ui-text">AND</span> searches for images that are tagged with all the keywords
+                  selected.
+                  <br /><span class="example">A keyword search for Damage, Ship or Boat, and Cupmarks will only return
+                    images that are tagged with all three</span>
+                </p>
+                <p>Selecting <span class="ui-text">OR</span> searches for images that are tagged with any the keywords
+                  selected.
+                  <br /><span class="example">A creator search for SHFA, Lødøen, Trond, and Horn, Christian will return
+                    images tagged with at least one of the creators</span>
+                </p>
+                <p>Fields without <span class="ui-text">AND</span> and <span class="ui-text">OR</span> buttons are
+                  automatically <span class="ui-text">OR</span> searches.
+                  <br /><span class="example">Selecting sites Tanum 1:1, Askum 67:1, and Skee 622:1 will return images
+                    of any of these sites</span>
+                </p>
+                <p>
+                  If you add keywords to multiple search fields, these are combined into an <span
+                    class="ui-text">AND</span> search.
+                  <br /><span class="example">Selecting site Tanum 1:1 and creator Horn, Christian will return all
+                    images of Tanum 1:1 by Christian Horn</span>
+                </p>
+              </div>
+            </div>
+
+
+            <div class="new-info" v-if="currentLang === 'sv'">
+              <p>För en snabb sökning, klicka på ett av de föreslagna nyckelorden
+                under huvudfältet eller skriv in ett sökord (t.ex. Bottna, djur, etc.) i sökfältet och tryck på Enter.
+                Om du skriver
+                in fri text i sökfältet rekommenderar vi att du använder nyckelorden nedan för bästa resultat.
+              </p>
+              <p>För att söka efter alla bilder från en plats, använd kartvyn för att klicka på en punkt eller välj
+                platsen i de
+                avancerade sökalternativen. Fornlämning-ID:n visas när du håller muspekaren över kartan och kartan
+                zoomar in på
+                en punkt när den väljs.
+              </p>
+              <p>För mer avancerade sökningar med flera parametrar, klicka på menyn <span class="ui-text">Avancerad
+                  Sökning</span>. I den här menyn
+                visas föreslagna tillgängliga nyckelord under sökrutan när du börjar skriva i varje fält. I vissa fält
+                kan du kombinera
+                flera söktermer (markeras med knapparna <span class="ui-text">AND</span> och <span
+                  class="ui-text">OR</span>).
+              </p>
+              <div class="indented">
+                <p>Om du väljer <span class="ui-text">AND</span> söks efter bilder som är taggade med alla valda
+                  nyckelord.
+                  <br /><span class="example">En nyckelordssökning på Damage, Ship eller Boat, och Cupmarks ger endast
+                    bilder som är taggade med alla tre</span>
+                </p>
+                <p>Om du väljer <span class="ui-text">OR</span> söks efter bilder som är taggade med något av de valda
+                  nyckelorden.
+                  <br /><span class="example">En upphovspersonsökning på SHFA, Lødøen, Trond, och Horn, Christian ger
+                    bilder som är taggade med minst en av upphovspersoner</span>
+                </p>
+                <p>Fält utan knapparna <span class="ui-text">AND</span> och <span class="ui-text">OR</span> är
+                  automatiskt <span class="ui-text">OR</span>-sökningar.
+                  <br /><span class="example">Om du väljer fornlämningar Tanum 1:1, Askum 67:1 och Skee 622:1 visas
+                    bilder från någon av dessa platser</span>
+                </p>
+                <p>
+                  Om du lägger till nyckelord i flera sökfält kombineras dessa till en <span
+                    class="ui-text">AND</span>-sökning.
+                  <br /><span class="example">Om du väljer platsen Tanum 1:1 och upphovsperson Horn, Christian får du
+                    alla bilder av Tanum 1:1 av Christian Horn</span>
+                </p>
+              </div>
+            </div>
           </div>
 
 
           <div class="guide-article-main fullopacityui" style="margin-bottom: 0px;">
             <h2>{{ $t('message.find3d') }}</h2>
-            <div class="new-info" v-if="currentLang === 'en'"> An interactive viewer is available for a selection of 3D models
+            <div class="new-info" v-if="currentLang === 'en'"> An interactive viewer is available for a selection of 3D
+              models
               and visualisations. If an image has a corresponding model, the gallery
-              thumbnail has a <button class="avail-3d">3D</button> icon and the metadata panel has a <button class="viewer-avail"><span class="viewer-icon"></span>{{
-                $t('message.viewthreed') }}</button>
-              button. You can find images with attached models using the <span class='ui-text'>{{ $t('message.3D') }}</span> option in <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>. 
+              thumbnail has a <button class="avail-3d">3D</button> icon and the metadata panel has a <button
+                class="viewer-avail"><span class="viewer-icon"></span>{{
+                  $t('message.viewthreed') }}</button>
+              button. You can find images with attached models using the <span class='ui-text'>{{ $t('message.3D')
+                }}</span> option in <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>.
               Clicking the <button class="viewer-avail"><span class="viewer-icon"></span>{{
-                $t('message.viewthreed') }}</button> button will open the multimodal viewer in a new tab. In this viewer, you
-              can: 
+                $t('message.viewthreed') }}</button> button will open the multimodal viewer in a new tab. In this
+              viewer, you
+              can:
               <ul class="features">
                 <li>navigate around the model and associated visualisations</li>
                 <li>change the lighting conditions</li>
@@ -116,13 +148,17 @@
               </ul>
             </div>
 
-            <div class="new-info" v-if="currentLang === 'sv'"> En interaktiv visare finns tillgänglig för ett urval av 3D-modeller
+            <div class="new-info" v-if="currentLang === 'sv'"> En interaktiv visare finns tillgänglig för ett urval av
+              3D-modeller
               och visualiseringar. Om en bild har en tillhörande modell har galleriet en miniatyrbild med en
-              <button class="avail-3d">3D</button> ikon och metadatapanelen har en <button class="viewer-avail"><span class="viewer-icon"></span>{{
-                $t('message.viewthreed') }}</button> knappen. Du kan hitta bilder med tillhörande modeller med hjälp av <span class='ui-text'>
-                {{ $t('message.3D') }}</span> i <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>. 
+              <button class="avail-3d">3D</button> ikon och metadatapanelen har en <button class="viewer-avail"><span
+                  class="viewer-icon"></span>{{
+                    $t('message.viewthreed') }}</button> knappen. Du kan hitta bilder med tillhörande modeller med hjälp av
+              <span class='ui-text'>
+                {{ $t('message.3D') }}</span> i <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>.
               Om du klickar på <button class="viewer-avail"><span class="viewer-icon"></span>{{
-                $t('message.viewthreed') }}</button> knappen öppnas den multimodala visaren i en ny flik. I denna visare kan du: 
+                $t('message.viewthreed') }}</button> knappen öppnas den multimodala visaren i en ny flik. I denna visare
+              kan du:
               <ul class="features">
                 <li>navigera i modellen och tillhörande visualiseringar</li>
                 <li>justera ljusförhållandena</li>
@@ -147,7 +183,7 @@
                         v-for="(value, key) in category.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })"
                         :key="key">
                         <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                        }}</button>
+                          }}</button>
                       </li>
                     </ul>
                   </div>
@@ -178,7 +214,7 @@
                   <tbody>
                     <tr v-if="currentLang === 'en'" v-for="(value, key) in sortedImageTypes" :key="key">
                       <td><button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                          }}</button></td>
+                      }}</button></td>
                       <td>{{ value.english_description }}</td>
                     </tr>
                     <tr v-if="currentLang === 'sv'" v-for="(value, key) in sortedImageTypes" :key="key">
@@ -660,6 +696,7 @@ ul {
 .category-button:hover {
   background: var(--button-hover);
 }
+
 .ui-text {
   color: var(--highlighted-text);
   font-weight: 300;
@@ -674,6 +711,7 @@ ul {
 .example::before {
   content: '\1F4A1';
 }
+
 .example {
   margin-left: 10px;
   color: var(--example-text)
