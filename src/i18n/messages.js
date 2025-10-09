@@ -78,7 +78,7 @@ export default {
       datering: 'Dating',
       sökdatering: 'Search datings...',
       sökinstitutioner: 'Search institutions...',
-      sök3D: 'Search 3D models...',
+      sök3D: 'Search sites with 3D models...',
       skepp: 'Ship',
       djur: 'Animal',
       människofigur: 'Human',
@@ -108,7 +108,7 @@ export default {
       norwaydescriptiontext: 'Notes: The description is retrieved from Riksantivaren/Kulturminnesøk and is not quality checked or translated.',
       checkfornsök: 'View in Fornsök',
       checkkulturminnesok: 'View in Kulturminnesøk',
-      sökguide: 'Guide',
+      sökguide: 'Search Guide',
       åtkomst: 'accessed',
       at: 'at',
       close: 'Close',
@@ -117,17 +117,14 @@ export default {
       beskrivning: 'Description',
       visualisation: 'Visualisation Overview',
       viewthreed:  '3D model available',
-      "3D": "3D viewer",
+      "3D": "Sites with 3D model(s)",
       zoommap: "Zoom in to view SGU's shore displacement model",
       geographic: "Region",
-      geographicsearch: "Search by parish, municipality, etc..."
+      geographicsearch: "Search by parish, municipality, etc...",
+      find3d: "Accessing 3D Models"
     },
 
     search: {
-      searchintro: 'Below are the available search terms for keyword, dating and image type searches.  The motif-related keywords are interpretations of the rock art by archaeologists.',
-      searchhelp: `To perform a simple search, click on one of the suggested keywords below the main search field or type one keyword, site, author, or other free text in 
-        the search field and click enter or the search icon.  If entering free text in the search bar, we recommend using the keywords below for the best results.  To search for all images from a site, use the map view to click on a point.  The site IDs are displayed when you hover over the map and the map will zoom to a point when selected.  For more advanced searches with multiple parameters, click on the 'Advanced Search' menu located in a toggle button on the map view.  In this menu, you can begin typing a keyword in each field and the suggested available keywords will be displayed below the search box.  You can only select one keyword in each search field, adding a 
-        new keyword or clicking on the existing keyword will remove it from the search box.`,
       documentation: 'Documentation Process',
       environment: 'Environment',
       description: 'Panel Description',
@@ -219,7 +216,7 @@ export default {
       datering: 'Datering',
       sökdatering: 'Sök dateringar...',
       sökinstitutioner: 'Sök institutioner...',
-      sök3D: 'Sök 3D-modeller...',
+      sök3D: 'Sök fornlämningar med 3D-modeller...',
       skepp: 'Skepp',
       djur: 'Djur',
       människofigur: 'Människofigur',
@@ -258,16 +255,13 @@ export default {
       beskrivning: 'Beskrivning',
       visualisation: 'Visualiseringsinformation',
       viewthreed:  '3D-modell tillgänglig',
-      "3D": "3D-vy",
+      "3D": "Fornlämning med 3D-modell(er)",
       zoommap: "Zooma in för att se SGU:s strandförskjutningsmodell",
       geographic: "Geografiskt Område",
-      geographicsearch: "Sök efter socken, kommun, etc..."
+      geographicsearch: "Sök efter socken, kommun, etc...",
+      find3d: "Åtkomst till 3D-modeller"
     },
     search: {
-      searchintro: 'Nedan finns tillgängliga söktermer för sökord, datum och bildtypssökningar. De motivrelaterade sökorden är arkeologers tolkningar av ristningarna.',
-      searchhelp: `För att genomföra en enkel sökning, klicka på ett av de föreslagna sökorden under sökfältet eller skriv ett sökord, en plats, upphovsperson eller en annan fritextsökning i sökfältet och klicka på Enter eller sökikonen. Om du söker med fritext rekommenderar vi att använda sökorden nedan för bästa resultat. 
-          För att söka på fram alla bilder från en plats, använd kartvyn och klicka på en markör. Platsernas ID syns när du hovrar med muspekaren över markörerna på kartan och kartan zoomas in när du klickar på en markör. 
-          För mer avancerade sökningar med fler parametrar, klicka på knappen ”Avancerad sökning” i övre delen av kartan. I den avancerade sökningen kan du skriva in sökord i respektive sökruta, när du börjar skriva ett ord får du automatiskt förslag på termer under sökrutan. Du kan för närvarande enbart välja ett sökord per sökruta, om du lägger till ytterligare ett sökord eller klickar på ett redan valt sökord tas det redan valda sökordet bort.`,
       documentation: 'Dokumentationsprocess',
       environment: 'Miljö',
       description: 'Beskrivning',
