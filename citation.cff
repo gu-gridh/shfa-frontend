@@ -1,0 +1,23 @@
+# This CITATION.cff file was generated with Zotero.
+
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it using the metadata from this file.
+title:  >-
+  SHFA Frontend + Backend
+abstract: A frontend for the SHFA project using Vue3
+type: software
+version: 1.4
+url: https://github.com/gu-gridh/shfa-frontend
+authors: 
+  - family-names: Westin
+    given-names: Jonathan
+  - family-names: Bridge
+    given-names: Tristan
+  - family-names: Karimi
+    given-names: Aram
+  - family-names: Green
+    given-names: Ashely
+  - family-names: Humlesjö
+    given-names: Siska
+date-released: 2025-10-09
