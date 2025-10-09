@@ -25,39 +25,47 @@
             </div>
             <div class="about-article-sub fullopacityui">
               <h2>Database Overview</h2>
-              <p>SHFA's [Svenskt Hällristningsforskningsarkiv's] image database includes more than 26,000 digitized
+              <p>SHFA's [Svenskt Hällristningsforskningsarkiv's] image database includes almost 27,000 digitised
                 images that are the result of ongoing work describing and documenting rock carvings since 1627.
                 These data are primarily from Sweden but also from Denmark, Norway, Italy, Spain and elsewhere around
-                the
-                world. The database includes images of the documentation
-                results as well as the documentation process, from historic documentation to current digital methods.
-                More
-                information on the documentation process can be found at
-                <a href='https://www.gu.se/en/shfa'>About SHFA</a>.
+                the world. The database includes images of the documentation results as well as the documentation 
+                process, from historic documentation to current digital methods.
+                More information on the documentation process can be found at <a href='https://www.gu.se/en/shfa'>About SHFA</a>.
               </p><br>
               <h2>Web Portal Migration</h2>
               <p>This platform for the SHFA database has been developed by Göteborgs infrastruktur för digital humaniora
-                (GRIDH) and aims to offer enhanced methods to search the database and
-                display digital documentation. The migration from SHFA's previous web portal (developed by Miljödata AB)
-                was completed in early 2024. 3D documentation is available for a selection of sites and will continue to
-                be made available.</p><br>
+                (GRIDH) and aims to offer enhanced methods to search the database and display digital documentation. 
+                The migration from SHFA's previous web portal (developed by Miljödata AB) was completed in early 2024. 
+                
+                3D documentation is available for a selection of sites and will continue to be made available.</p><br>
 
               <h2>Searching the Database</h2>
               <p>Using the suggested keyword search, you can access images of common documentation methods and motifs.
-                Any
-                text can be entered in the search bar, but we recommend using a full or partial site name or one of the
-                terms listed in the Search Guide. With the map or advanced search options, you can retrieve results for
-                detailed searches.
+                Any text can be entered in the search bar, but we recommend using a full or partial site name or one of the
+                terms listed in the <a href="https://shfa.dh.gu.se/guide">Search Guide</a>. With the map or advanced search options, 
+                you can retrieve results for detailed searches.
+
                 Each search returns a gallery of images which can be viewed in more detail by clicking on the thumbnail.
                 In the detailed view, the metadata, external information, and download link are available. If an image
                 has a 3D mesh associated with it, a <button class=" avail-3d">3D</button> icon on the gallery
                 thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
                   $t('message.viewthreed') }}</button>
-                button in the image viewer. Clicking the button will open the multimodal viewer for the group of
-                mesh(es) and visualisation(s) in a new window.</p><br>
+                button in the image viewer. Clicking the button will open the model for the group of
+                model(s) and visualisation(s) in a new tab.</p><br>
+
+              <h2>New Features in v1.4</h2>
+              <ul>
+                <li>Combine multiple keywords, sites, etc. in Advanced Search</li>
+                <li>Search by geographic region in Advanced Search</li>
+                <li>Search for sites with 3D models</li>
+                <li>Summary of search results (also downloadable as an image or CSV file)</li>
+                <li>Site description for panels in Norway from Riksantikvaren</li>
+                <li>Automatic extraction of citation information using browser plug-ins for referencing software</li>
+              </ul>
+              <br>
 
               <h2>Visualisations</h2>
-              <p>The images tagged as 3d visualisations were generated from mesh files using the <a
+              <p>The images tagged as 3D visualisations were generated from mesh files using the <a
                   href="https://tvt.dh.gu.se" target="_blank">Topography Visualisation Toolbox (TVT)</a> or the Digital
                 Frottage workflow from <a href="https://www.sciencedirect.com/science/article/pii/S2352409X19302329"
                   target="_blank">Horn et al. (2019)</a>. Where available, a link to the tool used is provided in the
@@ -167,19 +175,12 @@
 
             <div class="about-article-sub fullopacityui">
               <h2>Databasöversikt</h2>
-              <p>Svenskt Hällristningsforskningsarkivs bilddatabas omfattar mer än 26 000 digitaliserade bilder som
-                är
-                resultatet av pågående arbete
-                med att beskriva och dokumentera hällristningar sedan 1627. Dessa data kommer i första hand från
-                Sverige
-                men även från Danmark, Norge,
-                Italien, Spanien och andra delar av världen. Databasen innehåller bilder av dokumentationsresultaten
-                samt
-                dokumentationsprocessen, från
-                historisk dokumentation till aktuella digitala metoder. Mer information om dokumentationsprocessen
-                finns
-                på
-                <a href='https://www.gu.se/shfa'>Om SHFA</a>.
+              <p>Svenskt Hällristningsforskningsarkivs bilddatabas omfattar nära 27 000 digitaliserade bilder som
+                är resultatet av pågående arbete med att beskriva och dokumentera hällristningar sedan 1627. 
+                Dessa data kommer i första hand från Sverige men även från Danmark, Norge, Italien, Spanien 
+                och andra delar av världen. Databasen innehåller bilder av dokumentationsresultaten samt
+                dokumentationsprocessen, från historisk dokumentation till aktuella digitala metoder. Mer 
+                information om dokumentationsprocessen finns på <a href='https://www.gu.se/shfa'>Om SHFA</a>.
               </p><br>
               <h2>Webbportalmigrering</h2>
               <p>Denna plattform för SHFA-databasen har utvecklats av Göteborgs infrastruktur för digital humaniora
@@ -193,19 +194,26 @@
 
               <h2>Sökning i databasen</h2>
               <p>Genom att använda den föreslagna nyckelordssökningen kan du komma åt bilder av vanliga
-                dokumentationsmetoder och motiv. Med kartan eller
-                avancerade sökalternativ kan du hämta resultat för detaljerade sökningar. Varje sökning visar ett
-                galleri
-                med bilder som kan ses mer
+                dokumentationsmetoder och motiv. Med kartan eller avancerade sökalternativ kan du hämta 
+                resultat för detaljerade sökningar. Varje sökning visar ett galleri med bilder som kan ses mer
                 detaljerat genom att klicka på miniatyrbilden. I den detaljerade vyn är metadata, extern information
-                och
-                nedladdningslänk tillgängliga. Om en bild har ett 3D-mesh kopplat till sig, en <button
+                och nedladdningslänk tillgängliga. Om en bild har ett 3D-modell kopplat till sig, en <button
                   class=" avail-3d">3D</button> ikon på galleriminiatyren och <button class="viewer-avail"><span
                     class="viewer-icon"></span>{{
                       $t('message.viewthreed') }}</button>
                 knappen i metadatasektionen. Om du klickar på knappen öppnas den multimodal viewer för gruppen av
-                maskor och
-                visualiseringar i ett nytt fönster.</p><br>
+                maskor och visualiseringar i ett nytt fönster.</p><br>
+
+              <h2>Nya funktioner i v1.4</h2>
+              <ul>
+                <li>Kombinera flera sökord, webbplatser etc. i avancerad sökning</li>
+                <li>Sök efter geografiskt område i avancerad sökning</li>
+                <li>Sök efter webbplatser med 3D-modeller</li>
+                <li>Sammanfattning av sökresultat (kan även laddas ner som bild eller CSV-fil)</li>
+                <li>Beskrivning av fornlämning för panelerna i Norge från Riksantikvaren</li>
+                <li>Automatisk extrahering av citeringsinformation med hjälp av webbläsarplugins för referensprogramvara</li>
+              </ul>
+              <br>
 
               <h2>Visualiseringar</h2>
               <p>Bilderna taggade som 3D-visualiseringar genererades från mesh-filer med <a href="https://tvt.dh.gu.se"
