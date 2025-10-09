@@ -329,6 +329,7 @@ export default defineComponent({
     };
   },
   mounted() {
+    document.documentElement.setAttribute('style-theme', this.targetTheme);
     const userLang = localStorage.getItem('userLang') || 'sv';
     this.$i18n.locale = userLang;
   },
