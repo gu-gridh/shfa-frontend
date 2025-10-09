@@ -455,6 +455,7 @@ h3 {
   align-items: center;
   font-size: 1rem;
   width: 100%;
+  color: var(--page-text);
 }
 
 .mobile-menu-list .row-text {
