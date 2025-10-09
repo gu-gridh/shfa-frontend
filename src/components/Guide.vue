@@ -83,14 +83,14 @@
             <br></br><span class="example">En nyckelordssökning på Damage, Ship eller Boat, och Cupmarks ger endast bilder som är taggade med alla tre</span> 
             </p>
             <p>Om du väljer <span class="ui-text">OR</span> söks efter bilder som är taggade med något av de valda nyckelorden. 
-            <br></br><span class="example">En skaparsökning på SHFA, Lødøen, Trond, och Horn, Christian ger bilder som är taggade med minst en av skaparna</span> 
+            <br></br><span class="example">En upphovspersonsökning på SHFA, Lødøen, Trond, och Horn, Christian ger bilder som är taggade med minst en av upphovspersoner</span> 
             </p>
             <p>Fält utan knapparna <span class="ui-text">AND</span> och <span class="ui-text">OR</span> är automatiskt <span class="ui-text">OR</span>-sökningar. 
             <br></br><span class="example">Om du väljer fornlämningar Tanum 1:1, Askum 67:1 och Skee 622:1 visas bilder från någon av dessa platser</span>
             </p>
             <p>
             Om du lägger till nyckelord i flera sökfält kombineras dessa till en <span class="ui-text">AND</span>-sökning. 
-            <br></br><span class="example">Om du väljer platsen Tanum 1:1 och skaparen Horn, Christian får du alla bilder av Tanum 1:1 av Christian Horn</span>
+            <br></br><span class="example">Om du väljer platsen Tanum 1:1 och upphovsperson Horn, Christian får du alla bilder av Tanum 1:1 av Christian Horn</span>
             </p>
             </div>
           </div>
