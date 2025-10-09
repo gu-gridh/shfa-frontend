@@ -2,7 +2,7 @@
 
 cff-version: 1.2.0
 message: >-
-  If you use this software, please cite it using the metadata from this file.
+  If you use this software, please cite it using the metadata from this file.  The SHFA archive should be cited separately.
 title:  >-
   SHFA Frontend + Backend
 abstract: A frontend for the SHFA project using Vue3
@@ -20,4 +20,4 @@ authors:
     given-names: Ashely
   - family-names: Humlesjö
     given-names: Siska
-date-released: 2025-10-09
+date-released: 2025-XX-XX
