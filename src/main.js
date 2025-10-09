@@ -16,7 +16,7 @@ const i18n = createI18n({
   legacy: false,
   locale: 'sv',  // default language
   messages,
-  warnHtmlMessage: false, 
+  warnHtmlMessage: false,
 })
 
 app.use(router)
@@ -28,14 +28,14 @@ app.mixin(VueHeadMixin)
 
 // Use the Matomo plugin only if configured in env.
 if (import.meta.env.VITE_MATOMO_URL && import.meta.env.VITE_MATOMO_ID) {
-    app.use(matomo, {
-      host: import.meta.env.VITE_MATOMO_URL,
-      siteId: import.meta.env.VITE_MATOMO_ID,
-      router: router,
-      enableLinkTracking: true,
-      trackInitialView: true,
-      debug: false
-    });
+  app.use(matomo, {
+    host: import.meta.env.VITE_MATOMO_URL,
+    siteId: import.meta.env.VITE_MATOMO_ID,
+    router: router,
+    enableLinkTracking: true,
+    trackInitialView: true,
+    debug: false
+  });
 }
 
 app.mount('#app')
