@@ -58,7 +58,7 @@
             <br></br><span class="example">Selecting sites Tanum 1:1, Askum 67:1, and Skee 622:1 will return images of any of these sites</span>
             </p>
             <p>
-             If you add keywords to multiple search fields, theses are combined into an <span class="ui-text">AND</span> search. 
+             If you add keywords to multiple search fields, these are combined into an <span class="ui-text">AND</span> search. 
             <br></br><span class="example">Selecting site Tanum 1:1 and creator Horn, Christian will return all images of Tanum 1:1 by Christian Horn</span>
             </p>
             </div>
