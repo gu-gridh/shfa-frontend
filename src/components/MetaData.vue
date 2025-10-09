@@ -135,7 +135,7 @@
               data.year || 'n.d.' }}). {{ data.type.english_translation }} {{ $t('message.av') }} {{
               data.site.lamning_id
               || data.raa_id || data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }}
-            {{ $t('message.at') }} https://shfa.dh.gu.se/image/{{ data.id }}</div>
+            {{ $t('message.at') }} https://dev-shfa.dh.gu.se/image/{{ data.id }}</div>
           <div class="general-text" v-if="data.site && $i18n.locale === 'sv'">{{ formattedPeopleSV ||
             data.author?.name
             }}.
@@ -145,7 +145,7 @@
             {{ data.type.text }} {{ $t('message.av') }} {{ data.site.lamning_id || data.raa_id ||
               data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }} {{ $t('message.at')
             }}
-            https://shfa.dh.gu.se/image/{{ data.id }}</div>
+            https://dev-shfa.dh.gu.se/image/{{ data.id }}</div>
         </div>
       </div>
       <div class="metadata-container" v-if="data.site">
@@ -273,7 +273,7 @@ export default {
   },
   methods: {
     open3dViewer(query) {
-      const threedUrl = `https://shfa.dh.gu.se/viewer/?q=${query}/mesh`;
+      const threedUrl = `https://dev-shfa.dh.gu.se/viewer/?q=${query}/mesh`;
       window.open(threedUrl, "_blank");
     },
     logKeyword(keyword) {
@@ -291,7 +291,7 @@ export default {
       }
     },
     fetchData(id) {
-      fetch(`https://shfa.dh.gu.se/api/image/?id=${id}&depth=1`)
+      fetch(`https://dev-shfa.dh.gu.se/api/image/?id=${id}&depth=1`)
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results[0];
@@ -347,7 +347,7 @@ export default {
   watch: {
     Id(newId, oldId) {
       if (newId !== oldId) {
-        fetch(`https://shfa.dh.gu.se/api/image/?id=${newId}&depth=1`)
+        fetch(`https://dev-shfa.dh.gu.se/api/image/?id=${newId}&depth=1`)
           .then((response) => response.json())
           .then((json) => {
             this.data = json.results[0];

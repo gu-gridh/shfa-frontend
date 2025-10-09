@@ -168,7 +168,7 @@ const activeFilter = computed(() =>
 )
 
 const buildCategoryUrl = () => {
-  const base = 'https://shfa.dh.gu.se/api/type_categorized/'
+  const base = 'https://dev-shfa.dh.gu.se/api/type_categorized/'
   const p = new URLSearchParams()
   const f = activeFilter.value
 
@@ -190,7 +190,7 @@ const buildCategoryUrl = () => {
 }
 
 const buildGalleryUrl = () => {
-  const base = 'https://shfa.dh.gu.se/api/gallery/'
+  const base = 'https://dev-shfa.dh.gu.se/api/gallery/'
   const p = new URLSearchParams({ depth: DEPTH })
   const f = activeFilter.value
 

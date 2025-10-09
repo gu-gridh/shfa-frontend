@@ -302,7 +302,7 @@ export default {
     },
     async fetchAdditionalData(url, pagesToFetch = 1) {
       if (!url) {
-        url = "https://shfa.dh.gu.se/api/geojson/site/?page_size=1000";
+        url = "https://dev-shfa.dh.gu.se/api/geojson/site/?page_size=1000";
       }
 
       const delay = async (duration) =>

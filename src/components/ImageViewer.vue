@@ -69,7 +69,7 @@
 
         try {
           const resp = await fetch(
-            `https://shfa.dh.gu.se/api/image/?id=${encodeURIComponent(this.iiifFile)}&depth=1`
+            `https://dev-shfa.dh.gu.se/api/image/?id=${encodeURIComponent(this.iiifFile)}&depth=1`
           );
           if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 
@@ -95,7 +95,7 @@
         }
       },
       open3dViewer() {
-        const threedUrl = `https://shfa.dh.gu.se/viewer/?q=${this.query_3d}/mesh`;
+        const threedUrl = `https://dev-shfa.dh.gu.se/viewer/?q=${this.query_3d}/mesh`;
         window.open(threedUrl, "_blank");
       },
       downloadImage() {
