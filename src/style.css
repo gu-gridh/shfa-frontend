@@ -337,8 +337,8 @@ html[style-theme='light'] {
   --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
   --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
   --gallery-image-background: rgb(230, 230, 230);
-  --figurative-color: #719fbf;
-  --nonfigurative-color: #7e75a0;
+  --figurative-color: #56778e;
+  --nonfigurative-color: #59507a;
   --example-text: #4c4c4c;
 }
 
@@ -427,8 +427,8 @@ html[style-theme='light'] {
     --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
     --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
     --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
-    --figurative-color: #719fbf;
-    --nonfigurative-color: #7e75a0;
+    --figurative-color: #56778e;
+    --nonfigurative-color: #59507a;
     --example-text: #373737;
   }
 }
