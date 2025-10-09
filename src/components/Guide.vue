@@ -56,7 +56,7 @@
               <div class="indented">
                 <p>Selecting <span class="ui-text">AND</span> searches for images that are tagged with all the keywords
                   selected.
-                  <br /><span class="example">A keyword search for Damage, Ship or Boat, and Cupmarks will only return
+                  <br /><span class="example">A keyword search for Damage, Horse, and Cupmarks will only return
                     images that are tagged with all three</span>
                 </p>
                 <p>Selecting <span class="ui-text">OR</span> searches for images that are tagged with any the keywords
@@ -101,7 +101,7 @@
               <div class="indented">
                 <p>Om du väljer <span class="ui-text">AND</span> söks efter bilder som är taggade med alla valda
                   nyckelord.
-                  <br /><span class="example">En nyckelordssökning på Damage, Ship eller Boat, och Cupmarks ger endast
+                  <br /><span class="example">En nyckelordssökning på Skador, Häst, och Skålgropar älvkvarnar ger endast
                     bilder som är taggade med alla tre</span>
                 </p>
                 <p>Om du väljer <span class="ui-text">OR</span> söks efter bilder som är taggade med något av de valda
@@ -214,7 +214,7 @@
                   <tbody>
                     <tr v-if="currentLang === 'en'" v-for="(value, key) in sortedImageTypes" :key="key">
                       <td><button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                          }}</button></td>
+                      }}</button></td>
                       <td>{{ value.english_description }}</td>
                     </tr>
                     <tr v-if="currentLang === 'sv'" v-for="(value, key) in sortedImageTypes" :key="key">
