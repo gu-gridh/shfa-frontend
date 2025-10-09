@@ -112,7 +112,7 @@ function rebuild() {
         interval: 0,
         align: 'right',
         margin: 12,
-        overflow: 'break',
+        overflow: 'break', //wrap long labels on words
         color: props.textColor,
         ellipsis: '…',
         formatter: v => v
@@ -178,7 +178,7 @@ async function downloadImage() {
     save(blobUrl, name)
     setTimeout(() => URL.revokeObjectURL(blobUrl), 1500)
   } else { //desktop - use existing instance
-    const dataUrl = inst.getDataURL({ type: 'image/png', pixelRatio: 8 })
+    const dataUrl = inst.getDataURL({ type: 'image/png' })
     const blob = await (await fetch(dataUrl)).blob()
     const blobUrl = URL.createObjectURL(blob)
     save(blobUrl, name)

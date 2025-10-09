@@ -64,7 +64,7 @@
             </router-link>
           </button>
 
-            <button class="item">
+          <button class="item">
             <router-link :to="{ name: 'Contact' }" target="_blank">
               {{ $t('message.contact') }}<div class="top-link-infobutton"></div>
             </router-link>
@@ -115,19 +115,21 @@
         <!-- Panel 2 -->
         <div id="split-1" class="flex-grow overflow-auto main-color" v-show="shouldShowPanel1">
           <Gallery ref="gallery" v-show="activeTab === 'gallery'" @image-clicked="onImageClicked"
-            :searchItems="searchItems" :advancedSearchResults="advancedSearchResults"
-            :bboxSearch="bboxResults" :selectedSiteId="selectedId" :activeTab="activeTab"
-            :currentLanguage="currentLanguage" :showThreePanels="showThreePanels" @update-tab="activeTab = $event" />
+            :searchItems="searchItems" :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults"
+            :selectedSiteId="selectedId" :activeTab="activeTab" :currentLanguage="currentLanguage"
+            :showThreePanels="showThreePanels" @update-tab="activeTab = $event" />
 
           <Summary v-show="activeTab === 'summary'" :searchItems="searchItems"
             :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults" :selectedSiteId="selectedId"
-            :activeTab="activeTab" :currentLanguage="currentLanguage" :currentColor="currentColour" @summaryClick="handleKeywordClick" @update-tab="activeTab = $event" />
+            :activeTab="activeTab" :currentLanguage="currentLanguage" :currentColor="currentColour"
+            @summaryClick="handleKeywordClick" @update-tab="activeTab = $event" />
         </div>
 
         <!-- Panel 3 -->
         <transition name="slide" @after-enter="onPanel3Done" @after-leave="onPanel3Done">
           <div id="split-2" v-show="showThreePanels" class="flex-grow main-color overflow-auto">
-            <div id="imageAnchor" style="width:0%; height:160px; position:relative; margin-top:-160px; margin-left:0px;"></div>
+            <div id="imageAnchor"
+              style="width:0%; height:160px; position:relative; margin-top:-160px; margin-left:0px;"></div>
             <button @click="closeThreePanels" class="close-button">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24"
                 stroke="currentColor">
@@ -1065,6 +1067,7 @@ export default defineComponent({
 }
 
 @media (min-width: 1025px) {
+
   .menu-show-button,
   .menu-close-button {
     display: none;

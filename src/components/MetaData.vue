@@ -6,7 +6,7 @@
 
         <h1 v-if="!data.site?.internationl_site">
           <span v-if="data.site?.lamning_id" @click="logMetaSearch(data.site.lamning_id)">{{
-            data.site.lamning_id}}</span>
+            data.site.lamning_id }}</span>
           <span v-if="data.site?.lamning_id && data.site?.raa_id"> | </span>
           <span v-if="data.site?.raa_id" @click="logMetaSearch(data.site.raa_id)">{{ data.site.raa_id }}</span>
         </h1>
@@ -138,7 +138,7 @@
             {{ $t('message.at') }} https://dev-shfa.dh.gu.se/image/{{ data.id }}</div>
           <div class="general-text" v-if="data.site && $i18n.locale === 'sv'">{{ formattedPeopleSV ||
             data.author?.name
-            }}.
+          }}.
             ({{
               data.year || 'n.d.'
             }}).

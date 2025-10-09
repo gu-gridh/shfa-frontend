@@ -28,21 +28,24 @@
               <p>SHFA's [Svenskt Hällristningsforskningsarkiv's] image database includes almost 27,000 digitised
                 images that are the result of ongoing work describing and documenting rock carvings since 1627.
                 These data are primarily from Sweden but also from Denmark, Norway, Italy, Spain and elsewhere around
-                the world. The database includes images of the documentation results as well as the documentation 
+                the world. The database includes images of the documentation results as well as the documentation
                 process, from historic documentation to current digital methods.
-                More information on the documentation process can be found at <a href='https://www.gu.se/en/shfa'>About SHFA</a>.
+                More information on the documentation process can be found at <a href='https://www.gu.se/en/shfa'>About
+                  SHFA</a>.
               </p><br>
               <h2>Web Portal Migration</h2>
               <p>This platform for the SHFA database has been developed by Göteborgs infrastruktur för digital humaniora
-                (GRIDH) and aims to offer enhanced methods to search the database and display digital documentation. 
-                The migration from SHFA's previous web portal (developed by Miljödata AB) was completed in early 2024. 
-                
+                (GRIDH) and aims to offer enhanced methods to search the database and display digital documentation.
+                The migration from SHFA's previous web portal (developed by Miljödata AB) was completed in early 2024.
+
                 3D documentation is available for a selection of sites and will continue to be made available.</p><br>
 
               <h2>Searching the Database</h2>
               <p>Using the suggested keyword search, you can access images of common documentation methods and motifs.
-                Any text can be entered in the search bar, but we recommend using a full or partial site name or one of the
-                terms listed in the <a href="https://dev-shfa.dh.gu.se/guide">Search Guide</a>. With the map or advanced search options, 
+                Any text can be entered in the search bar, but we recommend using a full or partial site name or one of
+                the
+                terms listed in the <a href="https://dev-shfa.dh.gu.se/guide">Search Guide</a>. With the map or advanced
+                search options,
                 you can retrieve results for detailed searches.
 
                 Each search returns a gallery of images which can be viewed in more detail by clicking on the thumbnail.
@@ -82,7 +85,8 @@
               <h2>Citing the Images</h2>
               <p>Images in the database are freely available for printing and downloading. The suggested citation for
                 each image is provided in the detailed view, but you may reformat this to your preferred style using the
-                image metadata. If you have previously cited an image using the ID number from the previous website and are
+                image metadata. If you have previously cited an image using the ID number from the previous website and
+                are
                 interested in knowing the current unique image identifier, please email us with the legacy id(s) for the
                 image(s) you are interested in, and we will provide you with the current image ID.
                 Please notify us at <a href=mailto:shfa@gu.se>shfa@gu.se</a> and provide a link to <a
@@ -93,8 +97,9 @@
                 <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a>
               </p><br>
               <h2>Citing the Platform</h2>
-              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely, & Humlesjö, Siska. (2025). SHFA Frontend + 
-                Backend (Version 1.4) [Vue, Python]. Gothenburg Research Infrastructure in Digital Humanities (GRIDH). 
+              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely, & Humlesjö, Siska. (2025). SHFA
+                Frontend +
+                Backend (Version 1.4) [Vue, Python]. Gothenburg Research Infrastructure in Digital Humanities (GRIDH).
                 https://github.com/gu-gridh/shfa-frontend (Original work published 2023)</p><br>
               <h2>Privacy Information</h2>
               <p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user
@@ -102,7 +107,8 @@
                 visit to the
                 website, subsequent visits to the website, and an approximate location.</p><br>
               <h2>Accessibility Statement</h2>
-              <p>This accessibility statement applies to <strong>dev-shfa.dh.gu.se</strong>. The website is displayed in a
+              <p>This accessibility statement applies to <strong>dev-shfa.dh.gu.se</strong>. The website is displayed in
+                a
                 more accessible format for users who prefer higher contrast and/or reduced transparency by default. The
                 <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
                   (WCAG)</a> defines requirements for designers and developers to improve accessibility for people with
@@ -172,10 +178,10 @@
             <div class="about-article-sub fullopacityui">
               <h2>Databasöversikt</h2>
               <p>Svenskt Hällristningsforskningsarkivs bilddatabas omfattar nära 27 000 digitaliserade bilder som
-                är resultatet av pågående arbete med att beskriva och dokumentera hällristningar sedan 1627. 
-                Dessa data kommer i första hand från Sverige men även från Danmark, Norge, Italien, Spanien 
+                är resultatet av pågående arbete med att beskriva och dokumentera hällristningar sedan 1627.
+                Dessa data kommer i första hand från Sverige men även från Danmark, Norge, Italien, Spanien
                 och andra delar av världen. Databasen innehåller bilder av dokumentationsresultaten samt
-                dokumentationsprocessen, från historisk dokumentation till aktuella digitala metoder. Mer 
+                dokumentationsprocessen, från historisk dokumentation till aktuella digitala metoder. Mer
                 information om dokumentationsprocessen finns på <a href='https://www.gu.se/shfa'>Om SHFA</a>.
               </p><br>
               <h2>Webbportalmigrering</h2>
@@ -190,7 +196,7 @@
 
               <h2>Sökning i databasen</h2>
               <p>Genom att använda den föreslagna nyckelordssökningen kan du komma åt bilder av vanliga
-                dokumentationsmetoder och motiv. Med kartan eller avancerade sökalternativ kan du hämta 
+                dokumentationsmetoder och motiv. Med kartan eller avancerade sökalternativ kan du hämta
                 resultat för detaljerade sökningar. Varje sökning visar ett galleri med bilder som kan ses mer
                 detaljerat genom att klicka på miniatyrbilden. I den detaljerade vyn är metadata, extern information
                 och nedladdningslänk tillgängliga. Om en bild har ett 3D-modell kopplat till sig, en <button
@@ -207,7 +213,8 @@
                 <li>Sök efter webbplatser med 3D-modeller</li>
                 <li>Sammanfattning av sökresultat (kan även laddas ner som bild eller CSV-fil)</li>
                 <li>Beskrivning av fornlämning för panelerna i Norge från Riksantikvaren</li>
-                <li>Automatisk extrahering av citeringsinformation med hjälp av webbläsarplugins för referensprogramvara</li>
+                <li>Automatisk extrahering av citeringsinformation med hjälp av webbläsarplugins för referensprogramvara
+                </li>
               </ul>
               <br>
 
@@ -247,8 +254,9 @@
               </p><br>
 
               <h2>Att referera till plattformen</h2>
-              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely, & Humlesjö, Siska. (2025). SHFA Frontend + 
-                Backend (Version 1.4) [Vue, Python]. Gothenburg Research Infrastructure in Digital Humanities (GRIDH). 
+              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely, & Humlesjö, Siska. (2025). SHFA
+                Frontend +
+                Backend (Version 1.4) [Vue, Python]. Gothenburg Research Infrastructure in Digital Humanities (GRIDH).
                 https://github.com/gu-gridh/shfa-frontend (Original work published 2023)</p><br>
 
               <h2>Integritetspolicy</h2>
@@ -259,7 +267,8 @@
                 om
                 varifrån besöker kommer.</p><br>
               <h2>Tillgänglighetsredogörelse</h2>
-              <p>Den här tillgänglighetsförklaringen gäller <strong>dev-shfa.dh.gu.se</strong>. Webbsidan visas i ett mer
+              <p>Den här tillgänglighetsförklaringen gäller <strong>dev-shfa.dh.gu.se</strong>. Webbsidan visas i ett
+                mer
                 tillgängligt format med högre kontrast och/eller minskad transparens för användare som föredrar det.
                 <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
                   (WCAG)</a> definierar krav på designers och utvecklare för att förbättra tillgängligheten för
