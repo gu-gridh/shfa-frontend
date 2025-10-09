@@ -81,25 +81,21 @@
 
               <h2>Citing the Images</h2>
               <p>Images in the database are freely available for printing and downloading. The suggested citation for
-                each
-                image is provided in the detailed view, but you may reformat this to your preferred style using the
-                image
-                metadata. If you have previously cited an image using the ID number from the previous website and are
+                each image is provided in the detailed view, but you may reformat this to your preferred style using the
+                image metadata. If you have previously cited an image using the ID number from the previous website and are
                 interested in knowing the current unique image identifier, please email us with the legacy id(s) for the
                 image(s) you are interested in, and we will provide you with the current image ID.
                 Please notify us at <a href=mailto:shfa@gu.se>shfa@gu.se</a> and provide a link to <a
                   href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> when you publish images from the database.
                 The copyright applies to established principles that include, among other things, the photographer's
                 voluntary right. The images are protected by a creative commons license (CC BY 4.0). For more
-                information,
-                please visit creative common's own website at:
+                information, please visit creative common's own website at:
                 <a href='https://creativecommons.org/licenses/by/4.0/'>Creative commons CC BY 4.0.</a>
               </p><br>
               <h2>Citing the Platform</h2>
-              <p>Bridge, Tristan, Karimi, Aram, Westin, Jonathan, Green, Ashely & Humlesjö, Siska
-                "gu-gridh/shfa-frontend:
-                v.1.3 3rd
-                public release" Github, 12 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
+              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely, & Humlesjö, Siska. (2025). SHFA Frontend + 
+                Backend (Version 1.4) [Vue, Python]. Gothenburg Research Infrastructure in Digital Humanities (GRIDH). 
+                https://github.com/gu-gridh/shfa-frontend (Original work published 2023)</p><br>
               <h2>Privacy Information</h2>
               <p>The SHFA webportal uses Matomo to track site visits by recurring users and searches to improve the user
                 experience. The tracked data includes IP address, device specification, time spent on the website, first
