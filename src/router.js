@@ -38,7 +38,7 @@ const routes = [
     props: { currentLanguage: localStorage.userLang, currentColourMode: localStorage.userColour }
   },
   {
-    path: '/contact',
+    path: '/contactus',
     name: 'Contact',
     component: Contact,
   },
