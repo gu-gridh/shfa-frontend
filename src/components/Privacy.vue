@@ -18,8 +18,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import Grid from '../Views/Grid.vue';
+<script>
+// import Grid from '../Views/Grid.vue';
 
 export default {
   name: "aboutprivacy",

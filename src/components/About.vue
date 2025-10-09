@@ -311,7 +311,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
