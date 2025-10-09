@@ -494,6 +494,7 @@ defineExpose({ forceRelayout })
 }
 
 .next-page-wrapper {
+  color: var(--page-text);
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: max-content;
