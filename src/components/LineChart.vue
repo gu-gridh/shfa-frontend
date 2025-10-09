@@ -109,7 +109,7 @@ async function downloadImage() {
         save(blobUrl, name)
         setTimeout(() => URL.revokeObjectURL(blobUrl), 1500)
     } else {  //desktop - use existing instance
-        const dataUrl = inst.getDataURL({ type: 'image/png', background: '#fff', pixelRatio: 12 })
+        const dataUrl = inst.getDataURL({ type: 'image/png', background: '#fff' })
         const blob = await (await fetch(dataUrl)).blob()
         const blobUrl = URL.createObjectURL(blob)
         save(blobUrl, name)
@@ -130,7 +130,7 @@ async function exportOffscreenPNG(opt, width, height) {
         const blobUrl = await new Promise((resolve, reject) => {
             inst.on('finished', async () => {
                 try {
-                    const dataUrl = inst.getDataURL({ type: 'image/png', background: '#fff', pixelRatio: 12 })
+                    const dataUrl = inst.getDataURL({ type: 'image/png', background: '#fff' })
                     const blob = await (await fetch(dataUrl)).blob()
                     resolve(URL.createObjectURL(blob))
                 } catch (e) { reject(e) }
