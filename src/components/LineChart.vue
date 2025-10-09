@@ -109,7 +109,7 @@ async function downloadImage() {
         save(blobUrl, name)
         setTimeout(() => URL.revokeObjectURL(blobUrl), 1500)
     } else {  //desktop - use existing instance
-        const dataUrl = inst.getDataURL({ type: 'image/png', background: '#fff' })
+        const dataUrl = inst.getDataURL({ type: 'image/png', background: '#fff', pixelRatio: 4 })
         const blob = await (await fetch(dataUrl)).blob()
         const blobUrl = URL.createObjectURL(blob)
         save(blobUrl, name)
