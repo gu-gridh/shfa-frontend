@@ -134,7 +134,7 @@
                 class="viewer-avail"><span class="viewer-icon"></span>{{
                   $t('message.viewthreed') }}</button>
               button. You can find images with attached models using the <span class='ui-text'>{{ $t('message.3D')
-                }}</span> option in <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>.
+              }}</span> option in <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>.
               Clicking the <button class="viewer-avail"><span class="viewer-icon"></span>{{
                 $t('message.viewthreed') }}</button> button will open the multimodal viewer in a new tab. In this
               viewer, you
@@ -183,7 +183,7 @@
                         v-for="(value, key) in category.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })"
                         :key="key">
                         <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                          }}</button>
+                        }}</button>
                       </li>
                     </ul>
                   </div>
@@ -214,7 +214,7 @@
                   <tbody>
                     <tr v-if="currentLang === 'en'" v-for="(value, key) in sortedImageTypes" :key="key">
                       <td><button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                      }}</button></td>
+                          }}</button></td>
                       <td>{{ value.english_description }}</td>
                     </tr>
                     <tr v-if="currentLang === 'sv'" v-for="(value, key) in sortedImageTypes" :key="key">
@@ -266,14 +266,14 @@ export default {
     }
   },
   mounted() {
-    // const userLang = localStorage.getItem('userLang') || 'sv';
-    this.$i18n.locale = this.currentLang;
+    this.currentLang = this.currentLang || localStorage.getItem('userLang') || 'sv'
+    this.$i18n.locale = this.currentLang
+
     document.documentElement.setAttribute('style-theme', this.targetTheme);
 
     this.fetchKeywords()
     this.fetchImageTypes()
     this.fetchDatingTags()
-
   },
   methods: {
     toggleLanguage() {
@@ -872,7 +872,6 @@ ul {
     margin-top: -10px;
     margin-bottom: 5px;
     line-height: 1.3;
-
   }
 
   .guide-article-sub {
