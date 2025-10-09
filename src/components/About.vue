@@ -247,10 +247,9 @@
               </p><br>
 
               <h2>Att referera till plattformen</h2>
-              <p>Bridge, Tristan, Karimi, Aram, Westin, Jonathan, Green, Ashely & Humlesjö, Siska
-                "gu-gridh/shfa-frontend:
-                v.1.3 3rd
-                public release" Github, 12 June 2024. https://github.com/gu-gridh/shfa-frontend</p><br>
+              <p>Westin, Jonathan, Bridge, Tristan, Karimi, Aram, Green, Ashely, & Humlesjö, Siska. (2025). SHFA Frontend + 
+                Backend (Version 1.4) [Vue, Python]. Gothenburg Research Infrastructure in Digital Humanities (GRIDH). 
+                https://github.com/gu-gridh/shfa-frontend (Original work published 2023)</p><br>
 
               <h2>Integritetspolicy</h2>
               <p>SHFAs webbportal använder Matomo för att spåra återkommande besök och sökningar samt för att
