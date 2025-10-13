@@ -107,6 +107,8 @@
         const img_id = this.img_id;
         // const year = this.year;
 
+        if (window._paq) _paq.push(['trackLink', imageUrl, 'download']);  //track download with matomo if available
+
         fetch(imageUrl)
           .then((response) => response.blob())
           .then((blob) => {
@@ -122,9 +124,6 @@
             a.click();
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
-            if (this.$matomo) { //track download with matomo if available
-              this.$matomo.trackLink(imageUrl, 'download');
-            }
           })
           .catch(() => console.error("Could not download the image"));
       },
