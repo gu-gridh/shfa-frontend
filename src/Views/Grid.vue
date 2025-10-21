@@ -23,7 +23,7 @@
           </svg>
         </button>
         <div class="languages">
-          <div class="version">Version 1.3</div>
+          <div class="version">Version 1.4</div>
 
           <transition name="flip-fade" mode="out-in">
             <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage"
