@@ -3,25 +3,23 @@
     <div class="content">
       <template v-if="currentLang === 'en'">
         <div class="rows">
-
-
           <div class="flex-machine">
             <div class="settings-menu">
               <div class="version-badge">Version 1.4</div>
-              <div class="top-button" @click="toggleLanguage" id="language-button">
-                Svenska
-              </div>
-              <div class="top-button" @click="toggleColour">
-                <div id="colour-mode" class="material-symbols-outlined">
-                  {{ currentColour == 'light' ? 'dark_mode' : 'light_mode' }}
+              <div class="settings-row">
+                <div class="top-button" @click="toggleColour" aria-label="Toggle theme">
+                  <span class="material-symbols-outlined">
+                    {{ currentColour == 'light' ? 'dark_mode' : 'light_mode' }}
+                  </span>
+                </div>
+                <div class="top-button" id="language-button" @click="toggleLanguage">
+                  {{ currentLang === 'sv' ? 'English' : 'Svenska' }}
                 </div>
               </div>
             </div>
             <div class="logo-area">
               <div id="logo-guide"></div>
-
               <h1 class="about-title" v-html="$t('message.abouttitle')"></h1>
-
             </div>
             <div class="about-article-sub fullopacityui">
               <h2>Database Overview</h2>
@@ -144,8 +142,6 @@
                   target="_blank"><button class="facebook-logo"></button></a><a
                   href="https://www.instagram.com/rockartarchive/?hl=en" target="_blank"><button
                     class="instagram-logo"></button></a></div>
-
-
             </div>
           </div>
         </div>
@@ -154,25 +150,23 @@
 
       <template v-else>
         <div class="rows">
-
-
           <div class="flex-machine">
             <div class="settings-menu">
               <div class="version-badge">Version 1.4</div>
-              <div class="top-button" @click="toggleLanguage" id="language-button">
-                English
-              </div>
-              <div class="top-button" @click="toggleColour">
-                <div id="colour-mode" class="material-symbols-outlined">
-                  {{ currentColour == 'light' ? 'dark_mode' : 'light_mode' }}
+              <div class="settings-row">
+                <div class="top-button" @click="toggleColour" aria-label="Toggle theme">
+                  <span class="material-symbols-outlined">
+                    {{ currentColour == 'light' ? 'dark_mode' : 'light_mode' }}
+                  </span>
+                </div>
+                <div class="top-button" id="language-button" @click="toggleLanguage">
+                  {{ currentLang === 'sv' ? 'English' : 'Svenska' }}
                 </div>
               </div>
             </div>
             <div class="logo-area">
               <div id="logo-guide"></div>
-
               <h1 class="about-title" v-html="$t('message.abouttitle')"></h1>
-
             </div>
 
             <div class="about-article-sub fullopacityui">
@@ -373,26 +367,27 @@ export default defineComponent({
 <style scoped>
 .settings-menu {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 12px;
+  right: 24px;
   z-index: 5000;
   display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 12px 24px;
-  font-size: 1.2rem;
-  font-weight: 400;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
   color: var(--settings-text);
-  cursor: default;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
 }
 
 .top-button {
-  width: max-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   height: 32px;
-  line-height: 32px;
-  text-align: left;
-  margin-left: 0px;
-  padding: 0px 10px 0px 10px;
+  padding: 0 10px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -402,16 +397,14 @@ export default defineComponent({
 }
 
 .version-badge {
-  position: fixed;
-  left: 12px;
-  z-index: 5001;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--settings-text);
-  padding: 12px 24px;
-  border-radius: 6px;
-  background: transparent;
+  font-size: 14px;
   margin: 0;
+  padding-right: 5px;
+}
+
+#language-button {
+  font-size: 1.2rem;
+  padding-right: 6px
 }
 
 .material-symbols-outlined {
@@ -539,7 +532,6 @@ h2 {
   background: var(--guide-page-background);
 }
 
-
 .fullopacity {
   backdrop-filter: blur(5px);
   opacity: 1.0;
@@ -661,7 +653,6 @@ h2 {
 }
 
 @media screen and (max-width: 900px) {
-
   .about-article-sub {
     font-size: 1.25em;
     -webkit-hyphens: auto;
@@ -759,7 +750,6 @@ a {
   background-repeat: no-repeat;
   margin-left: 10px;
 }
-
 
 .instagram-logo {
   display: inline-flex;
