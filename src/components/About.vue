@@ -387,7 +387,6 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   height: 32px;
-  padding: 0 10px;
   border-radius: 8px;
   cursor: pointer;
 }
