@@ -2,12 +2,14 @@
     <div class="contact-container fullopacityui">
         <div class="settings-menu">
             <div class="version-badge">Version 1.4</div>
-            <div class="top-button" @click="toggleLanguage" id="language-button">
-                {{ currentLang === 'sv' ? 'English' : 'Svenska' }}
-            </div>
-            <div class="top-button" @click="toggleColour">
-                <div id="colour-mode" class="material-symbols-outlined">
-                    {{ currentColour === 'light' ? 'dark_mode' : 'light_mode' }}
+            <div class="settings-row">
+                <div class="top-button" @click="toggleColour" aria-label="Toggle theme">
+                    <span class="material-symbols-outlined">
+                        {{ currentColour === 'light' ? 'dark_mode' : 'light_mode' }}
+                    </span>
+                </div>
+                <div class="top-button" id="language-button" @click="toggleLanguage">
+                    {{ currentLang === 'sv' ? 'English' : 'Svenska' }}
                 </div>
             </div>
         </div>
@@ -140,31 +142,31 @@ export default {
     box-sizing: border-box;
     background: var(--guide-page-background);
     padding: 80px 0 0;
+    font-size: 12px;
 }
 
 .settings-menu {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 12px;
+    right: 24px;
     z-index: 5000;
     display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 12px 24px;
-    font-size: 1.2em;
-    font-weight: 400;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
     color: var(--settings-text);
-    cursor: default;
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
 }
 
 .top-button {
-    width: max-content;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     height: 32px;
-    line-height: 32px;
-    float: right;
-    text-align: left;
-    margin-left: 0;
-    padding: 0 10px;
     border-radius: 8px;
     cursor: pointer;
 }
@@ -228,14 +230,14 @@ export default {
 }
 
 .version-badge {
-    position: fixed;
-    left: 12px;
-    z-index: 5001;
-    font-size: 15px;
-    color: var(--settings-text);
-    padding: 12px 24px;
-    border-radius: 6px;
-    background: transparent;
+    font-size: 14px;
+    margin: 0;
+    padding-right: 5px;
+}
+
+#language-button {
+    font-size: 19.2px;
+    padding-right: 6px;
 }
 
 input,
