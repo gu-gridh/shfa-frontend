@@ -5,22 +5,21 @@
         <div class="flex-machine">
           <div class="settings-menu">
             <div class="version-badge">Version 1.4</div>
-            <div class="top-button" @click="toggleLanguage" id="language-button">
-              {{ currentLang == 'sv' ? 'English' : 'Svenska' }}
-            </div>
-            <div class="top-button" @click="toggleColour">
-              <div id="colour-mode" class="material-symbols-outlined">
-                {{ currentColour == 'light' ? 'dark_mode' : 'light_mode' }}
+            <div class="settings-row">
+              <div class="top-button" @click="toggleColour" aria-label="Toggle theme">
+                <span id="colour-mode" class="material-symbols-outlined">
+                  {{ currentColour == 'light' ? 'dark_mode' : 'light_mode' }}
+                </span>
+              </div>
+              <div class="top-button" id="language-button" @click="toggleLanguage">
+                {{ currentLang == 'sv' ? 'English' : 'Svenska' }}
               </div>
             </div>
           </div>
           <div class="logo-area">
             <div id="logo-guide"></div>
-
             <h1 class="about-title" v-html="$t('message.abouttitle')"></h1>
-
           </div>
-
 
           <div class="guide-article-main fullopacityui" style="margin-bottom: 0px;">
             <h2>{{ $t('message.sökguide') }}</h2>
@@ -134,7 +133,7 @@
                 class="viewer-avail"><span class="viewer-icon"></span>{{
                   $t('message.viewthreed') }}</button>
               button. You can find images with attached models using the <span class='ui-text'>{{ $t('message.3D')
-              }}</span> option in <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>.
+                }}</span> option in <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>.
               Clicking the <button class="viewer-avail"><span class="viewer-icon"></span>{{
                 $t('message.viewthreed') }}</button> button will open the multimodal viewer in a new tab. In this
               viewer, you
@@ -183,7 +182,7 @@
                         v-for="(value, key) in category.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })"
                         :key="key">
                         <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                        }}</button>
+                          }}</button>
                       </li>
                     </ul>
                   </div>
@@ -214,7 +213,7 @@
                   <tbody>
                     <tr v-if="currentLang === 'en'" v-for="(value, key) in sortedImageTypes" :key="key">
                       <td><button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                      }}</button></td>
+                          }}</button></td>
                       <td>{{ value.english_description }}</td>
                     </tr>
                     <tr v-if="currentLang === 'sv'" v-for="(value, key) in sortedImageTypes" :key="key">
@@ -351,27 +350,26 @@ export default {
 <style scoped>
 .settings-menu {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 12px;
+  right: 24px;
   z-index: 5000;
   display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 12px 24px;
-  font-size: 1.2rem;
-  font-weight: 400;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
   color: var(--settings-text);
-  cursor: default;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
 }
 
 .top-button {
-  width: max-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   height: 32px;
-  line-height: 32px;
-  float: right;
-  text-align: left;
-  margin-left: 0;
-  padding: 0 10px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -392,16 +390,14 @@ export default {
 }
 
 .version-badge {
-  line-height: 1.5;
+  font-size: 14px;
   margin: 0;
-  position: fixed;
-  left: 12px;
-  z-index: 5001;
-  font-size: 15px;
-  color: var(--settings-text);
-  padding: 12px 24px;
-  border-radius: 6px;
-  background: transparent;
+  padding-right: 5px;
+}
+
+#language-button {
+  font-size: 19.2px;
+  padding-right: 6px;
 }
 
 .logo-area {
@@ -533,10 +529,6 @@ h3 {
 ul {
   padding-left: 20px;
 }
-
-/* .guide-article-sub h2 {
-  font-size: 115%;
-} */
 
 .guide-container {
   padding: 80px 0 0;
