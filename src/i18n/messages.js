@@ -2,6 +2,7 @@
 export default {
   en: {
     message: {
+      fullGraphsNote: "To see the full graphs, view on desktop.",
       summaryDisclaimer: "Note: Data review is in progress, results and quality may vary until the review is complete.",
       noResults: "No results found. Please adjust your search.",
       figurative: "Figurative",
@@ -140,6 +141,7 @@ export default {
   },
   sv: {
     message: {
+      fullGraphsNote: "För att se hela graferna, visa på desktop.",
       summaryDisclaimer: "OBS: Uppgifterna granskas för närvarande. Resultaten och kvaliteten kan variera tills granskningen är klar.",
       noResults: "Inga resultat hittades. Vänligen justera ditt sökande.",
       figurative: "Figurativ",

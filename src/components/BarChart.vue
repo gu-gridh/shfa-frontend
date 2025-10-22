@@ -1,5 +1,9 @@
 <template>
   <div class="chart-shell">
+     <p class="mobile-note" v-if="isMobile">
+      {{ t('message.fullGraphsNote') }} 
+    </p>
+
     <div class="echart-wrapper" v-if="!isMobile">
       <VueECharts :option="option" renderer="canvas" :style="{ height: chartHeight + 'px', width: '100%' }"
         ref="chartRef" />
@@ -270,6 +274,13 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.mobile-note {
+  margin: 0 0 0.5rem 0;
+  text-align: center;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
 .chart-shell {
   display: flex;
   flex-direction: column;
