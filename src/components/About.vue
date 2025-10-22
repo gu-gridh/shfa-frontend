@@ -7,7 +7,7 @@
 
           <div class="flex-machine">
             <div class="settings-menu">
-              <div class="version-badge">Version 1.3</div>
+              <div class="version-badge">Version 1.4</div>
               <div class="top-button" @click="toggleLanguage" id="language-button">
                 Svenska
               </div>
@@ -158,7 +158,7 @@
 
           <div class="flex-machine">
             <div class="settings-menu">
-              <div class="version-badge">Version 1.3</div>
+              <div class="version-badge">Version 1.4</div>
               <div class="top-button" @click="toggleLanguage" id="language-button">
                 English
               </div>
