@@ -279,6 +279,7 @@ onUnmounted(() => {
   text-align: center;
   font-size: 0.95rem;
   opacity: 0.85;
+  color: var(--page-text);
 }
 
 .chart-shell {
