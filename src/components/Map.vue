@@ -847,9 +847,8 @@ input[type="checkbox" i] {
 }
 
 .map-expanded #map {
-  width: 100%;
   height: 100%;
-  margin-top: -105px !important;
+  margin-top: -85px !important;
 }
 
 @media (max-width: 1024px) {
