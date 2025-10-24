@@ -111,7 +111,7 @@
               </template>
             </MasonryWall>
           </div>
-          <div class="next-page-wrapper bottom-align" v-show="row.topOutOfView">
+          <div class="next-page-wrapper bottom-align" v-show="row.topOutOfView" style="padding-top: 10px;">
             <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
               class="inline-spinner" />
             <div class="gallery-page-button prev-page-btn" :disabled="row.isFetching"
@@ -120,9 +120,9 @@
               {{ $t('message.sida') }} {{ row.currentPage }}&nbsp;{{ $t('message.av') }}&nbsp;{{ row.totalPages }}
             </div>
             <div class="gallery-page-button next-page-btn" :disabled="row.isFetching"
-              :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)"></div>
+              :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)">
+            </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -732,7 +732,7 @@ h3 span {
 }
 
 .row-heading {
-  color: var(--page-text); 
+  color: var(--page-text);
   flex: 1 1 auto;
   min-width: 0;
 }
