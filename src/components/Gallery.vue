@@ -159,7 +159,7 @@ const props = defineProps({
 })
 
 const formatIiif = url =>
-  url.startsWith('http') ? url : 'https://img.dh.gu.se/shfa/static/' + url
+  url.startsWith('http') ? url : 'https://iiif.dh.gu.se/shfa/static/' + url
 
 const filterTimestamps = reactive({ search: 0, advanced: 0, bbox: 0, site: 0 })
 const activeFilter = computed(() =>
