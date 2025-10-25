@@ -391,6 +391,7 @@ defineExpose({
   width: 100%;
   margin-top: 20px;
   background-color: transparent;
+  padding-bottom:15px;
 }
 
 .search-container-title {

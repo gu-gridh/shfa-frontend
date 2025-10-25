@@ -729,7 +729,7 @@ export default defineComponent({
 #reset-layout-searchview {
   float: left;
   display: block;
-  margin-top: -34px;
+  margin-top: -50px;
   /* margin-bottom: 10px; 
    font-size: 1.2rem; */
   padding: 5px 15px 5px 15px;
@@ -741,6 +741,7 @@ export default defineComponent({
   font-weight: 500;
   margin-left: 8px;
   width: max-content;
+  margin-bottom:15px;
 }
 
 #reset-layout-searchview:hover {
