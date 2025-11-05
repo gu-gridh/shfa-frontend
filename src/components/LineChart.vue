@@ -17,9 +17,12 @@ import * as echarts from 'echarts/core'
 import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 import { LineChart } from 'echarts/charts'
-import { GridComponent, TooltipComponent } from 'echarts/components'
+import { useI18n } from 'vue-i18n'
+import { GridComponent, TooltipComponent, TitleComponent } from 'echarts/components'
 
-use([CanvasRenderer, LineChart, GridComponent, TooltipComponent])
+const { t } = useI18n()
+
+use([CanvasRenderer, LineChart, GridComponent, TooltipComponent, TitleComponent])
 
 const isMobile = window.matchMedia('(max-width:900px)').matches
 
@@ -27,7 +30,8 @@ const props = defineProps({
     data: { type: Array, default: () => [] },
     title: { type: String, default: 'chart' },
     exportable: { type: Boolean, default: true },
-    textColor: { type: String, default: 'blue' }
+    textColor: { type: String, default: 'blue' },
+    currentLanguage: { type: String, default: 'sv' }
 })
 
 const seriesData = computed(() => binData(props.data))
@@ -60,14 +64,22 @@ function rebuild() {
         grid: {
             left: isMobile ? 18 : 40,
             right: isMobile ? 8 : 20,
-            top: 12,
+            top: 25,
             bottom: isMobile ? 24 : 40,
-            containLabel: true
+            outerBounds: {
+                includeLabels: true
+            }
         },
         color: [
             '#719fbf',
             '#7e75a0',
         ],
+        title: {
+            text: t(`charts.${props.title}`),
+            textStyle: { color: props.textColor, fontSize: 16, fontWeight: 350 },
+            left: "center",
+            top: 0,
+        },
         tooltip: { trigger: 'axis' },
         xAxis: {
             type: 'category',
@@ -96,7 +108,7 @@ function rebuild() {
     nextTick(() => chartRef.value?.chart?.resize())
 }
 
-watch(() => [props.data, props.textColor], rebuild, { immediate: true })
+watch(() => [props.data, props.textColor, props.currentLanguage], rebuild, { immediate: true })
 
 async function downloadImage() {
     const name = (props.title || 'chart') + '.png'

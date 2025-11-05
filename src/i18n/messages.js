@@ -138,6 +138,16 @@ export default {
       other: 'Other Figures',
       dating: 'Datings',
     },
+
+    charts: {
+      Creators: 'Number of images attributed to an individual',
+      Institutions: 'Number of images attributed to an institution',
+      Types: 'Number of each image type in the search results',
+      Motifs: 'Number of images tagged with a motif keyword',
+      Geographic: 'Number of images per region',
+      Site: 'Number of images per site',
+      Years: 'Number of images created in a year',
+    }
   },
   sv: {
     message: {
@@ -276,5 +286,15 @@ export default {
       other: 'Andra figurer',
       dating: 'Datering',
     },
+
+    charts: {
+      Creators: 'Antal bilder tillskrivna en person',
+      Institutions: 'Antal bilder tillskrivna en institution',
+      Types: 'Antal av varje bildtyp i sökresultaten',
+      Motifs: 'Antal bilder taggade med ett motivnyckelord',
+      Geographic: 'Antal bilder per region',
+      Site: 'Antal bilder per fornlämning',
+      Years: 'Antal bilder skapade under ett år',
+    }
   }
 }

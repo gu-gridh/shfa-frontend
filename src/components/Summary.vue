@@ -5,7 +5,7 @@
       <img src="/interface/6-dots-rotate.svg" alt="Loading..." class="inline-spinner" />
     </div>
 
-      <div v-else-if="rows.length === 0" class="no-results">
+    <div v-else-if="rows.length === 0" class="no-results">
       {{ $t('message.noResults') }}
       <div class="no-results__icon" role="img" aria-label="No results"></div>
     </div>
@@ -16,14 +16,14 @@
           <ul class="row-titles">
             <li v-for="(row, idx) in rows" :key="row.id" :class="{ 'non-clickable': idx === openRowIndex }"
               @click="idx !== openRowIndex && openRow(idx)">
-                {{ $t(`message.${row.id}`) }}
+              {{ $t(`message.${row.id}`) }}
             </li>
           </ul>
         </div>
         <div class="right-column" v-if="currentRow">
           <div class="toggle-button-group">
             <button :class="{ active: props.activeTab === 'gallery' }" @click="emit('update-tab', 'gallery')">
-               {{ $t('message.galleri') }}
+              {{ $t('message.galleri') }}
             </button>
             <button :class="{ active: props.activeTab === 'summary' }" @click="emit('update-tab', 'summary')">
               {{ $t('message.summary') }}
@@ -56,14 +56,14 @@
             </transition>
           </div>
 
-          <h3 class="row-heading"> {{ $t(`message.${currentRow.id}`) }}</h3> 
+          <h3 class="row-heading"> {{ $t(`message.${currentRow.id}`) }}</h3>
 
-          <h4 class="disclaimer">{{$t('message.summaryDisclaimer')}}</h4>
+          <h4 class="disclaimer">{{ $t('message.summaryDisclaimer') }}</h4>
 
-          <LineChart v-if="currentRow.id === 'years'" :data="summary.year" :title="currentRow.title"
-            :exportable="true" :textColor="textColor" />
+          <LineChart v-if="currentRow.id === 'years'" :data="summary.year" :title="currentRow.title" :exportable="true"
+            :textColor="textColor" :currentLanguage="currentLanguage" />
           <BarChart v-else :data="localizedItems" :title="currentRow.title" :exportable="true" :textColor="textColor"
-            @select="triggerSearch" />
+            :currentLanguage="currentLanguage" @select="triggerSearch" />
         </div>
       </div>
     </div>
@@ -109,7 +109,7 @@ const props = defineProps({
   selectedSiteId: [Number, String],
   activeTab: { type: String, default: 'gallery' },
   currentLanguage: { type: String, default: 'sv' },
-  currentColor: { type: String, default: 'dark'}
+  currentColor: { type: String, default: 'dark' }
 })
 
 const isLoading = ref(false)
@@ -280,7 +280,8 @@ if (props.activeTab === 'summary') fetchSummary()
   width: 55px;
   height: 55px;
   opacity: 0.8;
-  filter: invert(1); /* white */
+  filter: invert(1);
+  /* white */
 }
 
 .toggle-button-group {

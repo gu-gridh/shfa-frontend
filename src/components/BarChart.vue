@@ -1,7 +1,7 @@
 <template>
   <div class="chart-shell">
-     <p class="mobile-note" v-if="isMobile">
-      {{ t('message.fullGraphsNote') }} 
+    <p class="mobile-note" v-if="isMobile">
+      {{ t('message.fullGraphsNote') }}
     </p>
 
     <div class="echart-wrapper" v-if="!isMobile">
@@ -23,19 +23,21 @@ import { ref, watch, nextTick, computed, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 import { BarChart as Bar } from 'echarts/charts'
-import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent, LegendComponent, TitleComponent } from 'echarts/components'
 import VueECharts from 'vue-echarts'
 import { useI18n } from 'vue-i18n'
+// import messages from '../i18n/messages'
 const { t } = useI18n()
 
-echarts.use([CanvasRenderer, Bar, GridComponent, TooltipComponent, LegendComponent])
+echarts.use([CanvasRenderer, Bar, GridComponent, TooltipComponent, LegendComponent, TitleComponent])
 
 const isMobile = ref(window.innerWidth < 1025)
 const props = defineProps({
   data: { type: Array, default: () => [] },
   title: { type: String, default: '' },
   exportable: { type: Boolean, default: true },
-  textColor: { type: String, default: 'white' }
+  textColor: { type: String, default: 'white' },
+  currentLanguage: { type: String, default: 'sv' }
 })
 
 const TOP_N = 50;
@@ -61,9 +63,9 @@ function rebuild() {
 
   option.value = {
     grid: {
-      left: 10,
+      // left: 10,
       right: hasFig ? '15%' : 24, //extra space when the legend shows
-      top: 8,
+      top: 25,
       bottom: 20,
       outerBounds: {
         includeLabels: true
@@ -73,6 +75,12 @@ function rebuild() {
       '#719fbf',
       '#7e75a0',
     ],
+    title: {
+      text: t(`charts.${props.title}`),
+      textStyle: { color: props.textColor, fontSize: 16, fontWeight: 350 },
+      left: "center",
+      top: 0,
+    },
     legend: {
       show: hasFig,
       top: 0,
@@ -167,7 +175,7 @@ function rebuild() {
   })
 }
 
-watch(() => [props.data, props.textColor], rebuild, { immediate: true })
+watch(() => [props.data, props.textColor, props.currentLanguage], rebuild, { immediate: true })
 
 async function downloadImage() {
   const name = (props.title || 'chart') + '.png'
