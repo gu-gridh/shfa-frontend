@@ -47,7 +47,14 @@
               </p>
               <p> For more advanced searches with multiple parameters, click on the <span class="ui-text">Advanced
                   Search</span> menu. In this menu, when you start typing
-                in each field the suggested available keywords are displayed below the search box. Some fields allow you
+                in each field the suggested available keywords are displayed below the search box. You should
+                <strong>not</strong>
+                combine the <span class="ui-text">Site</span> search and <span class="ui-text">Sites with 3D
+                  model(s)</span>
+                search; this is unlikely to
+                return results.
+              </p>
+              <p>Some fields allow you
                 to combine multiple
                 search terms (indicated by <span class="ui-text">AND</span> and <span class="ui-text">OR</span>
                 buttons).
@@ -92,7 +99,14 @@
               </p>
               <p>För mer avancerade sökningar med flera parametrar, klicka på menyn <span class="ui-text">Avancerad
                   Sökning</span>. I den här menyn
-                visas föreslagna tillgängliga nyckelord under sökrutan när du börjar skriva i varje fält. I vissa fält
+                visas föreslagna tillgängliga nyckelord under sökrutan när du börjar skriva i varje fält. Du bör
+                <strong>inte</strong>
+                kombinera sökningen på <span class="ui-text">Fornlämning</span> och <span class="ui-text">Fornlämning
+                  med 3D-modell(er)</span>
+                sökning; det är osannolikt att detta
+                ger några resultat.
+              </p>
+              <p>I vissa fält
                 kan du kombinera
                 flera söktermer (markeras med knapparna <span class="ui-text">AND</span> och <span
                   class="ui-text">OR</span>).
@@ -133,7 +147,7 @@
                 class="viewer-avail"><span class="viewer-icon"></span>{{
                   $t('message.viewthreed') }}</button>
               button. You can find images with attached models using the <span class='ui-text'>{{ $t('message.3D')
-                }}</span> option in <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>.
+              }}</span> option in <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>.
               Clicking the <button class="viewer-avail"><span class="viewer-icon"></span>{{
                 $t('message.viewthreed') }}</button> button will open the multimodal viewer in a new tab. In this
               viewer, you
@@ -182,7 +196,7 @@
                         v-for="(value, key) in category.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })"
                         :key="key">
                         <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                          }}</button>
+                        }}</button>
                       </li>
                     </ul>
                   </div>
@@ -213,7 +227,7 @@
                   <tbody>
                     <tr v-if="currentLang === 'en'" v-for="(value, key) in sortedImageTypes" :key="key">
                       <td><button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                          }}</button></td>
+                      }}</button></td>
                       <td>{{ value.english_description }}</td>
                     </tr>
                     <tr v-if="currentLang === 'sv'" v-for="(value, key) in sortedImageTypes" :key="key">
