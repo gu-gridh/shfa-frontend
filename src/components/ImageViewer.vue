@@ -424,7 +424,7 @@ a:active {
 #DownloadButton {
   position: absolute;
   bottom: 12px;
-  background: url(https://data.dh.gu.se/ui-icons/download_white.png);
+  background: url(https://data.dh.gu.se/ui-icons/download_arrow_white.png);
   background-size: 80%;
   background-repeat: no-repeat;
   background-position: center;
