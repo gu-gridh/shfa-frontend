@@ -146,7 +146,7 @@ export default {
       Motifs: 'Number of images tagged with a motif keyword',
       Geographic: 'Number of images per region',
       Site: 'Number of images per site',
-      Years: 'Number of images created in a year',
+      Years: 'Number of documentations created in a year',
     }
   },
   sv: {
@@ -294,7 +294,7 @@ export default {
       Motifs: 'Antal bilder taggade med ett motivnyckelord',
       Geographic: 'Antal bilder per region',
       Site: 'Antal bilder per fornlämning',
-      Years: 'Antal bilder skapade under ett år',
+      Years: 'Antal dokumentationer som skapats under ett år',
     }
   }
 }
