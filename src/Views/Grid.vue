@@ -741,7 +741,7 @@ export default defineComponent({
   font-weight: 500;
   margin-left: 8px;
   width: max-content;
-  margin-bottom:15px;
+  margin-bottom: 15px;
 }
 
 #reset-layout-searchview:hover {

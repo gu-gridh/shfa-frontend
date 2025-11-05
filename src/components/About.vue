@@ -331,6 +331,20 @@ export default defineComponent({
       closePage
     };
   },
+  head() {
+    return {
+      link: { rel: "schema.DC", href: "http://purl.org/dc/elements/1.1/" },
+      meta: [
+        { name: 'citation_title', content: 'SHFA - About the Archive' },
+        { name: 'citation_author', content: 'SHFA' },
+        { name: 'dcterms.type', content: 'Service' },
+        { name: 'citation_year', content: '2025' },
+        { name: 'citation_publisher', content: 'SHFA' },
+        { name: 'dcterms.publisher', content: 'SHFA' },
+        { name: 'dcterms.rights', content: 'CC-BY' },
+      ]
+    }
+  },
   mounted() {
     document.documentElement.setAttribute('style-theme', this.targetTheme);
     const userLang = localStorage.getItem('userLang') || 'sv';

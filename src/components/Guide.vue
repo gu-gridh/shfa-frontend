@@ -227,7 +227,7 @@
                   <tbody>
                     <tr v-if="currentLang === 'en'" v-for="(value, key) in sortedImageTypes" :key="key">
                       <td><button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                      }}</button></td>
+                          }}</button></td>
                       <td>{{ value.english_description }}</td>
                     </tr>
                     <tr v-if="currentLang === 'sv'" v-for="(value, key) in sortedImageTypes" :key="key">
@@ -264,6 +264,20 @@ export default {
   props: {
     currentLanguage: String,
     currentColourMode: String,
+  },
+  head() {
+    return {
+      link: { rel: "schema.DC", href: "http://purl.org/dc/elements/1.1/" },
+      meta: [
+        { name: 'citation_title', content: 'SHFA - Search Guide' },
+        { name: 'citation_author', content: 'SHFA' },
+        { name: 'dcterms.type', content: 'Service' },
+        { name: 'citation_year', content: '2025' },
+        { name: 'citation_publisher', content: 'SHFA' },
+        { name: 'dcterms.publisher', content: 'SHFA' },
+        { name: 'dcterms.rights', content: 'CC-BY' },
+      ]
+    }
   },
   data() {
     return {
