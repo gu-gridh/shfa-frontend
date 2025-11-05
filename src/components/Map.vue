@@ -2,9 +2,9 @@
   <div id="map">
     <div class="expand-map-widget" ref="expandWidget" @click="expandMap"></div>
     <div class="zoom-warning" id="zoom-message">{{ $t("message.zoommap")
-      }}</div>
+    }}</div>
     <button id="search-bbox-button" v-if="bboxUpdated" @click="fetchImagesClicked()">{{ $t("message.searchinbbox")
-      }}</button>
+    }}</button>
     <div id="popup" class="ol-popup">
       <button id="popup-closer" class="ol-popup-closer"></button>
       <div id="popup-content">
@@ -16,12 +16,12 @@
         <p v-if="isSwedish" id="fornsok_header">
           <span class="link-button"></span><a v-if="isSwedish" id="fornsok_link"> {{
             $t("message.checkfornsök")
-            }}</a>
+          }}</a>
         </p>
         <p v-if="isNorwegian" id="kulturminnesok_header">
           <span class="link-button"></span><a v-if="isNorwegian" id="kulturminnesok_link"> {{
             $t("message.checkkulturminnesok")
-            }}</a>
+          }}</a>
         </p>
         <p>
           <span class="link-button"></span><a id="extmap_link" target="_blank"> {{ $t("message.maplink") }}</a>
@@ -250,7 +250,7 @@ export default {
         );
 
         //buffer the bounding box for display
-        const bufferedExtent = [transformedExtent[0]-10,transformedExtent[1]-10,transformedExtent[2]+10,transformedExtent[3]+10]
+        const bufferedExtent = [transformedExtent[0] - 10, transformedExtent[1] - 10, transformedExtent[2] + 10, transformedExtent[3] + 10]
 
         //const bboxExtent = [[[transformedExtent[0]-5,transformedExtent[1]-5],[transformedExtent[0]-5,transformedExtent[3]+5],
         //[transformedExtent[2]+5,transformedExtent[3]+5],[transformedExtent[2]+5,transformedExtent[1]-5],
@@ -266,7 +266,7 @@ export default {
           minResolution: 5.0, //limit resolution so landmarks in basemap are still visible
         });
 
-        
+
         //clear any existing rendered bboxes
         if (this.bboxLayer && this.bboxLayer.getSource().getFeatures().length > 0) {
           this.bboxLayer.getSource().clear()
@@ -405,12 +405,25 @@ export default {
       }
       )
 
+      // this.raaLayer = new TileLayer({
+      //   source: new TileWMS({
+      //     url: 'https://pub.raa.se/visning/lamningar_v1/wms?service=wms&version=1.3.0&request=GetCapabilities',
+      //     attributions: `<a href="https://resource.sgu.se/dokument/produkter/strandforskjutningsmodell-beskrivning.pdf" target="_blank">Source: Riskantivärieambetet</a>`,
+      //     params: { 'LAYERS': 'fornlamning', 'TILED': true },
+      //     serverType: 'geoserver'
+      //   }),
+      //   title: 'RAÄ Open Data',
+      //   visible: false,
+      //   zIndex: 150,
+      //   className: "dark"
+      // })
+
       this.bboxLayer = new VectorLayer({
         source: new VectorSource({ features: [] }),
         style: new Style({
           stroke: new Stroke({
             color: '#1861ac',
-            lineDash: [1,5],
+            lineDash: [1, 5],
             width: 1.5
           }),
           fill: new Fill({
@@ -428,6 +441,12 @@ export default {
             source: new OSM(),
           }),
           this.bboxLayer,
+          // new LayerGroup({
+          //   title: 'Heritage Data - WMS',
+          //   visible: false,
+          //   layers: [this.raaLayer],
+          //   openInLayerSwitcher: true,
+          // }),
           new LayerGroup({
             title: 'SGU Strandförskjutningsmodell',
             combine: false,
