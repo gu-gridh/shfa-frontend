@@ -408,11 +408,24 @@ export default {
       // this.raaLayer = new TileLayer({
       //   source: new TileWMS({
       //     url: 'https://pub.raa.se/visning/lamningar_v1/wms?service=wms&version=1.3.0&request=GetCapabilities',
-      //     attributions: `<a href="https://resource.sgu.se/dokument/produkter/strandforskjutningsmodell-beskrivning.pdf" target="_blank">Source: Riskantivärieambetet</a>`,
+      //     attributions: `<a href="https://www.raa.se/hitta-information/oppna-data/oppna-data-portal/" target="_blank">Source: Riskantivarieämbetet</a>`,
       //     params: { 'LAYERS': 'fornlamning', 'TILED': true },
       //     serverType: 'geoserver'
       //   }),
       //   title: 'RAÄ Open Data',
+      //   visible: false,
+      //   zIndex: 150,
+      //   className: "dark"
+      // })
+
+      // this.riksantikvarenLayer = new TileLayer({
+      //   source: new TileWMS({
+      //     url: 'https://kart.ra.no/wms/kulturminner?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities',
+      //     attributions: `<a href="https://kartkatalog.geonorge.no/metadata/kulturminner-wms/30369f29-e21a-464f-97f7-a202ca7c97e7" target="_blank">Source: Riskantivaren</a>`,
+      //     params: { 'LAYERS': 'Enkeltminner', 'TILED': true },
+      //     serverType: 'geoserver'
+      //   }),
+      //   title: 'Riksantikvaren Enkeltminner',
       //   visible: false,
       //   zIndex: 150,
       //   className: "dark"
@@ -444,7 +457,7 @@ export default {
           // new LayerGroup({
           //   title: 'Heritage Data - WMS',
           //   visible: false,
-          //   layers: [this.raaLayer],
+          //   layers: [this.riksantikvarenLayer, this.raaLayer],
           //   openInLayerSwitcher: true,
           // }),
           new LayerGroup({
