@@ -3,6 +3,7 @@
     <div v-if="isGalleryLoading" class="loading-indicator"></div>
     <div v-if="!isGalleryLoading && rows.length === 0" class="no-results">
       {{ $t('message.noResults') }}
+      <p class="subtext">{{ $t('message.noResultsSub') }}</p>
       <div class="no-results__icon" role="img" aria-label="No results"></div>
     </div>
     <div v-else class="grid-container">
@@ -799,11 +800,11 @@ h3 span {
   pointer-events: none;
 }
 
-.no-results {
+/* .no-results {
   text-align: center;
   font-size: 1.2rem;
   padding: 2rem 0;
-}
+} */
 
 .no-results {
   color: var(--page-text);
@@ -813,6 +814,19 @@ h3 span {
   justify-content: center;
   padding: 2rem 0;
   text-align: center;
+  font-size: 1.2rem;
+}
+
+.subtext {
+  color: var(--page-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 1.0rem;
+  font-style: italic;
 }
 
 .no-results__icon {
