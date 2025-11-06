@@ -372,7 +372,6 @@ export default {
   name: "guideview",
 };
 
-
 </script>
 
 <style scoped>

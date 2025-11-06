@@ -160,7 +160,7 @@ const props = defineProps({
 })
 
 const formatIiif = url =>
-  url.startsWith('http') ? url : 'https://iiif.dh.gu.se/shfa/static/' + url
+  url.startsWith('http') ? url : 'https://image.dh.gu.se/shfa/static/' + url
 
 const filterTimestamps = reactive({ search: 0, advanced: 0, bbox: 0, site: 0 })
 const activeFilter = computed(() =>
@@ -282,6 +282,11 @@ async function fetchGallery() {
   }
 }
 
+//treat alla-bilder as all category
+function normalizeCategory(t) {
+  return /^(alla[\s_-]?bilder)$/i.test(String(t).trim()) ? 'all' : t
+}
+
 function toggleRow(idx) {
   rows.value.forEach(r => {
     if (r.originalIndex !== idx) {
@@ -307,7 +312,7 @@ function toggleRow(idx) {
   if (row.open) {
     row.topOutOfView = false;
     const url = new URL(buildGalleryUrl())
-    url.searchParams.set('category_type', row.type)
+    url.searchParams.set('category_type', normalizeCategory(row.type))
     row.nextUrl = withDepth(url)
     row.currentPage = 1
     fetchNextPage(row)
