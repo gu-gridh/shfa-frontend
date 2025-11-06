@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top">
-      <a href="https://dev-shfa.dh.gu.se/">
+      <a href="https://shfa.dh.gu.se/">
         <div id="logo-main"></div>
         <h1 class="title">
           <div v-html="$t('message.title')"></div>
@@ -197,7 +197,7 @@ export default defineComponent({
     selectedId(newId, oldId) {
       if (newId) {
         this.$router.push({ name: "Site", params: { siteId: newId } });
-        fetch(`https://dev-shfa.dh.gu.se/api/geojson/site/?id=${newId}`)
+        fetch(`https://shfa.dh.gu.se/api/geojson/site/?id=${newId}`)
           .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
@@ -440,7 +440,7 @@ export default defineComponent({
       this.$refs.gallery?.forceRelayout()
     },
     fetchSearchTerms() {
-      fetch("https://dev-shfa.dh.gu.se/api/keywordtag/?limit=150")
+      fetch("https://shfa.dh.gu.se/api/keywordtag/?limit=150")
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
@@ -451,7 +451,7 @@ export default defineComponent({
     },
     updateSiteCoordinates(newId) {
       if (newId) {
-        fetch(`https://dev-shfa.dh.gu.se/api/image/?id=${newId}&depth=1`)
+        fetch(`https://shfa.dh.gu.se/api/image/?id=${newId}&depth=1`)
           .then(response => {
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);

@@ -124,7 +124,7 @@ const fetchAutocomplete = async q => {
   abortCtrl = new AbortController();
   try {
     const res = await fetch(
-      `https://dev-shfa.dh.gu.se/api/search/autocomplete/?q=${encodeURIComponent(q)}`,
+      `https://shfa.dh.gu.se/api/search/autocomplete/?q=${encodeURIComponent(q)}`,
       { signal: abortCtrl.signal }
     );
     if (!res.ok) return;

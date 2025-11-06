@@ -42,7 +42,7 @@
               <p>Using the suggested keyword search, you can access images of common documentation methods and motifs.
                 Any text can be entered in the search bar, but we recommend using a full or partial site name or one of
                 the
-                terms listed in the <a href="https://dev-shfa.dh.gu.se/guide">Search Guide</a>. With the map or advanced
+                terms listed in the <a href="https://shfa.dh.gu.se/guide">Search Guide</a>. With the map or advanced
                 search options,
                 you can retrieve results for detailed searches.
 
@@ -88,7 +88,7 @@
                 interested in knowing the current unique image identifier, please email us with the legacy id(s) for the
                 image(s) you are interested in, and we will provide you with the current image ID.
                 Please notify us at <a href=mailto:shfa@gu.se>shfa@gu.se</a> and provide a link to <a
-                  href='https://dev-shfa.dh.gu.se/'>dev-shfa.dh.gu.se</a> when you publish images from the database.
+                  href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> when you publish images from the database.
                 The copyright applies to established principles that include, among other things, the photographer's
                 voluntary right. The images are protected by a creative commons license (CC BY 4.0). For more
                 information, please visit creative common's own website at:
@@ -105,7 +105,7 @@
                 visit to the
                 website, subsequent visits to the website, and an approximate location.</p><br>
               <h2>Accessibility Statement</h2>
-              <p>This accessibility statement applies to <strong>dev-shfa.dh.gu.se</strong>. The website is displayed in
+              <p>This accessibility statement applies to <strong>shfa.dh.gu.se</strong>. The website is displayed in
                 a
                 more accessible format for users who prefer higher contrast and/or reduced transparency by default. The
                 <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
@@ -239,7 +239,7 @@
                 du
                 är intresserad av så återkommer vi med nuvarande ID-nummer. Meddela
                 oss på <a href=mailto:shfa@gu.se>shfa@gu.se</a> och ange en länk till <a
-                  href='https://dev-shfa.dh.gu.se/'>dev-shfa.dh.gu.se</a> när du
+                  href='https://shfa.dh.gu.se/'>shfa.dh.gu.se</a> när du
                 publicerar bilder från databasen. Upphovsrätten gäller etablerade principer som bland annat innefattar
                 fotografens frivilliga rätt.
                 Bilderna är skyddade av en creative commons-licens (CC BY 4.0). För mer information, besök creative
@@ -261,7 +261,7 @@
                 om
                 varifrån besöker kommer.</p><br>
               <h2>Tillgänglighetsredogörelse</h2>
-              <p>Den här tillgänglighetsförklaringen gäller <strong>dev-shfa.dh.gu.se</strong>. Webbsidan visas i ett
+              <p>Den här tillgänglighetsförklaringen gäller <strong>shfa.dh.gu.se</strong>. Webbsidan visas i ett
                 mer
                 tillgängligt format med högre kontrast och/eller minskad transparens för användare som föredrar det.
                 <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines
