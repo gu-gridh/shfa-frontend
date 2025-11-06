@@ -1,8 +1,10 @@
 <template>
   <div id="map">
     <div class="expand-map-widget" ref="expandWidget" @click="expandMap"></div>
+    <div class="zoom-warning" id="zoom-message">{{ $t("message.zoommap")
+    }}</div>
     <button id="search-bbox-button" v-if="bboxUpdated" @click="fetchImagesClicked()">{{ $t("message.searchinbbox")
-      }}</button>
+    }}</button>
     <div id="popup" class="ol-popup">
       <button id="popup-closer" class="ol-popup-closer"></button>
       <div id="popup-content">
@@ -13,8 +15,13 @@
         <p id="askeladden_id"></p>
         <p v-if="isSwedish" id="fornsok_header">
           <span class="link-button"></span><a v-if="isSwedish" id="fornsok_link"> {{
-      $t("message.checkfornsök")
-    }}</a>
+            $t("message.checkfornsök")
+          }}</a>
+        </p>
+        <p v-if="isNorwegian" id="kulturminnesok_header">
+          <span class="link-button"></span><a v-if="isNorwegian" id="kulturminnesok_link"> {{
+            $t("message.checkkulturminnesok")
+          }}</a>
         </p>
         <p>
           <span class="link-button"></span><a id="extmap_link" target="_blank"> {{ $t("message.maplink") }}</a>
@@ -31,16 +38,22 @@ import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import { fromLonLat } from "ol/proj";
 import VectorSource from "ol/source/Vector";
+import VectorLayer from 'ol/layer/Vector.js';
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
-import { toLonLat } from "ol/proj";
-import { debounce } from "lodash";
+import Polygon from "ol/geom/Polygon.js";
+import { fromExtent } from 'ol/geom/Polygon.js';
 import WebGLPointsLayer from "ol/layer/WebGLPoints";
 import Overlay from "ol/Overlay";
 import Zoom from "ol/control/Zoom";
-import { watch } from "vue";
 import { useStore } from "../stores/store.js";
 import { transformExtent } from "ol/proj";
+import LayerSwitcher from 'ol-layerswitcher';
+import { Style, Fill, Stroke } from 'ol/style';
+import 'ol-layerswitcher/dist/ol-layerswitcher.css';
+import LayerGroup from 'ol/layer/Group';
+import debounce from 'lodash/debounce'
+import TileWMS from 'ol/source/TileWMS.js';
 
 export default {
   name: "MapComponent",
@@ -63,7 +76,8 @@ export default {
       vectorLayer: null,
       clickedRaaId: null,
       bboxUpdated: true,
-      isSwedish: true,
+      isSwedish: null,
+      isNorwegian: null,
       results: [],
       cachedResults: [],
       coordinateStore: useStore(),
@@ -160,11 +174,12 @@ export default {
     };
   },
   mounted() {
+    this.debouncedFitToBbox = debounce(this._fitToBbox, 500)
     try {
-      this.initMap(); // Initialize the map on component mount
+      this.initMap();
       this.$nextTick(() => {
-        this.updateCoordinates(); // Update the map markers on component mount
-        this.fetchAdditionalData(); // Fetch additional data from the provided API endpoint
+        this.updateCoordinates();
+        this.fetchAdditionalData();
       });
     } catch (error) {
       console.error("Error in mounted hook:", error);
@@ -175,52 +190,23 @@ export default {
       this.map.un("moveend", this.updateBbox);
     }
   },
-  created() {
-    // Watch the 'boundingBox' field in the store for changes
-    watch(
-      () => this.coordinateStore.boundingBox,
-      (newBoundingBox, oldBoundingBox) => {
-        if (newBoundingBox) {
-          this.focusOnBoundingBox(newBoundingBox);
-        }
-      }
-    );
-    watch(
-      () => this.coordinateStore.coordinates,
-      (newCoordinates, oldCoordinates) => {
-        if (newCoordinates && newCoordinates.length === 2) {
-          const [lon, lat] = newCoordinates;
-          this.focusOnCoordinates(lon, lat);
-        }
-      }
-    );
-  },
   watch: {
-    showMap: {
-      immediate: true,
-      handler(newVisibility) {
-        if (newVisibility && this.coordinateStore.boundingBox) {
-          this.$nextTick(() => {
-            if (this.map) {
-              // Update the map size
-              this.map.updateSize();
-            }
-            this.focusOnBoundingBox(this.coordinateStore.boundingBox);
-          });
-        }
-      },
-    },
     results: {
       deep: true,
       handler() {
-        this.updateCoordinates(); // Update the map markers when results change
+        this.updateCoordinates();
       },
       expandedMap: false,
     },
+    'coordinateStore.currentBbox': {
+      handler(bbox) {
+        if (bbox) this.debouncedFitToBbox(bbox)
+      },
+      deep: false
+    }
   },
   methods: {
     expandMap() {
-      //Toggle expansion
       this.expandedMap = !this.expandedMap;
       if (this.expandedMap) {
         document.body.classList.add("map-expanded");
@@ -228,29 +214,27 @@ export default {
         document.body.classList.remove("map-expanded");
       }
     },
-
-    fetchImagesClickedInit() {
-      this.coordinateStore.setImagesFetchTriggered(true);
-      this.$emit('reset-id');
+    _fitToBbox(bbox) { //used to move the map to the bounding box when you scroll down in the gallery
+      this.focusOnBoundingBox({
+        bottomLeft: [bbox[0], bbox[1]],
+        topRight: [bbox[2], bbox[3]]
+      })
     },
-
+    getCurrentBbox() {
+      const extent = this.map.getView().calculateExtent(this.map.getSize());
+      const bbox = transformExtent(extent, "EPSG:3857", "EPSG:4326");
+      return bbox;
+    },
     fetchImagesClicked() {
-      this.coordinateStore.setImagesFetchTriggered(true);
-      this.$emit('reset-id');
-      this.$router.push({
-        name: 'Search',
-      });
-      // const outExt = transformExtent(
-      //   this.map.getView().calculateExtent(this.map.getSize()),
-      //   "EPSG:3857",
-      //   "EPSG:4326"
-      // );
-      // console.log(outExt)
+      const extent = this.map.getView().calculateExtent(this.map.getSize());
+      const bbox = transformExtent(extent, "EPSG:3857", "EPSG:4326");
+      this.$emit("bbox-search", bbox);
+      this.$router.push({ name: 'Search' });
     },
 
     focusOnBoundingBox(boundingBox) {
       if (this.map && boundingBox) {
-        // Extract the bounding box coordinates in the format [minLon, minLat, maxLon, maxLat]
+        //extract the bounding box coordinates in the format [minLon, minLat, maxLon, maxLat]
         const extent = [
           boundingBox.bottomLeft[0],
           boundingBox.bottomLeft[1],
@@ -258,43 +242,44 @@ export default {
           boundingBox.topRight[1],
         ];
 
-        // Transform the extent to the map's projection
+        //transform the extent to the map's projection
         const transformedExtent = transformExtent(
           extent,
           "EPSG:4326",
           "EPSG:3857"
         );
 
-        // Fit the map view to the extent
-        this.map.getView().fit(transformedExtent, {
+        //buffer the bounding box for display
+        const bufferedExtent = [transformedExtent[0] - 10, transformedExtent[1] - 10, transformedExtent[2] + 10, transformedExtent[3] + 10]
+
+        //const bboxExtent = [[[transformedExtent[0]-5,transformedExtent[1]-5],[transformedExtent[0]-5,transformedExtent[3]+5],
+        //[transformedExtent[2]+5,transformedExtent[3]+5],[transformedExtent[2]+5,transformedExtent[1]-5],
+        //[transformedExtent[0]-5,transformedExtent[1]-5]]]
+
+        //fit the map view to the extent
+        this.map.getView().fit(bufferedExtent, {
           size: this.map.getSize(),
           padding: [5, 5, 5, 5], // optional padding in pixels
+          maxZoom: 5,
           constrainResolution: false, // allow intermediate zoom levels
           duration: 1000, //slow zoom for better user experience
           minResolution: 5.0, //limit resolution so landmarks in basemap are still visible
         });
 
-        // Trigger a manual map render
+
+        //clear any existing rendered bboxes
+        if (this.bboxLayer && this.bboxLayer.getSource().getFeatures().length > 0) {
+          this.bboxLayer.getSource().clear()
+        }
+
+        //add the new bbbox to map using transformed [minLon, minLat, maxLon, maxLat]
+        this.bboxLayer.getSource().addFeature(new Feature(fromExtent(bufferedExtent)))
+
         this.map.renderSync();
       } else {
         console.warn("Invalid bounding box or map object.");
       }
     },
-
-    fetchImageData(imageId) {
-      return fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${imageId}&depth=1`)
-        .then(response => {
-          if (!response.ok) throw new Error('Network response was not ok');
-          return response.json();
-        })
-        .then(data => {
-          if (data.results.length > 0) {
-            return data.results[0].site.coordinates.coordinates; // return the coordinates
-          }
-          throw new Error('No data found');
-        });
-    },
-
     setRandomLocation() {
       const randomLocation = this.locations[Math.floor(Math.random() * this.locations.length)];
       const transformedExtent = transformExtent(
@@ -307,21 +292,17 @@ export default {
       });
       this.map.getView().setZoom(randomLocation.zoom);
     },
-
     focusOnCoordinates(lon, lat) {
       if (this.map) {
         const coordinates = fromLonLat([lon, lat]);
         this.map
           .getView()
           .animate({ center: coordinates, zoom: 18, duration: 1050 });
-        // this.map.getView().setCenter(coordinates);
-        // this.map.getView().setZoom(17)
       }
     },
-
     async fetchAdditionalData(url, pagesToFetch = 1) {
       if (!url) {
-        url = "https://diana.dh.gu.se/api/shfa/geojson/site/?page_size=1000";
+        url = "https://shfa.dh.gu.se/api/geojson/site/?page_size=1000";
       }
 
       const delay = async (duration) =>
@@ -344,26 +325,22 @@ export default {
               lokalitet_id: feature.properties.lokalitet_id ?? null,
               askeladden_id: feature.properties.askeladden_id ?? null,
               placename: feature.properties.placename ?? null,
+              international: feature.properties.internationl_site ?? null,
             }));
 
             this.updateCoordinates(additionalResults);
 
-            // Merge the filteredAdditionalResults with the cachedResults
             this.cachedResults.push(...additionalResults);
 
-            // Increment the pagesFetched counter
             pagesFetched++;
 
-            // If there's a next page, fetch it
             if (data.next) {
               const fixedNextUrl = data.next.replace("http://", "https://");
               if (pagesFetched % pagesToFetch === 0) {
-                // If pages fetched is a multiple of pagesToFetch, add a delay
                 await delay(1000);
               }
               await fetchData(fixedNextUrl);
             } else {
-              // Call updateCoordinates after all pages have been fetched
               this.updateCoordinates(this.cachedResults);
             }
           } else {
@@ -377,26 +354,8 @@ export default {
       await fetchData(url);
     },
 
-    updateBbox() {
-      // Get the bounding box coordinates of the current view and emit them to the parent component
-      const extent = this.map.getView().calculateExtent(this.map.getSize());
-      const bottomLeft = toLonLat([extent[0], extent[1]]);
-      const topRight = toLonLat([extent[2], extent[3]]);
-      const newBbox = [bottomLeft[0], bottomLeft[1], topRight[0], topRight[1]];
-      this.$emit("update-bbox", newBbox);
-      this.coordinateStore.setBboxFetch(newBbox);
-
-      //console.log('Bounding Box:', newBbox);
-      // const currentZoom = this.map.getView().getZoom();
-      // console.log('Current Zoom Level:', currentZoom);
-
-      this.bboxUpdated = true;
-    },
-
     initMap() {
-      //Based on the OpenLayers example
       const container = document.getElementById("popup");
-      // const content = document.getElementById('popup-content');
       const raaContent = document.getElementById("raa_id");
       const lamningContent = document.getElementById("lamning_id");
       const lokalitetContent = document.getElementById("lokalitet_id");
@@ -404,23 +363,88 @@ export default {
       const placenameContent = document.getElementById("placename");
       const closebutton = document.getElementById("popup-closer");
 
+      const zoomMessage = document.getElementById("zoom-message");
+
       //Overlay that anchors the popups
       const overlay = new Overlay({
         element: container,
         positioning: "center-center",
-        // autoPan: {
-        //   animation: {
-        //     duration: 200,
-        //   },
-        // },
       });
 
-      //Button to make popup invisible
       closebutton.onclick = function () {
         container.style.visibility = "collapse";
         closebutton.blur();
         return false;
       };
+
+
+      // Create a list of the SGU shore displacement data for relevant years
+      let sgu_layers = []
+      const start_bp = 1000
+      const stop_bp = 4000
+      const interval = 100
+      const strand_years = Array.from({ length: Math.ceil((stop_bp - start_bp) / interval) + 1 }, (_, i) => stop_bp - i * interval,);
+      // Loop through the years to create a raster layer
+      strand_years.forEach((year, index) => {
+        var layer = new TileLayer({
+          source: new TileWMS({
+            url: 'https://maps3.sgu.se/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap',
+            attributions: `<a href="https://resource.sgu.se/dokument/produkter/strandforskjutningsmodell-beskrivning.pdf" target="_blank">Source: Sveriges geologiska undersökning</a>`,
+            params: { 'LAYERS': `strand:SE.GOV.SGU.STRANDFORSKJUTNINGSMODELL.${year}BP`, 'TILED': true },
+            serverType: 'geoserver'
+          }),
+          title: `${year} cal BP`,
+          visible: false,
+          opacity: ((strand_years.length - index) / 100) + 0.4, //make lower layers less transparent to view multiple layers at once
+          zIndex: index,
+          maxResolution: 7250,
+          minResolution: 10,
+          className: "dark",//make layers easier to see with transparency on since we're using WMS layers without SLD
+        })
+        sgu_layers.push(layer)
+      }
+      )
+
+      // this.raaLayer = new TileLayer({
+      //   source: new TileWMS({
+      //     url: 'https://pub.raa.se/visning/lamningar_v1/wms?service=wms&version=1.3.0&request=GetCapabilities',
+      //     attributions: `<a href="https://www.raa.se/hitta-information/oppna-data/oppna-data-portal/" target="_blank">Source: Riskantivarieämbetet</a>`,
+      //     params: { 'LAYERS': 'fornlamning', 'TILED': true },
+      //     serverType: 'geoserver'
+      //   }),
+      //   title: 'RAÄ Open Data',
+      //   visible: false,
+      //   zIndex: 150,
+      //   className: "dark"
+      // })
+
+      // this.riksantikvarenLayer = new TileLayer({
+      //   source: new TileWMS({
+      //     url: 'https://kart.ra.no/wms/kulturminner?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities',
+      //     attributions: `<a href="https://kartkatalog.geonorge.no/metadata/kulturminner-wms/30369f29-e21a-464f-97f7-a202ca7c97e7" target="_blank">Source: Riskantivaren</a>`,
+      //     params: { 'LAYERS': 'Enkeltminner', 'TILED': true },
+      //     serverType: 'geoserver'
+      //   }),
+      //   title: 'Riksantikvaren Enkeltminner',
+      //   visible: false,
+      //   zIndex: 150,
+      //   className: "dark"
+      // })
+
+      this.bboxLayer = new VectorLayer({
+        source: new VectorSource({ features: [] }),
+        style: new Style({
+          stroke: new Stroke({
+            color: '#1861ac',
+            lineDash: [1, 5],
+            width: 1.5
+          }),
+          fill: new Fill({
+            color: 'rgba(0,0,0,0)'  //transparent
+          })
+        }),
+        zIndex: 2000,
+      });
 
       this.map = new Map({
         target: "map",
@@ -429,6 +453,23 @@ export default {
             className: "grey",
             source: new OSM(),
           }),
+          this.bboxLayer,
+          // new LayerGroup({
+          //   title: 'Heritage Data - WMS',
+          //   visible: false,
+          //   layers: [this.riksantikvarenLayer, this.raaLayer],
+          //   openInLayerSwitcher: true,
+          // }),
+          new LayerGroup({
+            title: 'SGU Strandförskjutningsmodell',
+            combine: false,
+            visible: false,
+            layers: sgu_layers,
+            openInLayerSwitcher: true,
+            fold: 'close',
+            label: '',
+            collapseLabel: ''
+          })
         ],
         view: new View({
           center: fromLonLat([11.35, 58.73]),
@@ -437,17 +478,42 @@ export default {
         overlays: [overlay],
       });
 
+      var layerSwitcher = new LayerSwitcher({
+        activationMode: 'click',
+        // reverse: true,
+        groupSelectStyle: 'children'
+      });
+      this.map.addControl(layerSwitcher);
+
+      //Display notice for users to zoom in if they are outside the resolution range of the SGU layers when at least one of them is visible
+      const sgu_group = LayerSwitcher.getGroupsAndLayers(this.map)
+
+      sgu_group[0].on('change:visible', (event) => {
+        var maxRes = sgu_group[1].getMaxResolution()
+
+        //Display message if out of range when a layer is first turned on
+        if (sgu_group[0].getVisible() && this.map.getView().getResolution() > maxRes) {
+          zoomMessage.style.visibility = 'visible'
+        }
+
+        //Check whether resolution is in range while after zooming
+        if (sgu_group[0].getVisible()) {
+          this.map.on('moveend', (event) => {
+            if (this.map.getView().getResolution() > maxRes) {
+              zoomMessage.style.visibility = 'visible'
+            }
+            else { zoomMessage.style.visibility = 'hidden' }
+          })
+        }
+
+        else { zoomMessage.style.visibility = 'hidden' }
+      })
+
       const path = window.location.pathname;
       const match = path.match(/^\/image\/(\d+)$/); //check if address contains image + extract ID
 
       if (match) {
-        const imageId = match[1];
-        this.fetchImageData(imageId).then(coordinates => {
-          this.focusOnCoordinates(coordinates[0], coordinates[1]);
-        }).catch(error => {
-          console.error("Error fetching image data:", error);
-          this.setRandomLocation();
-        });
+        this.setRandomLocation();
       } else {
         this.setRandomLocation();
       }
@@ -456,16 +522,14 @@ export default {
         this.map.addControl(new Zoom());
       }
 
-      this.updateBbox();
-      const markerColour = getComputedStyle(document.getElementById("map")).getPropertyValue("--map-markers");
-      // Initialize the WebGL map marker style
-      const webGLStyle = {
+      const markerColour = '#F0C02E';
+      var webGLStyle = {
         symbol: {
           symbolType: "image",
           color: markerColour,
           size: [20, 30],
           offset: [0, 10],
-          src: "/interface/assets/marker-white.svg",
+          src: "/interface/assets/marker-white.svg"
         },
       };
 
@@ -474,35 +538,47 @@ export default {
         source: pointSource,
         style: webGLStyle,
         className: "markers",
+        zIndex: 1000
       });
 
-      this.map.addLayer(this.vectorLayer);
 
+      this.map.addLayer(this.vectorLayer);
       this.map.on("pointermove", (event) => {
         if (event.dragging) {
           return;
         }
         this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
-          // Get the properties of the feature (in this case, we're extracting 'lamning_id', 'raa_id', and 'id')
           const lamning_id = feature.get("lamning_id");
           const raa_id = feature.get("raa_id");
           const id = feature.get("id");
           const ksamsok_id = feature.get("ksamsok_id");
           const coords = feature.get("coords");
-
           const extent = feature.getGeometry().getExtent();
-
           const lokalitet_id = feature.get("lokalitet_id");
           const askeladden_id = feature.get("askeladden_id");
           const placename = feature.get("placename");
-
+          const international = feature.get("international");
           const fornsokLink = document.getElementById("fornsok_link");
           const fornsokHeaderElement = document.getElementById("fornsok_header");
+          const kulturminnesokLink = document.getElementById("kulturminnesok_link");
+          const kulturminnesokHeaderElement = document.getElementById("kulturminnesok_header");
 
-          if (placename) {
+          if (!raa_id && !lamning_id) {
             this.isSwedish = false;
+            this.isNorwegian = false;
+            if (askeladden_id) {
+              this.isNorwegian = true
+              if (kulturminnesokHeaderElement && kulturminnesokLink) {
+                const kulturminnesokHeader = kulturminnesokHeaderElement.getElementsByTagName("a")[0];
+                if (kulturminnesokHeader) {
+                  kulturminnesokHeader.setAttribute("target", "_blank");
+                  kulturminnesokHeader.setAttribute("href", `https://kulturminnesok.no/ra/lokalitet/${lokalitet_id}`);
+                }
+              }
+            }
           } else {
             this.isSwedish = true;
+            this.isNorwegian = false;
             if (fornsokHeaderElement && fornsokLink) {
               const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
               if (fornsokHeader) {
@@ -522,16 +598,17 @@ export default {
           ).href = `https://www.google.com/maps/place/${coords}`;
           container.style.visibility = "visible";
           overlay.setPosition(extent);
-        });
+        },
+          {
+            layerFilter: (layer) => layer === this.vectorLayer,
+            hitTolerance: 10,
+          });
       });
 
-      // Add 'click' event listener
       this.map.on("click", (event) => {
-        // Use the hit detection mechanism
         this.map.forEachFeatureAtPixel(
           event.pixel,
           (feature) => {
-            // Get the properties of the feature (in this case, we're extracting 'lamning_id', 'raa_id', and 'id')
             const lamning_id = feature.get("lamning_id");
             const raa_id = feature.get("raa_id");
             const id = feature.get("id");
@@ -540,13 +617,11 @@ export default {
             const lokalitet_id = feature.get("lokalitet_id");
             const askeladden_id = feature.get("askeladden_id");
             const placename = feature.get("placename");
-
+            const international = feature.get("international");
 
             this.clickedId = id;
             this.clickedLamningId = lamning_id;
             this.clickedRaaId = raa_id;
-
-
             this.$emit("map-clicked");
             this.$emit("id-selected", id);
 
@@ -561,15 +636,28 @@ export default {
 
             const fornsokHeaderElement = document.getElementById("fornsok_header");
             const fornsokLink = document.getElementById("fornsok_link");
+            const kulturminnesokLink = document.getElementById("kulturminnesok_link");
+            const kulturminnesokHeaderElement = document.getElementById("kulturminnesok_header");
 
-            if (fornsokHeaderElement) {
-              const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
-              if (fornsokHeader) {
-                if (placename) {
-                  this.isSwedish = false;
+            if (!raa_id && !lamning_id) {
+              this.isSwedish = false;
+              this.isNorwegian = false;
+              if (askeladden_id) {
+                this.isNorwegian = true
+                if (kulturminnesokHeaderElement && kulturminnesokLink) {
+                  const kulturminnesokHeader = kulturminnesokHeaderElement.getElementsByTagName("a")[0];
+                  if (kulturminnesokHeader) {
+                    kulturminnesokHeader.setAttribute("target", "_blank");
+                    kulturminnesokHeader.setAttribute("href", `https://kulturminnesok.no/ra/lokalitet/${lokalitet_id}`);
+                  }
                 }
-                if (fornsokLink) {
-                  this.isSwedish = true;
+              }
+            } else {
+              this.isSwedish = true;
+              this.isNorwegian = false;
+              if (fornsokHeaderElement && fornsokLink) {
+                const fornsokHeader = fornsokHeaderElement.getElementsByTagName("a")[0];
+                if (fornsokHeader) {
                   fornsokHeader.setAttribute("target", "_blank");
                   fornsokHeader.setAttribute("href", `https://kulturarvsdata.se/raa/lamning/${ksamsok_id}`);
                 }
@@ -588,23 +676,23 @@ export default {
             overlay.setPosition(extent);
           },
           {
-            layerFilter: (layer) => layer === this.vectorLayer, // Ensure we're only checking features in our WebGLPointsLayer
-            hitTolerance: 10, // Increase or decrease this value for a larger or smaller hit detection area
+            layerFilter: (layer) => layer === this.vectorLayer,
+            hitTolerance: 10,
           }
         );
       });
 
-      this.map.on("movestart", () => {
-        this.bboxUpdated = false;
-      });
+      // this.map.on("movestart", () => {
+      //   this.bboxUpdated = false;
+      // });
 
-      // Add 'moveend' event listener to the map to update the bounding box
-      this.map.on(
-        "moveend",
-        debounce(() => {
-          this.updateBbox();
-        }, 1000)
-      ); // Adjust the delay in milliseconds as needed
+      //check
+      // this.map.on(
+      //   "moveend",
+      //   debounce(() => {
+      //     this.updateBbox();
+      //   }, 1000)
+      // );
     },
 
     updateCoordinates() {
@@ -624,6 +712,7 @@ export default {
         feature.set("placename", result.placename);
         feature.set("askeladden_id", result.askeladden_id);
         feature.set("lokalitet_id", result.lokalitet_id);
+        feature.set("international", result.internationl_site);
         return feature;
       });
 
@@ -636,6 +725,99 @@ export default {
 </script>
 
 <style>
+/* handle long text for international sites */
+#placename {
+  text-wrap: stable;
+  text-align: left;
+}
+
+.layer-switcher {
+  top: 20px;
+  /* overflow:auto!important; */
+}
+
+.layer-switcher .panel {
+  text-align: justify;
+  color: var(--popup-text);
+  line-height: 1.2;
+  background-color: rgba(40, 40, 40, 0.9);
+  opacity: 100%;
+  box-shadow: var(--shadow);
+  padding: 8px 18px 8px 22px;
+  min-width: max-content;
+  block-size: fit-content;
+  font-family: "Barlow Condensed", sans-serif !important;
+  max-width: max-content;
+  min-height: max-content;
+  cursor: pointer;
+  border-radius: 12px;
+  border-width: 0px;
+  margin-right: -5px;
+  margin-top: -5px;
+  backdrop-filter: blur(5px);
+}
+
+.layer-switcher button,
+.layer-switcher button:focus {
+  background-color: var(--viewer-button-background);
+  background-image: var(--map-layers-icon);
+  background-size: 24px;
+  background-position: center;
+  opacity: 1 !important;
+}
+
+.layer-switcher button:hover {
+  background-color: var(--viewer-button-hover);
+  background-image: var(--map-layers-icon);
+  background-size: 24px;
+  background-position: center;
+}
+
+.layer-switcher.shown {
+  max-height: 250px;
+  border-radius: 12px;
+  border-width: 0px;
+  /* Scroll to access all layer options */
+  overflow: scroll !important;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.layer-switcher.shown::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fix rounded corners on layer menu */
+.layer-switcher.shown.layer-switcher-activation-mode-click {
+  padding-left: 0px;
+}
+
+.layer-switcher.shown.layer-switcher-activation-mode-click button {
+  background-color: transparent !important;
+  background-image: var(--collapse-layers-icon);
+  background-size: 14px;
+  background-position: center !important;
+  margin-left: -5px !important;
+}
+
+button[title="Collapse legend"] {
+  background-color: transparent !important;
+  background-image: var(--close-layers-icon) !important;
+  background-size: 12px !important;
+  font-size: 0px;
+  left: 255px !important;
+  top: -2px !important;
+  position: absolute !important;
+}
+
+input[type="checkbox" i] {
+  accent-color: var(--highlighted-text);
+}
+
 #search-bbox-button {
   position: absolute;
   left: 50%;
@@ -655,7 +837,6 @@ export default {
 }
 
 #search-bbox-button:hover {
-  background: var(--search-button-light-bkgrnd) no-repeat 4px 50%;
   background-size: 32px 32px;
   bottom: 20px;
   padding: 5px 15px 5px 38px;
@@ -664,7 +845,7 @@ export default {
   height: auto;
   cursor: pointer;
   border-radius: 8px !important;
-  background-color: var(--button-hover);
+  background-color: var(--viewer-button-hover);
   backdrop-filter: blur(5px);
   color: var(--button-text);
 }
@@ -672,11 +853,12 @@ export default {
 #map {
   z-index: 40;
   /* Fixes border-radius in Safari. */
-  width: 100%;
+  width: calc(100% - 10px);
   height: 100%;
   min-height: 200px;
   margin-top: 10px !important;
-  margin-bottom: 40px !important;
+  margin-left: 5px !important;
+  margin-bottom: 0px;
   padding: 0px 0px 0px 0px;
   border-radius: 10px;
   box-shadow: var(--shadow-map);
@@ -689,24 +871,29 @@ export default {
   /* filter:contrast(130%) grayscale(80%) brightness(0.9); */
 }
 
+/* only apply bottom margin to tablets and above */
+@media (min-width: 1025px) {
+  #map {
+    margin-bottom: 40px;
+  }
+}
+
 .map-expanded #map {
-  width: 100%;
   height: 100%;
-  margin-top: -105px !important;
+  margin-top: -85px !important;
 }
 
 @media (max-width: 1024px) {
   .map-expanded #map {
-    width: 100%;
     height: 70vw !important;
-    margin-top: -102px !important;
+    margin-top: -82px !important;
   }
 }
 
 @media (max-width: 600px) {
   #map {
-    margin-top: 70px !important;
-    margin-bottom: -40px !important;
+    /* margin-top: 70px !important; */
+    /* margin-bottom: -40px !important; */
     box-shadow: none;
   }
 }
@@ -805,16 +992,13 @@ export default {
   }
 
   .ol-zoom-in {
-
     top: 20px;
   }
 
   .ol-zoom-out {
-
     top: 60px;
   }
 }
-
 
 .ol-full-screen {
   display: none;
@@ -860,6 +1044,10 @@ export default {
   filter: grayscale(100%) contrast(110%);
 }
 
+#map .dark {
+  filter: brightness(55%) contrast(150%) saturate(200%);
+}
+
 @media (max-width: 350px) {
   .ol-zoom {
     bottom: 18%;
@@ -903,15 +1091,16 @@ export default {
   text-align: justify;
   position: absolute;
   color: var(--popup-text);
-  line-height: 1.2;
+  line-height: 1.5;
   background-color: var(--popup-background);
   opacity: 100%;
   box-shadow: var(--shadow);
-  padding: 8px 18px 8px 38px;
+  padding: 8px 18px 12px 18px;
   border-radius: 8px;
   bottom: 38px;
   left: -48px;
-  min-width: max-content;
+  min-width: 180px;
+  /* min-width: max-content; */
   block-size: fit-content;
   font-family: "Barlow Condensed", sans-serif !important;
   max-width: max-content;
@@ -935,22 +1124,10 @@ export default {
 }
 
 #fornsok_link,
+#kulturminnesok_link,
 #extmap_link {
   color: var(--popup-text);
-  /* background-position: left;
-  background-size: 14px;
-  background-image: var(--popup-link-button);
-  background-repeat: no-repeat; */
-  padding: 10px;
-  min-width: max-content;
-  /* border-radius: 8px;
-  background-image: var(--popup-link-button);
-  background-size: 18px;
-  background-position: left;
-  background-repeat: no-repeat;
-  border-width: 1.4px;
-  border-color: var(--top-link-button-border);
-  border-radius: 50%; */
+  padding: 5px;
 }
 
 .ol-popup:after,
@@ -981,12 +1158,34 @@ export default {
 .ol-popup-closer {
   text-decoration: none;
   position: absolute;
-  top: 10%;
-  left: 12px;
+  top: 5px;
+  right: 15px;
+}
+
+.ol-popup-closer:Hover {
+  opacity: 0.5;
 }
 
 .ol-popup-closer:after {
   content: "✖";
-  /* color:white */
+}
+
+.zoom-warning {
+  position: absolute;
+  left: 50%;
+  text-align: center;
+  font-weight: 500;
+  transform: translateX(-50%);
+  bottom: 70px;
+  padding: 8px 15px 8px 15px;
+  z-index: 100;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+  border-radius: 8px !important;
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(5px);
+  color: black;
+  visibility: hidden;
 }
 </style>

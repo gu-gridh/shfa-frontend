@@ -64,7 +64,7 @@ div.split-container>div>div:nth-child(4) {
 
 :root {
   --page-background: rgb(60, 60, 60);
-  --page-background-accent: rgb(55, 55, 55);
+  --page-background-accent: rgb(48, 48, 48);
   --footer-background: #232323;
   --header-background: #d7d7d7;
   --header-text: black;
@@ -89,7 +89,7 @@ div.split-container>div>div:nth-child(4) {
   --about-emphasised-text: white;
   --placeholder-text: #ffffffc5;
   --input-background: #1d192c;
-  --input-wrapper-background: #2D2D2D;
+  --input-wrapper-background: rgb(48, 48, 48);
   --main-input-wrapper-background: linear-gradient(to bottom, rgba(35, 35, 35, 1.0) 0%, rgba(50, 50, 50, 1.0) 100%);
   --input-border: var(--input-wrapper-background);
   --input-hover: #1a094c;
@@ -105,6 +105,7 @@ div.split-container>div>div:nth-child(4) {
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+  --shadow-suggestion: 0 10px 10px 0px rgba(0, 0, 0, 0.3);
   --menu-background: rgba(220, 220, 220, 0.9);
   --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.30) !important;
@@ -131,6 +132,9 @@ div.split-container>div>div:nth-child(4) {
   --search-button: url(/interface/searchbuttonwhite.png);
   --search-button-light-bkgrnd: url(/interface/searchbutton.png);
   --search-button-dark-bkgrnd: url(/interface/searchbuttonwhite.png);
+  --no-results-icon-dark: url("./assets/noresults_black.png");
+  --no-results-icon-light: url("./assets/noresults_white.png");
+  --no-results-icon: var(--no-results-icon-light);
   --selected-option: #5c5c5c;
   --autocomplete-background: var(--input-wrapper-background);
   --disclaimer-text: #c8e1fa;
@@ -142,11 +146,20 @@ div.split-container>div>div:nth-child(4) {
   --threed-icon: #4588ca;
   --fb-logo-background: url("../src/assets/Facebook_Logo_Secondary.png");
   --instagram-logo-background: url("../src/assets/Instagram_Glyph_White.png");
+  --settings-text: rgba(255, 255, 255, 1);
+  --map-layers-icon: url("https://data.dh.gu.se/ui-icons/layer_white.svg");
+  --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
+  --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
+  --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
+  --gallery-image-background: rgb(50, 50, 50);
+  --figurative-color: #719fbf;
+  --nonfigurative-color: #7e75a0;
+  --example-text: #bdbdbd;
 }
 
 html[style-theme='dark'] {
   --page-background: rgb(60, 60, 60);
-  --page-background-accent: rgb(55, 55, 55);
+  --page-background-accent: rgb(48, 48, 48);
   --footer-background: #232323;
   --header-background: #d7d7d7;
   --header-text: black;
@@ -171,7 +184,7 @@ html[style-theme='dark'] {
   --about-emphasised-text: white;
   --placeholder-text: #ffffffc5;
   --input-background: #1d192c;
-  --input-wrapper-background: #2D2D2D;
+  --input-wrapper-background: rgb(48, 48, 48);
   --main-input-wrapper-background: linear-gradient(to bottom, rgba(35, 35, 35, 1.0) 0%, rgba(50, 50, 50, 1.0) 100%);
   --input-border: var(--input-wrapper-background);
   --input-hover: #1a094c;
@@ -187,6 +200,7 @@ html[style-theme='dark'] {
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+  --shadow-suggestion: 0 10px 10px 0px rgba(0, 0, 0, 0.3);
   --menu-background: rgba(220, 220, 220, 0.9);
   --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.30) !important;
@@ -224,11 +238,20 @@ html[style-theme='dark'] {
   --threed-icon: #4588ca;
   --fb-logo-background: url("../src/assets/Facebook_Logo_Secondary.png");
   --instagram-logo-background: url("../src/assets/Instagram_Glyph_White.png");
+  --settings-text: rgba(255, 255, 255, 1);
+  --map-layers-icon: url("https://data.dh.gu.se/ui-icons/layer_white.svg");
+  --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
+  --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
+  --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
+  --gallery-image-background: rgb(50, 50, 50);
+  --figurative-color: #719fbf;
+  --nonfigurative-color: #7e75a0;
+  --example-text: #bdbdbd;
 }
 
 html[style-theme='light'] {
   --page-background: rgb(250, 250, 250);
-  --page-background-accent: rgb(245, 245, 245);
+  --page-background-accent: rgb(230, 230, 230);
   --footer-background: #dadada;
   --header-background: #d7d7d7;
   --header-text: black;
@@ -240,19 +263,19 @@ html[style-theme='light'] {
   --button-hover-light: #c3c3c3;
   --page-text: black;
   --button-text: white;
-  --highlighted-text: #2bc0f6;
+  --highlighted-text: #5190be;
   --popup-background: #1f1f1f;
   --popup-text: white;
   --map-markers: #0c5270eb;
   --image-hover-background: linear-gradient(rgba(255, 255, 255, 0.3) 30%, rgba(255, 255, 255, 0.8) 100%);
   --image-hover-text: black;
   --metadata-text: black;
-  --notice-text: #82cae9;
+  --notice-text: #719fbf;
   --emphasised-text: #244e60;
   --about-emphasised-text: black;
   --placeholder-text: #000000d5;
   --input-background: #1d192c;
-  --input-wrapper-background: var(--page-background);
+  --input-wrapper-background: rgb(225, 225, 225);
   --main-input-wrapper-background: linear-gradient(to bottom, rgba(200, 200, 200, 1.0) 0%, rgba(230, 230, 230, 1.0) 100%);
   --input-border: #000;
   --input-hover: #1a094c;
@@ -260,13 +283,15 @@ html[style-theme='light'] {
   --gu-logo-en: url("../src/assets/gu_logo.png");
   --gu-logo-sv: url("../src/assets/gu_logo_sv.png");
   --shfa-logo: url("../src/assets/shfa_logo_downscale.png");
+  --no-results-icon: var(--no-results-icon-dark);
   --guide-page-background: #ffffff;
-  --gallery-nav-text: #5dadc8;
+  --gallery-nav-text: #719fbf;
   --gallery-nav-background: #1b1b1b99;
   --link-color: #50169b;
   --base: black !important;
   --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   --shadow-map: 0 0 15px 0 rgba(0, 0, 0, 0.5);
+  --shadow-suggestion: 0 10px 10px 0px rgba(0, 0, 0, 0.3);
   --menu-background: rgba(220, 220, 220, 0.9);
   --menu-text: black;
   --menu-shadow: inset 0rem 2rem 2rem rgba(0, 0, 0, 0.20) !important;
@@ -298,7 +323,7 @@ html[style-theme='light'] {
   --disclaimer-text: #243f4a;
   --default-gradient: none;
   --results-text: white;
-  --total-results: #82cae9;
+  --total-results: #719fbf;
   --clickable-metadata: #1e333c;
   --overlaid-button-background: #1b1b1b;
   --underlay: white;
@@ -306,6 +331,15 @@ html[style-theme='light'] {
   --threed-icon: #4588ca;
   --fb-logo-background: url("../src/assets/Facebook_Logo_Primary.png");
   --instagram-logo-background: url("../src/assets/Instagram_Glyph_Black.png");
+  --settings-text: rgba(0, 0, 0, 1);
+  --map-layers-icon: url("https://data.dh.gu.se/ui-icons/layer_white.svg");
+  --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
+  --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
+  --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
+  --gallery-image-background: rgb(230, 230, 230);
+  --figurative-color: #56778e;
+  --nonfigurative-color: #59507a;
+  --example-text: #4c4c4c;
 }
 
 @media (prefers-contrast:more) or (prefers-reduced-transparency) {
@@ -330,7 +364,7 @@ html[style-theme='light'] {
     --image-hover-background: linear-gradient(rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 1) 100%);
     --image-hover-text: black;
     --metadata-text: black;
-    --notice-text: #82cae9;
+    --notice-text: #719fbf;
     --emphasised-text: #2a527a;
     --about-emphasised-text: black;
     --placeholder-text: #000000;
@@ -388,5 +422,18 @@ html[style-theme='light'] {
     --threed-icon: #3e79b4;
     --fb-logo-background: url("../src/assets/Facebook_Logo_Primary.png");
     --instagram-logo-background: url("../src/assets/Instagram_Glyph_Black.png");
+    --settings-text: rgba(0, 0, 0, 1);
+    --map-layers-icon: url("https://data.dh.gu.se/ui-icons/layer_white.svg");
+    --close-layers-icon: url("https://data.dh.gu.se/ui-icons/close_white.svg");
+    --expand-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_collapsed_menu_white.svg");
+    --collapse-layers-icon: url("https://data.dh.gu.se/ui-icons/arrow_expanded_menu_white.svg");
+    --figurative-color: #56778e;
+    --nonfigurative-color: #59507a;
+    --example-text: #373737;
   }
+}
+
+html,
+body {
+  overflow-x: hidden;
 }

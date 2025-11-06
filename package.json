@@ -10,28 +10,29 @@
     "serve": "vite --host 0.0.0.0 --port 5173"
   },
   "dependencies": {
-    "@egjs/vue-infinitegrid": "^4.12.0",
-    "@egjs/vue3-infinitegrid": "^4.12.0",
-    "@yeger/vue-masonry-wall": "^3.4.4",
-    "daisyui": "^2.51.4",
+    "@unhead/vue": "^2.0.10",
+    "@yeger/vue-masonry-wall": "^5.0.20",
+    "echarts": "^6.0.0",
     "lodash": "^4.17.21",
     "micromatch": "^4.0.8",
     "ol": "^7.5.1",
-    "openseadragon": "^4.0.0",
+    "ol-layerswitcher": "^4.1.2",
+    "openseadragon": "^5.0.1",
     "pinia": "^2.1.6",
     "rollup": "^3.29.5",
     "split.js": "^1.6.5",
     "vue": "^3.2.47",
+    "vue-echarts": "^8.0.0",
     "vue-i18n": "^9.2.2",
     "vue-matomo": "^4.2.0",
     "vue-router": "^4.0.13"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.1.0",
+    "@vitejs/plugin-vue": "^5.2.4",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
     "typescript": "^5.6.3",
-    "vite": "^4.5.5"
+    "vite": "^6.3.5"
   }
 }

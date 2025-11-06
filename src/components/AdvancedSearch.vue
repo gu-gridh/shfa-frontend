@@ -1,38 +1,55 @@
 <template>
   <div class="search-container">
-    <!-- <div class="search-container-title">Advanced Search</div> -->
     <div class="search-grid">
       <div v-for="(query, index) in searchQuery" :key="index" class="search-item">
         <div class="field-title" :id="query">
           {{
-        [
-          $t('message.site'),
-          $t('message.hällristningsauthor'),
-          $t('message.bildtyp'),
-          $t('message.nyckelord'),
-          $t('message.datering'),
-          'Institution',
-        ][index]
-      }}
+            [
+              $t('message.site'),
+              $t('message.hällristningsauthor'),
+              $t('message.bildtyp'),
+              $t('message.nyckelord'),
+              $t('message.datering'),
+              'Institution',
+              $t('message.3D'),
+              $t('message.geographic')
+            ][index]
+          }}
         </div>
         <div class="input-wrapper">
-          <div v-for="keyword in selectedKeywords[index]" :key="keyword.id" class="tag-example-search" :id="keyword"
-            style="background-color: var(--selected-option); opacity:1; background: var(--selected-option); color: var(--button-text)"
-            @click="deselectKeyword(keyword, index)">
-            {{ keyword.text }}
+          <div class="input-left">
+            <div v-for="keyword in selectedKeywords[index]" :key="keyword.id" class="tag-example-search" :id="keyword"
+              @click="deselectKeyword(keyword, index)">
+              {{ keyword.text }}
+              <span class="remove-icon">&times;</span>
+            </div>
+
+            <input type="search" @click="onInputFocus(index)" :id="'search' + index" :name="'search' + index"
+              :placeholder="selectedKeywords[index].length ? '' : [
+                $t('message.searchsite'),
+                $t('message.sökauthor'),
+                $t('message.sökbildtyp'),
+                $t('message.söknyckelord'),
+                $t('message.sökdatering'),
+                $t('message.sökinstitutioner'),
+                $t('message.sök3D'),
+                $t('message.geographicsearch'),
+              ][index]" :value="query" @input="updateSearchQuery($event.target.value, index)"
+              @keydown="handleBackspace($event, index)" autocomplete="off" />
           </div>
-          <input type="search" @click="onInputFocus(index)" :id="'search' + index" :name="'search' + index"
-            :placeholder="selectedKeywords[index].length ? '' : [
-        $t('message.searchsite'),
-        $t('message.sökauthor'),
-        $t('message.sökbildtyp'),
-        $t('message.söknyckelord'),
-        $t('message.sökdatering'),
-        $t('message.sökinstitutioner'),
-      ][index]" class="" :value="query" @input="updateSearchQuery($event.target.value, index)"
-            @keydown="handleBackspace($event, index)" autocomplete="off" />
+
+          <div v-if="toggleFields.includes(index)" class="input-right">
+            <span class="op-group">
+              <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'OR' }"
+                @click.stop="fieldOperator[index] = 'OR'">OR</span>
+
+              <span class="operator-toggle" :class="{ active: fieldOperator[index] === 'AND' }"
+                @click.stop="fieldOperator[index] = 'AND'">AND</span>
+            </span>
+          </div>
         </div>
-        <div v-show="searchResults[index].length" class="suggestions">
+
+        <div v-if="searchResults[index].length" class="suggestions" @scroll="onSuggestionsScroll(index, $event)">
           <div v-for="result in searchResults[index]" :key="result.id" class="tag-example"
             @click="selectResult(result, index)" @mouseover="hoverResult(index)" @mouseout="unhoverResult(index)">
             {{ result.text }}
@@ -40,464 +57,333 @@
         </div>
       </div>
 
+      <div class="action‑row">
+        <button class="clear-button" :id="$t('message.clearbutton')" @click="clearAdvancedSearchFields">
+          {{ $t('message.clearbutton') }}
+        </button>
 
-      <button class="clear-button" :id="$t('message.clearbutton')" @click="clearAdvancedSearchFields">{{
-        $t('message.clearbutton')
-      }}</button>
-      <button class="search-button" :id="$t('message.searchbutton')" @click="handleSearchButtonClick"> {{
-        $t('message.searchbutton')
-      }}</button>
+        <button class="search-button" :id="$t('message.searchbutton')" @click="handleSearchButtonClick">
+          {{ $t('message.searchbutton') }}
+        </button>
+      </div>
+
     </div>
   </div>
 </template>
 
-<script>
-import useSearchTracking from '../composables/useSearchTracking.js'
-import { useStore } from '../stores/store.js';
+<script setup>
+import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue';
+import useSearchTracking from '../composables/useSearchTracking.js';
+import { useStore } from '../stores/store.js'
 
-export default {
-  data() {
-    return {
-      searchQuery: ['', '', '', '', '', ''],
-      searchResults: [[], [], [], [], [], []],
-      advancedResults: [],
-      debouncedSearch: [null, null, null, null, null, null],
-      selectedKeywords: [[], [], [], [], [], []],
-      infiniteScrollUrls: Array(6).fill(null),
-      hoveredResultIndex: -1,
-      nextPageUrl: null,
-      previousPageUrl: null,
-      count: 0,
-    };
-  },
-  props: {
-    currentLang:
-    {
-      type: String,
-    },
-    updateNextPageUrlAdvanced: {
-      type: Function,
-      required: true,
-    },
-    updatePreviousPageUrlAdvanced: {
-      type: Function,
-      required: true,
-    },
-  },
-  mounted() {
-    this.setupScrollListener();
-    document.addEventListener('click', this.handleClickOutside);
-  },
-  beforeDestroy() {
-    document.removeEventListener('click', this.handleClickOutside);
-  },
-  created() {
-    this.coordinateStore = useStore();
-    this.debouncedSearch = this.searchQuery.map(() => {
-      return this.debounce((query, index) => {
-        this.searchKeywordTags(query, index);
-      }, 300);
-    });
-  },
-  computed: {
-    apiUrls() { //For Autocomplete
-      const langParam = `?language=${this.currentLang}&`;
-      return [
-        'https://diana.dh.gu.se/api/shfa/search/site/?site_name=',
-        `https://diana.dh.gu.se/api/shfa/search/author/${langParam}auhtor_name=`,
-        // `https://diana.dh.gu.se/api/shfa/people/?q=`,
-        `https://diana.dh.gu.se/api/shfa/search/type/${langParam}image_type=`,
-        `https://diana.dh.gu.se/api/shfa/search/keywords/${langParam}keyword=`,
-        `https://diana.dh.gu.se/api/shfa/search/dating/${langParam}dating_tag=`,
-        'https://diana.dh.gu.se/api/shfa/search/institution/?institution_name=',
-      ];
-    },
-    totalPages() {
-      return Math.ceil(this.count / 25);
-    },
-    currentPage() {
-      if (this.nextPageUrl) {
-        const url = new URL(this.nextPageUrl);
-        const offset = url.searchParams.get("offset");
-        return (offset / 25);
-      } else if (this.previousPageUrl) {
-        const url = new URL(this.previousPageUrl);
-        const offset = url.searchParams.get("offset");
-        return (offset / 25) + 2;
-      } else {
-        // Default to 1 if no next or previous page
-        return 1;
-      }
-    }
-  },
-  methods: {
-    closeAllSuggestions() {
-      // Close all suggestion boxes
-      this.searchResults = this.searchResults.map(() => []);
-    },
-    handleClickOutside(event) {
-      const searchContainers = this.$el.querySelectorAll('.input-wrapper');
-      let clickInsideSearchContainer = false;
+const store = useStore()
+const toggleFields = [1, 3, 4]
 
-      searchContainers.forEach((container) => {
-        if (container.contains(event.target)) {
-          clickInsideSearchContainer = true;
-        }
-      });
+const fieldOperator = reactive({
+  1: 'OR',
+  3: 'OR',
+  4: 'OR'
+})
 
-      if (!clickInsideSearchContainer) {
-        this.closeAllSuggestions();
-      }
-    },
-    setupScrollListener() {
-      const suggestionBoxes = this.$el.querySelectorAll('.suggestions');
-      suggestionBoxes.forEach((box, index) => {
-        box.addEventListener('scroll', () => {
-          // Before calling searchKeywordTags, check if infiniteScrollUrls at this index is not null
-          if (this.isScrolledToBottom(box) && this.infiniteScrollUrls[index] !== null) {
-            this.searchKeywordTags('', index, this.infiniteScrollUrls[index]);
-          }
-        });
-      });
-    },
-    isScrolledToBottom(element) {
-      return element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
-    },
-    onInputFocus(index) {
-      // Close all other suggestion boxes
-      this.searchResults = this.searchResults.map(() => []);
+const fieldIndexBySource = { //mapping search results to advanced search field
+  site: 0,
+  'rock carving': 0,
+  people: 1,
+  type: 2,
+  keywords: 3,
+  'dating tag': 4,
+  institution: 5,
+}
 
-      // Check if there is already a query or selected keywords
-      if (!this.searchQuery[index] && !this.selectedKeywords[index].length) {
-        // If not, perform a search to get initial results
-        this.searchKeywordTags('', index);
-      }
+const MAX_TAGS = 3;
+const props = defineProps({
+  currentLang: {
+    type: String,
+    required: true
+  }
+});
 
-      // Make sure the suggestions for the current input are shown
-      this.searchResults[index] = this.searchResults[index].length ? this.searchResults[index] : [];
-    },
-    clearAdvancedSearchFields() {
-      this.searchQuery = ['', '', '', '', '', ''];
-      this.selectedKeywords = [[], [], [], [], [], []];
-    },
-    updatePageDetails() {
-      this.$emit('page-details-updated', { currentPage: this.currentPage, totalPages: this.totalPages, totalResults: this.count });
-    },
-    async fetchResults(combinedQueries = null, fetchURL = null) {
-      const baseURL = 'https://diana.dh.gu.se/api/shfa/search/advance/?';
-      const searchParams = new URLSearchParams();
-      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+const emit = defineEmits(['advanced-search-params']);
 
-      const fieldNames = [
-        'site_name',
-        'author_name',
-        'image_type',
-        'keyword',
-        'dating_tag',
-        'institution_name'
-      ];
+const searchQuery = ref(['', '', '', '', '', '', '', '']);
+const searchResults = ref([[], [], [], [], [], [], [], []]);
+const selectedKeywords = ref([[], [], [], [], [], [], [], []]);
+const hoveredResultIndex = ref(-1);
+const infiniteScrollUrls = ref(Array(8).fill(null));
 
-      if (combinedQueries) {
-        combinedQueries.forEach((query, index) => {
-          if (query) {
-            searchParams.append(fieldNames[index], query);
-          }
-        });
-      }
+//api URLs for autocomplete
+const apiUrls = computed(() => {
+  const langParam = `?language=${props.currentLang}&`;
+  return [
+    'https://shfa.dh.gu.se/api/search/site/?site_name=',
+    `https://shfa.dh.gu.se/api/search/author/${langParam}auhtor_name=`,
+    `https://shfa.dh.gu.se/api/search/type/${langParam}image_type=`,
+    `https://shfa.dh.gu.se/api/search/keywords/${langParam}keyword=`,
+    `https://shfa.dh.gu.se/api/search/dating/${langParam}dating_tag=`,
+    'https://shfa.dh.gu.se/api/search/institution/?institution_name=',
+    'https://shfa.dh.gu.se/api/search/visualization_group/?site_name=',
+    'https://shfa.dh.gu.se/api/search/region/?region_name='
+  ];
+});
 
-      searchParams.append('depth', '1');
-      fetchURL = fetchURL ? fetchURL : baseURL + searchParams.toString();
-
-      try {
-        this.coordinateStore.setLoading(true);
-        const response = await fetch(fetchURL);
-        const data = await response.json();
-        this.count = data.count; // Update the total count
-
-        const specificOrder = [
-          { type: 957, text: 'ortofotografi', order: 1 },
-          { type: 965, text: 'översiktsbild', order: 1 },
-          { type: 943, text: 'threedvisualization', order: 2 },
-          { type: 958, text: 'threedsm', order: 3 },
-          { type: 959, text: 'threedlaserscanning', order: 4 },
-          { type: 961, text: 'miljöbild', order: 5 },
-          { type: 964, text: 'nattfoto', order: 6 },
-          { type: 942, text: 'fotografi', order: 7 },
-          { type: 949, text: 'diabild', order: 8 },
-          { type: 947, text: 'negativfärg', order: 9 },
-          { type: 948, text: 'negativsvart', order: 10 },
-          { type: 960, text: 'printscreen', order: 11 },
-          { type: 956, text: 'photosfm', order: 12 },
-          { type: 954, text: 'dstretch', order: 13 },
-          { type: 941, text: 'frottage', order: 14 },
-          { type: 946, text: 'grafik', order: 15 },
-          { type: 944, text: 'kalkering', order: 16 },
-          { type: 951, text: 'ritning', order: 17 },
-          { type: 955, text: 'kalkeringpapper', order: 18 },
-          { type: 945, text: 'avgjutning', order: 19 },
-          { type: 952, text: 'dokument', order: 20 },
-          { type: 953, text: 'karta', order: 21 },
-          { type: 950, text: 'tidnings', order: 22 },
-          { type: 962, text: 'arbetsbild', order: 23 },
-        ]
-
-        // Map the specificOrder array to an object where the keys are the types
-        let typeMap = specificOrder.map(order => ({
-          ...order,
-          items: [],
-        }));
-
-        // Iterate over the results and map them into the correct groups
-        for (let image of data.results) {
-          let type = image.type;
-          let item = {
-            id: image.id ?? null,
-            lamning_id: image?.site?.lamning_id ?? null,
-            raa_id: image?.site?.raa_id ?? null,
-            type: image?.type?.id ?? null,
-            iiif_file: image.iiif_file ?? null,
-            coordinates: image?.site?.coordinates?.coordinates ?? null,
-            vis_group: image?.group,
-          };
-
-          // Block to calculate minimum and maximum coordinates
-          const coords = image?.site?.coordinates?.coordinates;
-          if (coords) {
-            const [x, y] = coords;
-            minX = Math.min(minX, x);
-            maxX = Math.max(maxX, x);
-            minY = Math.min(minY, y);
-            maxY = Math.max(maxY, y);
-          }
-
-          // Block to group images by type
-          let typeIndex = typeMap.findIndex(x => x.type === (type?.id ?? null));
-          if (typeIndex !== -1) {
-            typeMap[typeIndex].items.push(item);
-          }
-        }
-
-        if (minX !== Infinity && maxX !== -Infinity && minY !== Infinity && maxY !== -Infinity) {
-          const boundingBox = {
-            topLeft: [minX, maxY],
-            topRight: [maxX, maxY],
-            bottomLeft: [minX, minY],
-            bottomRight: [maxX, minY],
-          };
-
-          this.coordinateStore.setBoundingBox(boundingBox);
-        } else {
-          console.log('No valid coordinates found. Skipping setting the bounding box.');
-        }
-
-        // Filter out the groups with no items and sort the image groups by the specified order
-        this.advancedResults = typeMap.filter(group => group.items.length > 0);
-        // .sort((a, b) => a.order - b.order);
-
-        // Handle next page URL
-        if (data.next) {
-          this.nextPageUrl = data.next.replace('http://', 'https://');
-          this.nextPageUrl = decodeURIComponent(this.nextPageUrl);
-          this.updateNextPageUrlAdvanced(this.nextPageUrl);  // Update the parent's nextPageUrl state
-        } else {
-          this.nextPageUrl = null;
-          this.updateNextPageUrlAdvanced(null);  // Update the parent's nextPageUrl state
-        }
-
-        if (data.previous) {
-          this.previousPageUrl = data.previous.replace('http://', 'https://');
-          this.previousPageUrl = decodeURIComponent(this.previousPageUrl);
-          this.updatePreviousPageUrlAdvanced(this.previousPageUrl);  // Update the parent's previousPageUrl state
-        } else {
-          this.previousPageUrl = null;
-          this.updatePreviousPageUrlAdvanced(null);  // Update the parent's previousPageUrl state
-        }
-
-        this.$emit('advanced-search-results', this.advancedResults);
-        this.coordinateStore.setLoading(false);
-        this.updatePageDetails();
-
-      } catch (error) {
-        console.error(error);
-      }
-    },
-
-    async fetchNextPage() {
-      if (this.nextPageUrl) {
-        await this.fetchResults(null, this.nextPageUrl);
-      } else {
-        console.log("No more pages to fetch.");
-      }
-    },
-
-    async fetchPreviousPage() {
-      if (this.previousPageUrl) {
-        await this.fetchResults(null, this.previousPageUrl);
-      } else {
-        console.log("No previous pages to fetch.");
-      }
-    },
-
-    debounce(fn, delay) {
-      let timer;
-      return function () {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          fn.apply(this, arguments);
-        }, delay);
-      };
-    },
-    async searchKeywordTags(query, index, nextPage = null) {
-      let apiUrl;
-      let newResults;
-      let shouldAppendResults = nextPage != null;
-
-      if (shouldAppendResults) {
-        // Replace 'http://' with 'https://' if present
-        apiUrl = nextPage.replace(/^http:\/\//i, 'https://');
-      } else {
-        apiUrl = this.apiUrls[index] + encodeURIComponent(query);
-        // Clear out the current search results as we're refining the search
-        this.searchResults[index] = [];
-      }
-
-      try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        // If after an API call we find there is no 'next' page, do not proceed with updating results
-        if (data.next) {
-          this.infiniteScrollUrls[index] = data.next.replace(/^http:\/\//i, 'https://');
-        } else {
-          this.infiniteScrollUrls[index] = null;
-        }
-        switch (index) {
-          case 0: // Site name: use "raa_id, lamning_id, askeladden_id, lokalitet_id, placename"
-            newResults = data.features.flatMap(feature => {
-              const { askeladden_id, lokalitet_id, placename, raa_id, lamning_id } = feature.properties;
-              const suggestions = [];
-
-              if (raa_id) suggestions.push({ id: feature.id + '-raa', text: raa_id });
-              if (lamning_id) suggestions.push({ id: feature.id + '-lamning', text: lamning_id });
-              if (askeladden_id) suggestions.push({ id: feature.id + '-askeladden', text: askeladden_id });
-              if (lokalitet_id) suggestions.push({ id: feature.id + '-lokalitet', text: lokalitet_id });
-              if (placename) suggestions.push({ id: feature.id + '-placename', text: placename });
-
-              return suggestions;
-            });
-            break;
-          case 1:
-            newResults = data.results.map(result => ({
-              id: result.id,
-              text: this.currentLang === 'sv' ? result.name : result.english_translation
-            }));
-            break;
-          case 2:
-            newResults = data.results.map(result => ({
-              id: result.id,
-              text: this.currentLang === 'sv' ? result.text : result.english_translation
-            }));
-            break;
-          case 3: // Keywords: use "text"
-            newResults = data.results.map(result => ({
-              id: result.id,
-              text: this.currentLang === 'sv' ? result.text : result.english_translation
-            }));
-            break;
-          case 4: // Dating: use "text"
-            newResults = data.results.map(result => ({
-              id: result.id,
-              text: this.currentLang === 'sv' ? result.text : result.english_translation
-            }));
-            break;
-          case 5: // Institution name: use "name"
-            newResults = data.results.map(result => ({
-              id: result.id,
-              text: result.name
-            }));
-            break;
-          default: // For the other cases, use the existing structure
-            this.searchResults[index] = data.results.slice(0, 5);
-        }
-        if (newResults) {
-          if (shouldAppendResults) {
-            // Append the new results to the existing ones
-            this.searchResults[index] = [...this.searchResults[index], ...newResults];
-          } else {
-            // Replace the current results with the new ones as we're refining the search
-            this.searchResults[index] = newResults;
-          }
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    selectResult(result, index) {
-      this.selectedKeywords[index] = [result]; // Replace the current keyword instead of pushing a new one
-      this.searchResults[index] = this.searchResults[index].filter(
-        item => item.id !== result.id,
-      );
-      this.searchQuery[index] = ''; // Clear the search input value when a tag is selected
-      this.searchResults = this.searchResults.map(() => []); // Close all menus
-    },
-    deselectKeyword(keyword, index) {
-      this.selectedKeywords[index] = this.selectedKeywords[index].filter(
-        item => item.id !== keyword.id,
-      );
-    },
-    updateSearchQuery(value, index) {
-      this.searchQuery[index] = value;
-      this.debouncedSearch[index](value, index);
-      this.searchResults = this.searchResults.map((results, i) => (i === index ? results : []));
-    },
-    handleBackspace(event, index) {
-      if (event.key === 'Backspace' && this.searchQuery[index] === '') {
-        this.deselectKeyword(
-          this.selectedKeywords[index][this.selectedKeywords[index].length - 1],
-          index,
-        );
-      }
-    },
-    hoverResult(index) {
-      this.hoveredResultIndex = index;
-    },
-    unhoverResult(index) {
-      if (this.hoveredResultIndex === index) {
-        this.hoveredResultIndex = -1;
-      }
-    },
-    handleSearchButtonClick() {
-      this.advancedResults = []; // Reset the advancedResults array
-
-      // Combine the selected keywords with the typed-in search queries
-      const combinedQueries = this.searchQuery.map((query, index) => {
-        return query || (this.selectedKeywords[index][0] && this.selectedKeywords[index][0].text) || '';
-      });
-
-      this.fetchResults(combinedQueries);
-
-      const { trackSearch } = useSearchTracking();
-
-      const searchParams = new URLSearchParams();
-
-      const fieldNames = [
-        'site_name',
-        'author_name',
-        'image_type',
-        'keyword',
-        'dating_tag',
-        'institution_name'
-      ];
-
-      combinedQueries.forEach((query, index) => {
-        if (query) {
-          searchParams.append(fieldNames[index], query);
-        }
-      });
-
-      trackSearch(decodeURIComponent(searchParams.toString()));
-    }
-  },
+const clearAdvancedSearchFields = () => {
+  searchQuery.value = ['', '', '', '', '', '', '', ''];
+  selectedKeywords.value = [[], [], [], [], [], [], [], []];
 };
+
+const handleSearchButtonClick = () => {
+  const fieldNames = [
+    'site_name',
+    'author_name',
+    'image_type',
+    'keyword',
+    'dating_tag',
+    'institution_name',
+    '3d_site',
+    'region_name'
+  ];
+
+  const params = new URLSearchParams();
+
+  searchQuery.value.forEach((query, index) => {
+    if (index === 7) {
+      //add one region_name param per region
+      const regions = selectedKeywords.value[7].map(k => k.text);
+      const typed = (searchQuery.value[7] || '').trim();
+      if (!regions.length && typed) regions.push(typed);
+      regions.forEach(r => params.append('region_name', r));
+    } else {
+      const texts = selectedKeywords.value[index].map(k => k.text);
+      const value = query || texts.join(',');
+      if (value) {
+        params.set(fieldNames[index], value);
+
+        //when 3D has a value
+        // if (index === 6) {
+        //   params.append('image_type', '3d-visualisering&Ortofoto (SfM)');
+        // }
+      }
+    }
+  });
+
+  if (params.has('author_name')) {
+    params.set('author_operator', fieldOperator[1]); //and/or
+  }
+  if (params.has('keyword')) {
+    params.set('keyword_operator', fieldOperator[3]);
+  }
+  if (params.has('dating_tag')) {
+    params.set('dating_operator', fieldOperator[4]);
+  }
+
+  const searchParams = Object.fromEntries(params.entries());
+  const regions = params.getAll('region_name');
+  if (regions.length) searchParams.region_name = regions;
+  emit('advanced-search-params', searchParams);
+
+  const qs = params.toString();
+
+  const { trackSearch } = useSearchTracking();
+  trackSearch(qs);
+};
+
+const selectResult = (result, index) => {
+  const bucket = selectedKeywords.value[index];
+
+  if (
+    !bucket.some(k => k.id === result.id) &&
+    bucket.length < MAX_TAGS
+  ) {
+    bucket.push(result);
+  }
+
+  searchResults.value[index] = [];
+  searchQuery.value[index] = '';
+};
+
+const deselectKeyword = (keyword, index) => {
+  selectedKeywords.value[index] = selectedKeywords.value[index].filter(
+    item => item.id !== keyword.id
+  );
+};
+
+const updateSearchQuery = async (value, index) => {
+  searchQuery.value[index] = value;
+  await fetchSuggestions(value, index);
+};
+
+const handleBackspace = (event, index) => {
+  if (event.key === 'Backspace' && searchQuery.value[index] === '') {
+    const bucket = selectedKeywords.value[index];
+    if (bucket.length) {
+      deselectKeyword(bucket[bucket.length - 1], index);
+    }
+  }
+};
+
+const onInputFocus = async (index) => {
+  searchResults.value = searchResults.value.map((_, i) => i === index ? searchResults.value[i] : []);
+
+  if (!searchResults.value[index].length) {
+    await fetchSuggestions(searchQuery.value[index], index);
+  }
+};
+
+const fetchSuggestions = async (query, index, nextPage = null) => {
+  try {
+    let apiUrl;
+    let shouldAppendResults = nextPage != null;
+
+    if (shouldAppendResults) {
+      apiUrl = nextPage.replace(/^http:\/\//i, 'https://');
+    } else {
+      apiUrl = apiUrls.value[index] + encodeURIComponent(query);
+      searchResults.value[index] = [];
+    }
+
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data.next) {
+      infiniteScrollUrls.value[index] = data.next.replace(/^http:\/\//i, 'https://');
+    } else {
+      infiniteScrollUrls.value[index] = null;
+    }
+
+    let newResults;
+    switch (index) {
+      case 0: //site name
+        newResults = data.features.flatMap(feature => {
+          const { askeladden_id, lokalitet_id, placename, raa_id, lamning_id } = feature.properties;
+          const suggestions = [];
+          if (raa_id) suggestions.push({ id: feature.id + '-raa', text: raa_id });
+          if (lamning_id) suggestions.push({ id: feature.id + '-lamning', text: lamning_id });
+          if (askeladden_id) suggestions.push({ id: feature.id + '-askeladden', text: askeladden_id });
+          if (lokalitet_id) suggestions.push({ id: feature.id + '-lokalitet', text: lokalitet_id });
+          if (placename) suggestions.push({ id: feature.id + '-placename', text: placename });
+          return suggestions;
+        });
+        break;
+      case 1: //author
+        newResults = data.results.map(result => ({
+          id: result.id,
+          text: props.currentLang === 'sv' ? result.name : result.english_translation
+        }));
+        break;
+      case 2:
+      case 3:
+      case 4:
+        newResults = data.results.map(result => ({
+          id: result.id,
+          text: props.currentLang === 'sv' ? result.text : result.english_translation
+        }));
+        break;
+      case 5: //institution
+        newResults = data.results.map(result => ({
+          id: result.id,
+          text: result.name
+        }));
+        break;
+      case 6: //3d models
+        const feats = Array.isArray(data?.results?.features)
+          ? data.results.features
+          : [];
+        newResults = feats.flatMap(f => {
+          const p = f?.properties || {};
+          const out = [];
+          if (p.raa_id) out.push({ id: `group:raa:${p.raa_id}`, text: p.raa_id });
+          if (p.lamning_id) out.push({ id: `group:lamning:${p.lamning_id}`, text: p.lamning_id });
+          if (p.placename) out.push({ id: `group:place:${p.placename}`, text: p.placename });
+          return out;
+        });
+        break;
+      case 7: //geography
+        newResults = (data.results || []).map(r => {
+          const region = [r.parish, r.municipality, r.province, r.country]
+            .filter(Boolean)
+            .join(', ');
+          return {
+            id: region,
+            text: region,
+            region
+          };
+        });
+        break;
+    }
+
+    if (newResults) {
+      if (shouldAppendResults) {
+        searchResults.value[index] = [...searchResults.value[index], ...newResults];
+      } else {
+        searchResults.value[index] = newResults;
+      }
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+    searchResults.value[index] = [];
+  }
+};
+
+const hoverResult = (index) => {
+  hoveredResultIndex.value = index;
+};
+
+const unhoverResult = (index) => {
+  if (hoveredResultIndex.value === index) {
+    hoveredResultIndex.value = -1;
+  }
+};
+
+const handleClickOutside = (e) => {
+  if (!e.target.closest('.suggestions')) {
+    searchResults.value = searchResults.value.map(() => []);
+  }
+};
+
+function onSuggestionsScroll(idx, e) {
+  const el = e.target
+  if (
+    el.scrollHeight - el.scrollTop <= el.clientHeight + 1 &&
+    infiniteScrollUrls.value[idx]
+  ) {
+    fetchSuggestions('', idx, infiniteScrollUrls.value[idx])
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
+
+watch( //assigns search results to the advanced search field
+  () => store.selectedKeyword,
+  kw => {
+    if (!kw) return;
+
+    const idx = fieldIndexBySource[kw.source];
+    if (idx === undefined) return;
+
+    const tag = { id: Date.now(), text: kw.value };
+    const bucket = selectedKeywords.value[idx];
+
+    if (
+      !bucket.some(k => k.text === tag.text) &&
+      bucket.length < MAX_TAGS
+    ) {
+      bucket.push(tag);
+    }
+
+    searchQuery.value[idx] = '';
+  },
+  { immediate: true }
+);
+
+defineExpose({
+  clearAdvancedSearchFields
+});
 </script>
 
 <style scoped>
@@ -505,6 +391,7 @@ export default {
   width: 100%;
   margin-top: 20px;
   background-color: transparent;
+  padding-bottom:15px;
 }
 
 .search-container-title {
@@ -549,22 +436,38 @@ export default {
   cursor: pointer;
 }
 
-
 .tag-example-search {
   background-color: var(--selected-option);
   vertical-align: middle;
   color: var(--button-text);
-  /* min-height: 10px; */
+  margin: 4px 4px;
 }
 
 .input-wrapper {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   background-color: var(--input-wrapper-background);
-  border-radius: 5px;
-  padding: 0px 7px;
   border: 1px solid var(--input-border);
+  border-radius: 5px;
+}
+
+.input-left {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 0;
+  max-height: none;
+  overflow-y: visible;
+  overflow-x: hidden;
+}
+
+.input-right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  padding-top: 2px;
+  padding-right: 2px;
 }
 
 input[type="search"] {
@@ -672,5 +575,50 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 #label-wrapper {
   color: var(--page-text);
+}
+
+.action‑row {
+  display: flex;
+  gap: 10px;
+  justify-content: right;
+  grid-column: 1 / -1;
+}
+
+.search-button,
+.clear-button {
+  margin: 20px 0 0 0;
+}
+
+.op-group {
+  display: flex;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.operator-toggle {
+  font-size: .75rem;
+  font-weight: 600;
+  user-select: none;
+  padding: 2px 6px 1px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: .5px;
+  color: #999;
+  transition: opacity .2s;
+}
+
+.operator-toggle.active {
+  color: #4da3ff;
+}
+
+.operator-toggle:hover {
+  opacity: .8
+}
+
+.remove-icon {
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 1.1em !important;
+  line-height: 1.0;
 }
 </style>

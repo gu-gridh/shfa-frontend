@@ -4,15 +4,17 @@
 
       <div class="metadata-panel-title">
 
-        <h1 v-if="data.site && data.site?.raa_id && data.site?.lamning_id">{{ data.site.lamning_id }} | {{
-          data.site.raa_id
-        }} </h1>
-
-        <h1 v-if="data.site && !data.site?.raa_id && data.site?.lamning_id"> {{ data.site.lamning_id }}</h1>
-        <h1 v-if="data.site && data.site?.internationl_site"> {{ data.site.placename }}</h1>
+        <h1 v-if="!data.site?.internationl_site">
+          <span v-if="data.site?.lamning_id" @click="logMetaSearch(data.site.lamning_id)">{{
+            data.site.lamning_id }}</span>
+          <span v-if="data.site?.lamning_id && data.site?.raa_id"> | </span>
+          <span v-if="data.site?.raa_id" @click="logMetaSearch(data.site.raa_id)">{{ data.site.raa_id }}</span>
+        </h1>
+        <h1 v-if="data.site?.internationl_site" @click="logMetaSearch(data.site.placename)"> {{ data.site.placename }}
+        </h1>
         <div v-if="data.site && data.group" class="button-container">
           <button class="viewer-button" @click="open3dViewer(data.group.text)"><span class="viewer-icon"></span>{{
-          $t('message.viewthreed') }}</button>
+            $t('message.viewthreed') }}</button>
 
         </div>
       </div>
@@ -21,16 +23,14 @@
         <div class="metadata-item-container" v-if="data.site && data.site.lokalitet_id">
           <div class="tag-label">{{ $t('message.lokalitetid') }}</div>
           <div class="theme-color-text info-label" @click="logMetaSearch(data.site.lokalitet_id)">{{
-          data.site.lokalitet_id }}</div>
+            data.site.lokalitet_id }}</div>
         </div>
-
 
         <div class="metadata-item-container" v-if="data.site && data.site.askeladden_id">
           <div class="tag-label">{{ $t('message.askeladdenid') }}</div>
           <div class="theme-color-text info-label" @click="logMetaSearch(data.site.askeladden_id)">{{
-          data.site.askeladden_id }}</div>
+            data.site.askeladden_id }}</div>
         </div>
-
 
         <div class="metadata-item-container" v-if="data.type && data.type.text">
           <div class="tag-label">{{ $t('message.typ') }}</div>
@@ -41,7 +41,6 @@
             {{ data.type.english_translation }}</div>
         </div>
 
-
         <div class="metadata-item-container" v-if="data.subtype && data.subtype.text">
           <div class="tag-label">{{ $t('message.subtype') }}</div>
           <div class="theme-color-text info-label not-clickable" v-if="$i18n.locale === 'sv'">
@@ -49,7 +48,6 @@
           <div class="theme-color-text info-label not-clickable" v-if="$i18n.locale === 'en'">
             {{ data.subtype.english_translation }}</div>
         </div>
-
 
         <div class="metadata-item-container">
           <div class="tag-label">{{ $t('message.author') }}
@@ -70,17 +68,15 @@
           </div>
         </div>
 
-
         <div class="metadata-item-container" v-if="data.institution && data.institution.name">
           <div id="metadata-item">
             <div class="tag-label">Institution
             </div>
             <div class="theme-color-text info-label" @click="logMetaSearch(data.institution.name)"> {{
-          data.institution.name }}
+              data.institution.name }}
             </div>
           </div>
         </div>
-
 
         <div class="metadata-item-container" v-if="data.year">
           <div class="tag-label">{{ $t('message.år') }}</div>
@@ -88,24 +84,22 @@
           </div>
         </div>
 
-
         <div class="metadata-item-container" v-if="data.rock_carving_object && data.rock_carving_object.name">
           <div class="tag-label">{{
-          $t('message.ristning') }}
+            $t('message.ristning') }}
           </div>
           <div class="theme-color-text info-label" @click="logMetaSearch(data.rock_carving_object.name)"> {{
-          data.rock_carving_object.name }}
+            data.rock_carving_object.name }}
           </div>
         </div>
-
 
         <div class="metadata-item-container" v-if="data.collection && data.collection.name">
           <div id="metadata-item">
             <div class="tag-label">{{
-          $t('message.collection') }}
+              $t('message.collection') }}
             </div>
             <div class="theme-color-text info-label" @click="logMetaSearch(data.collection.name)"> {{
-          data.collection.name }}
+              data.collection.name }}
             </div>
           </div>
         </div>
@@ -137,19 +131,19 @@
         <div class="tag-label">{{ $t('message.reference') }}</div>
         <div class="metadata-item-container-1col">
           <div class="general-text" v-if="data.site && $i18n.locale === 'en'">{{ formattedPeopleEN ||
-          data.author.english_translation }}. ({{
-          data.year || 'n.d.' }}). {{ data.type.english_translation }} {{ $t('message.av') }} {{
-          data.site.lamning_id
-          || data.raa_id || data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }}
+            data.author.english_translation }}. ({{
+              data.year || 'n.d.' }}). {{ data.type.english_translation }} {{ $t('message.av') }} {{
+              data.site.lamning_id
+              || data.raa_id || data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }}
             {{ $t('message.at') }} https://shfa.dh.gu.se/image/{{ data.id }}</div>
           <div class="general-text" v-if="data.site && $i18n.locale === 'sv'">{{ formattedPeopleSV ||
-          data.author?.name
-            }}.
+            data.author?.name
+          }}.
             ({{
-          data.year || 'n.d.'
-        }}).
+              data.year || 'n.d.'
+            }}).
             {{ data.type.text }} {{ $t('message.av') }} {{ data.site.lamning_id || data.raa_id ||
-          data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }} {{ $t('message.at')
+              data.site.placename }}, SHFA, {{ $t('message.åtkomst') }} {{ acc_date }} {{ $t('message.at')
             }}
             https://shfa.dh.gu.se/image/{{ data.id }}</div>
         </div>
@@ -182,12 +176,12 @@
               <button class="keyword-button" v-if="data.dating_tags && this.$i18n.locale === 'sv'"
                 v-for="(keyword, index) in data.dating_tags" :key="index" @click="logKeyword(keyword.text)">
                 {{
-          keyword.text }}
+                  keyword.text }}
               </button>
               <button class="keyword-button" v-if="data.dating_tags && this.$i18n.locale === 'en'"
                 v-for="(keyword, index) in data.dating_tags" :key="index" @click="logKeyword(keyword.text)">
                 {{
-          keyword.english_translation }}
+                  keyword.english_translation }}
               </button>
             </div>
           </div>
@@ -200,7 +194,7 @@
             <div v-if="getFornsokUrl()" class="button-container">
               <a :href="getFornsokUrl()" target="_blank" rel="noopener noreferrer" class="visit-button" id="visit"><span
                   class="visit-icon"></span>{{
-          $t('message.checkfornsök') }}</a>
+                    $t('message.checkfornsök') }}</a>
             </div>
             <div class="disclaimer" id="disclaimer">{{ $t('message.descriptiontext') }}</div>
             <div class="general-text" id="description">
@@ -209,9 +203,24 @@
           </div>
         </div>
       </div>
+
+      <!-- show description and link for Norwegian data -->
+      <div class="metadata-container" v-if="data.site && data.kulturminnesokLink">
+        <div class="tag-label">{{ $t('message.description') }}</div>
+        <div class="metadata-item-container-1col"></div>
+        <div v-if="data.kulturminnesokLink" class="metadata">
+          <div class="button-container">
+            <a :href="data.kulturminnesokLink" target="_blank" rel="noopener noreferrer" class="visit-button"
+              id="visit"><span class="visit-icon"></span>{{ $t('message.checkkulturminnesok') }}</a>
+          </div>
+        </div>
+        <div class="disclaimer" id="disclaimer">{{ $t('message.norwaydescriptiontext') }}</div>
+        <div class="general-text" id="description">
+          {{ data.description }}
+        </div>
+      </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -238,10 +247,28 @@ export default {
       groupedKeywordsEN: {},
       formattedPeopleSV: '',
       formattedPeopleEN: '',
+      pg_title: '',
+      author_meta: ''
     };
   },
+  head() {
+    return {
+      link: { rel: "schema.DC", href: "http://purl.org/dc/elements/1.1/" },
+      meta: [
+        { name: 'citation_title', content: () => this.pg_title },
+        { name: 'citation_author', content: () => this.author_meta },
+        { name: 'dcterms.type', content: 'Illustration' },
+        { name: 'citation_year', content: () => this.data.year },
+        { name: 'citation_publisher', content: 'SHFA' },
+        { name: 'dcterms.medium', content: 'Image' },
+        { name: 'dcterms.publisher', content: 'SHFA' },
+        { name: 'dcterms.rights', content: 'CC-BY' },
+        { name: 'dcterms.identifier', content: () => this.data.id }
+      ]
+    }
+  },
   mounted() {
-    // Fetch ID from URL and populate data
+    //fetch ID from URL and populate data
     this.extractIdAndFetchData();
   },
   methods: {
@@ -250,7 +277,6 @@ export default {
       window.open(threedUrl, "_blank");
     },
     logKeyword(keyword) {
-      // const translatedKeyword = this.$t('keywords.' + keyword.replaceAll('.', '_'));
       this.$emit('keyword-clicked', keyword);
     },
     logMetaSearch(item) {
@@ -265,7 +291,7 @@ export default {
       }
     },
     fetchData(id) {
-      fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${id}&depth=1`)
+      fetch(`https://shfa.dh.gu.se/api/image/?id=${id}&depth=1`)
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results[0];
@@ -274,7 +300,9 @@ export default {
           this.formattedPeopleSV = new Intl.ListFormat("sv", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
           this.formattedPeopleEN = new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
           this.fetchDescription();
-
+          this.pg_title = `${this.data.type.english_translation} of ${this.data.site.lamning_id || this.data.raa_id ||
+            this.data.site.placename} - SHFA`;
+          this.author_meta = this.data.people?.map(people => people?.name).join(';');
         }).catch((error) => {
           console.error('Error fetching image data:', error);
         });
@@ -290,6 +318,23 @@ export default {
             this.data.description = descriptionNode ? descriptionNode.textContent : null;
           });
       }
+      //Fetch Norwegian data
+      if (this.data.site?.askeladden_id) {
+        fetch(
+          `https://api.ra.no/LokaliteterEnkeltminnerOgSikringssoner/collections/enkeltminner/items?kulturminneId=${this.data.site.askeladden_id}&f=json`
+        )
+          .then(r => r.json())
+          .then(json => {
+            const feature = json.features?.[0];
+            const props = feature?.properties;
+
+            if (props) {
+              this.data.description = props.informasjon ?? '';
+              this.data.kulturminnesokLink = props.linkKulturminnesøk ?? '';
+            }
+          })
+          .catch(err => console.error('error fetching Riksantikvaren data:', err));
+      }
     },
     getFornsokUrl() {
       if (this.data.site && this.data.site.ksamsok_id) {
@@ -297,12 +342,12 @@ export default {
       } else {
         return '';
       }
-    }
+    },
   },
   watch: {
     Id(newId, oldId) {
       if (newId !== oldId) {
-        fetch(`https://diana.dh.gu.se/api/shfa/image/?id=${newId}&depth=1`)
+        fetch(`https://shfa.dh.gu.se/api/image/?id=${newId}&depth=1`)
           .then((response) => response.json())
           .then((json) => {
             this.data = json.results[0];
@@ -312,9 +357,9 @@ export default {
             this.formattedPeopleEN = new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(this.data.people?.map(people => people?.name))
             this.fetchDescription();
             const coordinates = this.data?.site?.coordinates?.coordinates;
-            if (coordinates) {
-              this.coordinateStore.setCoordinates(coordinates);
-            }
+            this.pg_title = `${this.data.type.english_translation} of ${this.data.site.lamning_id || this.data.raa_id ||
+              this.data.site.placename} - SHFA`;
+            this.author_meta = this.data.people?.map(people => people?.name).join(';');
           })
           .catch((error) => {
             console.error('Error fetching image data:', error);
@@ -331,7 +376,6 @@ const options = {
   day: "numeric",
 };
 let acc_date = date.toLocaleString("en-GB", options);
-
 </script>
 
 <style scoped>
@@ -341,7 +385,7 @@ let acc_date = date.toLocaleString("en-GB", options);
 }
 
 .metadata-panel-title {
-  font-size: 130%;
+  font-size: 100%;
   text-align: left;
   color: var(--page-text);
   font-weight: 300;
@@ -349,7 +393,8 @@ let acc_date = date.toLocaleString("en-GB", options);
 }
 
 .general-text {
-  font-size: 120%;
+  font-size: 110%;
+  line-height: 1.2;
   text-align: left;
   color: var(--page-text);
   font-weight: 300;
@@ -416,7 +461,7 @@ let acc_date = date.toLocaleString("en-GB", options);
   /* width: 120px; */
   color: var(--page-text);
   font-weight: 500;
-  font-size: 120%;
+  font-size: 110%;
   flex: 1;
   white-space: wrap;
   padding-right: 5px;
@@ -437,7 +482,7 @@ let acc_date = date.toLocaleString("en-GB", options);
 .info-label {
   /* width: 120px; */
   font-weight: 400;
-  font-size: 1.2em;
+  font-size: 1.1em;
   /* flex: 2; */
   text-align: left;
   white-space: wrap;
@@ -474,6 +519,7 @@ h1 {
   /* padding-left: 25px; */
   margin-top: 20px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 h2 {
@@ -485,40 +531,6 @@ h2 {
   margin-top: 20px;
   margin-bottom: 15px;
 }
-
-/* #image-metadata-header {
-  display: none;
-}
-
-.metadata-column-group {
-  float: left;
-  width: 95%;
-}
-
-.metadata-column {
-  float: left;
-  padding-left: 25px;
-  color: var(--page-text);
-  line-height: 1;
-  font-size: 1.1em;
-}
-
-.label {
-  width: 130px !important;
-  color: var(--page-text);
-  font-weight: 600;
-  text-align: right !important;
-}
-
-.data {
-  color: var(--page-text);
-  max-width: 180px;
-  cursor: pointer;
-}
-
-.data p {
-  margin-bottom: 5px;
-} */
 
 .data:hover {
   color: var(--ui-hover);
@@ -603,15 +615,14 @@ ul {
   font-size: 120%;
 }
 
-
 .viewer-button {
   /* display: relative; */
   padding: 4px 8px 4px 10px;
   color: var(--button-text);
   /* background-color: var(--button-background); */
   background-color: var(--threed-icon);
-  border-radius: 8px;
-  font-size: 86%;
+  border-radius: 6px;
+  font-size: 1.1em;
   text-decoration: none;
   cursor: pointer;
   margin-top: 0px;

@@ -1,549 +1,589 @@
 <template>
-  <div class="gallery-container">
-    <div v-if="store.isLoading" class="loading-animation">
-      <img src="/interface/6-dots-rotate.svg" alt="Loading..." />
+  <div>
+    <div v-if="isGalleryLoading" class="loading-indicator"></div>
+    <div v-if="!isGalleryLoading && rows.length === 0" class="no-results">
+      {{ $t('message.noResults') }}
+      <p class="subtext">{{ $t('message.noResultsSub') }}</p>
+      <div class="no-results__icon" role="img" aria-label="No results"></div>
     </div>
-    <div v-for="(group, groupIndex) in imageGroups" :key="group.type">
-      <h3 v-if="group.items.length > 0">{{ $t("message." + group.text) }}</h3>
-      <MasonryWall :key="layoutKey" :items="group.items" :ssr-columns="1" :column-width="columnWidth" :gap="10"
-        class="gallery-group">
-        <template #default="{ item, index }">
-          <a href="#image">
-            <div class="grid-image card flex items-center justify-center"
-              @click="$emit('image-clicked', item.iiif_file, item.id)">
-              <button class="avail-3d" v-if="item.vis_group">3D</button>
-              <img :src="`${item.iiif_file}/full/350,/0/default.jpg`" :alt="`Image ${index}`" @load="
-      item.loaded || imageLoadLog(index, groupIndex, item.iiif_file)
-      " v-on:load.once="item.loaded = true" />
-              <div class="grid-item-info" id="gallery">
-                <div class="grid-item-info-meta">
-                  <h5>{{ item.lamning_id || item.placename }}</h5>
-                  <h6 v-if="item.raa_id || item.lokalitet_id || item.askeladden_id">{{ item.raa_id || item.askeladden_id
-      || item.lokalitet_id }}</h6>
-                </div>
-              </div>
-            </div>
-          </a>
-        </template>
-      </MasonryWall>
-    </div>
-    <div class="button-container">
-      <!-- Previous buttons -->
-      <div class="button-group">
-        <!-- Map Search Previous button -->
-        <button class="loadMore left" v-if="mapGallery && previousPageUrl && !bboxSearch"
-          @click="fetchPreviousData"></button>
-        <!-- Search Previous button -->
-        <button class="loadMore left" v-if="!mapGallery &&
-      searchPreviousPageUrl &&
-      !advancedSearch &&
-      !bboxSearch
-      " @click="searchFetchPreviousPage"></button>
-        <!-- Advanced Search Previous button -->
-        <button class="loadMore left" v-if="!mapGallery &&
-      advancedPreviousPageUrl &&
-      advancedSearch &&
-      !bboxSearch
-      " @click="advancedFetchPreviousPage"></button>
-        <!-- Bbox Search Previous button -->
-        <button class="loadMore left" v-if="mapGallery && previousPageUrl && bboxSearch"
-          @click="loadPreviousPageBbox"></button>
-      </div>
+    <div v-else class="grid-container">
+      <div v-for="row in visibleRows" :key="row.originalIndex" class="row-wrapper"
+        :id="'row-wrapper-' + row.originalIndex">
+        <div v-if="row.open" class="button-container sticky">
+          <div class="row-titles">
+            <ul>
+              <li v-for="other in getOtherRows(row.originalIndex)" :class="{ 'non-clickable': other.isCurrent }"
+                @click="!other.isCurrent && onTitleClick(other.index)">
+                <div class="row-text">{{ other.title }}</div>
+                <div class="row-count">{{ other.count }}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-      <!-- Next buttons -->
-      <div class="button-group">
-        <!-- Map Search Next button -->
-        <button class="loadMore right" v-if="mapGallery && nextPageUrl && !bboxSearch" @click="fetchData"></button>
-        <!-- Search Next button -->
-        <button class="loadMore right" v-if="!mapGallery && searchNextPageUrl && !advancedSearch && !bboxSearch
-      " @click="loadMore"></button>
-        <!-- Advanced Search Next button -->
-        <button class="loadMore right" v-if="!mapGallery &&
-      searchNextPageUrlAdvanced &&
-      advancedSearch &&
-      !bboxSearch
-      " @click="loadMoreAdvanced"></button>
-        <!-- Bbox Search Next button -->
-        <button class="loadMore right" v-if="mapGallery && nextPageUrl && bboxSearch"
-          @click="loadNextPageBbox"></button>
+        <div class="right-column">
+          <div class="toggle-button-group">
+            <button :class="{ active: props.activeTab === 'gallery' }" @click="emit('update-tab', 'gallery')">
+              {{ $t('message.galleri') }}
+            </button>
+            <button :class="{ active: props.activeTab === 'summary' }" @click="emit('update-tab', 'summary')">
+              {{ $t('message.summary') }}
+            </button>
+          </div>
+
+          <!-- mobile dropdown -->
+          <div v-if="row.open" class="mobile-row-menu">
+            <button class="mobile-menu-toggle" @click="row.mobileMenuOpen = !row.mobileMenuOpen">
+              <span>{{ getRowTitle(row) }}</span>
+              <svg :class="{ rotate: row.mobileMenuOpen }" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" />
+              </svg>
+            </button>
+
+            <transition name="slide-fade">
+              <div v-show="row.mobileMenuOpen">
+                <ul class="mobile-menu-list">
+                  <li v-for="other in getOtherRows(row.originalIndex)" :key="other.index"
+                    :class="{ 'non-clickable': other.isCurrent }"
+                    @click="!other.isCurrent && onTitleClick(other.index); row.mobileMenuOpen = false">
+                    <div class="row-entry">
+                      <span class="row-text">
+                        {{ other.title }}
+                        <span class="row-count">{{ other.count }}</span>
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </transition>
+          </div>
+
+          <div class="title-area">
+            <h3 :id="'row-title-' + row.originalIndex" class="row-heading">
+              {{ getRowTitle(row) }}
+              <span v-if="row.count" class="heading-count-wrapper">
+                <span class="title-tag">{{ row.count }} {{ $t('message.items') }}</span>
+              </span>
+            </h3>
+
+            <div :ref="el => observeTop(el, row)" style="height:1px"></div>
+
+            <div class="next-page-wrapper" v-show="!row.topOutOfView">
+              <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
+                class="inline-spinner" />
+              <div class="gallery-page-button prev-page-btn" :disabled="row.isFetching"
+                :class="{ 'page-button-disabled': !row.prevUrl }" @click="fetchPrevPage(row)">
+              </div>
+              <div class="gallery-page-info" :disabled="row.isFetching">
+                {{ $t('message.sida') }} {{ row.currentPage }}&nbsp;{{ $t('message.av') }}&nbsp;{{ row.totalPages }}
+              </div>
+              <div class="gallery-page-button next-page-btn" :disabled="row.isFetching"
+                :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)">
+              </div>
+
+            </div>
+          </div>
+
+          <div v-if="row.open" class="scroll-wrapper" :aria-label="'Images for ' + getRowTitle(row)">
+            <MasonryWall :key="layoutVersion" :items="row.infiniteItems" :column-width="thumbSize" :gap="10"
+              class="masonry-wall">
+              <template #default="{ item, index }">
+                <div :key="item.id" class="item" :style="{ aspectRatio: `${item.width} / ${item.height}` }"
+                  @click="$emit('image-clicked', item.iiif_file, item.id)">
+                  <span v-if="item.is3d" class="badge-3d">3D</span>
+                  <img :src="`${item.iiif_file}/full/300,/0/default.jpg`" :alt="`Image ${index}`"
+                    :style="`background-color:var(--gallery-image-background)`" loading="lazy" />
+                  <div class="metadata-overlay">
+                    <div class="metadata-content">
+                      <div v-if="item.lamning">{{ item.lamning }}</div>
+                      <div v-if="item.raa">{{ item.raa }}</div>
+                      <div v-if="item.askeladden || item.lokalitet">
+                        {{ item.askeladden }}
+                      </div>
+                      <div v-if="!item.askeladden && item.lokalitet">
+                        {{ item.lokalitet }}
+                      </div>
+                      <div v-if="item.international">
+                        {{ item.placename }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </MasonryWall>
+          </div>
+          <div class="next-page-wrapper bottom-align" v-show="row.topOutOfView" style="padding-top: 10px;">
+            <img v-if="isGalleryLoading || row.isFetching" src="/interface/6-dots-rotate.svg" alt="Loading..."
+              class="inline-spinner" />
+            <div class="gallery-page-button prev-page-btn" :disabled="row.isFetching"
+              :class="{ 'page-button-disabled': !row.prevUrl }" @click="fetchPrevPage(row)"></div>
+            <div class="gallery-page-info" :disabled="row.isFetching">
+              {{ $t('message.sida') }} {{ row.currentPage }}&nbsp;{{ $t('message.av') }}&nbsp;{{ row.totalPages }}
+            </div>
+            <div class="gallery-page-button next-page-btn" :disabled="row.isFetching"
+              :class="{ 'page-button-disabled': !row.nextUrl }" @click="fetchNextPage(row)">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import MasonryWall from "@yeger/vue-masonry-wall";
-import { useStore } from "../stores/store.js";
+<script setup>
+import { ref, reactive, computed, watch, nextTick, onBeforeUnmount } from 'vue'
+import MasonryWall from '@yeger/vue-masonry-wall'
+import { useStore } from '../stores/store.js'
 
-export default {
-  components: {
-    MasonryWall,
-  },
-  setup() {
-    const store = useStore();
+const store = useStore()
+const DEPTH = 0
+const thumbSize = 150
+const rows = ref([])
+const isGalleryLoading = ref(true)
+const emit = defineEmits(['image-clicked', 'update-tab'])
+const layoutVersion = ref(0)
+const topObservers = new Map()
 
-    return { store };
-  },
-  props: {
-    siteId: {
-      type: [Number, String],
-      required: false,
-      default: null,
-    },
-    forceRefresh: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
+const withDepth = urlString => {
+  const u = new URL(urlString)
+  u.searchParams.set('depth', DEPTH)
+  return u.toString()
+}
 
-    /* Props for general searches */
-    searchItems: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    fetchNextPage: {
-      type: Function,
-      required: true,
-    },
-    searchFetchPreviousPage: {
-      type: Function,
-      required: true,
-    },
-    searchNextPageUrl: {
-      type: [String, null],
-      required: true,
-      default: "",
-    },
-    searchPreviousPageUrl: {
-      type: [String, null],
-      required: true,
-      default: "",
-    },
+const props = defineProps({
+  activeTab: { type: String, default: 'gallery' },
+  searchItems: [Array, String, Object],
+  advancedSearchResults: [Array, Object],
+  bboxSearch: [Array, Object],
+  selectedSiteId: [Number, String],
+  currentLanguage: { type: String, default: 'sv' }
+})
 
-    /* Props for advanced searches */
-    advancedSearchResults: {
-      type: Array,
-      required: true,
-    },
-    fetchNextPageAdvanced: {
-      type: Function,
-      required: true,
-    },
-    advancedFetchPreviousPage: {
-      type: Function,
-      required: true,
-    },
-    searchNextPageUrlAdvanced: {
-      type: [String, null],
-      required: true,
-      default: "",
-    },
-    advancedPreviousPageUrl: {
-      type: [String, null],
-      required: true,
-      default: "",
-    },
-  },
-  computed: {
-    columnWidth() {
-      // calculate gallery column sizes based on device width
-      const screenWidth = window.innerWidth;
-      let columnWidth;
+const formatIiif = url =>
+  url.startsWith('http') ? url : 'https://image.dh.gu.se/shfa/static/' + url
 
-      if (screenWidth < 768) {
-        columnWidth = 140; // Mobile screens
-      } else if (screenWidth < 1024) {
-        columnWidth = 150; // Small screens (768px to 1023px)
-      } else if (screenWidth < 1600) {
-        columnWidth = 150; // Medium screens (1024px to 1599px)
-      } else if (screenWidth < 1800) {
-        columnWidth = 150; // Large screens (1600px to 1799px)
-      } else if (screenWidth < 2300) {
-        columnWidth = 150; // Extra large screens (2000px to 2299px)
-      } else if (screenWidth < 2600) {
-        columnWidth = 200; // Larger screens (2300px to 2599px)
-      } else {
-        columnWidth = 250; // Very large screens (2600px and above)
+const filterTimestamps = reactive({ search: 0, advanced: 0, bbox: 0, site: 0 })
+const activeFilter = computed(() =>
+  Object.entries(filterTimestamps)
+    .sort((a, b) => b[1] - a[1])[0]?.[0]
+)
+
+const buildCategoryUrl = () => {
+  const base = 'https://shfa.dh.gu.se/api/type_categorized/'
+  const p = new URLSearchParams()
+  const f = activeFilter.value
+
+  if (f === 'site' && props.selectedSiteId) p.append('site', props.selectedSiteId)
+  else if (f === 'search' && props.searchItems?.toString().trim()) { p.append('search_type', 'general'); p.append('q', props.searchItems) }
+  else if (f === 'bbox' && Array.isArray(props.bboxSearch)) p.append('in_bbox', props.bboxSearch.join(','))
+  else if (f === 'advanced' && props.advancedSearchResults) {
+    p.append('search_type', 'advanced')
+    Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
+      const key = k === 'group' ? 'site_name' : k
+      if (Array.isArray(v)) {
+        v.forEach(x => x && p.append(key, String(x).trim()))  //multiple region_name
+      } else if (v?.toString().trim()) {
+        p.append(key, v)
       }
-      return columnWidth;
-    },
-    totalPages() {
-      return Math.ceil(this.count / 25);
-    },
-    currentPage() {
-      if (this.nextPageUrl) {
-        const url = new URL(this.nextPageUrl);
-        const offset = url.searchParams.get("offset");
-        return offset / 25;
-      } else if (this.previousPageUrl) {
-        const url = new URL(this.previousPageUrl);
-        const offset = url.searchParams.get("offset");
-        return offset / 25 + 2;
-      } else {
-        // Default to 1 if no next or previous page
-        return 1;
+    })
+  }
+  return base + (p.toString() ? '?' + p.toString() : '')
+}
+
+const buildGalleryUrl = () => {
+  const base = 'https://shfa.dh.gu.se/api/gallery/'
+  const p = new URLSearchParams({ depth: DEPTH })
+  const f = activeFilter.value
+
+  if (f === 'site' && props.selectedSiteId) {
+    p.append('site', props.selectedSiteId)
+  } else if (f === 'search' && props.searchItems?.toString().trim()) {
+    p.append('search_type', 'general')
+    p.append('q', props.searchItems)
+  } else if (f === 'bbox' && Array.isArray(props.bboxSearch) && props.bboxSearch.length === 4) {
+    p.append('in_bbox', props.bboxSearch.join(','))
+  } else if (f === 'advanced' && props.advancedSearchResults && typeof props.advancedSearchResults === 'object') {
+    p.append('search_type', 'advanced')
+    Object.entries(props.advancedSearchResults).forEach(([k, v]) => {
+      const key = k === 'group' ? 'site_name' : k
+      if (Array.isArray(v)) {
+        v.forEach(x => x && p.append(key, String(x).trim()))  //multiple region_name
+      } else if (v?.toString().trim()) {
+        p.append(key, v)
       }
-    },
-  },
-  data() {
-    return {
-      mapGallery: false,
-      advancedSearch: false,
-      bboxSearch: false,
-      nextPageUrl: null,
-      previousPageUrl: null,
-      loading: false,
-      layoutKey: 0,
-      loadedImagesCount: 0,
-      count: 0,
-      imageGroups: [],
-      specificOrder: [
-        { type: 957, text: "ortofotografi", order: 1 },
-        { type: 965, text: "översiktsbild", order: 1 },
-        { type: 943, text: "threedvisualization", order: 2 },
-        { type: 958, text: "threedsm", order: 3 },
-        { type: 959, text: "threedlaserscanning", order: 4 },
-        { type: 961, text: "miljöbild", order: 5 },
-        { type: 964, text: "nattfoto", order: 6 },
-        { type: 942, text: "fotografi", order: 7 },
-        { type: 949, text: "diabild", order: 8 },
-        { type: 947, text: "negativfärg", order: 9 },
-        { type: 948, text: "negativsvart", order: 10 },
-        { type: 960, text: "printscreen", order: 11 },
-        { type: 956, text: "photosfm", order: 12 },
-        { type: 954, text: "dstretch", order: 13 },
-        { type: 941, text: "frottage", order: 14 },
-        { type: 946, text: "grafik", order: 15 },
-        { type: 944, text: "kalkering", order: 16 },
-        { type: 951, text: "ritning", order: 17 },
-        { type: 955, text: "kalkeringpapper", order: 18 },
-        { type: 945, text: "avgjutning", order: 19 },
-        { type: 952, text: "dokument", order: 20 },
-        { type: 953, text: "karta", order: 21 },
-        { type: 950, text: "tidnings", order: 22 },
-        { type: 962, text: "arbetsbild", order: 23 },
-      ],
-    };
-  },
-  methods: {
-    loadNextPageBbox() {
-      this.fetchImagesClicked(true);
-    },
-    loadPreviousPageBbox() {
-      this.fetchImagesClicked(false);
-    },
-    async fetchImagesClicked(next = true) {
-      // fetch images based on the bbox
-      let url;
-      this.loadedImagesCount = 0;
-      this.store.setLoading(true);
-      if (next && this.nextPageUrl) {
-        url = this.nextPageUrl;
-      } else if (!next && this.previousPageUrl) {
-        url = this.previousPageUrl;
-      } else {
-        // Initial URL or fallback
-        const [minX, minY, maxX, maxY] = this.store.bboxFetch;
-        url = `https://diana.dh.gu.se/api/shfa/search/image/?in_bbox=${minX},${minY},${maxX},${maxY}&depth=2`;
-      }
-      try {
-        // Make the API call
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+    })
+  }
+  return base + (p.toString() ? '?' + p.toString() : '')
+}
 
-        this.count = data.count;
+const getRowTitle = r =>
+  (props.currentLanguage === 'en' ? r.type_translation : r.type) || ''
 
-        // Process and sort the images
-        let typeMap = this.specificOrder.map((order) => ({
-          ...order,
-          items: [],
-        }));
+const getOtherRows = idx => rows.value.map(r => ({
+  index: r.originalIndex,
+  title: `${getRowTitle(r)}`,
+  count: `${r.count}`,
+  isCurrent: r.originalIndex === idx
+}))
 
-        for (let image of data.results) {
-          let type = image.type;
-          let item = {
-            lamning_id: image.site.lamning_id,
-            raa_id: image.site.raa_id,
-            placename: image.site.placename,
-            askeladden_id: image.site.askeladden_id,
-            lokalitet_id: image.site.lokalitet_id,
-            id: image.id,
-            file: image.file,
-            type: image.type.id,
-            iiif_file: image.iiif_file,
-            vis_group: image.subtype,
-          };
+const visibleRows = computed(() => {
+  const anyOpen = rows.value.some(r => r.open)
+  return anyOpen ? rows.value.filter(r => r.open) : rows.value
+})
 
-          let typeIndex = typeMap.findIndex((x) => x.type === type.id);
-          if (typeIndex !== -1) {
-            typeMap[typeIndex].items.push(item);
-          }
+//show another set of page buttons when user scrolls down
+function observeTop(el, row) {
+  const key = row.originalIndex
+  if (topObservers.has(key)) {
+    topObservers.get(key).disconnect()
+    topObservers.delete(key)
+  }
+  if (!el) return
 
-          this.imageGroups = typeMap.filter((group) => group.items.length > 0);
-        }
+  const root = el.closest('.scroll-wrapper') || null
 
-        this.imageGroups = Array.from(typeMap.values());
+  const io = new IntersectionObserver(
+    ([entry]) => { row.topOutOfView = !entry.isIntersecting },
+    { root, threshold: 0 }
+  )
+  io.observe(el)
+  topObservers.set(key, io)
+}
 
-        // Filter out the groups with no items and sort the image groups by the specified order
-        this.nextPageUrl = data.next
-          ? data.next.replace(/^http:/, "https:")
-          : null;
-        this.previousPageUrl = data.previous
-          ? data.previous.replace(/^http:/, "https:")
-          : null;
+function forceRelayout() {
+  nextTick(() => layoutVersion.value++)
+}
 
-        // Update page details if needed
-        this.updatePageDetails();
-        this.store.setLoading(false);
-      } catch (error) {
-        console.error("Error fetching images:", error);
-      } finally {
-        this.store.imagesFetchTriggered = false;
-      }
-    },
-    imageLoadLog(imageIndex, groupIndex, image) {
-      if (!image.loaded) {
-        this.imageLoaded(image);
-      }
-    },
-    imageLoaded(event) {
-      // used for refreshing the gallery when the images are loaded
-      this.loadedImagesCount += 1;
-      // Check if all images are loaded
-      if (
-        this.loadedImagesCount ===
-        this.imageGroups.reduce((count, group) => count + group.items.length, 0)
-      ) {
-        this.$nextTick(() => {
-          this.layoutKey += 1;
-        });
-      }
-    },
+async function fetchGallery() {
+  isGalleryLoading.value = true
+  try {
+    const { categories } = await (await fetch(buildCategoryUrl())).json()
+    rows.value = (categories || [])
+      .filter(sec => getRowTitle(sec))
+      .map((sec, idx) => ({
+        originalIndex: idx,
+        open: false,
+        mobileMenuOpen: false,
+        infiniteItems: [],
+        nextUrl: null,
+        prevUrl: null,
+        isFetching: false,
+        type: sec.type,
+        type_translation: sec.type_translation,
+        count: sec.count,
+        currentPage: 1,
+        totalPages: Math.max(1, Math.ceil(sec.count / 25)),
+        topOutOfView: false,
+      }))
 
-    updatePageDetails() {
-      this.$emit("page-details-updated", {
-        currentPage: this.currentPage,
-        totalPages: this.totalPages,
-        totalResults: this.count,
-      });
-    },
+    if (rows.value.length) toggleRow(0)
+  } finally {
+    isGalleryLoading.value = false
+  }
+}
 
-    loadMore() {
-      // load the next page for the general searches
-      this.fetchNextPage();
-    },
+//treat alla-bilder as all category
+function normalizeCategory(t) {
+  return /^(alla[\s_-]?bilder)$/i.test(String(t).trim()) ? 'all' : t
+}
 
-    loadPrevious() {
-      // load the previous page for the general searches
-      this.searchFetchPreviousPage();
-    },
+function toggleRow(idx) {
+  rows.value.forEach(r => {
+    if (r.originalIndex !== idx) {
+      r.open = false
+      r.mobileMenuOpen = false
+      r.infiniteItems = []
+      r.nextUrl = null
+      r.prevUrl = null
+      r.isFetching = false
+    }
+  })
 
-    loadMoreAdvanced() {
-      // load the next page for the advanced searches
-      this.fetchNextPageAdvanced();
-    },
+  const row = rows.value.find(r => r.originalIndex === idx)
+  if (!row) return
 
-    loadPreviousAdvanced() {
-      // load the previous page for the advanced searches
-      this.advancedFetchPreviousPage();
-    },
+  if (!row.open) {
+    row.infiniteItems = []
+    row.nextUrl = null
+    row.isFetching = false
+  }
+  row.open = !row.open
 
-    async loadInitialData() {
-      if (this.loading) {
-        return;
-      }
-      if (this.siteId) {
-        this.loading = true;
-        this.items = [];
-        this.nextPageUrl = `https://diana.dh.gu.se/api/shfa/image/?site=${this.siteId}`;
-        await this.fetchData();
-        this.loading = false;
-      }
-    },
+  if (row.open) {
+    row.topOutOfView = false;
+    const url = new URL(buildGalleryUrl())
+    url.searchParams.set('category_type', normalizeCategory(row.type))
+    row.nextUrl = withDepth(url)
+    row.currentPage = 1
+    fetchNextPage(row)
+  }
+}
 
-    async fetchData() {
-      // fetch data based on point clicked
-      this.bboxSearch = false;
-      if (this.nextPageUrl) {
-        const separator = this.nextPageUrl.includes("?") ? "&" : "?";
-        const urlWithDepth = this.nextPageUrl + separator + "depth=2";
+const fetchNextPage = row => fetchPage(row, row.nextUrl)
+const fetchPrevPage = row => fetchPage(row, row.prevUrl)
 
-        this.store.setLoading(true);
-        this.loadedImagesCount = 0;
+async function fetchPage(row, url) {
+  if (row.isFetching || !url) return
+  row.isFetching = true
+  try {
+    const res = await fetch(url)
+    if (!res.ok) return (row.nextUrl = row.prevUrl = null)
 
-        let response = await fetch(urlWithDepth);
-        if (!response.ok) {
-          this.$emit("error", "Could not fetch data");
-          return;
-        }
+    const { results = [], next, previous, bbox } = await res.json()
 
-        let data = await response.json();
-        this.count = data.count; // Update the total count
+    row.infiniteItems = results.map(img => {
+      const p = img.site?.properties ?? {};
 
-        if (!data.results) {
-          this.$emit("error", "No results in data");
-          return;
-        }
+      return {
+        id: img.id,
+        category: row.originalIndex,
+        iiif_file: formatIiif(img.iiif_file),
+        width: img.width,
+        height: img.height,
+        lamning: p.lamning_id ?? '',
+        raa: p.raa_id ?? '',
+        askeladden: p.askeladden_id ?? '',
+        lokalitet: p.lokalitet_id ?? '',
+        placename: p.placename ?? '',
+        international: p.internationl_site ?? '',
+        is3d: img.group
+      };
+    });
 
-        let typeMap = this.specificOrder.map((order) => ({
-          ...order,
-          items: [],
-        }));
+    row.nextUrl = next || null
+    row.prevUrl = previous || null
 
-        for (let image of data.results) {
-          let type = image.type;
-          let item = {
-            lamning_id: image.site.lamning_id,
-            raa_id: image.site.raa_id,
-            askeladden_id: image.site.askeladden_id,
-            lokalitet_id: image.site.lokalitet_id,
-            placename: image.site.placename,
-            id: image.id,
-            file: image.file,
-            type: image.type.id,
-            iiif_file: image.iiif_file,
-            vis_group: image.subtype,
-          };
+    const pageParam = new URL(url).searchParams.get('page')
+    row.currentPage = pageParam ? Number(pageParam) : 1
 
-          let typeIndex = typeMap.findIndex((x) => x.type === type.id);
-          if (typeIndex !== -1) {
-            typeMap[typeIndex].items.push(item);
-          }
+    if (bbox && store.currentBbox !== bbox && activeFilter.value !== 'site') {
+      store.setBbox(bbox)
+    }
+  } finally {
+    row.isFetching = false
+  }
+}
 
-          // Filter out the groups with no items and sort the image groups by the specified order
-          this.imageGroups = typeMap.filter((group) => group.items.length > 0);
-          //.sort((a, b) => a.order - b.order);
-        }
+function onTitleClick(idx) {
+  toggleRow(idx)
+}
 
-        // Convert map to array for use in template
-        this.imageGroups = Array.from(typeMap.values());
+onBeforeUnmount(() => {
+  topObservers.forEach(o => o.disconnect())
+  topObservers.clear()
+})
 
-        this.nextPageUrl = data.next
-          ? data.next.replace("http://", "https://")
-          : null;
-        this.previousPageUrl = data.previous
-          ? data.previous.replace("http://", "https://")
-          : null;
+watch(() => props.searchItems, v => { if (v != null) { filterTimestamps.search = Date.now(); fetchGallery() } })
+watch(() => props.advancedSearchResults, v => { if (v != null) { filterTimestamps.advanced = Date.now(); fetchGallery() } })
+watch(() => props.bboxSearch, v => { if (v != null) { filterTimestamps.bbox = Date.now(); fetchGallery() } })
+watch(() => props.selectedSiteId, v => { if (v != null) { filterTimestamps.site = Date.now(); fetchGallery() } })
 
-        this.updatePageDetails();
-        this.store.setLoading(false);
-        this.mapGallery = true;
-      }
-    },
-
-    async fetchPreviousData() {
-      // fetch previous page data based on point clicked
-      if (this.previousPageUrl) {
-        this.store.setLoading(true);
-        this.loadedImagesCount = 0;
-
-        let response = await fetch(this.previousPageUrl);
-        if (!response.ok) {
-          this.$emit("error", "Could not fetch data");
-          return;
-        }
-
-        let data = await response.json();
-
-        if (!data.results) {
-          this.$emit("error", "No results in data");
-          return;
-        }
-
-        let typeMap = this.specificOrder.map((order) => ({
-          ...order,
-          items: [],
-        }));
-
-        for (let image of data.results) {
-          let type = image.type;
-          let item = {
-            lamning_id: image.site.lamning_id,
-            raa_id: image.site.raa_id,
-            askeladden_id: image.site.askeladden_id,
-            lokalitet_id: image.site.lokalitet_id,
-            placename: image.site.placename,
-            id: image.id,
-            file: image.file,
-            type: image.type.id,
-            iiif_file: image.iiif_file,
-            vis_group: image.subtype,
-          };
-
-          let typeIndex = typeMap.findIndex((x) => x.type === type.id);
-          if (typeIndex !== -1) {
-            typeMap[typeIndex].items.push(item);
-          }
-
-          // Filter out the groups with no items and sort the image groups by the specified order
-          this.imageGroups = typeMap.filter((group) => group.items.length > 0);
-          //.sort((a, b) => a.order - b.order);
-        }
-
-        // Convert map to array for use in template
-        this.imageGroups = Array.from(typeMap.values());
-
-        this.nextPageUrl = data.next
-          ? data.next.replace("http://", "https://")
-          : null;
-        this.previousPageUrl = data.previous
-          ? data.previous.replace("http://", "https://")
-          : null;
-
-        this.updatePageDetails();
-        this.store.setLoading(false);
-        this.mapGallery = true;
-      }
-    },
-  },
-  watch: {
-    "store.imagesFetchTriggered"(newVal) {
-      // watch the store for when the bbox search button is clicked
-      if (newVal) {
-        this.nextPageUrl = null;
-        this.previousPageUrl = null;
-        this.fetchImagesClicked();
-        this.$emit("updateShowResults", true);
-        this.mapGallery = true;
-        this.bboxSearch = true;
-        this.loadedImagesCount = 0;
-
-        // Reset the flag after the necessary actions are completed
-        this.store.imagesFetchTriggered = false;
-      }
-    },
-    siteId() {
-      this.loadInitialData();
-    },
-    forceRefresh(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.loadInitialData();
-      }
-    },
-    searchItems(newItems) {
-      this.imageGroups = newItems;
-      this.mapGallery = false;
-      this.advancedSearch = false;
-      this.bboxSearch = false;
-      this.loadedImagesCount = 0;
-    },
-    advancedSearchResults(newItems) {
-      this.imageGroups = newItems;
-      this.mapGallery = false;
-      this.advancedSearch = true;
-      this.bboxSearch = false;
-      this.loadedImagesCount = 0;
-    },
-  },
-};
+defineExpose({ forceRelayout })
 </script>
 
 <style scoped>
-.avail-3d {
+.mobile-row-menu {
+  margin-bottom: 1rem;
+}
+
+.mobile-menu-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  border: none;
+  background: none;
+  color: var(--page-text);
+  cursor: pointer;
+}
+
+.mobile-menu-toggle svg {
+  transition: transform .25s ease;
+}
+
+.mobile-menu-toggle svg.rotate {
+  transform: rotate(180deg);
+}
+
+.mobile-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0 0.5rem;
+}
+
+.mobile-menu-list li {
+  padding: 0.35rem 0;
+  cursor: pointer;
+}
+
+.row-entry {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  width: 100%;
+  color: var(--page-text);
+}
+
+.mobile-menu-list li.non-clickable {
+  cursor: default;
+  opacity: 1;
+}
+
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all .25s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+@media (min-width: 901px) {
+  .mobile-row-menu {
+    display: none;
+  }
+}
+
+.heading-count-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.inline-spinner {
+  width: 25px;
+  height: 25px;
+  filter: invert(1);
+  opacity: .8;
+}
+
+.toggle-button-group {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  width: 100%;
+}
+
+.toggle-button-group button {
+  background: none;
+  border: none;
+  color: var(--page-text);
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.toggle-button-group button:hover {
+  color: var(--notice-text) !important;
+}
+
+.toggle-button-group button.active {
+  color: var(--highlighted-text);
+}
+
+.masonry-wall {
+  width: 100%;
+}
+
+.title-area {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.next-page-wrapper {
+  color: var(--page-text);
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  align-items: center;
+  gap: .3rem;
+}
+
+@media (max-width: 1024px) {
+  .next-page-wrapper {
+    flex: 1 1 100%;
+    justify-content: center;
+    margin-left: 0;
+    margin-top: 0.35rem;
+  }
+}
+
+.gallery-page-info {
+  float: left;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-weight: 500;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.gallery-page-button {
+  float: left;
+  cursor: pointer;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-weight: 500;
+  position: relative;
+  background-size: 35px !important;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-button-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.gallery-page-button:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+.next-page-btn {
+  background-image: url(https://data.dh.gu.se/ui-icons/arrow_next_white.png);
+  padding-right: 30px;
+  background-position: right -4px;
+  height: 25px;
+  width: 25px;
+}
+
+.prev-page-btn {
+  background-image: url(https://data.dh.gu.se/ui-icons/arrow_prev_white.png);
+  padding-left: 30px;
+  background-position: left -4px;
+  height: 25px;
+  width: 25px;
+}
+
+.gallery-page-button:hover {
+  opacity: 0.5;
+}
+
+.end-of-pages {
+  display: block;
+  margin-top: .5rem;
+  font-size: .85rem;
+  opacity: .6;
+}
+
+.badge-3d {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -551,7 +591,7 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.5;
   text-align: center;
   overflow: hidden;
   cursor: pointer;
@@ -561,144 +601,292 @@ export default {
   height: 25px;
   opacity: 1;
   background-color: var(--threed-icon);
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--threed-icon);
   z-index: 10;
 }
 
-.loading-animation {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding-top: 50px;
-  transition: all 0.5s ease-in-out;
-}
-
-.loading-animation img {
-  width: 50px;
-  height: 50px;
-  filter: invert(0.8);
-}
-
-.gallery-container {
-  padding-top: 0px;
-  margin-top: -5px;
-  padding-bottom: 35px;
-  /* padding-left:150px; */
-}
-
-@media (max-width: 1024px) {
-  .gallery-container {
-    padding-top: 0px;
-    padding-bottom: 35px;
-  }
-}
-
-h3 {
-  font-size: 17px;
-  color: var(--page-text) !important;
-  margin: 20px 20px 8px 0px;
-}
-
-.card {
-  background-color: transparent;
-  border-radius: 2px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-.card img {
-  transition: all 0.2s ease-in-out;
-  transform: scale(1.02);
-}
-
-.card:hover img {
-  filter: brightness(90%);
-  cursor: pointer;
-  transform: scale(1.05);
-}
-
-.grid-item-info {
-  height: 100%;
+.metadata-overlay {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  background: var(--image-hover-background);
-  color: var(--page-text);
-  position: absolute;
-  opacity: 0;
-  transition: all 0.5s ease-in-out;
-  cursor: pointer;
-  padding: 0px;
-}
-
-.grid-item-info:hover {
-  opacity: 0.9;
-  cursor: pointer;
-}
-
-.grid-item-info-meta {
-  bottom: 0px;
-  position: absolute;
-  padding: 10px 10px;
-}
-
-.grid-item-info-meta h5 {
-  font-size: 20px;
-  font-weight: 550;
-  line-height: 1.5;
-}
-
-.grid-item-info-meta h6 {
-  font-size: 17px;
-  bottom: 0px;
-  line-height: 1;
-}
-
-.loadMore {
-  display: block;
-  padding: 0.2em 0.5em;
-  font-size: 1.2em;
-  border-radius: 50%;
-  cursor: pointer;
-  color: var(--page-text);
-  text-align: center;
-  width: 35px;
-  height: 35px;
-  overflow: hidden;
-}
-
-.loadMore:hover {
-  background-color: var(--viewer-button-hover);
-}
-
-.button-container {
+  height: 100%;
+  background: rgba(0, 0, 0, .7);
   display: flex;
+  align-items: center;
   justify-content: center;
-}
-
-/* Button groups */
-.button-group {
-  position: fixed;
-  bottom: 31px;
-  z-index: 999;
+  opacity: 0;
+  transition: opacity .3s ease;
+  backdrop-filter: blur(5px);
   pointer-events: none;
 }
 
-/* Align "Load Previous" buttons to the left */
-.left {
-  margin-left: -100px;
-  background: url(/interface/backbuttonwhite.png);
-  background-size: 35px;
-  pointer-events: auto;
+.loading-indicator {
+  text-align: center;
+  padding: 5px 10px 10px 5px;
+  font-size: 1.2rem;
 }
 
-/* Align "Load More" buttons to the right */
-.right {
-  margin-left: 170px;
-  background: url(/interface/nextbuttonwhite.png);
-  background-size: 35px;
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 
-  pointer-events: auto;
+.row-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+}
+
+.button-container.sticky {
+  min-width: 50px;
+  margin-top: 133px;
+  color: var(--page-text);
+  padding-left: 18px;
+}
+
+.row-titles ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row-titles li {
+  cursor: pointer;
+  opacity: 0.6;
+  text-align: right;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.row-text {
+  float: right;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 110px;
+  min-width: 50px;
+  transition: all .3s ease;
+  font-weight: 400;
+}
+
+.row-divider {
+  display: none;
+}
+
+.row-count {
+  display: inline;
+  font-family: monospace;
+  text-align: right;
+  overflow: hidden;
+  width: 0px;
+  min-width: 0px;
+  max-width: 0px;
+  margin-left: 0px;
+  font-size: 1.0em;
+  font-weight: 400;
+  padding-top: 3px;
+  margin-left: 5px;
+  color: var(--page-text);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: all .2s ease;
+}
+
+.row-titles li:hover {
+  transform: scale(1.02) translate(-1px);
+}
+
+.row-titles li:hover .row-text {
+  overflow: visible;
+}
+
+.row-titles li:hover .row-count {
+  max-width: auto;
+}
+
+.button-container.sticky:hover .row-count {
+  width: auto;
+  min-width: 24px;
+  max-width: 40px;
+  margin-left: 10px;
+}
+
+.row-titles li.non-clickable {
+  cursor: default;
+  color: var(--highlighted-text);
+  opacity: 1.0;
+}
+
+h3 {
+  font-weight: 600;
+  font-size: 120%;
+}
+
+h3 span {
+  font-weight: 300;
+  font-size: 100%;
+}
+
+.right-column {
+  flex: 1;
+  padding-left: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 30px;
+}
+
+.row-heading {
+  color: var(--page-text);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.title-tag {
+  background-color: rgb(40, 40, 40);
+  border-radius: 6px;
+  margin-left: 0px;
+  font-size: 0.8em;
+  padding: 5px 10px;
+  font-weight: 500;
+  color: white;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scroll-wrapper {
+  margin-top: 1rem;
+}
+
+.scroller {
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.item {
+  position: relative;
+  overflow: hidden;
+}
+
+.item:hover .metadata-overlay {
+  opacity: .9;
+}
+
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.metadata-content {
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  font-size: .9rem;
+  cursor: pointer;
+}
+
+.total-count {
+  font-weight: 600;
+  text-align: right;
+  color: var(--page-text);
+  margin-top: 10px;
+  margin-right: 5px;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+
+.no-results {
+  color: var(--page-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.subtext {
+  color: var(--page-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 1.0rem;
+  font-style: italic;
+}
+
+.no-results__icon {
+  width: 50px;
+  height: 50px;
+  margin-top: 1rem;
+  background-image: var(--no-results-icon);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media (max-width: 900px) {
+  .button-container.sticky {
+    /* hide old sidebar */
+    display: none;
+  }
+
+  .mobile-row-menu {
+    /* show dropdown */
+    display: block;
+  }
+
+  .right-column {
+    width: calc(100vw - 40px);
+    padding-left: 0.5rem;
+    padding-top: 0rem;
+    min-height: 320px;
+  }
+
+  .mobile-menu-list .row-count {
+    display: inline;
+    margin-left: 6px;
+    font-family: monospace;
+    font-size: 0.9em;
+    color: var(--page-text);
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .mobile-menu-list .row-text {
+    white-space: normal;
+    overflow: visible;
+    max-width: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .mobile-menu-list+.total-count {
+    text-align: left;
+    font-size: 0.9rem;
+  }
+}
+
+.bottom-align {
+  justify-content: end;
+}
+
+@media (max-width: 1024px) {
+  .bottom-align {
+    justify-content: center !important;
+  }
 }
 </style>

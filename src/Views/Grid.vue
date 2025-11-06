@@ -10,11 +10,9 @@
       <div id="gu-logo-bg">
         <div v-if="currentLanguage === 'sv'" id="gu-logo-sv"></div>
         <div v-else id="gu-logo-en"></div>
-
       </div>
-      <button @click="toggleMenu" class="menu-show-button">
-        <!--  {{ $t('message.menuButton') }} -->
-      </button>
+
+      <button @click="toggleMenu" class="menu-show-button"></button>
 
       <!-- This controls the menu on small screens -->
       <div class="main-menu" v-show="isMenuOpen">
@@ -25,17 +23,15 @@
           </svg>
         </button>
         <div class="languages">
-          <div class="version">Version 1.3</div>
+          <div class="version">Version 1.4</div>
 
           <transition name="flip-fade" mode="out-in">
             <div v-if="currentLanguage === 'en'" class="top-button" key="english" @click="toggleLanguage"
               id="language-button">
               Svenska
-
             </div>
             <div v-else class="top-button" key="svenska" @click="toggleLanguage" id="language-button">
               English
-
             </div>
           </transition>
 
@@ -51,41 +47,42 @@
             </div>
           </transition>
 
-          <!-- <div class="top-button">|</div> -->
         </div>
         <Privacy :visiblePrivacy="visiblePrivacy" :currentLanguage="currentLanguage" @close="visiblePrivacy = false" />
         <div class="top-links">
           <button class="item" id="privacy-button" @click="visiblePrivacy = true">
             {{ $t('message.privacy') }}<div class="top-link-infobutton"></div></button>
-            <button class="item">
-              <router-link :to="{name:'Guide', params:{currentLang:currentLanguage}}" target="_blank">
-                {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div>
-              </router-link>
-            </button>
+          <button class="item">
+            <router-link :to="{ name: 'Guide' }" target="_blank">
+              {{ $t('message.sökguide') }}<div class="top-link-infobutton"></div>
+            </router-link>
+          </button>
 
-            <button class="item">
-              <router-link :to="{name:'About', params:{currentLang:currentLanguage}}" target="_blank">
-                {{ $t('message.aboutArchive') }}<div class="top-link-infobutton"></div>
-              </router-link>
-            </button>
+          <button class="item">
+            <router-link :to="{ name: 'About' }" target="_blank">
+              {{ $t('message.aboutArchive') }}<div class="top-link-infobutton"></div>
+            </router-link>
+          </button>
+
+          <button class="item">
+            <router-link :to="{ name: 'Contact' }" target="_blank">
+              {{ $t('message.contact') }}<div class="top-link-infobutton"></div>
+            </router-link>
+          </button>
 
           <button class="item" v-if="currentLanguage === 'en'">
-
             <a href="https://www.gu.se/en/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div
                 class="top-link-button"></div></a> </button>
 
           <button class="item" v-else>
-
             <a href="https://www.gu.se/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button">
               </div></a> </button>
 
           <button class="item" v-if="currentLanguage === 'en'">
-
             <a href="https://www.gu.se/en/shfa/research" target="_blank">{{ $t('message.news') }}<div
                 class="top-link-button"></div></a></button>
 
           <button class="item" v-else>
-
             <a href="https://www.gu.se/shfa/forskning" target="_blank">{{ $t('message.news') }}<div
                 class="top-link-button"></div></a></button>
         </div>
@@ -97,22 +94,16 @@
     <div class="split-container main-color">
       <div class="flex height">
         <!-- Panel 1 -->
-        <div id="split-0" class="flex-grow flex flex-col "
-          :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
+        <div id="split-0" class="flex-grow flex flex-col">
 
-          <Search @toggle-map="toggleMap" @search-completed="updateItems" @page-details-updated="updatePageDetails"
-            @metadata-route="updatePreviousRoute" ref="searchRef" :updateNextPageUrl="updateNextPageUrl"
-            :updatePreviousPageUrl="updatePreviousPageUrl" />
+          <Search @toggle-map="toggleMap" ref="searchRef" @search-term="handleSearchTerm"
+            :defaultSearchResults="defaultSearchResults" :currentLang="currentLanguage" />
 
-          <Map @id-selected="selectedId = $event" @reset-id="handleBboxClicked" @update-bbox="bbox = $event"
-            @map-clicked="handleMapClicked" ref="mapComponent" v-show="showMap" :coordinates="results" :bbox="bbox"
-            :showMap="showMap" />
+          <Map ref="mapComponent" v-show="showMap" @bbox-search="handleBboxSearch" @map-clicked="handleMapClicked"
+            @id-selected="handleSiteSelection" :coordinates="results" :bbox="bbox" :showMap="showMap" />
 
-          <AdvancedSearch v-show="!showMap" @advanced-search-results="handleAdvancedSearchResults"
-            @page-details-updated="updatePageDetails" ref="advancedSearchRef" :currentLang="currentLanguage"
-            :updateNextPageUrlAdvanced="updateNextPageUrlAdvanced"
-            :updatePreviousPageUrlAdvanced="updatePreviousPageUrlAdvanced" />
-
+          <AdvancedSearch v-show="!showMap" @advanced-search-params="handleAdvancedSearchResults"
+            ref="advancedSearchRef" :currentLang="currentLanguage" />
 
           <button v-show="showMap" id="reset-layout-mapview" @click="resetSplitsAndPanels">{{
             $t('message.resetlayout') }}</button>
@@ -122,63 +113,23 @@
 
         </div>
         <!-- Panel 2 -->
-        <div id="split-1" class="flex-grow overflow-auto main-color " v-show="shouldShowPanel1"
-          :class="{ 'w-1/3': showThreePanels, 'w-1/2': !showThreePanels }">
+        <div id="split-1" class="flex-grow overflow-auto main-color" v-show="shouldShowPanel1">
+          <Gallery ref="gallery" v-show="activeTab === 'gallery'" @image-clicked="onImageClicked"
+            :searchItems="searchItems" :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults"
+            :selectedSiteId="selectedId" :activeTab="activeTab" :currentLanguage="currentLanguage"
+            :showThreePanels="showThreePanels" @update-tab="activeTab = $event" />
 
-          <div class="">
-            <div class="">
-
-              <div v-show="showGallery">
-
-                <!--
-                  Gallery Component Attributes:
-                  - @image-clicked="onImageClicked" Listens for an 'image-clicked' event and calls 'onImageClicked' method
-                  - @updateShowResults="handleShowResults" Handles the event to show/hide results
-                  - @page-details-updated="updatePageDetails"   Updates page details when they change in the Gallery component 
-
-                  - :Binds a dynamic class based on the 'isLight' state for theming
-                  - :siteId="selectedId" : Passes the currently selected site ID to the Gallery component
-                  - :forceRefresh="forceRefresh" A number that changes to trigger a refresh in the Gallery component
-
-                  - :searchItems="searchItems"   Passes search items to the Gallery for display
-                  - :fetchNextPage="fetchNextPage" Function to fetch the next page of search results
-                  - :searchFetchPreviousPage="fetchPreviousPage" Function to fetch the previous page of search results
-                  - :searchNextPageUrl="nextPageUrl" URL for fetching the next page of search results
-                  - :searchPreviousPageUrl="previousPageUrl" URL for fetching the previous page of search results
-
-                  - :advancedSearchResults="advancedSearchResults" Passes advanced search results to the Gallery
-                  - :fetchNextPageAdvanced="fetchNextPageAdvanced" Function to fetch the next page of advanced search results
-                  - :advancedFetchPreviousPage="fetchPreviousPageAdvanced" Function to fetch the previous page of advanced search results
-                  - :searchNextPageUrlAdvanced="nextPageUrlAdvanced" URL for fetching the next page of advanced search results
-                  - :advancedPreviousPageUrl="previousPageUrlAdvanced" URL for fetching the previous page of advanced search results
-                -->
-
-                <Gallery @image-clicked="onImageClicked" @updateShowResults="handleShowResults"
-                  @page-details-updated="updatePageDetails" :siteId="selectedId" :forceRefresh="forceRefresh"
-                  :searchItems="searchItems" :fetchNextPage="fetchNextPage" :searchFetchPreviousPage="fetchPreviousPage"
-                  :searchNextPageUrl="nextPageUrl" :searchPreviousPageUrl="previousPageUrl"
-                  :advancedSearchResults="advancedSearchResults" :fetchNextPageAdvanced="fetchNextPageAdvanced"
-                  :advancedFetchPreviousPage="fetchPreviousPageAdvanced"
-                  :searchNextPageUrlAdvanced="nextPageUrlAdvanced" :advancedPreviousPageUrl="previousPageUrlAdvanced" />
-              </div>
-              <div style="display:flex; align-items: center; justify-content: center;">
-                <div class="ui-results" v-show="showResults" style="width:220px; font-size:0.9em; padding:5px 5px;">
-                  <div style="font-size:1.4em; line-height:1.1; font-weight:400;"> {{ $t('message.resultat') }}:
-                  <p style="color:var(--total-results); display:inline;"> {{ totalResults }}</p>
-                  </div>
-                  ({{ $t('message.sida') }} {{ currentPage }} {{ $t('message.av') }} {{ totalPages }})
-                </div>
-
-              </div>
-            </div>
-          </div>
+          <Summary v-show="activeTab === 'summary'" :searchItems="searchItems"
+            :advancedSearchResults="advancedSearchResults" :bboxSearch="bboxResults" :selectedSiteId="selectedId"
+            :activeTab="activeTab" :currentLanguage="currentLanguage" :currentColor="currentColour"
+            @summaryClick="handleKeywordClick" @update-tab="activeTab = $event" />
         </div>
 
         <!-- Panel 3 -->
-        <transition name="slide">
-          <div id="split-2" class="flex-grow main-color overflow-auto"
-            :class="{ 'w-1/3': showThreePanels, 'w-0': !showThreePanels }" v-show="showThreePanels">
-            <div id="image" v-if="shouldShowPanel1" style="width:0%;height:0px; position:relative; top:0px; margin-left:0px;"></div>
+        <transition name="slide" @after-enter="onPanel3Done" @after-leave="onPanel3Done">
+          <div id="split-2" v-show="showThreePanels" class="flex-grow main-color overflow-auto">
+            <div id="imageAnchor"
+              style="width:0%; height:160px; position:relative; margin-top:-160px; margin-left:0px;"></div>
             <button @click="closeThreePanels" class="close-button">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 24"
                 stroke="currentColor">
@@ -186,7 +137,8 @@
               </svg>
             </button>
 
-            <ImageViewer v-if="IiifFileforImageViewer" :iiifFile="IiifFileforImageViewer" />
+            <ImageViewer v-if="IiifFileforImageViewer" :key="IiifFileforImageViewer"
+              :iiifFile="IiifFileforImageViewer" />
             <MetaData :Id="idForMetaData" :currentLang="currentLanguage" @keyword-clicked="handleKeywordClick" />
           </div>
         </transition>
@@ -195,15 +147,16 @@
       </div>
     </div>
     <!-- End of Container -->
-
   </div>
 </template>
 
-<script lang="ts">
+<script>
+import { ref } from "vue";
 import Map from "../components/Map.vue";
 import { defineComponent } from "vue";
 import Split from "split.js";
 import Gallery from "../components/Gallery.vue";
+import Summary from "../components/Summary.vue";
 import Search from "../components/Search.vue";
 import AdvancedSearch from "../components/AdvancedSearch.vue";
 import ImageViewer from "../components/ImageViewer.vue";
@@ -214,23 +167,26 @@ export default defineComponent({
   components: {
     Map,
     Gallery,
+    Summary,
     Search,
     AdvancedSearch,
     ImageViewer,
     MetaData,
     Privacy,
   },
+  setup() {
+    const activeTab = ref('gallery')
+
+    return {
+      activeTab,
+    };
+  },
   watch: {
     $route(to, from) {
       const newSiteId = to.params.siteId;
       this.newIiifFile = to.params.iiifFile;
       const newQuery = to.params.query;
-      if (newSiteId) {
-        this.selectedId = newSiteId;
-        this.showResults = true;
-      }
       if (newQuery && this.isInitialLoad) {
-        this.$refs.searchRef.searchKeywordTags(newQuery);
         this.isInitialLoad = false;
       }
       if (this.newIiifFile) {
@@ -241,7 +197,7 @@ export default defineComponent({
     selectedId(newId, oldId) {
       if (newId) {
         this.$router.push({ name: "Site", params: { siteId: newId } });
-        fetch(`https://diana.dh.gu.se/api/shfa/geojson/site/?id=${newId}`)
+        fetch(`https://shfa.dh.gu.se/api/geojson/site/?id=${newId}`)
           .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
@@ -275,14 +231,6 @@ export default defineComponent({
         this.windowSize = false;
         return;
       }
-
-      if (newValue && !this.shouldShowPanel1) {
-        // Check if on mobile
-        const panel = document.getElementById("split-1");
-        if (panel) {
-          window.scrollTo(0, 400);
-        }
-      }
     },
   },
   data() {
@@ -306,11 +254,6 @@ export default defineComponent({
       showResults: false,
       showMap: true,
       showGallery: true,
-      nextPageUrl: null,
-      nextPageUrlAdvanced: null,
-      previousPageUrl: null,
-      previousPageUrlAdvanced: null,
-      forceRefresh: 0,
       visiblePrivacy: false,
       mapClicked: false,
       currentColour: "dark",
@@ -321,11 +264,15 @@ export default defineComponent({
       shouldFireInitialFetch: true,
       newIiifFile: null,
       splitInstance: null,
+      bboxResults: [],
+      defaultSearchResults: [],
     };
   },
   mounted() {
     this.initializeOnHome();
     window.addEventListener('storage', this.handleStorageChange);
+
+    this.fetchSearchTerms()
 
     var en_settings = {
       "showIntro": true, "divId": "matomo-opt-out", "useSecureCookies": true, "cookiePath": null, "cookieDomain": null, "cookieSameSite": "Lax", "OptOutComplete": "Opt-out complete; your visits to this website will not be recorded by the Web Analytics tool.", "OptOutCompleteBis": "Note that if you clear your cookies, delete the opt-out cookie, or if you change computers or Web browsers, you will need to perform the opt-out procedure again.", "YouMayOptOut2": "You may choose to prevent this website from aggregating and analyzing the actions you take here.", "YouMayOptOut3": "Doing so will protect your privacy, but will also prevent the owner from learning from your actions and creating a better experience for you and other users.", "OptOutErrorNoCookies": "The tracking opt-out feature requires cookies to be enabled.", "OptOutErrorNotHttps": "The tracking opt-out feature may not work because this site was not loaded over HTTPS. Please reload the page to check if your opt out status changed.", "YouAreNotOptedOut": "You are not opted out.", "UncheckToOptOut": "Uncheck this box to opt-out.", "YouAreOptedOut": "You are currently opted out.", "CheckToOptIn": "Check this box to opt-in."
@@ -444,8 +391,6 @@ export default defineComponent({
     };
     window.addEventListener("resize", this.updateWindowWidth);
 
-    // this.$i18n.locale = this.currentLanguage;
-
     this.currentColour = this.currentColour;
 
     this.targetTheme = this.targetTheme;
@@ -456,6 +401,7 @@ export default defineComponent({
     this.splitInstance = Split(["#split-0", "#split-1", "#split-2"], {
       sizes: [40, 60, 40],
       minSize: [500, 300],
+      maxSize: [Infinity, Infinity, 700],
       direction: direction,
       dragInterval: 1,
       gutterSize: 10,
@@ -482,7 +428,7 @@ export default defineComponent({
       if (this.windowWidth <= 1250) {
         return !this.showThreePanels;
       }
-      return true; // always show on larger screens
+      return true; //always show on larger screens
     },
   },
   beforeDestroy() {
@@ -490,40 +436,75 @@ export default defineComponent({
   },
 
   methods: {
+    onPanel3Done() {
+      this.$refs.gallery?.forceRelayout()
+    },
+    fetchSearchTerms() {
+      fetch("https://shfa.dh.gu.se/api/keywordtag/?limit=150")
+        .then((response) => response.json())
+        .then((json) => {
+          this.data = json.results;
+          this.defaultSearchResults = this.data.sort(() => 0.5 - Math.random()).slice(1, 15)
+        }).catch((error) => {
+          console.error('Error fetching keyword data:', error);
+        });
+    },
+    updateSiteCoordinates(newId) {
+      if (newId) {
+        fetch(`https://shfa.dh.gu.se/api/image/?id=${newId}&depth=1`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data.results && data.results[0] && data.results[0].site && data.results[0].site.coordinates) {
+              const coordinates = data.results[0].site.coordinates.coordinates;
+              if (!this.mapClicked && this.$refs.mapComponent) {
+                this.$refs.mapComponent.focusOnCoordinates(...coordinates);
+              }
+            }
+          })
+          .catch(e => {
+            console.error("failed to fetch new site coordinates:", e);
+          });
+      }
+    },
     handleStorageChange(event) {
       if (event.key === 'searchKeyword' && event.newValue) {
         const keyword = event.newValue;
         this.handleKeywordClick(keyword);
       }
     },
-    initializeOnHome() {
+    initializeOnHome() { //logic for initial load and fetching
       const newSiteId = this.$route.params.siteId;
       const newIiifFile = this.$route.params.iiifFile;
       const newQuery = this.$route.params.query;
 
       if (this.$route.name === "Home" && !newSiteId && !newIiifFile && this.shouldFireInitialFetch) {
         if (this.$refs.mapComponent) {
-          this.$refs.mapComponent.fetchImagesClickedInit();
+          const bbox = this.$refs.mapComponent.getCurrentBbox();
+          this.bboxResults = bbox;
           this.shouldFireInitialFetch = false;
         } else {
-          console.error("mapComponent is not available");
+          console.error("Map component is not available");
         }
       }
-
       if (newSiteId) {
         this.selectedId = newSiteId;
         this.showResults = true;
       }
       if (newQuery && this.isInitialLoad) {
         if (this.$refs.searchRef) {
-          this.$refs.searchRef.searchKeywordTags(newQuery);
+          this.searchItems = newQuery;
         } else {
           console.error("searchRef is not available.");
         }
         this.isInitialLoad = false;
       }
-
       if (newIiifFile) {
+        this.updateSiteCoordinates(newIiifFile);
         this.showThreePanels = true;
         this.IiifFileforImageViewer = newIiifFile;
       }
@@ -541,17 +522,24 @@ export default defineComponent({
     handleShowResults(newValue) {
       this.showResults = newValue;
     },
-    handleKeywordClick(keyword) {
+    handleKeywordClick(keyword) { //when a metadata item is clicked in the image viewer
       this.$nextTick(() => {
         if (this.$refs.searchRef) {
-          this.$refs.searchRef.updateSearchFromMetadata(keyword);
+          this.searchItems = null;
+          this.$nextTick(() => {
+            this.searchItems = keyword;
+            this.$refs.searchRef.updateSearchFromMetadata(keyword); //sets the text in the search bar, updates router
+          });
+          this.selectedId = null;
+          this.showResults = true;
+          this.$refs.advancedSearchRef.clearAdvancedSearchFields();
+          this.showImageGallery();
         } else {
           console.error('searchRef is not available.');
         }
       });
     },
     adjustSplitDisplay() {
-      // Get the element by its ID
       const splitElement = document.getElementById("split-1");
       if (!splitElement) return;
 
@@ -572,7 +560,7 @@ export default defineComponent({
     },
     toggleMenu() {
       if (window.innerWidth <= 1024) {
-        // Only toggle if on smaller screens
+        //only toggle if on smaller screens
         this.isMenuOpen = !this.isMenuOpen;
       }
     },
@@ -589,32 +577,18 @@ export default defineComponent({
       this.$i18n.locale = this.currentLanguage;
       localStorage.setItem('userLang', this.currentLanguage);
     },
-
     toggleColour() {
       this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
       this.targetTheme = (this.targetTheme === 'dark') ? 'light' : 'dark';
       document.documentElement.setAttribute('style-theme', this.targetTheme);
+      localStorage.setItem('userColour', this.currentColour);
       return this.currentColour && this.targetTheme;
     },
-
     handleMapClicked() {
       this.forceRefresh++;
       this.mapClicked = true;
       this.showResults = true;
       this.$refs.searchRef.clearSearchField();
-      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
-      this.showImageGallery();
-    },
-    handleBboxClicked() {
-      this.selectedId = null;
-      this.$refs.searchRef.clearSearchField();
-      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
-      this.showImageGallery();
-    },
-    updateItems(newItems) {
-      this.searchItems = newItems;
-      this.selectedId = null; // Reset selectedId
-      this.showResults = true;
       this.$refs.advancedSearchRef.clearAdvancedSearchFields();
       this.showImageGallery();
     },
@@ -628,6 +602,7 @@ export default defineComponent({
     closeThreePanels() {
       this.showThreePanels = false;
       this.showImageGallery();
+      document.getElementById('gutter-2').style.display = 'none';
       if (this.previousRoute) {
         this.handleRouteChange(this.$route);
       }
@@ -655,38 +630,32 @@ export default defineComponent({
         this.$router.push(this.previousRoute);
       }
     },
-    onImageClicked(iiifFile, id) {
+    onImageClicked(_iiifFile, id) {
+      this.toggleThreePanels();
+      const val = String(id);
+      this.IiifFileforImageViewer = val;
       this.selectedIiifFile = id;
       this.idForMetaData = id;
 
-      this.toggleThreePanels();
       if (!this.$route.fullPath.includes("image")) {
         this.previousRoute = this.$route.fullPath;
       }
-      if (this.IiifFileforImageViewer) {
-        this.$router.replace({
-          name: "IiifFile",
-          params: {
-            iiifFile: this.IiifFileforImageViewer,
-          },
-        });
-      }
-    },
-    fetchNextPage() {
-      this.$refs.searchRef.fetchNextPage();
-    },
-    fetchNextPageAdvanced() {
-      this.$refs.advancedSearchRef.fetchNextPage();
-    },
-    updateNextPageUrl(newUrl) {
-      this.nextPageUrl = newUrl;
-    },
-    updateNextPageUrlAdvanced(newUrl) {
-      this.nextPageUrlAdvanced = newUrl;
+
+      this.$router.replace({
+        name: "IiifFile",
+        params: { iiifFile: val },
+      });
+
+      this.$nextTick(() => {
+        document.getElementById("imageAnchor")?.scrollIntoView();
+      });
     },
     handleAdvancedSearchResults(results) {
-      this.advancedSearchResults = results;
-      this.selectedId = null; // Reset selectedId
+      this.advancedSearchResults = null;
+      this.$nextTick(() => {
+        this.advancedSearchResults = results;
+      });
+      this.selectedId = null;
       this.showResults = true;
       this.$refs.searchRef.clearSearchField();
       this.$router.push({
@@ -694,23 +663,35 @@ export default defineComponent({
       });
       this.showImageGallery();
     },
-    fetchPreviousPage() {
-      this.$refs.searchRef.fetchPreviousPage();
+    handleSearchTerm(searchTerm) {
+      this.searchItems = null;
+      this.$nextTick(() => {
+        this.searchItems = searchTerm;
+      });
+      this.selectedId = null;
+      this.showResults = true;
+      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
+      this.showImageGallery();
     },
-    updatePreviousPageUrl(url) {
-      this.previousPageUrl = url;
+    handleBboxSearch(bbox) {
+      this.bboxResults = null;
+      this.$nextTick(() => {
+        this.bboxResults = bbox;
+      });
+      this.selectedId = null;
+      this.showResults = true;
+      this.$refs.searchRef.clearSearchField();
+      this.$refs.advancedSearchRef.clearAdvancedSearchFields();
+      this.showImageGallery();
     },
-    fetchPreviousPageAdvanced() {
-      this.$refs.advancedSearchRef.fetchPreviousPage();
-    },
-    updatePreviousPageUrlAdvanced(url) {
-      this.previousPageUrlAdvanced = url;
-    },
-    updatePageDetails({ currentPage, totalPages, totalResults }) {
-      this.currentPage = currentPage;
-      this.totalPages = totalPages;
-      this.totalResults = totalResults;
-    },
+    handleSiteSelection(siteId) {
+      this.selectedId = null;
+      this.$nextTick(() => {
+        this.selectedId = siteId;
+      });
+      this.showResults = true;
+      this.showImageGallery();
+    }
   },
 });
 </script>
@@ -735,11 +716,11 @@ export default defineComponent({
 
 #reset-layout-mapview:hover {
   opacity: 0.9;
-  background-color: var(--button-hover);
+  background-color: var(--viewer-button-hover);
   color: var(--button-text);
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   #reset-layout-mapview {
     display: none;
   }
@@ -748,10 +729,10 @@ export default defineComponent({
 #reset-layout-searchview {
   float: left;
   display: block;
-  /* margin-top: 10px;
-  margin-bottom: 10px; */
-  /* font-size: 1.2rem; */
-  padding: 5px 20px;
+  margin-top: -50px;
+  /* margin-bottom: 10px; 
+   font-size: 1.2rem; */
+  padding: 5px 15px 5px 15px;
   background-color: var(--button-background);
   color: var(--button-text);
   border: none;
@@ -760,6 +741,7 @@ export default defineComponent({
   font-weight: 500;
   margin-left: 8px;
   width: max-content;
+  margin-bottom: 15px;
 }
 
 #reset-layout-searchview:hover {
@@ -772,55 +754,6 @@ export default defineComponent({
     display: none;
   }
 }
-
-/* #resetSplitButton {
-  position: absolute;
-  bottom: 50px;
-  left: 60px;
-  padding: 4px 10px;
-  z-index: 100;
-  width: 110px;
-  height: auto;
-  cursor: pointer;
-  border-radius: 6px !important;
-  background-color: var(--button-background);
-  color: var(--button-text);
-  font-size: 100%;
-  height: 32px; */
-
-/* position: absolute;
-  left: 8px;
-  transform: translateX(25%) translateY(100%);
-  bottom: 50px;
-  padding: 5px 15px 5px 15px;
-  z-index: 100;
-  width: max-content;
-  width: auto;
-  height: auto;
-  cursor: pointer;
-  border-radius: 8px !important;
-  background-color: var(--button-background);
-  /* background: var(--underlay); */
-/* backdrop-filter: blur(5px); */
-/* color: rgb(235, 234, 234); */
-/* color: var(--button-text);
-  font-size: 1.1rem;
-  font-weight: 450;
-  isolation: isolate;  */
-/* } */
-
-/* @media (max-width: 1023px) {
-  #resetSplitButton {
-    display: none;
-  }
-}
-
-#resetSplitButton:hover {
-  background-color: var(--button-hover);
-  cursor: pointer;
-  color: var(--page-text);
-  mix-blend-mode: normal;
-} */
 
 .flip-fade-enter-active,
 .flip-fade-leave-active {
@@ -1203,24 +1136,22 @@ export default defineComponent({
     width: 100%;
     position: absolute;
     background-color: var(--menu-background);
-    height: 440px;
+    height: 500px;
     box-shadow: var(--menu-shadow);
     backdrop-filter: blur(8px);
   }
 
   @media (max-width: 600px) {
-
     .main-menu {
       display: block;
       width: 100%;
       position: absolute;
       background-color: var(--menu-background);
-      height: 440px;
+      height: 500px;
       box-shadow: none;
       backdrop-filter: blur(8px);
     }
   }
-
 
   .languages {
     right: 20px;
@@ -1299,7 +1230,6 @@ export default defineComponent({
 }
 
 /* End of menu style */
-
 @media (max-width: 350px) {
   .menu-show-button {
     margin-right: 15px;
@@ -1388,7 +1318,7 @@ export default defineComponent({
 
 #split-1 {
   background-color: var(--page-background);
-  padding: 0px 20px 0px 40px;
+  padding: 0px 20px 0px 0px;
   min-width: 200px;
   border-width: 0px 0px 0px 1px;
   border-style: dotted;
@@ -1415,15 +1345,10 @@ export default defineComponent({
   width: 0px !important;
 }
 
-#split-2 {
-  background-color: var(--page-background);
-  padding: 0px 0px 0px 0px;
-}
-
 /* comment this for instant scroll */
-* { 
+/* { 
   scroll-behavior: smooth;
-}
+} */
 
 #split-2::-webkit-scrollbar {
   width: 0px !important;
@@ -1432,16 +1357,20 @@ export default defineComponent({
 @media (max-width: 1024px) {
   #split-2 {
     width: 100% !important;
-    padding-right: 10px !important;
-    padding-left: 20px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  #split-2 {
+    min-width: 420px !important;
   }
 }
 
 @media (max-width: 1024px) {
   #map {
-    top: -60px;
+    /* top: -60px; */
     height: 75vw;
-    width: 100%;
+    /* width: 100%; */
   }
 }
 
@@ -1464,11 +1393,6 @@ export default defineComponent({
   #split-1 {
     padding: 0px 15px 0px 15px !important;
     border-width: 0px;
-  }
-
-  #split-2 {
-    width: 100% !important;
-    padding: 0px 15px 15px 0px !important;
   }
 }
 
@@ -1590,7 +1514,8 @@ h2 input:not(:placeholder-shown) {
 
 #split-2 {
   z-index: 0;
-  min-width: 420px !important;
+  background-color: var(--page-background);
+  padding: 0px 0px 0px 0px;
 }
 
 .close-button {
@@ -1621,10 +1546,7 @@ h2 input:not(:placeholder-shown) {
   }
 }
 
-
-
 #app .search-container .tag-example-search {
-  background-color: var(--button-background);
   padding: 0px 10px;
   font-size: 1em;
   font-weight: 400;
@@ -1635,11 +1557,9 @@ h2 input:not(:placeholder-shown) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--page-text);
-  box-shadow: var(--menu-shadow);
+  color: var(--button-text);
+  box-shadow: var(--shadow);
 }
-
-
 
 .flex-grow.overflow-auto.main-color::-webkit-scrollbar {
   display: none;
@@ -1713,7 +1633,6 @@ h2 input:not(:placeholder-shown) {
   }
 
   #app .search-container .input-wrapper {
-    height: 50px !important;
     gap: 5px !important;
   }
 

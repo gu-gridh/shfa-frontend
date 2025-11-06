@@ -1,40 +1,185 @@
 <template>
   <div class="guide-container fullopacityui" id='block-text'>
     <div class="content">
-
-
       <div class="rows">
-
-
         <div class="flex-machine">
+          <div class="settings-menu">
+            <div class="version-badge">Version 1.4</div>
+            <div class="settings-row">
+              <div class="top-button" @click="toggleColour" aria-label="Toggle theme">
+                <span id="colour-mode" class="material-symbols-outlined">
+                  {{ currentColour == 'light' ? 'dark_mode' : 'light_mode' }}
+                </span>
+              </div>
+              <div class="top-button" id="language-button" @click="toggleLanguage">
+                {{ currentLang == 'sv' ? 'English' : 'Svenska' }}
+              </div>
+            </div>
+          </div>
           <div class="logo-area">
             <div id="logo-guide"></div>
-            <h1 class="about-title">
-              <div v-html="$t('message.abouttitle')"></div>
-            </h1>
+            <h1 class="about-title" v-html="$t('message.abouttitle')"></h1>
           </div>
 
           <div class="guide-article-main fullopacityui" style="margin-bottom: 0px;">
             <h2>{{ $t('message.sökguide') }}</h2>
           </div>
 
-          <div class="guide-article-main fullopacityui" style="padding-top:0px;">{{
-            $t('search.searchintro') }} {{ $t('search.searchhelp') }}
-            <p class="new-info" v-if="currentLang === 'en'"> A multimodal viewer is available for a selection of meshes
-              and visualisations. These are indicated by the <button class=" avail-3d">3D</button> icon in the gallery
-              thumbnail and <button class="viewer-avail"><span class="viewer-icon"></span>{{
-                $t('message.viewthreed') }}</button>
-              button in the metadata panel. You can find these images by searching for 3d visualisation or orthophoto
-              image
-              types. Clicking on the button in the image viewer will open the multimodal viewer. In this new page, you
-              will be able to navigate around the mesh and associated visualisations.</p>
-            <p class="new-info" v-if="currentLang === 'sv'"> För ett urval av meshar och visualiseringar finns ett
-              utforskarläge tillgängligt. Detta indikeras av <button class=" avail-3d">3D</button> ikonen i galleriets
-              miniatyrbild och <button class="viewer-avail"><span class="viewer-icon"></span>{{
-                $t('message.viewthreed') }}</button> knappen i metadata-panelen. Du kan hitta dessa objekt genom att
-              söka efter "3D-visualisering" eller
-              "ortofoto" bildtyper. Genom att klicka på knappen öppnas utforskaren. På denna nya sida kan du navigera
-              runt i meshen och dess tillhörande visualiseringar.</p>
+          <div class="guide-article-main fullopacityui">
+            <div class="new-info" v-if="currentLang === 'en'"> This guide outlines how to search the archive,
+              how to locate 3D data, and the available options for keyword, dating, and image type searches. All
+              motif descriptions and dating are archaeologists' interpretations.
+            </div>
+            <div class="new-info" v-if="currentLang === 'sv'"> Denna guide beskriver hur man söker i arkivet, hur man
+              hittar 3D-data och vilka alternativ som finns för sökningar på nyckelord, datum och bildtyp.
+              Alla motivbeskrivningar och datum är tolkningar av arkeologer.
+            </div>
+
+            <div class="new-info" v-if="currentLang === 'en'">
+              <p>For a quick search, click on one of the suggested keywords below the main search field or type a search
+                term (e.g., Bottna, animal, etc.) in
+                the search field and hit enter. If entering free text in the search bar, we recommend using the keywords
+                below for the best results.
+              </p>
+              <p>To search for all images from a site, use the map view to click on a point or select the site in the
+                advanced search options.
+                The site IDs are displayed when you hover over the map and the map will zoom to a point when selected.
+              </p>
+              <p> For more advanced searches with multiple parameters, click on the <span class="ui-text">Advanced
+                  Search</span> menu. In this menu, when you start typing
+                in each field the suggested available keywords are displayed below the search box. You should
+                <strong>not</strong>
+                combine the <span class="ui-text">Site</span> search and <span class="ui-text">Sites with 3D
+                  model(s)</span>
+                search; this is unlikely to
+                return results.
+              </p>
+              <p>Some fields allow you
+                to combine multiple
+                search terms (indicated by <span class="ui-text">AND</span> and <span class="ui-text">OR</span>
+                buttons).
+              </p>
+              <div class="indented">
+                <p>Selecting <span class="ui-text">AND</span> searches for images that are tagged with all the keywords
+                  selected.
+                  <br /><span class="example">A keyword search for Damage, Horse, and Cupmarks will only return
+                    images that are tagged with all three</span>
+                </p>
+                <p>Selecting <span class="ui-text">OR</span> searches for images that are tagged with any the keywords
+                  selected.
+                  <br /><span class="example">A creator search for SHFA, Lødøen, Trond, and Horn, Christian will return
+                    images tagged with at least one of the creators</span>
+                </p>
+                <p>Fields without <span class="ui-text">AND</span> and <span class="ui-text">OR</span> buttons are
+                  automatically <span class="ui-text">OR</span> searches.
+                  <br /><span class="example">Selecting sites Tanum 1:1, Askum 67:1, and Skee 622:1 will return images
+                    of any of these sites</span>
+                </p>
+                <p>
+                  If you add keywords to multiple search fields, these are combined into an <span
+                    class="ui-text">AND</span> search.
+                  <br /><span class="example">Selecting site Tanum 1:1 and creator Horn, Christian will return all
+                    images of Tanum 1:1 by Christian Horn</span>
+                </p>
+              </div>
+            </div>
+
+
+            <div class="new-info" v-if="currentLang === 'sv'">
+              <p>För en snabb sökning, klicka på ett av de föreslagna nyckelorden
+                under huvudfältet eller skriv in ett sökord (t.ex. Bottna, djur, etc.) i sökfältet och tryck på Enter.
+                Om du skriver
+                in fri text i sökfältet rekommenderar vi att du använder nyckelorden nedan för bästa resultat.
+              </p>
+              <p>För att söka efter alla bilder från en plats, använd kartvyn för att klicka på en punkt eller välj
+                platsen i de
+                avancerade sökalternativen. Fornlämning-ID:n visas när du håller muspekaren över kartan och kartan
+                zoomar in på
+                en punkt när den väljs.
+              </p>
+              <p>För mer avancerade sökningar med flera parametrar, klicka på menyn <span class="ui-text">Avancerad
+                  Sökning</span>. I den här menyn
+                visas föreslagna tillgängliga nyckelord under sökrutan när du börjar skriva i varje fält. Du bör
+                <strong>inte</strong>
+                kombinera sökningen på <span class="ui-text">Fornlämning</span> och <span class="ui-text">Fornlämning
+                  med 3D-modell(er)</span>
+                sökning; det är osannolikt att detta
+                ger några resultat.
+              </p>
+              <p>I vissa fält
+                kan du kombinera
+                flera söktermer (markeras med knapparna <span class="ui-text">AND</span> och <span
+                  class="ui-text">OR</span>).
+              </p>
+              <div class="indented">
+                <p>Om du väljer <span class="ui-text">AND</span> söks efter bilder som är taggade med alla valda
+                  nyckelord.
+                  <br /><span class="example">En nyckelordssökning på Skador, Häst, och Skålgropar älvkvarnar ger endast
+                    bilder som är taggade med alla tre</span>
+                </p>
+                <p>Om du väljer <span class="ui-text">OR</span> söks efter bilder som är taggade med något av de valda
+                  nyckelorden.
+                  <br /><span class="example">En upphovspersonsökning på SHFA, Lødøen, Trond, och Horn, Christian ger
+                    bilder som är taggade med minst en av upphovspersoner</span>
+                </p>
+                <p>Fält utan knapparna <span class="ui-text">AND</span> och <span class="ui-text">OR</span> är
+                  automatiskt <span class="ui-text">OR</span>-sökningar.
+                  <br /><span class="example">Om du väljer fornlämningar Tanum 1:1, Askum 67:1 och Skee 622:1 visas
+                    bilder från någon av dessa platser</span>
+                </p>
+                <p>
+                  Om du lägger till nyckelord i flera sökfält kombineras dessa till en <span
+                    class="ui-text">AND</span>-sökning.
+                  <br /><span class="example">Om du väljer platsen Tanum 1:1 och upphovsperson Horn, Christian får du
+                    alla bilder av Tanum 1:1 av Christian Horn</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="guide-article-main fullopacityui" style="margin-bottom: 0px;">
+            <h2>{{ $t('message.find3d') }}</h2>
+            <div class="new-info" v-if="currentLang === 'en'"> An interactive viewer is available for a selection of 3D
+              models
+              and visualisations. If an image has a corresponding model, the gallery
+              thumbnail has a <button class="avail-3d">3D</button> icon and the metadata panel has a <button
+                class="viewer-avail"><span class="viewer-icon"></span>{{
+                  $t('message.viewthreed') }}</button>
+              button. You can find images with attached models using the <span class='ui-text'>{{ $t('message.3D')
+              }}</span> option in <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>.
+              Clicking the <button class="viewer-avail"><span class="viewer-icon"></span>{{
+                $t('message.viewthreed') }}</button> button will open the multimodal viewer in a new tab. In this
+              viewer, you
+              can:
+              <ul class="features">
+                <li>navigate around the model and associated visualisations</li>
+                <li>change the lighting conditions</li>
+                <li>measure motifs</li>
+                <li>share links to specific areas of a model</li>
+                <li>and more...</li>
+              </ul>
+            </div>
+
+            <div class="new-info" v-if="currentLang === 'sv'"> En interaktiv visare finns tillgänglig för ett urval av
+              3D-modeller
+              och visualiseringar. Om en bild har en tillhörande modell har galleriet en miniatyrbild med en
+              <button class="avail-3d">3D</button> ikon och metadatapanelen har en <button class="viewer-avail"><span
+                  class="viewer-icon"></span>{{
+                    $t('message.viewthreed') }}</button> knappen. Du kan hitta bilder med tillhörande modeller med hjälp av
+              <span class='ui-text'>
+                {{ $t('message.3D') }}</span> i <span class='ui-text'>{{ $t('message.avanceradsökning') }}</span>.
+              Om du klickar på <button class="viewer-avail"><span class="viewer-icon"></span>{{
+                $t('message.viewthreed') }}</button> knappen öppnas den multimodala visaren i en ny flik. I denna visare
+              kan du:
+              <ul class="features">
+                <li>navigera i modellen och tillhörande visualiseringar</li>
+                <li>justera ljusförhållandena</li>
+                <li>mäta motiv</li>
+                <li>dela länkar till specifika områden i en modell</li>
+                <li>och mycket mer...</li>
+              </ul>
+            </div>
           </div>
 
           <div class="guide-article-sub fullopacityui">
@@ -51,7 +196,7 @@
                         v-for="(value, key) in category.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })"
                         :key="key">
                         <button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
-                          }}</button>
+                        }}</button>
                       </li>
                     </ul>
                   </div>
@@ -80,13 +225,14 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-if="currentLang === 'en'" v-for="(value, key) in $i18n.messages.en.imgdescription" :key="key">
-                      <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
-                      <td>{{ value[1] }}</td>
+                    <tr v-if="currentLang === 'en'" v-for="(value, key) in sortedImageTypes" :key="key">
+                      <td><button @click="logMetaSearch(value.english_translation)">{{ value.english_translation
+                          }}</button></td>
+                      <td>{{ value.english_description }}</td>
                     </tr>
-                    <tr v-else v-for="(value, key_sv) in $i18n.messages.sv.imgdescription" :key="key_sv">
-                      <td><button @click="logMetaSearch(value[0])"> {{ value[0] }}</button></td>
-                      <td>{{ value[1] }}</td>
+                    <tr v-if="currentLang === 'sv'" v-for="(value, key) in sortedImageTypes" :key="key">
+                      <td><button @click="logMetaSearch(value.text)">{{ value.text }}</button></td>
+                      <td>{{ value.description }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -110,18 +256,28 @@
         </div>
       </div>
     </div>
-    <!-- <button class="close-page-button" @click="closeGuide">
-      <div class="category-button fullopacityui"
-        style="width:auto; margin-bottom: 20px !important; text-align: center; cursor: pointer;">{{ $t('message.close')
-        }}</div>
-    </button> -->
   </div>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   props: {
-    currentLang: String,
+    currentLanguage: String,
+    currentColourMode: String,
+  },
+  head() {
+    return {
+      link: { rel: "schema.DC", href: "http://purl.org/dc/elements/1.1/" },
+      meta: [
+        { name: 'citation_title', content: 'SHFA - Search Guide' },
+        { name: 'citation_author', content: 'SHFA' },
+        { name: 'dcterms.type', content: 'Service' },
+        { name: 'citation_year', content: '2025' },
+        { name: 'citation_publisher', content: 'SHFA' },
+        { name: 'dcterms.publisher', content: 'SHFA' },
+        { name: 'dcterms.rights', content: 'CC-BY' },
+      ]
+    }
   },
   data() {
     return {
@@ -129,15 +285,36 @@ export default {
       groupedKeywordsSV: {},
       groupedKeywordsEN: {},
       sortedDatings: {},
+      sortedImageTypes: {},
+      currentLang: this.$props.currentLanguage,
+      currentColour: this.$props.currentColourMode,
+      targetTheme: this.$props.currentColourMode,
+
     }
   },
   mounted() {
-    // const userLang = localStorage.getItem('userLang') || 'sv';
-    this.$i18n.locale = this.currentLang;
+    this.currentLang = this.currentLang || localStorage.getItem('userLang') || 'sv'
+    this.$i18n.locale = this.currentLang
+
+    document.documentElement.setAttribute('style-theme', this.targetTheme);
+
     this.fetchKeywords()
+    this.fetchImageTypes()
     this.fetchDatingTags()
   },
   methods: {
+    toggleLanguage() {
+      this.currentLang = (this.$i18n.locale === "en") ? "sv" : "en";
+      this.$i18n.locale = this.currentLang;
+      localStorage.setItem('userLang', this.currentLang);
+    },
+    toggleColour() {
+      this.currentColour = (this.currentColour === 'dark') ? 'light' : 'dark';
+      this.targetTheme = (this.targetTheme === 'dark') ? 'light' : 'dark';
+      document.documentElement.setAttribute('style-theme', this.targetTheme);
+      localStorage.setItem('userColour', this.currentColour);
+      return this.currentColour && this.targetTheme;
+    },
     logMetaSearch(item) {
       localStorage.setItem('searchKeyword', item);
     },
@@ -145,22 +322,38 @@ export default {
       this.$router.push('/');
     },
     fetchKeywords() {
-      fetch(`https://diana.dh.gu.se/api/shfa/keywordtag/?depth=2&limit=200`)
+      fetch(`https://shfa.dh.gu.se/api/keywordtag/?depth=2&limit=200`)
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
-          this.sortedSV = this.data.sort((a, b) => { return a.category.localeCompare(b.category) })
+          this.data_clean = this.data.map(a => a.category && a.category_translation ? a : Object.assign(a, { "category": "Okategoriserade", "category_translation": "Uncategorised" })) //handle keywords with null category
+          this.sortedSV = this.data_clean.sort((a, b) => { return a.category.localeCompare(b.category) })
           this.groupedKeywordsSV = Object.groupBy(this.sortedSV, ({ category }) => category)
-
-          this.sortedEN = this.data.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) })
+          this.sortedEN = this.data_clean.sort((a, b) => { return a.category_translation.localeCompare(b.category_translation) })
           this.groupedKeywordsEN = Object.groupBy(this.sortedEN, ({ category_translation }) => category_translation)
         })
         .catch((error) => {
           console.error('Error fetching keyword data:', error);
         });
     },
+    fetchImageTypes() {
+      fetch(`https://shfa.dh.gu.se/api/imagetypetag/?depth=1&limit=30`)
+        .then((response) => response.json())
+        .then((json) => {
+          this.data = json.results;
+          if (this.currentLang === 'sv') {
+            this.sortedImageTypes = this.data.sort((a, b) => { return a.text.localeCompare(b.text) })
+          }
+          else {
+            this.sortedImageTypes = this.data.sort((a, b) => { return a.english_translation.localeCompare(b.english_translation) })
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching keyword data:', error);
+        });
+    },
     fetchDatingTags() {
-      fetch(`https://diana.dh.gu.se/api/shfa/datingtag/?depth=2&limit=25`)
+      fetch(`https://shfa.dh.gu.se/api/datingtag/?depth=2&limit=30`)
         .then((response) => response.json())
         .then((json) => {
           this.data = json.results;
@@ -179,10 +372,82 @@ export default {
   name: "guideview",
 };
 
-
 </script>
 
 <style scoped>
+.settings-menu {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  color: var(--settings-text);
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+}
+
+.top-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.top-button:hover {
+  background-color: var(--button-hover-light);
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 100,
+    'wght' 200,
+    'GRAD' 0,
+    'opsz' 24;
+  padding: 1px;
+  color: var(--settings-text);
+  cursor: pointer;
+}
+
+.version-badge {
+  font-size: 14px;
+  margin: 0;
+  padding-right: 5px;
+}
+
+#language-button {
+  font-size: 19.2px;
+  padding-right: 6px;
+}
+
+.logo-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0 40px;
+  width: 100%;
+  padding: 0;
+}
+
+#logo-guide {
+  position: relative;
+  width: 210px;
+  height: 200px;
+  background: var(--shfa-logo);
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.7;
+  transition: all 0.8s ease-in-out;
+}
+
 td>button:hover,
 li>button:hover {
   color: var(--highlighted-text);
@@ -193,7 +458,11 @@ button>h3:hover {
 }
 
 .new-info {
-  margin-top: 25px;
+  margin-bottom: 18px;
+}
+
+p {
+  margin-bottom: 6px;
 }
 
 .avail-3d {
@@ -218,10 +487,8 @@ button>h3:hover {
 }
 
 .viewer-avail {
-  /* display: relative; */
-  padding: 4px 8px 4px 10px;
+  padding: 1px 8px 1px 10px;
   color: var(--button-text);
-  /* background-color: var(--button-background); */
   background-color: var(--threed-icon);
   border-radius: 8px;
   font-size: 86%;
@@ -231,10 +498,6 @@ button>h3:hover {
   width: max-content;
   height: max-content;
   font-weight: 400;
-  /* background-image: var(--link-button);
-  background-size: 20px;
-  background-position: 10px 8px;
-  background-repeat: no-repeat; */
 }
 
 .viewer-icon {
@@ -294,11 +557,8 @@ ul {
   padding-left: 20px;
 }
 
-/* .guide-article-sub h2 {
-  font-size: 115%;
-} */
-
 .guide-container {
+  padding: 80px 0 0;
   position: fixed;
   color: var(--page-text);
   line-height: 1;
@@ -313,28 +573,6 @@ ul {
   overflow-y: auto;
   max-height: max-content;
   background: var(--guide-page-background);
-}
-
-.logo-area {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 30px;
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-#logo-guide {
-  position: relative;
-  width: 210px;
-  height: 200px;
-  background-color: var(--page-text);
-  float: left;
-  background: var(--shfa-logo);
-  background-repeat: no-repeat;
-  background-size: contain;
-  opacity: 0.7;
-  transition: all 0.8s ease-in-out;
 }
 
 .flex-machine {
@@ -478,6 +716,30 @@ ul {
   background: var(--button-hover);
 }
 
+.ui-text {
+  color: var(--highlighted-text);
+  font-weight: 300;
+}
+
+.features {
+  list-style-type: disc;
+  margin-left: 40px;
+  line-height: 1.8em;
+}
+
+.example::before {
+  content: '\1F4A1';
+}
+
+.example {
+  margin-left: 10px;
+  color: var(--example-text)
+}
+
+.indented {
+  margin-left: 40px;
+}
+
 @media screen and (max-width: 1025px) {
   .columns {
     width: 100%;
@@ -492,6 +754,20 @@ ul {
 }
 
 @media (max-width:480px) {
+  .logo-area {
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding-left: 0;
+  }
+
+  #logo-guide {
+    width: 120px;
+    height: 100px;
+    margin-right: 10px;
+    margin-left: 0px;
+    margin-top: 0px;
+  }
 
   .avail-3d {
     font-size: 95%;
@@ -550,21 +826,9 @@ ul {
     width: 100%;
   }
 
-  .logo-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 80px;
-  }
-
   .guide-container .fullopacity {
     margin-top: 0px;
     margin-bottom: 0px;
-  }
-
-  #logo-guide {
-    margin-left: 0px;
-    margin-top: 0px;
   }
 
   .second tr {
@@ -610,16 +874,6 @@ ul {
     word-wrap: break-word;
   }
 
-  .logo-area {
-    margin-top: 20px;
-  }
-
-  #logo-guide {
-    width: 120px;
-    height: 100px;
-    margin-left: 10px;
-  }
-
   .title {
     margin-top: 0px;
     font-size: 35px;
@@ -637,7 +891,6 @@ ul {
     margin-top: -10px;
     margin-bottom: 5px;
     line-height: 1.3;
-
   }
 
   .guide-article-sub {

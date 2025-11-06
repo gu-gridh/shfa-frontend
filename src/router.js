@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Grid from './Views/Grid.vue';
 import About from './components/About.vue';
 import Guide from './components/Guide.vue';
+import Contact from './components/Contact.vue';
 
 const routes = [
   {
@@ -30,16 +31,23 @@ const routes = [
     component: Grid,
   },
   {
-    path: '/about/:currentLang',
+    path: '/about',
     name: 'About',
     component: About,
-    props: true,
+    // props: true,
+    props: { currentLanguage: localStorage.userLang, currentColourMode: localStorage.userColour }
   },
   {
-    path: '/guide/:currentLang',
+    path: '/contactus',
+    name: 'Contact',
+    component: Contact,
+  },
+  {
+    path: '/guide',
     name: 'Guide',
     component: Guide,
-    props: true,
+    // props: true,
+    props: { currentLanguage: localStorage.userLang, currentColourMode: localStorage.userColour }
   },
   {
     path: '/:catchAll(.*)',
