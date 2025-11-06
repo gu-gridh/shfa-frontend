@@ -800,12 +800,6 @@ h3 span {
   pointer-events: none;
 }
 
-/* .no-results {
-  text-align: center;
-  font-size: 1.2rem;
-  padding: 2rem 0;
-} */
-
 .no-results {
   color: var(--page-text);
   display: flex;
