@@ -76,7 +76,7 @@ function rebuild() {
         ],
         title: {
             text: t(`charts.${props.title}`),
-            textStyle: { color: props.textColor, fontSize: 16, fontWeight: 350 },
+            textStyle: { color: props.textColor, fontSize: 16, fontWeight: 350, fontFamily: "Barlow Condensed" },
             left: "center",
             top: 0,
         },
