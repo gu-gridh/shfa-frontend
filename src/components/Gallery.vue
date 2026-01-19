@@ -557,7 +557,7 @@ defineExpose({ forceRelayout })
 }
 
 .next-page-btn {
-  background-image: url(https://data.dh.gu.se/ui-icons/arrow_next_white.png);
+  background-image: var(--next-arrow);
   padding-right: 30px;
   background-position: right -4px;
   height: 25px;
@@ -565,7 +565,7 @@ defineExpose({ forceRelayout })
 }
 
 .prev-page-btn {
-  background-image: url(https://data.dh.gu.se/ui-icons/arrow_prev_white.png);
+  background-image: var(--prev-arrow);
   padding-left: 30px;
   background-position: left -4px;
   height: 25px;

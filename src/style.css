@@ -155,6 +155,8 @@ div.split-container>div>div:nth-child(4) {
   --figurative-color: #719fbf;
   --nonfigurative-color: #7e75a0;
   --example-text: #bdbdbd;
+  --next-arrow: url(https://data.dh.gu.se/ui-icons/arrow_next_white.png);
+  --prev-arrow: url(https://data.dh.gu.se/ui-icons/arrow_prev_white.png);
 }
 
 html[style-theme='dark'] {
@@ -247,6 +249,8 @@ html[style-theme='dark'] {
   --figurative-color: #719fbf;
   --nonfigurative-color: #7e75a0;
   --example-text: #bdbdbd;
+  --next-arrow: url(https://data.dh.gu.se/ui-icons/arrow_next_white.png);
+  --prev-arrow: url(https://data.dh.gu.se/ui-icons/arrow_prev_white.png);
 }
 
 html[style-theme='light'] {
@@ -340,6 +344,8 @@ html[style-theme='light'] {
   --figurative-color: #56778e;
   --nonfigurative-color: #59507a;
   --example-text: #4c4c4c;
+  --next-arrow: url(https://data.dh.gu.se/ui-icons/arrow_next_black.png);
+  --prev-arrow: url(https://data.dh.gu.se/ui-icons/arrow_prev_black.png);
 }
 
 @media (prefers-contrast:more) or (prefers-reduced-transparency) {
@@ -430,6 +436,8 @@ html[style-theme='light'] {
     --figurative-color: #56778e;
     --nonfigurative-color: #59507a;
     --example-text: #373737;
+    --next-arrow: url(https://data.dh.gu.se/ui-icons/arrow_next_black.png);
+    --prev-arrow: url(https://data.dh.gu.se/ui-icons/arrow_prev_black.png);
   }
 }
 
