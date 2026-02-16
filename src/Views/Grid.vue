@@ -78,13 +78,10 @@
             <a href="https://www.gu.se/shfa" target="_blank">{{ $t('message.aboutSHFA') }} <div class="top-link-button">
               </div></a> </button>
 
-          <button class="item" v-if="currentLanguage === 'en'">
-            <a href="https://www.gu.se/en/shfa/research" target="_blank">{{ $t('message.news') }}<div
+          <button class="item">
+            <a href="https://publicera.kb.se/adoranten" target="_blank">{{ $t('message.adoranten') }}<div
                 class="top-link-button"></div></a></button>
 
-          <button class="item" v-else>
-            <a href="https://www.gu.se/shfa/forskning" target="_blank">{{ $t('message.news') }}<div
-                class="top-link-button"></div></a></button>
         </div>
       </div>
       <!-- End of main-menu -->

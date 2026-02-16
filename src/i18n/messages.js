@@ -123,7 +123,8 @@ export default {
       zoommap: "Zoom in to view SGU's shore displacement model",
       geographic: "Region",
       geographicsearch: "Search by parish, municipality, etc...",
-      find3d: "Accessing 3D Models"
+      find3d: "Accessing 3D Models",
+      adoranten: "Adoranten"
     },
 
     search: {
@@ -273,7 +274,8 @@ export default {
       zoommap: "Zooma in för att se SGU:s strandförskjutningsmodell",
       geographic: "Geografiskt Område",
       geographicsearch: "Sök efter socken, kommun, etc...",
-      find3d: "Åtkomst till 3D-modeller"
+      find3d: "Åtkomst till 3D-modeller",
+      adoranten: "Adoranten"
     },
     search: {
       documentation: 'Dokumentationsprocess',
