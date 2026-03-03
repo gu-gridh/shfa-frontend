@@ -154,7 +154,7 @@ const handleSearchButtonClick = () => {
       regions.forEach(r => params.append('region_name', r));
     } else {
       const texts = selectedKeywords.value[index].map(k => k.text);
-      const value = query || texts.join(',');
+      const value = query || texts.join(';');
       if (value) {
         params.set(fieldNames[index], value);
 
