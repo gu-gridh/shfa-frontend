@@ -473,8 +473,19 @@ a:active {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.image-viewer.fullpage #FullPage {
+  background: url(https://data.dh.gu.se/ui-icons/compress_white.svg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 28px;
+  height: 28px;
   overflow: hidden;
   cursor: pointer;
 }
