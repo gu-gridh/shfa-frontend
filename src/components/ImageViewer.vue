@@ -21,6 +21,10 @@
 
       </div>
     </div>
+    <!--     <a id="Share">
+      <div id="ShareButton" class="NavButton round-button share-button compact" title="Share current view"
+        @click="logPosition"></div>
+    </a> -->
     <a id="Download">
       <div id="DownloadButton" class="NavButton round-button download-button compact" title="Download image"
         @click="downloadImage"></div>
@@ -99,6 +103,10 @@ export default {
       const threedUrl = `https://shfa.dh.gu.se/viewer/?q=${this.query_3d}/mesh`;
       window.open(threedUrl, "_blank");
     },
+    /*     logPosition() {
+          const currentUrl = window.location.href;
+          navigator.clipboard.writeText(currentUrl)
+        }, */
     downloadImage() {
       const imageUrl = this.completeUrl;
       const lamning_id = this.lamning_id;
@@ -153,9 +161,11 @@ export default {
 
       this.viewer.addHandler("full-page");
 
-      /* this.viewer.bookmarkUrl({
-        trackPage: true,
-      }); */
+      /* this.viewer.addHandler('bookmark-url-change', function (event) {
+        console.log('New URL:', event.url);
+      });
+
+      this.viewer.bookmarkUrl(); */
     },
   },
   watch: {
@@ -222,97 +232,6 @@ a:active {
   margin-right: 10px;
 }
 
-/*
-#ToolbarHorizontal {
-  position: absolute;
-  display: flex;
-  bottom: 10px;
-  width: 100%;
-  z-index: 1000;
-}
-
-#CenterNav {
-  margin: auto;
-}
-
-#ToolbarHorizontal span {
-  background-color: var(--viewer-button-background);
-  color: var(--page-text);
-  text-align: center;
-  padding: 5px 10px 5px 10px;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: bold;
-  vertical-align: 13px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-#ToolbarVertical {
-  position: absolute;
-  margin-top: 0px;
-  width: 40px;
-  margin-left: 12px;
-  z-index: 1000;
-  height: 100%;
-  outline: none;
-}
-
-#FullPage {
-  margin-top: 70px;
-  background: url(../assets/openseadragon/expand.svg);
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: var(--viewer-button-background);
-  overflow: hidden;
-  outline: none;
-}
-
-#FullPage:focus {
-  outline: none;
-}
-
-#Prev {
-  background: url(../assets/openseadragon/prev.png);
-  background-size: 35px 35px;
-  background-color: var(--viewer-button-background);
-  background-repeat: no-repeat;
-  background-position: center;
-  display: inline-block;
-  position: relative;
-}
-
-#Next {
-  background: url(../assets/openseadragon/next.png);
-  background-size: 35px 35px;
-  background-color: var(--viewer-button-background);
-  background-repeat: no-repeat;
-  background-position: center;
-  display: inline-block;
-  position: relative;
-}
-
-#ZoomIn {
-  background-image: url(../assets/openseadragon/plus.svg);
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: var(--viewer-button-background);
-  margin-top: 0px;
-  overflow: hidden;
-}
-
-#ZoomOut {
-  background: url(../assets/openseadragon/minus.svg);
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: var(--viewer-button-background);
-  overflow: hidden;
-}
-*/
-
 #threedViewerButton {
   position: relative;
   top: 30px;
@@ -329,22 +248,6 @@ a:active {
   cursor: pointer;
   color: var(--popup-text);
 }
-
-/* .NavButton {
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  color: var(--page-text);
-  opacity: 1;
-  background-color: var(--viewer-button-background);
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--viewer-button-border);
-}
-
-.NavButton:hover {
-  opacity: 0.85;
-} */
 
 .button-icon:hover {
   opacity: 1.0;
@@ -367,15 +270,6 @@ a:active {
   cursor: pointer;
   transform: scale(1.07);
 }
-
-/* 
-  #FullPage:hover,
-  #ZoomIn:hover,
-  #ZoomOut:hover,
-  #DownloadButton:hover {
-    background-color: var(--viewer-button-hover);
-  }
- */
 
 .interface-area {
   display: flex;
@@ -433,6 +327,19 @@ a:active {
   cursor: pointer;
   z-index: 1000;
 }
+
+/* #ShareButton {
+  position: absolute;
+  bottom: 50px;
+  background: url(https://data.dh.gu.se/ui-icons/share_white.svg);
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: var(--viewer-button-background);
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1000;
+} */
 
 
 #Home {

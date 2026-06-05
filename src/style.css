@@ -129,6 +129,7 @@ div.split-container>div>div:nth-child(4) {
   --previous-button: url(@/assets/openseadragon/prev.png);
   --next-button: url(@/assets/openseadragon/next.png);
   --download-button: url(/interface/downloadwhite.png);
+  --share-button: url(/ui-icons/share_white.svg);
   --search-button: url(/interface/searchbuttonwhite.png);
   --search-button-light-bkgrnd: url(/interface/searchbutton.png);
   --search-button-dark-bkgrnd: url(/interface/searchbuttonwhite.png);
@@ -226,6 +227,7 @@ html[style-theme='dark'] {
   --previous-button: url(@/assets/openseadragon/prev.png);
   --next-button: url(@/assets/openseadragon/next.png);
   --download-button: url(/interface/downloadwhite.png);
+  --share-button: url(/ui-icons/share_white.svg);
   --search-button: url(/interface/searchbuttonwhite.png);
   --search-button-light-bkgrnd: url(/interface/searchbutton.png);
   --search-button-dark-bkgrnd: url(/interface/searchbuttonwhite.png);
@@ -319,6 +321,7 @@ html[style-theme='light'] {
   --previous-button: url(@/assets/openseadragon/prev.png);
   --next-button: url(@/assets/openseadragon/next.png);
   --download-button: url(/interface/downloadwhite.png);
+  --share-button: url(/ui-icons/share_white.svg);
   --search-button: url(/interface/searchbuttonwhite.png);
   --search-button-light-bkgrnd: url(/interface/searchbutton.png);
   --search-button-dark-bkgrnd: url(/interface/searchbuttonwhite.png);
@@ -412,6 +415,7 @@ html[style-theme='light'] {
     --previous-button: url(@/assets/openseadragon/prev.png);
     --next-button: url(@/assets/openseadragon/next.png);
     --download-button: url(/interface/downloadwhite.png);
+    --share-button: url(/ui-icons/share_white.svg);
     --search-button: url(/interface/searchbuttonwhite.png);
     --search-button-light-bkgrnd: url(/interface/searchbutton.png);
     --search-button-dark-bkgrnd: url(/interface/searchbuttonwhite.png);
