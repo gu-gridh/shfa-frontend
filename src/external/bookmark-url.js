@@ -49,6 +49,10 @@ function bookmarkUrl(options) {
     };
 
     var useParams = function (params) {
+        if (params.w !== undefined && params.h !== undefined) {
+            self.viewport.fitBounds(new OpenSeadragon.Rect(params.x, params.y, params.w, params.h), true);
+            return;
+        }
         var zoom = self.viewport.getZoom();
         var pan = self.viewport.getCenter();
         var page = self.currentPage();

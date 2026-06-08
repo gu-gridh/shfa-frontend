@@ -112,10 +112,8 @@ export default {
       setTimeout(() => {
         document.getElementById('share-label').style.visibility = 'hidden';
       }, 3000);
-      var zoom = this.viewer.viewport.getZoom();
-      var pan = this.viewer.viewport.getCenter();
-      var page = this.viewer.currentPage();
-      var currentUrl = `${window.location.origin}/image/${this.img_id}#zoom=${zoom}&x=${pan.x}&y=${pan.y}`;
+      const bounds = this.viewer.viewport.getBounds(true);
+      const currentUrl = `${window.location.origin}/image/${this.img_id}#x=${bounds.x}&y=${bounds.y}&w=${bounds.width}&h=${bounds.height}`;
       // console.log('Current view URL:', currentUrl);
       navigator.clipboard.writeText(currentUrl)
     },
@@ -354,7 +352,7 @@ a:active {
   position: absolute;
   bottom: 50px;
   background: url(https://data.dh.gu.se/ui-icons/share_white.svg);
-  background-size: 80%;
+  /* background-size: 80%; */
   background-repeat: no-repeat;
   background-position: center;
   background-color: var(--viewer-button-background);
