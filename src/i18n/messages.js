@@ -2,6 +2,11 @@
 export default {
   en: {
     message: {
+      shareLink: "Share link to view",
+      downloadImage: "Download image",
+      fitImage: "Fit image to view",
+      fullPage: "Toggle full page view",
+      linkCopied: "Link copied!",
       fullGraphsNote: "To see the full graphs, view on desktop.",
       summaryDisclaimer: "Note: Data review is in progress, results and quality may vary until the review is complete.",
       noResults: "No results found. Please adjust your search.",
@@ -153,10 +158,15 @@ export default {
   },
   sv: {
     message: {
+      shareLink: "Dela länken till vy",
+      downloadImage: "Ladda ner bilden",
+      fitImage: "Anpassa bilden till fönstret",
+      fullPage: "Växla till helsida",
+      linkCopied: "Länk kopierad!",
       fullGraphsNote: "För att se hela graferna, visa på desktop.",
       summaryDisclaimer: "OBS: Uppgifterna granskas för närvarande. Resultaten och kvaliteten kan variera tills granskningen är klar.",
       noResults: "Inga resultat hittades. Vänligen justera ditt sökande.",
-      noResultsSub: "Tips: Försök söka efter ENDA en fornlämning ELLER en fornlämning med 3D-modell.",
+      noResultsSub: "Tips: Försök att ANTINGEN söka efter en fornlämning ELLER en fornlämning med 3D-modell.",
       figurative: "Figurativ",
       nonfigurative: "Non-figurativ",
       name: "Namn",

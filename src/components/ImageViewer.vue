@@ -7,7 +7,7 @@
       <div class="toolbar-bottom-mini">
 
         <a id="home" href="#home">
-          <div id="Home" class="NavButton" title="Fit image to view"></div>
+          <div id="Home" class="NavButton" :title="$t('message.fitImage')"></div>
         </a>
         <a id="zoom-in" href="#zoom-in">
           <div id="ZoomIn" class="NavButton"></div>
@@ -16,18 +16,22 @@
           <div id="ZoomOut" class="NavButton"></div>
         </a>
         <a id="full-page" class="full-screen-option" href="#full-page">
-          <div id="FullPage" class="NavButton"></div>
+          <div id="FullPage" class="NavButton" :title="$t('message.fullPage')"></div>
         </a>
 
       </div>
     </div>
-    <!--     <a id="Share">
-      <div id="ShareButton" class="NavButton round-button share-button compact" title="Share current view"
-        @click="logPosition"></div>
-    </a> -->
+    <a id="Share">
+      <div id="ShareButton" class="NavButton round-button share-button compact" :title="$t('message.shareLink')"
+        @click="logPosition">
+      </div>
+      <div id="share-label">{{ $t('message.linkCopied') }}</div>
+
+
+    </a>
     <a id="Download">
-      <div id="DownloadButton" class="NavButton round-button download-button compact" title="Download image"
-        @click="downloadImage"></div>
+      <div id="DownloadButton" class="NavButton round-button download-button compact"
+        :title="$t('message.downloadImage')" @click="downloadImage"></div>
     </a>
   </div>
   <!-- Sidebuttons -->
@@ -103,10 +107,18 @@ export default {
       const threedUrl = `https://shfa.dh.gu.se/viewer/?q=${this.query_3d}/mesh`;
       window.open(threedUrl, "_blank");
     },
-    /*     logPosition() {
-          const currentUrl = window.location.href;
-          navigator.clipboard.writeText(currentUrl)
-        }, */
+    logPosition() {
+      document.getElementById('share-label').style.visibility = 'visible';
+      setTimeout(() => {
+        document.getElementById('share-label').style.visibility = 'hidden';
+      }, 3000);
+      var zoom = this.viewer.viewport.getZoom();
+      var pan = this.viewer.viewport.getCenter();
+      var page = this.viewer.currentPage();
+      var currentUrl = `${window.location.origin}/image/${this.img_id}#zoom=${zoom}&x=${pan.x}&y=${pan.y}`;
+      // console.log('Current view URL:', currentUrl);
+      navigator.clipboard.writeText(currentUrl)
+    },
     downloadImage() {
       const imageUrl = this.completeUrl;
       const lamning_id = this.lamning_id;
@@ -161,11 +173,14 @@ export default {
 
       this.viewer.addHandler("full-page");
 
-      /* this.viewer.addHandler('bookmark-url-change', function (event) {
-        console.log('New URL:', event.url);
-      });
+      // this.viewer.addHandler('bookmark-url-change', function (event) {
+      //   const url = new URL(event.url);
+      //   const fragment = url.hash;
+      //   const newUrl = `${url.origin}${fragment}`;
+      //   console.log('Bookmark URL changed:', newUrl);
+      // });
 
-      this.viewer.bookmarkUrl(); */
+      this.viewer.bookmarkUrl();
     },
   },
   watch: {
@@ -328,7 +343,14 @@ a:active {
   z-index: 1000;
 }
 
-/* #ShareButton {
+#Share {
+  position: absolute;
+  left: 0px;
+  bottom: 5px;
+  z-index: 1000;
+}
+
+#ShareButton {
   position: absolute;
   bottom: 50px;
   background: url(https://data.dh.gu.se/ui-icons/share_white.svg);
@@ -339,8 +361,28 @@ a:active {
   overflow: hidden;
   cursor: pointer;
   z-index: 1000;
-} */
+}
 
+
+#share-label {
+  margin-left: 55px;
+  bottom: 60px;
+  /* margin-top: 7px; */
+  min-width: 75px;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8em;
+  pointer-events: none;
+  /* opacity: 0; */
+  transition: opacity 0.3s;
+  font-size: 0.8em;
+  white-space: nowrap;
+  z-index: 1001;
+  visibility: hidden;
+}
 
 #Home {
   background: url(https://data.dh.gu.se/ui-icons/frame_small_white.png);
