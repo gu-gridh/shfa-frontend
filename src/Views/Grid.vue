@@ -392,33 +392,7 @@ export default defineComponent({
 
     this.targetTheme = this.targetTheme;
 
-    const vm = this;
-    const direction = window.innerWidth <= 1024 ? "vertical" : "horizontal";
-
-    this.splitInstance = Split(["#split-0", "#split-1", "#split-2"], {
-      sizes: [40, 60, 40],
-      minSize: [500, 300],
-      maxSize: [Infinity, Infinity, 700],
-      direction: direction,
-      dragInterval: 1,
-      gutterSize: 10,
-      gutterAlign: "start",
-      gutter: function (index, direction) {
-        const gutter = document.createElement("div");
-        gutter.className = "gutter";
-        gutter.id = "gutter-" + index;
-        if (index === 1) {
-          gutter.classList.add("gutter-2");
-        } else {
-          gutter.style.display = vm.showThreePanels ? "block" : "none";
-        }
-        return gutter;
-      },
-    });
-
-    if (window.location.pathname.includes("image")) {
-      this.adjustSplitDisplay();
-    }
+    this.initializeSplit(Boolean(this.$route.params.iiifFile));
   },
   computed: {
     shouldShowPanel1() {
@@ -508,9 +482,9 @@ export default defineComponent({
     },
     resetSplitsAndPanels() {
       if (this.splitInstance) {
-        this.splitInstance.setSizes([40, 60, 40]);
         this.showThreePanels = false;
         this.showImageGallery();
+        this.splitInstance.setSizes([40, 60, 40]);
       }
     },
     updatePreviousRoute(route) {
@@ -536,21 +510,35 @@ export default defineComponent({
         }
       });
     },
-    adjustSplitDisplay() {
-      const splitElement = document.getElementById("split-1");
-      if (!splitElement) return;
-
-      splitElement.style.display = "none";
-
-      const gutterElement = document.getElementById("gutter-1");
-      if (gutterElement) {
-        gutterElement.style.display = "none";
+    initializeSplit(imageOnly = false) {
+      this.splitInstance?.destroy();
+      if (imageOnly) {
+        document.getElementById("split-1").style.display = "none";
       }
+      const vm = this;
+      const direction = window.innerWidth <= 1024 ? "vertical" : "horizontal";
 
-      const gutterElement2 = document.getElementById("gutter-2");
-      if (gutterElement2) {
-        gutterElement2.style.display = "none";
-      }
+      this.splitInstance = Split(imageOnly ? ["#split-0", "#split-2"] : ["#split-0", "#split-1", "#split-2"], {
+        sizes: imageOnly ? [40, 60] : [40, 60, 40],
+        minSize: imageOnly && direction === "horizontal" ? [550, 420] : [500, 300],
+        maxSize: imageOnly ? Infinity : [Infinity, Infinity, 700],
+        snapOffset: imageOnly ? 0 : 30,
+        direction: direction,
+        dragInterval: 1,
+        gutterSize: 10,
+        gutterAlign: "start",
+        gutter: function (index, direction) {
+          const gutter = document.createElement("div");
+          gutter.className = "gutter";
+          gutter.id = "gutter-" + index;
+          if (index === 1) {
+            gutter.classList.add("gutter-2");
+          } else {
+            gutter.style.display = vm.showThreePanels ? "block" : "none";
+          }
+          return gutter;
+        },
+      });
     },
     updateWindowWidth() {
       this.windowWidth = window.innerWidth;
@@ -610,6 +598,9 @@ export default defineComponent({
       if (splitElement && splitElement.style.display === "none") {
         splitElement.style.display = "block";
       }
+      if (this.splitInstance?.getSizes().length === 2) {
+        this.initializeSplit();
+      }
 
       const gutterElement = document.getElementById("gutter-1");
       if (gutterElement && this.showThreePanels) {
@@ -617,7 +608,7 @@ export default defineComponent({
       }
 
       const gutterElement2 = document.getElementById("gutter-2");
-      if (gutterElement && this.showThreePanels) {
+      if (gutterElement2 && this.showThreePanels) {
         gutterElement2.style.display = "block";
       }
     },

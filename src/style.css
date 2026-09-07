@@ -14,7 +14,7 @@
   -webkit-text-size-adjust: 100%;
 }
 
-div.split-container>div>div:nth-child(2) {
+#gutter-1 {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
   cursor: col-resize;
   background-color: var(--page-background);
@@ -25,12 +25,12 @@ div.split-container>div>div:nth-child(2) {
 
 }
 
-div.split-container>div>div:nth-child(2):hover {
+#gutter-1:hover {
   cursor: col-resize;
   opacity: 1;
 }
 
-div.split-container>div>div:nth-child(4) {
+#gutter-2 {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
   cursor: col-resize;
   background-color: var(--page-background);
@@ -43,7 +43,7 @@ div.split-container>div>div:nth-child(4) {
 @media (max-width: 1024px) {
 
   /*disable gutters on small devices*/
-  div.split-container>div>div:nth-child(4) {
+  #gutter-2 {
     margin-top: 0px;
     height: 0px !important;
   }
