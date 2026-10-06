@@ -132,8 +132,8 @@ export default {
       var pan = this.viewer.viewport.getCenter();
       var rotation = this.viewer.viewport.getRotation();
       const currentUrl = `${window.location.origin}/image/${this.img_id}#zoom=${zoom}&x=${pan.x}&y=${pan.y}&rotation=${rotation}`;
-      //const currentUrl = `${window.location.origin}/image/${this.img_id}#x=${bounds.x}&y=${bounds.y}&w=${bounds.width}&h=${bounds.height}`;
-      // console.log('Current view URL:', currentUrl);
+      //const currentUrl = `${window.location.origin}/image/${this.img_id}#x=${bounds.x}&y=${bounds.y}&w=${bounds.width}&h=${bounds.height}&degrees=${bounds.degrees}`;
+      //console.log('Current view URL:', currentUrl);
       navigator.clipboard.writeText(currentUrl)
     },
     downloadImage() {
@@ -186,7 +186,7 @@ export default {
         zoomInButton: "zoom-in",
         zoomOutButton: "zoom-out",
         homeButton: "home",
-        //showRotationControl: true,
+        //showRotationControl: true, //90 deg rotation
         rotateLeftButton: "rotate-left",
         rotateRightButton: "rotate-right",
         gestureSettingsTouch: {

@@ -35,8 +35,9 @@ function bookmarkUrl(options) {
             var zoom = self.viewport.getZoom();
             var pan = self.viewport.getCenter();
             var page = self.currentPage();
+            var rotation = self.viewport.getZoom();
             var oldUrl = location.pathname + location.hash;
-            var url = location.pathname + '#zoom=' + zoom + '&x=' + pan.x + '&y=' + pan.y;
+            var url = location.pathname + '#zoom=' + zoom + '&x=' + pan.x + '&y=' + pan.y + '&rotation=' + rotation;
             if (trackPage) {
                 url = url + '&page=' + page;
             }
@@ -56,6 +57,7 @@ function bookmarkUrl(options) {
         var zoom = self.viewport.getZoom();
         var pan = self.viewport.getCenter();
         var page = self.currentPage();
+        var rotation = self.viewport.getRotation();
 
         if (trackPage && params.page !== undefined && params.page !== page) {
             self.goToPage(params.page);
@@ -66,6 +68,9 @@ function bookmarkUrl(options) {
                 if (params.x !== undefined && params.y !== undefined && (params.x !== pan.x || params.y !== pan.y)) {
                     self.viewport.panTo(new OpenSeadragon.Point(params.x, params.y), true);
                 }
+                if (params.rotation !== undefined && params.rotation !== rotation) {
+                    self.viewport.setRotation(params.rotation, true);
+                }
             });
         } else {
             if (params.zoom !== undefined && params.zoom !== zoom) {
@@ -74,6 +79,9 @@ function bookmarkUrl(options) {
             if (params.x !== undefined && params.y !== undefined && (params.x !== pan.x || params.y !== pan.y)) {
                 self.viewport.panTo(new OpenSeadragon.Point(params.x, params.y), true);
             }
+            if (params.rotation !== undefined && params.rotation !== rotation) {
+                    self.viewport.setRotation(params.rotation, true);
+                }
         }
     };
 
