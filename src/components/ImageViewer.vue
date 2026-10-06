@@ -19,7 +19,7 @@
           <div id="FullPage" class="NavButton" :title="$t('message.fullPage')"></div>
         </a>
         <a id="rotate-left" class="#rotate-left" >
-          <div id="RotateLeft" class="NavButton" @mousedown="startRotate(-1)" @mouseup="stopRotate" @mouseleave="stopRotate">></div>
+          <div id="RotateLeft" class="NavButton" @mousedown="startRotate(-1)" @mouseup="stopRotate" @mouseleave="stopRotate"></div>
         </a>
         <a id="rotate-right" class="#rotate-right" >
           <div id="RotateRight" class="NavButton" @mousedown="startRotate(1)" @mouseup="stopRotate" @mouseleave="stopRotate"></div>
@@ -113,7 +113,7 @@ export default {
       const threedUrl = `https://shfa.dh.gu.se/viewer/?q=${this.query_3d}/mesh`;
       window.open(threedUrl, "_blank");
     },
-    //finer rotation that built-in openseadragon option
+    //finer rotation than built-in openseadragon option
     startRotate(direction) {
       this.rotateAnimate = setInterval(() => {
         const currentAngle = this.viewer.viewport.getRotation();
