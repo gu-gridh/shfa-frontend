@@ -132,7 +132,7 @@ export default {
       var pan = this.viewer.viewport.getCenter();
       var rotation = this.viewer.viewport.getRotation();
       const currentUrl = `${window.location.origin}/image/${this.img_id}#zoom=${zoom}&x=${pan.x}&y=${pan.y}&rotation=${rotation}`;
-      //const currentUrl = `${window.location.origin}/image/${this.img_id}#x=${bounds.x}&y=${bounds.y}&w=${bounds.width}&h=${bounds.height}&rotation=${bounds.degrees}`;
+      //const currentUrl = `${window.location.origin}/image/${this.img_id}#x=${bounds.x}&y=${bounds.y}&w=${bounds.width}&h=${bounds.height}`;
       // console.log('Current view URL:', currentUrl);
       navigator.clipboard.writeText(currentUrl)
     },
