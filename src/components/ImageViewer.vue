@@ -18,6 +18,12 @@
         <a id="full-page" class="full-screen-option" href="#full-page">
           <div id="FullPage" class="NavButton" :title="$t('message.fullPage')"></div>
         </a>
+        <a id="rotate-left" class="#rotate-left" >
+          <div id="RotateLeft" class="NavButton" @mousedown="startRotate(-1)" @mouseup="stopRotate" @mouseleave="stopRotate">></div>
+        </a>
+        <a id="rotate-right" class="#rotate-right" >
+          <div id="RotateRight" class="NavButton" @mousedown="startRotate(1)" @mouseup="stopRotate" @mouseleave="stopRotate"></div>
+        </a>
 
       </div>
     </div>
@@ -107,13 +113,26 @@ export default {
       const threedUrl = `https://shfa.dh.gu.se/viewer/?q=${this.query_3d}/mesh`;
       window.open(threedUrl, "_blank");
     },
+    //finer rotation that built-in openseadragon option
+    startRotate(direction) {
+      this.rotateAnimate = setInterval(() => {
+        const currentAngle = this.viewer.viewport.getRotation();
+        this.viewer.viewport.setRotation(currentAngle + direction);}, 20);
+    },
+    stopRotate() {
+      clearInterval(this.rotateAnimate);
+    },
     logPosition() {
       document.getElementById('share-label').style.visibility = 'visible';
       setTimeout(() => {
         document.getElementById('share-label').style.visibility = 'hidden';
       }, 3000);
-      const bounds = this.viewer.viewport.getBounds(true);
-      const currentUrl = `${window.location.origin}/image/${this.img_id}#x=${bounds.x}&y=${bounds.y}&w=${bounds.width}&h=${bounds.height}`;
+      //const bounds = this.viewer.viewport.getBounds(true);
+      var zoom = this.viewer.viewport.getZoom();
+      var pan = this.viewer.viewport.getCenter();
+      var rotation = this.viewer.viewport.getRotation();
+      const currentUrl = `${window.location.origin}/image/${this.img_id}#zoom=${zoom}&x=${pan.x}&y=${pan.y}&rotation=${rotation}`;
+      //const currentUrl = `${window.location.origin}/image/${this.img_id}#x=${bounds.x}&y=${bounds.y}&w=${bounds.width}&h=${bounds.height}&rotation=${bounds.degrees}`;
       // console.log('Current view URL:', currentUrl);
       navigator.clipboard.writeText(currentUrl)
     },
@@ -167,6 +186,12 @@ export default {
         zoomInButton: "zoom-in",
         zoomOutButton: "zoom-out",
         homeButton: "home",
+        //showRotationControl: true,
+        rotateLeftButton: "rotate-left",
+        rotateRightButton: "rotate-right",
+        gestureSettingsTouch: {
+          pinchRotate: true
+        }
       });
 
       this.viewer.addHandler("full-page");
@@ -411,6 +436,30 @@ a:active {
   background-position: center;
   width: 28px;
   height: 28px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#RotateLeft{
+  background: url(https://data.dh.gu.se/ui-icons/rotate_left_white.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 22px;
+  height: 22px;
+  margin: 10px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#RotateRight{
+  background: url(https://data.dh.gu.se/ui-icons/rotate_right_white.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 22px;
+  height: 22px;
+  margin: 10px;
   cursor: pointer;
   overflow: hidden;
 }
